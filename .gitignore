@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/gliist_server/bin
+/gliist_server/obj/Debug
+/gliist_server/main.webapp/build/vendor
+/gliist_server/main.webapp/build
+/gliist_server/main.webapp/build/index.html

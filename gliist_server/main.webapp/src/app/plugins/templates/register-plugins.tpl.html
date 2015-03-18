@@ -1,0 +1,6 @@
+﻿<div>
+    <h3 ng-show="plugins.length === 0">All Plugins Registered</h3>
+    <a class="btn btn-sm btn-block btn-social btn-{{plugin.name}}" ng-click="onClick(plugins[$index])" ng-repeat="plugin in plugins">
+        <i class="fa fa-{{plugin.name}}"></i> {{title}} {{plugin.displayName}}
+    </a>
+</div>

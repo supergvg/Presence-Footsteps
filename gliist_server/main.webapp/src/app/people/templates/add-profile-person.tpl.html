@@ -1,0 +1,44 @@
+﻿
+<div class="model-header">
+    <a class="pull-right" ng-click="close()">
+        <i class="fa fa-times fa-border"></i>
+    </a>
+    <a class="pull-right" ng-click="goToFullScreen()">
+        <i class="fa fa-expand fa-border"></i>
+    </a>
+</div>
+
+
+<div class="modal-body">
+
+    <div class="row bordered-bottom buffer-bottom-md">
+        <h2>
+            <a class="btn btn-social-icon btn-{{profile.source}} pull-left buffer-right-md">
+                <i class="fa fa-{{profile.source}}"></i>
+            </a>
+            Link {{profile.source}} Profile
+        </h2>
+        <small>Select peron to add {{profile.firstName}} {{profile.lastName}} {{profile.name}} {{profile.source}} profile</small>
+    </div>
+
+    <div class="row">
+        <form class="form" role="form">
+
+            <div class="col-xs-10 form-group">
+                <label class="sr-only" for="searchPerson">Search People</label>
+                <input type="text" class="form-control input-sm" id="searchPerson"
+                       placeholder="Search People" ng-model="searchQuery">
+            </div>
+
+            <div class="col-xs-2">
+                <button type="submit" ng-click="searchPeople(searchQuery)" class="btn btn-default btn-sm">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <ng-progress fetching-data="fetchingData"></ng-progress>
+        <search-results-people people="people" on-update-click="linkProfileToPerson"></search-results-people>
+    </div>
+
+</div>

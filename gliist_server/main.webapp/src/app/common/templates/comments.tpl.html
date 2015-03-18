@@ -1,0 +1,22 @@
+﻿
+<div class="well comments-panel">
+    <div class="row bordered-no-top-white" ng-repeat="comment in comments">
+        <div class="col-xs-1">
+            <div class="image-thumbnail buffer-top-md" style="background-image: url('{{comment.from.picture}}');"></div>
+        </div>
+        <div class="col-xs-10">
+            <div class="buffer-left-md buffer-top-md">
+                <p>
+                    <strong>{{comment.from.firstName}}</strong>
+                </p>
+                <p>
+                    {{comment.text}}
+                </p>
+                <p class="small">
+                    {{comment.date| date:'MM-dd-yyyy HH:MM'}}
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>

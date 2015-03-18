@@ -1,0 +1,63 @@
+﻿@import "variables.less";
+
+
+.modal {
+    display: block;
+    width: 500px;
+    min-height: 200px;
+    max-height: none;
+    min-width: 255px;
+    margin: 5% auto 0 auto;
+    border: @border-style-light;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    overflow: auto;
+    overflow-y: auto;
+    border-radius: @radius;
+    overflow: hidden;
+}
+
+
+.modal-image-viewer {
+    height: 80%;
+    width: 70%;
+    max-width: 1000px;
+    background-color: white;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1040;
+}
+
+
+.modal-person-viewer {
+    height: 70%;
+    width: 70%;
+    min-width: 400px;
+    max-width: 1000px;
+    padding: 20px 50px 20px 50px;
+    background-color: white;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1040;
+}
+
+
+.modal-small {
+    overflow: hidden;
+    height: 80%;
+    width: 30%;
+    max-height:400px;
+    //padding: 10px 10px 10px 10px;
+}
+
+
+.modal-open {
+    overflow: hidden;
+}
+
+body.modal-open {
+    overflow: hidden;
+}

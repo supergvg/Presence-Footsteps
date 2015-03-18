@@ -1,0 +1,16 @@
+﻿<div class="row panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{title}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-2" ng-repeat="person in data">
+            <div class="thumbnail person" ng-click="openPerson(person)">
+                <div class="image-badage" style="background-image: url('{{person.picture}}');"></div>
+                <div class="caption">
+                    <strong class="feedText">{{person.firstName}} {{person.lastName}}</strong>
+                    <p><a role="button" class="btn btn-primary btn-sm" href="#">Follow</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

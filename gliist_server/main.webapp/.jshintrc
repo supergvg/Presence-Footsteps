@@ -1,0 +1,9 @@
+{
+	"predef": [
+		"angular", "log4javascript", "_", "module", "require", "XRegExp", "nv", "d3", "describe", "beforeEach", "it", "inject",
+		"expect"
+	],
+	"browser": true,
+	"jquery": true,
+	"node": false
+}

@@ -1,0 +1,403 @@
+﻿/*//"framework.less" is a compiled collection of sass files.
+//It contains inuit framework and wizardrygrids.
+//We will use it that way until we move to SASS.
+@import "framework";
+@import "blocks/blocks";
+@import "mixins";
+@import "components/hp-style";
+@import "components/ui-kit";
+@import "app/app.less";
+@import "app/scripts";
+@import "components/masthead";
+@import "components/ng-grid_override";
+@import "components/tabs";
+@import "components/status-bar";
+@import "components/inputs";
+@import "components/widget-gallery";
+@import "components/side-navigation";
+@import "components/charts-dashboard";
+@import "ui/layout_3";
+@import "ui/modal";
+@import "ui/notification-box";
+@import "components/gauges";*/
+.feedCell {
+    padding: 10px 10px 10px 10px;
+}
+
+.ngFeed {
+    border: 0px solid #d4d4d4;
+    height: inherit;
+    /*padding: 10px 10px 10px 10px;
+        margin: 10px 10px 10px 10px;*/
+}
+
+.preview {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #999;
+    margin: 0 15px 15px 0;
+    padding: 5px;
+}
+
+.hot-tag {
+    border-color: lightblue;
+    color: black;
+    border: solid;
+    padding: 5px 5px 5px 5px;
+    margin: 5px 5px auto;
+    display: inline-block;
+}
+
+.modal {
+    display: block;
+    width: 500px;
+    min-height: 200px;
+    max-height: none;
+    min-width: 255px;
+    margin: 5% auto 0 auto;
+    border: 1px solid #e9e9e9;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    overflow: auto;
+    overflow-y: auto;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.modal-image-viewer {
+    height: 80%;
+    width: 70%;
+    max-width: 1000px;
+    background-color: white;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1040;
+}
+
+.modal-person-viewer {
+    height: 70%;
+    width: 70%;
+    min-width: 400px;
+    max-width: 1000px;
+    padding: 20px 50px 20px 50px;
+    background-color: white;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1040;
+}
+
+.modal-small {
+    overflow: hidden;
+    height: 40%;
+    width: 30%;
+}
+
+.modal-open {
+    overflow: hidden;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    padding-top: 70px;
+    min-width: 380px;
+    background-color: white;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.fill {
+    min-height: 95%;
+    height: 95%;
+    padding: 1px 1px,10px,1px;
+}
+
+.buffer-top-md {
+    margin-top: 10px;
+}
+
+.buffer-bottom-sm {
+    margin-bottom: 3px;
+}
+
+.buffer-bottom-md {
+    margin-bottom: 10px;
+}
+
+.buffer-right-sm {
+    margin-right: 3px;
+}
+
+.buffer-right-md {
+    margin-right: 10px;
+}
+
+.buffer-left-sm {
+    margin-left: 3px;
+}
+
+.buffer-left-md {
+    margin-left: 10px;
+}
+
+.panel-md {
+    max-width: 400px;
+    min-width: 350px;
+}
+
+.img-responsive-sm {
+    display: inline-block;
+    height: auto;
+    max-width: 40%;
+}
+
+.img-responsive-md {
+    display: inline-block;
+    height: auto;
+    max-width: 60%;
+}
+
+@media all and (max-width: 768px) {
+    /* screen size until 768px */
+    h3 {
+        font-size: large;
+        /* 0.8x default size */
+    }
+}
+
+.image-thumbnail {
+    background-size: cover;
+    width: 32px;
+    height: 32px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.image-spotlight {
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.image-badage {
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.image-badage-lg {
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.image-viewer-media {
+    background-color: black;
+}
+
+.image-viewer-info {
+    margin: 10px auto;
+}
+
+.image-viewer-info-content {
+    height: 100%;
+    margin: 0px 25px 0px 25px;
+}
+
+.comments-container-vertical {
+    overflow-y: visible;
+    overflow-x: hidden;
+}
+
+.comments-container-horizontal {
+    height: 60%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.comments-panel {
+    padding: 0px;
+    min-width: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    /*background-color: #ecf0f1;*/
+    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    background-color: white;
+}
+
+.bordered {
+    border: 1px solid #e9e9e9;
+}
+
+.bordered-no-bottom {
+    border-top: 1px solid #e9e9e9;
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+}
+
+.bordered-no-top {
+    border-bottom: 1px solid #e9e9e9;
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+}
+
+.bordered-no-top-white {
+    border-bottom: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+}
+
+.bordered-bottom {
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.bordered-top {
+    border-top: 1px solid #e9e9e9;
+}
+
+.img-large {
+    padding: 1px;
+    border: 1px solid #e9e9e9;
+}
+
+.img-small {
+    height: 30%;
+    width: 30%;
+}
+
+.blink {
+    animation: blink 2s linear infinite;
+    -webkit-animation: blink 2s linear infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+ol,
+dd {
+    margin-left: 0;
+}
+
+.msGroup {
+    cursor: pointer;
+}
+
+.draggable {
+    cursor: move;
+}
+
+.gauge.overMe {
+    background-color: lightblue;
+}
+
+.gauge.obstacle {
+    background-color: red;
+}
+
+/*# sourceMappingURL=C:/Users/kaufmane/private/Agora/src/site//main.webapp/src/less/main.less.map */

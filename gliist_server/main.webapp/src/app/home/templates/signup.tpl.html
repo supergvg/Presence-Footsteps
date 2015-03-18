@@ -1,0 +1,35 @@
+﻿
+
+<div class="row">
+    <div class="col-xs-12 col-md-4 col-centered">
+
+        <h2 class="text-center" >Sign up with Email</h2>
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <form id="createUser" role="form" ng-submit="signup()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="newUser.email" id="userEmail" placeholder="Enter email" required autocomplete="on">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="newUser.firstName" id="firstName" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="newUser.lastName" id="lastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" ng-model="newUser.password" id="userPassword" placeholder="Create a password" required>
+                    </div>
+                </form>
+                <div class="alert alert-danger" ng-show="errorDetails">
+                    {{errorDetails}}
+                </div>
+                <fieldset ng-disabled="duringSubmit">
+                    <button form="createUser" type="submit" class="btn btn-primary btn-sm">Signup</button>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="cancel()">
+                        Cancel
+                    </button>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

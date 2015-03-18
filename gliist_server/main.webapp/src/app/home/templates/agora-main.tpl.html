@@ -1,0 +1,78 @@
+﻿
+<h1>Welcome To Agora Project <small>Get Inspired</small></h1>
+<h3>
+    Hello <i>{{currentUser.firstName}} {{currentUser.lastName}}</i>
+</h3>
+
+
+
+<div ng-show="false">
+    <h2>Create Disscusions</h2>
+    <form class="form-inline" role="form">
+        <h5>What are you doing? </h5>
+        <div class="form-group">
+            <label class="sr-only" for="whatAreYouDoing">Inspire</label>
+            <input type="text" class="form-control" id="whatAreYouDoing" placeholder="What are you doing?">
+        </div>
+        <button type="submit" ng-click="post()" class="btn btn-default">Inspire</button>
+    </form>
+    <form class="form-inline" role="form">
+        <h5>What to do tonight? </h5>
+        <div class="form-group">
+            <label class="sr-only" for="whatToDoTonight">Inspire</label>
+            <input type="text" class="form-control" id="whatToDoTonight" placeholder="Ask for ideas">
+        </div>
+        <button type="submit" ng-click="post()" class="btn btn-default">Ask</button>
+    </form>
+
+
+    <h2>People <small>Track people you like</small></h2>
+    <div class="row">
+        <div class="col-xs-4">
+            <table class="table table-hover">
+                <tr ng-repeat="person in youlike">
+                    <td>
+                        <div class="row">
+                            <div class="col-xs-6 col-md-6"><strong>Name: {{person.name}}</strong></div>
+                            <div class="col-xs-6 col-md-6"><strong>Sources: {{person.source}}</strong> </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <h4>You may want to follow thoose people: </h4>
+    <table class="table table-hover">
+        <tr ng-repeat="person in recommended">
+            <td>
+                <div class="row">
+                    <div class="col-xs-4 col-md-4"><span class="badge pull-right">Follow</span><strong>Name: {{person.name}}</strong></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <h2>Interset <small>See things that you care for</small></h2>
+    <form class="form-inline" role="form">
+        <h5>Search for topics that interst you </h5>
+        <div class="form-group">
+            <label class="sr-only" for="searchForInterest">Inspire</label>
+            <input type="text" class="form-control" id="searchForInterest" placeholder="Search for interests" ng-model="queryString">
+        </div>
+        <button type="submit" ng-click="search()" class="btn btn-default">Search</button>
+    </form>
+
+
+    <form class="form-inline" role="form">
+        <h5>Search Global Feed </h5>
+        <div class="form-group">
+            <label class="sr-only" for="searchGlobalFeed">Inspire</label>
+            <input type="text" class="form-control" id="Text1" placeholder="Someone looking to buy an iPhone 4">
+        </div>
+        <button type="submit" ng-click="post()" class="btn btn-default">Ask</button>
+    </form>
+
+    <h2>Clean your profile <small>an easy light interface for removing old pictures/post from you account</small></h2>
+</div>

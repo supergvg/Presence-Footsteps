@@ -1,0 +1,42 @@
+﻿
+
+
+
+
+<div ng-show="modalView" class="model-header">
+    <a class="pull-right" ng-click="close()">
+        <i class="fa fa-times fa-border"></i>
+    </a>
+    <a class="pull-right" ng-click="goToFullScreen()">
+        <i class="fa fa-expand fa-border"></i>
+    </a>
+</div>
+
+<div class="model-body">
+    <div class="row">
+        <div class="buffer-right-md pull-left image-badage " style="background-image: url('{{person.picture}}');"></div>
+        <h2>{{person.firstName}} {{person.lastName}}</h2>
+        <small>
+            See all improtant information about user
+            Investigate - get all public info about that person
+        </small>
+    </div>
+
+    <div class="row">
+        <tabset>
+            <tab heading="Feed">
+                <div ng-include="'people/templates/person-feed-tab.tpl.html'"></div>
+            </tab>
+            <tab heading="Pictures">
+                <div ng-include="'people/templates/person-pictures-tab.tpl.html'"></div>
+            </tab>
+
+            <tab heading="About">
+                <div ng-include="'people/templates/person-about-tab.tpl.html'"></div>
+            </tab>
+        </tabset>
+    </div>
+</div>
+
+
+

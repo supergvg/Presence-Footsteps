@@ -1,0 +1,37 @@
+﻿
+<div class="ngFeed">
+    <div infinite-scroll='getNextPage()' infinite-scroll-disabled='fetchingData' infinite-scroll-distance='8'>
+        <div ng-repeat="post in gridData">
+            <div class="bordered-no-bottom" style="border-radius:5px">
+                <div class="row" id="header">
+                    <div class="col-xs-12">
+                        <div class="pull-left buffer-right-sm buffer-left-md buffer-top-md image-badage" style="background-image: url('{{post.user.picture}}');" ng-click="showPerson(post)"></div>
+                        <h3 class="text-left">{{post.user.firstName}} {{post.user.lastName}}</h3>
+                    </div>
+                </div>
+                <div class="row feedCell" id="content">
+                    <div class="col-sm-5 col-sm-offset-2 col-lg-6">
+                        <div>
+                            <p class="text-left feedText">{{post.message}}</p>
+                        </div>
+
+                        <img class="img-thumbnail img-responsive" ng-show="post.picture_source" ng-click="showImage(post)" src="{{post.picture_source.medium}}">
+
+                        <div class="buffer-top-md">
+                            <span class="btn btn-social-icon btn-{{post.source}} pull-left buffer-right-sm">
+                                <i class="fa fa-{{post.source}}"></i>
+                            </span>
+                            <span><a ng-click="showLikes(post)">Likes:{{post.like_count}}</a></span>
+                            <span><a ng-click="showComments(post)">Comments:{{post.comment_count}}</a></span>
+                        </div>
+                        <div>
+                            <small class="text-left feedText">{{post.update_time | date:'MM-dd-yyyy HH:MM'}}</small>
+                            <!--<p class="text-left feedText">{{post.location}}</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-progress fetching-data="fetchingData"></ng-progress>
+    </div>
+</div>
