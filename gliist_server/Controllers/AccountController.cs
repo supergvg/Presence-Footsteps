@@ -34,7 +34,7 @@ namespace gliist_server.Controllers
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
+            AccessTokenFormat = accessTokenFormat;//test
         }
 
         public UserManager<IdentityUser> UserManager { get; private set; }
