@@ -20,9 +20,6 @@ namespace gliist_server
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
