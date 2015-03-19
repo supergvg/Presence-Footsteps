@@ -10,7 +10,6 @@ using System.Web.Http.Cors;
 namespace gliist_server.Controllers
 {
     [Authorize]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class EventController : ApiController
     {
         static List<Event> _events = new List<Event> { new Event { name = "oscars", id = '0' } };
