@@ -16,11 +16,13 @@ using Microsoft.Owin.Security.OAuth;
 using gliist_server.Models;
 using gliist_server.Providers;
 using gliist_server.Results;
+using System.Web.Http.Cors;
 
 namespace gliist_server.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
