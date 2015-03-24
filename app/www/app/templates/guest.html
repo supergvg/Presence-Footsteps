@@ -1,0 +1,42 @@
+<ion-pane style="background-color:#1A1A1A">
+
+    <div class="row">
+        <div class="centered">
+            <h3 style="color: white;margin-top: 100px;text-align: center">{{currentGuest.name}}</h3>
+
+            <h3 style="color: white;text-align: center">{{currentGuest.status}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="centered">
+
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col"></div>
+        <div class="col">
+            <button class="button button-dark rounded">
+                Check In
+            </button>
+        </div>
+        <div class="col">
+            <input type="number"/>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="centered">
+            <span style="color:white">John's list</span>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="centered">
+            <button class="button button-dark rounded" ui-sref="app.event">
+                Back
+            </button>
+        </div>
+    </div>
+    <div class="bottom-bar">
+        <button class="back-button" ui-sref="app.event"></button>
+    </div>
+</ion-pane>

@@ -1,0 +1,42 @@
+<ion-pane style="background-color:#1A1A1A;margin-top:100px">
+    <ion-content>
+        <div class="row center">
+            <div class="centered">
+                <img src="img/gliist_logo.png" style="height:150px; ">
+            </div>
+        </div>
+
+        <div class="row center" style="margin-top: 50px">
+            <div class="centered">
+                <div class="list">
+                    <label class="item item-input grey-bg rounded" style="border: none">
+                        <span class="input-label">Email</span>
+                        <input type="text" ng-model="credentials.username">
+                    </label>
+                    <label class="item item-input grey-bg rounded" style="border: none;margin-top: 20px;">
+                        <span class="input-label">Password</span>
+                        <input type="password" ng-model="credentials.password">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="color:red">
+            <div class="col">
+                {{errorMessage}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="centered">
+                <button class="button button-dark rounded" ng-click="onLoginClicked()">
+                    Login
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="centered" style="padding-top: 10px">
+                <a style="color:darkcyan" ng-click="onForgotPasswordClick()">Forgot Password</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-pane>
+

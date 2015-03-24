@@ -1,0 +1,105 @@
+/* Empty. Add your own CSS if you like */
+
+.top-bar {
+    background-image: url('../img/bar.png') !important;
+    background-repeat:repeat-y !important;
+    background-color: transparent !important;
+}
+
+.dark-bg {
+    background-color: #1A1A1A;
+}
+
+.no-border {
+    border: none;
+}
+
+.bottom-bar {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    background-image: url('../img/bar.png') !important;
+    background-repeat:repeat-y !important;
+    background-color: transparent !important;}
+
+.bar-logo-color {
+    border-color: #0a9ec7;
+    background-color: #11c1f3;
+    background-image: linear-gradient(180deg, #0a9ec7, #0a9ec7 50%, transparent 50%);
+}
+
+.content-body {
+    margin-top: 70px;
+    margin-bottom: 50px;
+    color: #5D5D5D;
+}
+
+.top-bar-logo {
+    height: 35px;
+    margin-left: 10px;
+}
+
+.text-color-light {
+    color: #FFFFFF;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.centered {
+    margin: 0 auto
+}
+
+.event-preview {
+    height: 150px;
+    width: 100%;
+}
+
+.grey-bg {
+    background-color: #999999;
+}
+
+.bottom-margin-10 {
+    margin-bottom: 10px;
+}
+.top-margin-10 {
+    margin-bottom: 10px;
+}
+
+
+.back-button {
+    height: 50px;
+    width: 70px;
+    background-image: url('../img/back-button.png');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+}
+
+input.rounded{
+    border: 1px solid #ccc;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 2px 2px 3px #666;
+    -webkit-box-shadow: 2px 2px 3px #666;
+    box-shadow: 2px 2px 3px #666;
+    font-size: 20px;
+    padding: 4px 7px;
+    outline: 0;
+    -webkit-appearance: none;
+}
+input.rounded:focus {
+    border-color: #339933;
+}
+
+
+.rounded-img {
+    width: 300px;
+    height: 300px;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+}

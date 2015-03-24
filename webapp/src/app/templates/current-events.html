@@ -1,0 +1,26 @@
+<div>
+
+    <md-content>
+        <h1>Current Events</h1>
+
+        <md-list>
+            <md-item ng-repeat="event in currentEvents">
+                <md-item-content>
+                    <div class="md-tile-left">
+                        <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                    </div>
+                    <div class="md-tile-content">
+                        <h3>{{event.title}}</h3>
+                    </div>
+                    <md-button class="md-primary md-raised" ng-click="showEventDialog($event)">
+                        <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised">
+                        <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
+
+</div>

@@ -1,0 +1,70 @@
+<ion-pane style="background-color:#1A1A1A">
+    <div class="top-bar">
+        <img class="top-bar-logo" src="img/gliist_logo_WHT.png"/>
+    </div>
+
+    <ion-content class="content-body">
+        <div class="row row-center">
+            <div class="centered">
+                <h2 style="color:white">{{currentEvent.date_formatted}}</h2>
+            </div>
+        </div>
+
+        <div class="row row-center">
+            <img class="event-preview" ng-src="{{currentEvent.preview}}"/>
+        </div>
+        <div class="row row-center">
+            <div class="col">
+                <h4 class="text-color-light strong">{{currentEvent.name}}</h4>
+
+                <p class="text-color-light">
+                    {{currentEvent.location.place}} <br>
+
+                    {{currentEvent.location.address}}<br>
+
+                    {{currentEvent.location.city}}
+                </p>
+            </div>
+            <div class="col-10"></div>
+            <div class="col">
+                <img src="img\map.png">
+            </div>
+        </div>
+
+        <div class="row row-center grey-bg">
+            <p class="text-color-light">{{currentEvent.description}}</p>
+        </div>
+
+        <div class="row row-center" style="margin-top:30px" ui-sref="app.scanBarcode">
+            <img class="centered " style="height: 150px" ng-src="img/barcode.png"/>
+        </div>
+        <div class="row">
+            <a class="centered" style="color:darkcyan" ui-sref="app.scanBarcode">Scan Barcode</a>
+        </div>
+
+        <div class="list list-inset rounded">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search Guests">
+            </label>
+        </div>
+
+        <div class="list">
+
+            <a class="item item-avatar dark-bg no-border" ng-repeat="guest in guests"
+               ui-sref="app.guest">
+                <img ng-src="{{guest.photo}}">
+
+                <h2 class="text-color-light">{{guest.name}}</h2>
+            </a>
+
+        </div>
+
+
+    </ion-content>
+    <div class="bottom-bar">
+        <button class="back-button" ui-sref="app.home"></button>
+    </div>
+
+</ion-pane>
+

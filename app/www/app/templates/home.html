@@ -1,0 +1,42 @@
+<ion-pane style="background-color:#1A1A1A">
+    <ion-content class="content-body">
+        <div class="row bottom-margin-10">
+            <div class="col">
+                <div class="list list-inset rounded">
+                    <label class="item item-input">
+                        <i class="icon ion-search placeholder-icon"></i>
+                        <input type="text" placeholder="Search Events">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h3 style="color:#FFFFFF">THIS WEEK</h3>
+        </div>
+        <div class="row row-center" style="background-color: #1A1A1A;">
+
+        </div>
+
+        <div class="list" style="background-color: #1A1A1A">
+            <a class="item item-thumbnail-left" ui-sref="app.event"
+               style="background-color: #999999;border:none; margin-bottom: 10px"
+               ng-repeat="event in events">
+
+                <img class="rounded-img"
+                     style="background: url('{{event.thumbnail}}') center;background-size: 100%;">
+
+                <h3 style="color:white">{{event.name}}</h3>
+
+                <p style="color:white">{{event.type}}</p>
+            </a>
+        </div>
+        <div class="row row-center">
+            <h3 style="color:#FFFFFF">NEXT WEEK</h3>
+        </div>
+
+    </ion-content>
+
+    <div class="bottom-bar">
+    </div>
+
+</ion-pane>
