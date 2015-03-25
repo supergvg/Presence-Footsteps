@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService',
-        function ($scope, $rootScope, userService, $state, dialogService) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog) {
             'use strict';
 
             $rootScope.$watch('currentUser', function (newValue) {
@@ -10,6 +10,20 @@ angular.module('gliist')
             $scope.credentials = {
 
             };
+
+            $scope.signUp = function (ev) {
+                $mdDialog.show({
+                    controller: 'SignupCtrl',
+                    templateUrl: 'app/templates/dialogs/signup-dialog.tmpl.html',
+                    targetEvent: ev
+                })
+                    .then(function (answer) {
+                        $scope.alert = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.alert = 'You cancelled the dialog.';
+                    });
+            };
+
 
             $scope.logout = function () {
                 userService.logout();

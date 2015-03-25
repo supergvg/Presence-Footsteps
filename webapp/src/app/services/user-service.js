@@ -142,14 +142,14 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
                         } else {
                             isLogged = false;
                             userEmail = '';
-                            deferred.reject(data.modelState);
+                            deferred.reject(data.ModelState);
                         }
                     })
                     .error(function (data) {
                         isLogged = false;
                         userEmail = '';
 
-                        deferred.reject(data.modelState);
+                        deferred.reject(data.ModelState);
                     });
 
                 return deferred.promise;

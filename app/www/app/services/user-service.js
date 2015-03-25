@@ -1,7 +1,7 @@
 angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
 
     function ($rootScope, $http, $q) {
-
+        'use strict';
         var userEmail,
             isLogged,
             access_token,
@@ -149,7 +149,7 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
                         isLogged = false;
                         userEmail = '';
 
-                        deferred.reject(data.modelState);
+                        deferred.reject(data.ModelState);
                     });
 
                 return deferred.promise;
