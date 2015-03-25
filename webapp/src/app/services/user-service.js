@@ -1,4 +1,4 @@
-angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
+angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
     function ($rootScope, $http, $q) {
 
@@ -10,7 +10,7 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
             onLoginSuccessful = function (data) {
 
                 if (!data.access_token) {
-                    throw new Exception('Trying to save empty acces token');
+                    throw new Exception('Trying to save empty access token');
                 }
 
                 // successful login
@@ -52,16 +52,15 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
                     url: url,
                     params: {
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-                    .success(function (data) {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    self.userData = data;
+                    deferred.resolve(userData);
 
-                        self.userData = data;
-                        deferred.resolve(userData);
-
-                    }).error(function (data) {
-                        deferred.reject(data);
-                    });
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
 
                 return deferred.promise;
             },

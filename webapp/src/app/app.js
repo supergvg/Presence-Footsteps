@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AppController', ['$scope', function ($scope) {
+    .controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
+
+        $scope.currentUser = $rootScope.currentUser;
 
         $scope.menuItems = [
             {
