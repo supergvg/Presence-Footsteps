@@ -5,10 +5,6 @@ angular.module('starter').controller('homeController', ['$scope', '$rootScope', 
 
         $scope.currentUser = $rootScope.currentUser;
 
-        $scope.onLoginClicked = function () {
-            alert('welcome');
-        };
-
 
         $scope.init = function () {
             eventsService.getEvents().then(function (data) {

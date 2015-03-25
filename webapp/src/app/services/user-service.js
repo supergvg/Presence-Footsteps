@@ -56,7 +56,7 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
                     }
                 }).success(function (data) {
                     self.userData = data;
-                    deferred.resolve(userData);
+                    deferred.resolve(self.userData);
 
                 }).error(function (data) {
                     deferred.reject(data);

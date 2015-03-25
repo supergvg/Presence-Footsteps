@@ -50,7 +50,7 @@ angular.module('gliist', [
                     controller: 'ProfileCtrl'
                 })
                 .state('main.create_event', {
-                    url: '/create_event',
+                    url: '/',
                     templateUrl: 'app/templates/create-event.html',
                     controller: 'EventsCtrl'
                 }).state('main.current_events', {
@@ -76,15 +76,26 @@ angular.module('gliist', [
                 $state.previous = from;
                 $state.previousParams = fromParams;
 
+                if (userService.getLogged()) {
+                    //user has login data in cookie,
+                    userService.getCurrentUser().then(function (user) {
+                        $rootScope.currentUser = user;
+                        if (next.name === 'home') {
+                            $state.go('main', {}, { notify: true }); //when logged in always go by default to home
+                            event.preventDefault();
+                        }
+                    });
+
+                    return; //user is logged in, do nothing
+                }
+
                 if (next.access && next.access.allowAnonymous) {
                     return;
                 }
-                if (!$rootScope.currentUser) {
-                    if (userService.getLogged()) {
 
-                    }
+                if (!$rootScope.currentUser) {
                     userService.getCurrentUser().then(function (data) {
-                        $rootScope.currentUser = data.user;
+                        $rootScope.currentUser = data;
                         if (next.access && next.access.isAdmin) {
                             if (!$rootScope.currentUser.is_admin) {
                                 $state.go('home', {}, {
@@ -113,4 +124,5 @@ angular.module('gliist', [
                     });
                 }
             });
-        }]);
+        }])
+;

@@ -1,6 +1,35 @@
-<div layout="vertical" flex>
-    <md-content flex>
-        Login
-    </md-content>
+<md-content flex style="background-color: #ECECEC">
 
-</div>
+    <div layout="row" layout-align="center center">
+        <img src="assets/images/gliist_logo_white.png"/>
+    </div>
+
+    <div layout="row" layout-align="center center">
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label>Email</label>
+                <input type="text" ng-model="credentials.username">
+            </md-input-container>
+        </div>
+    </div>
+
+    <div layout="row" layout-align="center center">
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label>Password</label>
+                <input type="password" ng-model="credentials.password">
+            </md-input-container>
+        </div>
+    </div>
+    <div layout="row" layout-align="center center">
+        {{errorMessage}}
+    </div>
+
+
+    <div layout="row" layout-align="center center">
+        <md-button class="md-primary md-raised" ng-click="login()">
+            login
+        </md-button>
+    </div>
+
+</md-content>
