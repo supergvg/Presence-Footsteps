@@ -27,9 +27,13 @@
 
 
     <div layout="row" layout-align="center center">
+
         <md-button class="md-primary md-raised" ng-click="login()">
             login
         </md-button>
+
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+
     </div>
 
 </md-content>

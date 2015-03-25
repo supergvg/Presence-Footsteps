@@ -114,6 +114,7 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
                 isLogged = false;
                 userEmail = '';
                 setAuthToken('');
+                $rootScope.currentUser = null;
 
                 delete window.localStorage['userEmail'];
                 delete window.localStorage['access_token'];

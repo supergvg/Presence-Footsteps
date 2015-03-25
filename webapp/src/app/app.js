@@ -11,18 +11,28 @@ angular.module('gliist')
 
             };
 
+            $scope.logout = function () {
+                userService.logout();
+                $state.go('home');
+            };
+
             $scope.login = function () {
                 if (!$scope.credentials.username || !$scope.credentials.password) {
                     $scope.errorMessage = 'Invalid User or Password';
                     return;
                 }
 
+                $scope.fetchingData = true;
+
                 userService.login($scope.credentials).then(function (res) {
                     $state.go('main');
                 }, function (err) {
                     $scope.errorMessage = 'Invalid User or Password';
                     dialogService.error(err);
-                });
+                }).finally(function () {
+                        $scope.fetchingData = false
+                    }
+                );
             };
 
             $scope.menuItems = [
