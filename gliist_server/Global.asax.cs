@@ -27,7 +27,6 @@ namespace gliist_server
                 Context.Response.AddHeader("Access-Control-Allow-Origin", "*");
                 Context.Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
                 Context.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST PUT, DELETE, OPTIONS");
-                Context.Response.End();
             }
         }
     }
