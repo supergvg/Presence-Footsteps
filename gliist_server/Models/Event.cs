@@ -10,7 +10,6 @@ namespace gliist_server.Models
 {
     public class Event
     {
-        [Required]
         public string userId { get; set; }
 
         public int id { get; set; }

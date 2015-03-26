@@ -10,9 +10,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
+using Microsoft.AspNet.Identity;
+
 
 namespace gliist_server.Controllers
 {
+    [Authorize]
     public class EventController : ApiController
     {
         private EventDBContext db = new EventDBContext();
@@ -74,6 +77,15 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> PostEvent(Event @event)
         {
+            var userId = User.Identity.GetUserId();
+
+            @event.userId = userId;
+
+            if (@event.date == DateTime.MinValue)
+            {
+                @event.date = DateTime.Today;
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

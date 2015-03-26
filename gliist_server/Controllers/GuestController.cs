@@ -13,9 +13,10 @@ using gliist_server.Models;
 
 namespace gliist_server.Controllers
 {
+    [Authorize]
     public class GuestController : ApiController
     {
-        private GuestDBContext db = new GuestDBContext();
+        private EventDBContext db = new EventDBContext();
 
         // GET api/Guest
         public IQueryable<Guest> GetGuests()
