@@ -40,7 +40,7 @@ namespace gliist_server
         public void ConfigureAuth(IAppBuilder app)
         {
             // This must come first to intercept the /Token requests 
-            //app.UseCors(CorsOptions.AllowAll);
+            app.UseCors(CorsOptions.AllowAll);
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
