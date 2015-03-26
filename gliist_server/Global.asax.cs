@@ -22,7 +22,7 @@ namespace gliist_server
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            if (Context.Request.Path.Contains("api/") && Context.Request.HttpMethod == "OPTIONS")
+            if (Context.Request.Path.Contains("api/"))
             {
                 Context.Response.AddHeader("Access-Control-Allow-Origin", "*");
                 Context.Response.AddHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
