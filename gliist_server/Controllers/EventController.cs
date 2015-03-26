@@ -11,11 +11,13 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
+using System.Web.Http.Cors;
 
 
 namespace gliist_server.Controllers
 {
     [Authorize]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class EventController : ApiController
     {
         private EventDBContext db = new EventDBContext();
