@@ -29,6 +29,7 @@ namespace gliist_server.Controllers
         public AccountController()
             : this(Startup.UserManagerFactory(), Startup.OAuthOptions.AccessTokenFormat)
         {
+
         }
 
         public AccountController(UserManager<IdentityUser> userManager,
