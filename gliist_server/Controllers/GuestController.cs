@@ -17,6 +17,7 @@ namespace gliist_server.Controllers
     [Authorize]
     public class GuestController : ApiController
     {
+
         private EventDBContext db = new EventDBContext();
 
         // GET api/Guest
