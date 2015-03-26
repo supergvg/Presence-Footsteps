@@ -5,6 +5,8 @@ angular.module('gliist')
 
 
         $scope.currentUser = {name: 'Eran Kaufman'};
+
+
         $scope.next = function () {
             $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
         };

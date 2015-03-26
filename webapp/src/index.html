@@ -19,7 +19,7 @@
     <!-- endinject -->
     <!-- endbuild -->
 </head>
-<body layout="column" ng-controller="AppController">
+<body layout="column" ng-controller="AppController" style="background-color: #ECECEC">
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -30,13 +30,14 @@
     <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
         <md-icon md-svg-icon="menu"></md-icon>
     </md-button>
-    <md-button>
+    <md-button ng-click="logout()">
         Logout
     </md-button>
 </md-toolbar>
 
 <div flex layout="row">
-    <md-sidenav flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
+    <md-sidenav flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2"
+                ng-if="currentUser">
         <div style="background-image: url('assets/images/blank_user_icon.png');height: 250px; background-size:cover ;">
         </div>
         <md-list role="list">
