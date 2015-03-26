@@ -13,43 +13,43 @@ using gliist_server.Models;
 
 namespace gliist_server.Controllers
 {
-    public class EventController : ApiController
+    public class GuestController : ApiController
     {
-        private EventDBContext db = new EventDBContext();
+        private GuestDBContext db = new GuestDBContext();
 
-        // GET api/Event
-        public IQueryable<Event> GetEvents()
+        // GET api/Guest
+        public IQueryable<Guest> GetGuests()
         {
-            return db.Events;
+            return db.Guests;
         }
 
-        // GET api/Event/5
-        [ResponseType(typeof(Event))]
-        public async Task<IHttpActionResult> GetEvent(int id)
+        // GET api/Guest/5
+        [ResponseType(typeof(Guest))]
+        public async Task<IHttpActionResult> GetGuest(int id)
         {
-            Event @event = await db.Events.FindAsync(id);
-            if (@event == null)
+            Guest guest = await db.Guests.FindAsync(id);
+            if (guest == null)
             {
                 return NotFound();
             }
 
-            return Ok(@event);
+            return Ok(guest);
         }
 
-        // PUT api/Event/5
-        public async Task<IHttpActionResult> PutEvent(int id, Event @event)
+        // PUT api/Guest/5
+        public async Task<IHttpActionResult> PutGuest(int id, Guest guest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != @event.id)
+            if (id != guest.id)
             {
                 return BadRequest();
             }
 
-            db.Entry(@event).State = EntityState.Modified;
+            db.Entry(guest).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace gliist_server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EventExists(id))
+                if (!GuestExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace gliist_server.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST api/Event
-        [ResponseType(typeof(Event))]
-        public async Task<IHttpActionResult> PostEvent(Event @event)
+        // POST api/Guest
+        [ResponseType(typeof(Guest))]
+        public async Task<IHttpActionResult> PostGuest(Guest guest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Events.Add(@event);
+            db.Guests.Add(guest);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = @event.id }, @event);
+            return CreatedAtRoute("DefaultApi", new { id = guest.id }, guest);
         }
 
-        // DELETE api/Event/5
-        [ResponseType(typeof(Event))]
-        public async Task<IHttpActionResult> DeleteEvent(int id)
+        // DELETE api/Guest/5
+        [ResponseType(typeof(Guest))]
+        public async Task<IHttpActionResult> DeleteGuest(int id)
         {
-            Event @event = await db.Events.FindAsync(id);
-            if (@event == null)
+            Guest guest = await db.Guests.FindAsync(id);
+            if (guest == null)
             {
                 return NotFound();
             }
 
-            db.Events.Remove(@event);
+            db.Guests.Remove(guest);
             await db.SaveChangesAsync();
 
-            return Ok(@event);
+            return Ok(guest);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace gliist_server.Controllers
             base.Dispose(disposing);
         }
 
-        private bool EventExists(int id)
+        private bool GuestExists(int id)
         {
-            return db.Events.Count(e => e.id == id) > 0;
+            return db.Guests.Count(e => e.id == id) > 0;
         }
     }
 }
