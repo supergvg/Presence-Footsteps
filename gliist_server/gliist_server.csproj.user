@@ -8,6 +8,7 @@
     <WebStackScaffolding_IsAsyncSelected>True</WebStackScaffolding_IsAsyncSelected>
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_DbContextTypeFullName>gliist_server.Models.EventDBContext</WebStackScaffolding_DbContextTypeFullName>
+    <NameOfLastUsedPublishProfile>gliist %282%29</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

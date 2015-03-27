@@ -223,6 +223,8 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\gliist %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\gliist.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503260624211_InitialCreate.resx">
