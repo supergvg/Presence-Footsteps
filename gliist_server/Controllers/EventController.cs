@@ -17,6 +17,7 @@ using System.Web.Http.Cors;
 namespace gliist_server.Controllers
 {
     [Authorize]
+    [EnableCors("*", "*", "*")]
     public class EventController : ApiController
     {
         private EventDBContext db = new EventDBContext();
