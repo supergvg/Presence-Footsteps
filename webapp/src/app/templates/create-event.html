@@ -35,44 +35,63 @@
                         </md-button>
                     </md-input-container>
                 </div>
-                <form name="userForm">
+                <form name="eventForm">
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Event Title</label>
-                            <input ng-model="currentEvent.title">
+                            <input required name="title" ng-model="currentEvent.title">
+
+                            <div ng-messages="eventForm.title.$error"
+                                 ng-if="displayErrorMessage(eventForm.title)">
+                                <div ng-message="required">Title is required</div>
+                            </div>
                         </md-input-container>
                     </div>
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Event Category</label>
-                            <input ng-model="currentEvent.category">
+                            <input name="category" ng-model="currentEvent.category">
                         </md-input-container>
                     </div>
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Event Date</label>
-                            <input ng-model="currentEvent.date" type="date">
+                            <input required name="date" ng-model="currentEvent.date" type="date">
+
+                            <div ng-messages="eventForm.date.$error"
+                                 ng-if="displayErrorMessage(eventForm.date)">
+                                <div ng-if="eventForm.date.$error.required" ng-message="required">Date is required</div>
+                                <div ng-if="eventForm.date.$error.min" ng-message="required">Event can't start in the
+                                    past
+                                </div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Event Time</label>
-                            <input ng-model="currentEvent.time" type="time">
+                            <input required name="time" ng-model="currentEvent.time" type="time">
+
+                            <div ng-messages="eventForm.time.$error"
+                                 ng-if="displayErrorMessage(eventForm.time)">
+                                <div ng-if="eventForm.time.$error.required" ng-message="required">Time is required</div>
+                            </div>
                         </md-input-container>
                     </div>
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Event Location</label>
-                            <input ng-model="currentEvent.location">
+                            <input name="location" ng-model="currentEvent.location">
                         </md-input-container>
                     </div>
                     <md-input-container flex>
                         <label>Event Details</label>
-                        <textarea ng-model="currentEvent.details" columns="1"></textarea>
+                        <textarea name="details" ng-model="currentEvent.details" columns="1"></textarea>
                     </md-input-container>
                 </form>
             </md-content>
-            <md-button class="md-primary md-raised" ng-click="next()">
+            <md-button class="md-primary md-raised" ng-click="next(eventForm)">
                 Next
             </md-button>
+            <span class="md-caption" ng-if="showValidation">Please fill all fields</span>
         </div>
         <div role="tabpanel"
              id="tab2-content"
@@ -131,59 +150,13 @@
                     </md-input-container>
                 </div>
                 <md-divider></md-divider>
-                <div layout layout-sm="column">
-                    <md-input-container flex>
-                        Manually enter your guest list
-                    </md-input-container>
-                </div>
-                <div layout layout-sm="column">
-                    <md-input-container flex>
-                        <label>Full Name</label>
-                        <input type="text">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Email</label>
-                        <input type="email">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Phone Number</label>
-                        <input type="tel">
-                    </md-input-container>
-                </div>
-                <div layout layout-sm="column">
-                    <md-input-container flex>
-                        <label>Full Name</label>
-                        <input type="text">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Email</label>
-                        <input type="email">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Phone Number</label>
-                        <input type="tel">
-                    </md-input-container>
-                </div>
-                <div layout layout-sm="column">
-                    <md-input-container flex>
-                        <label>Full Name</label>
-                        <input type="text">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Email</label>
-                        <input type="email">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label>Phone Number</label>
-                        <input type="tel">
-                    </md-input-container>
-                </div>
-            </md-content>
-            <md-button class="md-primary md-raised">
-                Add More
-            </md-button>
+                {{currentEvent}}
+                <guest-list-grid list="currentEvent.guestList"></guest-list-grid>
 
-            <md-button class="md-primary md-raised" ng-click="next()">
+            </md-content>
+
+
+            <md-button class="md-primary md-raised" ng-click="createEvent()">
                 Finish
             </md-button>
         </div>
