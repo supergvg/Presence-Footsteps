@@ -10,7 +10,7 @@ namespace gliist_server.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "gliist_server.Models.EventDBContext";
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(gliist_server.Models.EventDBContext context)

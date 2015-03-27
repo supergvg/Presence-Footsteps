@@ -37,7 +37,7 @@ namespace gliist_server.Controllers
                 return NotFound();
             }
 
-            return Ok(new Event { name = "Eran the king" });
+            return Ok(new Event { title = "Eran the king" });
         }
 
         // PUT api/Event/5
@@ -78,6 +78,11 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> PostEvent(Event @event)
         {
+            if (@event == null)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userId = User.Identity.GetUserId();
 
             @event.userId = userId;
@@ -85,6 +90,11 @@ namespace gliist_server.Controllers
             if (@event.date == DateTime.MinValue)
             {
                 @event.date = DateTime.Today;
+            }
+
+            if (@event.time == DateTime.MinValue)
+            {
+                @event.time = DateTime.Today;
             }
 
             if (!ModelState.IsValid)

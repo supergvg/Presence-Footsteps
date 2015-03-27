@@ -14,13 +14,13 @@ namespace gliist_server.Models
 
         public int id { get; set; }
         [Required]
-        public string name { get; set; }
+        public string title { get; set; }
 
         public string description { get; set; }
 
         public DateTime date { get; set; }
 
-        public IEnumerable<int> guestIds { get; set; }
+        public DateTime time { get; set; }
 
         public IEnumerable<Guest> guestList { get; set; }
 

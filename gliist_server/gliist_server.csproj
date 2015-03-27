@@ -186,13 +186,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201503260624211_InitialCreate.cs" />
-    <Compile Include="Migrations\201503260624211_InitialCreate.Designer.cs">
-      <DependentUpon>201503260624211_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503260647203_Initial.cs" />
-    <Compile Include="Migrations\201503260647203_Initial.Designer.cs">
-      <DependentUpon>201503260647203_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201503270854320_InitialCreate.cs" />
+    <Compile Include="Migrations\201503270854320_InitialCreate.Designer.cs">
+      <DependentUpon>201503270854320_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -227,11 +223,8 @@
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201503260624211_InitialCreate.resx">
-      <DependentUpon>201503260624211_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503260647203_Initial.resx">
-      <DependentUpon>201503260647203_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201503270854320_InitialCreate.resx">
+      <DependentUpon>201503270854320_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
