@@ -9,6 +9,7 @@
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_DbContextTypeFullName>gliist_server.Models.EventDBContext</WebStackScaffolding_DbContextTypeFullName>
     <NameOfLastUsedPublishProfile>gliist %282%29</NameOfLastUsedPublishProfile>
+    <WebStackScaffolding_ControllerDialogWidth>600.125654450262</WebStackScaffolding_ControllerDialogWidth>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
