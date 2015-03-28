@@ -91,18 +91,17 @@ namespace gliist_server.Controllers
                 {
                     throw new NotImplementedException();
                 }
-
-                db.GuestLists.Attach(existingGuestList);
+                existingGuestList.title = guestList.title;
+                db.Entry(existingGuestList).State = EntityState.Modified;
             }
             else
             {
                 guestList.userId = userId;
                 db.GuestLists.Add(guestList);
-
                 existingGuestList = guestList;
             }
 
-            guestList.guests = await GuestHelper.Save(guestList, userId, db);
+            guestList.guests = await GuestHelper.Save(existingGuestList, userId, db);
 
             await db.SaveChangesAsync();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -13,6 +14,7 @@ namespace gliist_server.Models
         public async static Task<List<Guest>> Save(GuestList guestList, string userId, EventDBContext db)
         {
             List<Guest> retVal = new List<Guest>();
+            var toRemove = new List<Guest>();
             foreach (var guest in guestList.guests)
             {
                 if (guest.id > 0)
@@ -37,12 +39,18 @@ namespace gliist_server.Models
                     }
                     else
                     {
+                        toRemove.Add(guest);
                         db.Guests.Attach(existing);
                         retVal.Add(existing);
                     }
 
                 }
 
+            }
+
+            foreach (var guest in toRemove)
+            {
+                db.Guests.Remove(guest);
             }
             return retVal;
         }
@@ -52,8 +60,10 @@ namespace gliist_server.Models
     {
         public string userId { get; set; }
 
+        [JsonIgnore]
         public virtual List<Event> linked_events { get; set; }
 
+        [JsonIgnore]
         public virtual List<GuestList> linked_guest_lists { get; set; }
 
         public int id { get; set; }

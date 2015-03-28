@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,7 @@ namespace gliist_server.Models
 
         public virtual List<Guest> guests { get; set; }
 
+        [JsonIgnore]
         public virtual List<Event> linked_events { get; set; }
     }
 }
