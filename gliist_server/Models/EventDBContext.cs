@@ -21,7 +21,6 @@ namespace gliist_server.Models
 
         public System.Data.Entity.DbSet<gliist_server.Models.Event> Events { get; set; }
         public System.Data.Entity.DbSet<gliist_server.Models.Guest> Guests { get; set; }
-
         public System.Data.Entity.DbSet<gliist_server.Models.GuestList> GuestLists { get; set; }
 
     

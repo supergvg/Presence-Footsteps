@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
+using Microsoft.AspNet.Identity;
+
 
 namespace gliist_server.Controllers
 {
@@ -79,8 +81,29 @@ namespace gliist_server.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var userId = User.Identity.GetUserId();
 
-            db.GuestLists.Add(guestList);
+            GuestList existingGuestList;
+            if (guestList.id > 0)
+            {
+                existingGuestList = await db.GuestLists.Where(gl => gl.userId == userId && gl.id == guestList.id).SingleOrDefaultAsync();
+                if (existingGuestList == null)
+                {
+                    throw new NotImplementedException();
+                }
+
+                db.GuestLists.Attach(existingGuestList);
+            }
+            else
+            {
+                guestList.userId = userId;
+                db.GuestLists.Add(guestList);
+
+                existingGuestList = guestList;
+            }
+
+            guestList.guests = await GuestHelper.Save(guestList, userId, db);
+
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = guestList.id }, guestList);

@@ -187,9 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201503270854320_InitialCreate.cs" />
-    <Compile Include="Migrations\201503270854320_InitialCreate.Designer.cs">
-      <DependentUpon>201503270854320_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201503280134248_Initial.cs" />
+    <Compile Include="Migrations\201503280134248_Initial.Designer.cs">
+      <DependentUpon>201503280134248_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -225,8 +225,8 @@
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201503270854320_InitialCreate.resx">
-      <DependentUpon>201503270854320_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201503280134248_Initial.resx">
+      <DependentUpon>201503280134248_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

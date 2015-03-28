@@ -22,7 +22,7 @@ namespace gliist_server.Models
 
         public DateTime time { get; set; }
 
-        public IEnumerable<Guest> guestList { get; set; }
+        public virtual GuestList guestList { get; set; }
 
     }
 }
