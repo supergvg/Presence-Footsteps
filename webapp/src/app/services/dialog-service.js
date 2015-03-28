@@ -5,6 +5,9 @@ angular.module('gliist').factory('dialogService',
 
                 error: function (err) {
                     console.log('dialog-service: ' + err);
+                },
+                success: function (message) {
+                    alert('dialog-service: ' + message);
                 }
             }
         }
