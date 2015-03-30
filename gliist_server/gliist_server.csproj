@@ -191,6 +191,10 @@
     <Compile Include="Migrations\201503280134248_Initial.Designer.cs">
       <DependentUpon>201503280134248_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503301915486_UpdatingUserModel.cs" />
+    <Compile Include="Migrations\201503301915486_UpdatingUserModel.Designer.cs">
+      <DependentUpon>201503301915486_UpdatingUserModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -198,6 +202,7 @@
     <Compile Include="Models\EventDBContext.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\GuestList.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -216,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\obj\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +233,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503280134248_Initial.resx">
       <DependentUpon>201503280134248_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503301915486_UpdatingUserModel.resx">
+      <DependentUpon>201503301915486_UpdatingUserModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

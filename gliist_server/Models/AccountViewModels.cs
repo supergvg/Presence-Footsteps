@@ -29,6 +29,12 @@ namespace gliist_server.Models
     {
         public string UserName { get; set; }
 
+        public string firstName { get; set; }
+
+        public string lastName { get; set; }
+
+        public string email { get; set; }
+
         public bool HasRegistered { get; set; }
 
         public string LoginProvider { get; set; }

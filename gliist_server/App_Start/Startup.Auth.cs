@@ -9,6 +9,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using gliist_server.Providers;
 using Microsoft.Owin.Cors;
+using gliist_server.Models;
 
 namespace gliist_server
 {
@@ -18,7 +19,7 @@ namespace gliist_server
         {
             PublicClientId = "self";
 
-            UserManagerFactory = () => new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+            UserManagerFactory = () => new UserManager<UserModel>(new UserStore<UserModel>(new EventDBContext()));
 
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
@@ -32,7 +33,7 @@ namespace gliist_server
 
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
-        public static Func<UserManager<IdentityUser>> UserManagerFactory { get; set; }
+        public static Func<UserManager<UserModel>> UserManagerFactory { get; set; }
 
         public static string PublicClientId { get; private set; }
 

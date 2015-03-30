@@ -32,14 +32,14 @@ namespace gliist_server.Controllers
 
         }
 
-        public AccountController(UserManager<IdentityUser> userManager,
+        public AccountController(UserManager<UserModel> userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public UserManager<IdentityUser> UserManager { get; private set; }
+        public UserManager<UserModel> UserManager { get; private set; }
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -69,7 +69,7 @@ namespace gliist_server.Controllers
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            UserModel user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
             if (user == null)
             {
@@ -247,7 +247,7 @@ namespace gliist_server.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            IdentityUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            UserModel user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
@@ -323,7 +323,7 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityUser user = new IdentityUser
+            UserModel user = new UserModel
             {
                 UserName = model.UserName
             };
@@ -357,7 +357,7 @@ namespace gliist_server.Controllers
                 return InternalServerError();
             }
 
-            IdentityUser user = new IdentityUser
+            UserModel user = new UserModel
             {
                 UserName = model.UserName
             };

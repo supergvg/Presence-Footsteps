@@ -48,6 +48,14 @@ namespace gliist_server.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string firstName { get; set; }
+
+        [Required]
+        public string lastName { get; set; }
+
+        public string email { get; set; }
     }
 
     public class RegisterExternalBindingModel
