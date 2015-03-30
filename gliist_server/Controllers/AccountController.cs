@@ -325,7 +325,10 @@ namespace gliist_server.Controllers
 
             UserModel user = new UserModel
             {
-                UserName = model.UserName
+                UserName = model.UserName,
+                firstName = model.firstName,
+                lastName = model.lastName,
+                email = model.email
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
