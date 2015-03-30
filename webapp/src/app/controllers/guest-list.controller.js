@@ -14,6 +14,7 @@ angular.module('gliist')
 
             $scope.save = function () {
                 guestFactory.GuestList.update($scope.list).$promise.then(function (res) {
+                    $scope.list = res;
                     dialogService.success('Event created: ' + JSON.stringify(res));
 
                 }, function () {
@@ -32,7 +33,7 @@ angular.module('gliist')
                             {
                                 firstName: 'eran',
                                 lastName: 'kaufman',
-                                email: 'erank3@gmafd.com'}
+                                email: 'erank3@yahoo.com'}
                         ]
                     }
                 }
@@ -42,5 +43,4 @@ angular.module('gliist')
             $scope.init();
 
 
-        }])
-;
+        }]);

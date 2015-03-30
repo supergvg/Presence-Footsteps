@@ -20,9 +20,8 @@ angular.module('gliist').factory("guestFactory", [
                 update: {
                     method: 'POST',
                     params: {
-                        id: '@id'
                     },
-                    url: '/api/guestlists/:id'
+                    url: '/api/guestlists'
                 }
             })
         };

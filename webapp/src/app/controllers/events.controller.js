@@ -3,53 +3,33 @@
 angular.module('gliist')
     .controller('EventsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
         function ($scope, $mdDialog, eventsService, dialogService) {
-            $scope.data = {
-                selectedIndex: 2
-            };
 
             $scope.currentEvent = {
                 title: 'fake'
             };
 
-            $scope.displayErrorMessage = function (field) {
-                return ($scope.showValidation) || (field.$touched && field.$error.required);
-            };
+            $scope.showEventDialog = function (ev, event) {
 
-            $scope.showEventDialog = function (ev) {
+                var scope = $scope.$new();
+                scope.currentEvent = event;
+                scope.cancel = $scope.cancel;
+                scope.save = $scope.save;
+
                 $mdDialog.show({
                     //controller: DialogController,
+                    scope: scope,
                     templateUrl: 'app/templates/events/event-dialog.tmpl.html',
                     targetEvent: ev
-                })
-                    .then(function (answer) {
-                        $scope.alert = 'You said the information was "' + answer + '".';
-                    }, function () {
-                        $scope.alert = 'You cancelled the dialog';
-                    });
+                });
             };
 
-            $scope.next = function (form) {
-                if (form && form.$invalid) {
-                    $scope.showValidation = true;
-                    return;
-                }
-
-                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-            };
-            $scope.previous = function () {
-                $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+            $scope.eran = "eran";
+            $scope.cancel = function () {
+                $mdDialog.cancel();
             };
 
-
-            $scope.createEvent = function () {
-                eventsService.createEvent($scope.currentEvent).then(
-                    function (res) {
-                        dialogService.success('Event created: ' + JSON.stringify(res));
-
-                    }, function () {
-                        dialogService.error('There was a problem saving your event, please try again');
-                    }
-                )
+            $scope.save = function () {
+                alert('save');
             };
 
             $scope.init = function () {
@@ -61,4 +41,5 @@ angular.module('gliist')
             };
 
             $scope.init();
+
         }]);
