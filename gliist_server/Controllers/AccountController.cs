@@ -17,6 +17,9 @@ using gliist_server.Models;
 using gliist_server.Providers;
 using gliist_server.Results;
 using System.Web.Http.Cors;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Net;
 
 namespace gliist_server.Controllers
 {
@@ -25,11 +28,17 @@ namespace gliist_server.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-
+        private EventDBContext _db;
         public AccountController()
-            : this(Startup.UserManagerFactory(), Startup.OAuthOptions.AccessTokenFormat)
+            : this(new EventDBContext())
         {
 
+        }
+
+        public AccountController(EventDBContext db)
+            : this(Startup.UserManagerFactory(db), Startup.OAuthOptions.AccessTokenFormat)
+        {
+            _db = db;
         }
 
         public AccountController(UserManager<UserModel> userManager,
@@ -37,6 +46,8 @@ namespace gliist_server.Controllers
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            var userValidator = UserManager.UserValidator as UserValidator<UserModel>;
+            userValidator.AllowOnlyAlphanumericUserNames = false;
         }
 
         public UserManager<UserModel> UserManager { get; private set; }
@@ -45,16 +56,61 @@ namespace gliist_server.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public UserInfoViewModel GetUserInfo()
+        public async Task<UserInfoViewModel> GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
             return new UserInfoViewModel
             {
                 UserName = User.Identity.GetUserName(),
+                firstName = user.firstName,
+                lastName = user.lastName,
+                email = user.UserName,
+
+                phoneNumber = user.phoneNumber,
+                city = user.city,
+                company = user.company,
+                bio = user.bio,
+
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+        }
+
+
+        // PUT api/Account/UserInfo
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("UserInfo")]
+        public async Task<IHttpActionResult> PutUserInfo(UserModel userModel)
+        {
+            if (userModel == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            user.firstName = userModel.firstName;
+            user.lastName = userModel.lastName;
+            user.phoneNumber = userModel.phoneNumber;
+            user.city = userModel.city;
+            user.company = userModel.company;
+            user.bio = userModel.bio;
+
+            _db.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST api/Account/Logout
@@ -328,7 +384,6 @@ namespace gliist_server.Controllers
                 UserName = model.UserName,
                 firstName = model.firstName,
                 lastName = model.lastName,
-                email = model.email
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);

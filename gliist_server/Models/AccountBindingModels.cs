@@ -36,6 +36,7 @@ namespace gliist_server.Models
     {
         [Required]
         [Display(Name = "User name")]
+        [DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
 
         [Required]
@@ -54,8 +55,6 @@ namespace gliist_server.Models
 
         [Required]
         public string lastName { get; set; }
-
-        public string email { get; set; }
     }
 
     public class RegisterExternalBindingModel

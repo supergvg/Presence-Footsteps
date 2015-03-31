@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace gliist_server.Models
 {
@@ -34,6 +35,15 @@ namespace gliist_server.Models
         public string lastName { get; set; }
 
         public string email { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        public string phoneNumber { get; set; }
+
+        public string city { get; set; }
+
+        public string company { get; set; }
+
+        public string bio { get; set; }
 
         public bool HasRegistered { get; set; }
 

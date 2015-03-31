@@ -15,9 +15,10 @@ namespace gliist_server.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
-        private readonly Func<UserManager<UserModel>> _userManagerFactory;
+        private readonly Func<EventDBContext, UserManager<UserModel>> _userManagerFactory;
+        private readonly EventDBContext _db;
 
-        public ApplicationOAuthProvider(string publicClientId, Func<UserManager<UserModel>> userManagerFactory)
+        public ApplicationOAuthProvider(string publicClientId, Func<EventDBContext, UserManager<UserModel>> userManagerFactory, EventDBContext db)
         {
             if (publicClientId == null)
             {
@@ -31,11 +32,12 @@ namespace gliist_server.Providers
 
             _publicClientId = publicClientId;
             _userManagerFactory = userManagerFactory;
+            _db = db;
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            using (UserManager<UserModel> userManager = _userManagerFactory())
+            using (UserManager<UserModel> userManager = _userManagerFactory(_db))
             {
                 UserModel user = await userManager.FindAsync(context.UserName, context.Password);
 

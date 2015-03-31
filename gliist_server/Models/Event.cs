@@ -18,6 +18,8 @@ namespace gliist_server.Models
 
         public string description { get; set; }
 
+        public string location { get; set; }
+
         public DateTime date { get; set; }
 
         public DateTime time { get; set; }

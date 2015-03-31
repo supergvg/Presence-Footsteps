@@ -19,12 +19,13 @@ namespace gliist_server
         {
             PublicClientId = "self";
 
-            UserManagerFactory = () => new UserManager<UserModel>(new UserStore<UserModel>(new EventDBContext()));
+            EventDBContext eventDB = new EventDBContext();
+            UserManagerFactory = (db) => new UserManager<UserModel>(new UserStore<UserModel>(db));
 
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
-                Provider = new ApplicationOAuthProvider(PublicClientId, UserManagerFactory),
+                Provider = new ApplicationOAuthProvider(PublicClientId, UserManagerFactory, eventDB),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 AllowInsecureHttp = true
@@ -33,7 +34,7 @@ namespace gliist_server
 
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
-        public static Func<UserManager<UserModel>> UserManagerFactory { get; set; }
+        public static Func<EventDBContext, UserManager<UserModel>> UserManagerFactory { get; set; }
 
         public static string PublicClientId { get; private set; }
 
