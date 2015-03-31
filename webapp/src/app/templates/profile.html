@@ -39,21 +39,31 @@
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>First Name</label>
-                            <input ng-model="currentUser.firstName">
+                            <input ng-model="currentUser.firstName" name="firstName" required>
                         </md-input-container>
+                        <div ng-messages="userForm.firstName.$error"
+                             ng-if="displayErrorMessage(userForm.firstName)">
+                            <div ng-if="userForm.firstName.$error.required" ng-message="required">First name is required
+                            </div>
+                        </div>
                         <md-input-container flex>
                             <label>Last Name</label>
-                            <input ng-model="currentUser.lastName">
+                            <input ng-model="currentUser.lastName" name="lastName" required>
                         </md-input-container>
+                        <div ng-messages="userForm.lastName.$error"
+                             ng-if="displayErrorMessage(userForm.lastName)">
+                            <div ng-if="userForm.lastName.$error.required" ng-message="required">Last name is required
+                            </div>
+                        </div>
                     </div>
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Email</label>
-                            <input ng-model="currentUser.email" type="email">
+                            <input ng-model="currentUser.email" type="email" disabled>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Phone Number</label>
-                            <input ng-model="currentUser.phone" type="tel">
+                            <input ng-model="currentUser.phoneNumber" type="tel">
                         </md-input-container>
                     </div>
                     <div layout layout-sm="column">
@@ -69,7 +79,7 @@
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Brief Bio</label>
-                            <textarea ng-model="currentEvent.bio" columns="1"></textarea>
+                            <textarea ng-model="currentUser.bio" columns="1"></textarea>
                         </md-input-container>
                     </div>
                     <div layout layout-sm="column">
@@ -84,6 +94,9 @@
                     </div>
                 </form>
             </md-content>
+            <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
+                Save
+            </md-button>
             <md-button class="md-primary md-raised" ng-click="next()">
                 Next
             </md-button>
