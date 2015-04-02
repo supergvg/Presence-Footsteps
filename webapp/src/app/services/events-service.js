@@ -34,6 +34,25 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
                 return d.promise;
             },
 
+            deleteEvent: function (id) {
+                var d = $q.defer();
+
+                $http({
+                    method: "DELETE",
+                    url: "api/event",
+                    params: {
+                        id: id
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
+
             getGuests: function (eventId) {
                 return [
                     {
