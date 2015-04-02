@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService',
-        function ($scope, $rootScope, userService, dialogService) {
+    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService',
+        function ($scope, $rootScope, userService, dialogService, uploaderService) {
 
 
             $rootScope.$watch('currentUser', function (newValue) {
@@ -13,6 +13,28 @@ angular.module('gliist')
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
+            $scope.onFileSelect = function (files) {
+                if (!files || files.length === 0) {
+                    return;
+                }
+                $scope.upload(files[0]);
+            };
+
+
+            $scope.upload = function (files) {
+                $scope.fetchingData = true;
+                uploaderService.upload(files).then(function () {
+                        $rootScope.$broadcast('userUpdated');
+                    },
+                    function (err) {
+                        dialogService.error("There was a problem saving your image please try again");
+                    }
+                ).finally(
+                    function () {
+                        $scope.fetchingData = false;
+                    }
+                )
+            };
 
             $scope.saveChanges = function (form) {
                 if (form && form.$invalid) {

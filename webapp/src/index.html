@@ -38,7 +38,7 @@
 <div flex layout="row">
     <md-sidenav flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2"
                 ng-if="currentUser">
-        <div style="background-image: url('assets/images/blank_user_icon.png');height: 250px; background-size:cover ;">
+        <div ng-style="getUserPhoto()">
         </div>
         <md-list role="list">
             <md-item ng-repeat="it in menuItems">

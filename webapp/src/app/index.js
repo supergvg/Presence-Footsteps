@@ -8,15 +8,17 @@ angular.module('gliist', [
     'ngResource',
     'ui.router',
     'ngMaterial',
-    'ngMdIcons'])
+    'ngMdIcons',
+    'angularFileUpload'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
 
+            window.redirectUrl = "http://gliist.azurewebsites.net/";
             $provide.factory('myHttpInterceptor', function () {
                 return {
                     'request': function (config) {
 
-                        var redirectUrl = "http://gliist.azurewebsites.net/";
+                        var redirectUrl = window.redirectUrl;
                         if (config.url.indexOf('api') > -1) {
                             config.url = redirectUrl + config.url;
                         } else if (config.url.indexOf('Token') > -1) {
@@ -124,5 +126,4 @@ angular.module('gliist', [
                     });
                 }
             });
-        }])
-;
+        }]);
