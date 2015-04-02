@@ -1,16 +1,40 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', function ($scope) {
+    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService',
+        function ($scope, $rootScope, userService, dialogService) {
 
 
-        $scope.currentUser = {name: 'Eran Kaufman'};
+            $rootScope.$watch('currentUser', function (newValue) {
+                $scope.currentUser = angular.copy(newValue);
+            });
+
+            $scope.displayErrorMessage = function (field) {
+                return ($scope.showValidation) || (field.$touched && field.$error.required);
+            };
 
 
-        $scope.next = function () {
-            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-        };
-        $scope.previous = function () {
-            $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
-        };
-    });
+            $scope.saveChanges = function (form) {
+                if (form && form.$invalid) {
+                    $scope.showValidation = true;
+                    return;
+                }
+
+                userService.updateUserProfile($scope.currentUser).then(
+                    function () {
+                        dialogService.success('Changes saved');
+                    },
+                    function (err) {
+                        dialogService.error(err);
+                    }
+                )
+            };
+
+
+            $scope.next = function () {
+                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+            };
+            $scope.previous = function () {
+                $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+            };
+        }]);
