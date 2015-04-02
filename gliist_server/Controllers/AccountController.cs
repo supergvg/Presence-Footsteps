@@ -20,6 +20,13 @@ using System.Web.Http.Cors;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Net;
+using System.Drawing;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Web.Hosting;
+using System.Drawing.Imaging;
+using System.Web.Http.Description;
+using Newtonsoft.Json.Linq;
 
 namespace gliist_server.Controllers
 {
@@ -64,11 +71,11 @@ namespace gliist_server.Controllers
 
             return new UserInfoViewModel
             {
+                userId = User.Identity.GetUserId(),
                 UserName = User.Identity.GetUserName(),
                 firstName = user.firstName,
                 lastName = user.lastName,
                 email = user.UserName,
-
                 phoneNumber = user.phoneNumber,
                 city = user.city,
                 company = user.company,
@@ -98,6 +105,56 @@ namespace gliist_server.Controllers
             user.city = userModel.city;
             user.company = userModel.company;
             user.bio = userModel.bio;
+
+            _db.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        [Route("ProfilePicture")]
+        [AllowAnonymous]
+        public async Task<HttpResponseMessage> GetProfilePicture(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+
+            if (string.IsNullOrEmpty(user.profilePicture))
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest); //need to return default image
+            }
+
+            MemoryStream memoryStream = new MemoryStream(user.profilePictureData);
+            var resp = new HttpResponseMessage()
+            {
+                Content = new StreamContent(memoryStream)
+            };
+
+            // Find the MIME type
+            string mimeType = FileUploadHelper.GetMimeType(Path.GetExtension(user.profilePicture));
+            resp.Content.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
+
+            return resp;
+        }
+
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("ProfilePicture")]
+        public async Task<IHttpActionResult> PostProfilePicture()
+        {
+            var profilePicImage = await FileUploadHelper.FilesToBytes(this.Request);
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            user.profilePictureData = profilePicImage.Item2;
+            user.profilePicture = profilePicImage.Item1;
 
             _db.Entry(user).State = EntityState.Modified;
 

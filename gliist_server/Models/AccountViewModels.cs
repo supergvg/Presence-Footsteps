@@ -28,6 +28,8 @@ namespace gliist_server.Models
 
     public class UserInfoViewModel
     {
+        public string userId { get; set; }
+
         public string UserName { get; set; }
 
         public string firstName { get; set; }

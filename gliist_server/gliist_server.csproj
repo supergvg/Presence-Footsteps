@@ -182,6 +182,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -226,6 +227,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\obj\" />
+    <Folder Include="Views\Files\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>
