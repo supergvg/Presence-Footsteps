@@ -9,8 +9,10 @@ using System.Web;
 
 namespace gliist_server.Models
 {
+
     public static class GuestHelper
     {
+
         public async static Task<List<Guest>> Save(GuestList guestList, string userId, EventDBContext db)
         {
             List<Guest> retVal = new List<Guest>();
@@ -19,8 +21,13 @@ namespace gliist_server.Models
             {
                 if (guest.id > 0)
                 {
-                    var attached = db.Guests.Attach(guest);
-                    retVal.Add(attached);
+                    var attached = guest;
+                    if (!db.Guests.Local.Any(g => g.id == guest.id))
+                    {
+                        attached = db.Guests.Attach(guest);
+                        retVal.Add(attached);
+                    }
+
                     if (attached.userId != userId)
                     {
                         throw new UnauthorizedAccessException("User trying to get access to differnt tenant guest");

@@ -22,14 +22,18 @@ namespace gliist_server.Controllers
         // GET: api/GuestLists
         public IQueryable<GuestList> GetGuestLists()
         {
-            return db.GuestLists;
+            var userId = User.Identity.GetUserId();
+
+            return db.GuestLists.Where(gl => gl.userId == userId);
         }
 
         // GET: api/GuestLists/5
         [ResponseType(typeof(GuestList))]
         public async Task<IHttpActionResult> GetGuestList(int id)
         {
-            GuestList guestList = await db.GuestLists.FindAsync(id);
+            var userId = User.Identity.GetUserId();
+
+            GuestList guestList = await db.GuestLists.Where(gl => gl.userId == userId && gl.id == id).FirstOrDefaultAsync();
             if (guestList == null)
             {
                 return NotFound();
@@ -92,6 +96,7 @@ namespace gliist_server.Controllers
                     throw new NotImplementedException();
                 }
                 existingGuestList.title = guestList.title;
+                existingGuestList.guests = guestList.guests;
                 db.Entry(existingGuestList).State = EntityState.Modified;
             }
             else
