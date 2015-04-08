@@ -14,6 +14,14 @@ angular.module('gliist').factory("guestFactory", [
                 }
             }),
 
+            GuestLists: $resource('/api/guestlists', {
+            }, {
+                'get': {
+                    method: 'GET',
+                    isArray: true
+                }
+            }),
+
             GuestList: $resource('/api/guestlists/:id', {
                 id: '@id'
             }, {
@@ -22,6 +30,12 @@ angular.module('gliist').factory("guestFactory", [
                     params: {
                     },
                     url: '/api/guestlists'
+                },
+                delete: {
+                    method: 'DELETE',
+                    params: {
+                    },
+                    url: '/api/guestlists/:id'
                 }
             })
         };

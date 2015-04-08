@@ -48,7 +48,6 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
-
                     eventsService.deleteEvent(event.id).then(function (data) {
                         $scope.refreshEvents();
                     }, function () {

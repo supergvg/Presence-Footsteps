@@ -67,6 +67,14 @@ angular.module('gliist', [
                     url: '/list_management',
                     templateUrl: 'app/templates/list-management.html',
                     controller: 'GuestListCtrl'
+                }).state('main.edit_list_management', {
+                    url: '/edit_list_management',
+                    templateUrl: 'app/templates/list/edit-list-management.html',
+                    controller: 'GuestListCtrl'
+                }).state('main.create_list_management', {
+                    url: '/create_list_management',
+                    templateUrl: 'app/templates/list/create-list-management.html',
+                    controller: 'GuestListCtrl'
                 });
 
             $urlRouterProvider.otherwise('/');
