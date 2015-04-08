@@ -37,15 +37,31 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
         return  {
 
+            getProfilePicture: function (userId) {
+
+                var deferred = $q.defer(),
+                    url = 'api/Account/ProfilePicture';
+
+                $http({
+                    method: 'GET',
+                    url: url,
+                    params: {
+                        userId: userId
+                    }
+                }).success(function (data) {
+                    deferred.resolve(data);
+
+                }).error(function (err) {
+                    deferred.reject(err);
+                });
+
+                return deferred.promise;
+            },
+
             updateUserProfile: function (user) {
 
                 var deferred = $q.defer(),
-                    url = 'api/Account/UserInfo',
-                    self = this;
-
-                if (userData) {
-                    deferred.resolve(userData);
-                }
+                    url = 'api/Account/UserInfo';
 
                 $http({
                     method: 'PUT',
@@ -60,7 +76,6 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
-
 
             getCurrentUser: function () {
 

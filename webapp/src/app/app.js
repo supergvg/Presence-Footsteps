@@ -5,7 +5,32 @@ angular.module('gliist')
 
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = newValue;
+
+                if (!newValue) {
+                    return;
+                }
+
             });
+
+            $rootScope.$on('userUpdated', function () {
+            });
+
+            $scope.getUserPhoto = function () {
+                var bgImg;
+                if ($scope.currentUser) {
+                    bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + $scope.currentUser.userId;
+                    bgImg = "url(" + bgImg + ")";
+                } else {
+                    bgImg = "url('assets/images/blank_user_icon.png')";
+                }
+
+                return {
+                    'background-image': bgImg,
+                    'background-position': 'center center',
+                    'height': '250px',
+                    'background-size': 'cover'
+                };
+            };
 
             $scope.credentials = {
 

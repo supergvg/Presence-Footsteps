@@ -4,8 +4,22 @@ angular.module('gliist')
     .controller('EventsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
         function ($scope, $mdDialog, eventsService, dialogService) {
 
+
             $scope.currentEvent = {
                 title: 'fake'
+            };
+
+            $scope.refreshEvents = function () {
+                $scope.fetchingData = true;
+                $scope.currentEvents = eventsService.getEvents().then(function (data) {
+                    $scope.currentEvents = data;
+                }, function () {
+                    dialogService.error('There was a problem getting your events, please try again');
+                }).finally(
+                    function () {
+                        $scope.fetchingData = false;
+                    }
+                )
             };
 
             $scope.showEventDialog = function (ev, event) {
@@ -23,7 +37,30 @@ angular.module('gliist')
                 });
             };
 
-            $scope.eran = "eran";
+            $scope.deleteEvent = function (ev, event) {
+                // Appending dialog to document.body to cover sidenav in docs app
+                var confirm = $mdDialog.confirm()
+                    //.parent(angular.element(document.body))
+                    .title('Are you sure you want to delete event?')
+                    //.content('Confirm ')
+                    .ariaLabel('Lucky day')
+                    .ok('Yes')
+                    .cancel('No')
+                    .targetEvent(ev);
+                $mdDialog.show(confirm).then(function () {
+
+                    eventsService.deleteEvent(event.id).then(function (data) {
+                        $scope.refreshEvents();
+                    }, function () {
+                        dialogService.error('There was a problem please try again');
+                    })
+
+
+                }, function () {
+                    $scope.alert = 'You decided to keep your debt.';
+                });
+            };
+
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
@@ -33,11 +70,7 @@ angular.module('gliist')
             };
 
             $scope.init = function () {
-                $scope.currentEvents = eventsService.getEvents().then(function (data) {
-                    $scope.currentEvents = data;
-                }, function () {
-                    dialogService.error('There was a problem getting your events, please try again');
-                })
+                $scope.refreshEvents();
             };
 
             $scope.init();

@@ -25,14 +25,13 @@
                         Upload your profile picture(jpg,gif, file formats supported)
                     </md-input-container>
                     <md-input-container flex="20">
-                        <md-button class="md-primary md-raised">
+                        <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
+                                   accept=".jpg,.png,.gif">
                             BROWSE
                         </md-button>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
                     </md-input-container>
                     <md-input-container flex="20">
-                        <md-button class="md-primary md-raised">
-                            UPLOAD
-                        </md-button>
                     </md-input-container>
                 </div>
                 <form name="userForm">
