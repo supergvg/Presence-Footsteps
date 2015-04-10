@@ -27,7 +27,7 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
-                    guestFactory.GuestList.delete({id: glist.id}).then(function () {
+                    guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
                         $scope.getGuestLists();
                     }, function () {
                         dialogService.error('There was a problem please try again');
@@ -70,7 +70,7 @@ angular.module('gliist')
             $scope.save = function () {
                 guestFactory.GuestList.update($scope.list).$promise.then(
                     function (res) {
-                        $scope.list = res;
+                        $scope.list.id = res.id;
                         dialogService.success('Event created: ' + JSON.stringify(res));
 
                     }, function () {

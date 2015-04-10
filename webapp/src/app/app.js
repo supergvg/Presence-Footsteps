@@ -96,7 +96,12 @@ angular.module('gliist')
                     icon: {name: 'content_paste', style: "fill: #abcdef", size: 24}
                 },
                 {
-                    title: 'Profile',
+                    title: 'Event Statistics',
+                    ui_sref: 'main.stats',
+                    icon: {name: 'account_balance', style: "fill: #abcdef", size: 24}
+                },
+                {
+                    title: 'User Profile',
                     ui_sref: 'main.user',
                     icon: {name: 'assignment_ind', style: "fill: #abcdef", size: 24}
                 }
