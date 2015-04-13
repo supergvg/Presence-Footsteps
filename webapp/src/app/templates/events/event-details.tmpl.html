@@ -133,24 +133,10 @@
              md-swipe-left="next()"
              md-swipe-right="previous()">
             <md-content class="md-padding">
-                <div layout layout-sm="column">
-                    <md-input-container flex>
-                        Select a guest list to upload (word, excel, xml file formats supported)
-                    </md-input-container>
-                    <md-input-container flex="20">
-                        <md-button class="md-primary md-raised">
-                            BROWSE
-                        </md-button>
-                    </md-input-container>
-                    <md-input-container flex="20">
-                        <md-button class="md-primary md-raised">
-                            UPLOAD
-                        </md-button>
-                    </md-input-container>
-                </div>
-                <md-divider></md-divider>
-                <guest-list-grid list="event.guestList"></guest-list-grid>
 
+                <h3 class="md-display-1">list: {{event.guestList}}</h3>
+
+                <guest-list-mange list="event.guestList"></guest-list-mange>
             </md-content>
 
 
