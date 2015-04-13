@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 
 namespace gliist_server.Controllers
 {
+    [RoutePrefix("api/GuestLists")]
     public class GuestListsController : ApiController
     {
         private EventDBContext db = new EventDBContext();
@@ -106,7 +107,7 @@ namespace gliist_server.Controllers
                 existingGuestList = guestList;
             }
 
-            guestList.guests = await GuestHelper.Save(existingGuestList, userId, db);
+            //guestList.guests = await GuestHelper.Save(existingGuestList, userId, db);
 
             await db.SaveChangesAsync();
 

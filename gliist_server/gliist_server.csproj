@@ -183,6 +183,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
+    <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -228,6 +229,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\obj\" />
     <Folder Include="Views\Files\" />
+    <Folder Include="Views\GLCsv\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>

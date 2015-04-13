@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using gliist_server.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,6 +66,66 @@ namespace gliist_server.Controllers
 
             return new Tuple<string, byte[]>(originalFileName, fileData);
         }
+
+
+
+
+        public async static Task<GuestList> ParseCSV(HttpRequestMessage request, string userId, EventDBContext db)
+        {
+            if (!request.Content.IsMimeMultipartContent())
+            {
+                request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            var provider = GetMultipartProvider();
+            var result = await request.Content.ReadAsMultipartAsync(provider);
+
+            // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
+            // so this is how you can get the original file name
+            var originalFileName = GetDeserializedFileName(result.FileData.First());
+
+            // uploadedFileInfo object will give you some additional stuff like file length,
+            // creation time, directory name, a few filesystem methods etc..
+            var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
+
+            GuestList retVal = new GuestList()
+                    {
+                        title = DateTime.Now.ToString(),
+                        userId = userId
+                    };
+
+            db.GuestLists.Add(retVal);
+
+            using (FileStream fs = new FileStream(uploadedFileInfo.FullName, FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    List<string> headers = new List<string>();
+                    List<Guest> guests = new List<Guest>();
+
+                    headers.AddRange(sr.ReadLine().Split(','));
+
+                    while (!sr.EndOfStream)
+                    {
+                        var values = sr.ReadLine().Split(',');
+                        var g = new Guest()
+                        {
+                            firstName = values[0],
+                            lastName = values[1],
+                            email = values[2],
+                            phoneNumber = values[3],
+                            userId = userId
+                        };
+                        guests.Add(g);
+                    }
+
+                    retVal.guests = guests;
+                }
+            }
+
+            return retVal;
+        }
+
 
         private static IDictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
 
