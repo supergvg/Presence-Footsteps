@@ -90,7 +90,7 @@ angular.module('gliist', [
                 $state.previous = from;
                 $state.previousParams = fromParams;
 
-                if (userService.getLogged()) {
+                if (userService.getLogged() && !$rootScope.currentUser) {
                     //user has login data in cookie,
                     userService.getCurrentUser().then(function (user) {
                         $rootScope.currentUser = user;

@@ -2,6 +2,25 @@ angular.module('gliist').factory('uploaderService',
     ['$upload', '$q',
         function ($upload, $q) {
             return  {
+                uploadGuestList: function (file) {
+                    var d = $q.defer();
+                    if (!file) {
+                        d.reject('Please select a file');
+                    }
+                    return $upload.upload({
+                        url: 'api/CSVController/CsvToGuestList',
+                        fields: {},
+                        file: file
+                    }).success(function (data) {
+                        d.resolve(data);
+                    }).error(function (err) {
+                            d.resolve(err);
+                        }
+                    );
+
+                    return d.promise;
+                },
+
                 upload: function (file) {
                     var d = $q.defer();
                     if (!file) {
