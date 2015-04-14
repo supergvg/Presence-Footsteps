@@ -4,6 +4,17 @@ angular.module('gliist')
     .controller('GuestListCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
         function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService) {
 
+            $scope.guestListTypes = [
+                'GA',
+                'VIP',
+                'Guest',
+                'Artist',
+                'Production',
+                'Staff',
+                'Press'
+
+            ];
+
             $scope.guests = [];
 
             $scope.addMore = function () {
@@ -102,14 +113,9 @@ angular.module('gliist')
 
                 if (!$scope.list) {
                     $scope.list = {
-                        title: 'bla lba',
                         guests: [
-                            {
-                                firstName: 'eran',
-                                lastName: 'kaufman',
-                                email: 'erank3@yahoo.com'}
                         ]
-                    }
+                    };
                 }
 
             };

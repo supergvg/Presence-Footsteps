@@ -12,6 +12,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/events/guest-list-grid.tmpl.html'
+            templateUrl: 'app/templates/list/guest-list-grid.tmpl.html'
         };
     }]);

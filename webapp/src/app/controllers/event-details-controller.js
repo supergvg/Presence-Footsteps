@@ -1,11 +1,15 @@
-'use strict';
-
 angular.module('gliist')
     .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
         function ($scope, $mdDialog, eventsService, dialogService) {
+            'use strict';
+
             $scope.data = {
                 selectedIndex: 2
             };
+
+            $scope.glmOptions = {
+                showManual: false
+            }
 
             $scope.event = $scope.event || {
                 title: 'fake'

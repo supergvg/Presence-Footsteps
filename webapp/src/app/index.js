@@ -10,8 +10,10 @@ angular.module('gliist', [
     'ngMaterial',
     'ngMdIcons',
     'angularFileUpload'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
+        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider) {
+
+            $mdThemingProvider.theme('default');
 
             window.redirectUrl = "http://gliist.azurewebsites.net/";
             $provide.factory('myHttpInterceptor', function () {
