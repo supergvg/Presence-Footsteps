@@ -20,7 +20,7 @@
                     <img ng-src="{{event.photo}}" class="face" style="height: 60px">
                 </div>
                 <div class="md-tile-content">
-                    <h3>Upload new guest list</h3>
+                    <h3>Upload new guest list (csv)</h3>
                 </div>
                 <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)" accept=".csv">
                     Upload
@@ -28,10 +28,10 @@
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                                       ng-show="fetchingData"></md-progress-circular>
             </md-item-content>
-            <md-divider ng-if="!$last"></md-divider>
+            <md-divider ng-if="!options.hideManualImport"></md-divider>
 
         </md-item>
-        <md-item>
+        <md-item ng-hide="options.hideManualImport">
             <md-item-content>
                 <div class="md-tile-left">
                     <img ng-src="{{event.photo}}" class="face" style="height: 60px">

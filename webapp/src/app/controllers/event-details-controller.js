@@ -8,12 +8,27 @@ angular.module('gliist')
             };
 
             $scope.glmOptions = {
-                showManual: false
+                hideManualImport: true
             }
 
             $scope.event = $scope.event || {
                 title: 'fake'
             };
+
+
+            $scope.onLinkClicked = function (ev) {
+                var scope = $scope.$new();
+                scope.currentGlist = event;
+                scope.cancel = $scope.cancel;
+                scope.save = $scope.save;
+
+                $mdDialog.show({
+                    //controller: DialogController,
+                    scope: scope,
+                    templateUrl: 'app/templates/list/glist-import-dialog.html',
+                    targetEvent: ev
+                });
+            }
 
             $scope.displayErrorMessage = function (field) {
                 return ($scope.showValidation) || (field.$touched && field.$error.required);

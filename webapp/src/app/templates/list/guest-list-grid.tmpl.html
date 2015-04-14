@@ -6,10 +6,11 @@
     </div>
 
     <div layout layout-sm="column">
+        <md-select placeholder="Select type of guest list" ng-model="list.type" flex>
+            <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
+        </md-select>
         <md-input-container flex>
-            <select ng-model="list.type" ng-options="t for t in guestListTypes">
-                <option value="">Select type of guest list</option>
-            </select>
+
 
         </md-input-container>
     </div>

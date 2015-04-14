@@ -129,7 +129,38 @@
                  md-swipe-right="previous()">
                 <md-content class="md-padding">
                     <h3 class="md-headline">Import Guests</h3>
-                    <guest-list-mange list="event.guestList" options="glmOptions"></guest-list-mange>
+                    <md-list flex="90">
+                        <md-item>
+                            <md-item-content>
+                                <div class="md-tile-left">
+                                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                                </div>
+                                <div class="md-tile-content">
+                                    <h3>Link previous guest list</h3>
+                                </div>
+                                <md-button class="md-primary md-raised" ng-click="onLinkClicked(ev)">
+                                    Link
+                                </md-button>
+                            </md-item-content>
+                            <md-divider></md-divider>
+                        </md-item>
+                        <md-item>
+                            <md-item-content>
+                                <div class="md-tile-left">
+                                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                                </div>
+                                <div class="md-tile-content">
+                                    <h3>Upload new guest list (csv)</h3>
+                                </div>
+                                <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
+                                           accept=".csv">
+                                    Upload
+                                </md-button>
+                                <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                                      ng-show="fetchingData"></md-progress-circular>
+                            </md-item-content>
+                        </md-item>
+                    </md-list>
 
                     <guest-list-grid list="event.guestList"></guest-list-grid>
                 </md-content>

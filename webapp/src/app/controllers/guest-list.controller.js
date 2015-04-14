@@ -118,6 +118,10 @@ angular.module('gliist')
                     };
                 }
 
+                if (!$scope.options) {
+                    $scope.options = {};
+                }
+
             };
 
             $scope.init();
