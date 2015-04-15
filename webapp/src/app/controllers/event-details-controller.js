@@ -3,6 +3,10 @@ angular.module('gliist')
         function ($scope, $mdDialog, eventsService, dialogService) {
             'use strict';
 
+            function mergeGuestList(parent, merge) {
+                parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
+            }
+
             $scope.data = {
                 selectedIndex: 2
             };
@@ -18,9 +22,23 @@ angular.module('gliist')
 
             $scope.onLinkClicked = function (ev) {
                 var scope = $scope.$new();
-                scope.currentGlist = event;
+                scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
                 scope.save = $scope.save;
+                scope.selected = [];
+
+                scope.importGLists = function () {
+                    angular.forEach(scope.selected, function (gl) {
+                            mergeGuestList($scope.event.guestList, gl);
+                        }
+                    );
+                    $mdDialog.hide();
+                };
+
+                scope.cancel = function () {
+                    $mdDialog.hide();
+                };
+
 
                 $mdDialog.show({
                     //controller: DialogController,

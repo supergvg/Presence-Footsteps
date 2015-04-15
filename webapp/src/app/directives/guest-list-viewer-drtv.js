@@ -9,7 +9,7 @@ angular.module('gliist')
 
             scope: {
                 options: '=?',
-                selectedGLs: '=?'
+                selected: '=?'
             },
 
             replace: true,

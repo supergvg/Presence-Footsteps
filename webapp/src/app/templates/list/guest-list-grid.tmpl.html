@@ -42,12 +42,19 @@
         </div>
     </md-content>
 
-    <md-button class="md-primary md-raised" ng-click="addMore()">
-        Add More
-    </md-button>
+    <div>
+        <md-button class="md-primary md-raised" ng-click="addMore()" flex="10">
+            Add More
+        </md-button>
 
-    <md-button class="md-primary md-raised" ng-click="save()">
-        Save
-    </md-button>
+        <md-button class="md-primary md-raised" ng-click="save()" flex="10">
+            Save
+        </md-button>
+    <span>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                              ng-show="fetchingData"></md-progress-circular>
+    </span>
+    </div>
+
 
 </md-content>

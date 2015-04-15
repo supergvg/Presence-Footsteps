@@ -17,6 +17,23 @@ angular.module('gliist')
 
             $scope.guests = [];
 
+            $scope.selected = $scope.selected || [];
+
+            $scope.glistSelected = function (glist) {
+
+                return _.find($scope.selected, function (item) {
+                    return glist.id === item.id;
+                });
+            };
+            $scope.toggleSelected = function (item) {
+                var idx = $scope.selected.indexOf(item);
+                if (idx > -1) {
+                    $scope.selected.splice(idx, 1)
+                } else {
+                    $scope.selected.push(item);
+                }
+            };
+
             $scope.addMore = function () {
                 $scope.list.guests.push({
                 });
@@ -99,6 +116,7 @@ angular.module('gliist')
             };
 
             $scope.save = function () {
+                $scope.fetchingData = true;
                 guestFactory.GuestList.update($scope.list).$promise.then(
                     function (res) {
                         $scope.list.id = res.id;
@@ -106,6 +124,8 @@ angular.module('gliist')
 
                     }, function () {
                         dialogService.error('There was a problem saving your event, please try again');
+                    }).finally(function () {
+                        $scope.fetchingData = false;
                     })
             };
 
