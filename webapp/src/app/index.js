@@ -9,7 +9,8 @@ angular.module('gliist', [
     'ui.router',
     'ngMaterial',
     'ngMdIcons',
-    'angularFileUpload'])
+    'angularFileUpload',
+    'googlechart'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider) {
 

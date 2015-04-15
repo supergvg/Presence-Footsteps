@@ -1,9 +1,10 @@
-<md-dialog aria-label="Edit">
+<md-dialog aria-label="Edit" flex>
 
     <h1>
         STATS
     </h1>
 
+    <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
     <div class="md-actions" layout="row">
         <md-button ng-click="cancel()">
             Cancel

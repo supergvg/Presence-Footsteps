@@ -38,14 +38,13 @@ angular.module('gliist')
             };
 
             $scope.showStats = function (ev, event) {
-
                 var scope = $scope.$new();
                 scope.currentEvent = event;
                 scope.cancel = $scope.cancel;
                 scope.save = $scope.save;
 
                 $mdDialog.show({
-                    //controller: DialogController,
+                    controller: 'EventsStatsCtrl',
                     scope: scope,
                     templateUrl: 'app/templates/events/event-stats-dialog.tmpl.html',
                     targetEvent: ev
