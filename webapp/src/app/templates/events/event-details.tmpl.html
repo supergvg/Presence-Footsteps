@@ -33,10 +33,9 @@
                             </md-input-container>
                         </div>
                         <div layout layout-sm="column">
-                            <md-input-container flex>
-                                <label>Event Category</label>
-                                <input name="category" ng-model="event.category">
-                            </md-input-container>
+                            <md-select placeholder="Event Category" ng-model="event.category" flex>
+                                <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
+                            </md-select>
                         </div>
                         <div layout layout-sm="column">
                             <md-input-container flex>
@@ -169,6 +168,8 @@
                     <md-button class="md-primary md-raised" ng-click="createEvent()">
                         Finish
                     </md-button>
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                          ng-show="savingEvent"></md-progress-circular>
                 </md-content>
 
             </div>

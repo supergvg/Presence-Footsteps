@@ -7,9 +7,6 @@
         <md-tab id="tab2" aria-controls="tab2-content">
             Account
         </md-tab>
-        <md-tab id="tab3" aria-controls="tab3-content">
-            Connection
-        </md-tab>
     </md-tabs>
 
     <ng-switch on="data.selectedIndex" class="tabpanel-container">
@@ -20,7 +17,26 @@
              md-swipe-left="next()"
              md-swipe-right="previous()">
             <md-content class="md-padding">
-                <div layout layout-sm="column">
+                <div layout="row">
+                    <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center" flex>
+
+                        <div flex="30" ng-style="getUserPhoto('150px')">
+                        </div>
+
+                        <div flex="40">
+                            Info
+                        </div>
+
+                        <div flex="30" layout="row" layout-align="end end">
+                            <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
+                                       accept=".jpg,.png,.gif">
+                                Edit
+                            </md-button>
+                        </div>
+
+                    </md-whiteframe>
+                </div>
+                <div layout="row">
                     <md-input-container flex>
                         Upload your profile picture(jpg,gif, file formats supported)
                     </md-input-container>
@@ -29,7 +45,8 @@
                                    accept=".jpg,.png,.gif">
                             BROWSE
                         </md-button>
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                              ng-show="fetchingData"></md-progress-circular>
                     </md-input-container>
                     <md-input-container flex="20">
                     </md-input-container>

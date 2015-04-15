@@ -1,29 +1,41 @@
-<div>
+<md-content class="md-padding">
 
     <md-list>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                               ng-show="fetchingData"></md-progress-circular>
 
-        <md-item ng-repeat="event in currentEvents">
-            <md-item-content>
-                <div class="md-tile-left">
-                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+        <md-item ng-repeat="event in events">
+            <md-item-content layout="row" style="background-color:#CDCDCD">
+                <div flex="20">
+                    <img src="assets/images/image_placeholder.png" class="face" style="height:70px">
                 </div>
-                <div class="md-tile-content">
+
+                <div flex="60">
+                    {{event.location}}
+
                     <h3>{{event.title}}</h3>
+                    {{event.date}}
+
+                    <md-chips ng-model="event.tags"
+                              readonly="true">
+                        <md-chip-template>
+                            <strong>{{$chip}}</strong>
+                        </md-chip-template>
+                    </md-chips>
                 </div>
-                <md-button class="md-primary md-raised" ng-click="showEventDialog($event,event)">
-                    <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
-                </md-button>
-                <md-button class="md-primary md-raised" ng-click="deleteEvent($event,event)">
-                    <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
-                </md-button>
+
+                <div flex="20" layout="column" layout-align="end center">
+                    <md-button class="md-primary md-raised" ng-click="deleteEvent($event,event)">
+                        <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="showEventDialog($event,event)">
+                        <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                </div>
             </md-item-content>
             <md-divider ng-if="!$last"></md-divider>
-
         </md-item>
     </md-list>
-    </md-content>
+</md-content>
 
 
-</div>

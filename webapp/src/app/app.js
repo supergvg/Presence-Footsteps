@@ -6,16 +6,17 @@ angular.module('gliist')
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = newValue;
 
+                angular.element('#loading').remove();
+
                 if (!newValue) {
                     return;
                 }
-
             });
 
             $rootScope.$on('userUpdated', function () {
             });
 
-            $scope.getUserPhoto = function () {
+            $scope.getUserPhoto = function (height) {
                 var bgImg;
                 if ($scope.currentUser) {
                     bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + $scope.currentUser.userId;
@@ -27,7 +28,7 @@ angular.module('gliist')
                 return {
                     'background-image': bgImg,
                     'background-position': 'center center',
-                    'height': '250px',
+                    'height': height || '250px',
                     'background-size': 'cover'
                 };
             };

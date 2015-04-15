@@ -7,8 +7,25 @@ angular.module('gliist')
                 parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
             }
 
+            $scope.eventCategories = [
+                'Food & Drinks',
+                'Concert/Show Case',
+                'Camp/Trip/Retreat',
+                'Class/Training/Workshop/Seminar',
+                'Conference (Tech, finance, art, fashion, Gaming, women, men, recreation, or enter the type of conference)',
+                'Convention',
+                'Festival (enter the type)',
+                'Gala',
+                'Game/Competition',
+                'Networking Event  (Tech, finance, art, fashion, Gaming, women, men, recreation, or enter the type of conference)',
+                'Party (birthday, celebration, engagement, retiring)',
+                'Screening',
+                'Tournament (please enter the type of tournament)',
+                'tradeshow/Expo (please enter the type)',
+            ];
+
             $scope.data = {
-                selectedIndex: 2
+                selectedIndex: 0
             };
 
             $scope.glmOptions = {
@@ -67,12 +84,17 @@ angular.module('gliist')
 
 
             $scope.createEvent = function () {
+                $scope.savingEvent = true;
                 eventsService.createEvent($scope.event).then(
                     function (res) {
                         dialogService.success('Event created: ' + JSON.stringify(res));
 
                     }, function () {
                         dialogService.error('There was a problem saving your event, please try again');
+                    }
+                ).finally(
+                    function () {
+                        $scope.savingEvent = false;
                     }
                 )
             };
