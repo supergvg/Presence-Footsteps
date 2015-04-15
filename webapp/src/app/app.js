@@ -6,8 +6,6 @@ angular.module('gliist')
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = newValue;
 
-                angular.element('#loading').remove();
-
                 if (!newValue) {
                     return;
                 }

@@ -100,10 +100,14 @@ angular.module('gliist', [
                             $state.go('main', {}, { notify: true }); //when logged in always go by default to home
                             event.preventDefault();
                         }
+                    }).finally(function () {
+                        angular.element('#loading').remove();
                     });
 
                     return; //user is logged in, do nothing
                 }
+
+                angular.element('#loading').remove();
 
                 if (next.access && next.access.allowAnonymous) {
                     return;
