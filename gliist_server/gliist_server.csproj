@@ -52,6 +52,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid.SmtpApi">
+      <HintPath>..\packages\SendGrid.SmtpApi.1.2.1\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\Sendgrid.5.1.0\lib\SendGridMail.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -189,17 +195,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201503280134248_Initial.cs" />
-    <Compile Include="Migrations\201503280134248_Initial.Designer.cs">
-      <DependentUpon>201503280134248_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503301915486_UpdatingUserModel.cs" />
-    <Compile Include="Migrations\201503301915486_UpdatingUserModel.Designer.cs">
-      <DependentUpon>201503301915486_UpdatingUserModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503310556270_UpdateUserModel2.cs" />
-    <Compile Include="Migrations\201503310556270_UpdateUserModel2.Designer.cs">
-      <DependentUpon>201503310556270_UpdateUserModel2.cs</DependentUpon>
+    <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Migrations\201504160614159_initial.cs" />
+    <Compile Include="Migrations\201504160614159_initial.Designer.cs">
+      <DependentUpon>201504160614159_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -239,14 +238,8 @@
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201503280134248_Initial.resx">
-      <DependentUpon>201503280134248_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503301915486_UpdatingUserModel.resx">
-      <DependentUpon>201503301915486_UpdatingUserModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503310556270_UpdateUserModel2.resx">
-      <DependentUpon>201503310556270_UpdateUserModel2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201504160614159_initial.resx">
+      <DependentUpon>201504160614159_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -16,15 +16,19 @@ namespace gliist_server.Models
         [Required]
         public string title { get; set; }
 
+        public string[] categories { get; set; }
+
         public string description { get; set; }
 
         public string location { get; set; }
+
+        public int capacity { get; set; }
 
         public DateTime date { get; set; }
 
         public DateTime time { get; set; }
 
-        public virtual GuestList guestList { get; set; }
+        public virtual List<GuestList> guestLists { get; set; }
 
     }
 }
