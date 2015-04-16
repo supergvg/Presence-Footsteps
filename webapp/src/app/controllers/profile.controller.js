@@ -20,7 +20,7 @@ angular.module('gliist')
                 scope.save = $scope.save;
 
                 $mdDialog.show({
-                    controller: 'EventsStatsCtrl',
+                    controller: 'InviteUserCtrl',
                     scope: scope,
                     templateUrl: 'app/templates/user-profile/link-account-dialog.html',
                     targetEvent: ev
