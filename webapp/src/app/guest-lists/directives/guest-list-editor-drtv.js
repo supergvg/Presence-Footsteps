@@ -13,6 +13,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/list/guest-list-grid.tmpl.html'
+            templateUrl: 'app/guest-lists/templates/guest-list-editor.tmpl.html'
         };
     }]);

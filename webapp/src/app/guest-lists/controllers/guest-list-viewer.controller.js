@@ -70,6 +70,8 @@ angular.module('gliist')
                         $scope.guestLists = _.reject($scope.guestLists, function (item) {
                             return angular.equals(glist, item);
                         })
+
+                        return;
                     }
 
                     guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
@@ -94,7 +96,7 @@ angular.module('gliist')
                 $mdDialog.show({
                     //controller: DialogController,
                     scope: scope,
-                    templateUrl: 'app/templates/list/glist-dialog.tmpl.html',
+                    templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
                     targetEvent: ev
                 });
             };
