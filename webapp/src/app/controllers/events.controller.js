@@ -49,7 +49,7 @@ angular.module('gliist')
                     templateUrl: 'app/templates/events/event-stats-dialog.tmpl.html',
                     targetEvent: ev
                 });
-            }
+            };
 
             $scope.deleteEvent = function (ev, event) {
                 // Appending dialog to document.body to cover sidenav in docs app

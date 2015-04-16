@@ -1,47 +1,4 @@
 <md-dialog aria-label="Mango (Fruit)">
     <h3>Signup</h3>
-    <md-content class="md-padding">
-        <form name="userForm">
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Email</label>
-                    <input ng-model="createUser.username">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>First Name</label>
-                    <input ng-model="createUser.firstName">
-                </md-input-container>
-                <md-input-container flex>
-                    <label>First Name</label>
-                    <input ng-model="createUser.lastName">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Password</label>
-                    <input type="password" ng-model="createUser.password">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Confirm Password</label>
-                    <input type="password" ng-model="createUser.confirmPassword">
-                </md-input-container>
-            </div>
-        </form>
-    </md-content>
-
-
-    <div class="md-actions" layout="row">
-        <span flex></span>
-        <md-button ng-click="hide()">
-            Cancel
-        </md-button>
-        <md-button ng-click="register()" class="md-primary">
-            Save
-        </md-button>
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-    </div>
+    <user-signup user="createUser"></user-signup>
 </md-dialog>

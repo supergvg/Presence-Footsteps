@@ -103,12 +103,16 @@ angular.module('gliist', [
                         }
                     }).finally(function () {
                         angular.element('#loading').remove();
+                        $rootScope.appReady = true;
                     });
 
                     return; //user is logged in, do nothing
                 }
 
-                angular.element('#loading').remove();
+                if (!$rootScope.appReady) {
+                    angular.element('#loading').remove();
+                    $rootScope.appReady = true;
+                }
 
                 if (next.access && next.access.allowAnonymous) {
                     return;

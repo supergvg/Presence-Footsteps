@@ -19,14 +19,14 @@
     <!-- endinject -->
     <!-- endbuild -->
 </head>
-<body layout="column" ng-controller="AppController" style="background-color: #ECECEC">
+<body ng-controller="AppController" style="background-color: #18D8DB">
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div id="loading" layout="column" layout-align="center center"
-     style="color:white;height: 100%;width:100%;background-color: #18D8DB">
+<div id="loading" layout="column" layout-align="center center" layout-fill
+     style="color:white;background-color: #18D8DB">
     <div>
         <img src="assets/images/gliist_logo.png" style="height:37.8px">
     </div>
@@ -52,8 +52,8 @@
     </div>
 </md-toolbar>
 
-<md-content flex layout="row">
-    <md-sidenav flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2"
+<div flex layout="row" layout-fill ng-show="appReady">
+    <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2"
                 ng-if="currentUser" style="background-color: #18D8DB">
         <div ng-style="getUserPhoto()">
         </div>
@@ -67,8 +67,8 @@
             </md-item>
         </md-list>
     </md-sidenav>
-    <div ui-view flex></div>
-</md-content>
+    <div ui-view layout="row" layout-fill flex></div>
+</div>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>

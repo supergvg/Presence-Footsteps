@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
+    .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
         function ($scope, $rootScope, userService, dialogService, uploaderService, $mdDialog) {
 
 
@@ -13,6 +13,10 @@ angular.module('gliist')
                 selectedIndex: 1
             };
 
+            $scope.getUserPhoto = function (height) {
+                return userService.getUserPhoto(height, $scope.currentUser);
+            };
+
             $scope.linkNewAccount = function (ev) {
                 var scope = $scope.$new();
                 scope.currentEvent = event;
@@ -22,7 +26,7 @@ angular.module('gliist')
                 $mdDialog.show({
                     controller: 'EventsStatsCtrl',
                     scope: scope,
-                    templateUrl: 'app/templates/user-profile/link-account-dialog.html',
+                    templateUrl: 'app/templates/user-profile/link-account.html',
                     targetEvent: ev
                 });
             };
@@ -30,6 +34,14 @@ angular.module('gliist')
             $scope.displayErrorMessage = function (field) {
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
+
+            $scope.onFileSelect = function (files) {
+                if (!files || files.length === 0) {
+                    return;
+                }
+                $scope.upload(files[0]);
+            };
+
 
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
@@ -60,13 +72,5 @@ angular.module('gliist')
                         dialogService.error(err);
                     }
                 )
-            };
-
-
-            $scope.next = function () {
-                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-            };
-            $scope.previous = function () {
-                $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
             };
         }]);
