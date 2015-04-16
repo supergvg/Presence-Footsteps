@@ -6,79 +6,80 @@
 var app = angular.module('starter', ['ionic', 'ngCordova']);
 
 
-app.config(function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
+    function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
+        $provide.factory('myHttpInterceptor',
+            function () {
+                return {
+                    'request': function (config) {
 
-    $provide.factory('myHttpInterceptor', function () {
-        return {
-            'request': function (config) {
+                        var redirectUrl = "http://gliist.azurewebsites.net/";
+                        if (config.url.indexOf('api') > -1) {
+                            config.url = redirectUrl + config.url;
+                        } else if (config.url.indexOf('Token') > -1) {
+                            config.url = redirectUrl + config.url;
+                        }
 
-                var redirectUrl = "http://gliist.azurewebsites.net/";
-                if (config.url.indexOf('api') > -1) {
-                    config.url = redirectUrl + config.url;
-                } else if (config.url.indexOf('Token') > -1) {
-                    config.url = redirectUrl + config.url;
+                        return config;
+                    }
+                };
+            });
+
+
+        $httpProvider.interceptors.push('myHttpInterceptor');
+
+        $stateProvider
+            .state('login', {
+                url: '/login',
+                controller: 'loginController',
+                templateUrl: 'app/templates/login.html'
+            })
+            .state('app', {
+                url: "/app",
+                abstract: true,
+                templateUrl: "app/templates/menu.html",
+                controller: 'menuController'
+            })
+            .state('app.home', {
+                url: '/home',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'app/templates/home.html',
+                        controller: 'homeController'
+                    }
                 }
-
-                return config;
-            }
-        };
-    });
-
-
-    $httpProvider.interceptors.push('myHttpInterceptor');
-
-    $stateProvider
-        .state('login', {
-            url: '/login',
-            controller: 'loginController',
-            templateUrl: 'app/templates/login.html'
-        })
-        .state('app', {
-            url: "/app",
-            abstract: true,
-            templateUrl: "app/templates/menu.html",
-            controller: 'menuController'
-        })
-        .state('app.home', {
-            url: '/home',
-            views: {
-                'menuContent': {
-                    templateUrl: 'app/templates/home.html',
-                    controller: 'homeController'
+            })
+            .state('app.guest', {
+                url: '/guest/:guestId',
+                views: {
+                    'menuContent': {
+                        controller: 'guestController',
+                        templateUrl: 'app/templates/guest.html'
+                    }
                 }
-            }
-        })
-        .state('app.guest', {
-            url: '/guest/:guestId',
-            views: {
-                'menuContent': {
-                    controller: 'guestController',
-                    templateUrl: 'app/templates/guest.html'
+            })
+            .state('app.scanBarcode', {
+                url: '/barcode',
+                views: {
+                    'menuContent': {
+                        controller: 'scanBarcodeController',
+                        templateUrl: 'app/templates/scan-barcode.html'
+                    }
                 }
-            }
-        })
-        .state('app.scanBarcode', {
-            url: '/barcode',
-            views: {
-                'menuContent': {
-                    controller: 'scanBarcodeController',
-                    templateUrl: 'app/templates/scan-barcode.html'
+            })
+            .state('app.event', {
+                url: '/event',
+                views: {
+                    'menuContent': {
+                        controller: 'eventController',
+                        templateUrl: 'app/templates/event.html'
+                    }
                 }
-            }
-        })
-        .state('app.event', {
-            url: '/event',
-            views: {
-                'menuContent': {
-                    controller: 'eventController',
-                    templateUrl: 'app/templates/event.html'
-                }
-            }
-        });
+            });
 
-    $urlRouterProvider.otherwise("/login");
+        $urlRouterProvider.otherwise("/login");
 
-});
+    }]);
 
 app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {

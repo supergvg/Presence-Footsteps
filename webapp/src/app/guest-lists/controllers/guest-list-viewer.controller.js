@@ -1,10 +1,26 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
+    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
         function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService) {
 
-            $scope.guests = [];
+
+            $scope.selected = $scope.selected || [];
+
+            $scope.glistSelected = function (glist) {
+
+                return _.find($scope.selected, function (item) {
+                    return glist.id === item.id;
+                });
+            };
+            $scope.toggleSelected = function (item) {
+                var idx = $scope.selected.indexOf(item);
+                if (idx > -1) {
+                    $scope.selected.splice(idx, 1)
+                } else {
+                    $scope.selected.push(item);
+                }
+            };
 
             $scope.addMore = function () {
                 $scope.list.guests.push({
@@ -48,6 +64,16 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
+
+                    if ($scope.local) {
+
+                        $scope.guestLists = _.reject($scope.guestLists, function (item) {
+                            return angular.equals(glist, item);
+                        })
+
+                        return;
+                    }
+
                     guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
                         $scope.getGuestLists();
                     }, function () {
@@ -70,12 +96,19 @@ angular.module('gliist')
                 $mdDialog.show({
                     //controller: DialogController,
                     scope: scope,
-                    templateUrl: 'app/templates/list/glist-dialog.tmpl.html',
+                    templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
                     targetEvent: ev
                 });
             };
 
             $scope.getGuestLists = function () {
+
+                if ($scope.lists) {
+                    $scope.guestLists = $scope.lists;
+                    $scope.local = true;
+                    return;
+                }
+
                 $scope.fetchingData = true
                 guestFactory.GuestLists.get().$promise.then(
                     function (data) {
@@ -87,29 +120,10 @@ angular.module('gliist')
                     })
             };
 
-            $scope.save = function () {
-                guestFactory.GuestList.update($scope.list).$promise.then(
-                    function (res) {
-                        $scope.list.id = res.id;
-                        dialogService.success('Event created: ' + JSON.stringify(res));
-
-                    }, function () {
-                        dialogService.error('There was a problem saving your event, please try again');
-                    })
-            };
-
             $scope.init = function () {
 
-                if (!$scope.list) {
-                    $scope.list = {
-                        title: 'bla lba',
-                        guests: [
-                            {
-                                firstName: 'eran',
-                                lastName: 'kaufman',
-                                email: 'erank3@yahoo.com'}
-                        ]
-                    }
+                if (!$scope.options) {
+                    $scope.options = {};
                 }
 
             };

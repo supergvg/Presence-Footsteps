@@ -1,0 +1,68 @@
+<md-dialog>
+    <md-content>
+
+        <h1 class="md-display-3">Invite Information</h1>
+        <md-content class="md-padding">
+            <form name="userForm">
+
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>First Name</label>
+                        <input ng-model="user.firstName">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>First Name</label>
+                        <input ng-model="user.lastName">
+                    </md-input-container>
+                </div>
+
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>Email</label>
+                        <input ng-model="user.username">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Phone Number</label>
+                        <input ng-model="user.phoneNumber" type="tel">
+                    </md-input-container>
+                </div>
+            </form>
+
+            <div>
+                Permissions (Control what this contributos can do on the dashboard and app)
+                <md-list>
+                    <md-item ng-repeat="p in permissions">
+                        <md-item-content layout="row">
+                            <div layout="column" class="md-tile-content">
+                                <div>
+                                    {{p.label}}
+                                </div>
+                                <div>
+                                    {{p.desc}}
+                                </div>
+                            </div>
+                            <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(p)"
+                                         aria-label="Import">
+                            </md-checkbox>
+
+                        </md-item-content>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-item>
+                </md-list>
+
+
+            </div>
+        </md-content>
+
+
+    </md-content>
+
+    <div class="md-actions" layout="row">
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+        <md-button ng-click="invite()" class="md-primary">
+            Invite
+        </md-button>
+    </div>
+</md-dialog>

@@ -37,26 +37,23 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
         return  {
 
-            getProfilePicture: function (userId) {
+            getUserPhoto: function (height, currentUser) {
+                var bgImg;
+                if (currentUser) {
+                    bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + currentUser.userId;
+                    bgImg = "url(" + bgImg + ")";
+                } else {
+                    bgImg = "url('assets/images/blank_user_icon.png')";
+                }
 
-                var deferred = $q.defer(),
-                    url = 'api/Account/ProfilePicture';
-
-                $http({
-                    method: 'GET',
-                    url: url,
-                    params: {
-                        userId: userId
-                    }
-                }).success(function (data) {
-                    deferred.resolve(data);
-
-                }).error(function (err) {
-                    deferred.reject(err);
-                });
-
-                return deferred.promise;
+                return {
+                    'background-image': bgImg,
+                    'background-position': 'center center',
+                    'height': height || '250px',
+                    'background-size': 'cover'
+                };
             },
+
 
             updateUserProfile: function (user) {
 
@@ -196,4 +193,5 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
             }
         }
     }
-]);
+])
+;

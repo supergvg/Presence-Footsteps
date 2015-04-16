@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
+    .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
         function ($scope, $rootScope, userService, dialogService, uploaderService, $mdDialog) {
 
 
@@ -13,25 +13,36 @@ angular.module('gliist')
                 selectedIndex: 0
             };
 
-            $scope.linkNewAccount = function (ev) {
-                var scope = $scope.$new();
-                scope.currentEvent = event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-
-                $mdDialog.show({
-                    controller: 'InviteUserCtrl',
-                    scope: scope,
-                    templateUrl: 'app/templates/user-profile/link-account-dialog.html',
-                    targetEvent: ev
-                });
+            $scope.getUserPhoto = function (height) {
+                return userService.getUserPhoto(height, $scope.currentUser);
             };
 
             $scope.displayErrorMessage = function (field) {
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
+            $scope.onFileSelect = function (files) {
+                if (!files || files.length === 0) {
+                    return;
+                }
+                $scope.upload(files[0]);
+            };
 
+
+            $scope.upload = function (files) {
+                $scope.fetchingData = true;
+                uploaderService.upload(files).then(function () {
+                        $rootScope.$broadcast('userUpdated');
+                    },
+                    function (err) {
+                        dialogService.error("There was a problem saving your image please try again");
+                    }
+                ).finally(
+                    function () {
+                        $scope.fetchingData = false;
+                    }
+                )
+            };
 
             $scope.saveChanges = function (form) {
                 if (form && form.$invalid) {
@@ -47,13 +58,5 @@ angular.module('gliist')
                         dialogService.error(err);
                     }
                 )
-            };
-
-
-            $scope.next = function () {
-                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-            };
-            $scope.previous = function () {
-                $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
             };
         }]);

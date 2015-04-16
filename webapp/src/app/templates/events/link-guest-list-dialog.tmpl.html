@@ -1,0 +1,46 @@
+<md-dialog flex aria-label="Edit">
+
+
+    <h3 class="md-headline">Import Guests</h3>
+    <md-list>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Link previous guest list</h3>
+                </div>
+                <md-button class="md-primary md-raised" ng-click="onLinkClicked(ev)">
+                    Link
+                </md-button>
+            </md-item-content>
+            <md-divider></md-divider>
+        </md-item>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Upload new guest list (csv)</h3>
+                </div>
+                <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
+                           accept=".csv">
+                    Upload
+                </md-button>
+                <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                      ng-show="fetchingData"></md-progress-circular>
+            </md-item-content>
+        </md-item>
+    </md-list>
+
+    <guest-list-editor list="newGuestLists" on-save="link"></guest-list-editor>
+
+
+    <div class="md-actions" layout="row">
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+    </div>
+</md-dialog>

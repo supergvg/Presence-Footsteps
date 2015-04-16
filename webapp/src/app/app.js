@@ -6,30 +6,19 @@ angular.module('gliist')
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = newValue;
 
+                $scope.getUserPhoto();
+
                 if (!newValue) {
                     return;
                 }
-
             });
 
             $rootScope.$on('userUpdated', function () {
+                $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser);
             });
 
-            $scope.getUserPhoto = function () {
-                var bgImg;
-                if ($scope.currentUser) {
-                    bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + $scope.currentUser.userId;
-                    bgImg = "url(" + bgImg + ")";
-                } else {
-                    bgImg = "url('assets/images/blank_user_icon.png')";
-                }
-
-                return {
-                    'background-image': bgImg,
-                    'background-position': 'center center',
-                    'height': '250px',
-                    'background-size': 'cover'
-                };
+            $scope.getUserPhoto = function (height) {
+                $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser);
             };
 
             $scope.credentials = {
@@ -53,6 +42,10 @@ angular.module('gliist')
             $scope.logout = function () {
                 userService.logout();
                 $state.go('home');
+            };
+
+            $scope.forgotPassword = function () {
+                alert('not implement!');
             };
 
             $scope.login = function () {

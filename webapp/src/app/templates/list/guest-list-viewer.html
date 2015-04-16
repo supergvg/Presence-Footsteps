@@ -1,0 +1,37 @@
+<div ng-init="getGuestLists()">
+    <md-content>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                              ng-show="fetchingData"></md-progress-circular>
+
+        <h3 class="md-title" ng-show="guestLists.length == 0">No guest lists found</h3>
+        <md-list>
+            <md-item ng-repeat="glist in guestLists">
+                <md-item-content layout="row">
+                    <div layout="row" class="md-tile-content">
+                        <div flex="50">
+                            <h3>{{glist.title}}</h3>
+                        </div>
+                        <div flex="25">
+                            <h3>{{glist.guests.length}}</h3>
+                        </div>
+                        <div flex="25">
+                            <h3>{{glist.listType}}</h3>
+                        </div>
+                    </div>
+
+                    <md-button class="md-primary md-raised" ng-click="showGlistDialog($event,glist)">
+                        <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="deleteGlist($event,glist)">
+                        <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)"
+                                 aria-label="Import">
+                    </md-checkbox>
+
+                </md-item-content>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-item>
+        </md-list>
+    </md-content>
+</div>

@@ -1,41 +1,45 @@
-<md-content flex style="background-color: #ECECEC">
+<div flex layout="row" layout-fill style="background-color: #18D8DB">
+    <md-content flex layout-fill layout="column" layout-align="center center" class-="md-padding"
+                style="background-color: #18D8DB">
 
-    <div layout="row" layout-align="center center">
-        <img src="assets/images/gliist_logo_white.png"/>
-    </div>
+        <div flex></div>
+        <div flex>
+            <img src="assets/images/gliist_logo.png"/>
+        </div>
 
-    <div layout="row" layout-align="center center">
-        <div layout layout-sm="column">
+        <div flex>
             <md-input-container flex>
                 <label>Email</label>
                 <input type="text" ng-model="credentials.username">
             </md-input-container>
         </div>
-    </div>
 
-    <div layout="row" layout-align="center center">
-        <div layout layout-sm="column">
+        <div flex>
             <md-input-container flex>
                 <label>Password</label>
                 <input type="password" ng-model="credentials.password">
             </md-input-container>
         </div>
-    </div>
-    <div layout="row" layout-align="center center">
-        {{errorMessage}}
-    </div>
+        <div flex layout-align="center center">
+            {{errorMessage}}
+        </div>
+
+        <div flex>
+            <md-button class="md-primary md-raised" ng-click="login()">
+                login
+            </md-button>
+        </div>
+        <div flex>
+            <md-button class="md-primary" ng-click="forgotPassword()">Forgot Password</md-button>
+        </div>
+        <div flex>
+            <md-button class="md-primary md-raised" ng-click="signUp($event)">New User</md-button>
 
 
-    <div layout="row" layout-align="center center">
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                  ng-show="fetchingData"></md-progress-circular>
+        </div>
+        <div flex></div>
 
-        <md-button class="md-primary md-raised" ng-click="login()">
-            login
-        </md-button>
-        <md-button class="md-primary" ng-click="signUp($event)">Sign up</md-button>
-
-
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-
-    </div>
-
-</md-content>
+    </md-content>
+</div>

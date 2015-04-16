@@ -4,13 +4,13 @@ angular.module('gliist')
     .controller('SignupCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
         function ($scope, $mdDialog, userService, dialogService, $state) {
 
-            $scope.createUser = {};
+            $scope.user = {};
 
 
             $scope.hide = function () {
-                $scope.createUser.username = null;
-                $scope.createUser.password = null;
-                $scope.createUser.confirmPassword = null;
+                $scope.user.username = null;
+                $scope.user.password = null;
+                $scope.user.confirmPassword = null;
                 $mdDialog.hide();
             };
             $scope.cancel = function () {
@@ -18,7 +18,7 @@ angular.module('gliist')
             };
             $scope.register = function () {
                 $scope.fetchingData = true;
-                userService.registerEmail($scope.createUser).then(function () {
+                userService.registerEmail($scope.user).then(function () {
                     $scope.hide();
                     $state.go('main');
                 }, function (err) {
