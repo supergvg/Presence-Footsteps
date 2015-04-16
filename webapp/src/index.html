@@ -19,7 +19,7 @@
     <!-- endinject -->
     <!-- endbuild -->
 </head>
-<body ng-controller="AppController" style="background-color: #18D8DB">
+<body ng-controller="AppController" style="background-color: #ECECEC">
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -35,41 +35,44 @@
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
     </div>
 </div>
-
-<md-toolbar ng-if="currentUser">
-    <div layout="row" layout-padding style="background-color: #18D8DB">
-        <div flex class="docs-logotype">
-            <img src="assets/images/gliist_logo.png" style="height:37.8px">
-            <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
-                <md-icon md-svg-icon="menu"></md-icon>
-            </md-button>
-        </div>
-        <div layout="row" flex layout-align="end center">
-            <md-button ng-click="logout()">
-                Logout
-            </md-button>
-        </div>
-    </div>
-</md-toolbar>
-
-<div flex layout="row" layout-fill ng-show="appReady">
-    <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2"
-                ng-if="currentUser" style="background-color: #18D8DB">
-        <div ng-style="getUserPhoto()">
-        </div>
-        <md-list role="list">
-            <md-item ng-repeat="it in menuItems">
-                <md-button ui-sref="{{it.ui_sref}}" ng-click="ul.selectUser(it)"
-                           ng-class="{'selected' : it === ul.selected }">
-                    <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}" size="{{it.icon.size}}"></ng-md-icon>
-                    {{it.title}}
+<div layout="column" layout-fill>
+    <md-toolbar ng-if="currentUser">
+        <div layout="row" layout-padding style="background-color: #18D8DB">
+            <div flex class="docs-logotype">
+                <img src="assets/images/gliist_logo.png" style="height:37.8px">
+                <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
+                    <md-icon md-svg-icon="menu"></md-icon>
                 </md-button>
-            </md-item>
-        </md-list>
-    </md-sidenav>
-    <div ui-view layout="row" layout-fill flex></div>
-</div>
+            </div>
+            <div layout="row" flex layout-align="end center">
+                <md-button ng-click="logout()">
+                    Logout
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
 
+    <div flex layout="row" layout-fill ng-show="appReady">
+        <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
+                    class="md-whiteframe-z2"
+                    ng-if="currentUser" style="background-color: #18D8DB">
+            <div ng-style="getUserPhoto()">
+            </div>
+            <md-list role="list">
+                <md-item ng-repeat="it in menuItems">
+                    <md-button ui-sref="{{it.ui_sref}}" ng-click="ul.selectUser(it)"
+                               ng-class="{'selected' : it === ul.selected }">
+                        <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}"
+                                    size="{{it.icon.size}}"></ng-md-icon>
+                        {{it.title}}
+                    </md-button>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-item>
+            </md-list>
+        </md-sidenav>
+        <div ui-view layout="row" layout-fill flex></div>
+    </div>
+</div>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
     (function (b, o, i, l, e, r) {
