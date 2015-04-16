@@ -6,16 +6,19 @@ angular.module('gliist')
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = newValue;
 
+                $scope.getUserPhoto();
+
                 if (!newValue) {
                     return;
                 }
             });
 
             $rootScope.$on('userUpdated', function () {
+                $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser);
             });
 
             $scope.getUserPhoto = function (height) {
-                return userService.getUserPhoto(height, $scope.currentUser);
+                $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser);
             };
 
             $scope.credentials = {

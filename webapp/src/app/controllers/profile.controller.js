@@ -10,7 +10,7 @@ angular.module('gliist')
             });
 
             $scope.data = {
-                selectedIndex: 1
+                selectedIndex: 0
             };
 
             $scope.linkNewAccount = function (ev) {
@@ -31,20 +31,7 @@ angular.module('gliist')
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
-            $scope.upload = function (files) {
-                $scope.fetchingData = true;
-                uploaderService.upload(files).then(function () {
-                        $rootScope.$broadcast('userUpdated');
-                    },
-                    function (err) {
-                        dialogService.error("There was a problem saving your image please try again");
-                    }
-                ).finally(
-                    function () {
-                        $scope.fetchingData = false;
-                    }
-                )
-            };
+
 
             $scope.saveChanges = function (form) {
                 if (form && form.$invalid) {

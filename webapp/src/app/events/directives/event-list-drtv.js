@@ -8,10 +8,10 @@ angular.module('gliist')
             scope: {
                 events: '='
             },
-            controller: 'EventsCtrl',
+            controller: 'EventsListCtrl',
 
             replace: true,
 
-            templateUrl: 'app/templates/events/event-list.tmpl.html'
+            templateUrl: 'app/events/templates/event-list.tmpl.html'
         };
     }]);

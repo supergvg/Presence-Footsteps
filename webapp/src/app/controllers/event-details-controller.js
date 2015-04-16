@@ -25,7 +25,7 @@ angular.module('gliist')
             ];
 
             $scope.data = {
-                selectedIndex: 0
+                selectedIndex: 2
             };
 
             $scope.glmOptions = {
@@ -33,8 +33,38 @@ angular.module('gliist')
             }
 
             $scope.event = $scope.event || {
-                title: 'fake'
+                title: '',
+                guestLists: []
             };
+
+
+            $scope.onAddClicked = function (ev) {
+                var scope = $scope.$new();
+                scope.currentGlist = $scope.event;
+                scope.cancel = $scope.cancel;
+                scope.save = $scope.save;
+                scope.selected = [];
+
+                scope.importGLists = function () {
+                    angular.forEach(scope.selected, function (gl) {
+                            mergeGuestList($scope.event.guestList, gl);
+                        }
+                    );
+                    $mdDialog.hide();
+                };
+
+                scope.cancel = function () {
+                    $mdDialog.hide();
+                };
+
+
+                $mdDialog.show({
+                    controller: 'LinkGuestListCtrl',
+                    scope: scope,
+                    templateUrl: 'app/templates/events/link-guest-list-dialog.tmpl.html',
+                    targetEvent: ev
+                });
+            }
 
 
             $scope.onLinkClicked = function (ev) {

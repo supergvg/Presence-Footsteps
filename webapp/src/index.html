@@ -35,8 +35,8 @@
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
     </div>
 </div>
-<div layout="column" layout-fill>
-    <md-toolbar ng-if="currentUser">
+<div layout="column" layout-fill ng-show="appReady" ng-cloak>
+    <md-toolbar ng-if="currentUser" ng-cloak>
         <div layout="row" layout-padding style="background-color: #18D8DB">
             <div flex class="docs-logotype">
                 <img src="assets/images/gliist_logo.png" style="height:37.8px">
@@ -52,11 +52,11 @@
         </div>
     </md-toolbar>
 
-    <div flex layout="row" layout-fill ng-show="appReady">
+    <div flex layout="row" layout-fill>
         <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
                     class="md-whiteframe-z2"
                     ng-if="currentUser" style="background-color: #18D8DB">
-            <div ng-style="getUserPhoto()">
+            <div ng-style="userProfilePic">
             </div>
             <md-list role="list">
                 <md-item ng-repeat="it in menuItems">

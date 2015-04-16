@@ -1,5 +1,5 @@
 angular.module('gliist')
-    .directive('guestListView', [function () {
+    .directive('guestListMange', [function () {
         'use strict';
 
         return {
@@ -8,12 +8,12 @@ angular.module('gliist')
             controller: 'GuestListCtrl',
 
             scope: {
-                options: '=?',
-                selected: '=?'
+                list: '=?',
+                options: '=?'
             },
 
             replace: true,
 
-            templateUrl: 'app/templates/list/guest-list-viewer.html'
+            templateUrl: 'app/templates/list/guest-list-management.html'
         };
     }]);

@@ -1,14 +1,15 @@
 angular.module('gliist')
-    .directive('guestListGrid', [function () {
+    .directive('guestListEditor', [function () {
         'use strict';
 
         return {
             restrict: 'EA',
 
             scope: {
-                list: '='
+                list: '=',
+                onSave: '=?'
             },
-            controller: 'GuestListCtrl',
+            controller: 'GuestListEditorCtrl',
 
             replace: true,
 

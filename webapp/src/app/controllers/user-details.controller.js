@@ -10,25 +10,11 @@ angular.module('gliist')
             });
 
             $scope.data = {
-                selectedIndex: 1
+                selectedIndex: 0
             };
 
             $scope.getUserPhoto = function (height) {
                 return userService.getUserPhoto(height, $scope.currentUser);
-            };
-
-            $scope.linkNewAccount = function (ev) {
-                var scope = $scope.$new();
-                scope.currentEvent = event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-
-                $mdDialog.show({
-                    controller: 'EventsStatsCtrl',
-                    scope: scope,
-                    templateUrl: 'app/templates/user-profile/link-account.html',
-                    targetEvent: ev
-                });
             };
 
             $scope.displayErrorMessage = function (field) {

@@ -127,41 +127,29 @@
                  md-swipe-left="next()"
                  md-swipe-right="previous()">
                 <md-content class="md-padding">
-                    <h3 class="md-headline">Import Guests</h3>
-                    <md-list flex="90">
+
+                    <md-list>
                         <md-item>
                             <md-item-content>
                                 <div class="md-tile-left">
                                     <img ng-src="{{event.photo}}" class="face" style="height: 60px">
                                 </div>
                                 <div class="md-tile-content">
-                                    <h3>Link previous guest list</h3>
+                                    <h3>Add guest list</h3>
                                 </div>
-                                <md-button class="md-primary md-raised" ng-click="onLinkClicked(ev)">
-                                    Link
+                                <md-button class="md-primary md-raised" ng-click="onAddClicked($event)">
+                                    Add
                                 </md-button>
-                            </md-item-content>
-                            <md-divider></md-divider>
-                        </md-item>
-                        <md-item>
-                            <md-item-content>
-                                <div class="md-tile-left">
-                                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                                </div>
-                                <div class="md-tile-content">
-                                    <h3>Upload new guest list (csv)</h3>
-                                </div>
-                                <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
-                                           accept=".csv">
-                                    Upload
-                                </md-button>
-                                <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                                      ng-show="fetchingData"></md-progress-circular>
                             </md-item-content>
                         </md-item>
                     </md-list>
+                    <md-divider></md-divider>
 
-                    <guest-list-grid list="event.guestList"></guest-list-grid>
+                    <div>
+                        Linked Guests Lists:
+                        <guest-list-view lists="event.guestLists"></guest-list-view>
+                    </div>
+
                 </md-content>
 
                 <md-content layout="row" layout-align="end center" class="md-padding">
