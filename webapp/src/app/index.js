@@ -72,7 +72,7 @@ angular.module('gliist', [
                     controller: 'EventsCtrl'
                 }).state('main.list_management', {
                     url: '/list_management',
-                    templateUrl: 'app/templates/list-management.html',
+                    templateUrl: 'app/guest-lists/templates/list-management.html',
                     controller: 'GuestListCtrl'
                 }).state('main.edit_list_management', {
                     url: '/edit_list_management',
@@ -80,7 +80,7 @@ angular.module('gliist', [
                     controller: 'GuestListCtrl'
                 }).state('main.create_list_management', {
                     url: '/create_list_management',
-                    templateUrl: 'app/templates/list/create-list-management.html',
+                    templateUrl: 'app/guest-lists/templates/create-list-management.html',
                     controller: 'GuestListCtrl'
                 }).state('main.stats', {
                     url: '/stats',

@@ -1,14 +1,24 @@
-angular.module('gliist').factory('dialogService',
-    ['$rootScope', '$http', '$q',
-        function ($rootScope, $http, $q) {
-            return  {
+angular.module('gliist').factory('dialogService', [ '$mdToast',
 
-                error: function (err) {
-                    console.log('dialog-service: ' + err);
-                },
-                success: function (message) {
-                    alert('dialog-service: ' + message);
-                }
+    function ($mdToast) {
+        return  {
+            error: function (err) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content(err)
+                        .position('right')
+                        .hideDelay(3000)
+                );
+            },
+
+            success: function (message) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content(message)
+                        .position('right')
+                        .hideDelay(3000)
+                );
             }
         }
-    ]);
+    }
+]);
