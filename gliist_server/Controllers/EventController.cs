@@ -53,6 +53,17 @@ namespace gliist_server.Controllers
                 return BadRequest();
             }
 
+            var userId = User.Identity.GetUserId();
+
+
+            foreach (var gl in @event.guestLists)
+            {
+                if (string.IsNullOrEmpty(gl.userId))
+                {
+                    gl.userId = userId;
+                }
+            }
+
             db.Entry(@event).State = EntityState.Modified;
 
             try
@@ -95,6 +106,14 @@ namespace gliist_server.Controllers
             if (@event.time == DateTime.MinValue)
             {
                 @event.time = DateTime.Today;
+            }
+
+            foreach (var gl in @event.guestLists)
+            {
+                if (string.IsNullOrEmpty(gl.userId))
+                {
+                    gl.userId = userId;
+                }
             }
 
             if (!ModelState.IsValid)

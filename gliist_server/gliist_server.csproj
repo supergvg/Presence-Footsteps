@@ -187,6 +187,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
@@ -227,6 +228,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\obj\" />
+    <Folder Include="Views\Email\" />
     <Folder Include="Views\Files\" />
     <Folder Include="Views\GLCsv\" />
     <Folder Include="webapp\" />

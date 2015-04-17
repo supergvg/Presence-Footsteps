@@ -23,7 +23,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("CsvToGuestList")]
-        public async Task<IHttpActionResult> PostCsvToGuestList()
+        public async Task<GuestList> PostCsvToGuestList()
         {
             var userId = User.Identity.GetUserId();
             var gl = await FileUploadHelper.ParseCSV(this.Request, userId, db);
@@ -47,7 +47,7 @@ namespace gliist_server.Controllers
                 throw;
             }
 
-            return StatusCode(HttpStatusCode.OK);
+            return gl;
         }
     }
 

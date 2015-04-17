@@ -90,7 +90,7 @@ namespace gliist_server.Controllers
 
             GuestList retVal = new GuestList()
                     {
-                        title = DateTime.Now.ToString(),
+                        title = originalFileName,
                         userId = userId
                     };
 
