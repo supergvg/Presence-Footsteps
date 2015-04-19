@@ -4,7 +4,7 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
 
         $scope.getUserPhoto = function (height) {
             return {
-                'background-image': 'img/blank_user_icon.png',
+                'background-image': 'url(../img/blank_user_icon.png)',
                 'background-position': 'center center',
                 'height': height || '250px',
                 'background-size': 'cover'

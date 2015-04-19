@@ -6,17 +6,19 @@
 
 .item-content {
     background-color: #2CD6D6 !important;
-    color:white !important;
-}
-
-.top-bar {
-    background-image: url('../img/bar.png') !important;
-    background-repeat: repeat-y !important;
-    background-color: transparent !important;
+    color: white !important;
 }
 
 .dark-bg {
     background-color: #1A1A1A;
+}
+
+.light-bg {
+    background-color: #EEEEEE;
+}
+
+.dark-text {
+    color: #B6B6B6;
 }
 
 .no-border {
@@ -28,9 +30,7 @@
     position: absolute;
     bottom: 0;
     height: 50px;
-    background-image: url('../img/bar.png') !important;
-    background-repeat: repeat-y !important;
-    background-color: transparent !important;
+    background-color: #2CD6D6 !important;
 }
 
 .bar-logo-color {
