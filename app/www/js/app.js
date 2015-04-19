@@ -6,7 +6,7 @@
 var app = angular.module('starter', ['ionic', 'ngCordova']);
 
 
-app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
+app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
     function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
         $provide.factory('myHttpInterceptor',
             function () {

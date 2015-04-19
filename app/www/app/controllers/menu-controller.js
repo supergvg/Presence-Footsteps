@@ -2,10 +2,18 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
 
     function ($scope, $ionicSideMenuDelegate) {
 
+        $scope.getUserPhoto = function (height) {
+            return {
+                'background-image': 'img/blank_user_icon.png',
+                'background-position': 'center center',
+                'height': height || '250px',
+                'background-size': 'cover'
+            };
+        };
 
         $scope.menuItems = [
             {
-                text: 'Upcoming Events',
+                text: 'Current Events',
                 href: '#/app/search'
             },
             {
@@ -17,15 +25,15 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
                 href: '#/app/search'
             },
             {
-                text: 'Profile',
-                href: '#/app/search'
-            },
-            {
                 text: 'Stats',
                 href: '#/app/search'
             },
             {
-                text: 'Cancel Event',
+                text: 'Alerts',
+                href: '#/app/search'
+            },
+            {
+                text: 'Profile',
                 href: '#/app/search'
             }
         ];
