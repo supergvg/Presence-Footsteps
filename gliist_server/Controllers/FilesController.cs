@@ -90,7 +90,7 @@ namespace gliist_server.Controllers
 
             GuestList retVal = new GuestList()
                     {
-                        title = DateTime.Now.ToString(),
+                        title = originalFileName,
                         userId = userId
                     };
 
@@ -108,6 +108,7 @@ namespace gliist_server.Controllers
                     while (!sr.EndOfStream)
                     {
                         var values = sr.ReadLine().Split(',');
+
                         var g = new Guest()
                         {
                             firstName = values[0],
