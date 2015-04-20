@@ -58,6 +58,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                     }
                 }
             })
+            .state('app.add_guest', {
+                url: 'event/add/:guestId/:eventId',
+                views: {
+                    'menuContent': {
+                        controller: 'guestController',
+                        templateUrl: 'app/guests/templates/add-guest.html'
+                    }
+                }
+            })
             .state('app.scanBarcode', {
                 url: '/barcode',
                 views: {

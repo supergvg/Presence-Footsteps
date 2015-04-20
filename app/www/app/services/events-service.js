@@ -51,30 +51,23 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 return d.promise;
             },
 
-            getGuests: function (eventId) {
-                return [
-                    {
-                        id: '1',
-                        name: 'John Doe',
-                        photo: 'img/company-logo.png'
-                    },
-                    {
-                        id: '2',
-                        name: 'Paris Hilton',
-                        photo: 'img/company-logo.png'
-                    },
-                    {
-                        id: '1',
-                        name: 'Kim Kardashian',
-                        photo: 'img/company-logo.png'
-                    },
-                    {
-                        id: '1',
-                        name: 'John Doe',
-                        photo: 'img/company-logo.png'
-                    }
+            getGuestInfo: function (eventId, guestId) {
+                var d = $q.defer();
 
-                ];
+                $http({
+                    method: "GET",
+                    url: "api/guest/",
+                    params: {
+                        eventId: eventId,
+                        guestId: guestId
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
             }
         }
     }]);

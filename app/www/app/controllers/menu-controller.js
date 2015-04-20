@@ -35,6 +35,10 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
             {
                 text: 'Profile',
                 href: '#/app/search'
+            },
+            {
+                text: 'Logout',
+                href: '#/app/search'
             }
         ];
 
