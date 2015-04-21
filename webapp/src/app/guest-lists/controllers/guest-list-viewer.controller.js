@@ -31,28 +31,6 @@ angular.module('gliist')
                 $mdDialog.cancel();
             };
 
-            $scope.onFileSelect = function (files) {
-                if (!files || files.length === 0) {
-                    return;
-                }
-                $scope.upload(files[0]);
-            };
-
-
-            $scope.upload = function (files) {
-                $scope.fetchingData = true;
-                uploaderService.uploadGuestList(files).then(function () {
-                    },
-                    function (err) {
-                        dialogService.error('There was a problem saving your image please try again');
-                    }
-                ).finally(
-                    function () {
-                        $scope.fetchingData = false;
-                    }
-                )
-            };
-
             $scope.deleteGlist = function (ev, glist) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()

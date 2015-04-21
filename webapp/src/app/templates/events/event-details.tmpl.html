@@ -135,10 +135,23 @@
                                     <img ng-src="{{event.photo}}" class="face" style="height: 60px">
                                 </div>
                                 <div class="md-tile-content">
-                                    <h3>Add guest list</h3>
+                                    <h3>Add existing guest list</h3>
                                 </div>
                                 <md-button class="md-primary md-raised" ng-click="onAddClicked($event)">
                                     Add
+                                </md-button>
+                            </md-item-content>
+                        </md-item>
+                        <md-item>
+                            <md-item-content>
+                                <div class="md-tile-left">
+                                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                                </div>
+                                <div class="md-tile-content">
+                                    <h3>Add a new guest list</h3>
+                                </div>
+                                <md-button class="md-primary md-raised" ng-click="onCreateNewGuestList($event)">
+                                    Create
                                 </md-button>
                             </md-item-content>
                         </md-item>

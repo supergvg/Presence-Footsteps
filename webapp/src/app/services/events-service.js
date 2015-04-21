@@ -2,7 +2,6 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
     function ($rootScope, $http, $q) {
         return  {
 
-
             createEvent: function (event) {
                 var d = $q.defer();
 
@@ -51,7 +50,6 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
 
                 return d.promise;
             },
-
 
             getGuests: function (eventId) {
                 return [

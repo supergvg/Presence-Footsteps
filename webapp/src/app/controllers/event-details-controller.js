@@ -3,10 +3,6 @@ angular.module('gliist')
         function ($scope, $mdDialog, eventsService, dialogService) {
             'use strict';
 
-            function mergeGuestList(parent, merge) {
-                parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
-            }
-
             $scope.eventCategories = [
                 'Food & Drinks',
                 'Concert/Show Case',
@@ -45,14 +41,6 @@ angular.module('gliist')
                 scope.save = $scope.save;
                 scope.selected = [];
 
-                scope.importGLists = function () {
-                    angular.forEach(scope.selected, function (gl) {
-                            mergeGuestList($scope.event.guestList, gl);
-                        }
-                    );
-                    $mdDialog.hide();
-                };
-
                 scope.cancel = function () {
                     $mdDialog.hide();
                 };
@@ -67,33 +55,34 @@ angular.module('gliist')
             }
 
 
-            $scope.onLinkClicked = function (ev) {
-                var scope = $scope.$new();
-                scope.currentGlist = $scope.event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-                scope.selected = [];
+            $scope.onCreateNewGuestList = function (ev) {
 
-                scope.importGLists = function () {
-                    angular.forEach(scope.selected, function (gl) {
-                            mergeGuestList($scope.event.guestList, gl);
-                        }
-                    );
-                    $mdDialog.hide();
+                var scope = $scope.$new();
+
+                scope.currentGlist = {
+                    title: 'New Guest List',
+                    guests: []
+
                 };
+
 
                 scope.cancel = function () {
                     $mdDialog.hide();
                 };
 
+                scope.save = function () {
+                    $scope.event.guestLists.push(scope.currentGlist);
+                };
 
                 $mdDialog.show({
                     //controller: DialogController,
                     scope: scope,
-                    templateUrl: 'app/templates/list/glist-import-dialog.html',
+                    templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
                     targetEvent: ev
                 });
+
             }
+
 
             $scope.displayErrorMessage = function (field) {
                 return ($scope.showValidation) || (field.$touched && field.$error.required);

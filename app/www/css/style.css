@@ -1,13 +1,35 @@
 /* Empty. Add your own CSS if you like */
 
-.top-bar {
-    background-image: url('../img/bar.png') !important;
-    background-repeat:repeat-y !important;
-    background-color: transparent !important;
+.logo-bg {
+    background-color: #2CD6D6 !important;
+}
+
+.item-content {
+    background-color: #2CD6D6 !important;
+    color: white !important;
 }
 
 .dark-bg {
     background-color: #1A1A1A;
+}
+
+.light-bg {
+    background-color: #EEEEEE;
+}
+
+.spinner {
+    width: 28px;
+    height: 28px;
+    stroke: #444;
+    fill: #444;
+}
+
+.no-padding{
+
+}
+
+.dark-text {
+    color: #B6B6B6;
 }
 
 .no-border {
@@ -19,9 +41,8 @@
     position: absolute;
     bottom: 0;
     height: 50px;
-    background-image: url('../img/bar.png') !important;
-    background-repeat:repeat-y !important;
-    background-color: transparent !important;}
+    background-color: #2CD6D6 !important;
+}
 
 .bar-logo-color {
     border-color: #0a9ec7;
@@ -58,16 +79,16 @@
 }
 
 .grey-bg {
-    background-color: #999999;
+    background-color: #FFFFFF;
 }
 
 .bottom-margin-10 {
     margin-bottom: 10px;
 }
+
 .top-margin-10 {
     margin-bottom: 10px;
 }
-
 
 .back-button {
     height: 50px;
@@ -78,7 +99,7 @@
     border: none;
 }
 
-input.rounded{
+input.rounded {
     border: 1px solid #ccc;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -91,10 +112,10 @@ input.rounded{
     outline: 0;
     -webkit-appearance: none;
 }
+
 input.rounded:focus {
     border-color: #339933;
 }
-
 
 .rounded-img {
     width: 300px;

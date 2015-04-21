@@ -79,7 +79,7 @@ angular.module('gliist')
                     icon: {name: 'today', style: "fill: #abcdef", size: 24}
                 },
                 {
-                    title: 'Past Event',
+                    title: 'Past Events',
                     ui_sref: 'main.past_events',
                     icon: {name: 'history', style: "fill: #abcdef", size: 24 }
                 },

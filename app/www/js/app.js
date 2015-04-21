@@ -6,7 +6,7 @@
 var app = angular.module('starter', ['ionic', 'ngCordova']);
 
 
-app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
+app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
     function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
         $provide.factory('myHttpInterceptor',
             function () {
@@ -58,6 +58,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                     }
                 }
             })
+            .state('app.add_guest', {
+                url: 'event/add/:guestId/:eventId',
+                views: {
+                    'menuContent': {
+                        controller: 'guestController',
+                        templateUrl: 'app/guests/templates/add-guest.html'
+                    }
+                }
+            })
             .state('app.scanBarcode', {
                 url: '/barcode',
                 views: {
@@ -68,7 +77,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                 }
             })
             .state('app.event', {
-                url: '/event',
+                url: '/event/:eventId',
                 views: {
                     'menuContent': {
                         controller: 'eventController',
@@ -81,7 +90,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
 
     }]);
 
-app.run(function ($ionicPlatform) {
+app.run(function ($ionicPlatform, userService, $rootScope) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -91,5 +100,20 @@ app.run(function ($ionicPlatform) {
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+
+        if (userService.getLogged() && !$rootScope.currentUser) {
+            //user has login data in cookie,
+            userService.getCurrentUser().then(function (user) {
+                $rootScope.currentUser = user;
+            }).finally(function () {
+                $timeout(function () {
+                    $rootScope.appReady = true;
+                });
+            });
+
+            return; //user is logged in, do nothing
+        }
+
+
     });
 })

@@ -39,28 +39,6 @@ angular.module('gliist')
                 });
             };
 
-            $scope.onFileSelect = function (files) {
-                if (!files || files.length === 0) {
-                    return;
-                }
-                $scope.upload(files[0]);
-            };
-
-
-            $scope.upload = function (files) {
-                $scope.fetchingData = true;
-                uploaderService.uploadGuestList(files).then(function () {
-                    },
-                    function (err) {
-                        dialogService.error('There was a problem saving your image please try again');
-                    }
-                ).finally(
-                    function () {
-                        $scope.fetchingData = false;
-                    }
-                )
-            };
-
             $scope.save = function () {
                 $scope.fetchingData = true;
                 guestFactory.GuestList.update($scope.list).$promise.then(

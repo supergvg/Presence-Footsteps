@@ -16,8 +16,6 @@ angular.module('starter').controller('homeController', ['$scope', '$rootScope', 
             );
 
         };
-
-        $scope.init();
     }
 
 ]);

@@ -1,12 +1,40 @@
-<md-content layout-fill>
-    <div layout layout-sm="column">
-        <md-input-container flex>
-            Manually enter your guest list
-        </md-input-container>
-    </div>
+<md-content layout-fill layout-padding>
 
-    <div layout layout-sm="column">
-        <md-select placeholder="Select type of guest list" ng-model="list.type" flex>
+    <h3 class="md-headline">Import Guests</h3>
+    <md-list>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Link previous guest list</h3>
+                </div>
+                <md-button class="md-primary md-raised" ng-click="onLinkClicked($event)">
+                    Link
+                </md-button>
+            </md-item-content>
+            <md-divider></md-divider>
+        </md-item>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Upload new guest list (csv)</h3>
+                </div>
+                <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
+                           accept=".csv">
+                    Upload
+                </md-button>
+            </md-item-content>
+        </md-item>
+    </md-list>
+
+
+    <div>
+        <md-select placeholder="Select type of guest list" ng-model="list.listType" flex>
             <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
         </md-select>
         <md-input-container flex>
@@ -14,12 +42,20 @@
 
         </md-input-container>
     </div>
-    <div layout layout-sm="column">
+    <div>
         <md-input-container flex>
             <label>Enter guest list title</label>
             <input type="text" ng-model="list.title">
         </md-input-container>
     </div>
+
+    <div>
+        <md-input-container flex>
+            <h3 class="md-subhead">Guests</h3>
+        </md-input-container>
+    </div>
+
+    <md-divider></md-divider>
 
     <md-content layout-padding style="max-height: 300px;">
         <div ng-repeat="guest in list.guests" layout layout-sm="column">
@@ -37,7 +73,7 @@
             </md-input-container>
             <md-input-container flex>
                 <label>Phone Number</label>
-                <input type="tel" ng-model="guest.phone">
+                <input type="tel" ng-model="guest.phoneNumber">
             </md-input-container>
         </div>
     </md-content>
@@ -55,6 +91,5 @@
                               ng-show="fetchingData"></md-progress-circular>
     </span>
     </div>
-
 
 </md-content>

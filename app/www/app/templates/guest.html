@@ -1,4 +1,4 @@
-<ion-pane style="background-color:#1A1A1A">
+<ion-pane class="light-bg" ng-init="init()">
 
     <div class="row">
         <div class="centered">
@@ -15,11 +15,6 @@
     <div class="row" style="margin-top: 20px;">
         <div class="col"></div>
         <div class="col">
-            <button class="button button-dark rounded">
-                Check In
-            </button>
-        </div>
-        <div class="col">
             <input type="number"/>
         </div>
         <div class="col"></div>
@@ -29,12 +24,10 @@
             <span style="color:white">John's list</span>
         </div>
     </div>
-    <div class="row" style="margin-top: 20px;">
-        <div class="centered">
-            <button class="button button-dark rounded" ui-sref="app.event">
-                Back
-            </button>
-        </div>
+    <div class="row">
+        <button class="button button-calm centered">
+            Check In
+        </button>
     </div>
     <div class="bottom-bar">
         <button class="back-button" ui-sref="app.event"></button>

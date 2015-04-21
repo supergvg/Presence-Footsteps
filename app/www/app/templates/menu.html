@@ -1,33 +1,39 @@
 <ion-side-menus enable-menu-with-back-views="false" class="dark-bg">
     <ion-side-menu-content>
-        <ion-nav-bar class="bar-stable top-bar">
+        <ion-nav-bar class="bar-stable logo-bg">
 
             <ion-nav-title>
-                <img src="img/logo-text-white.png" style="padding-top: 0px;;height: 40px;">
+                <div class="bar bar-header item-input-inset" style="margin-left: 50px">
+                    <label class="item-input-wrapper">
+                        <i class="icon ion-ios7-search placeholder-icon"></i>
+                        <input type="search" placeholder="Search Guests">
+                    </label>
+                </div>
             </ion-nav-title>
 
             <ion-nav-back-button>
             </ion-nav-back-button>
 
-            <ion-nav-buttons side="left">
-                <img class="top-bar-logo" src="img/company-logo.png"/>
+            <ion-nav-buttons side="left" class="logo-bg">
+                <button class="button button-icon button-clear ion-navicon" style="color: white" menu-toggle="left">
+                </button>
             </ion-nav-buttons>
 
             <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-navicon" style="color: white" menu-toggle="right">
-                </button>
+
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
 
-    <ion-side-menu side="right" class="grey-bg">
-        <ion-header-bar class="bar-stable">
-            <img class="top-bar-logo" src="img/company-logo.png"/>
+    <ion-side-menu side="left" class="logo-bg">
+        <ion-header-bar class="bar-stable logo-bg">
+            <img class="top-bar-logo centered" src="img/gliist_logo.png"/>
         </ion-header-bar>
-        <ion-content class="grey-bg">
+        <ion-content class="logo-bg">
+            <div ng-style="getUserPhoto()"></div>
             <ion-list>
-                <ion-item nav-clear menu-close ng-repeat="item in menuItems" ng-href="{{item.href}}">
+                <ion-item nav-clear menu-close ng-repeat="item in menuItems" ng-href="{{item.href}}" class="logo-bg">
                     {{item.text}}
                 </ion-item>
 
