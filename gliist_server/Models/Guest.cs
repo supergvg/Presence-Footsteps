@@ -9,60 +9,6 @@ using System.Web;
 
 namespace gliist_server.Models
 {
-
-    public static class GuestHelper
-    {
-
-        public async static Task<List<Guest>> Save(GuestList guestList, string userId, EventDBContext db)
-        {
-            List<Guest> retVal = new List<Guest>();
-            var toRemove = new List<Guest>();
-            foreach (var guest in guestList.guests)
-            {
-                if (guest.id > 0)
-                {
-                    var attached = guest;
-                    if (!db.Guests.Local.Any(g => g.id == guest.id))
-                    {
-                        attached = db.Guests.Attach(guest);
-                        retVal.Add(attached);
-                    }
-
-                    if (attached.userId != userId)
-                    {
-                        throw new UnauthorizedAccessException("User trying to get access to differnt tenant guest");
-                    }
-                }
-                else
-                {
-                    var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
-
-                    if (existing == null)
-                    {
-                        db.Guests.Add(guest);
-                        guest.userId = userId;
-                        retVal.Add(guest);
-
-                    }
-                    else
-                    {
-                        toRemove.Add(guest);
-                        db.Guests.Attach(existing);
-                        retVal.Add(existing);
-                    }
-
-                }
-
-            }
-
-            foreach (var guest in toRemove)
-            {
-                db.Guests.Remove(guest);
-            }
-            return retVal;
-        }
-    }
-
     public class Guest
     {
         public string userId { get; set; }

@@ -37,7 +37,7 @@ namespace gliist_server.Controllers
                 return NotFound();
             }
 
-            return Ok(new Event { title = "Eran the king" });
+            return Ok(@event);
         }
 
         // PUT api/Event/5

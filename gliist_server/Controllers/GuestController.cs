@@ -75,7 +75,7 @@ namespace gliist_server.Controllers
 
         // POST api/Guest
         [ResponseType(typeof(Guest))]
-        public async Task<IHttpActionResult> PostGuest(Guest guest)
+        public async Task<IHttpActionResult> PostGuest(Guest guest, int eventId)
         {
             if (!ModelState.IsValid)
             {
