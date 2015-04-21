@@ -1,16 +1,13 @@
 <ion-pane class="light-bg" ng-init="init()">
     <ion-content class="content-body">
         <div class="row">
-            <h3 class="dark-text">This Week</h3>
+            <h3 class="dark-text">My Events</h3>
         </div>
 
         <div class="list">
             <div ng-repeat="event in events" ui-sref="app.event({eventId:{{event.id}}})">
                 <event-preview-item event="event"></event-preview-item>
             </div>
-        </div>
-        <div class="row row-center">
-            <h3 class="dark-text">Next Week</h3>
         </div>
 
     </ion-content>

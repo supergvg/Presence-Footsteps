@@ -17,6 +17,17 @@
     background-color: #EEEEEE;
 }
 
+.spinner {
+    width: 28px;
+    height: 28px;
+    stroke: #444;
+    fill: #444;
+}
+
+.no-padding{
+
+}
+
 .dark-text {
     color: #B6B6B6;
 }
