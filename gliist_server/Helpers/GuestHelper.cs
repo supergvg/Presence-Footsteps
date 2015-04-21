@@ -14,13 +14,23 @@ namespace gliist_server.Helpers
     {
         public const string ON_THE_SPOT_GL = "On The Spot";
 
-        public static void AddGuestToEvent(Guest guest, Event @event)
+        public static void AddGuestToEvent(Guest guest, Event @event, EventDBContext db)
         {
 
-            if (@event.guestLists.Where(gl => string.Equals(gl.title, ON_THE_SPOT_GL)))
-            {
+           var onTheSpotGL = @event.guestLists.SingleOrDefault(gl => string.Equals(gl.title, ON_THE_SPOT_GL));
 
-            }
+
+           if (onTheSpotGL == null)
+           {
+
+           }
+           else
+           {
+
+           }
+            
+
+            
 
         }
 
