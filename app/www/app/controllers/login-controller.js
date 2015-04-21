@@ -55,8 +55,6 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
                 $state.go('app.home');
             }
         };
-
-        $scope.init();
     }
 
 ]);
