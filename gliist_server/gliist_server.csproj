@@ -197,9 +197,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\GuestHelper.cs" />
     <Compile Include="Migrations\201504160614159_initial.cs" />
     <Compile Include="Migrations\201504160614159_initial.Designer.cs">
       <DependentUpon>201504160614159_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504190511173_categories.cs" />
+    <Compile Include="Migrations\201504190511173_categories.Designer.cs">
+      <DependentUpon>201504190511173_categories.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -242,6 +247,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201504160614159_initial.resx">
       <DependentUpon>201504160614159_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504190511173_categories.resx">
+      <DependentUpon>201504190511173_categories.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

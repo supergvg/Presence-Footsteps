@@ -9,14 +9,14 @@ using System.ComponentModel.DataAnnotations;
 namespace gliist_server.Models
 {
     public class Event
-    {
+    {       
         public string userId { get; set; }
 
         public int id { get; set; }
         [Required]
         public string title { get; set; }
 
-        public string[] categories { get; set; }
+        public string category { get; set; }
 
         public string description { get; set; }
 
