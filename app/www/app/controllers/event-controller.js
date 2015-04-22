@@ -1,11 +1,22 @@
 angular.module('starter').controller('eventController',
-    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService',
-        function ($scope, $rootScope, eventsService, $stateParams, dialogService) {
+    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner',
+        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner) {
 
 
             $scope.title = 'Event';
 
             $scope.currentUser = $rootScope.currentUser;
+
+            $scope.scanBarcode = function () {
+                $cordovaBarcodeScanner
+                    .scan()
+                    .then(function (barcodeData) {
+                        alert(JSON.stringfy(barcodeData));
+                    }, function (error) {
+                        // An error occurred
+                    });
+
+            };
 
             $scope.initGuestListView = function () {
                 var eventId = $stateParams.eventId;
