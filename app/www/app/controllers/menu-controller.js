@@ -21,10 +21,6 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
                 href: '#/app/search'
             },
             {
-                text: 'Add Guests',
-                href: '#/app/search'
-            },
-            {
                 text: 'Stats',
                 href: '#/app/search'
             },

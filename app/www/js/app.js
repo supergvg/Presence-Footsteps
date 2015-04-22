@@ -59,11 +59,20 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                 }
             })
             .state('app.add_guest', {
-                url: 'event/add/:guestId/:eventId',
+                url: '/event/add/:guestId/:eventId',
+                views: {
+                    'menuContent': {
+                        controller: 'addGuestController',
+                        templateUrl: 'app/guests/templates/add-guest.html'
+                    }
+                }
+            })
+            .state('app.view_guests', {
+                url: '/event/guests/:eventId',
                 views: {
                     'menuContent': {
                         controller: 'guestController',
-                        templateUrl: 'app/guests/templates/add-guest.html'
+                        templateUrl: 'app/guests/templates/view-guest-list.html'
                     }
                 }
             })

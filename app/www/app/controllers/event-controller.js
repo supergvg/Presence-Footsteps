@@ -8,13 +8,12 @@ angular.module('starter').controller('eventController',
             $scope.onLoginClicked = function () {
                 alert('welcome');
             };
-
             $scope.init = function () {
 
-                var eventId = $stateParams.eventId;
+                $scope.eventId = $stateParams.eventId;
 
 
-                $scope.event = eventsService.getEvents(eventId).then(
+                $scope.event = eventsService.getEvents($scope.eventId).then(
                     function (event) {
                         $scope.currentEvent = event;
 
