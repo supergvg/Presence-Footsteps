@@ -11,6 +11,9 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
 using System.Web.Http.Cors;
+using gliist_server.Helpers;
+using Microsoft.AspNet.Identity;
+
 
 namespace gliist_server.Controllers
 {
@@ -75,8 +78,10 @@ namespace gliist_server.Controllers
 
         // POST api/Guest
         [ResponseType(typeof(Guest))]
-        public async Task<IHttpActionResult> PostGuest(Guest guest, int eventId)
+        public async Task<IHttpActionResult> PostGuest(Guest guest)
         {
+            var userId = User.Identity.GetUserId();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
