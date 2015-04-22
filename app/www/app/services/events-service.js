@@ -18,6 +18,23 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 return d.promise;
             },
 
+            addGuetToEvent: function (guest, eventId) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/AddGuest",
+                    data: {guest: guest, eventId: eventId}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
+
             getEvents: function (id) {
                 var d = $q.defer();
 

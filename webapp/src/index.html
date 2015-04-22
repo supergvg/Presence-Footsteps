@@ -55,7 +55,7 @@
     <div flex layout="row" layout-fill>
         <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
                     class="md-whiteframe-z2"
-                    ng-if="currentUser" style="background-color: #18D8DB">
+                    ng-if="currentUser" ng-cloak style="background-color: #18D8DB">
             <div ng-style="userProfilePic">
             </div>
             <md-list role="list">

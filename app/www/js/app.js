@@ -71,7 +71,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                 url: '/event/guests/:eventId',
                 views: {
                     'menuContent': {
-                        controller: 'guestController',
+                        controller: 'eventController',
                         templateUrl: 'app/guests/templates/view-guest-list.html'
                     }
                 }

@@ -3,9 +3,18 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
     function ($scope, $stateParams, eventsService, dialogService, $state) {
         $scope.title = 'Guest';
 
+        $scope.currentGuest = {};
 
         $scope.onAdClicked = function () {
-            alert('added');
+            eventsService.addGuetToEvent($scope.currentGuest, $scope.currentEvent.id).then(
+                function () {
+                    dialogService.success('Guest added');
+
+                },
+                function () {
+                    dialogService.error('Oops there was a problem adding guest, please try again');
+                }
+            )
         };
 
         $scope.init = function () {
