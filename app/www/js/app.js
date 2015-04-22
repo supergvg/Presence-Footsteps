@@ -93,6 +93,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                         templateUrl: 'app/templates/event.html'
                     }
                 }
+            }).state('app.event_stats', {
+                url: '/stats/:eventId',
+                views: {
+                    'menuContent': {
+                        controller: 'statsController',
+                        templateUrl: 'app/events/templates/event-stats.html'
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise("/login");

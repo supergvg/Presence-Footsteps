@@ -22,7 +22,7 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
             },
             {
                 text: 'Stats',
-                href: '#/app/search'
+                href: '#/app/stats'
             },
             {
                 text: 'Alerts',
