@@ -14,9 +14,6 @@ namespace gliist_server.Models
         public string userId { get; set; }
 
         [JsonIgnore]
-        public virtual List<Event> linked_events { get; set; }
-
-        [JsonIgnore]
         public virtual List<GuestList> linked_guest_lists { get; set; }
 
         public int id { get; set; }

@@ -3,7 +3,7 @@ namespace gliist_server.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class Inital : DbMigration
     {
         public override void Up()
         {
@@ -14,27 +14,44 @@ namespace gliist_server.Migrations
                         id = c.Int(nullable: false, identity: true),
                         userId = c.String(),
                         title = c.String(nullable: false),
+                        category = c.String(),
                         description = c.String(),
                         location = c.String(),
                         capacity = c.Int(nullable: false),
                         date = c.DateTime(nullable: false),
                         time = c.DateTime(nullable: false),
-                        Guest_id = c.Int(),
                     })
-                .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.Guests", t => t.Guest_id)
-                .Index(t => t.Guest_id);
+                .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.GuestLists",
+                "dbo.GuestListInstances",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        userId = c.String(),
-                        listType = c.String(),
-                        title = c.String(),
+                        linked_event_id = c.Int(),
+                        linked_guest_list_id = c.Int(),
                     })
-                .PrimaryKey(t => t.id);
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Events", t => t.linked_event_id)
+                .ForeignKey("dbo.GuestLists", t => t.linked_guest_list_id)
+                .Index(t => t.linked_event_id)
+                .Index(t => t.linked_guest_list_id);
+            
+            CreateTable(
+                "dbo.GuestCheckins",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        time = c.DateTime(nullable: false),
+                        plus = c.Int(nullable: false),
+                        guest_id = c.Int(),
+                        guestList_id = c.Int(),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Guests", t => t.guest_id)
+                .ForeignKey("dbo.GuestListInstances", t => t.guestList_id)
+                .Index(t => t.guest_id)
+                .Index(t => t.guestList_id);
             
             CreateTable(
                 "dbo.Guests",
@@ -46,6 +63,17 @@ namespace gliist_server.Migrations
                         lastName = c.String(nullable: false),
                         phoneNumber = c.String(),
                         email = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.id);
+            
+            CreateTable(
+                "dbo.GuestLists",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        userId = c.String(),
+                        listType = c.String(),
+                        title = c.String(),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -117,30 +145,17 @@ namespace gliist_server.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.GuestGuestLists",
+                "dbo.GuestListGuests",
                 c => new
                     {
+                        GuestList_id = c.Int(nullable: false),
                         Guest_id = c.Int(nullable: false),
-                        GuestList_id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Guest_id, t.GuestList_id })
+                .PrimaryKey(t => new { t.GuestList_id, t.Guest_id })
+                .ForeignKey("dbo.GuestLists", t => t.GuestList_id, cascadeDelete: true)
                 .ForeignKey("dbo.Guests", t => t.Guest_id, cascadeDelete: true)
-                .ForeignKey("dbo.GuestLists", t => t.GuestList_id, cascadeDelete: true)
-                .Index(t => t.Guest_id)
-                .Index(t => t.GuestList_id);
-            
-            CreateTable(
-                "dbo.GuestListEvents",
-                c => new
-                    {
-                        GuestList_id = c.Int(nullable: false),
-                        Event_id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.GuestList_id, t.Event_id })
-                .ForeignKey("dbo.GuestLists", t => t.GuestList_id, cascadeDelete: true)
-                .ForeignKey("dbo.Events", t => t.Event_id, cascadeDelete: true)
                 .Index(t => t.GuestList_id)
-                .Index(t => t.Event_id);
+                .Index(t => t.Guest_id);
             
         }
         
@@ -150,29 +165,32 @@ namespace gliist_server.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.GuestListEvents", "Event_id", "dbo.Events");
-            DropForeignKey("dbo.GuestListEvents", "GuestList_id", "dbo.GuestLists");
-            DropForeignKey("dbo.GuestGuestLists", "GuestList_id", "dbo.GuestLists");
-            DropForeignKey("dbo.GuestGuestLists", "Guest_id", "dbo.Guests");
-            DropForeignKey("dbo.Events", "Guest_id", "dbo.Guests");
+            DropForeignKey("dbo.GuestListInstances", "linked_guest_list_id", "dbo.GuestLists");
+            DropForeignKey("dbo.GuestListInstances", "linked_event_id", "dbo.Events");
+            DropForeignKey("dbo.GuestCheckins", "guestList_id", "dbo.GuestListInstances");
+            DropForeignKey("dbo.GuestCheckins", "guest_id", "dbo.Guests");
+            DropForeignKey("dbo.GuestListGuests", "Guest_id", "dbo.Guests");
+            DropForeignKey("dbo.GuestListGuests", "GuestList_id", "dbo.GuestLists");
             DropIndex("dbo.AspNetUserClaims", new[] { "User_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.GuestListEvents", new[] { "Event_id" });
-            DropIndex("dbo.GuestListEvents", new[] { "GuestList_id" });
-            DropIndex("dbo.GuestGuestLists", new[] { "GuestList_id" });
-            DropIndex("dbo.GuestGuestLists", new[] { "Guest_id" });
-            DropIndex("dbo.Events", new[] { "Guest_id" });
-            DropTable("dbo.GuestListEvents");
-            DropTable("dbo.GuestGuestLists");
+            DropIndex("dbo.GuestListInstances", new[] { "linked_guest_list_id" });
+            DropIndex("dbo.GuestListInstances", new[] { "linked_event_id" });
+            DropIndex("dbo.GuestCheckins", new[] { "guestList_id" });
+            DropIndex("dbo.GuestCheckins", new[] { "guest_id" });
+            DropIndex("dbo.GuestListGuests", new[] { "Guest_id" });
+            DropIndex("dbo.GuestListGuests", new[] { "GuestList_id" });
+            DropTable("dbo.GuestListGuests");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Guests");
             DropTable("dbo.GuestLists");
+            DropTable("dbo.Guests");
+            DropTable("dbo.GuestCheckins");
+            DropTable("dbo.GuestListInstances");
             DropTable("dbo.Events");
         }
     }

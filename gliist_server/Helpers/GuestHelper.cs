@@ -14,29 +14,32 @@ namespace gliist_server.Helpers
     {
         public const string ON_THE_SPOT_GL = "On The Spot";
 
-        public async static Task<List<Guest>> AddGuestToEvent(Guest guest, int eventId, string userId, EventDBContext db)
+        public static void AddGuestToEvent(Guest guest, int eventId, string userId, EventDBContext db)
         {
+            throw new NotImplementedException();
             var @event = db.Events.Single(e => e.id == eventId);
 
-            var onTheSpotGL = @event.guestLists.SingleOrDefault(gl => string.Equals(gl.title, ON_THE_SPOT_GL));
+            var onTheSpotGL = @event.guestLists.SingleOrDefault(gl => gl.linked_guest_list == null);
 
             if (onTheSpotGL == null)
             {
-                onTheSpotGL = new GuestList()
+                onTheSpotGL = new GuestListInstance()
                {
-                   userId = userId,
-                   linked_events = new List<Event>() { @event },
-                   listType = ON_THE_SPOT_GL,
-                   title = ON_THE_SPOT_GL,
-                   guests = new List<Guest>()
+                   linked_event = @event,
+                   actual = new List<GuestCheckin>()
                };
 
                 @event.guestLists.Add(onTheSpotGL);
             }
 
-            onTheSpotGL.guests.Add(guest);
+            onTheSpotGL.actual.Add(new GuestCheckin()
+            {
+                guest = guest,
+                guestList = onTheSpotGL,
+                plus = 0
+            });
 
-            return await Save(onTheSpotGL, userId, db);
+            db.Entry(@event).State = EntityState.Modified;
         }
 
 

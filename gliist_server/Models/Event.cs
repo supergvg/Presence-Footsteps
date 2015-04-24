@@ -4,12 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 
 namespace gliist_server.Models
 {
     public class Event
-    {       
+    {
         public string userId { get; set; }
 
         public int id { get; set; }
@@ -27,8 +28,7 @@ namespace gliist_server.Models
         public DateTime date { get; set; }
 
         public DateTime time { get; set; }
-
-        public virtual List<GuestList> guestLists { get; set; }
+        public virtual List<GuestListInstance> guestLists { get; set; }
 
     }
 }
