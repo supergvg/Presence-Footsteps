@@ -34,22 +34,36 @@ angular.module('gliist')
             };
 
 
-            $scope.onAddClicked = function (ev) {
+            $scope.onAddGLClicked = function (ev) {
                 var scope = $scope.$new();
                 scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
                 scope.save = $scope.save;
                 scope.selected = [];
 
+                scope.options = {
+                    enableSelection: true
+                };
+
                 scope.cancel = function () {
                     $mdDialog.hide();
                 };
 
+                $scope.importGLists = function () {
+                    eventsService.linkGuestList(scope.selected, $scope.event.id).then(
+                        function (guestListInstances) {
+                            $scope.event.guestLists = guestListInstances;
+                            dialogService.success('Guest lists were linked');
+                        }, function () {
+                            dialogService.error('There was a problem linking, please try again');
+                        }
+                    );
+                };
 
                 $mdDialog.show({
-                    controller: 'LinkGuestListCtrl',
+                    //controller: DialogController,
                     scope: scope,
-                    templateUrl: 'app/templates/events/link-guest-list-dialog.tmpl.html',
+                    templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
             }
@@ -64,7 +78,6 @@ angular.module('gliist')
                     guests: []
 
                 };
-
 
                 scope.cancel = function () {
                     $mdDialog.hide();
@@ -95,6 +108,26 @@ angular.module('gliist')
                     return;
                 }
 
+                if ($scope.data.selectedIndex == 0) {
+                    $scope.savingEvent = true;
+                    eventsService.createEvent($scope.event).then(
+                        function (res) {
+                            $scope.event.id = res.id;
+                            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+                            dialogService.success('Event created: ' + JSON.stringify(res));
+
+                        }, function () {
+                            dialogService.error('There was a problem saving your event, please try again');
+                        }
+                    ).finally(
+                        function () {
+                            $scope.savingEvent = false;
+                        }
+                    );
+
+                    return;
+                }
+
                 $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
             };
             $scope.previous = function () {
@@ -106,6 +139,7 @@ angular.module('gliist')
                 $scope.savingEvent = true;
                 eventsService.createEvent($scope.event).then(
                     function (res) {
+                        $scope.event.id = res.id;
                         dialogService.success('Event created: ' + JSON.stringify(res));
 
                     }, function () {

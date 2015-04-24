@@ -6,7 +6,7 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
         $scope.currentGuest = {};
 
         $scope.onAdClicked = function () {
-            eventsService.addGuetToEvent($scope.currentGuest, $scope.currentEvent.id).then(
+            eventsService.addGusetToEvent($scope.currentGuest, $scope.currentEvent.id).then(
                 function () {
                     dialogService.success('Guest added');
 

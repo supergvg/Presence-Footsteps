@@ -78,11 +78,12 @@ angular.module('gliist')
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
-            }
+            };
 
 
             $scope.addMore = function () {
                 $scope.list.guests.push({
+                    plus: 0
                 });
             };
 
@@ -95,7 +96,7 @@ angular.module('gliist')
                 guestFactory.GuestList.update($scope.list).$promise.then(
                     function (res) {
                         $scope.list.id = res.id;
-                        dialogService.success('Event created: ' + JSON.stringify(res));
+                        dialogService.success('Guest list saved');
 
                         if ($scope.onSave) {
                             $scope.onSave(res);

@@ -18,7 +18,7 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 return d.promise;
             },
 
-            addGuetToEvent: function (guest, eventId) {
+            addGuestToEvent: function (guest, eventId) {
                 var d = $q.defer();
 
                 $http({

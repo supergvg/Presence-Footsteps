@@ -1,0 +1,38 @@
+<div>
+    <md-content>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                              ng-show="fetchingData"></md-progress-circular>
+
+        <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
+
+
+
+        <md-list>
+            <md-item ng-repeat="instance in lists">
+                <md-item-content layout="row">
+                    <div layout="row" class="md-tile-content">
+                        <div flex="50">
+                            <h3>{{instance.linked_guest_list.title}}</h3>
+                        </div>
+                        <div flex="25">
+                            <h3>{{instance.linked_guest_list.guests.length}}</h3>
+                        </div>
+                        <div flex="25">
+                            <h3>{{instance.linked_guest_list.listType}}</h3>
+                        </div>
+                    </div>
+
+                    <md-button class="md-primary md-raised" ng-click="editInstance($event,glist)">
+                        <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="deleteInstance($event,glist)">
+                        <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
+                    </md-button>
+                </md-item-content>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-item>
+        </md-list>
+
+
+    </md-content>
+</div>
