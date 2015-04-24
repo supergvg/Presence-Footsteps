@@ -24,14 +24,14 @@
             </div>
         </div>
 
-        <div class="row row-center" ui-sref="app.scanBarcode"
+        <div class="row row-center"
              style="background: url('{{'../img/barcode.png'}}') center;
              background-size:cover;
              height:150px;
              width:100%;">
         </div>
         <div class="row" style="margin-top: 10px">
-            <button class="button button-calm centered" ui-sref="app.scanBarcode">
+            <button class="button button-calm centered" ng-click="scanBarcode()">
                 Scan Barcode
             </button>
         </div>
@@ -43,7 +43,7 @@
 
         <div class="button-bar">
             <a class="button button-calm" ui-sref="app.add_guest({eventId:{{eventId}}})"> Add Guests</a>
-            <a class="button button-calm" ui-sref="app.view_guests"> View All</a>
+            <a class="button button-calm" ui-sref="app.view_guests({eventId:{{eventId}}})"> View All</a>
         </div>
 
 

@@ -1,7 +1,5 @@
 <ion-pane class="light-bg" ng-init="init()">
     <ion-content class="content-body">
-
-
         <event-preview-item event="currentEvent"></event-preview-item>
 
         <h3>Add Guest</h3>
@@ -10,13 +8,13 @@
 
             <div class="list">
                 <label class="item item-input">
-                    <input type="text" placeholder="First Name">
+                    <input type="text" placeholder="First Name" ng-model="currentGuest.firstName">
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="Last Name">
+                    <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName">
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="john@suhr.com">
+                    <input type="text" placeholder="Email" ng-model="currentGuest.email">
                 </label>
             </div>
         </div>

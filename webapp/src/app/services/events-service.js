@@ -18,12 +18,48 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
                 return d.promise;
             },
 
-            getEvents: function () {
+            addGuestToEvent: function (guest, eventId) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/AddGuest",
+                    data: {guest: guest, eventId: eventId}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
+            linkGuestList: function (guestLists, eventId) {
+                var d = $q.defer(),
+                    ids = _.map(guestLists, function (gl) {
+                        return gl.id
+                    });
+
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/linkGuestList",
+                    data: {ids: ids, eventId: eventId}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
+            getEvents: function (id) {
                 var d = $q.defer();
 
                 $http({
                     method: "GET",
-                    url: "api/event"
+                    url: "api/event/" + (id || '')
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -51,30 +87,23 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
                 return d.promise;
             },
 
-            getGuests: function (eventId) {
-                return [
-                    {
-                        id: '1',
-                        name: 'John Doe',
-                        photo: 'img/company-logo.png'
-                    },
-                    {
-                        id: '2',
-                        name: 'Paris Hilton',
-                        photo: 'img/company-logo.png'
-                    },
-                    {
-                        id: '1',
-                        name: 'Kim Kardashian',
-                        photo: 'img/company-logo.png'
-                    },
-                    {
-                        id: '1',
-                        name: 'John Doe',
-                        photo: 'img/company-logo.png'
-                    }
+            getGuestInfo: function (eventId, guestId) {
+                var d = $q.defer();
 
-                ];
+                $http({
+                    method: "GET",
+                    url: "api/guest/",
+                    params: {
+                        eventId: eventId,
+                        guestId: guestId
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
             }
         }
     }]);

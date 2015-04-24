@@ -71,7 +71,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                 url: '/event/guests/:eventId',
                 views: {
                     'menuContent': {
-                        controller: 'guestController',
+                        controller: 'eventController',
                         templateUrl: 'app/guests/templates/view-guest-list.html'
                     }
                 }
@@ -91,6 +91,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                     'menuContent': {
                         controller: 'eventController',
                         templateUrl: 'app/templates/event.html'
+                    }
+                }
+            }).state('app.event_stats', {
+                url: '/stats/:eventId',
+                views: {
+                    'menuContent': {
+                        controller: 'statsController',
+                        templateUrl: 'app/events/templates/event-stats.html'
                     }
                 }
             });

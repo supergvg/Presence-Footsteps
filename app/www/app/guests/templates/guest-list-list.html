@@ -1,11 +1,11 @@
 <div style="background-color: #EEEEEE">
 
     <div class="item item-divider">
-        Guest List
+        {{list.title}}
     </div>
 
     <div class="list">
-        <a class="item item-avatar" ng-repeat="guest in list"
+        <a class="item item-avatar" ng-repeat="guest in list.guests"
            ui-sref="app.guest" style="background-color: #EEEEEE">
             <img src="../img/icons/user_01.png">
 
