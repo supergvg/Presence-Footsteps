@@ -24,7 +24,7 @@
     fill: #444;
 }
 
-.no-padding{
+.no-padding {
 
 }
 
@@ -123,4 +123,12 @@ input.rounded:focus {
     border-radius: 150px;
     -webkit-border-radius: 150px;
     -moz-border-radius: 150px;
+}
+
+.grey-bg-3 {
+    background-color: #999999
+}
+
+.white-text {
+    color: white;
 }
