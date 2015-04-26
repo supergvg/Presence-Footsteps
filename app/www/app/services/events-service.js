@@ -8,7 +8,7 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 $http({
                     method: "POST",
                     url: "api/event",
-                    data: event,
+                    data: event
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -34,6 +34,25 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 return d.promise;
             },
 
+            linkGuestList: function (guestLists, eventId) {
+                var d = $q.defer(),
+                    ids = _.map(guestLists, function (gl) {
+                        return gl.id
+                    });
+
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/linkGuestList",
+                    data: {ids: ids, eventId: eventId}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
 
             getEvents: function (id) {
                 var d = $q.defer();
@@ -68,20 +87,41 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 return d.promise;
             },
 
-            getGuestInfo: function (eventId, guestId) {
+
+            postGuestCheckin: function (checkinData) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/CheckinGuest",
+                    data: {
+                        guestId: checkinData.guest.id,
+                        gliId: checkinData.guestList.id,
+                        plus: checkinData.plus
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying check in guest, please try again');
+                });
+
+                return d.promise;
+            },
+
+            getGuestCheckin: function (guestId, gliId) {
                 var d = $q.defer();
 
                 $http({
                     method: "GET",
-                    url: "api/guest/",
+                    url: "api/GuestEventController/GetGuestCheckin",
                     params: {
-                        eventId: eventId,
+                        gliId: gliId,
                         guestId: guestId
                     }
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
-                    d.reject('Oops there was an error trying to get events, please try again');
+                    d.reject('Oops there was an error trying to get guest information, please try again');
                 });
 
                 return d.promise;

@@ -1,10 +1,14 @@
 <ion-pane class="light-bg" ng-init="initGuestListView()" style="background-color: #EEEEEE">
     <ion-content class="content-body">
-        <h1>Guest L2ist</h1>
+        <h1>Guest List</h1>
 
 
         <div class="list" ng-repeat="glist in currentEvent.guestLists">
-            <guest-list-list list="glist"></guest-list-list>
+            <div class="item item-divider">
+                {{glist.linked_guest_list.title}}
+            </div>
+
+            <guest-list-list list="glist.linked_guest_list"></guest-list-list>
         </div>
     </ion-content>
     <div class="bottom-bar">

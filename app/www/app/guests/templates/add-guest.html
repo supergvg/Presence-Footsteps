@@ -4,27 +4,32 @@
 
         <h3>Add Guest</h3>
 
-        <div>
 
-            <div class="list">
-                <label class="item item-input">
-                    <input type="text" placeholder="First Name" ng-model="currentGuest.firstName">
-                </label>
-                <label class="item item-input">
-                    <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName">
-                </label>
-                <label class="item item-input">
-                    <input type="text" placeholder="Email" ng-model="currentGuest.email">
-                </label>
-            </div>
+        <div class="list">
+            <label class="item item-input">
+                <input type="text" placeholder="First Name" ng-model="currentGuest.firstName" ng-readonly="addMore">
+                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+            </label>
+            <label class=" item item-input">
+                <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName" ng-readonly="addMore">
+                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="Email" ng-model="currentGuest.email" ng-readonly="addMore">
+                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+            </label>
         </div>
-        <button class="button button-calm button-full" ng-click="onAdClicked()">
+
+        <button class="button button-calm button-full" ng-click="onAddClicked()" ng-if="!addMore">
             Add
+        </button>
+        <button class="button button-calm button-full" ng-click="onAddMoreClicked()" ng-if="addMore">
+            Add More
         </button>
 
     </ion-content>
 
-    <div class="bottom-bar">
+    <div class="bar bar-footer logo-bg">
         <button class="back-button" ui-sref="app.home"></button>
     </div>
 </ion-pane>

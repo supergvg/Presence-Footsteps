@@ -18,7 +18,7 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
             },
             {
                 text: 'Past Events',
-                href: '#/app/search'
+                href: '#/app/past_events'
             },
             {
                 text: 'Stats',

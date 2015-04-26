@@ -1,12 +1,7 @@
 <div style="background-color: #EEEEEE">
-
-    <div class="item item-divider">
-        {{list.title}}
-    </div>
-
     <div class="list">
         <a class="item item-avatar" ng-repeat="guest in list.guests"
-           ui-sref="app.guest" style="background-color: #EEEEEE">
+           ui-sref="app.check_guest({guestId:guest.id, gliId:list.id})" style="background-color: #EEEEEE">
             <img src="../img/icons/user_01.png">
 
             <h2 class="">{{guest.firstName}} {{guest.lastName}}</h2>

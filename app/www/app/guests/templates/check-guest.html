@@ -1,0 +1,52 @@
+<ion-pane class="light-bg" ng-init="init()">
+
+    <ion-content class="content-body">
+        <h3>Check in Guest</h3>
+
+        <div class="row">
+            <div class="centered">
+                <img src="img/blank_user_icon.png">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="centered">
+                <h3>{{guestListInstance.linked_guest_list.listType}}</h3>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="centered">
+                <h3 style="text-align: center">{{currentGuest.firstName}}
+                    {{currentGuest.lastName}}</h3>
+            </div>
+        </div>
+        <div ng-if="guestCheckin.actual" ng-cloak>
+            <div class="row">
+                <div class="centered">
+                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.actual.time}}</h4>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!guestCheckin.actual" ng-cloak>
+
+            <div class="row">
+                <div class="centered">
+                    <label></label>
+                    <input type="number" min="0" max="guest.plus" step="1" ng-model="guestCheckin.plus"/>
+                </div>
+            </div>
+            <div class="row">
+                <button class="button button-calm centered" ng-click="checkIn()">
+                    Check In
+                </button>
+            </div>
+        </div>
+
+    </ion-content>
+
+    <div class="bottom-bar">
+        <button class="back-button" ui-sref="app.event"></button>
+    </div>
+</ion-pane>

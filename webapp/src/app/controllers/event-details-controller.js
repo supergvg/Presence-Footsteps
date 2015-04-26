@@ -39,7 +39,9 @@ angular.module('gliist')
                 scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
                 scope.save = $scope.save;
-                scope.selected = [];
+                scope.selected = _.map($scope.event.guestLists, function (gli) {
+                    return  gli.linked_guest_list;
+                });
 
                 scope.options = {
                     enableSelection: true
@@ -54,6 +56,7 @@ angular.module('gliist')
                         function (guestListInstances) {
                             $scope.event.guestLists = guestListInstances;
                             dialogService.success('Guest lists were linked');
+                            $mdDialog.hide();
                         }, function () {
                             dialogService.error('There was a problem linking, please try again');
                         }

@@ -5,9 +5,16 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
 
         $scope.currentGuest = {};
 
-        $scope.onAdClicked = function () {
-            eventsService.addGusetToEvent($scope.currentGuest, $scope.currentEvent.id).then(
+
+        $scope.onAddMoreClicked = function () {
+            $scope.currentGuest = {};
+            $scope.addMore = false;
+        };
+
+        $scope.onAddClicked = function () {
+            eventsService.addGuestToEvent($scope.currentGuest, $scope.currentEvent.id).then(
                 function () {
+                    $scope.addMore = true;
                     dialogService.success('Guest added');
 
                 },
@@ -29,9 +36,6 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
                 function (event) {
                     $scope.currentEvent = event;
 
-                    if ($scope.currentEvent.guestLists[0]) {
-                        $scope.guests = $scope.currentEvent.guestLists[0].guests;
-                    }
                 },
                 function () {
                     dialogService.error('Oops there was a problem getting event, please try again')
