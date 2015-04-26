@@ -199,9 +199,9 @@
     </Compile>
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
-    <Compile Include="Migrations\201504240915481_Inital.cs" />
-    <Compile Include="Migrations\201504240915481_Inital.Designer.cs">
-      <DependentUpon>201504240915481_Inital.cs</DependentUpon>
+    <Compile Include="Migrations\201504260337454_Inital.cs" />
+    <Compile Include="Migrations\201504260337454_Inital.Designer.cs">
+      <DependentUpon>201504260337454_Inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -244,8 +244,8 @@
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504240915481_Inital.resx">
-      <DependentUpon>201504240915481_Inital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201504260337454_Inital.resx">
+      <DependentUpon>201504260337454_Inital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

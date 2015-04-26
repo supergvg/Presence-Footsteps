@@ -26,5 +26,8 @@ namespace gliist_server.Models
 
         [Required]
         public string email { get; set; }
+
+        public int plus { get; set; }
+
     }
 }

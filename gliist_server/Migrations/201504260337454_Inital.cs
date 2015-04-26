@@ -63,6 +63,7 @@ namespace gliist_server.Migrations
                         lastName = c.String(nullable: false),
                         phoneNumber = c.String(),
                         email = c.String(nullable: false),
+                        plus = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
             

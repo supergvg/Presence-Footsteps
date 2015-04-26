@@ -16,28 +16,34 @@ namespace gliist_server.Helpers
 
         public static void AddGuestToEvent(Guest guest, int eventId, string userId, EventDBContext db)
         {
-            throw new NotImplementedException();
             var @event = db.Events.Single(e => e.id == eventId);
 
-            var onTheSpotGL = @event.guestLists.SingleOrDefault(gl => gl.linked_guest_list == null);
+            var onTheSpotGL = @event.guestLists.SingleOrDefault(gl => string.Equals(gl.linked_guest_list.listType, ON_THE_SPOT_GL));
 
             if (onTheSpotGL == null)
             {
                 onTheSpotGL = new GuestListInstance()
                {
                    linked_event = @event,
-                   actual = new List<GuestCheckin>()
+                   actual = new List<GuestCheckin>(),
+                   linked_guest_list = new GuestList()
+                   {
+                       userId = userId,
+                       title = string.Format("{0} {1}", ON_THE_SPOT_GL, @event.title),
+                       listType = ON_THE_SPOT_GL,
+                       guests = new List<Guest>()
+                       {
+                          guest
+                       }
+                   }
                };
 
                 @event.guestLists.Add(onTheSpotGL);
             }
-
-            onTheSpotGL.actual.Add(new GuestCheckin()
+            else
             {
-                guest = guest,
-                guestList = onTheSpotGL,
-                plus = 0
-            });
+                onTheSpotGL.linked_guest_list.guests.Add(guest);
+            }
 
             db.Entry(@event).State = EntityState.Modified;
         }

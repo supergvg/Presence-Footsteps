@@ -17,6 +17,7 @@ using Microsoft.AspNet.Identity;
 
 namespace gliist_server.Controllers
 {
+
     [Authorize]
     public class GuestController : ApiController
     {
@@ -26,7 +27,9 @@ namespace gliist_server.Controllers
         // GET api/Guest
         public IQueryable<Guest> GetGuests()
         {
-            return db.Guests;
+            var userId = User.Identity.GetUserId();
+
+            return db.Guests.Where(g => string.Equals(g.userId, userId));
         }
 
         // GET api/Guest/5
