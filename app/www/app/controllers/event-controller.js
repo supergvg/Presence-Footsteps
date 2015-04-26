@@ -40,16 +40,26 @@ angular.module('starter').controller('eventController',
                     function (event) {
                         $scope.currentEvent = event;
 
-                        if ($scope.currentEvent.guestLists[0]) {
-                            $scope.guests = $scope.currentEvent.guestLists[0];
-                        }
+                        $scope.guests = {
+                            guests: []
+                        };
+                        angular.forEach($scope.currentEvent.guestLists, function (gli) {
+                                if (gli.linked_guest_list) {
+                                    $scope.guests.guests = $scope.guests.guests.concat(gli.linked_guest_list.guests);
+                                }
+
+                            }
+                        );
                     },
                     function () {
                         dialogService.error('Oops there was a problem getting event, please try again')
                     }
-                );
+                )
+                ;
 
-            };
+            }
+            ;
         }
 
-    ]);
+    ])
+;

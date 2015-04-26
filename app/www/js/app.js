@@ -48,13 +48,21 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                         controller: 'homeController'
                     }
                 }
-            })
-            .state('app.guest', {
-                url: '/guest/:guestId',
+            }).state('app.past_events', {
+                url: '/past_events',
                 views: {
                     'menuContent': {
-                        controller: 'guestController',
-                        templateUrl: 'app/templates/guest.html'
+                        templateUrl: 'app/events/templates/event-past.html',
+                        controller: 'pastEventController'
+                    }
+                }
+            })
+            .state('app.check_guest', {
+                url: '/event/checkin/:gliId/:guestId',
+                views: {
+                    'menuContent': {
+                        controller: 'checkGuestController',
+                        templateUrl: 'app/guests/templates/check-guest.html'
                     }
                 }
             })
@@ -91,6 +99,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                     'menuContent': {
                         controller: 'eventController',
                         templateUrl: 'app/templates/event.html'
+                    }
+                }
+            }).state('app.stats', {
+                url: '/stats/',
+                views: {
+                    'menuContent': {
+                        controller: 'statsController',
+                        templateUrl: 'app/events/templates/event-stats.html'
                     }
                 }
             }).state('app.event_stats', {
