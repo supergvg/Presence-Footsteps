@@ -27,10 +27,6 @@ angular.module('gliist')
                 });
             };
 
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            };
-
             $scope.deleteGlist = function (ev, glist) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
@@ -68,8 +64,13 @@ angular.module('gliist')
 
                 var scope = $scope.$new();
                 scope.currentGlist = event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
+                scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                scope.save = function () {
+                    $mdDialog.toggle();
+                }
 
                 $mdDialog.show({
                     //controller: DialogController,

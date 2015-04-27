@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$timeout',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $timeout) {
             'use strict';
 
             $rootScope.$watch('currentUser', function (newValue) {
@@ -13,13 +13,21 @@ angular.module('gliist')
                 }
             });
 
+            $scope.hidePhoto = false;
+
             $rootScope.$on('userUpdated', function () {
-                $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser);
+                $scope.suffix = (new Date()).getTime();
+
+                $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser, $scope.suffix);
             });
 
             $scope.getUserPhoto = function (height) {
-                $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser);
+                $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser, $scope.suffix);
             };
+
+            $scope.userProfilePic_watch = function () {
+                return $scope.userProfilePic;
+            }
 
             $scope.credentials = {
 

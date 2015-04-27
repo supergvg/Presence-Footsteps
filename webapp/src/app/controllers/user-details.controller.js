@@ -5,16 +5,12 @@ angular.module('gliist')
         function ($scope, $rootScope, userService, dialogService, uploaderService, $mdDialog) {
 
 
-            $rootScope.$watch('currentUser', function (newValue) {
-                $scope.currentUser = angular.copy(newValue);
-            });
-
             $scope.data = {
                 selectedIndex: 0
             };
 
             $scope.getUserPhoto = function (height) {
-                return userService.getUserPhoto(height, $scope.currentUser);
+                return userService.getUserPhoto(height, $scope.user);
             };
 
             $scope.displayErrorMessage = function (field) {
@@ -50,9 +46,10 @@ angular.module('gliist')
                     return;
                 }
 
-                userService.updateUserProfile($scope.currentUser).then(
+                userService.updateUserProfile($scope.user).then(
                     function () {
                         dialogService.success('Changes saved');
+                        $scope.editMode = false;
                     },
                     function (err) {
                         dialogService.error(err);

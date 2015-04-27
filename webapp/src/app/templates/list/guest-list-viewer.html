@@ -19,7 +19,7 @@
                         </div>
                     </div>
 
-                    <md-button class="md-primary md-raised" ng-click="showGlistDialog($event,glist)">
+                    <md-button class="md-primary md-raised" ui-sref="main.edit_glist({listId:{{glist.id}}})">
                         <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
                     </md-button>
                     <md-button class="md-primary md-raised" ng-click="deleteGlist($event,glist)">

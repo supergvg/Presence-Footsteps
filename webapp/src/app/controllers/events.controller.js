@@ -15,7 +15,7 @@ angular.module('gliist')
             };
 
             $scope.save = function () {
-                alert('save');
+                alert('events-controller save');
             };
 
         }]);

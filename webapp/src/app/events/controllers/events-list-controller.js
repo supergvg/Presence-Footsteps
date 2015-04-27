@@ -76,7 +76,7 @@ angular.module('gliist')
             };
 
             $scope.save = function () {
-                alert('save');
+                alert('events-list-save');
             };
 
             $scope.init = function () {

@@ -54,11 +54,9 @@ angular.module('starter').controller('eventController',
                     function () {
                         dialogService.error('Oops there was a problem getting event, please try again')
                     }
-                )
-                ;
+                );
 
-            }
-            ;
+            };
         }
 
     ])
