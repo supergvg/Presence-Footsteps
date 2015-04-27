@@ -126,20 +126,27 @@ namespace gliist_server.Controllers
         public async Task<HttpResponseMessage> GetProfilePicture(string userId)
         {
             var user = await UserManager.FindByIdAsync(userId);
-
+            Stream imgStream;
+            string fileName;
             if (string.IsNullOrEmpty(user.profilePicture))
             {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest); //need to return default image
+                var path = System.Web.HttpContext.Current.Server.MapPath("~/images/blank_user_icon.png");
+                fileName = "blank_user_icon.png";
+                imgStream = new FileStream(path, FileMode.Open);
             }
+            else
+            {
+                imgStream = new MemoryStream(user.profilePictureData);
+                fileName = user.profilePicture;
 
-            MemoryStream memoryStream = new MemoryStream(user.profilePictureData);
+            }
             var resp = new HttpResponseMessage()
             {
-                Content = new StreamContent(memoryStream)
+                Content = new StreamContent(imgStream)
             };
 
             // Find the MIME type
-            string mimeType = FileUploadHelper.GetMimeType(Path.GetExtension(user.profilePicture));
+            string mimeType = FileUploadHelper.GetMimeType(Path.GetExtension(fileName));
             resp.Content.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
 
             return resp;
