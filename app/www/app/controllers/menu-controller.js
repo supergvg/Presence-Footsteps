@@ -1,14 +1,22 @@
-angular.module('starter').controller('menuController', ['$scope', '$ionicSideMenuDelegate',
+angular.module('starter').controller('menuController', ['$scope', '$ionicSideMenuDelegate', 'userService', '$state', '$rootScope',
 
-    function ($scope, $ionicSideMenuDelegate) {
+    function ($scope, $ionicSideMenuDelegate, userService, $state, $rootScope) {
+
+        $rootScope.$watch('currentUser', function (newVal) {
+            $scope.userProfilePic = userService.getUserPhoto('250px', $rootScope.currentUser);
+        });
 
         $scope.getUserPhoto = function (height) {
-            return {
-                'background-image': 'url(../img/blank_user_icon.png)',
-                'background-position': 'center center',
-                'height': height || '250px',
-                'background-size': 'cover'
-            };
+            $scope.userProfilePic = userService.getUserPhoto('250px', $rootScope.currentUser);
+        };
+
+        $scope.userProfilePic_watch = function () {
+            return $scope.userProfilePic;
+        }
+
+        $scope.logout = function () {
+            userService.logout();
+            $state.go('login');
         };
 
         $scope.menuItems = [
@@ -30,11 +38,7 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
              },*/
             {
                 text: 'Profile',
-                href: '#/app/search'
-            },
-            {
-                text: 'Logout',
-                href: '#/app/search'
+                href: '#/app/profile'
             }
         ];
 

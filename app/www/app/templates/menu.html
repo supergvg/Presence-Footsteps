@@ -3,12 +3,6 @@
         <ion-nav-bar class="bar-stable logo-bg">
 
             <ion-nav-title>
-                <div class="bar bar-header item-input-inset" style="margin-left: 50px">
-                    <label class="item-input-wrapper">
-                        <i class="icon ion-ios7-search placeholder-icon"></i>
-                        <input type="search" placeholder="Search Guests">
-                    </label>
-                </div>
             </ion-nav-title>
 
             <ion-nav-back-button>
@@ -31,12 +25,14 @@
             <img class="top-bar-logo centered" src="img/gliist_logo.png"/>
         </ion-header-bar>
         <ion-content class="logo-bg">
-            <div ng-style="getUserPhoto()"></div>
+            <div ng-style="userProfilePic_watch()"></div>
             <ion-list>
                 <ion-item nav-clear menu-close ng-repeat="item in menuItems" ng-href="{{item.href}}" class="logo-bg">
                     {{item.text}}
                 </ion-item>
-
+                <ion-item nav-clear menu-close ng-click="logout()" class="logo-bg white-text">
+                    Logout
+                </ion-item>
             </ion-list>
         </ion-content>
     </ion-side-menu>

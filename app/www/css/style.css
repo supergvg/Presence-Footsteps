@@ -125,6 +125,10 @@ input.rounded:focus {
     -moz-border-radius: 150px;
 }
 
+.grey-bg-1 {
+    background-color: #B6B6B6 !important;
+}
+
 .grey-bg-3 {
     background-color: #999999
 }

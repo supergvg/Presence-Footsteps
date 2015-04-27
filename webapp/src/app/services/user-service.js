@@ -24,7 +24,7 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
             setAuthToken = function (token) {
                 access_token = token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + getAuthToken();
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             },
             getAuthToken = function () {
 
@@ -53,7 +53,6 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
                     'background-size': 'cover'
                 };
             },
-
 
             updateUserProfile: function (user) {
 
