@@ -56,7 +56,7 @@
         <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
                     class="md-whiteframe-z2"
                     ng-if="currentUser" ng-cloak style="background-color: #18D8DB">
-            <div ng-style="userProfilePic">
+            <div ng-style="userProfilePic_watch()">
             </div>
             <md-list role="list">
                 <md-item ng-repeat="it in menuItems">

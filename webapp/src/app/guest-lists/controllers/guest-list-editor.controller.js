@@ -95,7 +95,7 @@ angular.module('gliist')
                 }
                 guestFactory.GuestList.update($scope.list).$promise.then(
                     function (res) {
-                        $scope.list.id = res.id;
+                        _.extend($scope.list, res);
                         dialogService.success('Guest list saved');
 
                         if ($scope.onSave) {

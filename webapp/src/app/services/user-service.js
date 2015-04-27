@@ -37,10 +37,10 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
         return  {
 
-            getUserPhoto: function (height, currentUser) {
+            getUserPhoto: function (height, currentUser, suffix) {
                 var bgImg;
                 if (currentUser) {
-                    bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + currentUser.userId;
+                    bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + currentUser.userId + "&suffix=" + suffix;
                     bgImg = "url(" + bgImg + ")";
                 } else {
                     bgImg = "url('assets/images/blank_user_icon.png')";
@@ -193,5 +193,4 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
             }
         }
     }
-])
-;
+]);

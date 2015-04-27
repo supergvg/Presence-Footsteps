@@ -14,7 +14,7 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
         $scope.menuItems = [
             {
                 text: 'Current Events',
-                href: '#/app/search'
+                href: '#/app/home'
             },
             {
                 text: 'Past Events',
@@ -24,10 +24,10 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
                 text: 'Stats',
                 href: '#/app/stats'
             },
-            {
-                text: 'Alerts',
-                href: '#/app/search'
-            },
+            /*{
+             text: 'Alerts',
+             href: '#/app/search'
+             },*/
             {
                 text: 'Profile',
                 href: '#/app/search'

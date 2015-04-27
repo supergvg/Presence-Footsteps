@@ -1,4 +1,5 @@
 <md-content class="md-padding">
+    <h3 class="md-title" ng-show="currentEvents.length == 0">No guest lists found</h3>
 
     <md-list>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
@@ -34,7 +35,7 @@
                     <md-button class="md-primary md-raised" ng-click="deleteEvent($event,event)">
                         <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-click="showEventDialog($event,event)">
+                    <md-button class="md-primary md-raised" ui-sref="main.edit_event({eventId:{{event.id}}})">
                         <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
                     </md-button>
                 </div>
@@ -42,6 +43,8 @@
             <md-divider ng-if="!$last"></md-divider>
         </md-item>
     </md-list>
+
+
 </md-content>
 
 

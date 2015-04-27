@@ -1,6 +1,5 @@
 <div layout="column">
     <md-whiteframe class="md-whiteframe-z1" flex>
-
         <div ng-show="!editMode" layout layout-align="center center">
             <div flex="30" ng-style="getUserPhoto('150px')">
             </div>
@@ -90,7 +89,7 @@
                         <textarea ng-model="user.bio" columns="1"></textarea>
                     </md-input-container>
                 </div>
-                <div layout layout-sm="column">
+                <div layout layout-sm="column" ng-show="false">
                     <md-input-container flex>
                         <label>Password</label>
                         <input>

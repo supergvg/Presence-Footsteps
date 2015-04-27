@@ -62,6 +62,10 @@ angular.module('gliist', [
                     url: '/',
                     templateUrl: 'app/templates/create-event.html',
                     controller: 'EventsCtrl'
+                }).state('main.edit_event', {
+                    url: '/event/edit/:eventId',
+                    templateUrl: 'app/events/templates/edit-event.html',
+                    controller: 'EditEventCtrl'
                 }).state('main.current_events', {
                     url: '/current_events',
                     templateUrl: 'app/templates/current-events.html',
@@ -74,10 +78,10 @@ angular.module('gliist', [
                     url: '/list_management',
                     templateUrl: 'app/guest-lists/templates/list-management.html',
                     controller: 'GuestListCtrl'
-                }).state('main.edit_list_management', {
-                    url: '/edit_list_management',
-                    templateUrl: 'app/templates/list/edit-list-management.html',
-                    controller: 'GuestListCtrl'
+                }).state('main.edit_glist', {
+                    url: '/edit_list_management/:listId',
+                    templateUrl: 'app/guest-lists/templates/edit-list-management.html',
+                    controller: 'EditGuestListCtrl'
                 }).state('main.create_list_management', {
                     url: '/create_list_management',
                     templateUrl: 'app/guest-lists/templates/create-list-management.html',
@@ -106,6 +110,10 @@ angular.module('gliist', [
                                 $state.go('main', {}, { notify: true }); //when logged in always go by default to home
                                 event.preventDefault();
                             }
+                        }, function () {
+                            return $state.go('home', {}, {
+                                notify: true
+                            });
                         }).finally(function () {
                             angular.element('#loading').remove();
                             $timeout(function () {

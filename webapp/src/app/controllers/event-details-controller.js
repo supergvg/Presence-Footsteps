@@ -21,7 +21,7 @@ angular.module('gliist')
             ];
 
             $scope.data = {
-                selectedIndex: 2
+                selectedIndex: 0
             };
 
             $scope.glmOptions = {
@@ -117,7 +117,7 @@ angular.module('gliist')
                         function (res) {
                             $scope.event.id = res.id;
                             $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-                            dialogService.success('Event created: ' + JSON.stringify(res));
+                            dialogService.success('Event ' + res.event.title + 'created');
 
                         }, function () {
                             dialogService.error('There was a problem saving your event, please try again');
@@ -143,7 +143,7 @@ angular.module('gliist')
                 eventsService.createEvent($scope.event).then(
                     function (res) {
                         $scope.event.id = res.id;
-                        dialogService.success('Event created: ' + JSON.stringify(res));
+                        dialogService.success('Event ' + res.event.title + 'created');
 
                     }, function () {
                         dialogService.error('There was a problem saving your event, please try again');
