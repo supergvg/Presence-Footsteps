@@ -29,15 +29,26 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var gl = await FileUploadHelper.ParseCSV(this.Request, userId, db);
 
-            await GuestHelper.Save(gl, userId, db);
+            gl.userId = userId;
 
+            foreach (var guest in gl.guests)
+            {
+                var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
 
-            //var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (existing != null)
+                {
+                    //db.Entry(existing).State = EntityState.Modified;
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    guest.userId = userId;
+                    guest.linked_guest_lists.Add(gl);
+                    db.Guests.Add(guest);
+                }
+            }
 
-            //user.profilePictureData = profilePicImage.Item2;
-            //user.profilePicture = profilePicImage.Item1;
-
-            //_db.Entry(user).State = EntityState.Modified;
+            db.GuestLists.Add(gl);
 
             try
             {

@@ -90,6 +90,8 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
+            guest.userId = userId;
+
             db.Guests.Add(guest);
             await db.SaveChangesAsync();
 

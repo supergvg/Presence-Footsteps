@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
+using gliist_server.Helpers;
 
 
 namespace gliist_server.Controllers
@@ -82,10 +83,6 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(GuestList))]
         public async Task<IHttpActionResult> PostGuestList(GuestList guestList)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var userId = User.Identity.GetUserId();
 
             GuestList existingGuestList;
@@ -97,17 +94,47 @@ namespace gliist_server.Controllers
                     throw new NotImplementedException();
                 }
                 existingGuestList.title = guestList.title;
-                existingGuestList.guests = guestList.guests;
+                existingGuestList.listType = guestList.listType;
                 db.Entry(existingGuestList).State = EntityState.Modified;
+
+
+                foreach (var guest in guestList.guests)
+                {
+                    if (guest.id > 0)
+                    {
+                        db.Entry(guest).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        guest.userId = userId;
+                        guest.linked_guest_lists.Add(existingGuestList);
+                        db.Guests.Add(guest);
+                    }
+                }
             }
             else
             {
                 guestList.userId = userId;
-                db.GuestLists.Add(guestList);
-                existingGuestList = guestList;
-            }
 
-            //guestList.guests = await GuestHelper.Save(existingGuestList, userId, db);
+                foreach (var guest in guestList.guests)
+                {
+                    var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
+
+                    if (existing != null)
+                    {
+                        //db.Entry(existing).State = EntityState.Modified;
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        guest.userId = userId;
+                        guest.linked_guest_lists.Add(guestList);
+                        db.Guests.Add(guest);
+                    }
+                }
+
+                db.GuestLists.Add(guestList);
+            }
 
             await db.SaveChangesAsync();
 

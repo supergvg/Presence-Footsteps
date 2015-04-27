@@ -7,10 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
+
 namespace gliist_server.Models
 {
     public class Guest
     {
+        [Required]
         public string userId { get; set; }
 
         [JsonIgnore]
@@ -28,6 +30,11 @@ namespace gliist_server.Models
         public string email { get; set; }
 
         public int plus { get; set; }
+
+        public Guest()
+        {
+            linked_guest_lists = new List<GuestList>();
+        }
 
     }
 }

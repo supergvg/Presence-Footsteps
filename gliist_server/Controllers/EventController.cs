@@ -109,8 +109,15 @@ namespace gliist_server.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (@event.id > 0)
+            {
+                db.Entry(@event).State = EntityState.Modified;
+            }
+            else
+            {
+                db.Events.Add(@event);
+            }
 
-            db.Events.Add(@event);
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = @event.id }, @event);

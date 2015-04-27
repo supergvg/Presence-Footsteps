@@ -49,20 +49,28 @@ namespace gliist_server.Helpers
         }
 
 
-        public async static Task<List<Guest>> Save(GuestList guestList, string userId, EventDBContext db)
+        public async static Task<List<Guest>> Save(GuestList guestList, string userId, EventDBContext db, List<Guest> toMerge = null)
         {
+            toMerge = toMerge != null ? new List<Guest>() : toMerge;
+
             List<Guest> retVal = new List<Guest>();
             var toRemove = new List<Guest>();
             foreach (var guest in guestList.guests)
             {
+                var mergeG = toMerge.FirstOrDefault(g => g.email == guest.email);
+
                 if (guest.id > 0)
                 {
                     var attached = guest;
                     if (!db.Guests.Local.Any(g => g.id == guest.id))
                     {
+
                         attached = db.Guests.Attach(guest);
                         retVal.Add(attached);
                     }
+
+                    db.Entry(guest).State = EntityState.Modified;
+
 
                     if (attached.userId != userId)
                     {
