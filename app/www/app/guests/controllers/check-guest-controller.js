@@ -12,9 +12,9 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
             }
 
             $scope.checkIn = function () {
-                eventsService.postGuestCheckin($scope.guestCheckin).then(
+                eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(
                     function (res) {
-                        $scope.guestCheckin.actual = res;
+                        $scope.guestCheckin = res;
                     },
                     function () {
                         dialogService.error('Oops there was a problem getting guest, please try again')
@@ -25,14 +25,8 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
             $scope.guestCheckin = {plus: 0};
             eventsService.getGuestCheckin(guestId, gliId).then(
                 function (res) {
-                    $scope.currentGuest = res.guest;
-                    $scope.guestListInstance = res.gli;
-
-                    $scope.guestCheckin.guest = res.guest;
-                    $scope.guestCheckin.guestList = res.gli;
-                    $scope.guestCheckin.actual = res.actual;
-
-
+                    $scope.guestCheckin = res.checkin;
+                    $scope.guestListInstance = res.gl_instance;
                 },
                 function () {
                     dialogService.error('Oops there was a problem getting guest, please try again')

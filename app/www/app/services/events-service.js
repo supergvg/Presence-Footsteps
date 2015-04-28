@@ -88,7 +88,7 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
             },
 
 
-            postGuestCheckin: function (checkinData) {
+            postGuestCheckin: function (checkinData, glInstance) {
                 var d = $q.defer();
 
                 $http({
@@ -96,7 +96,7 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                     url: "api/GuestEventController/CheckinGuest",
                     data: {
                         guestId: checkinData.guest.id,
-                        gliId: checkinData.guestList.id,
+                        gliId: glInstance.id,
                         plus: checkinData.plus
                     }
                 }).success(function (data) {
