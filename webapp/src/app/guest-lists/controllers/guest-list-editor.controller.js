@@ -8,6 +8,17 @@ angular.module('gliist')
                 parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
             }
 
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'firstName' },
+                    { field: 'lastName' },
+                    { field: 'email' },
+                    { field: 'phoneNumber' },
+                    { field: 'plus' }
+                ],
+                data: []
+            };
+
 
             $scope.guestListTypes = [
                 'GA',
@@ -20,10 +31,15 @@ angular.module('gliist')
 
             ];
 
-            $scope.guests = [];
-
             $scope.selected = $scope.selected || [];
 
+            $scope.$watch('list', function (newVal) {
+                if (!newVal) {
+                    return;
+                }
+
+                $scope.gridOptions.data = newVal.guests;
+            })
 
             $scope.onFileSelect = function (files) {
                 if (!files || files.length === 0) {

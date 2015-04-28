@@ -38,8 +38,6 @@
             <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
         </md-select>
         <md-input-container flex>
-
-
         </md-input-container>
     </div>
     <div>
@@ -50,43 +48,17 @@
     </div>
 
     <div>
-        <md-input-container flex>
-            <h3 class="md-subhead">Guests</h3>
-        </md-input-container>
+        <h3 class="md-subhead">Guests</h3>
     </div>
 
     <md-divider></md-divider>
 
-    <md-content layout-padding style="max-height: 300px;">
-        <div ng-repeat="guest in list.guests" layout layout-sm="column">
-            <md-input-container flex>
-                <label>First Name</label>
-                <input type="text" ng-model="guest.firstName">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Last Name</label>
-                <input type="text" ng-model="guest.lastName">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Email</label>
-                <input type="email" ng-model="guest.email">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Phone Number</label>
-                <input type="tel" ng-model="guest.phoneNumber">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Plus</label>
-                <input name="plus" ng-model="guest.plus" type="number" min="0" step="1">
-            </md-input-container>
-        </div>
-    </md-content>
-
     <div>
         <md-button class="md-primary md-raised" ng-click="addMore()" flex="10">
-            Add More
+            Add Guest
         </md-button>
-
+    </div>
+    <div>
         <md-button class="md-primary md-raised" ng-click="save()" flex="10">
             Save
         </md-button>
@@ -95,5 +67,9 @@
                               ng-show="fetchingData"></md-progress-circular>
     </span>
     </div>
+    <div>
+        <div ui-grid="gridOptions" ui-grid-edit style="height:300px;width: 100%"></div>
+    </div>
+
 
 </md-content>
