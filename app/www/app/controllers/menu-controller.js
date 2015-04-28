@@ -22,15 +22,19 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
         $scope.menuItems = [
             {
                 text: 'Current Events',
-                href: '#/app/home'
+                href: '#/app/home',
+                icon: 'icon ion-ios-download-outline'
             },
             {
                 text: 'Past Events',
-                href: '#/app/past_events'
+                href: '#/app/past_events',
+                icon: 'icon ion-ios-upload-outline'
+
             },
             {
                 text: 'Stats',
-                href: '#/app/stats'
+                href: '#/app/stats',
+                icon: 'ion-pie-graph'
             },
             /*{
              text: 'Alerts',
@@ -38,7 +42,8 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
              },*/
             {
                 text: 'Profile',
-                href: '#/app/profile'
+                href: '#/app/profile',
+                icon: 'icon ion-person'
             }
         ];
 

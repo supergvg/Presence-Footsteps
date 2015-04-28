@@ -28,9 +28,12 @@
             <div ng-style="userProfilePic_watch()"></div>
             <ion-list>
                 <ion-item nav-clear menu-close ng-repeat="item in menuItems" ng-href="{{item.href}}" class="logo-bg">
+                    <i ng-class="item.icon"></i>
+
                     {{item.text}}
                 </ion-item>
                 <ion-item nav-clear menu-close ng-click="logout()" class="logo-bg white-text">
+                    <i class="ion-log-out icon"></i>
                     Logout
                 </ion-item>
             </ion-list>
