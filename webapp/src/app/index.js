@@ -12,7 +12,9 @@ angular.module('gliist', [
     'angularFileUpload',
     'googlechart',
     'ui.grid',
-    'ui.grid.edit'])
+    'ui.grid.edit',
+    'ui.grid.cellNav',
+    'ui.grid.selection'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider) {
 
