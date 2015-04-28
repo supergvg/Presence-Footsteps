@@ -2,13 +2,19 @@
     <ion-content class="content-body">
         <h1>Guest List</h1>
 
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search Guests" ng-model="filter">
+            </label>
+        </div>
 
         <div class="list" ng-repeat="glist in currentEvent.guestLists">
             <div class="item item-divider">
                 {{glist.linked_guest_list.title}}
             </div>
 
-            <guest-list-list list="glist.linked_guest_list"></guest-list-list>
+            <guest-list-list list="glist.linked_guest_list" filter="filter"></guest-list-list>
         </div>
     </ion-content>
     <div class="bottom-bar">

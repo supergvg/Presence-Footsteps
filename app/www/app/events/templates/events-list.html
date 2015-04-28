@@ -1,0 +1,14 @@
+<div ng-init="init()">
+
+    <div ng-if="events && !fetchingData && events.length == 0">
+        <h4>No Events Founds</h4>
+    </div>
+
+    <ion-spinner ng-show="fecthingData"></ion-spinner>
+
+    <div class="list">
+        <div ng-repeat="event in events" ui-sref="app.event({eventId:{{event.id}}})">
+            <event-preview-item event="event"></event-preview-item>
+        </div>
+    </div>
+</div>

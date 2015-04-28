@@ -102,11 +102,19 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                     }
                 }
             }).state('app.stats', {
-                url: '/stats/',
+                url: '/stats',
                 views: {
                     'menuContent': {
                         controller: 'statsController',
                         templateUrl: 'app/events/templates/event-stats.html'
+                    }
+                }
+            }).state('app.user_profile', {
+                url: '/profile',
+                views: {
+                    'menuContent': {
+                        //controller: 'statsController',
+                        templateUrl: 'app/user/templates/user-profile.html'
                     }
                 }
             }).state('app.event_stats', {
@@ -123,7 +131,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
 
     }]);
 
-app.run(function ($ionicPlatform, userService, $rootScope) {
+app.run(function ($ionicPlatform, userService, $rootScope, $state) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -138,6 +146,8 @@ app.run(function ($ionicPlatform, userService, $rootScope) {
             //user has login data in cookie,
             userService.getCurrentUser().then(function (user) {
                 $rootScope.currentUser = user;
+            }, function () {
+                $state.go('login');
             }).finally(function () {
                 $timeout(function () {
                     $rootScope.appReady = true;

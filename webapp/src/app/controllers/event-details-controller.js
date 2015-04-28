@@ -4,20 +4,12 @@ angular.module('gliist')
             'use strict';
 
             $scope.eventCategories = [
-                'Food & Drinks',
-                'Concert/Show Case',
-                'Camp/Trip/Retreat',
-                'Class/Training/Workshop/Seminar',
-                'Conference (Tech, finance, art, fashion, Gaming, women, men, recreation, or enter the type of conference)',
-                'Convention',
-                'Festival (enter the type)',
-                'Gala',
-                'Game/Competition',
-                'Networking Event  (Tech, finance, art, fashion, Gaming, women, men, recreation, or enter the type of conference)',
-                'Party (birthday, celebration, engagement, retiring)',
-                'Screening',
-                'Tournament (please enter the type of tournament)',
-                'tradeshow/Expo (please enter the type)',
+                'Art',
+                'Fashion',
+                'Music',
+                'Charity',
+                'Technology',
+                'Gaming'
             ];
 
             $scope.data = {

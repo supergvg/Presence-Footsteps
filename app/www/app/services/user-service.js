@@ -24,7 +24,7 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
 
             setAuthToken = function (token) {
                 access_token = token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + getAuthToken();
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             },
             getAuthToken = function () {
 
@@ -36,6 +36,26 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
             };
 
         return  {
+
+            getUserPhoto: function (height, currentUser, suffix) {
+                var bgImg,
+                    redirectUrl = "http://gliist.azurewebsites.net/";
+
+                if (currentUser) {
+                    bgImg = redirectUrl + "/api/account/ProfilePicture/?userId=" + currentUser.userId + "&suffix=" + suffix;
+                    bgImg = "url(" + bgImg + ")";
+                } else {
+                    bgImg = "url('assets/images/blank_user_icon.png')";
+                }
+
+                return {
+                    'background-image': bgImg,
+                    'background-position': 'center center',
+                    'height': height || '250px',
+                    'background-size': 'cover'
+                };
+            },
+
 
             getCurrentUser: function () {
 
@@ -57,7 +77,7 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
                     .success(function (data) {
 
                         self.userData = data;
-                        deferred.resolve(userData);
+                        deferred.resolve(self.userData);
 
                     }).error(function (data) {
                         deferred.reject(data);

@@ -6,7 +6,8 @@ angular.module('starter')
             restrict: 'EA',
 
             scope: {
-                list: '='
+                list: '=',
+                filter: '=?'
             },
             //controller: 'EventsListCtrl',
 
