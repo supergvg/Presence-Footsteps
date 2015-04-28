@@ -15,8 +15,16 @@ namespace gliist_server.Models
 
         public virtual Guest guest { get; set; }
 
-        public DateTime time { get; set; }
+        public DateTime? time { get; set; }
+
+        public string status { get; set; }
 
         public int plus { get; set; }
+
+
+        public GuestCheckin()
+        {
+            status = "no show";
+        }
     }
 }

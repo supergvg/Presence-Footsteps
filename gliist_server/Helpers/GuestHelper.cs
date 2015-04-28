@@ -25,7 +25,13 @@ namespace gliist_server.Helpers
                 onTheSpotGL = new GuestListInstance()
                {
                    linked_event = @event,
-                   actual = new List<GuestCheckin>(),
+                   actual = new List<GuestCheckin> { 
+                       new GuestCheckin() { 
+                           guest = guest,
+                            guestList = onTheSpotGL,
+                            plus = guest.plus
+                       } 
+                   },
                    linked_guest_list = new GuestList()
                    {
                        userId = userId,
@@ -35,7 +41,9 @@ namespace gliist_server.Helpers
                        {
                           guest
                        }
-                   }
+                   },
+                   title = string.Format("{0} {1}", ON_THE_SPOT_GL, @event.title),
+                   listType = ON_THE_SPOT_GL
                };
 
                 @event.guestLists.Add(onTheSpotGL);
@@ -43,6 +51,14 @@ namespace gliist_server.Helpers
             else
             {
                 onTheSpotGL.linked_guest_list.guests.Add(guest);
+                onTheSpotGL.actual.Add(
+                     new GuestCheckin()
+                     {
+                         guest = guest,
+                         guestList = onTheSpotGL,
+                         plus = guest.plus
+                     }
+                    );
             }
 
             db.Entry(@event).State = EntityState.Modified;

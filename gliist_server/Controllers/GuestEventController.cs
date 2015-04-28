@@ -63,16 +63,19 @@ namespace gliist_server.Controllers
 
             var gli = await db.GuestListInstances.FindAsync(gliId);
 
-            var guestInfo = gli.linked_guest_list.guests.FirstOrDefault(g => g.id == guestId);
+            var guestInfo = gli.actual.FirstOrDefault(a => a.guest.id == guestId);
             if (guestInfo == null)
             {
                 return BadRequest();
             }
-
             dynamic res = new ExpandoObject();
-            res.guest = guestInfo;
-            res.gli = gli;
-            res.actual = gli.actual.FirstOrDefault(gck => gck.guest.id == guestId);
+            res.checkin = guestInfo;
+            res.gl_instance = new GuestListInstance()
+            {
+                id = gli.id,
+                listType = gli.listType,
+                title = gli.title
+            };
 
             return Ok(res);
         }
@@ -110,12 +113,23 @@ namespace gliist_server.Controllers
                 }
 
                 var glInstance = new GuestListInstance()
-                {
-                    actual = new List<GuestCheckin>(),
-                    linked_event = @event,
-                    linked_guest_list = guestList
-                };
+                                {
+                                    actual = new List<GuestCheckin>(),
+                                    linked_event = @event,
+                                    linked_guest_list = guestList,
+                                    title = guestList.title,
+                                    listType = guestList.listType
+                                };
 
+                foreach (var item in guestList.guests)
+                {
+                    glInstance.actual.Add(new GuestCheckin()
+                    {
+                        guest = item,
+                        guestList = glInstance,
+                        plus = item.plus
+                    });
+                };
 
                 @event.guestLists.Add(glInstance);
             }
@@ -167,27 +181,24 @@ namespace gliist_server.Controllers
 
             var guest = await db.Guests.FindAsync(guestId);
             var gli = await db.GuestListInstances.FindAsync(gliId);
+            var checkin = gli.actual.Single(chkn => chkn.guest.id == guest.id);
+
+            db.Entry(checkin).State = EntityState.Modified;
+
 
             if (guest.userId != userId)
             {
                 return BadRequest();
             }
 
-
-            var checkin = new GuestCheckin()
+            if (checkin.plus < checkinData.plus || (checkin.status == "checked in" && checkin.plus == 0))
             {
-                guest = guest,
-                guestList = gli,
-                plus = checkinData.plus,
-                time = DateTime.Now
-            };
-
-            if (gli.actual.Any(chkn => chkn.guest.Equals(guest)))
-            {
-                throw new ArgumentException("guest already checked in");
+                throw new ArgumentException("guest exceeded maximoum plus");
             }
 
-            gli.actual.Add(checkin);
+            checkin.time = DateTime.Now;
+            checkin.plus = checkin.plus - checkinData.plus;
+            checkin.status = "checked in";
 
             await db.SaveChangesAsync();
 
