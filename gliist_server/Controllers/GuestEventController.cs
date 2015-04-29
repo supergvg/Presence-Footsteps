@@ -13,6 +13,8 @@ using gliist_server.Models;
 using Microsoft.AspNet.Identity;
 using gliist_server.Helpers;
 using System.Dynamic;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace gliist_server.Controllers
 {
@@ -203,6 +205,76 @@ namespace gliist_server.Controllers
             await db.SaveChangesAsync();
 
             return Ok(checkin);
+        }
+
+        [HttpPost]
+        [Route("InvitePicture")]
+        public async Task<IHttpActionResult> PostInvitePicture(int eventId)
+        {
+            var profilePicImage = await FileUploadHelper.FilesToBytes(this.Request);
+
+            var userId = User.Identity.GetUserId();
+
+            Event @event = await db.Events.FindAsync(eventId);
+            if (@event == null || @event.userId != userId)
+            {
+                return NotFound();
+            }
+
+            @event.invitePictureData = profilePicImage.Item2;
+            @event.invitePicture = profilePicImage.Item1;
+
+            db.Entry(@event).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [Route("InvitePicture")]
+        [AllowAnonymous]
+        public async Task<HttpResponseMessage> GetEventInvite(int eventId)
+        {
+            var userId = User.Identity.GetUserId();
+
+            Event @event = await db.Events.FindAsync(eventId);
+            if (@event == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+
+            Stream imgStream;
+            string fileName;
+
+            if (string.IsNullOrEmpty(@event.invitePicture))
+            {
+                var path = System.Web.HttpContext.Current.Server.MapPath("~/images/event_placeholder.jpg");
+                fileName = "event_placeholder.jpg";
+                imgStream = new FileStream(path, FileMode.Open);
+            }
+            else
+            {
+                imgStream = new MemoryStream(@event.invitePictureData);
+                fileName = @event.invitePicture;
+
+            }
+            var resp = new HttpResponseMessage()
+            {
+                Content = new StreamContent(imgStream)
+            };
+
+            // Find the MIME type
+            string mimeType = FileUploadHelper.GetMimeType(Path.GetExtension(fileName));
+            resp.Content.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
+
+            return resp;
         }
     }
 }

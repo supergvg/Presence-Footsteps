@@ -20,6 +20,8 @@ namespace gliist_server.Migrations
                         capacity = c.Int(nullable: false),
                         date = c.DateTime(nullable: false),
                         time = c.DateTime(nullable: false),
+                        invitePictureData = c.Binary(),
+                        invitePicture = c.String(),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -28,6 +30,8 @@ namespace gliist_server.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
+                        title = c.String(),
+                        listType = c.String(),
                         linked_event_id = c.Int(),
                         linked_guest_list_id = c.Int(),
                     })
@@ -42,7 +46,8 @@ namespace gliist_server.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        time = c.DateTime(nullable: false),
+                        time = c.DateTime(),
+                        status = c.String(),
                         plus = c.Int(nullable: false),
                         guest_id = c.Int(),
                         guestList_id = c.Int(),
@@ -58,7 +63,7 @@ namespace gliist_server.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        userId = c.String(),
+                        userId = c.String(nullable: false),
                         firstName = c.String(nullable: false),
                         lastName = c.String(nullable: false),
                         phoneNumber = c.String(),
@@ -99,10 +104,10 @@ namespace gliist_server.Migrations
                         lastName = c.String(),
                         phoneNumber = c.String(),
                         profilePictureData = c.Binary(),
+                        profilePicture = c.String(),
                         city = c.String(),
                         company = c.String(),
                         bio = c.String(),
-                        profilePicture = c.String(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id);

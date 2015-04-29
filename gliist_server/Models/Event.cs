@@ -28,7 +28,12 @@ namespace gliist_server.Models
         public DateTime date { get; set; }
 
         public DateTime time { get; set; }
+
         public virtual List<GuestListInstance> guestLists { get; set; }
+
+        public byte[] invitePictureData { get; set; }
+
+        public string invitePicture { get; set; }
 
     }
 }

@@ -26,8 +26,6 @@ namespace gliist_server.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-
-
             var events = db.Events.Where(e => e.userId == userId);
 
             return events;
