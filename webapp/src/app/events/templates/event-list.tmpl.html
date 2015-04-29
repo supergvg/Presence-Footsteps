@@ -7,8 +7,7 @@
 
         <md-item ng-repeat="event in currentEvents">
             <md-item-content layout="row" style="background-color:#CDCDCD">
-                <div flex="20">
-                    <img src="assets/images/image_placeholder.png" class="face" style="height:70px">
+                <div flex="15" ng-style="getEventInvite(event)">
                 </div>
 
                 <div flex="60">

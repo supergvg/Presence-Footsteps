@@ -4,26 +4,18 @@ angular.module('gliist')
     .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
         function ($scope, $mdDialog, eventsService, dialogService) {
 
-            $scope.showEventDialog = function (ev, event) {
-
-                var scope = $scope.$new();
-                scope.currentEvent = event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/events/templates/event-dialog.tmpl.html',
-                    targetEvent: ev
-                });
+            $scope.getEventInvite = function (event) {
+                return eventsService.getEventInvite('100px', event.id, $scope.inviteSuffix);
             };
+
 
             $scope.showStats = function (ev, event) {
                 var scope = $scope.$new();
                 scope.currentEvent = event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
+
+                scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
 
                 $mdDialog.show({
                     controller: 'EventsStatsCtrl',
@@ -70,14 +62,6 @@ angular.module('gliist')
                 )
             };
 
-
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            };
-
-            $scope.save = function () {
-                alert('events-list-save');
-            };
 
             $scope.init = function () {
                 $scope.refreshEvents();

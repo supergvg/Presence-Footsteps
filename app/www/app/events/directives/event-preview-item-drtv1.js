@@ -8,7 +8,7 @@ angular.module('starter')
             scope: {
                 event: '='
             },
-            //controller: 'EventsListCtrl',
+            controller: 'EventPreviewController',
 
             replace: true,
 

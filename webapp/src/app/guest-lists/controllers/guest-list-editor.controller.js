@@ -16,8 +16,24 @@ angular.module('gliist')
                     { field: 'phoneNumber' },
                     { field: 'plus' }
                 ],
-                data: []
+                rowHeight: 35
             };
+
+            $scope.gridOptions.onRegisterApi = function (gridApi) {
+                //set gridApi on scope
+                $scope.gridApi = gridApi;
+
+
+                gridApi.selection.on.rowSelectionChanged($scope, function () {
+                    var selectedRows = $scope.gridApi.selection.getSelectedRows();
+
+                    if (!selectedRows || selectedRows.length === 0) {
+                        return $scope.rowSelected = false;
+                    }
+
+                    $scope.rowSelected = true;
+                });
+            }
 
 
             $scope.guestListTypes = [
@@ -33,13 +49,33 @@ angular.module('gliist')
 
             $scope.selected = $scope.selected || [];
 
-            $scope.$watch('list', function (newVal) {
+            $scope.deleteSelectedRows = function () {
+
+                var selectedRows = $scope.gridApi.selection.getSelectedRows();
+
+                if (!selectedRows || selectedRows.length === 0) {
+                    return;
+                }
+
+                $scope.isDirty = true;
+
+                $scope.list.guests = _.reject($scope.list.guests, function (row) {
+                    return _.find(selectedRows, function (sr) {
+                        return sr.id === row.id;
+                    });
+                });
+
+                $scope.rowSelected = false;
+
+            };
+
+            $scope.$watchCollection('list', function (newVal) {
                 if (!newVal) {
                     return;
                 }
 
-                $scope.gridOptions.data = newVal.guests;
-            })
+                $scope.gridOptions.data = $scope.list.guests;
+            });
 
             $scope.onFileSelect = function (files) {
                 if (!files || files.length === 0) {
@@ -113,6 +149,7 @@ angular.module('gliist')
                     function (res) {
                         _.extend($scope.list, res);
                         dialogService.success('Guest list saved');
+                        $scope.isDirty = false;
 
                         if ($scope.onSave) {
                             $scope.onSave(res);
@@ -126,13 +163,6 @@ angular.module('gliist')
             };
 
             $scope.init = function () {
-
-                if (!$scope.list) {
-                    $scope.list = {
-                        guests: [
-                        ]
-                    };
-                }
 
                 if (!$scope.options) {
                     $scope.options = {};

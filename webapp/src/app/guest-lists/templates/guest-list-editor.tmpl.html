@@ -1,51 +1,52 @@
-<md-content layout-fill layout-padding>
-
-    <h3 class="md-headline">Import Guests</h3>
-    <md-list>
-        <md-item>
-            <md-item-content>
-                <div class="md-tile-left">
-                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                </div>
-                <div class="md-tile-content">
-                    <h3>Link previous guest list</h3>
-                </div>
-                <md-button class="md-primary md-raised" ng-click="onLinkClicked($event)">
-                    Link
-                </md-button>
-            </md-item-content>
-            <md-divider></md-divider>
-        </md-item>
-        <md-item>
-            <md-item-content>
-                <div class="md-tile-left">
-                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                </div>
-                <div class="md-tile-content">
-                    <h3>Upload new guest list (csv)</h3>
-                </div>
-                <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
-                           accept=".csv">
-                    Upload
-                </md-button>
-            </md-item-content>
-        </md-item>
-    </md-list>
-
-
-    <div>
-        <md-select placeholder="Select type of guest list" ng-model="list.listType" flex>
-            <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
-        </md-select>
-        <md-input-container flex>
-        </md-input-container>
-    </div>
+<div>
     <div>
         <md-input-container flex>
             <label>Enter guest list title</label>
             <input type="text" ng-model="list.title">
         </md-input-container>
     </div>
+    <div>
+        <md-select ng-model="list.listType" flex>
+            <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
+        </md-select>
+        <md-input-container flex>
+        </md-input-container>
+    </div>
+
+    <div>
+        <h4 class="md-headline">Import Guests</h4>
+        <md-list>
+            <md-item>
+                <md-item-content>
+                    <div class="md-tile-left">
+                        <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                    </div>
+                    <div class="md-tile-content">
+                        <h3>Link previous guest list</h3>
+                    </div>
+                    <md-button class="md-primary md-raised" ng-click="onLinkClicked($event)">
+                        Link
+                    </md-button>
+                </md-item-content>
+                <md-divider></md-divider>
+            </md-item>
+            <md-item>
+                <md-item-content>
+                    <div class="md-tile-left">
+                        <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                    </div>
+                    <div class="md-tile-content">
+                        <h3>Upload new guest list (csv)</h3>
+                    </div>
+                    <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
+                               accept=".csv">
+                        Upload
+                    </md-button>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </div>
+
 
     <div>
         <h3 class="md-subhead">Guests</h3>
@@ -53,23 +54,29 @@
 
     <md-divider></md-divider>
 
-    <div>
-        <md-button class="md-primary md-raised" ng-click="addMore()" flex="10">
-            Add Guest
-        </md-button>
-    </div>
-    <div>
-        <md-button class="md-primary md-raised" ng-click="save()" flex="10">
-            Save
-        </md-button>
+    <div layout="row">
+        <div flex="93">
+            <md-button class="md-primary md-raised" ng-click="addMore()">
+                Add Guest
+            </md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
+                Delete
+            </md-button>
+        </div>
+        <div>
+            <md-button class="md-primary md-raised" ng-disabled="!isDirty" ng-click="save()">
+                Save
+            </md-button>
+        </div>
     <span>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                               ng-show="fetchingData"></md-progress-circular>
     </span>
     </div>
     <div>
-        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection style="height:300px;width: 100%"></div>
+        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection
+             style="height:300px;width: 100%"></div>
     </div>
 
 
-</md-content>
+</div>
