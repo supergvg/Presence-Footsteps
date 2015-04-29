@@ -11,25 +11,25 @@
 
         <div class="row">
             <div class="centered">
-                <h3>{{guestListInstance.linked_guest_list.listType}}</h3>
+                <h3>{{guestListInstance.listType}}</h3>
             </div>
         </div>
 
 
         <div class="row">
             <div class="centered">
-                <h3 style="text-align: center">{{currentGuest.firstName}}
-                    {{currentGuest.lastName}}</h3>
+                <h3 style="text-align: center">{{guestCheckin.guest.firstName}}
+                    {{guestCheckin.guest.lastName}}</h3>
             </div>
         </div>
-        <div ng-if="guestCheckin.actual" ng-cloak>
+        <div ng-if="guestCheckin.time" ng-cloak>
             <div class="row">
                 <div class="centered">
-                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.actual.time}}</h4>
+                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time}}</h4>
                 </div>
             </div>
         </div>
-        <div ng-if="!guestCheckin.actual" ng-cloak>
+        <div ng-if="!guestCheckin.time" ng-cloak>
 
             <div class="row">
                 <div class="centered">

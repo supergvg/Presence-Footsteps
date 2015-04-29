@@ -11,10 +11,10 @@
 
         <div class="list" ng-repeat="glist in currentEvent.guestLists">
             <div class="item item-divider">
-                {{glist.linked_guest_list.title}}
+                {{glist.title}}
             </div>
 
-            <guest-list-list list="glist.linked_guest_list" filter="filter"></guest-list-list>
+            <guest-list-list list="glist" filter="filter"></guest-list-list>
         </div>
     </ion-content>
     <div class="bottom-bar">

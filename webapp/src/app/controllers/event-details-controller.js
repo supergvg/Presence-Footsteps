@@ -109,7 +109,7 @@ angular.module('gliist')
                         function (res) {
                             $scope.event.id = res.id;
                             $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-                            dialogService.success('Event ' + res.event.title + 'created');
+                            dialogService.success('Event ' + res.title + 'created');
 
                         }, function () {
                             dialogService.error('There was a problem saving your event, please try again');
