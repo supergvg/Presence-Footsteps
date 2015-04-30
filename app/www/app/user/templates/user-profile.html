@@ -2,5 +2,42 @@
 
     <ion-content class="content-body">
         <h3>User Profile</h3>
+
+
+        <div ng-style="getUserPhoto()">
+        </div>
+        <div class="list">
+            <label class="item item-input">
+                <input type="text" placeholder="First Name" ng-model="currentUser.firstName">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="Last Name" ng-model="currentUser.lastName">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="Email" ng-model="currentUser.email" ng-disabled="true">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="Phone Number" type="tel" ng-model="currentUser.phoneNumber">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="City" ng-model="currentUser.city">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="Company" ng-model="currentUser.company" ng-readonly="true">
+            </label>
+            <label class="item item-input">
+                <textarea placeholder="Bio" ng-model="currentUser.bio"></textarea>
+            </label>
+        </div>
+
+        <div>
+            <button class="button button-full button-positive" ng-click="onSaveChangesClicked()">
+                Save Changes
+            </button>
+        </div>
     </ion-content>
+    <div class="bar bar-footer logo-bg">
+        <button class="back-button" ui-sref="app.home"></button>
+    </div>
+
 </ion-pane>

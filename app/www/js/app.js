@@ -113,7 +113,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                 url: '/profile',
                 views: {
                     'menuContent': {
-                        //controller: 'statsController',
+                        controller: 'userController',
                         templateUrl: 'app/user/templates/user-profile.html'
                     }
                 }
