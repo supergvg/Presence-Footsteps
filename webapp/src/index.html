@@ -61,7 +61,7 @@
             <md-list role="list">
                 <md-item ng-repeat="it in menuItems">
                     <md-button ui-sref="{{it.ui_sref}}" ng-click="ul.selectUser(it)"
-                               ng-class="{'selected' : it === ul.selected }">
+                               ng-class="{'selected' : it === ul.selected }" style="color:white">
                         <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}"
                                     size="{{it.icon.size}}"></ng-md-icon>
                         {{it.title}}

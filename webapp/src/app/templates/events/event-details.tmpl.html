@@ -1,12 +1,14 @@
 <div>
-    <md-tabs class="md-accent" md-selected="data.selectedIndex">
+    <md-tabs class="md-accent" md-selected="data.selectedIndex"
+
+             md-align-tabs={{data.buttom}}>
         <md-tab id="tab1" aria-controls="tab1-content">
             Create Event
         </md-tab>
-        <md-tab id="tab2" aria-controls="tab2-content">
+        <md-tab id="tab2" aria-controls="tab2-content" ng-disabled="!event.id">
             Upload / Choose Invite
         </md-tab>
-        <md-tab id="tab3" aria-controls="tab3-content">
+        <md-tab id="tab3" aria-controls="tab3-content" ng-disabled="!event.id">
             Upload Guest Lists
         </md-tab>
     </md-tabs>
@@ -74,7 +76,7 @@
                     </div>
                     <md-input-container flex>
                         <label>Event Details</label>
-                        <textarea name=" details" ng-model="event.details" columns="1"></textarea>
+                        <textarea name=" details" ng-model="event.description" columns="1"></textarea>
                     </md-input-container>
                 </form>
             </md-content>
@@ -162,14 +164,14 @@
                 <md-divider></md-divider>
 
                 <div>
-                    Linked Guests Lists:
+                    <h3>Linked Guests Lists:</h3>
                     <guest-list-instance-view lists="event.guestLists"></guest-list-instance-view>
                 </div>
 
             </md-content>
 
             <md-content layout="row" layout-align="end center" class="md-padding">
-                <md-button class="md-primary md-raised" ng-click="createEvent()">
+                <md-button class="md-primary md-raised" ng-click="onFinishClicked()">
                     Finish
                 </md-button>
             </md-content>

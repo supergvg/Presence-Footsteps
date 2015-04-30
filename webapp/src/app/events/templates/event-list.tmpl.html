@@ -24,18 +24,21 @@
                     </md-chips>
                 </div>
 
-                <div flex="10" layout="column" layout-align="end center">
+                <div flex="10" layout="column" layout-align="end center" ng-hide="options.readyOnly" ng-cloak>
                     <md-button class="md-primary md-raised" ng-click="showStats($event,event)">
-                        <ng-md-icon icon="insert_chart" style="fill: #abcdef" size="24"></ng-md-icon>
+                        <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="md-primary md-raised" ui-sref="main.event_summary({eventId:{{event.id}}})">
+                        <ng-md-icon icon="theaters" style="fill: white" size="24"></ng-md-icon>
                     </md-button>
                 </div>
 
-                <div flex="10" layout="column" layout-align="end center">
+                <div flex="10" layout="column" layout-align="end center" ng-hide="options.readyOnly" ng-cloak>
                     <md-button class="md-primary md-raised" ng-click="deleteEvent($event,event)">
-                        <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
+                        <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
                     </md-button>
                     <md-button class="md-primary md-raised" ui-sref="main.edit_event({eventId:{{event.id}}})">
-                        <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
+                        <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
                     </md-button>
                 </div>
             </md-item-content>

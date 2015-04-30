@@ -69,11 +69,14 @@ angular.module('gliist')
 
             };
 
-            $scope.$watchCollection('list', function (newVal) {
-                if (!newVal) {
+            $scope.$watchCollection('list', function (newVal, oldValue) {
+                if (!newVal || !oldValue) {
                     return;
                 }
 
+                if (!angular.equals(newVal, oldValue)) {
+                    $scope.isDirty = true;
+                }
                 $scope.gridOptions.data = $scope.list.guests;
             });
 
@@ -134,7 +137,19 @@ angular.module('gliist')
 
 
             $scope.addMore = function () {
+                if (!$scope.list) {
+                    $scope.list = {};
+                }
+
+                if (!$scope.list.guests) {
+                    $scope.list.guests = [];
+                }
+
                 $scope.list.guests.push({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phoneNumber: '',
                     plus: 0
                 });
             };

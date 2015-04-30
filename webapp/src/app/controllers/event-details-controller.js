@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService',
-        function ($scope, $mdDialog, eventsService, dialogService, uploaderService) {
+    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state) {
             'use strict';
 
             $scope.eventCategories = [
@@ -13,7 +13,8 @@ angular.module('gliist')
             ];
 
             $scope.data = {
-                selectedIndex: 1
+                selectedIndex: 1,
+                bottom: 'bottom'
             };
 
             $scope.glmOptions = {
@@ -166,6 +167,9 @@ angular.module('gliist')
                 $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
             };
 
+            $scope.onFinishClicked = function () {
+                $state.go('main.event_summary', {eventId: $scope.event.id});
+            };
 
             $scope.createEvent = function () {
                 $scope.savingEvent = true;

@@ -1,0 +1,43 @@
+<md-content layout-padding>
+
+    <h3>Preview Event</h3>
+
+
+    <md-card ng-if="!fetchingData">
+        <div ng-style="getEventInvite('250px')" class="md-card-image">
+        </div>
+
+        <md-card-content>
+            <h2 class="md-title">{{event.title}}</h2>
+
+
+            <md-chips class="custom-chips" ng-model="chips.tags" readonly="chips.readonly">
+            </md-chips>
+
+
+            <h3>{{event.date}} {{event.time}}</h3>
+
+            <h3>{{event.location}}</h3>
+
+
+            <p>
+                {{event.description}}
+            </p>
+
+            <div ng-show="event.guestLists.length > 0">
+                <h4>Linked Guests Lists:</h4>
+                <guest-list-instance-view lists="event.guestLists" options="glOptions"></guest-list-instance-view>
+            </div>
+            <div ng-show="event.guestLists.length == 0">
+                <h5>No Guest Lists Linked for Event</h5>
+            </div>
+
+            <div class="md-actions" layout="row" layout-align="end center">
+                <md-button class="md-primary" ui-sref="main.edit_event({eventId:{{event.id}}})">Edit</md-button>
+            </div>
+        </md-card-content>
+
+    </md-card>
+
+
+</md-content>
