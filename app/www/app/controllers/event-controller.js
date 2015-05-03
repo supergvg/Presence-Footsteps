@@ -2,10 +2,7 @@ angular.module('starter').controller('eventController',
     ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner',
         function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner) {
 
-
             $scope.title = 'Event';
-
-            $scope.currentUser = $rootScope.currentUser;
 
             $scope.scanBarcode = function () {
                 $cordovaBarcodeScanner
@@ -30,7 +27,6 @@ angular.module('starter').controller('eventController',
                     }
                 );
             };
-
 
             $scope.init = function () {
 
@@ -59,5 +55,4 @@ angular.module('starter').controller('eventController',
             };
         }
 
-    ])
-;
+    ]);

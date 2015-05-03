@@ -1,0 +1,22 @@
+<div>
+    <h3>Guest Lists</h3>
+    <ul class="list">
+        <li class="item" ng-repeat="glist in event.guestLists">
+            {{glist.title}}
+            <span class="badge">{{glist.actual.length}}</span>
+        </li>
+    </ul>
+    <div style="background-color: #EEEEEE">
+        <div class="row item item-divider">
+            <div class="col-50" style="background-color: #EEEEEE">
+                Summary
+            </div>
+            <div class="col" style="background-color: #EEEEEE">
+                Total: {{getTotalGuests()}}
+            </div>
+            <div class="col" style="background-color: #EEEEEE">
+                Actual: {{getActualGuests()}}
+            </div>
+        </div>
+    </div>
+</div>
