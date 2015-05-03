@@ -31,6 +31,7 @@ namespace gliist_server.Models
 
         public virtual List<GuestListInstance> guestLists { get; set; }
 
+        [JsonIgnore]
         public byte[] invitePictureData { get; set; }
 
         public string invitePicture { get; set; }
