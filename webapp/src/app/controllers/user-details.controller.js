@@ -10,7 +10,7 @@ angular.module('gliist')
             };
 
             $scope.getUserPhoto = function (height) {
-                return userService.getUserPhoto(height, $scope.user);
+                return userService.getUserPhoto(height, $scope.user, $scope.suffix);
             };
 
             $scope.displayErrorMessage = function (field) {
@@ -28,6 +28,7 @@ angular.module('gliist')
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
                 uploaderService.upload(files).then(function () {
+                        $scope.suffix = (new Date()).getTime();
                         $rootScope.$broadcast('userUpdated');
                     },
                     function (err) {

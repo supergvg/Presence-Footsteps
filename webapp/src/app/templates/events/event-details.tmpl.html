@@ -1,7 +1,5 @@
 <div>
-    <md-tabs class="md-accent" md-selected="data.selectedIndex"
-
-             md-align-tabs={{data.buttom}}>
+    <md-tabs class="md-primary" md-selected="data.selectedIndex">
         <md-tab id="tab1" aria-controls="tab1-content">
             Create Event
         </md-tab>
@@ -12,7 +10,7 @@
             Upload Guest Lists
         </md-tab>
     </md-tabs>
-
+    {{event.time}}
     <ng-switch on="data.selectedIndex" class="tabpanel-container">
         <div role="tabpanel"
              id="tab1-content"

@@ -56,6 +56,24 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
                 };
             },
 
+            updateUserProfile: function (user) {
+
+                var deferred = $q.defer(),
+                    url = 'api/Account/UserInfo';
+
+                $http({
+                    method: 'PUT',
+                    url: url,
+                    data: user,
+                }).success(function (data) {
+                    deferred.resolve(data)
+
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
+            },
 
             getCurrentUser: function () {
 

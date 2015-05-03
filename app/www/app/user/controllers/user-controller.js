@@ -8,7 +8,17 @@ angular.module('starter').controller('userController', ['$scope', 'userService',
         });
 
         $scope.onSaveChangesClicked = function () {
-            alert('not implement!');
+
+            userService.updateUserProfile($scope.currentUser).then(
+                function () {
+                    dialogService.success('Changes saved');
+                    $scope.editMode = false;
+                },
+                function (err) {
+                    dialogService.error(err);
+                }
+            )
+
         };
 
         $scope.getUserPhoto = function (height) {
