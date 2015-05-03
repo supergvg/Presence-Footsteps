@@ -3,6 +3,10 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
     function ($scope, $stateParams, eventsService, dialogService, $state) {
 
 
+        $scope.getEventInvite = function (event) {
+            return eventsService.getEventInvite('300px', event.id, $scope.inviteSuffix);
+        };
+
         $scope.init = function () {
             $scope.fecthingData = true;
             eventsService.getEvents().then(function (data) {

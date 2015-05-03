@@ -1,21 +1,20 @@
-<a class="item item-thumbnail-left grey-bg-1">
+<div class="item grey-bg-1">
+    <div class="row">
+        <div class="col col-25">
+            <div ng-style="getEventInvite(event)">
+            </div>
+        </div>
+        <div class="col col-50">
+            <p style="color:white">{{event.date}}</p>
 
-    <img style="background: url('{{'img/event-placeholder.png'}}') no-repeat center ;
-    background-size: cover;
-    height: 100%;
-    max-height: 100%;
-    max-width: 100px;
-    left:0;
-    top:0;">
+            <p style="color:white">{{event.location}}</p>
 
-    <p style="color:white">{{event.date}}</p>
+            <h3 style="color:white">{{event.title}}</h3>
 
-    <p style="color:white">{{event.location}}</p>
-
-    <h3 style="color:white">{{event.title}}</h3>
-
-    <p style="color:white">{{event.type}}</p>
-    <button class="button button-stable" ng-cloak ng-show="event.category">
-        {{event.category}}
-    </button>
-</a>
+            <p style="color:white">{{event.type}}</p>
+            <button class="button button-stable" ng-cloak ng-show="event.category">
+                {{event.category}}
+            </button>
+        </div>
+    </div>
+</div>

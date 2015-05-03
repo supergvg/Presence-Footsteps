@@ -1,5 +1,5 @@
 angular.module('starter')
-    .directive('eventPreviewItem', [function () {
+    .directive('guestListInstanceList', [function () {
         'use strict';
 
         return {
@@ -8,10 +8,11 @@ angular.module('starter')
             scope: {
                 event: '='
             },
-            controller: 'EventPreviewController',
+
+            controller: 'guestListInstanceListController',
 
             replace: true,
 
-            templateUrl: 'app/events/templates/event-preview-item.html'
+            templateUrl: 'app/guests/templates/guest-list-instance-list.html'
         };
     }]);

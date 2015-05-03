@@ -28,6 +28,9 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
 
             var eventId = $stateParams.eventId;
 
+            $scope.currentGuest = {};
+            $scope.addMore = false;
+
             if (!eventId) {
                 $state.go('app.home');
                 return;

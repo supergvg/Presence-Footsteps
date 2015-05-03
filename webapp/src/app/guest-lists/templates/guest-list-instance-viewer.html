@@ -6,7 +6,6 @@
         <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
 
 
-
         <md-list>
             <md-item ng-repeat="instance in lists">
                 <md-item-content layout="row">
@@ -22,10 +21,12 @@
                         </div>
                     </div>
 
-                    <md-button class="md-primary md-raised" ng-click="editInstance($event,glist)">
+                    <md-button class="md-primary md-raised" ng-click="editInstance($event,glist)"
+                               ng-hide="options.readOnly" ng-cloak>
                         <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-click="deleteInstance($event,glist)">
+                    <md-button class="md-primary md-raised" ng-click="deleteInstance($event,glist)"
+                               ng-hide="options.readOnly" ng-cloak>
                         <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
                     </md-button>
                 </md-item-content>

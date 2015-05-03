@@ -7,14 +7,14 @@ angular.module('gliist').factory('uploaderService',
                     if (!file) {
                         d.reject('Please select a file');
                     }
-                    return $upload.upload({
+                    $upload.upload({
                         url: 'api/CSVController/CsvToGuestList',
                         fields: {},
                         file: file
                     }).success(function (data) {
                         d.resolve(data);
                     }).error(function (err) {
-                            d.resolve(err);
+                            d.reject(err);
                         }
                     );
 
@@ -26,19 +26,39 @@ angular.module('gliist').factory('uploaderService',
                     if (!file) {
                         d.reject('Please select an image');
                     }
-                    return $upload.upload({
+                    $upload.upload({
                         url: 'api/account/ProfilePicture',
                         fields: {},
                         file: file
                     }).success(function (data) {
                         d.resolve(data);
                     }).error(function (err) {
-                            d.resolve(err);
+                            d.reject(err);
                         }
                     );
 
                     return d.promise;
                 },
+
+                uploadEventInvite: function (file, eventId) {
+                    var d = $q.defer();
+                    if (!file) {
+                        d.reject('Please select an image');
+                    }
+                    $upload.upload({
+                        url: 'api/GuestEventController/InvitePicture',
+                        params: {eventId: eventId},
+                        file: file
+                    }).success(function (data) {
+                        d.resolve(data);
+                    }).error(function (err) {
+                            d.reject(err);
+                        }
+                    );
+
+                    return d.promise;
+                },
+
 
                 uploadBatch: function (files) {
                     if (!files || !files.length) {

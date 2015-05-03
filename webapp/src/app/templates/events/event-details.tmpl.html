@@ -1,179 +1,181 @@
-<Div>
-    <md-content>
-        <md-tabs class="md-accent" md-selected="data.selectedIndex">
-            <md-tab id="tab1" aria-controls="tab1-content">
-                Create Event
-            </md-tab>
-            <md-tab id="tab2" aria-controls="tab2-content">
-                Upload / Choose Invite
-            </md-tab>
-            <md-tab id="tab3" aria-controls="tab3-content">
-                Upload Guest Lists
-            </md-tab>
-        </md-tabs>
+<div>
+    <md-tabs class="md-accent" md-selected="data.selectedIndex"
 
-        <ng-switch on="data.selectedIndex" class="tabpanel-container">
-            <div role="tabpanel"
-                 id="tab1-content"
-                 aria-labelledby="tab1"
-                 ng-switch-when="0"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()">
-                <md-content class="md-padding">
-                    <form name="eventForm">
-                        <div layout layout-sm="column">
-                            <md-input-container flex>
-                                <label>Event Title</label>
-                                <input required name="title" ng-model="event.title">
+             md-align-tabs={{data.buttom}}>
+        <md-tab id="tab1" aria-controls="tab1-content">
+            Create Event
+        </md-tab>
+        <md-tab id="tab2" aria-controls="tab2-content" ng-disabled="!event.id">
+            Upload / Choose Invite
+        </md-tab>
+        <md-tab id="tab3" aria-controls="tab3-content" ng-disabled="!event.id">
+            Upload Guest Lists
+        </md-tab>
+    </md-tabs>
 
-                                <div ng-messages="eventForm.title.$error"
-                                     ng-if="displayErrorMessage(eventForm.title)">
-                                    <div ng-message="required">Title is required</div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                        <div layout layout-sm="column">
-                            <md-select placeholder="Event Category" ng-model="event.category" flex>
-                                <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
-                            </md-select>
-                        </div>
-                        <div layout layout-sm="column">
-                            <md-input-container flex>
-                                <label>Event Date</label>
-                                <input required name="date" ng-model="event.date" type="date">
-
-                                <div ng-messages="eventForm.date.$error"
-                                     ng-if="displayErrorMessage(eventForm.date)">
-                                    <div ng-if="eventForm.date.$error.required" ng-message="required">Date is required
-                                    </div>
-                                    <div ng-if="eventForm.date.$error.min" ng-message="required">Event can't start in
-                                        the
-                                        past
-                                    </div>
-                                </div>
-                            </md-input-container>
-                            <md-input-container flex>
-                                <label>Event Time</label>
-                                <input required name="time" ng-model="event.time" type="time">
-
-                                <div ng-messages="eventForm.time.$error"
-                                     ng-if="displayErrorMessage(eventForm.time)">
-                                    <div ng-if="eventForm.time.$error.required" ng-message="required">Time is required
-                                    </div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                        <div layout layout-sm="column">
-                            <md-input-container flex>
-                                <label>Event Location</label>
-                                <input name="location" ng-model="event.location">
-                            </md-input-container>
-                            <md-input-container flex>
-                                <label>Capacity</label>
-                                <input name="capacity" ng-model="event.capacity" type="number" min="0" step="1">
-                            </md-input-container>
-                        </div>
-                        <md-input-container flex>
-                            <label>Event Details</label>
-                            <textarea name=" details" ng-model="event.details" columns="1"></textarea>
-                        </md-input-container>
-                    </form>
-                </md-content>
-                <md-content class="md-padding" layout="row" layout-align="end center">
-                    <md-button class="md-primary md-raised" ng-click="next(eventForm)">
-                        Next
-                    </md-button>
-                    <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                          ng-show="savingEvent"></md-progress-circular>
-                    <span class="md-caption" ng-if="showValidation">Please fill all fields</span>
-                </md-content>
-            </div>
-            <div role="tabpanel"
-                 id="tab2-content"
-                 aria-labelledby="tab2"
-                 ng-switch-when="1"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()">
-                <md-content class="md-padding">
+    <ng-switch on="data.selectedIndex" class="tabpanel-container">
+        <div role="tabpanel"
+             id="tab1-content"
+             aria-labelledby="tab1"
+             ng-switch-when="0"
+             md-swipe-left="next()"
+             md-swipe-right="previous()">
+            <md-content>
+                <form name="eventForm">
                     <div layout layout-sm="column">
                         <md-input-container flex>
-                            Upload your invite (jpg,gif, file formats supported)
-                        </md-input-container>
-                        <md-input-container flex="20">
-                            <md-button class="md-primary md-raised">
-                                BROWSE
-                            </md-button>
-                        </md-input-container>
-                        <md-input-container flex="20">
-                            <md-button class="md-primary md-raised">
-                                UPLOAD
-                            </md-button>
+                            <label>Event Title</label>
+                            <input required name="title" ng-model="event.title">
+
+                            <div ng-messages="eventForm.title.$error"
+                                 ng-if="displayErrorMessage(eventForm.title)">
+                                <div ng-message="required">Title is required</div>
+                            </div>
                         </md-input-container>
                     </div>
-                </md-content>
-                <md-button class="md-primary md-raised">
-                    Preview
-                </md-button>
-                <md-button class="md-primary md-raised">
-                    Customise
-                </md-button>
+                    <div layout layout-sm="column">
+                        <md-select placeholder="Event Category" ng-model="event.category" flex>
+                            <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
+                        </md-select>
+                    </div>
+                    <div layout layout-sm="column">
+                        <md-input-container flex>
+                            <label>Event Date</label>
+                            <input required name="date" ng-model="event.date" type="date">
 
-                <md-button class="md-primary md-raised" ng-click="next()">
+                            <div ng-messages="eventForm.date.$error"
+                                 ng-if="displayErrorMessage(eventForm.date)">
+                                <div ng-if="eventForm.date.$error.required" ng-message="required">Date is required
+                                </div>
+                                <div ng-if="eventForm.date.$error.min" ng-message="required">Event can't start in
+                                    the
+                                    past
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Event Time</label>
+                            <input required name="time" ng-model="event.time" type="time">
+
+                            <div ng-messages="eventForm.time.$error"
+                                 ng-if="displayErrorMessage(eventForm.time)">
+                                <div ng-if="eventForm.time.$error.required" ng-message="required">Time is required
+                                </div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout layout-sm="column">
+                        <md-input-container flex>
+                            <label>Event Location</label>
+                            <input name="location" ng-model="event.location">
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Capacity</label>
+                            <input name="capacity" ng-model="event.capacity" type="number" min="0" step="1">
+                        </md-input-container>
+                    </div>
+                    <md-input-container flex>
+                        <label>Event Details</label>
+                        <textarea name=" details" ng-model="event.description" columns="1"></textarea>
+                    </md-input-container>
+                </form>
+            </md-content>
+            <md-content class="md-padding" layout="row" layout-align="end center">
+                <md-button class="md-primary md-raised" ng-click="next(eventForm)">
                     Next
                 </md-button>
-            </div>
-            <div role="tabpanel"
-                 id="tab3-content"
-                 aria-labelledby="tab3"
-                 ng-switch-when="2"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()">
-                <md-content class="md-padding">
+                <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                      ng-show="savingEvent"></md-progress-circular>
+                <span class="md-caption" ng-if="showValidation">Please fill all fields</span>
+            </md-content>
+        </div>
+        <div role="tabpanel"
+             id="tab2-content"
+             aria-labelledby="tab2"
+             ng-switch-when="1"
+             md-swipe-left="next()"
+             md-swipe-right="previous()">
+            <md-content class="md-padding">
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        Upload your invite (jpg,gif, file formats supported)
+                    </md-input-container>
+                    <md-input-container flex="20">
+                        <md-button class="md-primary md-raised" ng-file-select="onInviteSelected($files)"
+                                   accept=".jpg,.png,.gif">
+                            UPLOAD
+                        </md-button>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                              ng-show="fetchingData"></md-progress-circular>
+                    </md-input-container>
+                </div>
 
-                    <md-list>
-                        <md-item>
-                            <md-item-content>
-                                <div class="md-tile-left">
-                                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                                </div>
-                                <div class="md-tile-content">
-                                    <h3>Add existing guest list</h3>
-                                </div>
-                                <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event)">
-                                    Add
-                                </md-button>
-                            </md-item-content>
-                        </md-item>
-                        <md-item>
-                            <md-item-content>
-                                <div class="md-tile-left">
-                                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                                </div>
-                                <div class="md-tile-content">
-                                    <h3>Add a new guest list</h3>
-                                </div>
-                                <md-button class="md-primary md-raised" ng-click="onCreateNewGuestList($event)">
-                                    Create
-                                </md-button>
-                            </md-item-content>
-                        </md-item>
-                    </md-list>
-                    <md-divider></md-divider>
+                <div flex="30" ng-style="getEventInvite('300px')">
+                </div>
 
-                    <div>
-                        Linked Guests Lists:
-                        <guest-list-instance-view lists="event.guestLists"></guest-list-instance-view>
-                    </div>
+            </md-content>
+            <md-button class="md-primary md-raised">
+                Preview
+            </md-button>
+            <md-button class="md-primary md-raised">
+                Customise
+            </md-button>
 
-                </md-content>
+            <md-button class="md-primary md-raised" ng-click="next()">
+                Next
+            </md-button>
+        </div>
+        <div role="tabpanel"
+             id="tab3-content"
+             aria-labelledby="tab3"
+             ng-switch-when="2"
+             md-swipe-left="next()"
+             md-swipe-right="previous()">
+            <md-content class="md-padding">
 
-                <md-content layout="row" layout-align="end center" class="md-padding">
-                    <md-button class="md-primary md-raised" ng-click="createEvent()">
-                        Finish
-                    </md-button>
-                </md-content>
+                <md-list>
+                    <md-item>
+                        <md-item-content>
+                            <div class="md-tile-left">
+                                <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                            </div>
+                            <div class="md-tile-content">
+                                <h3>Add existing guest list</h3>
+                            </div>
+                            <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event)">
+                                Add
+                            </md-button>
+                        </md-item-content>
+                    </md-item>
+                    <md-item>
+                        <md-item-content>
+                            <div class="md-tile-left">
+                                <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                            </div>
+                            <div class="md-tile-content">
+                                <h3>Add a new guest list</h3>
+                            </div>
+                            <md-button class="md-primary md-raised" ng-click="onCreateNewGuestList($event)">
+                                Create
+                            </md-button>
+                        </md-item-content>
+                    </md-item>
+                </md-list>
+                <md-divider></md-divider>
 
-            </div>
-        </ng-switch>
-    </md-content>
-</Div>
+                <div>
+                    <h3>Linked Guests Lists:</h3>
+                    <guest-list-instance-view lists="event.guestLists"></guest-list-instance-view>
+                </div>
+
+            </md-content>
+
+            <md-content layout="row" layout-align="end center" class="md-padding">
+                <md-button class="md-primary md-raised" ng-click="onFinishClicked()">
+                    Finish
+                </md-button>
+            </md-content>
+
+        </div>
+    </ng-switch>
+</div>

@@ -5,44 +5,7 @@
         <event-preview-item event="currentEvent"></event-preview-item>
 
 
-        <div class="row grey-bg-3">
-            <div class="col col-50">
-                <h5 class="white-text">Categories</h5>
-            </div>
-            <div class="col">
-                <h5 class="white-text">Capacity</h5>
-            </div>
-            <div class="col">
-                <h5 class="white-text">Status</h5>
-            </div>
-        </div>
-        <div class="list" ng-repeat="gli in currentEvent.guestLists">
-            <div class="row item item-divider">
-                <div class="col-50" style="background-color: #EEEEEE">
-                    {{gli.linked_guest_list.listType}}
-                </div>
-                <div class="col" style="background-color: #EEEEEE">
-                    {{gli.linked_guest_list.guests.length}}
-                </div>
-                <div class="col" style="background-color: #EEEEEE">
-                    {{gli.actual.length}}
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div class="row item item-divider">
-                <div class="col-50" style="background-color: #EEEEEE">
-                    Total
-                </div>
-                <div class="col" style="background-color: #EEEEEE">
-                    {{totalCapacity}}
-                </div>
-                <div class="col" style="background-color: #EEEEEE">
-                    {{totalActual}}
-                </div>
-            </div>
-        </div>
+        <guest-list-instance-list event="currentEvent"></guest-list-instance-list>
 
     </ion-content>
 

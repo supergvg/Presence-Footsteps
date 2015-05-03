@@ -6,7 +6,8 @@ angular.module('gliist')
             restrict: 'EA',
 
             scope: {
-                events: '='
+                events: '=',
+                options: '=?'
             },
             controller: 'EventsListCtrl',
 

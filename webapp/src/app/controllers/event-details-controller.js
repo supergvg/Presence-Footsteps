@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
-        function ($scope, $mdDialog, eventsService, dialogService) {
+    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state) {
             'use strict';
 
             $scope.eventCategories = [
@@ -13,7 +13,8 @@ angular.module('gliist')
             ];
 
             $scope.data = {
-                selectedIndex: 0
+                selectedIndex: 1,
+                bottom: 'bottom'
             };
 
             $scope.glmOptions = {
@@ -23,6 +24,43 @@ angular.module('gliist')
             $scope.event = $scope.event || {
                 title: '',
                 guestLists: []
+            };
+
+            $scope.$watch('event', function (newVal) {
+                if (!newVal) {
+                    return;
+                }
+
+                $scope.inviteSuffix = (new Date()).getTime();
+            })
+
+
+            $scope.getEventInvite = function () {
+                return eventsService.getEventInvite('300px', $scope.event.id, $scope.inviteSuffix);
+            };
+
+
+            $scope.onInviteSelected = function (files) {
+                if (!files || files.length === 0) {
+                    return;
+                }
+                $scope.upload(files[0]);
+            };
+
+
+            $scope.upload = function (files) {
+                $scope.fetchingData = true;
+                uploaderService.uploadEventInvite(files, $scope.event.id).then(function () {
+                        alert('image was saved!');
+                    },
+                    function (err) {
+                        dialogService.error("There was a problem saving your image please try again");
+                    }
+                ).finally(
+                    function () {
+                        $scope.fetchingData = false;
+                    }
+                )
             };
 
 
@@ -109,7 +147,7 @@ angular.module('gliist')
                         function (res) {
                             $scope.event.id = res.id;
                             $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
-                            dialogService.success('Event ' + res.title + 'created');
+                            dialogService.success('Event ' + res.title + ' created');
 
                         }, function () {
                             dialogService.error('There was a problem saving your event, please try again');
@@ -129,6 +167,9 @@ angular.module('gliist')
                 $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
             };
 
+            $scope.onFinishClicked = function () {
+                $state.go('main.event_summary', {eventId: $scope.event.id});
+            };
 
             $scope.createEvent = function () {
                 $scope.savingEvent = true;

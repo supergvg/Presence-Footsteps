@@ -70,7 +70,12 @@ angular.module('gliist', [
                     url: '/event/edit/:eventId',
                     templateUrl: 'app/events/templates/edit-event.html',
                     controller: 'EditEventCtrl'
-                }).state('main.current_events', {
+                }).state('main.event_summary', {
+                    url: '/event/summary/:eventId',
+                    templateUrl: 'app/events/templates/event-summary.html',
+                    controller: 'EventSummaryCtrl'
+                })
+                .state('main.current_events', {
                     url: '/current_events',
                     templateUrl: 'app/templates/current-events.html',
                     controller: 'EventsCtrl'

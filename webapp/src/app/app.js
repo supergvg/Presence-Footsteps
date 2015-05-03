@@ -79,32 +79,32 @@ angular.module('gliist')
                 {
                     title: 'Create Event',
                     ui_sref: 'main.create_event',
-                    icon: {name: 'add_circle', style: "fill: #abcdef", size: 24 }
+                    icon: {name: 'add_circle', style: "fill: white", size: 24 }
                 },
                 {
                     title: 'Current Events',
                     ui_sref: 'main.current_events',
-                    icon: {name: 'today', style: "fill: #abcdef", size: 24}
+                    icon: {name: 'today', style: "fill: white", size: 24}
                 },
                 {
                     title: 'Past Events',
                     ui_sref: 'main.past_events',
-                    icon: {name: 'history', style: "fill: #abcdef", size: 24 }
+                    icon: {name: 'history', style: "fill: white", size: 24 }
                 },
                 {
                     title: 'Guest List Management',
                     ui_sref: 'main.list_management',
-                    icon: {name: 'content_paste', style: "fill: #abcdef", size: 24}
+                    icon: {name: 'content_paste', style: "fill: white", size: 24}
                 },
                 {
                     title: 'Event Statistics',
                     ui_sref: 'main.stats',
-                    icon: {name: 'account_balance', style: "fill: #abcdef", size: 24}
+                    icon: {name: 'account_balance', style: "fill: white", size: 24}
                 },
                 {
                     title: 'User Profile',
                     ui_sref: 'main.user',
-                    icon: {name: 'assignment_ind', style: "fill: #abcdef", size: 24}
+                    icon: {name: 'assignment_ind', style: "fill: white", size: 24}
                 }
             ];
         }]);
