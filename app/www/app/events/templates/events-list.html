@@ -5,6 +5,10 @@
     </div>
 
     <ion-spinner ng-show="fecthingData"></ion-spinner>
+    <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doEventsRefresh()">
+    </ion-refresher>
 
     <div class="list">
         <div ng-repeat="event in events" ui-sref="app.event({eventId:{{event.id}}})">

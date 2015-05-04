@@ -1,7 +1,6 @@
 <div style="background-color: #EEEEEE">
-    {{filter}}
     <div class="list">
-        <a class="item item-avatar" collection-repeat="checkin in list.actual | filter:filter"
+        <a class="item item-avatar" ng-repeat="checkin in list.actual | filter:filter"
            ui-sref="app.check_guest({guestId:checkin.guest.id, gliId:list.id})" style="background-color: #EEEEEE">
 
             <img src="../img/icons/user_01.png">

@@ -9,9 +9,15 @@ angular.module('gliist')
 
             $scope.glistSelected = function (glist) {
 
-                return _.find($scope.selected, function (item) {
+                var found = _.find($scope.selected, function (item) {
                     return glist.id === item.id;
                 });
+
+                if (found) {
+                    return true;
+                }
+
+                return false;
             };
             $scope.toggleSelected = function (item) {
                 var idx = $scope.selected.indexOf(item);

@@ -17,23 +17,6 @@ angular.module('gliist')
 
             $scope.guests = [];
 
-            $scope.selected = $scope.selected || [];
-
-            $scope.glistSelected = function (glist) {
-
-                return _.find($scope.selected, function (item) {
-                    return glist.id === item.id;
-                });
-            };
-            $scope.toggleSelected = function (item) {
-                var idx = $scope.selected.indexOf(item);
-                if (idx > -1) {
-                    $scope.selected.splice(idx, 1)
-                } else {
-                    $scope.selected.push(item);
-                }
-            };
-
             $scope.addMore = function () {
                 $scope.list.guests.push({
                 });

@@ -69,9 +69,8 @@ angular.module('gliist')
                 scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
                 scope.save = $scope.save;
-                scope.selected = _.map($scope.event.guestLists, function (gli) {
-                    return  gli.linked_guest_list;
-                });
+
+                scope.selected = angular.copy($scope.event.guestLists);
 
                 scope.options = {
                     enableSelection: true

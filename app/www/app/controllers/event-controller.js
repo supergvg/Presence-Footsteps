@@ -1,6 +1,6 @@
 angular.module('starter').controller('eventController',
-    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner',
-        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner) {
+    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner', '$ionicLoading',
+        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner, $ionicLoading) {
 
             $scope.title = 'Event';
 
@@ -15,22 +15,13 @@ angular.module('starter').controller('eventController',
 
             };
 
-            $scope.initGuestListView = function () {
-                var eventId = $stateParams.eventId;
-
-                eventsService.getEvents(eventId).then(
-                    function (event) {
-                        $scope.currentEvent = event;
-                    },
-                    function () {
-                        dialogService.error('Oops there was a problem getting event, please try again')
-                    }
-                );
-            };
-
             $scope.init = function () {
 
                 $scope.eventId = $stateParams.eventId;
+
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
 
                 eventsService.getEvents($scope.eventId).then(
                     function (event) {
@@ -49,6 +40,10 @@ angular.module('starter').controller('eventController',
                     },
                     function () {
                         dialogService.error('Oops there was a problem getting event, please try again')
+                    }
+                ).finally(
+                    function () {
+                        $ionicLoading.hide();
                     }
                 );
 

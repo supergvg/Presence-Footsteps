@@ -25,7 +25,7 @@
         <div ng-if="guestCheckin.time" ng-cloak>
             <div class="row">
                 <div class="centered">
-                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time}}</h4>
+                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ss a'}}</h4>
                 </div>
             </div>
         </div>
@@ -37,9 +37,13 @@
                     <input type="number" min="0" max="guest.plus" step="1" ng-model="guestCheckin.plus"/>
                 </div>
             </div>
+
+
             <div class="row">
-                <button class="button button-calm centered" ng-click="checkIn()">
+                <button class="button button-calm centered" ng-disabled="fetchingData" ng-click="checkIn()">
                     Check In
+                    <ion-spinner ng-show="fetchingData"></ion-spinner>
+
                 </button>
             </div>
         </div>

@@ -1,7 +1,25 @@
-angular.module('starter').controller('checkGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state',
-    function ($scope, $stateParams, eventsService, dialogService, $state) {
+angular.module('starter').controller('checkGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$ionicLoading',
+    function ($scope, $stateParams, eventsService, dialogService, $state, $ionicLoading) {
+
+        $scope.checkIn = function () {
+            $scope.fetchingData = true;
+            eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(
+                function (res) {
+                    $scope.guestCheckin = res;
+                },
+                function () {
+                    dialogService.error('Oops there was a problem getting guest, please try again')
+                }
+            ).finally(function () {
+                    $scope.fetchingData = false;
+                });
+        };
+
         $scope.init = function () {
 
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
 
             var guestId = $stateParams.guestId,
                 gliId = $stateParams.gliId;
@@ -9,17 +27,6 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
             if (!guestId || !gliId) {
                 $state.go('app.home');
                 return;
-            }
-
-            $scope.checkIn = function () {
-                eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(
-                    function (res) {
-                        $scope.guestCheckin = res;
-                    },
-                    function () {
-                        dialogService.error('Oops there was a problem getting guest, please try again')
-                    }
-                );
             }
 
             $scope.guestCheckin = {plus: 0};
@@ -31,8 +38,11 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
                 function () {
                     dialogService.error('Oops there was a problem getting guest, please try again')
                 }
+            ).finally(
+                function () {
+                    $ionicLoading.hide();
+                }
             );
-
         }
     }
 ]);
