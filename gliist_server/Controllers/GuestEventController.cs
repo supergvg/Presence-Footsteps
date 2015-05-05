@@ -142,6 +142,38 @@ namespace gliist_server.Controllers
             return Ok(@event.guestLists);
         }
 
+        [ResponseType(typeof(void))]
+        [HttpPost]
+        [Route("DeleteGuestList")]
+        public async Task<IHttpActionResult> DeleteGuestLists(IdsEventModel @model)
+        {
+            var userId = User.Identity.GetUserId();
+
+            Event @event = await db.Events.FindAsync(@model.eventId);
+
+            if (@event == null || @event.userId != userId)
+            {
+                return BadRequest();
+            }
+
+            var gli_id = @model.ids.First();
+
+            var idx = @event.guestLists.FindIndex(g => g.id == gli_id);
+
+            var gli = @event.guestLists[idx];
+
+            gli.linked_event = null;
+            @event.guestLists.RemoveAt(idx);
+
+
+            db.Entry(@event).State = EntityState.Modified;
+            db.Entry(gli).State = EntityState.Modified;
+
+            await db.SaveChangesAsync();
+
+            return Ok(@event.guestLists);
+        }
+
 
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -237,6 +269,7 @@ namespace gliist_server.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+        static byte[] _eventPlaceHolder;
 
         [Route("InvitePicture")]
         [AllowAnonymous]
@@ -253,11 +286,17 @@ namespace gliist_server.Controllers
             Stream imgStream;
             string fileName;
 
-            if (string.IsNullOrEmpty(@event.invitePicture))
+            if (string.IsNullOrEmpty(@event.invitePicture) || @event.invitePictureData == null)
             {
                 var path = System.Web.HttpContext.Current.Server.MapPath("~/images/event_placeholder.jpg");
                 fileName = "event_placeholder.jpg";
-                imgStream = new FileStream(path, FileMode.Open);
+
+                if (_eventPlaceHolder == null)
+                {
+                    _eventPlaceHolder = File.ReadAllBytes(path);
+                }
+
+                imgStream = new MemoryStream(_eventPlaceHolder);
             }
             else
             {

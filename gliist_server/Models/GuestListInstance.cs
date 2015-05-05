@@ -22,5 +22,28 @@ namespace gliist_server.Models
 
         public virtual List<GuestCheckin> actual { get; set; }
 
+
+        public override bool Equals(object obj)
+        {
+            var gli = obj as GuestListInstance;
+
+            if (gli == null)
+            {
+                return false;
+            }
+
+            if (this.id != 0)
+            {
+                return this.id == gli.id;
+            }
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.id;
+        }
+
     }
 }

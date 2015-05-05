@@ -120,6 +120,7 @@ namespace gliist_server.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        static byte[] _userProfile;
 
         [Route("ProfilePicture")]
         [AllowAnonymous]
@@ -132,7 +133,13 @@ namespace gliist_server.Controllers
             {
                 var path = System.Web.HttpContext.Current.Server.MapPath("~/images/blank_user_icon.png");
                 fileName = "blank_user_icon.png";
-                imgStream = new FileStream(path, FileMode.Open);
+
+                if (_userProfile == null)
+                {
+                    _userProfile = File.ReadAllBytes(path);
+                }
+
+                imgStream = new MemoryStream(_userProfile);
             }
             else
             {
