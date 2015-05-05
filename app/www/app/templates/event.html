@@ -6,7 +6,8 @@
         <div class="row row-center" style="text-align: center;background-color: #999999">
             <div class="col">
                 <p class="text-color-light">
-                    {{currentEvent.date}} <br>
+                    {{currentEvent.date | date:'yyyy-MM-dd'}} <br>
+                    {{currentEvent.time | date:'h:mm:ss a'}} <br>
                 </p>
             </div>
         </div>

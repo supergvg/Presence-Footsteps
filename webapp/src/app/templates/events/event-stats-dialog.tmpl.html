@@ -1,10 +1,12 @@
 <md-dialog aria-label="Edit" flex>
+    <md-dialog-content layout-padding>
+        <h1>
+            {{currentEvent.title}} Statistics
+        </h1>
 
-    <h1>
-        {{currentEvent.title}} Statistics
-    </h1>
+        <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
 
-    <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
+    </md-dialog-content>
     <div class="md-actions" layout="row">
         <md-button ng-click="cancel()">
             Cancel

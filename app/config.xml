@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.gliist715260" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>gliist</name>
+    gliist - ditch the clip
   <description>
-        An Ionic Framework and Cordova project.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-        Ionic Framework Team
+  <author email="erank3@gmail.com" href="http://ionicframework.com/">
+        erank3
     </author>
   <content src="index.html"/>
   <access origin="*"/>

@@ -53,6 +53,9 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
             linkGuestList: function (guestLists, eventId) {
                 var d = $q.defer(),
                     ids = _.map(guestLists, function (gl) {
+                        if (!gl) {
+                            return;
+                        }
                         return gl.id
                     });
 

@@ -1,4 +1,4 @@
-<md-content class="md-padding">
+<md-content>
     <h3 class="md-title" ng-show="currentEvents.length == 0">No guest lists found</h3>
 
     <md-list>
@@ -14,7 +14,7 @@
                     {{event.location}}
 
                     <h3>{{event.title}}</h3>
-                    {{event.date}}
+                    {{event.date |date:'yyyy-MM-dd'}}
 
                     <md-chips ng-model="event.tags"
                               readonly="true">
