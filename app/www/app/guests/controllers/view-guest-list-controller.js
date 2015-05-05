@@ -1,9 +1,10 @@
-angular.module('starter').controller('viewGuestListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state',
+angular.module('starter').controller('viewGuestListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state) {
+    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
+
+        $rootScope.title = "Guest Lists";
 
         $scope.$watch('currentEvent', function (newValue) {
-
             if (!newValue) {
                 return;
             }

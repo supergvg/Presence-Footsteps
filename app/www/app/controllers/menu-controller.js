@@ -2,6 +2,10 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
 
     function ($scope, $ionicSideMenuDelegate, userService, $state, $rootScope) {
 
+        $rootScope.$watch('title', function (newValue) {
+            $scope.title = newValue;
+        });
+
         $rootScope.$watch('currentUser', function (newVal) {
             $scope.userProfilePic = userService.getUserPhoto('250px', $rootScope.currentUser);
         });

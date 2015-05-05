@@ -8,6 +8,7 @@ angular.module('gliist')
             controller: 'GuestListInstanceViewerCtrl',
 
             scope: {
+                event: '=?',
                 lists: '=?',
                 options: '=?',
                 selected: '=?'

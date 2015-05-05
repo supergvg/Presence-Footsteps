@@ -7,7 +7,7 @@ angular.module('starter').controller('EventPreviewController', ['$scope', '$stat
             if (!event) {
                 return;
             }
-            return eventsService.getEventInvite('100px', event.id, $scope.inviteSuffix);
+            return eventsService.getEventInvite('100%', event.id, $scope.inviteSuffix);
         };
     }
 ]);

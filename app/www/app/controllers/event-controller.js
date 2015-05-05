@@ -2,7 +2,7 @@ angular.module('starter').controller('eventController',
     ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner', '$ionicLoading',
         function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner, $ionicLoading) {
 
-            $scope.title = 'Event';
+            $rootScope.title = 'Event';
 
             $scope.scanBarcode = function () {
                 $cordovaBarcodeScanner
@@ -26,6 +26,7 @@ angular.module('starter').controller('eventController',
                 eventsService.getEvents($scope.eventId).then(
                     function (event) {
                         $scope.currentEvent = event;
+                        $rootScope.title = event.title;
 
                         $scope.guests = {
                             guests: []

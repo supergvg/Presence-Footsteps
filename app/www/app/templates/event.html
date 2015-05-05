@@ -3,15 +3,6 @@
 
         <event-preview-item event="currentEvent"></event-preview-item>
 
-        <div class="row row-center" style="text-align: center;background-color: #999999">
-            <div class="col">
-                <p class="text-color-light">
-                    {{currentEvent.date | date:'yyyy-MM-dd'}} <br>
-                    {{currentEvent.time | date:'h:mm:ss a'}} <br>
-                </p>
-            </div>
-        </div>
-
         <div class="row row-center" style="text-align: center;background-color: #B6B6B6">
             <div class="col">
                 <p class="text-color-light">
@@ -20,19 +11,38 @@
             </div>
         </div>
 
-        <div class="button-bar">
-            <a class="button button-calm" ng-click="scanBarcode()">
-                Scan Barcode </a>
-        </div>
-        <div class="button-bar">
-            <a class="button button-calm" ui-sref="app.view_guests({eventId:{{eventId}}})"> View Guests</a>
-            <a class="button button-calm" ui-sref="app.add_guest({eventId:{{eventId}}})"> Add Guests</a>
+        <div>
+            <div class="row"
+                 style="background-color: #8F8F8F;border-bottom: white;margin-bottom: 6px;padding-top: 30px;padding-bottom: 30px">
+                <button class="button button-calm centered" ng-click="scanBarcode()">
+                    Scan Barcode
+                </button>
+            </div>
+
+            <div class="row"
+                 style="background-color: #8F8F8F;margin-bottom: 6px;padding-top: 30px;padding-bottom: 30px">
+                <button class="button button-calm centered" ui-sref="app.view_guests({eventId:{{eventId}}})">
+                    View Full List
+                </button>
+            </div>
+
+            <div class="row"
+                 style="background-color: #8F8F8F;margin-bottom: 6px;padding-top: 30px;padding-bottom: 30px">
+                <button class="button button-calm centered" ui-sref="app.add_guest({eventId:{{eventId}}})">
+                    Add Guests
+                </button>
+            </div>
         </div>
 
-        <div class="button-bar">
-            <a class="button button-calm" ui-sref="app.event_stats({eventId:{{eventId}}})">Stats</a>
-        </div>
         <guest-list-instance-list event="currentEvent"></guest-list-instance-list>
+
+        <div class="row"
+             style="background-color: #8F8F8F;margin-bottom: 6px;padding-top: 30px;padding-bottom: 30px">
+            <button class="button button-calm centered" ui-sref="app.event_stats({eventId:{{eventId}}})">
+                Stats
+            </button>
+        </div>
+
     </ion-content>
     <div class="bar bar-footer logo-bg">
         <button class="back-button" ui-sref="app.home"></button>
