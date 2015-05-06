@@ -16,21 +16,34 @@ using gliist_server.Helpers;
 namespace gliist_server.Controllers
 {
     [RoutePrefix("api/EmailController")]
+    [Authorize]
     public class EmailController : ApiController
     {
         private EventDBContext db = new EventDBContext();
+        private UserManager<UserModel> UserManager;
 
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("SendEmail")]
         public async Task<IHttpActionResult> SendEmail()
         {
-            EmailHelper.SendEmail("erank3@gmail.com");
-            EmailHelper.SendEmail("bisousjocelyn@gmail.com");
+            var userId = User.Identity.GetUserId();
+
+            UserModel user = UserManager.FindById(userId);
+
+
+
+            EmailHelper.SendWelcomeEmail("erank3@gmail.com", "http://www.gliist.com", user.UserName, "http://www.gliist.com");
+            EmailHelper.SendWelcomeEmail("bisousjocelyn@gmail.com", "http://www.gliist.com", user.UserName, "http://www.gliist.com");
 
 
 
             return StatusCode(HttpStatusCode.Accepted);
+        }
+
+        public EmailController()
+        {
+            UserManager = Startup.UserManagerFactory(db);
         }
     }
 }

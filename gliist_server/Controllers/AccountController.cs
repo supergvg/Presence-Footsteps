@@ -27,6 +27,7 @@ using System.Web.Hosting;
 using System.Drawing.Imaging;
 using System.Web.Http.Description;
 using Newtonsoft.Json.Linq;
+using gliist_server.Helpers;
 
 namespace gliist_server.Controllers
 {
@@ -465,6 +466,7 @@ namespace gliist_server.Controllers
                 return errorResult;
             }
 
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com");
             return Ok();
         }
 
