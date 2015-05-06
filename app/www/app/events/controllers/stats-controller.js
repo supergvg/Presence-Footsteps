@@ -1,7 +1,7 @@
-angular.module('starter').controller('statsController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state',
+angular.module('starter').controller('statsController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state) {
-        $scope.title = 'Guest';
+    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
+        $rootScope.title = 'Stats';
 
 
         $scope.init = function () {
