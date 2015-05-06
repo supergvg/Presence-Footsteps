@@ -40,10 +40,11 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
                 href: '#/app/stats',
                 icon: 'ion-pie-graph'
             },
-            /*{
-             text: 'Alerts',
-             href: '#/app/search'
-             },*/
+            {
+                text: 'Alerts',
+                href: '#/app/alerts',
+                icon: 'ion-ios-bell'
+            },
             {
                 text: 'Profile',
                 href: '#/app/profile',

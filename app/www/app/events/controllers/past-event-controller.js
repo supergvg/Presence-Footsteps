@@ -1,7 +1,7 @@
-angular.module('starter').controller('pastEventController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state',
+angular.module('starter').controller('pastEventController', ['$scope', '$rootScope',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state) {
-        $scope.title = 'Guest';
+    function ($scope, $rootScope) {
+        $rootScope.title = 'Past Events';
 
         $scope.currentGuest = {};
     }
