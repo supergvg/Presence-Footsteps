@@ -26,17 +26,13 @@ angular.module('gliist')
                 guestLists: []
             };
 
-            $scope.$watch('event', function (newVal) {
-                if (!newVal) {
-                    return;
-                }
-
-                $scope.inviteSuffix = (new Date()).getTime();
-            })
-
-
-            $scope.getEventInvite = function () {
-                return eventsService.getEventInvite('300px', $scope.event.id, $scope.inviteSuffix);
+            $scope.getEventInvite = function (height) {
+                return {
+                    'background-image': "url(" + $scope.event.invitePicture + ")",
+                    'background-position': 'center center',
+                    'height': height || '250px',
+                    'background-size': 'cover'
+                };
             };
 
 

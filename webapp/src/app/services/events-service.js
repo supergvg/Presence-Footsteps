@@ -2,22 +2,6 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
     function ($rootScope, $http, $q) {
         return  {
 
-            getEventInvite: function (height, eventId, suffix) {
-                var bgImg,
-                    redirectUrl = "http://gliist.azurewebsites.net/";
-
-                bgImg = redirectUrl + "/api/GuestEventController/InvitePicture/?eventId=" + eventId + "&suffix=" + suffix;
-                bgImg = "url(" + bgImg + ")";
-
-                return {
-                    'background-image': bgImg,
-                    'background-position': 'center center',
-                    'height': height || '250px',
-                    'background-size': 'cover'
-                };
-
-            },
-
             createEvent: function (event) {
                 var d = $q.defer();
 
@@ -45,6 +29,22 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
                     d.resolve(data);
                 }).error(function () {
                     d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
+            publishEvent: function (eventId) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/PublishEvent",
+                    params: {eventId: eventId}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error publishing event, please try again');
                 });
 
                 return d.promise;

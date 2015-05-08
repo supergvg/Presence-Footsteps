@@ -5,7 +5,12 @@ angular.module('gliist')
         function ($scope, $mdDialog, eventsService, dialogService) {
 
             $scope.getEventInvite = function (event) {
-                return eventsService.getEventInvite('100px', event.id, $scope.inviteSuffix);
+                return {
+                    'background-image': "url(" + event.invitePicture + ")",
+                    'background-position': 'center center',
+                    'height': '100px',
+                    'background-size': 'cover'
+                };
             };
 
 
