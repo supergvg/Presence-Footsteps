@@ -31,9 +31,12 @@ namespace gliist_server.Models
 
         public virtual List<GuestListInstance> guestLists { get; set; }
 
-        public byte[] invitePictureData { get; set; }
-
         public string invitePicture { get; set; }
+
+        public Event()
+        {
+            invitePicture = @"https://gliist.blob.core.windows.net/invites/1_61_event_placeholder.jpg";
+        }
 
     }
 }

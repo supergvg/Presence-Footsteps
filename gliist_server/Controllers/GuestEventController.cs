@@ -243,7 +243,13 @@ namespace gliist_server.Controllers
         [Route("InvitePicture")]
         public async Task<IHttpActionResult> PostInvitePicture(int eventId)
         {
-            var profilePicImage = await FileUploadHelper.FilesToBytes(this.Request);
+            var picData = await FileUploadHelper.RequestToStream(this.Request);
+
+            var container = BlobHelper.GetWebApiContainer("invites");
+
+            var blob = container.GetBlockBlobReference(eventId.ToString() + "_" + DateTime.Now.Millisecond + "_" + picData.Item1);
+
+            blob.UploadFromStream(picData.Item2);
 
             var userId = User.Identity.GetUserId();
 
@@ -253,8 +259,7 @@ namespace gliist_server.Controllers
                 return NotFound();
             }
 
-            @event.invitePictureData = profilePicImage.Item2;
-            @event.invitePicture = profilePicImage.Item1;
+            @event.invitePicture = blob.Uri.AbsoluteUri;
 
             db.Entry(@event).State = EntityState.Modified;
 
@@ -268,52 +273,6 @@ namespace gliist_server.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
-        }
-        static byte[] _eventPlaceHolder;
-
-        [Route("InvitePicture")]
-        [AllowAnonymous]
-        public async Task<HttpResponseMessage> GetEventInvite(int eventId)
-        {
-            var userId = User.Identity.GetUserId();
-
-            Event @event = await db.Events.FindAsync(eventId);
-            if (@event == null)
-            {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-
-            Stream imgStream;
-            string fileName;
-
-            if (string.IsNullOrEmpty(@event.invitePicture) || @event.invitePictureData == null)
-            {
-                var path = System.Web.HttpContext.Current.Server.MapPath("~/images/event_placeholder.jpg");
-                fileName = "event_placeholder.jpg";
-
-                if (_eventPlaceHolder == null)
-                {
-                    _eventPlaceHolder = File.ReadAllBytes(path);
-                }
-
-                imgStream = new MemoryStream(_eventPlaceHolder);
-            }
-            else
-            {
-                imgStream = new MemoryStream(@event.invitePictureData);
-                fileName = @event.invitePicture;
-
-            }
-            var resp = new HttpResponseMessage()
-            {
-                Content = new StreamContent(imgStream)
-            };
-
-            // Find the MIME type
-            string mimeType = FileUploadHelper.GetMimeType(Path.GetExtension(fileName));
-            resp.Content.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
-
-            return resp;
         }
     }
 }

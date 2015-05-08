@@ -3,7 +3,7 @@ namespace gliist_server.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Inital : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -32,6 +32,7 @@ namespace gliist_server.Migrations
                         id = c.Int(nullable: false, identity: true),
                         title = c.String(),
                         listType = c.String(),
+                        capacity = c.Int(nullable: false),
                         linked_event_id = c.Int(),
                         linked_guest_list_id = c.Int(),
                     })

@@ -69,6 +69,27 @@ namespace gliist_server.Controllers
 
 
 
+        public async static Task<Tuple<string, Stream>> RequestToStream(HttpRequestMessage request)
+        {
+            if (!request.Content.IsMimeMultipartContent())
+            {
+                request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            var provider = GetMultipartProvider();
+            var result = await request.Content.ReadAsMultipartAsync(provider);
+
+            // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
+            // so this is how you can get the original file name
+            var originalFileName = GetDeserializedFileName(result.FileData.First());
+
+            // uploadedFileInfo object will give you some additional stuff like file length,
+            // creation time, directory name, a few filesystem methods etc..
+            var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
+
+            return new Tuple<string, Stream>(originalFileName, new FileStream(uploadedFileInfo.FullName, FileMode.Open));
+        }
+
 
         public async static Task<GuestList> ParseCSV(HttpRequestMessage request, string userId, EventDBContext db)
         {

@@ -28,11 +28,6 @@ namespace gliist_server.Controllers
 
             var events = db.Events.Where(e => e.userId == userId);
 
-            foreach (var item in events)
-            {
-                item.invitePictureData = null;
-            }
-
             return events;
         }
 
@@ -46,7 +41,6 @@ namespace gliist_server.Controllers
                 return NotFound();
             }
 
-            @event.invitePictureData = null;
             return Ok(@event);
         }
 
@@ -116,6 +110,11 @@ namespace gliist_server.Controllers
             if (@event.id > 0)
             {
                 db.Entry(@event).State = EntityState.Modified;
+
+                foreach (var gli in @event.guestLists)
+                {
+                    db.Entry(gli).State = EntityState.Modified;
+                }
             }
             else
             {

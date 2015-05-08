@@ -14,6 +14,8 @@ namespace gliist_server.Models
 
         public string listType { get; set; }
 
+        public int capacity { get; set; }
+
         [JsonIgnore]
         public virtual Event linked_event { get; set; }
 
@@ -21,7 +23,6 @@ namespace gliist_server.Models
         public virtual GuestList linked_guest_list { get; set; }
 
         public virtual List<GuestCheckin> actual { get; set; }
-
 
         public override bool Equals(object obj)
         {
