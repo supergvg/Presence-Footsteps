@@ -10,7 +10,7 @@
             <md-item ng-repeat="instance in lists">
                 <md-item-content layout="row">
                     <div layout="row" class="md-tile-content">
-                        <div flex="50">
+                        <div flex="40">
                             <h3>{{instance.title}}</h3>
                         </div>
                         <div flex="25">
@@ -18,6 +18,11 @@
                         </div>
                         <div flex="25">
                             <h3>{{instance.listType}}</h3>
+                        </div>
+                        <div flex="10" style="padding: 0" ng-hide="options.readOnly">
+                            <md-input-container>
+                                <input name="capacity" ng-model="instance.capacity" type="number" min="0" step="1">
+                            </md-input-container>
                         </div>
                     </div>
 
