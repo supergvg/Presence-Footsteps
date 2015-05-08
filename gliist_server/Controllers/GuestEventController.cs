@@ -54,6 +54,7 @@ namespace gliist_server.Controllers
     {
 
         private EventDBContext db = new EventDBContext();
+        private UserManager<UserModel> UserManager;
 
 
         [ResponseType(typeof(Guest))]
@@ -239,6 +240,34 @@ namespace gliist_server.Controllers
             return Ok(checkin);
         }
 
+
+        [HttpPost]
+        [Route("PublishEvent")]
+        public async Task<IHttpActionResult> PubishEvent(int eventId)
+        {
+            var userId = User.Identity.GetUserId();
+            UserModel user = UserManager.FindById(userId);
+
+            Event @event = await db.Events.FindAsync(eventId);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var gli in @event.guestLists)
+            {
+                foreach (var checkin in gli.actual)
+                {
+                    EmailHelper.SendInvite(user, @event, checkin.guest);
+                }
+
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+
         [HttpPost]
         [Route("InvitePicture")]
         public async Task<IHttpActionResult> PostInvitePicture(int eventId)
@@ -273,6 +302,11 @@ namespace gliist_server.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        public GuestEventController()
+        {
+            UserManager = Startup.UserManagerFactory(db);
         }
     }
 }
