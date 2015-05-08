@@ -24,7 +24,7 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
                 $http({
                     method: "POST",
                     url: "api/event",
-                    data: event,
+                    data: event
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {

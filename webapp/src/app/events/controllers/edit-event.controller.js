@@ -7,7 +7,7 @@ angular.module('gliist')
             $scope.init = function () {
                 var eventId = $stateParams.eventId;
 
-                $scope.fetchingData = true;
+                $scope.initializing = true;
 
                 $scope.currentEvents = eventsService.getEvents(eventId).then(function (data) {
                     $scope.event = data;
@@ -20,7 +20,7 @@ angular.module('gliist')
                     $state.go('main.current_events');
                 }).finally(
                     function () {
-                        $scope.fetchingData = false;
+                        $scope.initializing = false;
                     }
                 )
 

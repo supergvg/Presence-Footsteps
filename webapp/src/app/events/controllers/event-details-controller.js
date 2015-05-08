@@ -13,7 +13,7 @@ angular.module('gliist')
             ];
 
             $scope.data = {
-                selectedIndex: 1,
+                selectedIndex: 0,
                 bottom: 'bottom'
             };
 
@@ -167,7 +167,23 @@ angular.module('gliist')
             };
 
             $scope.onFinishClicked = function () {
-                $state.go('main.event_summary', {eventId: $scope.event.id});
+
+                $scope.savingEvent = true;
+                eventsService.createEvent($scope.event).then(
+                    function (res) {
+                        $scope.event.id = res.id;
+                        dialogService.success('Event ' + res.title + ' saved');
+
+                        $state.go('main.event_summary', {eventId: $scope.event.id});
+
+                    }, function () {
+                        dialogService.error('There was a problem saving your event, please try again');
+                    }
+                ).finally(
+                    function () {
+                        $scope.savingEvent = false;
+                    }
+                )
             };
 
             $scope.createEvent = function () {
@@ -175,7 +191,7 @@ angular.module('gliist')
                 eventsService.createEvent($scope.event).then(
                     function (res) {
                         $scope.event.id = res.id;
-                        dialogService.success('Event ' + res.event.title + 'created');
+                        dialogService.success('Event ' + res.title + 'created');
 
                     }, function () {
                         dialogService.error('There was a problem saving your event, please try again');

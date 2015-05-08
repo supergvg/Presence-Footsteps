@@ -48,6 +48,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                         controller: 'homeController'
                     }
                 }
+            }).state('app.alerts', {
+                url: '/alerts',
+                views: {
+                    'menuContent': {
+                        controller: 'alertsController',
+                        templateUrl: 'app/alerts/templates/alerts.html'
+                    }
+                }
             }).state('app.past_events', {
                 url: '/past_events',
                 views: {
