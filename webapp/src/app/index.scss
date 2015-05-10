@@ -59,6 +59,25 @@ section.jumbotron {
   height: 250px;
 }
 
+.white-bg {
+  background-color: white !important;
+}
+
+.input-icon {
+  position: absolute;
+  top: 25px;
+  right: 15px;
+}
+
+md-input-container.md-default-theme .md-input,
+md-select.md-default-theme .md-select-label {
+  background-color: white !important;
+}
+
+md-content {
+  background-color: #ECECEC !important;
+}
+
 .md-primary.md-raised {
   border-radius: 25px;
   background-color: #18D8DB !important;

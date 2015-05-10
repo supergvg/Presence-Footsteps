@@ -41,7 +41,8 @@
                         <md-input-container flex>
                             <label>Event Date</label>
                             <input required name="date" ng-model="event.date" type="date">
-
+                            <ng-md-icon class="input-icon" icon="view_headline" style="fill: #ECECEC;"
+                                        size="24"></ng-md-icon>
                             <div ng-messages="eventForm.date.$error"
                                  ng-if="displayErrorMessage(eventForm.date)">
                                 <div ng-if="eventForm.date.$error.required" ng-message="required">Date is required
@@ -55,7 +56,8 @@
                         <md-input-container flex>
                             <label>Event Time</label>
                             <input required name="time" ng-model="event.time" type="time">
-
+                            <ng-md-icon class="input-icon" icon="alarm_on" style="fill: #ECECEC;"
+                                        size="24"></ng-md-icon>
                             <div ng-messages="eventForm.time.$error"
                                  ng-if="displayErrorMessage(eventForm.time)">
                                 <div ng-if="eventForm.time.$error.required" ng-message="required">Time is required
@@ -67,10 +69,14 @@
                         <md-input-container flex>
                             <label>Event Location</label>
                             <input name="location" ng-model="event.location">
+                            <ng-md-icon class="input-icon" icon="location_on" style="fill: #ECECEC;"
+                                        size="24"></ng-md-icon>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Capacity</label>
                             <input name="capacity" ng-model="event.capacity" type="number" min="0" step="1">
+                            <ng-md-icon class="input-icon" icon="adjust" style="fill: #ECECEC;"
+                                        size="24"></ng-md-icon>
                         </md-input-container>
                     </div>
                     <md-input-container flex>
@@ -78,6 +84,7 @@
                         <textarea name=" details" ng-model="event.description" columns="1"></textarea>
                     </md-input-container>
                 </form>
+
             </md-content>
             <md-content class="md-padding" layout="row" layout-align="end center">
                 <md-button class="md-primary md-raised" ng-click="next(eventForm)">
