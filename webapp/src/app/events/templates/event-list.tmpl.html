@@ -10,7 +10,7 @@
                 <div flex="15" ng-style="getEventInvite(event)">
                 </div>
 
-                <div flex="60">
+                <div flex="50">
                     {{event.location}}
 
                     <h3>{{event.title}}</h3>
@@ -25,7 +25,13 @@
                 </div>
 
                 <div flex="10" layout="column" layout-align="end center" ng-hide="options.readyOnly" ng-cloak>
-                    <md-button class="md-primary md-raised" ng-click="showStats($event,event)">
+                    <md-button class="md-primary md-raised" ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                        <ng-md-icon icon="assignment_turned_in" style="fill: white" size="24"></ng-md-icon>
+                    </md-button>
+                </div>
+
+                <div flex="10" layout="column" layout-align="end center" ng-hide="options.readyOnly" ng-cloak>
+                    <md-button class="md-primary md-raised" ui-sref="main.event_stats({eventId:{{event.id}}})">
                         <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
                     </md-button>
                     <md-button class="md-primary md-raised" ui-sref="main.event_summary({eventId:{{event.id}}})">
