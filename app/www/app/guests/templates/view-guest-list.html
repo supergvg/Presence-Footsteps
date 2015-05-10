@@ -9,12 +9,15 @@
             </label>
         </div>
 
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+
+
 
         <div class="list">
             <div collection-repeat="guestEntry in guestEntries | filter:filter">
-                <div class="item item-divider" ng-if="startNewSection(guestEntry)">
-                    {{guestEntry.glist.title}}
-                </div>
                 <div style="background-color: #EEEEEE">
                     <a class="item item-avatar"
                        ui-sref="app.check_guest({guestId:guestEntry.guest.guest.id, gliId:guestEntry.glist.id})"
@@ -31,8 +34,12 @@
 
         </div>
     </ion-content>
-    <div class="bottom-bar">
-        <button class="back-button" ui-sref="app.home"></button>
+
+    <div class="bar bar-footer logo-bg">
+
+        <div class="ion-arrow-left-b" style="padding-left:20px;color:white;font-size:30px;" ui-sref="app.home">
+            <span style="padding-left:10px;padding-top: -10px;;color:white;font-size:14px"></span>
+        </div>
     </div>
 
 

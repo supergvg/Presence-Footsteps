@@ -70,7 +70,7 @@ angular.module('gliist')
             };
 
             $scope.$watchCollection('list', function (newVal, oldValue) {
-                if (!newVal || !oldValue) {
+                if (!newVal) {
                     return;
                 }
 

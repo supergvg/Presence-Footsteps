@@ -17,7 +17,12 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
         };
 
         $scope.getEventInvite = function (event) {
-            return eventsService.getEventInvite('300px', event.id, $scope.inviteSuffix);
+            return {
+                'background-image': "url(" + event.invitePicture + ")",
+                'background-position': 'center center',
+                'height': '100px',
+                'background-size': 'cover'
+            };
         };
 
         $scope.init = function () {

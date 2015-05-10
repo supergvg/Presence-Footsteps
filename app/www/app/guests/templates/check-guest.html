@@ -1,8 +1,6 @@
 <ion-pane class="light-bg" ng-init="init()">
 
     <ion-content class="content-body">
-        <h3>Check in Guest</h3>
-
         <div class="row">
             <div class="centered">
                 <img src="img/blank_user_icon.png">
@@ -25,7 +23,8 @@
         <div ng-if="guestCheckin.time" ng-cloak>
             <div class="row">
                 <div class="centered">
-                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ss a'}}</h4>
+                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ss
+                        a'}}</h4>
                 </div>
             </div>
         </div>
@@ -50,7 +49,10 @@
 
     </ion-content>
 
-    <div class="bottom-bar">
-        <button class="back-button" ui-sref="app.event"></button>
+    <div class="bar bar-footer logo-bg">
+
+        <div class="ion-arrow-left-b" style="padding-left:20px;color:white;font-size:30px;" ui-sref="app.home">
+            <span style="padding-left:10px;padding-top: -10px;;color:white;font-size:14px"></span>
+        </div>
     </div>
 </ion-pane>

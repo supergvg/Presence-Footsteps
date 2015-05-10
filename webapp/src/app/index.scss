@@ -78,6 +78,10 @@ md-content {
   background-color: #ECECEC !important;
 }
 
+md-dialog {
+  background-color: #ECECEC !important;
+}
+
 .md-primary.md-raised {
   border-radius: 25px;
   background-color: #18D8DB !important;
@@ -94,6 +98,20 @@ md-content {
   padding-left: 15px;
   padding-right: 15px;
   font-size: 12px;
+}
+
+.wht-event-list-btn {
+  background-color: white !important;
+  color: #18D8DB !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+.logo-event-list-btn {
+  background-color: #18D8DB !important;
+  color: white !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
 }
 
 // injector

@@ -1,23 +1,6 @@
 angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q',
     function ($rootScope, $http, $q) {
         return  {
-
-            getEventInvite: function (height, eventId, suffix) {
-                var bgImg,
-                    redirectUrl = "http://gliist.azurewebsites.net/";
-
-                bgImg = redirectUrl + "/api/GuestEventController/InvitePicture/?eventId=" + eventId + "&suffix=" + suffix;
-                bgImg = "url(" + bgImg + ")";
-
-                return {
-                    'background-image': bgImg,
-                    'background-position': 'center center',
-                    'height': height || '250px',
-                    'background-size': 'cover'
-                };
-
-            },
-
             createEvent: function (event) {
                 var d = $q.defer();
 

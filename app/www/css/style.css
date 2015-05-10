@@ -136,3 +136,20 @@ input.rounded:focus {
 .white-text {
     color: white;
 }
+
+.button.button-calm {
+    background-color: #2CD6D6 !important;
+    border-color: #2CD6D6 !important;
+    text-transform: uppercase;
+    border-radius: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.chip {
+    background-color: white;
+    text-align: right;
+    padding: 5px;
+    border-radius: 25px;
+    color: #B6B6B6
+}
