@@ -1,6 +1,6 @@
-angular.module('starter').controller('statsController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope',
+angular.module('starter').controller('statsController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope', '$ionicLoading',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
+    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $ionicLoading) {
         $rootScope.title = 'Stats';
 
 
@@ -12,6 +12,11 @@ angular.module('starter').controller('statsController', ['$scope', '$stateParams
                 $state.go('app.home');
                 return;
             }
+
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+
             eventsService.getEvents(eventId).then(
                 function (event) {
                     $scope.currentEvent = event;
@@ -23,7 +28,9 @@ angular.module('starter').controller('statsController', ['$scope', '$stateParams
                 function () {
                     dialogService.error('Oops there was a problem getting event, please try again')
                 }
-            );
+            ).then(function () {
+                    $ionicLoading.hide();
+                });
 
         };
     }

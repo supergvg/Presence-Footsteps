@@ -114,5 +114,18 @@ md-dialog {
   border-radius: 0 !important;
 }
 
+.rounded {
+  height: 40px;
+  margin-left: 15px;
+
+  margin-right: 15px;
+
+  border-radius: 25px !important;
+  /* mozilla */
+  -moz-border-radius: 25px !important;
+  /* webkit */
+  -webkit-border-radius: 25px !important;
+}
+
 // injector
 // endinjector

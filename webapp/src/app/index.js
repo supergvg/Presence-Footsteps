@@ -66,6 +66,10 @@ angular.module('gliist', [
                     url: '/',
                     templateUrl: 'app/templates/create-event.html',
                     controller: 'EventsCtrl'
+                }).state('main.create_gl_event', {
+                    url: '/event/edit/guestlist/:eventId',
+                    templateUrl: 'app/events/templates/event-add-guestlist.html',
+                    controller: 'AddGLEventCtrl'
                 }).state('main.edit_event', {
                     url: '/event/edit/:eventId',
                     templateUrl: 'app/events/templates/edit-event.html',

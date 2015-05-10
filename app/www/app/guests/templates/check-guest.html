@@ -23,22 +23,29 @@
         <div ng-if="guestCheckin.time" ng-cloak>
             <div class="row">
                 <div class="centered">
-                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ss
-                        a'}}</h4>
+                    <h4 style="text-align: center">
+                        Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ssa'}}
+                    </h4>
                 </div>
             </div>
         </div>
         <div ng-if="!guestCheckin.time" ng-cloak>
-
             <div class="row">
                 <div class="centered">
-                    <label></label>
-                    <input type="number" min="0" max="guest.plus" step="1" ng-model="guestCheckin.plus"/>
+                    <h5>Additional Guests:</h5>
+                    <div class="row">
+                        <button class="button button-calm ion-minus col" ng-click="subtractGuestCount()"
+                                ng-disabled="guestCheckin.plus == 0"></button>
+                        <div style="margin-left: 10px;margin-right: 10px;width: 50px;">
+                            <h3 style="text-align: center"> {{guestCheckin.plus}}</h3>
+                        </div>
+                        <button class="button button-calm ion-plus col" ng-click="addGuestCount()"
+                                ng-disabled="guestCheckin.plus >= guestCheckin.guest.plus"></button>
+                    </div>
                 </div>
+
             </div>
-
-
-            <div class="row">
+            <div class="row" style="margin-top: 40px;">
                 <button class="button button-calm centered" ng-disabled="fetchingData" ng-click="checkIn()">
                     Check In
                     <ion-spinner ng-show="fetchingData"></ion-spinner>

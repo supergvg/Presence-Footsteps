@@ -161,7 +161,8 @@
                             <div class="md-tile-content">
                                 <h3>Add a new guest list</h3>
                             </div>
-                            <md-button class="md-primary md-raised" ng-click="onCreateNewGuestList($event)">
+                            <md-button class="md-primary md-raised"
+                                       ui-sref="main.create_gl_event({eventId:{{event.id}}})">
                                 Create
                             </md-button>
                         </md-item-content>

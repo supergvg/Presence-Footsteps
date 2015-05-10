@@ -3,6 +3,20 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
 
         $rootScope.title = "Check in Guest";
 
+        $scope.subtractGuestCount = function () {
+            if ($scope.guestCheckin.plus === 0) {
+                return;
+            }
+            $scope.guestCheckin.plus--;
+        };
+
+        $scope.addGuestCount = function () {
+            if ($scope.guestCheckin.plus >= $scope.guestCheckin.guest.plus) {
+                return;
+            }
+            $scope.guestCheckin.plus++;
+        };
+
         $scope.checkIn = function () {
             $scope.fetchingData = true;
             eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(

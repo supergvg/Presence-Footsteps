@@ -1,7 +1,7 @@
-angular.module('starter').controller('addGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state',
+angular.module('starter').controller('addGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope', '$ionicLoading',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state) {
-        $scope.title = 'Guest';
+    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $ionicLoading) {
+        $rootScope.title = 'Add Guest';
 
         $scope.currentGuest = {};
 
@@ -35,6 +35,11 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
                 $state.go('app.home');
                 return;
             }
+
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+
             eventsService.getEvents(eventId).then(
                 function (event) {
                     $scope.currentEvent = event;
@@ -43,7 +48,9 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
                 function () {
                     dialogService.error('Oops there was a problem getting event, please try again')
                 }
-            );
+            ).finally(function () {
+                    $ionicLoading.hide();
+                });
 
         };
     }

@@ -113,15 +113,6 @@ angular.module('gliist')
                     enableSelection: true
                 }
 
-                scope.importGLists = function () {
-                    angular.forEach(scope.selected, function (gl) {
-                            mergeGuestList($scope.list, gl);
-                        }
-                    );
-                    $mdDialog.hide();
-                };
-
-
                 scope.cancel = function () {
                     $mdDialog.hide();
                 };
