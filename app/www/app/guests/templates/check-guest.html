@@ -1,11 +1,9 @@
 <ion-pane class="light-bg" ng-init="init()">
 
     <ion-content class="content-body">
-        <h3>Check in Guest</h3>
-
         <div class="row">
             <div class="centered">
-                <img src="img/blank_user_icon.png">
+                <img src="../../img/blank_user_icon.png">
             </div>
         </div>
 
@@ -25,21 +23,29 @@
         <div ng-if="guestCheckin.time" ng-cloak>
             <div class="row">
                 <div class="centered">
-                    <h4 style="text-align: center">Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ss a'}}</h4>
+                    <h4 style="text-align: center">
+                        Guest checked in at: {{guestCheckin.time | date:'yyyy-MM-dd h:mm:ssa'}}
+                    </h4>
                 </div>
             </div>
         </div>
         <div ng-if="!guestCheckin.time" ng-cloak>
-
             <div class="row">
                 <div class="centered">
-                    <label></label>
-                    <input type="number" min="0" max="guest.plus" step="1" ng-model="guestCheckin.plus"/>
+                    <h5>Additional Guests:</h5>
+                    <div class="row">
+                        <button class="button button-calm ion-minus col" ng-click="subtractGuestCount()"
+                                ng-disabled="guestCheckin.plus == 0"></button>
+                        <div style="margin-left: 10px;margin-right: 10px;width: 50px;">
+                            <h3 style="text-align: center"> {{guestCheckin.plus}}</h3>
+                        </div>
+                        <button class="button button-calm ion-plus col" ng-click="addGuestCount()"
+                                ng-disabled="guestCheckin.plus >= guestCheckin.guest.plus"></button>
+                    </div>
                 </div>
+
             </div>
-
-
-            <div class="row">
+            <div class="row" style="margin-top: 40px;">
                 <button class="button button-calm centered" ng-disabled="fetchingData" ng-click="checkIn()">
                     Check In
                     <ion-spinner ng-show="fetchingData"></ion-spinner>
@@ -50,7 +56,10 @@
 
     </ion-content>
 
-    <div class="bottom-bar">
-        <button class="back-button" ui-sref="app.event"></button>
+    <div class="bar bar-footer logo-bg">
+
+        <div class="ion-arrow-left-b" style="padding-left:20px;color:white;font-size:30px;" ui-sref="app.home">
+            <span style="padding-left:10px;padding-top: -10px;;color:white;font-size:14px"></span>
+        </div>
     </div>
 </ion-pane>

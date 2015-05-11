@@ -77,6 +77,11 @@ angular.module('gliist')
 
             $scope.menuItems = [
                 {
+                    title: 'Guest List Management',
+                    ui_sref: 'main.list_management',
+                    icon: {name: 'content_paste', style: "fill: white", size: 24}
+                },
+                {
                     title: 'Create Event',
                     ui_sref: 'main.create_event',
                     icon: {name: 'add_circle', style: "fill: white", size: 24 }
@@ -87,19 +92,9 @@ angular.module('gliist')
                     icon: {name: 'today', style: "fill: white", size: 24}
                 },
                 {
-                    title: 'Past Events',
-                    ui_sref: 'main.past_events',
-                    icon: {name: 'history', style: "fill: white", size: 24 }
-                },
-                {
-                    title: 'Guest List Management',
-                    ui_sref: 'main.list_management',
-                    icon: {name: 'content_paste', style: "fill: white", size: 24}
-                },
-                {
-                    title: 'Event Statistics',
+                    title: 'Events Statistics',
                     ui_sref: 'main.stats',
-                    icon: {name: 'account_balance', style: "fill: white", size: 24}
+                    icon: {name: 'account_balance', style: "fill: white", size: 24 }
                 },
                 {
                     title: 'User Profile',

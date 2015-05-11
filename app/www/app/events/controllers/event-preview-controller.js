@@ -7,7 +7,13 @@ angular.module('starter').controller('EventPreviewController', ['$scope', '$stat
             if (!event) {
                 return;
             }
-            return eventsService.getEventInvite('100%', event.id, $scope.inviteSuffix);
+
+            return {
+                'background-image': "url(" + event.invitePicture + ")",
+                'background-position': 'center center',
+                'height': '100%',
+                'background-size': 'cover'
+            };
         };
     }
 ]);

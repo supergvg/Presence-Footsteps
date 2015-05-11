@@ -12,9 +12,11 @@
         <h3 style="color:white">{{event.title}}</h3>
 
         <p style="color:white">{{event.type}}</p>
-        <button class="button button-stable" ng-cloak ng-show="event.category">
+
+        <div class="chip" ng-cloak ng-show="event.category">
             {{event.category}}
-        </button>
+        </div>
+
     </div>
 
 </div>

@@ -1,5 +1,21 @@
-angular.module('starter').controller('checkGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$ionicLoading',
-    function ($scope, $stateParams, eventsService, dialogService, $state, $ionicLoading) {
+angular.module('starter').controller('checkGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$ionicLoading', '$rootScope',
+    function ($scope, $stateParams, eventsService, dialogService, $state, $ionicLoading, $rootScope) {
+
+        $rootScope.title = "Check in Guest";
+
+        $scope.subtractGuestCount = function () {
+            if ($scope.guestCheckin.plus === 0) {
+                return;
+            }
+            $scope.guestCheckin.plus--;
+        };
+
+        $scope.addGuestCount = function () {
+            if ($scope.guestCheckin.plus >= $scope.guestCheckin.guest.plus) {
+                return;
+            }
+            $scope.guestCheckin.plus++;
+        };
 
         $scope.checkIn = function () {
             $scope.fetchingData = true;

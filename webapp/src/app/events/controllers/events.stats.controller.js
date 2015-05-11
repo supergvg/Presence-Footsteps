@@ -1,16 +1,13 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
-        function ($scope, $mdDialog, eventsService, dialogService) {
+    .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$stateParams',
+        function ($scope, $mdDialog, eventsService, dialogService, $stateParams) {
 
 
             $scope.cssStyle = "height:500px; width:100%;";
 
-
-            $scope.init = function () {
-
-
+            $scope.updateChart = function (event) {
                 $scope.chartObject = {
                     type: 'PieChart',
                     options: {
@@ -25,7 +22,7 @@ angular.module('gliist')
                         rows: []
                     }
                 };
-                angular.forEach($scope.currentEvent.guestLists, function (gl) {
+                angular.forEach(event.guestLists, function (gl) {
                     $scope.chartObject.data.rows.push({
                         c: [
                             {
@@ -40,5 +37,44 @@ angular.module('gliist')
 
             };
 
-            $scope.init();
+            $scope.$watch('event', function (newValue) {
+
+                if (!newValue) {
+                    return;
+                }
+
+
+                $scope.updateChart(newValue);
+            });
+
+            $scope.init = function () {
+
+                var eventId = $stateParams.eventId;
+
+                $scope.initializing = true;
+
+                eventsService.getEvents(eventId).then(function (data) {
+                    $scope.event = data;
+
+                    $scope.chips = {
+                        tags: [
+                            $scope.event.category
+                        ],
+                        readonly: true
+                    };
+
+
+                }, function () {
+                    dialogService.error('There was a problem getting your events, please try again');
+
+                    $state.go('main.current_events');
+                }).finally(
+                    function () {
+                        $scope.initializing = false;
+                    }
+                )
+
+
+            };
+
         }]);

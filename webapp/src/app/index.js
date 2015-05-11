@@ -66,6 +66,10 @@ angular.module('gliist', [
                     url: '/',
                     templateUrl: 'app/templates/create-event.html',
                     controller: 'EventsCtrl'
+                }).state('main.create_gl_event', {
+                    url: '/event/edit/guestlist/:eventId',
+                    templateUrl: 'app/events/templates/event-add-guestlist.html',
+                    controller: 'AddGLEventCtrl'
                 }).state('main.edit_event', {
                     url: '/event/edit/:eventId',
                     templateUrl: 'app/events/templates/edit-event.html',
@@ -74,6 +78,15 @@ angular.module('gliist', [
                     url: '/event/summary/:eventId',
                     templateUrl: 'app/events/templates/event-summary.html',
                     controller: 'EventSummaryCtrl'
+                })
+                .state('main.event_checkin', {
+                    url: '/event/checkin/:eventId',
+                    templateUrl: 'app/events/templates/event-checkin.html',
+                    controller: 'EventCheckinCtrl'
+                }).state('main.event_stats', {
+                    url: '/event/stats/:eventId',
+                    templateUrl: 'app/events/templates/event-stats.html',
+                    controller: 'EventsStatsCtrl'
                 })
                 .state('main.current_events', {
                     url: '/current_events',

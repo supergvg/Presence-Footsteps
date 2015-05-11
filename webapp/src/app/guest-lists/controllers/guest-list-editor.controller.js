@@ -70,7 +70,7 @@ angular.module('gliist')
             };
 
             $scope.$watchCollection('list', function (newVal, oldValue) {
-                if (!newVal || !oldValue) {
+                if (!newVal) {
                     return;
                 }
 
@@ -112,15 +112,6 @@ angular.module('gliist')
                 scope.options = {
                     enableSelection: true
                 }
-
-                scope.importGLists = function () {
-                    angular.forEach(scope.selected, function (gl) {
-                            mergeGuestList($scope.list, gl);
-                        }
-                    );
-                    $mdDialog.hide();
-                };
-
 
                 scope.cancel = function () {
                     $mdDialog.hide();

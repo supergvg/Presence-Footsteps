@@ -4,6 +4,23 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
 
         $rootScope.title = "Guest Lists";
 
+        $scope.doRefresh = function () {
+            var eventId = $stateParams.eventId;
+            $scope.guestEntries = [];
+
+            eventsService.getEvents(eventId).then(
+                function (event) {
+                    $scope.currentEvent = event;
+                },
+                function () {
+                    dialogService.error('Oops there was a problem getting event, please try again')
+                }
+            ).finally(function () {
+                });
+
+        };
+
+
         $scope.$watch('currentEvent', function (newValue) {
             if (!newValue) {
                 return;

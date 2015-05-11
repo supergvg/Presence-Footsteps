@@ -30,21 +30,15 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
                 icon: 'icon ion-ios-download-outline'
             },
             {
-                text: 'Past Events',
-                href: '#/app/past_events',
-                icon: 'icon ion-ios-upload-outline'
-
-            },
-            {
                 text: 'Stats',
                 href: '#/app/stats',
                 icon: 'ion-pie-graph'
             },
-            {
-                text: 'Alerts',
-                href: '#/app/alerts',
-                icon: 'ion-ios-bell'
-            },
+            /*{
+             text: 'Alerts',
+             href: '#/app/alerts',
+             icon: 'ion-ios-bell'
+             },*/
             {
                 text: 'Profile',
                 href: '#/app/profile',

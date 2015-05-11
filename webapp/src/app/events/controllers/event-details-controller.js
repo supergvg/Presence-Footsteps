@@ -26,17 +26,13 @@ angular.module('gliist')
                 guestLists: []
             };
 
-            $scope.$watch('event', function (newVal) {
-                if (!newVal) {
-                    return;
-                }
-
-                $scope.inviteSuffix = (new Date()).getTime();
-            })
-
-
-            $scope.getEventInvite = function () {
-                return eventsService.getEventInvite('300px', $scope.event.id, $scope.inviteSuffix);
+            $scope.getEventInvite = function (height) {
+                return {
+                    'background-image': "url(" + $scope.event.invitePicture + ")",
+                    'background-position': 'center center',
+                    'height': height || '250px',
+                    'background-size': 'cover'
+                };
             };
 
 
@@ -50,8 +46,10 @@ angular.module('gliist')
 
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
-                uploaderService.uploadEventInvite(files, $scope.event.id).then(function () {
-                        alert('image was saved!');
+                uploaderService.uploadEventInvite(files, $scope.event.id).then(function (res) {
+                        $scope.event.invitePicture = res;
+                        dialogService.success('Invite saved');
+
                     },
                     function (err) {
                         dialogService.error("There was a problem saving your image please try again");

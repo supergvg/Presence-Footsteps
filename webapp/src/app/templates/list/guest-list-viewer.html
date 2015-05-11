@@ -19,11 +19,12 @@
                         </div>
                     </div>
 
-                    <md-button class="md-primary md-raised" ui-sref="main.edit_glist({listId:{{glist.id}}})">
-                        <ng-md-icon icon="mode_edit" style="fill: #abcdef" size="24"></ng-md-icon>
+                    <md-button class="md-primary md-raised" style="padding-left:5px;padding-right:5px"
+                               ui-sref="main.edit_glist({listId:{{glist.id}}})">
+                        <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-click="deleteGlist($event,glist)">
-                        <ng-md-icon icon="delete" style="fill: #abcdef" size="24"></ng-md-icon>
+                    <md-button class="md-primary md-raised" style="padding-left:5px;padding-right:5px" ng-click="deleteGlist($event,glist)">
+                        <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
                     </md-button>
                     <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)"
                                  aria-label="Import" ng-show="options.enableSelection">
