@@ -5,37 +5,6 @@ angular.module('gliist')
         function ($scope, $stateParams, dialogService, $state, eventsService, $mdDialog) {
 
 
-            $scope.publishEvent = function (ev) {
-
-                // Appending dialog to document.body to cover sidenav in docs app
-                var confirm = $mdDialog.confirm()
-                    .title('Are you sure you want to publish the event?')
-                    .content('Invitations will be sent to all guests.')
-                    .ariaLabel('Lucky day')
-                    .ok('Yes')
-                    .cancel('No')
-                    .targetEvent(ev);
-                $mdDialog.show(confirm).then(function () {
-
-                    eventsService.publishEvent($scope.event.id).then(
-                        function () {
-
-                        },
-                        function (err) {
-                            dialogService.error(err);
-                        }
-                    );
-
-                }, function () {
-                    $scope.alert = 'You decided to keep your debt.';
-                });
-
-            };
-
-            $scope.editEvent = function () {
-                $state.go("main.edit_event", {eventId: $scope.event.id});
-            };
-
             $scope.getEventInvite = function (height) {
                 return {
                     'background-image': "url(" + $scope.event.invitePicture + ")",
@@ -48,6 +17,20 @@ angular.module('gliist')
                 readOnly: true
             };
 
+
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'guest.firstName', name: 'First Name'},
+                    { field: 'guest.lastName', name: 'Last Name'},
+                    { field: 'guest.email', name: 'Email'},
+                    { field: 'guest.phoneNumber', name: 'Phone Number'},
+                    { field: 'guest.plus', name: 'Plus' }
+                ],
+                rowHeight: 35,
+                data: []
+            };
+
+
             $scope.event = {id: 0};
 
             $scope.init = function () {
@@ -55,20 +38,17 @@ angular.module('gliist')
 
                 $scope.initializing = true;
 
-                $scope.currentEvents = eventsService.getEvents(eventId).then(function (data) {
+                eventsService.getEvents(eventId).then(function (data) {
                     $scope.event = data;
 
-                    $scope.chips = {
-                        tags: [
-                            $scope.event.category
-                        ],
-                        readonly: true
-                    };
+
+                    angular.forEach($scope.event.guestLists, function (gl) {
+                        $scope.gridOptions.data = $scope.gridOptions.data.concat(gl.actual);
+                    });
 
 
                 }, function () {
                     dialogService.error('There was a problem getting your events, please try again');
-
                     $state.go('main.current_events');
                 }).finally(
                     function () {

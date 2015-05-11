@@ -64,6 +64,12 @@
                                 </div>
                             </div>
                         </md-input-container>
+                        <md-input-container flex>
+                            <label>Event End Time</label>
+                            <input name="time" ng-model="event.endTime" type="time">
+                            <ng-md-icon class="input-icon" icon="alarm_on" style="fill: #ECECEC;"
+                                        size="24"></ng-md-icon>
+                        </md-input-container>
                     </div>
                     <div layout layout-sm="column">
                         <md-input-container flex>
@@ -87,12 +93,12 @@
 
             </md-content>
             <md-content class="md-padding" layout="row" layout-align="end center">
+                <span class="md-caption" ng-if="showValidation">Please fill all fields</span>
                 <md-button class="md-primary md-raised" ng-click="next(eventForm)">
                     Next
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                                       ng-show="savingEvent"></md-progress-circular>
-                <span class="md-caption" ng-if="showValidation">Please fill all fields</span>
             </md-content>
         </div>
         <div role="tabpanel"
