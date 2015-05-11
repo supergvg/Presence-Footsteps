@@ -301,7 +301,7 @@ namespace gliist_server.Controllers
                 throw;
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(@event.invitePicture);
         }
 
         public GuestEventController()

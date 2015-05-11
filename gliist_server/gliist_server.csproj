@@ -239,6 +239,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventDBContext.cs" />
     <Compile Include="Models\Guest.cs" />
