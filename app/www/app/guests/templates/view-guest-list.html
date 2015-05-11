@@ -2,7 +2,7 @@
     <ion-content class="content-body">
         <ion-spinner ng-show="fecthingData"></ion-spinner>
 
-        <div class="list list-inset" ng-show="!fecthingData">
+        <div class="list list-inset" ng-show="!fecthingData" ng-cloak>
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text" placeholder="Search Guests" ng-model="filter">
