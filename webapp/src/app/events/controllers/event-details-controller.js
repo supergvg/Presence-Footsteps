@@ -46,8 +46,10 @@ angular.module('gliist')
 
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
-                uploaderService.uploadEventInvite(files, $scope.event.id).then(function () {
-                        alert('image was saved!');
+                uploaderService.uploadEventInvite(files, $scope.event.id).then(function (res) {
+                        $scope.event.invitePicture = res;
+                        dialogService.success('Invite saved');
+
                     },
                     function (err) {
                         dialogService.error("There was a problem saving your image please try again");
