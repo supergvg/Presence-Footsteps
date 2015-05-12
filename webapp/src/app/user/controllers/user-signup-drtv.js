@@ -12,6 +12,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/user-profile/user-signup-form.html'
+            templateUrl: 'app/user/templates/user-signup-form.html'
         };
     }]);

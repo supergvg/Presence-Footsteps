@@ -52,6 +52,14 @@ angular.module('gliist', [
                         allowAnonymous: true
                     }
                 })
+                .state('signup', {
+                    url: '/signup',
+                    templateUrl: 'app/user/templates/signup.html',
+                    controller: 'SignupCtrl',
+                    access: {
+                        allowAnonymous: true
+                    }
+                })
                 .state('main', {
                     url: '/main',
                     templateUrl: 'app/templates/main.html',

@@ -14,7 +14,7 @@ angular.module('gliist')
                     { field: 'lastName' },
                     { field: 'email' },
                     { field: 'phoneNumber' },
-                    { field: 'plus' }
+                    { field: 'plus'}
                 ],
                 rowHeight: 35
             };

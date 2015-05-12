@@ -114,6 +114,15 @@ md-dialog {
   border-radius: 0 !important;
 }
 
+.left-align {
+  position: absolute;
+  left: 15px;
+}
+
+.item-selected {
+  background-color: #8E8E8E !important;
+}
+
 .rounded {
   height: 40px;
   margin-left: 15px;
