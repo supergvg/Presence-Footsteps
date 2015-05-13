@@ -4,7 +4,7 @@ angular.module('gliist')
     .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
         function ($scope, $mdDialog, userService, dialogService, $state) {
 
-            $scope.createUser = {};
+            $scope.user = {};
 
             $scope.permissions = [
                 {
@@ -33,9 +33,9 @@ angular.module('gliist')
             };
 
             $scope.hide = function () {
-                $scope.createUser.username = null;
-                $scope.createUser.password = null;
-                $scope.createUser.confirmPassword = null;
+                $scope.user.username = null;
+                $scope.user.password = null;
+                $scope.user.confirmPassword = null;
                 $mdDialog.hide();
             };
             $scope.cancel = function () {
@@ -43,8 +43,19 @@ angular.module('gliist')
             };
             $scope.invite = function () {
                 $scope.fetchingData = true;
-                alert('not implement');
-                $mdDialog.hide();
+
+                userService.sendJoinRequest($scope.user).then(
+                    function () {
+                        $mdDialog.hide();
+                    },
+                    function () {
+                        dialogService.error('Oops there was a problem loading account info, please try again')
+                    }
+                ).finally(
+                    function () {
+                        $scope.fetchingData = false;
+                    }
+                );
             };
 
         }]);

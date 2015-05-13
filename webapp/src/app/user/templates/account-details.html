@@ -1,0 +1,69 @@
+<div ng-init="init()">
+    <h3 class="md-headline">Manage Account</h3>
+
+
+    <div ng-show="initializing">
+        <h4>Loading...</h4>
+        <span>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                ></md-progress-circular>
+            </span>
+    </div>
+
+    <md-list flex="90" ng-hide="initializing" ng-cloak>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Create new Account (Enter details for the users you would like to invite)</h3>
+                </div>
+                <md-button class="md-primary md-raised" ng-click="linkNewAccount($event)">
+                    Invite
+                </md-button>
+            </md-item-content>
+            <md-divider></md-divider>
+        </md-item>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Edit previously added Accounts</h3>
+
+                    <md-list>
+                        <md-item ng-repeat="user in company.users">
+                            <md-item-content layout="row">
+                                <div layout="row" class="md-tile-content">
+                                    <div flex="40">
+                                        <h3>{{user.firstName}} {{user.lastName}}</h3>
+                                    </div>
+                                    <div flex="25">
+                                        <h3>{{user.Roles}}</h3>
+                                    </div>
+                                    <div flex="25">
+                                        <h3>{{user.UserName}}</h3>
+                                    </div>
+                                    <div flex="10" style="padding: 0">
+                                        <h3>{{user.phoneNumber}}</h3>
+                                    </div>
+                                </div>
+
+                                <md-button class="md-primary md-raised" ng-click="editUser($event,user)"
+                                           ng-hide="options.readOnly" ng-cloak>
+                                    <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
+                                </md-button>
+                            </md-item-content>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-item>
+                    </md-list>
+
+                </div>
+            </md-item-content>
+        </md-item>
+    </md-list>
+
+
+</div>
