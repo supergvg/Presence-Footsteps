@@ -37,6 +37,23 @@ angular.module('gliist').factory("guestFactory", [
                     },
                     url: '/api/guestlists/:id'
                 }
+            }),
+
+            GuestListInstance: $resource('/api/GuestListInstances/:id', {
+                id: '@id'
+            }, {
+                update: {
+                    method: 'POST',
+                    params: {
+                    },
+                    url: '/api/GuestListInstances'
+                },
+                delete: {
+                    method: 'DELETE',
+                    params: {
+                    },
+                    url: '/api/GuestListInstances/:id'
+                }
             })
         };
     }
