@@ -31,7 +31,8 @@ angular.module('gliist')
                     'background-image': "url(" + $scope.event.invitePicture + ")",
                     'background-position': 'center center',
                     'height': height || '250px',
-                    'background-size': 'cover'
+                    'background-size': 'fit',
+                    'background-repeat': 'no-repeat'
                 };
             };
 
@@ -124,10 +125,19 @@ angular.module('gliist')
                     targetEvent: ev
                 });
 
-            }
+            };
+
+            $scope.eventTitleOnBlur = function () {
+                $scope.showTitleValidation = true
+            };
 
 
             $scope.displayErrorMessage = function (field) {
+
+                if (field === 'title' && $scope.showTitleValidation) {
+                    return;
+                }
+
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
@@ -201,4 +211,5 @@ angular.module('gliist')
                 )
             };
 
-        }]);
+        }])
+;

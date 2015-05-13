@@ -75,6 +75,17 @@ angular.module('gliist')
                 );
             };
 
+            $scope.setSelected = function (item) {
+                $scope.selectedMenuItem = item;
+            };
+
+            $scope.getItemClass = function (item) {
+
+                if (item === $scope.selectedMenuItem) {
+                    return 'item-selected';
+                }
+            };
+
             $scope.menuItems = [
                 {
                     title: 'Guest List Management',

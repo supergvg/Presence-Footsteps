@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService',
-        function ($scope, eventsService, dialogService) {
+    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state',
+        function ($scope, eventsService, dialogService, $state) {
 
             $scope.editInstance = function (ev, instance) {
-                alert('edit instance!');
+                $state.go('main.edit_gl_event', {gli: instance.id});
             };
 
             $scope.deleteInstance = function (ev, instance) {

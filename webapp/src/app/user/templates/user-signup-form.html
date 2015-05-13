@@ -9,6 +9,12 @@
             </div>
             <div layout layout-sm="column">
                 <md-input-container flex>
+                    <label>Company</label>
+                    <input ng-model="user.username">
+                </md-input-container>
+            </div>
+            <div layout layout-sm="column">
+                <md-input-container flex>
                     <label>First Name</label>
                     <input ng-model="user.firstName">
                 </md-input-container>
@@ -35,10 +41,7 @@
 
     <div class="md-actions" layout="row">
         <span flex></span>
-        <md-button ng-click="hide()">
-            Cancel
-        </md-button>
-        <md-button ng-click="register()" class="md-primary">
+        <md-button ng-click="register()" class="md-primary md-raised" style="background-color:grey !important;">
             JOIN
         </md-button>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>

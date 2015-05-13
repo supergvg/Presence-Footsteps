@@ -59,11 +59,17 @@
             <div ng-style="userProfilePic_watch()">
             </div>
             <md-list role="list">
-                <md-item ng-repeat="it in menuItems">
-                    <md-button ui-sref="{{it.ui_sref}}" ng-click="ul.selectUser(it)"
-                               ng-class="{'selected' : it === ul.selected }" style="color:white">
+                <md-item ng-repeat="it in menuItems" ng-click="setSelected(it)"
+                         ng-class="getItemClass(it)">
+                    <md-button ui-sref="{{it.ui_sref}}"
+                               ng-class="getItemClass(it)"
+                               style="color:white;width: 100%;
+                               text-align: right;
+                               padding-right: 15px;" flex>
                         <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}"
-                                    size="{{it.icon.size}}"></ng-md-icon>
+                                    class="left-align"
+                                    size="{{it.icon.size}}">
+                        </ng-md-icon>
                         {{it.title}}
                     </md-button>
                     <md-divider ng-if="!$last"></md-divider>

@@ -26,7 +26,7 @@
                             <label>Event Title</label>
                             <input required name="title" ng-model="event.title">
 
-                            <div ng-messages="eventForm.title.$error"
+                            <div ng-show="showTitleValidation" ng-messages="eventForm.title.$error"
                                  ng-if="displayErrorMessage(eventForm.title)">
                                 <div ng-message="required">Title is required</div>
                             </div>
@@ -40,8 +40,13 @@
                     <div layout layout-sm="column">
                         <md-input-container flex>
                             <label>Event Date</label>
-                            <input required name="date" ng-model="event.date" type="date">
-                            <ng-md-icon class="input-icon" icon="view_headline" style="fill: #ECECEC;"
+                            <input required name="date" ng-model="event.date" type="date"
+                                   ng-focus="hideDateIcon = true;ignoreMo = true"
+                                   ng-blur="hideDateIcon = false;ignoreMo = false"
+                                   ng-mouseover="!ignoreMo ? hideDateIcon = true: a=true"
+                                   ng-mouseleave="!ignoreMo ? hideDateIcon = false : a=false">
+                            <ng-md-icon ng-hide="hideDateIcon" class="input-icon" icon="view_headline"
+                                        style="fill: #ECECEC;"
                                         size="24"></ng-md-icon>
                             <div ng-messages="eventForm.date.$error"
                                  ng-if="displayErrorMessage(eventForm.date)">
@@ -54,7 +59,7 @@
                             </div>
                         </md-input-container>
                         <md-input-container flex>
-                            <label>Event Time</label>
+                            <label>Event Start Time</label>
                             <input required name="time" ng-model="event.time" type="time">
                             <ng-md-icon class="input-icon" icon="alarm_on" style="fill: #ECECEC;"
                                         size="24"></ng-md-icon>
@@ -79,7 +84,7 @@
                                         size="24"></ng-md-icon>
                         </md-input-container>
                         <md-input-container flex>
-                            <label>Capacity</label>
+                            <label>Total Capacity</label>
                             <input name="capacity" ng-model="event.capacity" type="number" min="0" step="1">
                             <ng-md-icon class="input-icon" icon="adjust" style="fill: #ECECEC;"
                                         size="24"></ng-md-icon>
@@ -92,14 +97,14 @@
                 </form>
 
             </md-content>
-            <md-content class="md-padding" layout="row" layout-align="end center">
+            <div layout="row" layout-align="end center">
                 <span class="md-caption" ng-if="showValidation">Please fill all fields</span>
                 <md-button class="md-primary md-raised" ng-click="next(eventForm)">
                     Next
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                                       ng-show="savingEvent"></md-progress-circular>
-            </md-content>
+            </div>
         </div>
         <div role="tabpanel"
              id="tab2-content"
@@ -126,16 +131,17 @@
                 </div>
 
             </md-content>
-            <md-button class="md-primary md-raised">
-                Preview
-            </md-button>
-            <md-button class="md-primary md-raised">
-                Customise
-            </md-button>
-
-            <md-button class="md-primary md-raised" ng-click="next()">
-                Next
-            </md-button>
+            <!--  <md-button class="md-primary md-raised">
+                  Preview
+              </md-button>
+              <md-button class="md-primary md-raised">
+                  Customise
+              </md-button>-->
+            <div layout="row" layout-align="end center">
+                <md-button class="md-primary md-raised" ng-click="next()">
+                    Next
+                </md-button>
+            </div>
         </div>
         <div role="tabpanel"
              id="tab3-content"

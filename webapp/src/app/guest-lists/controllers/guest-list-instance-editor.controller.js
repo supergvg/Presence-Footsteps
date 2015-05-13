@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService',
+        function ($scope, guestFactory, dialogService, $state, uploaderService) {
+
 
             function mergeGuestList(parent, merge) {
                 parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
@@ -10,11 +11,11 @@ angular.module('gliist')
 
             $scope.gridOptions = {
                 columnDefs: [
-                    { field: 'firstName', name: 'First Name'},
-                    { field: 'lastName', name: 'Last Name'},
-                    { field: 'email', name: 'Email'},
-                    { field: 'phoneNumber', name: 'Phone Number'},
-                    { field: 'plus', name: 'Plus'}
+                    { field: 'guest.firstName', name: 'First Name' },
+                    { field: 'guest.lastName', name: 'Last Name' },
+                    { field: 'guest.email', name: 'Email'},
+                    { field: 'guest.phoneNumber', name: 'Phone Number' },
+                    { field: 'guest.plus', name: 'Plus'}
                 ],
                 rowHeight: 35
             };
@@ -22,7 +23,6 @@ angular.module('gliist')
             $scope.gridOptions.onRegisterApi = function (gridApi) {
                 //set gridApi on scope
                 $scope.gridApi = gridApi;
-
 
                 gridApi.selection.on.rowSelectionChanged($scope, function () {
                     var selectedRows = $scope.gridApi.selection.getSelectedRows();
@@ -34,7 +34,6 @@ angular.module('gliist')
                     $scope.rowSelected = true;
                 });
             }
-
 
             $scope.guestListTypes = [
                 'GA',
@@ -59,7 +58,7 @@ angular.module('gliist')
 
                 $scope.isDirty = true;
 
-                $scope.list.guests = _.reject($scope.list.guests, function (row) {
+                $scope.gli.guests = _.reject($scope.gli.guests, function (row) {
                     return _.find(selectedRows, function (sr) {
                         return sr.id === row.id;
                     });
@@ -69,7 +68,7 @@ angular.module('gliist')
 
             };
 
-            $scope.$watchCollection('list', function (newVal, oldValue) {
+            $scope.$watchCollection('gli', function (newVal, oldValue) {
                 if (!newVal) {
                     return;
                 }
@@ -77,7 +76,7 @@ angular.module('gliist')
                 if (!angular.equals(newVal, oldValue)) {
                     $scope.isDirty = true;
                 }
-                $scope.gridOptions.data = $scope.list.guests;
+                $scope.gridOptions.data = $scope.gli.actual;
             });
 
             $scope.onFileSelect = function (files) {
@@ -90,7 +89,7 @@ angular.module('gliist')
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
                 uploaderService.uploadGuestList(files).then(function (data) {
-                        _.extend($scope.list, data.data);
+                        _.extend($scope.gli, data.data);
                     },
                     function (err) {
                         dialogService.error('There was a problem saving your image please try again');
@@ -126,15 +125,15 @@ angular.module('gliist')
             };
 
             $scope.addMore = function () {
-                if (!$scope.list) {
-                    $scope.list = {};
+                if (!$scope.gli) {
+                    $scope.gli = {};
                 }
 
-                if (!$scope.list.guests) {
-                    $scope.list.guests = [];
+                if (!$scope.gli.guests) {
+                    $scope.gli.guests = [];
                 }
 
-                $scope.list.guests.push({
+                $scope.gli.guests.push({
                     firstName: '',
                     lastName: '',
                     email: '',
@@ -146,12 +145,12 @@ angular.module('gliist')
             $scope.save = function () {
                 $scope.fetchingData = true;
 
-                if (!$scope.list.listType) {
-                    $scope.list.listType = 'GA';
+                if (!$scope.gli.listType) {
+                    $scope.gli.listType = 'GA';
                 }
-                guestFactory.GuestList.update($scope.list).$promise.then(
+                guestFactory.GuestListInstance.update($scope.gli).$promise.then(
                     function (res) {
-                        _.extend($scope.list, res);
+                        _.extend($scope.gli, res);
                         dialogService.success('Guest list saved');
                         $scope.isDirty = false;
 
@@ -166,14 +165,23 @@ angular.module('gliist')
                     })
             };
 
-            $scope.init = function () {
-
-                if (!$scope.options) {
-                    $scope.options = {};
+            $scope.$watch('id', function (newValue) {
+                if (!newValue) {
+                    return;
                 }
 
-            };
+                $scope.initializing = true;
 
-            $scope.init();
+                guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function (data) {
+                    $scope.gli = data;
+                }, function () {
+                    dialogService.error('There was a problem getting your events, please try again');
+                    $state.go('main.current_events');
+                }).finally(
+                    function () {
+                        $scope.initializing = false;
+                    }
+                )
+            });
 
         }]);
