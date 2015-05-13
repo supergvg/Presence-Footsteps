@@ -29,7 +29,7 @@ namespace gliist_server.Models
 
         public DateTime time { get; set; }
 
-        public DateTime endTime { get; set; }
+        public DateTime? endTime { get; set; }
 
         public virtual List<GuestListInstance> guestLists { get; set; }
 

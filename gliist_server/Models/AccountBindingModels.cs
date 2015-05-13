@@ -55,6 +55,9 @@ namespace gliist_server.Models
 
         [Required]
         public string lastName { get; set; }
+
+        [Required]
+        public string company { get; set; }
     }
 
     public class RegisterExternalBindingModel

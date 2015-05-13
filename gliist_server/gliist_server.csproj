@@ -219,12 +219,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\GuestEventController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\CSVController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
+    <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -232,9 +234,9 @@
     <Compile Include="Helpers\BlobHelper.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
-    <Compile Include="Migrations\201505080455194_Initial.cs" />
-    <Compile Include="Migrations\201505080455194_Initial.Designer.cs">
-      <DependentUpon>201505080455194_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201505130804293_Inital.cs" />
+    <Compile Include="Migrations\201505130804293_Inital.Designer.cs">
+      <DependentUpon>201505130804293_Inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="images\blank_user_icon.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -278,10 +281,12 @@
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\gliist %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505080455194_Initial.resx">
-      <DependentUpon>201505080455194_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505130804293_Inital.resx">
+      <DependentUpon>201505130804293_Inital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

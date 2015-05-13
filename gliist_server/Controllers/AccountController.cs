@@ -79,12 +79,35 @@ namespace gliist_server.Controllers
                 email = user.UserName,
                 phoneNumber = user.phoneNumber,
                 city = user.city,
-                company = user.company,
+                company = user.company.name,
                 bio = user.bio,
 
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+        }
+
+        // GET api/Account/CompanyInfo
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("CompanyInfo")]
+        public async Task<Company> GetCompanyInfo()
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            return user.company;
+        }
+
+        // GET api/Account/CompanyInfo
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("InviteUser")]
+        public async Task<Company> PostInviteUser(UserModel newUser)
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            newUser.company = user.company;
+            EmailHelper.SendJoinRequest(newUser);
+
+            return user.company;
         }
 
 
@@ -451,12 +474,31 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
+            var compnay = _db.Companies.Where(c => c.name == model.company).FirstOrDefault();
+
+            if (compnay == null)
+            {
+                compnay = new Company()
+                {
+                    name = model.company
+                };
+
+                _db.Companies.Add(compnay);
+            }
+            else
+            {
+                _db.Entry(compnay).State = EntityState.Modified;
+            }
+
             UserModel user = new UserModel
             {
                 UserName = model.UserName,
                 firstName = model.firstName,
                 lastName = model.lastName,
+                company = compnay
             };
+
+            compnay.users.Add(user);
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
             IHttpActionResult errorResult = GetErrorResult(result);
