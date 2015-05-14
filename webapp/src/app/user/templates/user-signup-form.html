@@ -1,48 +1,50 @@
-<div>
-    <md-content class="md-padding">
-        <form name="userForm">
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Email</label>
-                    <input ng-model="user.username">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Company</label>
-                    <input ng-model="user.company">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>First Name</label>
-                    <input ng-model="user.firstName">
-                </md-input-container>
-                <md-input-container flex>
-                    <label>Last Name</label>
-                    <input ng-model="user.lastName">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Password</label>
-                    <input type="password" ng-model="user.password">
-                </md-input-container>
-            </div>
-            <div layout layout-sm="column">
-                <md-input-container flex>
-                    <label>Confirm Password</label>
-                    <input type="password" ng-model="user.confirmPassword">
-                </md-input-container>
-            </div>
-        </form>
-    </md-content>
+<div class="logo-bg">
+    <form name="userForm">
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label>First Name</label>
+                <input ng-model="user.firstName">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Last Name</label>
+                <input ng-model="user.lastName">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Phone Number</label>
+                <input ng-model="user.phoneNumber">
+            </md-input-container>
+        </div>
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label>Email</label>
+                <input ng-model="user.username">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Organization</label>
+                <input ng-model="user.company">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Industry</label>
+                <input ng-model="user.industry">
+            </md-input-container>
+        </div>
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label style="margin-left: 38%">Password</label>
+                <input class="rounded" type="password" ng-model="user.password">
+            </md-input-container>
+            <md-input-container flex>
+                <label style="margin-left: 28%"> Confirm Password</label>
+                <input class="rounded" type=" password" ng-model="user.confirmPassword">
+            </md-input-container>
+        </div>
+
+    </form>
 
 
-    <div class="md-actions" layout="row">
-        <span flex></span>
+    <div class="md-actions" layout="row" layout-align="center center">
         <md-button ng-click="register()" class="md-primary md-raised" style="background-color:grey !important;">
-            JOIN
+            Get Started
         </md-button>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     </div>

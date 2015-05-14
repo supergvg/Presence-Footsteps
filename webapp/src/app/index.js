@@ -145,6 +145,9 @@ angular.module('gliist', [
                                 event.preventDefault();
                             }
                         }, function () {
+                            if (next.access && next.access.allowAnonymous) {
+                                return;
+                            }
                             return $state.go('home', {}, {
                                 notify: true
                             });
