@@ -10,21 +10,7 @@ angular.module('gliist')
             });
 
             $scope.data = {
-                selectedIndex: 0
-            };
-
-            $scope.linkNewAccount = function (ev) {
-                var scope = $scope.$new();
-                scope.currentEvent = event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-
-                $mdDialog.show({
-                    controller: 'InviteUserCtrl',
-                    scope: scope,
-                    templateUrl: 'app/templates/user-profile/link-account-dialog.html',
-                    targetEvent: ev
-                });
+                selectedIndex: 1
             };
 
             $scope.displayErrorMessage = function (field) {

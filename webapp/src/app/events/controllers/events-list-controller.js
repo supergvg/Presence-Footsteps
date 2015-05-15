@@ -8,7 +8,7 @@ angular.module('gliist')
                 return {
                     'background-image': "url(" + event.invitePicture + ")",
                     'background-position': 'center center',
-                    'height': '100px',
+                    'height': '120px',
                     'background-size': 'cover'
                 };
             };

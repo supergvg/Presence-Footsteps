@@ -1,45 +1,61 @@
 <div>
-    <md-content>
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                              ng-show="fetchingData"></md-progress-circular>
 
-        <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                          ng-show="fetchingData"></md-progress-circular>
+
+    <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
 
 
-        <md-list>
-            <md-item ng-repeat="instance in lists">
-                <md-item-content layout="row">
-                    <div layout="row" class="md-tile-content">
-                        <div flex="40">
-                            <h3>{{instance.title}}</h3>
-                        </div>
-                        <div flex="25">
-                            <h3>{{instance.actual.length}}</h3>
-                        </div>
-                        <div flex="25">
-                            <h3>{{instance.listType}}</h3>
-                        </div>
-                        <div flex="10" style="padding: 0">
-                            <md-input-container>
-                                <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly"
-                                       type="number" min="0" step="1">
-                            </md-input-container>
-                        </div>
+    <div layout="row" class="md-tile-content" style="padding:5px">
+        <div flex="30">
+            Guest list title
+        </div>
+        <div flex="20">
+            Capacity
+        </div>
+        <div flex="20">
+            Category
+        </div>
+    </div>
+
+    <md-list>
+        <md-item ng-repeat="instance in lists">
+            <md-item-content style="background-color: white">
+                <div layout="row" class="md-tile-content" style="padding:5px">
+                    <div flex="30">
+                        <h3>{{instance.title}}</h3>
                     </div>
+                    <div flex="20">
+                        <h3>{{instance.actual.length}}</h3>
+                    </div>
+                    <div flex="20">
+                        <h3>{{instance.listType}}</h3>
+                    </div>
+                    <div flex="10" style="padding: 0">
+                        <md-input-container style="padding-bottom: 0">
+                            <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly"
+                                   type="number" min="0" step="1">
+                        </md-input-container>
+                    </div>
+                </div>
 
-                    <md-button class="md-primary md-raised" ng-click="editInstance($event,instance)"
-                               ng-hide="options.readOnly" ng-cloak>
-                        <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
-                    </md-button>
-                    <md-button class="md-primary md-raised" ng-click="deleteInstance($event,instance)"
-                               ng-hide="options.readOnly" ng-cloak>
-                        <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
-                    </md-button>
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-        </md-list>
 
+                <div layout="row" ng-hide="options.readOnly1" ng-cloak
+                     style="position: absolute;right:0;top:0;height: 100%">
+                    <div layout="row">
+                        <md-button class="logo-event-list-btn" ng-click="editInstance($event,instance)">
+                            <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
+                        </md-button>
+                        <div style="width:1px"></div>
+                        <md-button class="logo-event-list-btn" ng-click="deleteInstance($event,instance)">
+                            <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
+                        </md-button>
 
-    </md-content>
+                    </div>
+                </div>
+
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-item>
+    </md-list>
 </div>

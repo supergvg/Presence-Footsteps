@@ -6,7 +6,7 @@
                               ng-show="fetchingData"></md-progress-circular>
 
         <md-item ng-repeat="event in currentEvents">
-            <md-item-content layout="row" style="background-color:#B6B6B6;">
+            <md-item-content layout="row" style="background-color:#FFFFFF;height: 120px">
                 <div flex="15" ng-style="getEventInvite(event)">
                 </div>
 
@@ -27,11 +27,12 @@
                 <div layout="row" ng-hide="options.readyOnly" ng-cloak
                      style="position: absolute;right:0;top:0;height: 100%">
                     <div layout="column">
-                        <md-button class="wht-event-list-btn"
+                        <md-button flex class="wht-event-list-btn"
                                    ui-sref="main.event_checkin({eventId:{{event.id}}})">
                             <ng-md-icon icon="assignment_turned_in" style="fill: #18D8DB" size="24"></ng-md-icon>
                         </md-button>
 
+                        <div flex></div>
                     </div>
                     <div layout="column">
                         <md-button flex class="wht-event-list-btn"

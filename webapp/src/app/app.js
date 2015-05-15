@@ -29,8 +29,11 @@ angular.module('gliist')
                 return $scope.userProfilePic;
             }
 
-            $scope.credentials = {
 
+            $scope.init = function () {
+                $scope.credentials = {
+
+                };
             };
 
             $scope.signUp = function (ev) {

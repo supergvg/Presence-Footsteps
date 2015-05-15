@@ -16,6 +16,7 @@ angular.module('gliist')
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
+
             $scope.register = function () {
                 $scope.fetchingData = true;
                 userService.registerEmail($scope.user).then(function () {

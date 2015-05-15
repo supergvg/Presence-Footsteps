@@ -107,6 +107,10 @@ md-dialog {
   border-radius: 0 !important;
 }
 
+.logo-bg {
+  background-color: #18D8DB !important;
+}
+
 .logo-event-list-btn {
   background-color: #18D8DB !important;
   color: white !important;
@@ -123,6 +127,10 @@ md-dialog {
   background-color: #8E8E8E !important;
 }
 
+.centered {
+  margin: 0 auto
+}
+
 .rounded {
   height: 40px;
   margin-left: 15px;
@@ -134,6 +142,26 @@ md-dialog {
   -moz-border-radius: 25px !important;
   /* webkit */
   -webkit-border-radius: 25px !important;
+}
+
+.top-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #8E8E8E;
+
+}
+
+.page-subtitle {
+  background-color: #CCCCCC;
+  color: white;
+  margin: -8px;
+  padding-left: 10px;
+}
+
+.page-subtitle h4 {
+  padding: 5px
 }
 
 // injector

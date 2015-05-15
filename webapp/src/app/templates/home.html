@@ -1,10 +1,10 @@
-<div flex layout="row" layout-fill style="background-color: #18D8DB !important;">
+<div flex layout="row" layout-fill style="background-color: #18D8DB !important;" ng-init="init()">
     <md-content flex layout-fill layout="column" layout-align="center center" class-="md-padding"
                 style="background-color: #18D8DB!important;">
 
         <div flex></div>
         <div flex>
-            <img src="assets/images/gliist_logo.png"/>
+            <img src="assets/images/gliist_logo.png" style="height:80px"/>
         </div>
 
         <div flex>
@@ -28,21 +28,30 @@
             <md-button class="md-primary md-raised" style="background-color:#829493!important;" ng-click="login()">
                 login
             </md-button>
-        </div>
-        <div flex>
-            <md-button class="md-primary" style="color:#829493!important;" ng-click="forgotPassword()">Forgot Password
-            </md-button>
-        </div>
-        <div flex>
-            <md-button class="md-primary md-raised" style="background-color:#829493!important;"
-                     ui-sref="signup">New User
-            </md-button>
-
-
             <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                                   ng-show="fetchingData"></md-progress-circular>
+        </div>
+        <div flex>
+            <md-button class="md-primary" style="color:white!important;" ng-click="forgotPassword()">
+                Forgot Password
+            </md-button>
+        </div>
+        <div flex>
+
         </div>
         <div flex></div>
 
     </md-content>
+</div>
+<div style="color:white;background-color: #8E8E8E; position: absolute;bottom: 0;width: 100%;left:0;height: 25%">
+    <div layout="column" layout-align="center center">
+        <h3 style="margin-bottom: 0">New Users</h3>
+
+        <p style="margin-top:0">Get start with the best guest list platform</p>
+
+        <md-button ui-sref="signup" class="md-primary md-raised" style="background-color:#18D8DB !important;">
+            Sign Up
+        </md-button>
+    </div>
+
 </div>

@@ -1,4 +1,11 @@
-<md-content layout-padding>
+<md-content>
+
+    <div layout="row" layout-wrap>
+        <div flex style="background-color: #8E8E8E;color:white">
+            <h3 style="padding-left: 10px">Preview Event</h3>
+        </div>
+    </div>
+
 
     <div ng-show="initializing">
         <h4>Loading...</h4>
@@ -9,44 +16,40 @@
     </div>
 
     <div ng-show="!initializing">
-        <h3>Preview Event</h3>
-        <md-card ng-if="!fetchingData">
-            <div ng-style="getEventInvite('250px')" class="md-card-image">
+
+
+        <div style="background-color: white;margin:30px;">
+            <div layout="row" ng-style="getEventInvite('250px')" flex>
             </div>
+            <md-divider></md-divider>
 
-            <md-card-content>
-                <h2 class="md-title">{{event.title}}</h2>
+            <div layout="row">
+                <div>
+                    <h3>{{event.date| date:'yyyy-MM-dd'}}</h3>
+                    <br>
 
+                    <h3>{{event.location}}</h3>
 
-                <md-chips class="custom-chips" ng-model="chips.tags" readonly="chips.readonly">
-                </md-chips>
-
-
-                <h3>{{event.date|date:'yyyy-MM-dd'}} {{event.time}}</h3>
-
-                <h3>{{event.location}}</h3>
-
-
-                <p>
-                    {{event.description}}
-                </p>
-
-                <div ng-show="event.guestLists.length > 0">
-                    <h4>Linked Guests Lists:</h4>
-                    <guest-list-instance-view lists="event.guestLists" options="glOptions"></guest-list-instance-view>
+                    <p>
+                        {{event.description}}
+                    </p>
                 </div>
-                <div ng-show="event.guestLists.length == 0">
-                    <h5>No Guest Lists Linked for Event</h5>
-                </div>
+            </div>
+        </div>
+        <div style="background-color: #E0E0E0;">
+            <div flex style="background-color: #CCCCCC;color:white">
+                <h3 style="padding-left: 10px">Linked Guest Lists</h3>
+            </div>
+            <guest-list-instance-view style="padding:10px" lists="event.guestLists" options="glOptions"></guest-list-instance-view>
+        </div>
 
-                <div class="md-actions" layout="row" layout-align="end center">
+        <div class="md-actions" layout="row" layout-align="center center" style="margin-top: 30px;margin-bottom: 20px">
 
-                    <md-button class="md-primary" ng-click="publishEvent($event)">Publish</md-button>
+            <md-button class="md-primary md-raised" style="background-color: #8E8E8E !important;"
+                       ng-click="editEvent()">Edit
+            </md-button>
 
-                    <md-button class="md-primary" ng-click="editEvent()">Edit</md-button>
-                </div>
-            </md-card-content>
-
-        </md-card>
+            <md-button class="md-primary md-raised" ng-click="publishEvent($event)">Publish</md-button>
+        </div>
     </div>
 </md-content>

@@ -37,6 +37,53 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
         return  {
 
+            getCompanyInfo: function () {
+
+                var deferred = $q.defer(),
+                    url = 'api/Account/CompanyInfo',
+                    self = this;
+
+                if (userData) {
+                    deferred.resolve(userData);
+                }
+
+                $http({
+                    method: 'GET',
+                    url: url
+                }).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
+            },
+
+
+            sendJoinRequest: function (user) {
+
+                var deferred = $q.defer(),
+                    url = 'api/Account/InviteUser',
+                    self = this;
+
+                if (userData) {
+                    deferred.resolve(userData);
+                }
+
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: user
+                }).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
+            },
+
+
             getUserPhoto: function (height, currentUser, suffix) {
                 var bgImg;
                 if (currentUser) {

@@ -67,7 +67,7 @@ angular.module('gliist', [
                 })
                 .state('main.user', {
                     url: '/user',
-                    templateUrl: 'app/templates/profile.html',
+                    templateUrl: 'app/user/templates/profile.html',
                     controller: 'ProfileCtrl'
                 })
                 .state('main.create_event', {
@@ -145,6 +145,9 @@ angular.module('gliist', [
                                 event.preventDefault();
                             }
                         }, function () {
+                            if (next.access && next.access.allowAnonymous) {
+                                return;
+                            }
                             return $state.go('home', {}, {
                                 notify: true
                             });
