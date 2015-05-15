@@ -234,9 +234,9 @@
     <Compile Include="Helpers\BlobHelper.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
-    <Compile Include="Migrations\201505130804293_Inital.cs" />
-    <Compile Include="Migrations\201505130804293_Inital.Designer.cs">
-      <DependentUpon>201505130804293_Inital.cs</DependentUpon>
+    <Compile Include="Migrations\201505150807486_Initial.cs" />
+    <Compile Include="Migrations\201505150807486_Initial.Designer.cs">
+      <DependentUpon>201505150807486_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -285,8 +285,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505130804293_Inital.resx">
-      <DependentUpon>201505130804293_Inital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505150807486_Initial.resx">
+      <DependentUpon>201505150807486_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

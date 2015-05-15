@@ -13,12 +13,41 @@ using gliist_server.Models;
 
 namespace gliist_server.Controllers
 {
+    [RoutePrefix("api/Companies")]
+
     [Authorize]
     public class CompaniesController : ApiController
     {
         private EventDBContext db = new EventDBContext();
 
+        [AllowAnonymous]
+        [Route("GetInviteInfo")]
+        public async Task<Invite> GetInviteInfo(string companyName, string token)
+        {
+            var companies = db.Companies.Where(c => c.name.Equals(companyName));
+
+            Invite retVal = null;
+            foreach (var c in companies)
+            {
+                retVal = c.invitations.FirstOrDefault(i => i.token.Equals(token));
+                if (retVal != null)
+                {
+
+                    if (retVal.acceptedAt != null)
+                    {
+                        return null;
+                    }
+
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
         // GET: api/Companies
+        [Route("GetCompanies")]
+
         public IQueryable<Company> GetCompanies()
         {
             return db.Companies;

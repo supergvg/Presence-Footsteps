@@ -19,6 +19,7 @@ namespace gliist_server.Controllers
     [Authorize]
     public class EventController : ApiController
     {
+        private UserManager<UserModel> UserManager;
         private EventDBContext db = new EventDBContext();
 
         // GET api/Event
@@ -155,5 +156,12 @@ namespace gliist_server.Controllers
         {
             return db.Events.Count(e => e.id == id) > 0;
         }
+
+        public EventController()
+        {
+            UserManager = Startup.UserManagerFactory(db);
+        }
+
+
     }
 }

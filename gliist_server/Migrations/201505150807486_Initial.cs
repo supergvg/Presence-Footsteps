@@ -3,7 +3,7 @@ namespace gliist_server.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Inital : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -16,6 +16,22 @@ namespace gliist_server.Migrations
                         logo = c.String(),
                     })
                 .PrimaryKey(t => t.id);
+            
+            CreateTable(
+                "dbo.Invites",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        firstName = c.String(),
+                        lastName = c.String(),
+                        email = c.String(),
+                        token = c.String(),
+                        acceptedAt = c.DateTime(),
+                        Company_id = c.Int(),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Companies", t => t.Company_id)
+                .Index(t => t.Company_id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -191,6 +207,7 @@ namespace gliist_server.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Invites", "Company_id", "dbo.Companies");
             DropIndex("dbo.GuestListInstances", new[] { "linked_guest_list_id" });
             DropIndex("dbo.GuestListInstances", new[] { "linked_event_id" });
             DropIndex("dbo.GuestCheckins", new[] { "guestList_id" });
@@ -202,6 +219,7 @@ namespace gliist_server.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.Invites", new[] { "Company_id" });
             DropTable("dbo.GuestListGuests");
             DropTable("dbo.GuestLists");
             DropTable("dbo.Guests");
@@ -213,6 +231,7 @@ namespace gliist_server.Migrations
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Invites");
             DropTable("dbo.Companies");
         }
     }

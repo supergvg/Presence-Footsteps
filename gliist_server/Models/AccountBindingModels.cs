@@ -58,6 +58,8 @@ namespace gliist_server.Models
 
         [Required]
         public string company { get; set; }
+
+        public string token { get; set; }
     }
 
     public class RegisterExternalBindingModel

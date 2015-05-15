@@ -104,12 +104,87 @@ namespace gliist_server.Controllers
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            newUser.company = user.company;
-            EmailHelper.SendJoinRequest(newUser);
+            var invite = new Invite()
+             {
+                 firstName = newUser.firstName,
+                 lastName = newUser.lastName,
+                 email = newUser.UserName,
+                 permissions = newUser.permissions,
+                 phoneNumber = newUser.phoneNumber,
+
+                 token = Guid.NewGuid().ToString(),
+
+             };
+
+
+            if (user.company.invitations.Any(i => string.Equals(i.email, newUser.UserName)))
+            {
+                throw new ArgumentException();
+            };
+
+            user.company.invitations.Add(invite);
+
+            EmailHelper.SendJoinRequest(newUser, user.company, invite);
+
+            await _db.SaveChangesAsync();
 
             return user.company;
         }
 
+
+        // GET api/Account/CompanyInfo
+        [Route("CreateUserByAccount")]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostRegisterByInvite(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var compnay = _db.Companies.Where(c => c.name == model.company).FirstOrDefault();
+
+            if (compnay == null)
+            {
+                return BadRequest();
+            }
+
+
+            var invite = compnay.invitations.Single(i => i.token.Equals(model.token));
+
+            _db.Entry(invite).State = EntityState.Modified;
+
+            invite.acceptedAt = DateTime.Now;
+
+            if (!string.Equals(model.UserName, invite.email))
+            {
+                return BadRequest();
+            }
+
+            UserModel user = new UserModel
+            {
+                UserName = model.UserName,
+                firstName = model.firstName,
+                lastName = model.lastName,
+                company = compnay,
+
+                permissions = invite.permissions
+            };
+
+            compnay.users.Add(user);
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com");
+            return Ok();
+        }
 
         // PUT api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
@@ -122,6 +197,11 @@ namespace gliist_server.Controllers
             }
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            if (user == null)
+            {
+                return null;
+            }
 
             user.firstName = userModel.firstName;
             user.lastName = userModel.lastName;
