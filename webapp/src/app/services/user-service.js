@@ -37,6 +37,32 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
 
         return  {
 
+            getInviteInfo: function (company, token) {
+
+                var deferred = $q.defer(),
+                    url = 'api/companies/GetInviteInfo',
+                    self = this;
+
+                if (userData) {
+                    deferred.resolve(userData);
+                }
+
+                $http({
+                    method: 'GET',
+                    url: url,
+                    params: {
+                        companyName: company,
+                        token: token
+                    }
+                }).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
+            },
+
             getCompanyInfo: function () {
 
                 var deferred = $q.defer(),
@@ -203,10 +229,15 @@ angular.module('gliist').factory('userService', [ '$rootScope', '$http', '$q',
                 delete window.localStorage['access_token'];
             },
 
-            registerEmail: function (user) {
+            registerEmail: function (user, inviteMode) {
                 var deferred = $q.defer();
 
+
                 var url = '/api/Account/Register';
+
+                if(inviteMode){
+                    var url = '/api/Account/CreateUserByAccount';
+                }
 
                 var that = this;
                 $http({

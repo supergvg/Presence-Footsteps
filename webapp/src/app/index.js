@@ -60,6 +60,14 @@ angular.module('gliist', [
                         allowAnonymous: true
                     }
                 })
+                .state('signup_invite', {
+                    url: '/signup/invite/:company/:token',
+                    templateUrl: 'app/user/templates/signup-invite.html',
+                    controller: 'SignupInviteCtrl',
+                    access: {
+                        allowAnonymous: true
+                    }
+                })
                 .state('main', {
                     url: '/main',
                     templateUrl: 'app/templates/main.html',

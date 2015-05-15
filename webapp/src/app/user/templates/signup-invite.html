@@ -1,0 +1,26 @@
+<md-content flex layout-fill layout="column" layout-align="start center" class="md-padding"
+            style="background-color: #18D8DB!important;" ng-init="init()">
+
+    <div>
+        <img src="assets/images/gliist_logo.png" style="height:80px"/>
+    </div>
+
+
+    <div ng-show="loading">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <user-signup ng-if="!loading" user="user" options="options"></user-signup>
+
+</md-content>
+<div style="color:white;background-color: #8E8E8E; position: absolute;bottom: 0;width: 100%;left:0;height: 25%">
+    <div layout="column" layout-align="center center">
+        <h3 style="margin-bottom: 0">Existing Users</h3>
+
+        <p style="margin-top:0"> Login and get going with your lists</p>
+
+        <md-button ui-sref="home" class="md-primary md-raised" style="background-color:#18D8DB !important;">
+            Login
+        </md-button>
+    </div>
+
+</div>
