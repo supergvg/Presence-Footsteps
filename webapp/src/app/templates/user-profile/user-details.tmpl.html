@@ -1,10 +1,10 @@
 <div layout="column">
-    <md-whiteframe class="md-whiteframe-z1" flex>
+    <md-whiteframe style="background-color: white" class="md-whiteframe-z1" flex>
         <div ng-show="!editMode" layout layout-align="center center">
             <div flex="30" ng-style="getUserPhoto('150px')">
             </div>
 
-            <div flex="40" layout="column" layout-align="start start">
+            <div flex="40" layout="column" layout-align="start start" style="padding-left: 20px">
                 <h3 class="md-title">{{user.firstName}} {{user.lastName}}</h3>
 
                 <div>{{user.email}}</div>
@@ -23,7 +23,7 @@
         </div>
 
         <div ng-show="editMode">
-            <div layout="row" layout-align="end start">
+            <div layout="row" layout-align="end start" layout-padding>
                 <md-input-container flex>
                     Upload your profile picture(jpg,gif, file formats supported)
                 </md-input-container>

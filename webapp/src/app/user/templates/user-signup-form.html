@@ -3,29 +3,54 @@
         <div layout layout-sm="column">
             <md-input-container flex>
                 <label>First Name</label>
-                <input ng-model="user.firstName">
+                <input name="firstName" ng-model="user.firstName" required>
+
+                <div ng-messages="userForm.firstName.$error"
+                     ng-if="displayErrorMessage(userForm.firstName)">
+                    <div ng-if="userForm.firstName.$error.required" ng-message="required">First name is required
+                    </div>
+                </div>
             </md-input-container>
             <md-input-container flex>
                 <label>Last Name</label>
-                <input ng-model="user.lastName">
+                <input name="lastName" ng-model="user.lastName" required>
+
+                <div ng-messages="userForm.lastName.$error"
+                     ng-if="displayErrorMessage(userForm.lastName)">
+                    <div ng-if="userForm.lastName.$error.required" ng-message="required">Last name is required
+                    </div>
+                </div>
             </md-input-container>
             <md-input-container flex>
                 <label>Phone Number</label>
-                <input ng-model="user.phoneNumber">
+                <input name="phoneNumber" ng-model="user.phoneNumber">
             </md-input-container>
         </div>
         <div layout layout-sm="column">
             <md-input-container flex>
                 <label>Email</label>
-                <input ng-model="user.username" ng-disabled="options.inviteMode">
+                <input name="email" ng-model="user.username" ng-disabled="options.inviteMode" required>
+
+                <div ng-messages="userForm.email.$error"
+                     ng-if="displayErrorMessage(userForm.email)">
+                    <div ng-if="userForm.email.$error.required" ng-message="required">Email is required
+                    </div>
+                </div>
+
             </md-input-container>
             <md-input-container flex>
                 <label>Organization</label>
-                <input ng-model="user.company" ng-disabled="options.inviteMode">
+                <input name="comapny" ng-model="user.company" ng-disabled="options.inviteMode" required>
+
+                <div ng-messages="userForm.comapny.$error"
+                     ng-if="displayErrorMessage(userForm.comapny)">
+                    <div ng-if="userForm.comapny.$error.required" ng-message="required">Company is required
+                    </div>
+                </div>
             </md-input-container>
             <md-input-container flex>
                 <label>Industry</label>
-                <input ng-model="user.industry">
+                <input name="industry" ng-model="user.industry">
             </md-input-container>
         </div>
         <div layout layout-sm="column">
@@ -38,12 +63,17 @@
                 <input class="rounded" type="password" ng-model="user.confirmPassword">
             </md-input-container>
         </div>
-
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label style="margin-left: 38%">Invite Code (optional)</label>
+                <input class="rounded" type="text" ng-model="user.inviteCode">
+            </md-input-container>
+        </div>
     </form>
 
 
     <div class="md-actions" layout="row" layout-align="center center">
-        <md-button ng-click="register()" class="md-primary md-raised" style="background-color:grey !important;">
+        <md-button ng-click="register(userForm)" class="md-primary md-raised" style="background-color:grey !important;">
             Get Started
         </md-button>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>

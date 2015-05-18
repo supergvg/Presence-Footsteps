@@ -42,8 +42,6 @@
     </section>
 
 
-
-
     <ng-switch on="data.selectedIndex" class="tabpanel-container">
         <div role="tabpanel"
              id="tab1-content"
@@ -54,9 +52,11 @@
             <md-content class="md-padding">
                 <user-details user="currentUser"></user-details>
             </md-content>
-            <md-button class="md-primary md-raised" ng-click="next()">
-                Next
-            </md-button>
+            <div layout="row" layout-align="end center">
+                <md-button class="md-primary md-raised" ng-click="next()">
+                    Next
+                </md-button>
+            </div>
         </div>
 
         <div role="tabpanel"
@@ -68,15 +68,17 @@
             <md-content class="md-padding">
                 <account-details user="currentUser"></account-details>
             </md-content>
-            <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
-                Cancel
-            </md-button>
-            <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
-                Save
-            </md-button>
-            <md-button class="md-primary md-raised" ng-click="next()">
-                Next
-            </md-button>
+            <div layout="row" layout-align="end center">
+                <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
+                    Cancel
+                </md-button>
+                <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
+                    Save
+                </md-button>
+                <md-button class="md-primary md-raised" ng-click="next()">
+                    Next
+                </md-button>
+            </div>
         </div>
     </ng-switch>
 

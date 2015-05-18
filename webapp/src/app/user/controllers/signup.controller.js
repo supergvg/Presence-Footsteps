@@ -4,6 +4,12 @@ angular.module('gliist')
     .controller('SignupCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
         function ($scope, $mdDialog, userService, dialogService, $state) {
 
+
+            $scope.displayErrorMessage = function (field) {
+                return ($scope.showValidation) || (field.$touched && field.$error.required);
+            };
+
+
             $scope.hide = function () {
                 $scope.user.username = null;
                 $scope.user.password = null;
@@ -14,7 +20,17 @@ angular.module('gliist')
                 $mdDialog.cancel();
             };
 
-            $scope.register = function () {
+            $scope.register = function (form) {
+
+                if (form && form.$invalid) {
+                    $scope.showValidation = true;
+                    return;
+                }
+
+                if ($scope.user.password !== $scope.user.confirmPassword) {
+                    return;
+                }
+
 
                 var inviteMode = $scope.options ? $scope.options.inviteMode : null;
                 $scope.fetchingData = true;
