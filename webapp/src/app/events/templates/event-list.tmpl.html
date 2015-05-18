@@ -10,18 +10,16 @@
                 <div flex="15" ng-style="getEventInvite(event)">
                 </div>
 
-                <div flex="50">
-                    {{event.location}}
+                <div flex="45" style="padding-left: 15px">
+                    <span class="md-title" style="font-weight: bold;margin:0;color:#8E8E8E">{{event.title}}</span>
+                    <span class="" style="margin:0;font-size: 12px;">{{event.location}}</span>
 
-                    <h3>{{event.title}}</h3>
-                    {{event.date |date:'yyyy-MM-dd'}}
+                    <p style="font-size: 14px;color:#8E8E8E;line-height: 100%">
+                        {{event.date |date:'MMMM dd, yyyy'}}
+                        <br>
+                        {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
+                    </p>
 
-                    <md-chips ng-model="event.tags"
-                              readonly="true">
-                        <md-chip-template>
-                            <strong>{{$chip}}</strong>
-                        </md-chip-template>
-                    </md-chips>
                 </div>
 
                 <div layout="row" ng-hide="options.readyOnly" ng-cloak
