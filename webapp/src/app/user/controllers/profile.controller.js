@@ -17,6 +17,13 @@ angular.module('gliist')
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
+            $scope.getSelected = function (idx) {
+                if ($scope.data.selectedIndex === idx) {
+                    return 'logo-bg';
+                }
+
+            };
+
 
 
             $scope.saveChanges = function (form) {

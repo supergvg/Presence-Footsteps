@@ -1,12 +1,48 @@
 <md-content layout-padding>
-    <md-tabs class="md-primary" md-selected="data.selectedIndex">
-        <md-tab id="tab1" aria-controls="tab1-content">
-            Profile
-        </md-tab>
-        <md-tab id="tab2" aria-controls="tab2-content">
-            Account
-        </md-tab>
-    </md-tabs>
+
+    <section layout="row"
+             layout-align="center center"
+             style="margin-bottom: 10px"
+             class="no-selection">
+        <div flex>
+            <h5 class="text-bg">Profile</h5>
+
+            <md-button class="md-fab"
+                       style="background-color: white;
+                   height: 30px;
+                   width: 30px"
+                       ng-class="getSelected(0)"
+                       ng-click="data.selectedIndex = 0">
+            </md-button>
+            <div style="background-color:white;
+                border-color: white;
+                    height: 10px;
+                    margin-top: -20px;">
+
+            </div>
+
+        </div>
+        <div flex>
+            <h5 class="text-bg">Account</h5>
+
+            <md-button class="md-fab"
+                       style="background-color: white;
+                   height: 30px;
+                   width: 30px"
+                       ng-class="getSelected(1)"
+                       ng-click="data.selectedIndex = 1">
+            </md-button>
+            <div style="background-color:white;
+                border-color: white;
+                    height: 10px;
+                    margin-top: -20px;">
+
+            </div>
+        </div>
+    </section>
+
+
+
 
     <ng-switch on="data.selectedIndex" class="tabpanel-container">
         <div role="tabpanel"

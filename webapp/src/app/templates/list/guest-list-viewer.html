@@ -5,7 +5,7 @@
 
         <h3 class="md-title" ng-show="guestLists.length == 0">No guest lists found</h3>
 
-        <div layout="row" class="md-tile-content">
+        <div layout="row" class="md-tile-content" ng-show="!fetchingData">
             <div flex="40">
                 <h4>Guest List Title</h4>
             </div>
@@ -33,16 +33,18 @@
                     </div>
 
 
-                    <div layout="row" ng-hide="options.readOnly1" ng-cloak
+                    <div layout="row" ng-cloak
                          style="position: absolute;right:0;top:0;height: 100%">
                         <div layout="row">
                             <md-button class="logo-event-list-btn" style="padding-left:5px;padding-right:5px"
-                                       ui-sref="main.edit_glist({listId:{{glist.id}}})">
+                                       ui-sref="main.edit_glist({listId:{{glist.id}}})"
+                                        ng-hide="options.readOnly">
                                 <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
                             </md-button>
                             <div style="width: 1px"></div>
                             <md-button class="logo-event-list-btn" style="padding-left:5px;padding-right:5px"
-                                       ng-click="deleteGlist($event,glist)">
+                                       ng-click="deleteGlist($event,glist)"
+                                       ng-hide="options.readOnly">
                                 <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
                             </md-button>
                             <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)"

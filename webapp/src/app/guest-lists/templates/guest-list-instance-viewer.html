@@ -6,7 +6,7 @@
     <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
 
 
-    <div layout="row" class="md-tile-content" style="padding:5px">
+    <div layout="row" class="md-tile-content" style="padding:5px" ng-show="lists.length > 0">
         <div flex="30">
             Guest list title
         </div>
@@ -40,7 +40,7 @@
                 </div>
 
 
-                <div layout="row" ng-hide="options.readOnly1" ng-cloak
+                <div layout="row" ng-hide="options.readOnly" ng-cloak
                      style="position: absolute;right:0;top:0;height: 100%">
                     <div layout="row">
                         <md-button class="logo-event-list-btn" ng-click="editInstance($event,instance)">

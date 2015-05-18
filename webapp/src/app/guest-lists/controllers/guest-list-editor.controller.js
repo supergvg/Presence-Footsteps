@@ -90,7 +90,17 @@ angular.module('gliist')
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
                 uploaderService.uploadGuestList(files).then(function (data) {
-                        _.extend($scope.list, data.data);
+
+                        if (!$scope.list) {
+                            $scope.list = {};
+                        }
+                        else {
+                            if ($scope.list.title) {
+                                delete data.title;
+                            }
+                        }
+
+                        _.extend($scope.list, data);
                     },
                     function (err) {
                         dialogService.error('There was a problem saving your image please try again');
