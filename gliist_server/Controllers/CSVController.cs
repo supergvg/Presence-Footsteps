@@ -33,19 +33,22 @@ namespace gliist_server.Controllers
 
             foreach (var guest in gl.guests)
             {
-                var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
+                guest.userId = userId;
+                guest.linked_guest_lists.Add(gl);
+                db.Guests.Add(guest);
+
+               /* var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
 
                 if (existing != null)
-                {
-                    //db.Entry(existing).State = EntityState.Modified;
-                    throw new NotImplementedException();
+                { 
+                    continue;
                 }
                 else
                 {
                     guest.userId = userId;
                     guest.linked_guest_lists.Add(gl);
                     db.Guests.Add(guest);
-                }
+                }*/
             }
 
             db.GuestLists.Add(gl);

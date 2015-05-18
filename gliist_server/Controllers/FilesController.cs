@@ -91,7 +91,7 @@ namespace gliist_server.Controllers
             return new Tuple<string, Stream>(originalFileName, new FileStream(uploadedFileInfo.FullName, FileMode.Open));
         }
 
-        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, string userId)
+        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, string userId, EventDBContext db)
         {
             GuestList retVal = new GuestList()
             {
@@ -122,6 +122,14 @@ namespace gliist_server.Controllers
                                 plus = values.Length > 4 ? int.Parse(values[4]) : 0,
                                 userId = userId
                             };
+
+                            /* var existing = db.Guests.Where(dbG => dbG.email.Equals(g.email)).FirstOrDefault();
+
+                            if (existing != null)
+                            {
+                                g = existing;
+                            }*/
+
                             guests.Add(g);
                         }
                         catch
@@ -159,11 +167,11 @@ namespace gliist_server.Controllers
             GuestList gl;
             if (Path.GetExtension(originalFileName) == ".csv")
             {
-                gl = GetCSV(uploadedFileInfo, originalFileName, userId);
+                gl = GetCSV(uploadedFileInfo, originalFileName, userId, db);
             }
             else
             {
-                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, userId);
+                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, userId, db);
             }
 
             return gl;
