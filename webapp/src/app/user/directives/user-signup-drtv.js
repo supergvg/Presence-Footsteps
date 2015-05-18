@@ -6,7 +6,8 @@ angular.module('gliist')
             restrict: 'EA',
 
             scope: {
-                user: '='
+                user: '=',
+                options: '=?'
             },
             controller: 'SignupCtrl',
 

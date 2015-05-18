@@ -17,11 +17,11 @@
         <div layout layout-sm="column">
             <md-input-container flex>
                 <label>Email</label>
-                <input ng-model="user.username">
+                <input ng-model="user.username" ng-disabled="options.inviteMode">
             </md-input-container>
             <md-input-container flex>
                 <label>Organization</label>
-                <input ng-model="user.company">
+                <input ng-model="user.company" ng-disabled="options.inviteMode">
             </md-input-container>
             <md-input-container flex>
                 <label>Industry</label>
@@ -35,7 +35,7 @@
             </md-input-container>
             <md-input-container flex>
                 <label style="margin-left: 28%"> Confirm Password</label>
-                <input class="rounded" type=" password" ng-model="user.confirmPassword">
+                <input class="rounded" type="password" ng-model="user.confirmPassword">
             </md-input-container>
         </div>
 

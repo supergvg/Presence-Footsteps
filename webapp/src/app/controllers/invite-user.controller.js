@@ -49,7 +49,7 @@ angular.module('gliist')
                         $mdDialog.hide();
                     },
                     function () {
-                        dialogService.error('Oops there was a problem loading account info, please try again')
+                        dialogService.error('Oops there was a problem sending invite please try again')
                     }
                 ).finally(
                     function () {

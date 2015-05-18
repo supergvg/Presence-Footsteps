@@ -4,9 +4,6 @@ angular.module('gliist')
     .controller('SignupCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
         function ($scope, $mdDialog, userService, dialogService, $state) {
 
-            $scope.user = {};
-
-
             $scope.hide = function () {
                 $scope.user.username = null;
                 $scope.user.password = null;
@@ -18,8 +15,10 @@ angular.module('gliist')
             };
 
             $scope.register = function () {
+
+                var inviteMode = $scope.options ? $scope.options.inviteMode : null;
                 $scope.fetchingData = true;
-                userService.registerEmail($scope.user).then(function () {
+                userService.registerEmail($scope.user, inviteMode).then(function () {
                     $scope.hide();
                     $state.go('main');
                 }, function (err) {
