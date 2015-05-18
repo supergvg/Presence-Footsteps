@@ -25,7 +25,27 @@ angular.module('gliist')
                 readOnly: true
             };
 
+            $scope.getRowStyle = function (checkin) {
+                if (checkin.status === 'checked in') {
+                    return {
+                        'background-color': '#CCCCCC',
+                        'color': 'white'
+                    }
+                } else {
+                    return{
+                        'border-bottom': 'thin inset #ECECEC',
+                        'background-color': 'white'
+                    }
+                }
+
+            };
+
             $scope.gridOptions = {
+                rowTemplate: '<div' +
+                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
+                    ' ui-grid-cell></div>' +
+                    '</div>',
                 columnDefs: [
                     { field: 'guest.firstName', name: 'First Name', enableHiding: false},
                     { field: 'guest.lastName', name: 'Last Name', enableHiding: false},
@@ -34,7 +54,7 @@ angular.module('gliist')
                     { field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false},
                     { name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false,
                         cellTemplate: '<div class="ui-grid-cell-contents" title="Checkin">' +
-                            '<md-button class="md-primary" ng-click="grid.appScope.checkinGuest(row.entity)">Check In</md-button>' +
+                            '<md-button class="md-primary" ng-style="grid.appScope.getRowStyle(row.entity)" ng-click="grid.appScope.checkinGuest(row.entity)">Check In</md-button>' +
                             '</div>'
                     }
                 ],

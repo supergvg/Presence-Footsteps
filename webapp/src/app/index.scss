@@ -177,8 +177,9 @@ md-dialog {
 }
 
 .ui-grid-cell {
-  background-color: white !important;
+  //background-color: white !important;
   border: none;
+  border-bottom: #000000;
 }
 
 .ui-grid-header-cell {
@@ -186,8 +187,8 @@ md-dialog {
   border: none !important;
 }
 
-.ui-grid-cell-contents {
-  border: none !important;
+.ui-grid-row.ui-grid-cell.ui-grid-cell-contents {
+  background-color: white !important;
 }
 
 // injector
