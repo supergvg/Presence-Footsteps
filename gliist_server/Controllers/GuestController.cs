@@ -23,13 +23,15 @@ namespace gliist_server.Controllers
     {
 
         private EventDBContext db = new EventDBContext();
+        private UserManager<UserModel> UserManager;
 
         // GET api/Guest
         public IQueryable<Guest> GetGuests()
         {
             var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
 
-            return db.Guests.Where(g => string.Equals(g.userId, userId));
+            return db.Guests.Where(g => string.Equals(g.company, user.company));
         }
 
         // GET api/Guest/5
@@ -84,13 +86,15 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PostGuest(Guest guest)
         {
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            guest.userId = userId;
+            guest.company = user.company;
 
             db.Guests.Add(guest);
             await db.SaveChangesAsync();
@@ -126,6 +130,12 @@ namespace gliist_server.Controllers
         private bool GuestExists(int id)
         {
             return db.Guests.Count(e => e.id == id) > 0;
+        }
+
+
+        public GuestController()
+        {
+            UserManager = Startup.UserManagerFactory(db);
         }
     }
 }

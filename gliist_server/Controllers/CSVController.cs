@@ -20,6 +20,8 @@ namespace gliist_server.Controllers
     public class CSVController : ApiController
     {
         private EventDBContext db = new EventDBContext();
+        private UserManager<UserModel> UserManager;
+
 
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -27,28 +29,30 @@ namespace gliist_server.Controllers
         public async Task<GuestList> PostCsvToGuestList()
         {
             var userId = User.Identity.GetUserId();
-            var gl = await FileUploadHelper.ParseCSV(this.Request, userId, db);
+            var user = await UserManager.FindByIdAsync(userId);
 
-            gl.userId = userId;
+            var gl = await FileUploadHelper.ParseCSV(this.Request, user.company, db);
+
+            gl.company = user.company;
 
             foreach (var guest in gl.guests)
             {
-                guest.userId = userId;
+                guest.company = user.company;
                 guest.linked_guest_lists.Add(gl);
                 db.Guests.Add(guest);
 
-               /* var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
+                /* var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
 
-                if (existing != null)
-                { 
-                    continue;
-                }
-                else
-                {
-                    guest.userId = userId;
-                    guest.linked_guest_lists.Add(gl);
-                    db.Guests.Add(guest);
-                }*/
+                 if (existing != null)
+                 { 
+                     continue;
+                 }
+                 else
+                 {
+                     guest.userId = userId;
+                     guest.linked_guest_lists.Add(gl);
+                     db.Guests.Add(guest);
+                 }*/
             }
 
             db.GuestLists.Add(gl);
@@ -63,6 +67,12 @@ namespace gliist_server.Controllers
             }
 
             return gl;
+        }
+
+
+        public CSVController()
+        {
+            UserManager = Startup.UserManagerFactory(db);
         }
     }
 

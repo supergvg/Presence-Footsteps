@@ -13,7 +13,8 @@ namespace gliist_server.Models
     public class Guest
     {
         [Required]
-        public string userId { get; set; }
+        [JsonIgnore]
+        public virtual Company company { get; set; }
 
         [JsonIgnore]
         public virtual List<GuestList> linked_guest_lists { get; set; }

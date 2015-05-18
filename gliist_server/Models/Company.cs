@@ -46,5 +46,23 @@ namespace gliist_server.Models
             users = new List<UserModel>();
             invitations = new List<Invite>();
         }
+
+
+        public override int GetHashCode()
+        {
+            return id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var company = obj as Company;
+
+            if (company == null)
+            {
+                return false;
+            }
+
+            return company.id == this.id;
+        }
     }
 }

@@ -27,7 +27,8 @@ namespace gliist_server.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var events = db.Events.Where(e => e.userId == userId);
+            var user = UserManager.FindById(userId);
+            var events = db.Events.Where(e => e.company.id == user.company.id);
 
             return events;
         }
@@ -91,8 +92,9 @@ namespace gliist_server.Controllers
             }
 
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
 
-            @event.userId = userId;
+            @event.company = user.company;
 
             if (@event.date == DateTime.MinValue)
             {

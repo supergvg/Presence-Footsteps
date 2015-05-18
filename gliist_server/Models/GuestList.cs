@@ -8,7 +8,9 @@ namespace gliist_server.Models
 {
     public class GuestList
     {
-        public string userId { get; set; }
+        [JsonIgnore]
+        public virtual Company company { get; set; }
+
         public int id { get; set; }
 
         public string listType { get; set; }

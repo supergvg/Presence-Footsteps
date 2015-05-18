@@ -91,12 +91,12 @@ namespace gliist_server.Controllers
             return new Tuple<string, Stream>(originalFileName, new FileStream(uploadedFileInfo.FullName, FileMode.Open));
         }
 
-        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, string userId, EventDBContext db)
+        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, Company company, EventDBContext db)
         {
             GuestList retVal = new GuestList()
             {
                 title = originalFileName,
-                userId = userId
+                company = company
             };
 
             using (FileStream fs = new FileStream(uploadedFileInfo.FullName, FileMode.Open))
@@ -120,7 +120,7 @@ namespace gliist_server.Controllers
                                 email = values.Length > 2 ? values[2] : null,
                                 phoneNumber = values.Length > 3 ? values[3] : null,
                                 plus = values.Length > 4 ? int.Parse(values[4]) : 0,
-                                userId = userId
+                                company = company
                             };
 
                             /* var existing = db.Guests.Where(dbG => dbG.email.Equals(g.email)).FirstOrDefault();
@@ -145,7 +145,7 @@ namespace gliist_server.Controllers
             return retVal;
         }
 
-        public async static Task<GuestList> ParseCSV(HttpRequestMessage request, string userId, EventDBContext db)
+        public async static Task<GuestList> ParseCSV(HttpRequestMessage request, Company company, EventDBContext db)
         {
             if (!request.Content.IsMimeMultipartContent())
             {
@@ -167,11 +167,11 @@ namespace gliist_server.Controllers
             GuestList gl;
             if (Path.GetExtension(originalFileName) == ".csv")
             {
-                gl = GetCSV(uploadedFileInfo, originalFileName, userId, db);
+                gl = GetCSV(uploadedFileInfo, originalFileName, company, db);
             }
             else
             {
-                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, userId, db);
+                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, company, db);
             }
 
             return gl;

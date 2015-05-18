@@ -14,7 +14,7 @@ namespace gliist_server.Helpers
     {
         public const string ON_THE_SPOT_GL = "On The Spot";
 
-        public static void AddGuestToEvent(Guest guest, int eventId, string userId, EventDBContext db)
+        public static void AddGuestToEvent(Guest guest, int eventId, Company comapny, EventDBContext db)
         {
             var @event = db.Events.Single(e => e.id == eventId);
 
@@ -34,7 +34,7 @@ namespace gliist_server.Helpers
                    },
                    linked_guest_list = new GuestList()
                    {
-                       userId = userId,
+                       company = comapny,
                        title = string.Format("{0} {1}", ON_THE_SPOT_GL, @event.title),
                        listType = ON_THE_SPOT_GL,
                        guests = new List<Guest>()
@@ -65,7 +65,7 @@ namespace gliist_server.Helpers
         }
 
 
-        public async static Task<List<Guest>> Save(GuestList guestList, string userId, EventDBContext db, List<Guest> toMerge = null)
+        public async static Task<List<Guest>> Save(GuestList guestList, Company company, EventDBContext db, List<Guest> toMerge = null)
         {
             toMerge = toMerge != null ? new List<Guest>() : toMerge;
 
@@ -88,19 +88,19 @@ namespace gliist_server.Helpers
                     db.Entry(guest).State = EntityState.Modified;
 
 
-                    if (attached.userId != userId)
+                    if (attached.company.id != company.id)
                     {
                         throw new UnauthorizedAccessException("User trying to get access to differnt tenant guest");
                     }
                 }
                 else
                 {
-                    var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
+                    var existing = await db.Guests.SingleOrDefaultAsync(g => g.company.id == company.id && g.email == guest.email);
 
                     if (existing == null)
                     {
                         db.Guests.Add(guest);
-                        guest.userId = userId;
+                        guest.company = company;
                         retVal.Add(guest);
 
                     }

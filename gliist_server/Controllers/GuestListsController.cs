@@ -20,13 +20,19 @@ namespace gliist_server.Controllers
     public class GuestListsController : ApiController
     {
         private EventDBContext db = new EventDBContext();
+        private UserManager<UserModel> UserManager;
 
         // GET: api/GuestLists
         public IQueryable<GuestList> GetGuestLists()
         {
             var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
 
-            return db.GuestLists.Where(gl => gl.userId == userId);
+            var gls = db.GuestLists.Where(gl => gl.company.id == user.company.id);
+
+            var gl1 = gls.FirstOrDefault();
+
+            return gls;
         }
 
         // GET: api/GuestLists/5
@@ -34,8 +40,9 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> GetGuestList(int id)
         {
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
 
-            GuestList guestList = await db.GuestLists.Where(gl => gl.userId == userId && gl.id == id).FirstOrDefaultAsync();
+            GuestList guestList = await db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefaultAsync();
             if (guestList == null)
             {
                 return NotFound();
@@ -84,11 +91,13 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PostGuestList(GuestList guestList)
         {
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
 
             GuestList existingGuestList;
             if (guestList.id > 0)
             {
-                existingGuestList = await db.GuestLists.Where(gl => gl.userId == userId && gl.id == guestList.id).SingleOrDefaultAsync();
+                existingGuestList = await db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == guestList.id).SingleOrDefaultAsync();
                 if (existingGuestList == null)
                 {
                     throw new NotImplementedException();
@@ -106,7 +115,7 @@ namespace gliist_server.Controllers
                     }
                     else
                     {
-                        guest.userId = userId;
+                        guest.company = user.company;
                         guest.linked_guest_lists.Add(existingGuestList);
                         db.Guests.Add(guest);
                     }
@@ -114,11 +123,11 @@ namespace gliist_server.Controllers
             }
             else
             {
-                guestList.userId = userId;
+                guestList.company = user.company;
 
                 foreach (var guest in guestList.guests)
                 {
-                    var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
+                    var existing = await db.Guests.SingleOrDefaultAsync(g => g.company.id == user.company.id && g.email == guest.email);
 
                     if (existing != null)
                     {
@@ -127,7 +136,7 @@ namespace gliist_server.Controllers
                     }
                     else
                     {
-                        guest.userId = userId;
+                        guest.company = user.company;
                         guest.linked_guest_lists.Add(guestList);
                         db.Guests.Add(guest);
                     }
@@ -169,6 +178,11 @@ namespace gliist_server.Controllers
         private bool GuestListExists(int id)
         {
             return db.GuestLists.Count(e => e.id == id) > 0;
+        }
+
+        public GuestListsController()
+        {
+            UserManager = Startup.UserManagerFactory(db);
         }
     }
 }
