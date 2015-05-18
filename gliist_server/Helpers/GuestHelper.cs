@@ -29,7 +29,7 @@ namespace gliist_server.Helpers
                        new GuestCheckin() { 
                            guest = guest,
                             guestList = onTheSpotGL,
-                            plus = guest.plus
+                            plus = 0
                        } 
                    },
                    linked_guest_list = new GuestList()
@@ -56,7 +56,7 @@ namespace gliist_server.Helpers
                      {
                          guest = guest,
                          guestList = onTheSpotGL,
-                         plus = guest.plus
+                         plus = 0
                      }
                     );
             }

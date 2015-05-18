@@ -1,4 +1,5 @@
-﻿using gliist_server.Models;
+﻿using gliist_server.Helpers;
+using gliist_server.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -90,6 +91,51 @@ namespace gliist_server.Controllers
             return new Tuple<string, Stream>(originalFileName, new FileStream(uploadedFileInfo.FullName, FileMode.Open));
         }
 
+        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, string userId)
+        {
+            GuestList retVal = new GuestList()
+            {
+                title = originalFileName,
+                userId = userId
+            };
+
+            using (FileStream fs = new FileStream(uploadedFileInfo.FullName, FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    List<string> headers = new List<string>();
+                    List<Guest> guests = new List<Guest>();
+
+                    headers.AddRange(sr.ReadLine().Split(','));
+
+                    while (!sr.EndOfStream)
+                    {
+                        var values = sr.ReadLine().Split(',');
+                        try
+                        {
+                            var g = new Guest()
+                            {
+                                firstName = values.Length > 0 ? values[0] : null,
+                                lastName = values.Length > 1 ? values[1] : null,
+                                email = values.Length > 2 ? values[2] : null,
+                                phoneNumber = values.Length > 3 ? values[3] : null,
+                                plus = values.Length > 4 ? int.Parse(values[4]) : 0,
+                                userId = userId
+                            };
+                            guests.Add(g);
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                    retVal.guests = guests;
+                }
+            }
+
+            return retVal;
+        }
 
         public async static Task<GuestList> ParseCSV(HttpRequestMessage request, string userId, EventDBContext db)
         {
@@ -109,43 +155,18 @@ namespace gliist_server.Controllers
             // creation time, directory name, a few filesystem methods etc..
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
 
-            GuestList retVal = new GuestList()
-                    {
-                        title = originalFileName,
-                        userId = userId
-                    };
 
-            db.GuestLists.Add(retVal);
-
-            using (FileStream fs = new FileStream(uploadedFileInfo.FullName, FileMode.Open))
+            GuestList gl;
+            if (Path.GetExtension(originalFileName) == ".csv")
             {
-                using (StreamReader sr = new StreamReader(fs))
-                {
-                    List<string> headers = new List<string>();
-                    List<Guest> guests = new List<Guest>();
-
-                    headers.AddRange(sr.ReadLine().Split(','));
-
-                    while (!sr.EndOfStream)
-                    {
-                        var values = sr.ReadLine().Split(',');
-
-                        var g = new Guest()
-                        {
-                            firstName = values[0],
-                            lastName = values[1],
-                            email = values[2],
-                            phoneNumber = values[3],
-                            userId = userId
-                        };
-                        guests.Add(g);
-                    }
-
-                    retVal.guests = guests;
-                }
+                gl = GetCSV(uploadedFileInfo, originalFileName, userId);
+            }
+            else
+            {
+                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, userId);
             }
 
-            return retVal;
+            return gl;
         }
 
 

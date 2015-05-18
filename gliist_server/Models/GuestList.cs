@@ -16,5 +16,10 @@ namespace gliist_server.Models
         public string title { get; set; }
 
         public virtual List<Guest> guests { get; set; }
+
+        public GuestList()
+        {
+            guests = new List<Guest>();
+        }
     }
 }
