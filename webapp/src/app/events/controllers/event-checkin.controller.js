@@ -1,9 +1,16 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$mdDialog',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $mdDialog) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService',
+        function ($scope, $stateParams, dialogService, $state, eventsService) {
 
+
+            $scope.checkinGuest = function (checkin) {
+                $state.go('main.check_guest', {
+                    guestId: checkin.guest.id,
+                    gliId: $scope.event.guestLists[0].id
+                });
+            };
 
             $scope.getEventInvite = function (height) {
                 return {
@@ -13,18 +20,43 @@ angular.module('gliist')
                     'background-size': 'cover'
                 };
             };
+
             $scope.glOptions = {
                 readOnly: true
             };
 
+            $scope.getRowStyle = function (checkin) {
+                if (checkin.status === 'checked in') {
+                    return {
+                        'background-color': '#CCCCCC',
+                        'color': 'white'
+                    }
+                } else {
+                    return{
+                        'border-bottom': 'thin inset #ECECEC',
+                        'background-color': 'white'
+                    }
+                }
+
+            };
 
             $scope.gridOptions = {
+                rowTemplate: '<div' +
+                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
+                    ' ui-grid-cell></div>' +
+                    '</div>',
                 columnDefs: [
-                    { field: 'guest.firstName', name: 'First Name'},
-                    { field: 'guest.lastName', name: 'Last Name'},
-                    { field: 'guest.email', name: 'Email'},
-                    { field: 'guest.phoneNumber', name: 'Phone Number'},
-                    { field: 'guest.plus', name: 'Plus' }
+                    { field: 'guest.firstName', name: 'First Name', enableHiding: false},
+                    { field: 'guest.lastName', name: 'Last Name', enableHiding: false},
+                    { field: 'guest.email', name: 'Email', enableHiding: false },
+                    { field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false, enableHiding: false},
+                    { field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false},
+                    { name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false,
+                        cellTemplate: '<div class="ui-grid-cell-contents" title="Checkin">' +
+                            '<md-button class="md-primary" ng-style="grid.appScope.getRowStyle(row.entity)" ng-click="grid.appScope.checkinGuest(row.entity)">Check In</md-button>' +
+                            '</div>'
+                    }
                 ],
                 rowHeight: 35,
                 data: []

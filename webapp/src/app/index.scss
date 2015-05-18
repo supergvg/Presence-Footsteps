@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
 html {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Arial', serif;
 }
 
 [layout=row] {
@@ -162,6 +162,33 @@ md-dialog {
 
 .page-subtitle h4 {
   padding: 5px
+}
+
+.text-bg {
+  color: #18D8DB !important;
+}
+
+.no-selection {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
+}
+
+.ui-grid-cell {
+  //background-color: white !important;
+  border: none;
+  border-bottom: #000000;
+}
+
+.ui-grid-header-cell {
+  background-color: #ECECEC !important;
+  border: none !important;
+}
+
+.ui-grid-row.ui-grid-cell.ui-grid-cell-contents {
+  background-color: white !important;
 }
 
 // injector

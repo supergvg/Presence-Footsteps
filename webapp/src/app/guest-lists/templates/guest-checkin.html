@@ -1,0 +1,65 @@
+<md-content layout-padding ng-init="init()">
+
+
+    <div layout="row" layout-wrap style="margin-bottom: 8px">
+        <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+            <h3 style="padding-left: 10px">Check In Guest</h3>
+        </div>
+    </div>
+
+    <div ng-show="initializing">
+        <h4>Loading...</h4>
+        <span>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate">
+
+        </md-progress-circular>
+            </span>
+    </div>
+
+    <div ng-hide="initializing">
+
+        <div flex layout="column" layout-align="center center" style="margin-top: 30px"
+             ng-show="guestCheckin.status != 'checked in'" ng-cloak>
+
+            <div flex>
+                <img src="../assets/images/guest-check.png" style="height: 150px">
+            </div>
+            <div flex>
+                <h3>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</h3>
+            </div>
+            <div flex>
+                <md-input-container flex>
+                    <label>Plus</label>
+                    <input name="capacity" ng-model="guestCheckin.guest.plus" type="number" min="0"
+                           max="{{guestCheckin.plus}}"
+                           step="1">
+                </md-input-container>
+            </div>
+
+            <div flex>
+                <md-button class="md-primary md-raised" ng-click="checkGuest()">check in</md-button>
+
+                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData">
+                </md-progress-circular>
+            </div>
+        </div>
+
+        <div flex layout="column" layout-align="center center" style="margin-top: 30px"
+             ng-show="guestCheckin.status == 'checked in'" ng-cloak>
+
+            <div flex>
+                <img src="../assets/images/guest-check.png" style="height: 150px">
+            </div>
+            <div flex>
+                <h3>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</h3>
+            </div>
+            <div flex>
+                Guest Checked in at {{guestCheckin.time |date:'yyyy-MM-dd'}}
+            </div>
+        </div>
+    </div>
+
+
+</md-content>
+
+

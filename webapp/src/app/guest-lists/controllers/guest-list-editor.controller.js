@@ -8,7 +8,20 @@ angular.module('gliist')
                 parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
             }
 
+            $scope.getRowStyle = function (checkin) {
+                return{
+                    'background-color': 'white',
+                    'border-bottom': 'thin inset #ECECEC'
+                }
+            };
+
+
             $scope.gridOptions = {
+                rowTemplate: '<div' +
+                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
+                    ' ui-grid-cell></div>' +
+                    '</div>',
                 columnDefs: [
                     { field: 'firstName', name: 'First Name'},
                     { field: 'lastName', name: 'Last Name'},
@@ -90,7 +103,17 @@ angular.module('gliist')
             $scope.upload = function (files) {
                 $scope.fetchingData = true;
                 uploaderService.uploadGuestList(files).then(function (data) {
-                        _.extend($scope.list, data.data);
+
+                        if (!$scope.list) {
+                            $scope.list = {};
+                        }
+                        else {
+                            if ($scope.list.title) {
+                                delete data.title;
+                            }
+                        }
+
+                        _.extend($scope.list, data);
                     },
                     function (err) {
                         dialogService.error('There was a problem saving your image please try again');

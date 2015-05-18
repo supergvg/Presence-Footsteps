@@ -14,6 +14,7 @@ angular.module('gliist')
 
                     $scope.event.date = moment(data.date).toDate();
                     $scope.event.time = moment.utc(data.time).toDate();
+                    $scope.event.endTime = moment.utc(data.endTime).toDate();
                 }, function () {
                     dialogService.error('There was a problem getting your events, please try again');
 

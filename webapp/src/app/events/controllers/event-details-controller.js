@@ -26,6 +26,13 @@ angular.module('gliist')
                 guestLists: []
             };
 
+            $scope.getSelected = function (idx) {
+                if ($scope.data.selectedIndex === idx) {
+                    return 'logo-bg';
+                }
+
+            };
+
             $scope.getEventInvite = function (height) {
                 return {
                     'background-image': "url(" + $scope.event.invitePicture + ")",
@@ -72,7 +79,8 @@ angular.module('gliist')
                 scope.selected = angular.copy($scope.event.guestLists);
 
                 scope.options = {
-                    enableSelection: true
+                    enableSelection: true,
+                    readOnly: true
                 };
 
                 scope.cancel = function () {
