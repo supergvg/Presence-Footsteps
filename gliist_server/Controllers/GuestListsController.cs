@@ -40,9 +40,9 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> GetGuestList(int id)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = UserManager.FindById(userId);
 
-            GuestList guestList = await db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefaultAsync();
+            GuestList guestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefault();
             if (guestList == null)
             {
                 return NotFound();
@@ -91,13 +91,13 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PostGuestList(GuestList guestList)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = UserManager.FindById(userId);
 
 
             GuestList existingGuestList;
             if (guestList.id > 0)
             {
-                existingGuestList = await db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == guestList.id).SingleOrDefaultAsync();
+                existingGuestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == guestList.id).SingleOrDefault();
                 if (existingGuestList == null)
                 {
                     throw new NotImplementedException();

@@ -12,7 +12,6 @@ namespace gliist_server.Models
 {
     public class Guest
     {
-        [Required]
         [JsonIgnore]
         public virtual Company company { get; set; }
 

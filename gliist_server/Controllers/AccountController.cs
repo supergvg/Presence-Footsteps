@@ -124,7 +124,7 @@ namespace gliist_server.Controllers
 
             user.company.invitations.Add(invite);
 
-            EmailHelper.SendJoinRequest(newUser, user.company, invite);
+            EmailHelper.SendJoinRequest(newUser, user, invite);
 
             await _db.SaveChangesAsync();
 

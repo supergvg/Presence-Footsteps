@@ -13,6 +13,8 @@ namespace gliist_server.Models
         [JsonIgnore]
         public virtual GuestListInstance guestList { get; set; }
 
+        public int gl_id { get { return guestList.id; } }
+
         public virtual Guest guest { get; set; }
 
         public DateTime? time { get; set; }

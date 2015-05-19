@@ -16,6 +16,8 @@ using System.Web.Http.Cors;
 
 namespace gliist_server.Controllers
 {
+    [RoutePrefix("api/Event")]
+
     [Authorize]
     public class EventController : ApiController
     {
@@ -31,6 +33,29 @@ namespace gliist_server.Controllers
             var events = db.Events.Where(e => e.company.id == user.company.id);
 
             return events;
+        }
+
+        [Route("CurrentEvents")]
+        public IQueryable<Event> GetCurrentEvents()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var user = UserManager.FindById(userId);
+            var events = db.Events.Where(e => e.company.id == user.company.id && e.date >= DateTime.Now);
+
+            return events;
+        }
+
+        [Route("PastEvents")]
+        public IQueryable<Event> GetPastEvents()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var user = UserManager.FindById(userId);
+            var events = db.Events.Where(e => e.company.id == user.company.id && e.date < DateTime.Now);
+
+            return events;
+
         }
 
         // GET api/Event/5
