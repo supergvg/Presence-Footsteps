@@ -131,7 +131,7 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
             },
 
 
-            getPastEvents: function (id) {
+            getPastEvents: function () {
                 var d = $q.defer();
 
                 $http({

@@ -4,5 +4,9 @@ angular.module('starter').controller('pastEventController', ['$scope', '$rootSco
         $rootScope.title = 'Past Events';
 
         $scope.currentGuest = {};
+
+        $scope.options = {
+            pastEvents: true
+        }
     }
 ]);
