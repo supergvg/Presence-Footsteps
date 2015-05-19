@@ -38,11 +38,9 @@ angular.module('gliist')
             };
 
             $scope.$watch('event', function (newValue) {
-
                 if (!newValue) {
                     return;
                 }
-
 
                 $scope.updateChart(newValue);
             });

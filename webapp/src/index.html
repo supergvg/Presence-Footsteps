@@ -26,7 +26,7 @@
 <![endif]-->
 
 <div id="loading" layout="column" layout-align="center center" layout-fill
-     style="color:white;background-color: #18D8DB">
+     style="color:white;background-color: #18D8DB;z-index:100;position: absolute;top:0;left: 0;">
     <div>
         <img src="assets/images/gliist_logo.png" style="height:37.8px">
     </div>
@@ -40,8 +40,10 @@
         <div layout="row" layout-padding style="background-color: #18D8DB">
             <div flex class="docs-logotype">
                 <img src="assets/images/gliist_logo.png" style="height:37.8px">
-                <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
-                    <md-icon md-svg-icon="menu"></md-icon>
+                <md-button class="menu" hide-gt-sm ng-click="toggleSidebar()" aria-label="Show User List">
+                    <ng-md-icon icon="menu" style="fill:white"
+                                size="24">
+                    </ng-md-icon>
                 </md-button>
             </div>
             <div layout="row" flex layout-align="end center">
@@ -52,13 +54,13 @@
         </div>
     </md-toolbar>
 
-    <div flex layout="row" layout-fill>
+    <div flex layout="row" layout-fill ng-cloak>
         <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
                     class="md-whiteframe-z2"
                     ng-if="currentUser" ng-cloak style="background-color: #18D8DB">
             <div ng-style="userProfilePic_watch()">
             </div>
-            <md-list role="list">
+            <md-list role="list" ng-cloak>
                 <md-item ng-repeat="it in menuItems" ng-click="setSelected(it)"
                          ng-class="getItemClass(it)">
                     <md-button ui-sref="{{it.ui_sref}}"

@@ -131,6 +131,36 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
             },
 
 
+            getPastEvents: function (id) {
+                var d = $q.defer();
+
+                $http({
+                    method: "GET",
+                    url: "api/event/PastEvents/"
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
+            getCurrentEvents: function () {
+                var d = $q.defer();
+
+                $http({
+                    method: "GET",
+                    url: "api/event/CurrentEvents/"
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
             getEvents: function (id) {
                 var d = $q.defer();
 

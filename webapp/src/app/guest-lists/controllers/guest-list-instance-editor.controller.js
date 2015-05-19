@@ -24,11 +24,11 @@ angular.module('gliist')
                     ' ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: [
-                    { field: 'guest.firstName', name: 'First Name' },
-                    { field: 'guest.lastName', name: 'Last Name' },
-                    { field: 'guest.email', name: 'Email'},
-                    { field: 'guest.phoneNumber', name: 'Phone Number' },
-                    { field: 'guest.plus', name: 'Plus'}
+                    { field: 'guest.firstName', name: 'First Name', enableHiding: false },
+                    { field: 'guest.lastName', name: 'Last Name', enableHiding: false},
+                    { field: 'guest.email', name: 'Email', enableHiding: false, enableSorting: false},
+                    { field: 'guest.phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
+                    { field: 'guest.plus', name: 'Plus', enableHiding: false, enableSorting: false}
                 ],
                 rowHeight: 35
             };

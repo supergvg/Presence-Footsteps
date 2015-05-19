@@ -8,7 +8,7 @@ angular.module('gliist')
             $scope.checkinGuest = function (checkin) {
                 $state.go('main.check_guest', {
                     guestId: checkin.guest.id,
-                    gliId: $scope.event.guestLists[0].id
+                    gliId: checkin.gl_id
                 });
             };
 

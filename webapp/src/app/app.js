@@ -1,7 +1,11 @@
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$timeout',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $timeout) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav) {
             'use strict';
+
+            function buildToggler(navID) {
+                $mdSidenav(navID).toggle();
+            }
 
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = newValue;
@@ -53,6 +57,10 @@ angular.module('gliist')
             $scope.logout = function () {
                 userService.logout();
                 $state.go('home');
+            };
+
+            $scope.toggleSidebar = function () {
+                buildToggler('left');
             };
 
             $scope.forgotPassword = function () {
