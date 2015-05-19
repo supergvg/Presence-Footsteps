@@ -105,7 +105,7 @@ angular.module('gliist')
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
-            }
+            };
 
 
             $scope.onCreateNewGuestList = function (ev) {
@@ -150,8 +150,30 @@ angular.module('gliist')
             };
 
 
+            $scope.dateValid = function () {
+
+                if ($scope.event.date < Date.now()) {
+                    $scope.dateInvalid = true;
+                    return false;
+                }
+                $scope.dateInvalid = false;
+                return true;
+            };
+
+            $scope.timeValid = function () {
+
+                if ($scope.event.time && $scope.event.endTime) {
+                    if ($scope.event.time > $scope.event.endTime) {
+                        $scope.timeInvalid = true;
+                        return false;
+                    }
+                }
+                $scope.timeInvalid = false;
+                return true;
+            };
+
             $scope.next = function (form) {
-                if (form && form.$invalid) {
+                if (form && form.$invalid || !$scope.dateValid() || !$scope.timeValid()) {
                     $scope.showValidation = true;
                     return;
                 }
