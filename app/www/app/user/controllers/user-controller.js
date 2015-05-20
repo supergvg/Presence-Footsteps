@@ -2,7 +2,6 @@ angular.module('starter').controller('userController', ['$scope', 'userService',
 
     function ($scope, userService, $rootScope, dialogService) {
 
-        $rootScope.title = 'User Profile';
         $rootScope.$watch('currentUser', function (newValue) {
             $scope.currentUser = newValue;
 

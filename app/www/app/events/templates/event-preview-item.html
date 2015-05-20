@@ -5,11 +5,16 @@
 
 
     <div style="margin-left: 30%">
-        <p style="color:white">{{event.date |date:'yyyy-MM-dd'}}</p>
+        <h3 style="color:white">{{event.title}}</h3>
+
+        <p style="font-size: 14px;color:white;line-height: 100%">
+            {{event.date |date:'MMMM dd, yyyy'}}
+            <br>
+            {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
+        </p>
 
         <p style="color:white">{{event.location}}</p>
 
-        <h3 style="color:white">{{event.title}}</h3>
 
         <p style="color:white">{{event.type}}</p>
 

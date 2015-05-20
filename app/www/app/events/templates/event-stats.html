@@ -1,4 +1,6 @@
-<ion-pane class="light-bg" ng-init="init()">
+<ion-view class="light-bg" ng-init="init()"
+        title="Event Stats"
+        cache-view="false">
     <ion-content class="content-body">
         <event-preview-item event="currentEvent"></event-preview-item>
 
@@ -8,8 +10,5 @@
     </ion-content>
 
     <div class="bar bar-footer logo-bg">
-        <div class="ion-arrow-left-b" style="padding-left:20px;color:white;font-size:30px;" ui-sref="app.home">
-            <span style="padding-left:10px;padding-top: -10px;;color:white;font-size:14px"></span>
-        </div>
     </div>
-</ion-pane>
+</ion-view>

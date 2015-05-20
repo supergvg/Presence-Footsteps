@@ -1,9 +1,6 @@
 angular.module('starter').controller('viewGuestListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope',
 
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
-
-        $rootScope.title = "Guest Lists";
-
         $scope.doRefresh = function () {
             var eventId = $stateParams.eventId;
             $scope.guestEntries = [];

@@ -51,8 +51,6 @@
 }
 
 .content-body {
-    margin-top: 70px;
-    margin-bottom: 50px;
     color: #5D5D5D;
 }
 
@@ -156,4 +154,12 @@ input.rounded:focus {
     padding: 5px;
     border-radius: 25px;
     color: #B6B6B6
+}
+
+.bar.bar-stable .title {
+    color: white !important;
+}
+
+.bar-stable .button.button-clear {
+    color: white !important;
 }

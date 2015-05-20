@@ -1,9 +1,6 @@
 angular.module('starter').controller('statsController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope', '$ionicLoading',
 
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $ionicLoading) {
-        $rootScope.title = 'Stats';
-
-
         $scope.init = function () {
 
             var eventId = $stateParams.eventId;

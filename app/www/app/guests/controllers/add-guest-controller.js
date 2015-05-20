@@ -1,8 +1,6 @@
 angular.module('starter').controller('addGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope', '$ionicLoading',
 
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $ionicLoading) {
-        $rootScope.title = 'Add Guest';
-
         $scope.currentGuest = {};
 
 
