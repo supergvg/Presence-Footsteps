@@ -23,16 +23,17 @@
             </div>
             <md-divider></md-divider>
 
-            <div layout="row">
-                <div>
-                    <h3>{{event.date| date:'yyyy-MM-dd'}}</h3>
-                    <br>
-
-                    <h3>{{event.location}}</h3>
-
-                    <p>
-                        {{event.description}}
+            <div layout="row" style="padding-left: 15px;padding-right: 15px;padding-top: 15px;">
+                <div flex>
+                    <span class="md-title" style="font-weight: bold;margin:0;color:#8E8E8E">{{event.title}}</span>
+                    <p style="font-size: 14px;color:#8E8E8E;line-height: 100%">
+                        {{event.date |date:'MMMM dd, yyyy'}}
+                        <br>
+                        {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
                     </p>
+                </div>
+                <div flex style="text-align:right">
+                    <span class="" style="margin:0;font-size: 12px;">{{event.location}}</span>
                 </div>
             </div>
         </div>
@@ -40,7 +41,8 @@
             <div flex style="background-color: #CCCCCC;color:white">
                 <h3 style="padding-left: 10px">Linked Guest Lists</h3>
             </div>
-            <guest-list-instance-view style="padding:10px" lists="event.guestLists" options="glOptions"></guest-list-instance-view>
+            <guest-list-instance-view style="padding:10px" lists="event.guestLists"
+                                      options="glOptions"></guest-list-instance-view>
         </div>
 
         <div class="md-actions" layout="row" layout-align="center center" style="margin-top: 30px;margin-bottom: 20px">
