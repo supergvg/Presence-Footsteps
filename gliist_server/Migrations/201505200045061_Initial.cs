@@ -25,6 +25,7 @@ namespace gliist_server.Migrations
                         firstName = c.String(),
                         lastName = c.String(),
                         email = c.String(),
+                        phoneNumber = c.String(),
                         token = c.String(),
                         acceptedAt = c.DateTime(),
                         Company_id = c.Int(),
@@ -107,7 +108,6 @@ namespace gliist_server.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        userId = c.String(),
                         title = c.String(nullable: false),
                         category = c.String(),
                         description = c.String(),
@@ -117,8 +117,11 @@ namespace gliist_server.Migrations
                         time = c.DateTime(nullable: false),
                         endTime = c.DateTime(),
                         invitePicture = c.String(),
+                        company_id = c.Int(),
                     })
-                .PrimaryKey(t => t.id);
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Companies", t => t.company_id)
+                .Index(t => t.company_id);
             
             CreateTable(
                 "dbo.GuestListInstances",
@@ -159,25 +162,30 @@ namespace gliist_server.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        userId = c.String(nullable: false),
                         firstName = c.String(nullable: false),
                         lastName = c.String(nullable: false),
                         phoneNumber = c.String(),
                         email = c.String(nullable: false),
                         plus = c.Int(nullable: false),
+                        company_id = c.Int(),
                     })
-                .PrimaryKey(t => t.id);
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Companies", t => t.company_id)
+                .Index(t => t.company_id);
             
             CreateTable(
                 "dbo.GuestLists",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        userId = c.String(),
                         listType = c.String(),
                         title = c.String(),
+                        isDeleted = c.Boolean(nullable: false),
+                        company_id = c.Int(),
                     })
-                .PrimaryKey(t => t.id);
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Companies", t => t.company_id)
+                .Index(t => t.company_id);
             
             CreateTable(
                 "dbo.GuestListGuests",
@@ -202,6 +210,9 @@ namespace gliist_server.Migrations
             DropForeignKey("dbo.GuestCheckins", "guest_id", "dbo.Guests");
             DropForeignKey("dbo.GuestListGuests", "Guest_id", "dbo.Guests");
             DropForeignKey("dbo.GuestListGuests", "GuestList_id", "dbo.GuestLists");
+            DropForeignKey("dbo.GuestLists", "company_id", "dbo.Companies");
+            DropForeignKey("dbo.Guests", "company_id", "dbo.Companies");
+            DropForeignKey("dbo.Events", "company_id", "dbo.Companies");
             DropForeignKey("dbo.AspNetUsers", "company_id", "dbo.Companies");
             DropForeignKey("dbo.AspNetUserClaims", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
@@ -214,6 +225,9 @@ namespace gliist_server.Migrations
             DropIndex("dbo.GuestCheckins", new[] { "guest_id" });
             DropIndex("dbo.GuestListGuests", new[] { "Guest_id" });
             DropIndex("dbo.GuestListGuests", new[] { "GuestList_id" });
+            DropIndex("dbo.GuestLists", new[] { "company_id" });
+            DropIndex("dbo.Guests", new[] { "company_id" });
+            DropIndex("dbo.Events", new[] { "company_id" });
             DropIndex("dbo.AspNetUsers", new[] { "company_id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "User_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });

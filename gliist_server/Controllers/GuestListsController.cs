@@ -28,7 +28,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
 
-            var gls = db.GuestLists.Where(gl => gl.company.id == user.company.id);
+            var gls = db.GuestLists.Where(gl => !gl.isDeleted && gl.company.id == user.company.id);
 
             var gl1 = gls.FirstOrDefault();
 
@@ -154,13 +154,20 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(GuestList))]
         public async Task<IHttpActionResult> DeleteGuestList(int id)
         {
-            GuestList guestList = await db.GuestLists.FindAsync(id);
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+
+            GuestList guestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefault();
+
             if (guestList == null)
             {
                 return NotFound();
             }
 
-            db.GuestLists.Remove(guestList);
+            guestList.isDeleted = true;
+            db.Entry(guestList).State = EntityState.Modified;
+
+
             await db.SaveChangesAsync();
 
             return Ok(guestList);

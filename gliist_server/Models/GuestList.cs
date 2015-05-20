@@ -19,6 +19,9 @@ namespace gliist_server.Models
 
         public virtual List<Guest> guests { get; set; }
 
+        [JsonIgnore]
+        public bool isDeleted { get; set; }
+
         public GuestList()
         {
             guests = new List<Guest>();
