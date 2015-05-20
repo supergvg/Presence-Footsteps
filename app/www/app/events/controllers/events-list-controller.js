@@ -27,7 +27,15 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
 
         $scope.init = function () {
             $scope.fecthingData = true;
-            eventsService.getEvents().then(function (data) {
+
+            var promise;
+            if ($scope.options && $scope.options.pastEvents) {
+                promise = eventsService.getPastEvents();
+            } else {
+                promise = eventsService.getCurrentEvents();
+            }
+
+            promise.then(function (data) {
                     $scope.events = data;
                 },
                 function (err) {

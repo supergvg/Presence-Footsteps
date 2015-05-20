@@ -99,6 +99,10 @@
     border: none;
 }
 
+.rounded {
+    border-radius: 25px;
+}
+
 input.rounded {
     border: 1px solid #ccc;
     -moz-border-radius: 10px;

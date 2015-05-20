@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('StatsCtrl', [ '$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+    .controller('StatsCtrl', [ '$scope', function ($scope) {
 
+
+        $scope.options = {
+            past: true
+        };
 
     }]);

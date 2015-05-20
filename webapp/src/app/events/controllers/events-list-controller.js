@@ -55,8 +55,19 @@ angular.module('gliist')
 
 
             $scope.refreshEvents = function () {
+
+
                 $scope.fetchingData = true;
-                $scope.currentEvents = eventsService.getEvents().then(function (data) {
+
+                var promise;
+                if ($scope.options && $scope.options.past) {
+                    promise = eventsService.getPastEvents();
+                }
+                else {
+                    promise = eventsService.getCurrentEvents();
+                }
+
+                promise.then(function (data) {
                     $scope.currentEvents = data;
                 }, function () {
                     dialogService.error('There was a problem getting your events, please try again');
