@@ -265,7 +265,7 @@ namespace gliist_server.Controllers
             {
                 foreach (var checkin in gli.actual)
                 {
-                    EmailHelper.SendInvite(user, @event, checkin.guest);
+                    EmailHelper.SendInvite(user, @event, checkin.guest, gli);
                 }
 
             }
