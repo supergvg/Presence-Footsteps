@@ -8,6 +8,10 @@ angular.module('starter').controller('eventController',
                 $cordovaBarcodeScanner
                     .scan()
                     .then(function (barcodeData) {
+                        if (!barcodeData.text) {
+                            return;
+                        }
+
                         var data = barcodeData.text.split(',');
 
                         if (data.length !== 3) {
@@ -26,6 +30,9 @@ angular.module('starter').controller('eventController',
                         $state.go('app.check_guest', {gliId: data[1], guestId: data[2]});
 
                     }, function (error) {
+                        if (!error) {
+                            return;
+                        }
                         ionicPopup.alert({
                             title: 'Error',
                             template: 'Reading QR code failed, please try again'
