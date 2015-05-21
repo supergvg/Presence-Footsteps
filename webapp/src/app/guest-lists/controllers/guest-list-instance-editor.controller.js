@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService',
-        function ($scope, guestFactory, dialogService, $state, uploaderService) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService', 'eventsService',
+        function ($scope, guestFactory, dialogService, $state, uploaderService, eventsService) {
 
 
             function mergeGuestList(parent, merge) {
@@ -69,16 +69,27 @@ angular.module('gliist')
                     return;
                 }
 
-                $scope.isDirty = true;
-
-                $scope.gli.guests = _.reject($scope.gli.guests, function (row) {
-                    return _.find(selectedRows, function (sr) {
-                        return sr.id === row.id;
-                    });
+                var guestsIds = _.map(selectedRows, function (row) {
+                    return row.id;
                 });
 
-                $scope.rowSelected = false;
+                $scope.isDirty = true;
 
+                $scope.fetchingData = true;
+
+                eventsService.removeGuestsFromGL($scope.gli.id, guestsIds).then(
+                    function () {
+                        $scope.gli.guests = _.reject($scope.gli.guests, function (row) {
+                            return _.find(selectedRows, function (sr) {
+                                return sr.id === row.id;
+                            });
+                        });
+                    }
+                ).finally(function () {
+                        $scope.fetchingData = false;
+                    });
+
+                $scope.rowSelected = false;
             };
 
             $scope.$watchCollection('gli', function (newVal, oldValue) {
