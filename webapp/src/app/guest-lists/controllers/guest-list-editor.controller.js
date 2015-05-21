@@ -1,12 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService) {
-
-            function mergeGuestList(parent, merge) {
-                parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
-            }
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService',
+        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService) {
 
             $scope.getRowStyle = function (checkin) {
                 return{
@@ -70,13 +66,26 @@ angular.module('gliist')
                     return;
                 }
 
+                var guestsIds = _.map(selectedRows, function (row) {
+                    return row.id;
+                });
+
                 $scope.isDirty = true;
 
-                $scope.list.guests = _.reject($scope.list.guests, function (row) {
-                    return _.find(selectedRows, function (sr) {
-                        return sr.id === row.id;
+                $scope.fetchingData = true;
+
+                eventsService.removeGuestsFromGLInstance($scope.list.id, guestsIds).then(
+                    function () {
+                        $scope.list.guests = _.reject($scope.list.guests, function (row) {
+                            return _.find(selectedRows, function (sr) {
+                                return sr.id === row.id;
+                            });
+                        });
+                    }
+                ).finally(function () {
+                        $scope.fetchingData = false;
                     });
-                });
+
 
                 $scope.rowSelected = false;
 

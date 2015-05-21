@@ -2,6 +2,43 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
     function ($rootScope, $http, $q) {
         return  {
 
+            removeGuestsFromGL: function (guestListId, guestIds) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/DeleteGuestsGuestList",
+                    data: {
+                        id: guestListId,
+                        ids: guestIds
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error, please try again');
+                });
+
+                return d.promise;
+            },
+
+            removeGuestsFromGLInstance: function (guestListId, guestIds) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/DeleteGuestsGuestListInstance",
+                    data: {
+                        id: guestListId,
+                        ids: guestIds
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error, please try again');
+                });
+
+                return d.promise;
+            },
 
             postGuestCheckin: function (checkinData, glInstance) {
                 var d = $q.defer();
