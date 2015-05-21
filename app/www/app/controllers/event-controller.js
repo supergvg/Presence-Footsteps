@@ -1,6 +1,6 @@
 angular.module('starter').controller('eventController',
-    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner', '$ionicLoading',
-        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner, $ionicLoading) {
+    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner', '$ionicLoading', '$ionicPopup', '$state',
+        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner, $ionicLoading, ionicPopup, $state) {
 
             $rootScope.title = 'Event';
 
@@ -8,9 +8,35 @@ angular.module('starter').controller('eventController',
                 $cordovaBarcodeScanner
                     .scan()
                     .then(function (barcodeData) {
-                        alert(JSON.stringfy(barcodeData));
+                        if (!barcodeData.text) {
+                            return;
+                        }
+
+                        var data = barcodeData.text.split(',');
+
+                        if (data.length !== 3) {
+                            return ionicPopup.alert({
+                                title: 'Error',
+                                template: 'QR code is invalid'
+                            });
+                        }
+                        if (data[0] != $scope.currentEvent.id) {
+                            return ionicPopup.alert({
+                                title: 'Error',
+                                template: 'Wrong event'
+                            });
+                        }
+
+                        $state.go('app.check_guest', {gliId: data[1], guestId: data[2]});
+
                     }, function (error) {
-                        // An error occurred
+                        if (!error) {
+                            return;
+                        }
+                        ionicPopup.alert({
+                            title: 'Error',
+                            template: 'Reading QR code failed, please try again'
+                        });
                     });
 
             };

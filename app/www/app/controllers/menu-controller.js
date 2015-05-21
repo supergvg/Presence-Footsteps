@@ -29,12 +29,12 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
                 href: '#/app/home',
                 icon: 'icon ion-ios-download-outline'
             },
-            {
-                text: 'Stats',
-                href: '#/app/stats',
-                icon: 'ion-pie-graph'
-            },
             /*{
+             text: 'Stats',
+             href: '#/app/stats',
+             icon: 'ion-pie-graph'
+             },
+             {
              text: 'Alerts',
              href: '#/app/alerts',
              icon: 'ion-ios-bell'

@@ -1,15 +1,15 @@
-<ion-pane class="light-bg" ng-init="init()">
+<ion-view class="light-bg" ng-init="init()" view-title="Event Details">
     <ion-content class="content-body">
 
         <event-preview-item event="currentEvent"></event-preview-item>
 
-        <div class="row row-center" style="text-align: center;background-color: #B6B6B6">
+  <!--      <div class="row row-center" style="text-align: center;background-color: #B6B6B6">
             <div class="col">
                 <p class="text-color-light">
                     {{currentEvent.location}} <br>
                 </p>
             </div>
-        </div>
+        </div>-->
 
         <div>
             <div class="row"
@@ -44,11 +44,7 @@
 
     </ion-content>
     <div class="bar bar-footer logo-bg">
-        <div class="ion-arrow-left-b" style="padding-left:20px;color:white;font-size:30px;" ui-sref="app.home">
-            <span style="padding-left:10px;padding-top: -10px;;color:white;font-size:14px"></span>
-        </div>
-
     </div>
 
-</ion-pane>
+</ion-view>
 

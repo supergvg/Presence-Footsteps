@@ -1,8 +1,6 @@
 angular.module('starter').controller('guestController', ['$scope', '$stateParams', 'eventsService', 'dialogService',
 
     function ($scope, $stateParams, eventsService, dialogService) {
-        $scope.title = 'Guest';
-
         $scope.init = function () {
 
             var guestListId = $stateParams.guestListId,

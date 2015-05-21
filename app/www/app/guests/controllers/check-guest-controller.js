@@ -1,8 +1,6 @@
 angular.module('starter').controller('checkGuestController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$ionicLoading', '$rootScope',
     function ($scope, $stateParams, eventsService, dialogService, $state, $ionicLoading, $rootScope) {
 
-        $rootScope.title = "Check in Guest";
-
         $scope.subtractGuestCount = function () {
             if ($scope.guestCheckin.plus === 0) {
                 return;
