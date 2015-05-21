@@ -25,7 +25,7 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
 
         $scope.menuItems = [
             {
-                text: 'Current Events',
+                text: 'Upcoming Events',
                 href: '#/app/home',
                 icon: 'icon ion-ios-download-outline'
             },

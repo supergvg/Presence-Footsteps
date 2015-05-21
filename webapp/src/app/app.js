@@ -116,7 +116,7 @@ angular.module('gliist')
                     icon: {name: 'add_circle', style: "fill: white", size: 24 }
                 },
                 {
-                    title: 'Current Events',
+                    title: 'Upcoming Events',
                     ui_sref: 'main.current_events',
                     icon: {name: 'today', style: "fill: white", size: 24}
                 },
