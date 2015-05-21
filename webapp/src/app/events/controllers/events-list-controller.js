@@ -70,7 +70,7 @@ angular.module('gliist')
                 promise.then(function (data) {
                     $scope.currentEvents = data;
                 }, function () {
-                    dialogService.error('There was a problem getting your events, please try again');
+                    //dialogService.error('There was a problem getting your events, please try again');
                 }).finally(
                     function () {
                         $scope.fetchingData = false;

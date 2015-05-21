@@ -5,7 +5,7 @@
     <ion-content class="content-body">
         <div class="row">
             <div class="centered">
-                <img src="../../img/blank_user_icon.png">
+                <img src="img/icons/user_01.png">
             </div>
         </div>
 
@@ -37,12 +37,15 @@
                     <h5>Additional Guests:</h5>
 
                     <div class="row">
-                        <button class="button button-calm ion-minus col" ng-click="subtractGuestCount()"
+                        <button class="button button-calm ion-minus col"
+                                style="width: 30px!important;"
+                                ng-click="subtractGuestCount()"
                                 ng-disabled="guestCheckin.plus == 0"></button>
                         <div style="margin-left: 10px;margin-right: 10px;width: 50px;">
                             <h3 style="text-align: center"> {{guestCheckin.plus}}</h3>
                         </div>
-                        <button class="button button-calm ion-plus col" ng-click="addGuestCount()"
+                        <button class="button button-calm ion-plus col" style="width: 30px!important;"
+                                ng-click="addGuestCount()"
                                 ng-disabled="guestCheckin.plus >= guestCheckin.guest.plus"></button>
                     </div>
                 </div>

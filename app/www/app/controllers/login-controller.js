@@ -22,7 +22,7 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
             userService.login($scope.credentials).then(function (res) {
                 $state.go('app.home');
             }, function (err) {
-                dialogService.error(err);
+                //dialogService.error(err);
             });
         };
 
