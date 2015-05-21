@@ -32,6 +32,13 @@ namespace gliist_server.Controllers
         public int eventId { get; set; }
     }
 
+    public class IdsModel
+    {
+        public int[] ids { get; set; }
+
+        public int id { get; set; }
+    }
+
     public class IdsEventModel
     {
         public int[] ids { get; set; }
@@ -55,6 +62,64 @@ namespace gliist_server.Controllers
 
         private EventDBContext db = new EventDBContext();
         private UserManager<UserModel> UserManager;
+
+
+        [Route("DeleteGuestsGuestList")]
+        [HttpPost]
+        public async Task<IHttpActionResult> DeleteGuestsGuestList(IdsModel model)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+
+
+            var gli = await db.GuestLists.FindAsync(model.id);
+
+            if (gli.company.id != user.company.id)
+            {
+                return BadRequest();
+            }
+
+
+            foreach (var guestId in model.ids)
+            {
+                var idx = gli.guests.FindIndex(g => g.id == guestId);
+                gli.guests.RemoveAt(idx);
+            }
+
+            db.Entry(gli).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
+            return Ok(gli);
+        }
+
+        [Route("DeleteGuestsGuestListInstance")]
+        [HttpPost]
+        public async Task<IHttpActionResult> DeleteGuestsGuestListInstance(IdsModel model)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+
+
+            var gli = await db.GuestListInstances.FindAsync(model.id);
+
+            if (gli.linked_guest_list.company.id != user.company.id)
+            {
+                return BadRequest();
+            }
+
+
+            foreach (var guestId in model.ids)
+            {
+                var idx = gli.actual.FindIndex(chkin => chkin.guest.id == guestId);
+                gli.actual.RemoveAt(idx);
+            }
+
+            db.Entry(gli).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
+            return Ok(gli);
+        }
+
 
 
         [ResponseType(typeof(Guest))]
