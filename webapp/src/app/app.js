@@ -63,6 +63,13 @@ angular.module('gliist')
                 buildToggler('left');
             };
 
+
+            $scope.onKeyPress = function (keyEvent) {
+                if ($scope.credentials.username && keyEvent.which === 13) {
+                    $scope.login();
+                }
+            };
+
             $scope.forgotPassword = function () {
                 alert('not implement!');
             };

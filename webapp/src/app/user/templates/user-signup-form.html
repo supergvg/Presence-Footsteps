@@ -65,8 +65,14 @@
         </div>
         <div layout layout-sm="column">
             <md-input-container flex>
-                <label style="margin-left: 38%">Invite Code (optional)</label>
-                <input class="rounded" type="text" ng-model="user.inviteCode">
+                <label style="margin-left: 38%">Invite Code</label>
+                <input name="inviteCode" class="rounded" type="text" ng-model="user.inviteCode" required>
+
+                <div ng-messages="userForm.inviteCode.$error"
+                     ng-if="displayErrorMessage(userForm.inviteCode)" style="padding-left: 30px">
+                    <div ng-if="userForm.inviteCode.$error.required" ng-message="required">Invite is required
+                    </div>
+                </div>
             </md-input-container>
         </div>
     </form>

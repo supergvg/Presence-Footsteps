@@ -7,6 +7,12 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
 
         };
 
+        $scope.onKeyPress = function (keyEvent) {
+            if ($scope.credentials.username && keyEvent.which === 13) {
+                $scope.onLoginClicked();
+            }
+        };
+
         $scope.onLoginClicked = function () {
             if (!$scope.credentials.username || !$scope.credentials.password) {
                 $scope.errorMessage = 'Invalid User or Password';

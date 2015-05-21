@@ -146,6 +146,7 @@ input.rounded:focus {
     border-radius: 25px;
     padding-left: 15px;
     padding-right: 15px;
+    width: 200px;
 }
 
 .chip {
