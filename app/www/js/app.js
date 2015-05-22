@@ -139,7 +139,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
 
     }]);
 
-app.run(function ($ionicPlatform, userService, $rootScope, $state) {
+app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -164,7 +164,20 @@ app.run(function ($ionicPlatform, userService, $rootScope, $state) {
 
             return; //user is logged in, do nothing
         }
+        var iosConfig = {
+            "badge": true,
+            "sound": true,
+            "alert": true
+        };
 
-
+        document.addEventListener("deviceready", function () {
+            $cordovaPush.register(iosConfig).then(function (deviceToken) {
+                // Success -- send deviceToken to server, and store for future use
+                console.log("deviceToken: " + deviceToken)
+                //$http.post("http://server.co/", {user: "Bob", tokenID: deviceToken})
+            }, function (err) {
+                //alert("Registration error: " + err)
+            });
+        });
     });
 })

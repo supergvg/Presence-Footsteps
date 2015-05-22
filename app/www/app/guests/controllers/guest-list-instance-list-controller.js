@@ -20,8 +20,25 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
         };
 
         $scope.getActualGuests = function () {
+            var checkedCount = 0;
 
-            return 0;
+            if (!$scope.event) {
+                return 0;
+            }
+
+            angular.forEach($scope.event.guestLists,
+                function (gl) {
+
+                    angular.forEach(gl.actual,
+                        function (chkn) {
+                            if (chkn.status === 'checked in') {
+                                checkedCount++;
+                            }
+                        });
+                }
+            );
+
+            return checkedCount;
         };
     }
 ]);

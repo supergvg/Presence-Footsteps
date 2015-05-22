@@ -33,12 +33,12 @@ angular.module('starter').controller('menuController', ['$scope', '$ionicSideMen
              text: 'Stats',
              href: '#/app/stats',
              icon: 'ion-pie-graph'
-             },
-             {
-             text: 'Alerts',
-             href: '#/app/alerts',
-             icon: 'ion-ios-bell'
              },*/
+            {
+                text: 'Alerts',
+                href: '#/app/alerts',
+                icon: 'ion-ios-bell'
+            },
             {
                 text: 'Profile',
                 href: '#/app/profile',
