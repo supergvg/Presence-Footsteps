@@ -1,6 +1,14 @@
 <ion-view class="light-bg" ng-init="init()" title="Alerts">
     <ion-content class="content-body">
 
+        <ion-spinner ng-show="fecthingData"></ion-spinner>
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doAlertsRefresh()">
+        </ion-refresher>
+
+        <h3 ng-show="alerts.length == 0">You have no new alerts</h3>
+
         <div class="list">
 
             <a class="item item-avatar grey-bg-1" href="#" ng-repeat="alert in alerts">
