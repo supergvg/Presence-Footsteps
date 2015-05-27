@@ -29,12 +29,16 @@ angular.module('gliist')
                 if (checkin.status === 'checked in') {
                     return {
                         'background-color': '#CCCCCC',
-                        'color': 'white'
+                        'color': 'white',
+                        'padding-top': '10px',
+                        'height': '50px'
                     }
                 } else {
                     return{
                         'border-bottom': 'thin inset #ECECEC',
-                        'background-color': 'white'
+                        'background-color': 'white',
+                        'padding-top': '10px',
+                        'height': '50px'
                     }
                 }
 
@@ -53,8 +57,11 @@ angular.module('gliist')
                     { field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false, enableHiding: false},
                     { field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false},
                     { name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false,
-                        cellTemplate: '<div class="ui-grid-cell-contents" title="Checkin">' +
-                            '<md-button class="md-primary" ng-style="grid.appScope.getRowStyle(row.entity)" ng-click="grid.appScope.checkinGuest(row.entity)">Check In</md-button>' +
+                        cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0;float: right" title="Checkin">' +
+                            '<md-button md-no-ink="\'true\'" class="md-primary" ng-click="grid.appScope.checkinGuest(row.entity)" style="border-radius: 0px!important;position:absolute;right:0;margin-top:-10px">' +
+                            '<md-icon ng-show="row.entity.status == \'checked in\'" style="margin-right: 5px;margin-top: 5px" md-svg-src="assets/images/SVG/checkGreen.svg"></md-icon>' +
+                            '<md-icon class="logo-bg" ng-show="row.entity.status != \'checked in\'" style="height: 53px;width: 50px;margin-top: -10px;margin-right: -6px;" md-svg-src="assets/images/SVG/edit01.svg"></md-icon>' +
+                            '</md-button>' +
                             '</div>'
                     }
                 ],

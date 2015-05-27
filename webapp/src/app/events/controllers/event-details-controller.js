@@ -9,7 +9,11 @@ angular.module('gliist')
                 'Music',
                 'Charity',
                 'Technology',
-                'Gaming'
+                'Gaming',
+                'Sports',
+                'Movies',
+                'Films',
+                'Others'
             ];
 
             $scope.data = {
@@ -138,7 +142,6 @@ angular.module('gliist')
             $scope.eventTitleOnBlur = function () {
                 $scope.showTitleValidation = true
             };
-
 
             $scope.displayErrorMessage = function (field) {
 

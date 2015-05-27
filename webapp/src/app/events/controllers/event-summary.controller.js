@@ -41,7 +41,8 @@ angular.module('gliist')
                     'background-image': "url(" + $scope.event.invitePicture + ")",
                     'background-position': 'center center',
                     'height': height || '250px',
-                    'background-size': 'cover'
+                    'background-repeat': 'no-repeat',
+                    'background-size': 'contain'
                 };
             };
             $scope.glOptions = {
