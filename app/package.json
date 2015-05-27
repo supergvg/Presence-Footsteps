@@ -18,5 +18,8 @@
     "https://github.com/wildabeast/BarcodeScanner.git",
     "org.apache.cordova.camera",
     "https://github.com/phonegap-build/PushPlugin.git"
+  ],
+  "cordovaPlatforms": [
+    "ios"
   ]
 }
