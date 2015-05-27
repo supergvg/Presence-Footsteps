@@ -4,7 +4,12 @@
         <h4>No Events Founds</h4>
     </div>
 
-    <ion-spinner ng-show="fecthingData"></ion-spinner>
+
+    <div style="margin-left:47%">
+        <ion-spinner ng-show="fecthingData"></ion-spinner>
+    </div>
+
+
     <ion-refresher
             pulling-text="Pull to refresh..."
             on-refresh="doEventsRefresh()">

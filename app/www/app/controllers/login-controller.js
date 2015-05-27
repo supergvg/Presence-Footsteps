@@ -14,16 +14,28 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
         };
 
         $scope.onLoginClicked = function () {
+
             if (!$scope.credentials.username || !$scope.credentials.password) {
                 $scope.errorMessage = 'Invalid User or Password';
                 return;
             }
+            $scope.fecthingData = true;
 
             userService.login($scope.credentials).then(function (res) {
-                $state.go('app.home');
+
+
+                userService.getCurrentUser().then(function (user) {
+                    $rootScope.currentUser = user;
+                    $state.go('app.home');
+                });
             }, function (err) {
                 //dialogService.error(err);
-            });
+            }).finally(
+                function () {
+                    $scope.credentials.password = '';
+                    $scope.fecthingData = true;
+                }
+            );
         };
 
 

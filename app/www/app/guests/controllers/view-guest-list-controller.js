@@ -1,13 +1,17 @@
-angular.module('starter').controller('viewGuestListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope',
+angular.module('starter').controller('viewGuestListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope', '$timeout',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
+    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $timeout) {
         $scope.doRefresh = function () {
             var eventId = $stateParams.eventId;
             $scope.guestEntries = [];
 
             eventsService.getEvents(eventId).then(
                 function (event) {
-                    $scope.currentEvent = event;
+
+                    $timeout(function () {
+                        $scope.currentEvent = event;
+                    }, 1000);
+
                 },
                 function () {
                     dialogService.error('Oops there was a problem getting event, please try again')

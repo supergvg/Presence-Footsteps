@@ -9,7 +9,16 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
             $scope.addMore = false;
         };
 
+        $scope.formInvalid = function () {
+            return (!$scope.currentGuest.firstName || !$scope.currentGuest.lastName || !$scope.currentGuest.email);
+        };
+
         $scope.onAddClicked = function () {
+
+            if ($scope.formInvalid()) {
+                $scope.errorMessage = "Please Fill All Fields";
+                return;
+            }
             eventsService.addGuestToEvent($scope.currentGuest, $scope.currentEvent.id).then(
                 function () {
                     $scope.addMore = true;
