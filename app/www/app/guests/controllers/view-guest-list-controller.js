@@ -1,6 +1,45 @@
 angular.module('starter').controller('viewGuestListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope', '$timeout',
 
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $timeout) {
+
+
+        $scope.isCheckinDisabled = function (guestEntry) {
+            return !guestEntry.plusBalance;
+        };
+
+        $scope.subtractGuestCount = function (guestCheckin) {
+            if (guestCheckin.plusBalance === 0) {
+                return;
+            }
+            guestCheckin.plusBalance--;
+        };
+
+        $scope.addGuestCount = function (guestCheckin) {
+            if (guestCheckin.plusBalance >= guestCheckin.guest.plus) {
+                return;
+            }
+            guestCheckin.plusBalance++;
+        };
+
+        $scope.checkIn = function (guestCheckin) {
+
+            if ($scope.isCheckinDisabled(guestCheckin)) {
+                return;
+            }
+
+            $scope.checkinSpinnerOn = true;
+            eventsService.postGuestCheckin(guestCheckin, guestCheckin.glist).then(
+                function (res) {
+                    guestCheckin.plusBalance = res.plus;
+                },
+                function () {
+                    dialogService.error('Oops there was a problem checkin guest, please try again')
+                }
+            ).finally(function () {
+                    $scope.checkinSpinnerOn = false;
+                });
+        };
+
         $scope.doRefresh = function () {
             var eventId = $stateParams.eventId;
             $scope.guestEntries = [];
@@ -38,7 +77,10 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
                             id: glist.id,
                             title: glist.title
                         },
-                        guest: guest
+                        plusBalance: guest.plus,
+                        plus: guest.plus,
+                        guestChecked: guest.status === 'checked in' ? 1 : 0,
+                        guest: guest.guest
                     });
                 });
             });

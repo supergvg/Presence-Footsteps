@@ -1,7 +1,7 @@
 <ion-view class="light-bg" ng-init="initGuestListView()"
           style="background-color: #EEEEEE"
-        view-title="Guest Lists"
-        cache-view="false">
+          view-title="Guest Lists"
+          cache-view="false">
     <ion-content class="content-body">
         <ion-spinner ng-show="fecthingData"></ion-spinner>
 
@@ -12,24 +12,41 @@
             </label>
         </div>
 
+        <grey>
+            <ion-list can-swipe="'true'">
+                <ion-item collection-repeat="guestEntry in guestEntries | filter:filter"
+                          class="item-thumbnail-left"
+                          ui-sref="app.check_guest({guestId:guestEntry.guest.id, gliId:guestEntry.glist.id})">
 
-        <div class="list">
-            <div collection-repeat="guestEntry in guestEntries | filter:filter">
-                <div style="background-color: #EEEEEE">
-                    <a class="item item-avatar"
-                       ui-sref="app.check_guest({guestId:guestEntry.guest.guest.id, gliId:guestEntry.glist.id})"
-                       style="background-color: #EEEEEE">
+                    <img ng-src="img/icons/user_01.png">
 
-                        <img src="img/icons/user_01.png">
+                    <h2>{{guestEntry.guest.firstName}} {{guestEntry.guest.lastName}}</h2>
 
-                        <h2 class="">{{guestEntry.guest.guest.firstName}} {{guestEntry.guest.guest.lastName}}</h2>
+                    <p>{{guestEntry.guest.plus + guestEntry.guestChecked - guestEntry.plusBalance}} /
+                        {{guestEntry.guest.plus + 1}}
+                        Checked-in</p>
+                    <ion-option-button ng-show="!isCheckinDisabled(guestEntry)"
+                                       class="button-positive"
+                                       ng-click="subtractGuestCount(guestEntry)"
+                                       style="color:white;background-color: #2CD6D6">
+                        -GUEST
+                    </ion-option-button>
+                    <ion-option-button ng-show="!isCheckinDisabled(guestEntry)"
+                                       class="button-info"
+                                       ng-click="addGuestCount(guestEntry)"
+                                       style="color:white;background-color: #2CD6D6">
+                        +GUEST
+                    </ion-option-button>
+                    <ion-option-button ng-show="!isCheckinDisabled(guestEntry)"
+                                       class="button-info"
+                                       ng-click="checkIn(guestEntry)" style="color:white;background-color: #2CD6D6">
+                        <span ng-show="!checkinSpinnerOn">CHECK IN PLUS {{guestEntry.plusBalance}}</span>
+                        <ion-spinner ng-show="checkinSpinnerOn"></ion-spinner>
+                    </ion-option-button>
 
-                        {{guestEntry.guest.status}}
-                    </a>
-                </div>
-            </div>
-
-        </div>
+                </ion-item>
+            </ion-list>
+        </grey>
     </ion-content>
 
     <div class="bar bar-footer logo-bg">

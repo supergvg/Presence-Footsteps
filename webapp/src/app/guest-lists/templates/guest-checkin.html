@@ -18,11 +18,10 @@
 
     <div ng-hide="initializing">
 
-        <div flex layout="column" layout-align="center center" style="margin-top: 30px"
-             ng-show="guestCheckin.status != 'checked in'" ng-cloak>
+        <div flex layout="column" layout-align="center center" style="margin-top: 30px">
 
             <div flex>
-                <img src="../assets/images/guest-check.png" style="height: 150px">
+                <img src="assets/images/guest-check.png" style="height: 150px">
             </div>
             <div flex>
                 <h3>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</h3>
@@ -41,20 +40,6 @@
 
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData">
                 </md-progress-circular>
-            </div>
-        </div>
-
-        <div flex layout="column" layout-align="center center" style="margin-top: 30px"
-             ng-show="guestCheckin.status == 'checked in'" ng-cloak>
-
-            <div flex>
-                <img src="../assets/images/guest-check.png" style="height: 150px">
-            </div>
-            <div flex>
-                <h3>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</h3>
-            </div>
-            <div flex>
-                Guest Checked in at {{guestCheckin.time |date:'h:mma yyyy-MM-dd'}}
             </div>
         </div>
     </div>

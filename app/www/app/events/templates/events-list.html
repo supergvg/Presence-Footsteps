@@ -16,7 +16,8 @@
     </ion-refresher>
 
     <div class="list">
-        <div ng-repeat="event in events" ui-sref="app.event({eventId:{{event.id}}})">
+        <div ng-repeat="event in events" ui-sref="app.event({eventId:{{event.id}}})"
+             style="border-bottom: 2px solid #ddd;border-top:3px solid #ddd">
             <event-preview-item event="event"></event-preview-item>
         </div>
     </div>
