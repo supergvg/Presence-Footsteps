@@ -1,0 +1,38 @@
+{
+  "name": "moment-twitter",
+  "version": "0.2.0",
+  "description": "An extension to moment.js that formats dates like Twitter",
+  "main": "moment-twitter.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hijonathan/moment.twitter.git"
+  },
+  "keywords": [
+    "momentjs",
+    "moment",
+    "date",
+    "date-format",
+    "twitter"
+  ],
+  "author": "Jonathan Kim <me@jonathan-kim.com> (http://jonathan-kim.com)",
+  "contributors": [
+    "Nathan Bowser <nathan.bowser@spiderstrategies.com>"
+  ],
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/hijonathan/moment.twitter/issues"
+  },
+  "dependencies": {
+    "moment": "^2.4.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-coffeelint": "0.0.7",
+    "grunt-release": "~0.6.0",
+    "grunt-bump": "0.0.13"
+  }
+}

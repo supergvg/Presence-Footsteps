@@ -2,6 +2,21 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
     function ($rootScope, $http, $q) {
         return  {
 
+            getNotifications: function () {
+                var d = $q.defer();
+
+                $http({
+                    method: "GET",
+                    url: "api/Notifications/"
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
             getPastEvents: function () {
                 var d = $q.defer();
 
