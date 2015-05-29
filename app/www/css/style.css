@@ -170,6 +170,12 @@ grey .item-content {
 
 }
 
+grey ion-item {
+    border-width: 2px !important;;
+    border-color: white !important;;
+    background-color: #EEEEEE !important;
+}
+
 ion-item {
     background-color: #EEEEEE !important;
 }
