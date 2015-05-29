@@ -12,9 +12,9 @@ namespace gliist_server.Helpers
 {
     public static class GuestHelper
     {
-        public const string ON_THE_SPOT_GL = "On The Spot";
+        public const string ON_THE_SPOT_GL = "On the spot";
 
-        public static void AddGuestToEvent(Guest guest, int eventId, Company comapny, EventDBContext db)
+        public static void AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
         {
             var @event = db.Events.Single(e => e.id == eventId);
 
@@ -61,6 +61,17 @@ namespace gliist_server.Helpers
                     );
             }
 
+            Notification notification = new Notification()
+            {
+                company = comapny,
+                message = string.Format("{0} {1} has been added to {2}", guest.firstName, guest.lastName, @event.title),
+                originator = user,
+                guest = guest,
+                @event = @event,
+                gli = onTheSpotGL
+            };
+
+            db.Notifications.Add(notification);
             db.Entry(@event).State = EntityState.Modified;
         }
 

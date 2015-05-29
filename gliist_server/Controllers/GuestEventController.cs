@@ -260,7 +260,8 @@ namespace gliist_server.Controllers
                 return BadRequest();
             }
             guest.company = user.company;
-            GuestHelper.AddGuestToEvent(guest, eventId, user.company, db);
+
+            GuestHelper.AddGuestToEvent(guest, eventId, user.company, user, db);
 
             db.Guests.Add(guest);
 

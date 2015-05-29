@@ -13,7 +13,7 @@ namespace gliist_server.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201505200045061_Initial"; }
+            get { return "201505290732003_Initial"; }
         }
         
         string IMigrationMetadata.Source

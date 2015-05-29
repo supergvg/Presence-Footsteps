@@ -29,5 +29,7 @@ namespace gliist_server.Models
 
         public System.Data.Entity.DbSet<gliist_server.Models.Company> Companies { get; set; }
 
+        public System.Data.Entity.DbSet<gliist_server.Models.Notification> Notifications { get; set; }
+
     }
 }

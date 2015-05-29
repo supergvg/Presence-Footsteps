@@ -188,6 +188,31 @@ namespace gliist_server.Migrations
                 .Index(t => t.company_id);
             
             CreateTable(
+                "dbo.Notifications",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        message = c.String(nullable: false),
+                        time = c.DateTime(nullable: false),
+                        company_id = c.Int(),
+                        event_id = c.Int(),
+                        gli_id = c.Int(),
+                        guest_id = c.Int(),
+                        originator_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Companies", t => t.company_id)
+                .ForeignKey("dbo.Events", t => t.event_id)
+                .ForeignKey("dbo.GuestListInstances", t => t.gli_id)
+                .ForeignKey("dbo.Guests", t => t.guest_id)
+                .ForeignKey("dbo.AspNetUsers", t => t.originator_Id)
+                .Index(t => t.company_id)
+                .Index(t => t.event_id)
+                .Index(t => t.gli_id)
+                .Index(t => t.guest_id)
+                .Index(t => t.originator_Id);
+            
+            CreateTable(
                 "dbo.GuestListGuests",
                 c => new
                     {
@@ -204,6 +229,11 @@ namespace gliist_server.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Notifications", "originator_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Notifications", "guest_id", "dbo.Guests");
+            DropForeignKey("dbo.Notifications", "gli_id", "dbo.GuestListInstances");
+            DropForeignKey("dbo.Notifications", "event_id", "dbo.Events");
+            DropForeignKey("dbo.Notifications", "company_id", "dbo.Companies");
             DropForeignKey("dbo.GuestListInstances", "linked_guest_list_id", "dbo.GuestLists");
             DropForeignKey("dbo.GuestListInstances", "linked_event_id", "dbo.Events");
             DropForeignKey("dbo.GuestCheckins", "guestList_id", "dbo.GuestListInstances");
@@ -219,6 +249,11 @@ namespace gliist_server.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Invites", "Company_id", "dbo.Companies");
+            DropIndex("dbo.Notifications", new[] { "originator_Id" });
+            DropIndex("dbo.Notifications", new[] { "guest_id" });
+            DropIndex("dbo.Notifications", new[] { "gli_id" });
+            DropIndex("dbo.Notifications", new[] { "event_id" });
+            DropIndex("dbo.Notifications", new[] { "company_id" });
             DropIndex("dbo.GuestListInstances", new[] { "linked_guest_list_id" });
             DropIndex("dbo.GuestListInstances", new[] { "linked_event_id" });
             DropIndex("dbo.GuestCheckins", new[] { "guestList_id" });
@@ -235,6 +270,7 @@ namespace gliist_server.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.Invites", new[] { "Company_id" });
             DropTable("dbo.GuestListGuests");
+            DropTable("dbo.Notifications");
             DropTable("dbo.GuestLists");
             DropTable("dbo.Guests");
             DropTable("dbo.GuestCheckins");
