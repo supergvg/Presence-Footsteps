@@ -35,14 +35,14 @@ namespace gliist_server.Helpers
                    linked_guest_list = new GuestList()
                    {
                        company = comapny,
-                       title = string.Format("{0} {1}", ON_THE_SPOT_GL, @event.title),
+                       title = string.Format("{0}", ON_THE_SPOT_GL),
                        listType = ON_THE_SPOT_GL,
                        guests = new List<Guest>()
                        {
                           guest
                        }
                    },
-                   title = string.Format("{0} {1}", ON_THE_SPOT_GL, @event.title),
+                   title = string.Format("{0}", ON_THE_SPOT_GL),
                    listType = ON_THE_SPOT_GL
                };
 
@@ -70,6 +70,9 @@ namespace gliist_server.Helpers
                 @event = @event,
                 gli = onTheSpotGL
             };
+
+            EmailHelper.SendInvite(user, @event, guest, onTheSpotGL);
+
 
             db.Notifications.Add(notification);
             db.Entry(@event).State = EntityState.Modified;
