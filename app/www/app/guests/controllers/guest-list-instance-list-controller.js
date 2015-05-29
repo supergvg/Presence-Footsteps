@@ -12,7 +12,10 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
 
             angular.forEach($scope.event.guestLists,
                 function (gl) {
-                    total += gl.actual.length;
+                    angular.forEach(gl.actual,
+                        function (guest_info) {
+                            total += guest_info.guest.plus + 1;
+                        });
                 }
             );
 
@@ -20,8 +23,25 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
         };
 
         $scope.getActualGuests = function () {
+            var checkedCount = 0;
 
-            return 0;
+            if (!$scope.event) {
+                return 0;
+            }
+
+            angular.forEach($scope.event.guestLists,
+                function (gl) {
+
+                    angular.forEach(gl.actual,
+                        function (chkn) {
+                            if (chkn.status === 'checked in') {
+                                checkedCount += chkn.guest.plus - chkn.plus;
+                            }
+                        });
+                }
+            );
+
+            return checkedCount;
         };
     }
 ]);

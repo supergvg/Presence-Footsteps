@@ -1,8 +1,8 @@
-<ion-view style="margin-top:100px" class="logo-bg" ng-init="init()">
-    <ion-content claas="logo-bg">
+<ion-view class="logo-bg" ng-init="init()">
+    <ion-content claas="logo-bg" style="padding-top:100px">
         <div class="row center">
             <div class="centered">
-                <img src="img/gliist_logo.png" style="height:150px; ">
+                <img src="img/gliist_logo.png" style="height:100px; ">
             </div>
         </div>
 
@@ -15,7 +15,7 @@
                     </label>
                     <label class="item item-input grey-bg rounded" style="border: none;margin-top: 20px;">
                         <span class="input-label">Password</span>
-                        <input type="password" ng-model="credentials.password">
+                        <input type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
                     </label>
                 </div>
             </div>
@@ -27,9 +27,11 @@
         </div>
         <div class="row" style="margin-top: 35px">
             <div class="centered">
-                <button class="button button-dark rounded" style="border-radius: 25px;padding-left: 35px;padding-right:35px" ng-click="onLoginClicked()">
+                <button class="button button-dark rounded"
+                        style="border-radius: 25px;padding-left: 35px;padding-right:35px" ng-click="onLoginClicked()">
                     Login
                 </button>
+                <ion-spinner ng-show="fecthingData"></ion-spinner>
             </div>
         </div>
         <div class="row" ng-show="false">

@@ -63,6 +63,13 @@ angular.module('gliist')
                 buildToggler('left');
             };
 
+
+            $scope.onKeyPress = function (keyEvent) {
+                if ($scope.credentials.username && keyEvent.which === 13) {
+                    $scope.login();
+                }
+            };
+
             $scope.forgotPassword = function () {
                 alert('not implement!');
             };
@@ -109,7 +116,7 @@ angular.module('gliist')
                     icon: {name: 'add_circle', style: "fill: white", size: 24 }
                 },
                 {
-                    title: 'Current Events',
+                    title: 'Upcoming Events',
                     ui_sref: 'main.current_events',
                     icon: {name: 'today', style: "fill: white", size: 24}
                 },

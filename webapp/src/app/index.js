@@ -14,9 +14,10 @@ angular.module('gliist', [
     'ui.grid',
     'ui.grid.edit',
     'ui.grid.cellNav',
-    'ui.grid.selection'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider) {
+    'ui.grid.selection',
+    'ui.grid.autoResize'])
+    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
+        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider) {
 
             $mdThemingProvider.theme('default')
                 .primaryPalette('cyan')
@@ -40,6 +41,10 @@ angular.module('gliist', [
                     }
                 };
             });
+
+            $mdIconProvider
+                .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
+                .defaultIconSet('img/icons/sets/core-icons.svg', 24);
 
 
             $httpProvider.interceptors.push('myHttpInterceptor');

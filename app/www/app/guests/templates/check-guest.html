@@ -1,10 +1,11 @@
 <ion-view class="light-bg" ng-init="init()"
-          title="Check in Guest">
+          title="Check in Guest"
+          can-swipe-back="false">
 
     <ion-content class="content-body">
         <div class="row">
             <div class="centered">
-                <img src="../../img/blank_user_icon.png">
+                <img src="img/icons/user_01.png">
             </div>
         </div>
 
@@ -21,34 +22,31 @@
                     {{guestCheckin.guest.lastName}}</h3>
             </div>
         </div>
-        <div ng-if="guestCheckin.time" ng-cloak>
-            <div class="row">
+        <div>
+            <div class="row" style="text-align: center">
                 <div class="centered">
-                    <h4 style="text-align: center">
-                        Guest checked in at: {{guestCheckin.time | date:'h:mma MMMM dd yyyy'}}
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div ng-if="!guestCheckin.time" ng-cloak>
-            <div class="row">
-                <div class="centered">
+                    <h5>{{(guestCheckin.guest.plus - maxGuests) + guestChecked}} / {{guestCheckin.guest.plus + 1}}
+                        Checked</h5>
                     <h5>Additional Guests:</h5>
 
                     <div class="row">
-                        <button class="button button-calm ion-minus col" ng-click="subtractGuestCount()"
+                        <button class="button button-calm ion-minus col"
+                                style="width: 30px!important;"
+                                ng-click="subtractGuestCount()"
                                 ng-disabled="guestCheckin.plus == 0"></button>
                         <div style="margin-left: 10px;margin-right: 10px;width: 50px;">
                             <h3 style="text-align: center"> {{guestCheckin.plus}}</h3>
                         </div>
-                        <button class="button button-calm ion-plus col" ng-click="addGuestCount()"
-                                ng-disabled="guestCheckin.plus >= guestCheckin.guest.plus"></button>
+                        <button class="button button-calm ion-plus col" style="width: 30px!important;"
+                                ng-click="addGuestCount()"
+                                ng-disabled="guestCheckin.plus >= maxGuests"></button>
                     </div>
                 </div>
 
             </div>
             <div class="row" style="margin-top: 40px;">
-                <button class="button button-calm centered" ng-disabled="fetchingData" ng-click="checkIn()">
+                <button class="button button-calm centered" ng-disabled="isCheckinDisabled()"
+                        ng-click="checkIn()">
                     Check In
                     <ion-spinner ng-show="fetchingData"></ion-spinner>
 

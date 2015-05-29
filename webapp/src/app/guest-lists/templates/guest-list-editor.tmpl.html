@@ -12,7 +12,7 @@
         <div class="page-subtitle" style="margin-top: -15px;">
             <h4>List Type</h4>
         </div>
-        <md-select ng-model="list.listType" flex style="width: 150px">
+        <md-select placeholder="Guest List Type" ng-model="list.listType" flex style="width: 150px">
             <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
         </md-select>
         <md-input-container flex>
@@ -80,7 +80,7 @@
     </span>
     </div>
     <div>
-        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection
+        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize
              style="height:300px;width: 100%"></div>
     </div>
 

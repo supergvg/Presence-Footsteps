@@ -68,7 +68,7 @@ module.exports = function(options) {
     return gulp.src($.mainBowerFiles())
       .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
       .pipe($.flatten())
-      .pipe(gulp.dest(options.dist + '/fonts/'));
+      .pipe(gulp.dest(options.dist + '/styles/'));
   });
 
   gulp.task('other', function () {

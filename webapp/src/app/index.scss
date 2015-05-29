@@ -192,5 +192,15 @@ md-dialog {
   background-color: white !important;
 }
 
+.input-icon {
+  top: 22px !important;
+  left: auto !important;
+}
+
+.md-select-label .md-select-icon {
+  right: 0px;
+  position: absolute;
+}
+
 // injector
 // endinjector

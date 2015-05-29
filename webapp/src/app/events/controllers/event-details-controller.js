@@ -9,7 +9,11 @@ angular.module('gliist')
                 'Music',
                 'Charity',
                 'Technology',
-                'Gaming'
+                'Gaming',
+                'Sports',
+                'Movies',
+                'Films',
+                'Others'
             ];
 
             $scope.data = {
@@ -38,8 +42,8 @@ angular.module('gliist')
                     'background-image': "url(" + $scope.event.invitePicture + ")",
                     'background-position': 'center center',
                     'height': height || '250px',
-                    'background-size': 'fit',
-                    'background-repeat': 'no-repeat'
+                    'background-repeat': 'no-repeat',
+                    'background-size': 'contain'
                 };
             };
 
@@ -138,7 +142,6 @@ angular.module('gliist')
             $scope.eventTitleOnBlur = function () {
                 $scope.showTitleValidation = true
             };
-
 
             $scope.displayErrorMessage = function (field) {
 

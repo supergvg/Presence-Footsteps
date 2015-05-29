@@ -12,12 +12,9 @@
                 <label style="margin-left: 38%">Email</label>
                 <input class="rounded" type="text" ng-model="credentials.username">
             </md-input-container>
-        </div>
-
-        <div flex>
             <md-input-container flex>
                 <label style="margin-left: 33%">Password</label>
-                <input class="rounded" type="password" ng-model="credentials.password">
+                <input class="rounded" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
             </md-input-container>
         </div>
         <div flex layout-align="center center">

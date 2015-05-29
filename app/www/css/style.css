@@ -146,11 +146,12 @@ input.rounded:focus {
     border-radius: 25px;
     padding-left: 15px;
     padding-right: 15px;
+    width: 200px;
 }
 
 .chip {
     background-color: white;
-    text-align: right;
+    text-align: center;
     padding: 5px;
     border-radius: 25px;
     color: #B6B6B6
@@ -162,4 +163,9 @@ input.rounded:focus {
 
 .bar-stable .button.button-clear {
     color: white !important;
+}
+
+grey .item-content {
+    background-color: #EEEEEE !important;
+
 }
