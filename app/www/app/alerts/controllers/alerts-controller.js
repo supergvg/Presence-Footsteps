@@ -6,30 +6,32 @@ angular.module('starter').controller('alertsController', ['$scope', '$rootScope'
 
 
         $scope.doAlertsRefresh = function () {
-            alert('refresh!');
+            $scope.init(true);
         };
-        $scope.init = function () {
 
+        $scope.twitterTime = function (alert) {
+            return moment(alert.time).twitterShort();
+        };
 
-            //eventsService.getAlerts().then().finally();
+        $scope.init = function (disableSpinner) {
 
-            /*$scope.alerts = [
-             {
-             message: 'alert1',
-             time: '1 minute'
-             },
-             {
-             message: 'alert2',
-             time: '1 minute'
-             },
-             {
-             message: 'alert3',
-             time: '1 minute'
-             }
-             ];*/
+            $scope.fecthingData = !disableSpinner && true;
 
-            $scope.alerts = [];
+            eventsService.getNotifications().then(
+                function (alerts) {
+                    $scope.alerts = alerts;
+                },
+                function () {
+                    $scope.alerts = [];
+                }
+            ).finally(
+                function () {
+                    $scope.$broadcast('scroll.refreshComplete', function () {
 
+                    });
+                    $scope.fecthingData = false;
+                }
+            );
         };
 
         $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {

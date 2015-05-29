@@ -1,4 +1,4 @@
-<ion-view class="light-bg" ng-init="init()" title="Alerts">
+<ion-view class="light-bg" ng-init="init()" title="Alerts" cache-view="false">
     <ion-content class="content-body" style="text-align: center">
 
         <ion-spinner ng-show="fecthingData"></ion-spinner>
@@ -10,13 +10,14 @@
         <h3 ng-show="alerts.length == 0">You have no new alerts</h3>
 
         <div class="list">
+            <a class="item item-avatar grey-bg-1"
+               ui-sref="app.check_guest({guestId:alert.guest.id, gliId:alert.gli.id})"
+               ng-repeat="alert in alerts">
+                <img src="img/icons/user_01.png">
 
-            <a class="item item-avatar grey-bg-1" href="#" ng-repeat="alert in alerts">
+                <h3>{{alert.message}}</h3>
 
-
-                <h2>{{alert.message}}</h2>
-
-
+                <p style="text-align: left;margin-left: 5px;">{{twitterTime(alert)}} ago</p>
             </a>
         </div>
 

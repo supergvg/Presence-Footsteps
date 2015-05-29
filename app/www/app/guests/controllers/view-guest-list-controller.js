@@ -3,22 +3,63 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $timeout) {
 
 
+        $scope.active = 'newGuests';
+        $scope.setActive = function (activeScreen) {
+            $scope.active = activeScreen;
+        };
+
+        $scope.isActive = function (activeScreen) {
+            if ($scope.active === activeScreen) {
+                return {
+                    'background-color': '#B6B6B6',
+                    'color': 'white'
+                }
+            }
+        };
+
+        $scope.splitGuests = function () {
+            $scope.guestEntriesFiltered = [];
+
+            if ($scope.active === 'newGuests') {
+                angular.forEach($scope.guestEntries, function (value) {
+                    if (!value.guestChecked || value.plusBalance > 0) {
+                        $scope.guestEntriesFiltered.push(value);
+                    }
+                });
+            }
+            else {
+                angular.forEach($scope.guestEntries, function (value) {
+                    if (value.guestChecked && value.plusBalance === 0) {
+                        $scope.guestEntriesFiltered.push(value);
+                    }
+                });
+            }
+        };
+
+        $scope.$watch('active', function (newValue) {
+            $scope.splitGuests();
+        });
+
         $scope.isCheckinDisabled = function (guestEntry) {
             return !guestEntry.plusBalance;
         };
 
         $scope.subtractGuestCount = function (guestCheckin) {
-            if (guestCheckin.plusBalance === 0) {
+            if (guestCheckin.plus === 0) {
                 return;
             }
-            guestCheckin.plusBalance--;
+            guestCheckin.plus--;
         };
 
         $scope.addGuestCount = function (guestCheckin) {
-            if (guestCheckin.plusBalance >= guestCheckin.guest.plus) {
+            var gck = 0;
+            if (!guestCheckin.guestChecked) {
+                gck = 1;
+            }
+            if (guestCheckin.plus >= guestCheckin.plusBalance - gck) {
                 return;
             }
-            guestCheckin.plusBalance++;
+            guestCheckin.plus++;
         };
 
         $scope.checkIn = function (guestCheckin) {
@@ -31,6 +72,7 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
             eventsService.postGuestCheckin(guestCheckin, guestCheckin.glist).then(
                 function (res) {
                     guestCheckin.plusBalance = res.plus;
+                    guestCheckin.guestChecked = true;
                 },
                 function () {
                     dialogService.error('Oops there was a problem checkin guest, please try again')
@@ -77,13 +119,15 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
                             id: glist.id,
                             title: glist.title
                         },
-                        plusBalance: guest.plus,
+                        plusBalance: guest.plus + (guest.status === 'no show' ? 1 : 0),
                         plus: guest.plus,
                         guestChecked: guest.status === 'checked in' ? 1 : 0,
                         guest: guest.guest
                     });
                 });
             });
+
+            $scope.splitGuests();
         });
 
         $scope.startNewSection = function (guestEntry) {

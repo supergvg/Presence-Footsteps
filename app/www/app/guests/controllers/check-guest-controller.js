@@ -2,6 +2,10 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
     function ($scope, $stateParams, eventsService, dialogService, $state, $ionicLoading, $rootScope) {
 
         $scope.isCheckinDisabled = function () {
+            if (!$scope.guestChecked) {
+                return false;
+            }
+
             return ($scope.fetchingData || !$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
         };
 
@@ -46,6 +50,7 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
                 gliId = $stateParams.gliId;
 
             if (!guestId || !gliId) {
+                $ionicLoading.hide();
                 $state.go('app.home');
                 return;
             }
