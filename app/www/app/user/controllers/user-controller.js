@@ -22,7 +22,7 @@ angular.module('starter').controller('userController', ['$scope', 'userService',
         };
 
         $scope.getUserPhoto = function (height) {
-            return userService.getUserPhoto('250px', $rootScope.currentUser);
+            return userService.getUserPhoto('100px', $rootScope.currentUser);
         };
 
         $scope.init = function () {

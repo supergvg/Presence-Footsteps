@@ -35,7 +35,7 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
                     angular.forEach(gl.actual,
                         function (chkn) {
                             if (chkn.status === 'checked in') {
-                                checkedCount += chkn.guest.plus - chkn.plus;
+                                checkedCount += chkn.guest.plus + 1 - chkn.plus;
                             }
                         });
                 }
