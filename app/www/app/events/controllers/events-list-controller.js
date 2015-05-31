@@ -1,6 +1,6 @@
-angular.module('starter').controller('EventsListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state',
+angular.module('starter').controller('EventsListController', ['$scope', '$stateParams', 'eventsService', 'dialogService', '$state', '$rootScope',
 
-    function ($scope, $stateParams, eventsService, dialogService, $state) {
+    function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
 
         $scope.doEventsRefresh = function () {
             eventsService.getEvents().then(function (data) {
@@ -24,6 +24,10 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
                 'background-size': 'cover'
             };
         };
+        $rootScope.$on('refreshEvents', function () {
+            $scope.init();
+        });
+
 
         $scope.init = function () {
             $scope.fecthingData = true;
