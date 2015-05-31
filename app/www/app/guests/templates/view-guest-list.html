@@ -37,19 +37,19 @@
                     <p style="margin-top: 30px;">{{guestEntry.guest.plus + 1 - guestEntry.plusBalance}} /
                         {{guestEntry.guest.plus + 1}}
                         Checked-in</p>
-                    <ion-option-button class="button-positive"
+                    <ion-option-button class="button-positive logo-bg"
                                        ng-click="subtractGuestCount(guestEntry)"
-                                       style="color:white;background-color: #2CD6D6">
+                                       style="color:white;">
                         -GUEST
                     </ion-option-button>
-                    <ion-option-button class="button-info"
+                    <ion-option-button class="button-info logo-bg"
                                        ng-click="addGuestCount(guestEntry)"
                                        style="color:white;background-color: #2CD6D6">
                         +GUEST
                     </ion-option-button>
-                    <ion-option-button class="button-info"
+                    <ion-option-button class="button-info logo-bg"
                                        ng-click="checkIn(guestEntry)" style="color:white;background-color: #2CD6D6">
-                        <span ng-show="!checkinSpinnerOn && !isCheckinDisabled(guestEntry)">{{guestEntry.plus}}</span>
+                        <span ng-show="!checkinSpinnerOn && !isCheckinDisabled(guestEntry)">{{guestEntry.plus + 1}}</span>
                         <span ng-show="!checkinSpinnerOn && isCheckinDisabled(guestEntry)">CHECKED IN</span>
 
                         <ion-spinner ng-show="checkinSpinnerOn"></ion-spinner>
