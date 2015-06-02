@@ -1,11 +1,11 @@
 /* Empty. Add your own CSS if you like */
 
 .logo-bg {
-    background-color: #2CD6D6 !important;
+    background-color: #33aaaa !important;
 }
 
 .item-content {
-    background-color: #2CD6D6 !important;
+    background-color: #33aaaa !important;
     color: white !important;
 }
 
@@ -140,8 +140,8 @@ input.rounded:focus {
 }
 
 .button.button-calm {
-    background-color: #2CD6D6 !important;
-    border-color: #2CD6D6 !important;
+    background-color: #33aaaa !important;
+    border-color: #33aaaa !important;
     text-transform: uppercase;
     border-radius: 25px;
     padding-left: 15px;
@@ -159,6 +159,7 @@ input.rounded:focus {
 
 .bar.bar-stable .title {
     color: white !important;
+    font-weight: bold !important;
 }
 
 .bar-stable .button.button-clear {

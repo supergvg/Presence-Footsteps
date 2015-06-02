@@ -9,6 +9,7 @@ angular.module('starter').controller('userController', ['$scope', 'userService',
 
         $scope.onSaveChangesClicked = function () {
 
+            $scope.fecthingData = true;
             userService.updateUserProfile($scope.currentUser).then(
                 function () {
                     dialogService.success('Changes saved');
@@ -16,6 +17,10 @@ angular.module('starter').controller('userController', ['$scope', 'userService',
                 },
                 function (err) {
                     dialogService.error(err);
+                }
+            ).finally(
+                function () {
+                    $scope.fecthingData = false;
                 }
             )
 

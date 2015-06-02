@@ -3,19 +3,19 @@
     <ion-content class="content-body">
         <event-preview-item event="currentEvent"></event-preview-item>
 
-        <h3 style="color:#444">Add Guest</h3>
+        <h3 style="color:#444;padding-left: 30px;text-align: center">Add Guest</h3>
 
 
-        <div class="list">
-            <label class="item item-input">
+        <div class="list" style="padding-left:30px;padding-right: 30px;">
+            <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="text" placeholder="First Name" ng-model="currentGuest.firstName" ng-readonly="addMore">
                 <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
             </label>
-            <label class=" item item-input">
+            <label class=" item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName" ng-readonly="addMore">
                 <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
             </label>
-            <label class="item item-input">
+            <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="email" placeholder="Email" ng-model="currentGuest.email" ng-readonly="addMore">
                 <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
             </label>
@@ -35,7 +35,4 @@
         </button>
 
     </ion-content>
-
-    <div class="bar bar-footer logo-bg">
-    </div>
 </ion-view>

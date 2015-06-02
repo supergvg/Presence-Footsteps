@@ -26,6 +26,7 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
 
                 userService.getCurrentUser().then(function (user) {
                     $rootScope.currentUser = user;
+                    $rootScope.$broadcast('refreshEvents');
                     $state.go('app.home');
                 });
             }, function (err) {
@@ -33,7 +34,7 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
             }).finally(
                 function () {
                     $scope.credentials.password = '';
-                    $scope.fecthingData = true;
+                    $scope.fecthingData = false;
                 }
             );
         };
