@@ -7,13 +7,18 @@
     <div style="margin-left: 30%">
         <h2 style="color:white;font-weight: bold">{{event.title}}</h2>
 
-        <p style="font-size: 14px;color:white;line-height: 100%">
-            {{event.date |date:'MMMM dd, yyyy'}}
-            <br>
-            {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
-        </p>
+        <div>
+            <p style="font-size: 14px;color:white;line-height: 100%">
+                {{event.time |date:'MMM dd'}} {{event.time |date:'h:mma'}}
+                <br>
+                <span style="color: white;margin-left: 10px;margin-right: 10px;text-align: center;padding-left: 10%">to</span>
+                <br>
 
-        <p style="color:white">{{event.location}}</p>
+                {{event.endTime |date:'MMM dd'}} {{event.endTime |date: 'h:mma'}}
+            </p>
+
+        </div>
+        <p style="color:white;margin-top: 10px;">{{event.location}}</p>
 
 
         <p style="color:white">{{event.type}}</p>

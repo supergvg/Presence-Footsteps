@@ -1,5 +1,5 @@
 <ion-view class="light-bg" ng-init="init()" view-title="Event Details" cache-view="false">
-    <ion-content class="content-body">
+    <ion-content class="content-body" style="background-color: #8F8F8F">
 
         <event-preview-item event="currentEvent"></event-preview-item>
 
@@ -19,8 +19,8 @@
             </div>
             <div class="row" style="padding-top: 25px;padding-bottom: 25px;border-bottom: white;
         border-style: solid;">
-                <button class="button button-calm centered" ui-sref="app.view_guests({eventId:{{eventId}}})">
-                    View Full List
+                <button class="button button-calm centered" ui-sref="app.add_guest({eventId:{{eventId}}})">
+                    Add Guests
                 </button>
             </div>
             <div class="row" style="padding-top: 25px;padding-bottom: 25px;">

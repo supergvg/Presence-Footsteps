@@ -180,3 +180,9 @@ grey ion-item {
 ion-item {
     background-color: #EEEEEE !important;
 }
+
+.button.button-positive {
+    background-color: #33aaaa !important;
+    border-color: #33aaaa;
+    border-radius: 25px;
+}
