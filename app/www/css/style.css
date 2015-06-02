@@ -186,3 +186,22 @@ ion-item {
     border-color: #33aaaa;
     border-radius: 25px;
 }
+
+.fill .scroll {
+    height: 100%;
+}
+
+.no-bottom-border {
+    border-bottom: transparent !important
+}
+
+.bottom-border-wht {
+    border-bottom: white;
+    border-style: solid;
+}
+
+.flex-center-vertically {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

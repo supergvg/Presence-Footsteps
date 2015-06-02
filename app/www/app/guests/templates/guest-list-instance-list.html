@@ -4,9 +4,13 @@
     </div>
 
     <ul class="list" style="padding-left: 30px;padding-right: 30px;">
-        <li class="item" ng-repeat="glist in event.guestLists" style="background-color: #EEEEEE!important;
-        border-top:transparent;border-left: transparent;border-right: transparent;border-bottom: white;
-        border-style: solid;" ng-style="isLast($last)">
+        <li class="item" ng-repeat="glist in event.guestLists"
+            style="background-color: #EEEEEE!important;
+        border-top:transparent;
+        border-left: transparent;
+        border-right: transparent;
+        border-bottom: white;
+        border-style: solid;" ng-class="isLast($last)">
             {{glist.title}}
             <span class="badge">{{getActualGuests(glist)}}/{{getTotalGuests(glist)}}</span>
         </li>

@@ -36,6 +36,13 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
             }
         };
 
+        $scope.isNotChecked = function (guestCheckin) {
+            if (!guestCheckin.guestChecked) {
+                return 1
+            }
+        };
+
+
         $scope.$watch('active', function (newValue) {
             $scope.splitGuests();
         });
@@ -45,9 +52,14 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
         };
 
         $scope.subtractGuestCount = function (guestCheckin) {
-            if (guestCheckin.plus === 0) {
+            if (guestCheckin.guestChecked && guestCheckin.plus === 1) {
                 return;
             }
+
+            if (!guestCheckin.guestChecked && guestCheckin.plus === 0) {
+                return;
+            }
+
             guestCheckin.plus--;
         };
 

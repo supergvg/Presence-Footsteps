@@ -60,7 +60,7 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
                                 count += guest_info.guest.plus + 1;
                             }
                             else if (gl.listType === category) {
-                                count +=  guest_info.guest.plus + 1;
+                                count += guest_info.guest.plus + 1;
                             }
 
                         });
@@ -102,14 +102,10 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
 
         $scope.isLast = function (last) {
             if (!last) {
-                return {
-                    'border-bottom': 'white !important'
-                }
+                return  'bottom-border-wht';
             }
 
-            return {
-                'border-bottom': 'transparentgue !important'
-            }
+            return 'no-bottom-border';
         };
 
         $scope.getActualGuests = function (gli) {
