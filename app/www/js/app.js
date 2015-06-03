@@ -151,6 +151,11 @@ app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush)
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
+
+        setTimeout(function () {
+            navigator.splashscreen.hide();
+        }, 100); //required to solve white background flickering on app starting
+
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
@@ -159,15 +164,17 @@ app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush)
             //user has login data in cookie,
             userService.getCurrentUser().then(function (user) {
                 $rootScope.currentUser = user;
+                $state.go('app.home');
             }, function () {
                 $state.go('login');
             }).finally(function () {
-                $timeout(function () {
-                    $rootScope.appReady = true;
-                });
+                $rootScope.appReady = true;
             });
-
             return; //user is logged in, do nothing
+        }
+        else {
+            $rootScope.appReady = true;
+            $state.go('login'); //no user logged in
         }
         var iosConfig = {
             "badge": true,
