@@ -25,8 +25,8 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div id="loading" layout="column" layout-align="center center" layout-fill
-     style="color:white;background-color: #18D8DB;z-index:100;position: absolute;top:0;left: 0;">
+<div id="loading" layout="column" layout-align="center center" layout-fill class="logo-bg"
+     style="background-color:#33AAAA;color:white;z-index:100;position: absolute;top:0;left: 0;">
     <div>
         <img src="assets/images/gliist_logo.png" style="height:37.8px">
     </div>
@@ -37,7 +37,7 @@
 </div>
 <div layout="column" layout-fill ng-show="appReady" ng-cloak>
     <md-toolbar ng-if="currentUser" ng-cloak>
-        <div layout="row" layout-padding style="background-color: #18D8DB">
+        <div layout="row logo-bg" layout-padding>
             <div flex class="docs-logotype">
                 <img src="assets/images/gliist_logo.png" style="height:37.8px">
                 <md-button class="menu" hide-gt-sm ng-click="toggleSidebar()" aria-label="Show User List">
@@ -56,8 +56,8 @@
 
     <div flex layout="row" layout-fill ng-cloak>
         <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
-                    class="md-whiteframe-z2"
-                    ng-if="currentUser" ng-cloak style="background-color: #18D8DB">
+                    class="md-whiteframe-z2 logo-bg"
+                    ng-if="currentUser" ng-cloak>
             <div ng-style="userProfilePic_watch()">
             </div>
             <md-list role="list" ng-cloak>

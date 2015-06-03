@@ -90,16 +90,16 @@
                 <div layout layout-sm="column">
                     <md-input-container flex>
                         <label>Event Date</label>
-                        <input required name="date" ng-model="event.date" type="date"
+                        <input required name="time" ng-model="event.time" type="date"
                                ng-focus="hideDateIcon = true;ignoreMo = true"
                                ng-blur="hideDateIcon = false;ignoreMo = false"
                                ng-mouseover="!ignoreMo ? hideDateIcon = true: a=true"
                                ng-mouseleave="!ignoreMo ? hideDateIcon = false : a=false">
                         <md-icon ng-hide="hideDateIcon" class="input-icon"
                                  md-svg-src="assets/images/SVG/calendar.svg"></md-icon>
-                        <div ng-messages="eventForm.date.$error"
-                             ng-if="displayErrorMessage(eventForm.date)">
-                            <div ng-if="eventForm.date.$error.required" ng-message="required">Date is required
+                        <div ng-messages="eventForm.time.$error"
+                             ng-if="displayErrorMessage(eventForm.time)">
+                            <div ng-if="eventForm.time.$error.required" ng-message="required">Date is required
                             </div>
                             <div ng-if="dateInvalid" ng-message="required">Event can't start in the past
                             </div>

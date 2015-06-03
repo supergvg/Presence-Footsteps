@@ -5,8 +5,6 @@
             <h3 style="padding-left: 10px">Preview Event</h3>
         </div>
     </div>
-
-
     <div ng-show="initializing">
         <h4>Loading...</h4>
         <span>
@@ -15,19 +13,19 @@
             </span>
     </div>
 
-    <div ng-show="!initializing">
+    <div ng-show="!initializing" style="position: relative;">
 
-
-        <div style="background-color: white;margin:30px;">
-            <div layout="row" ng-style="getEventInvite('250px')" flex>
+        <div style="background-color: white;margin:30px;height: 250px">
+            <div ng-style="getEventInvite('250px')" style="position: absolute;left: 30px;top:0;width:250px">
             </div>
-            <md-divider></md-divider>
 
-            <div layout="row" style="padding-left: 15px;padding-right: 15px;padding-top: 15px;">
+            <div style="left: 300px;position: absolute;top:50px">
+
                 <div flex>
                     <span class="md-title" style="font-weight: bold;margin:0;color:#8E8E8E">{{event.title}}</span>
+
                     <p style="font-size: 14px;color:#8E8E8E;line-height: 100%">
-                        {{event.date |date:'MMMM dd, yyyy'}}
+                        {{event.time |date:'MMMM dd, yyyy'}}
                         <br>
                         {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
                     </p>

@@ -7,6 +7,19 @@ angular.module('gliist')
 
             $scope.selected = $scope.selected || [];
 
+
+            $scope.getTotalGuests = function (glist) {
+                var total = 0;
+
+                angular.forEach(glist.guests,
+                    function (guest_info) {
+                        total += guest_info.plus + 1;
+                    });
+
+                return total;
+
+            };
+
             $scope.glistSelected = function (glist) {
 
                 var found = _.find($scope.selected, function (item) {

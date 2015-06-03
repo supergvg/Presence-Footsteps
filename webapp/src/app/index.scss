@@ -24,13 +24,17 @@ html {
 }
 
 md-toolbar.md-default-theme {
-  background-color: black;
+  background-color: #33aaaa;
+}
+
+.logo-fill {
+  background-color: #33aaaa !important;
 }
 
 section.jumbotron {
   margin-bottom: 30px;
   padding: 1px 30px;
-  background-color: #5aadbb;
+  background-color: #33aaaa;
   text-align: center;
 
   color: white;
@@ -84,7 +88,7 @@ md-dialog {
 
 .md-primary.md-raised {
   border-radius: 25px;
-  background-color: #18D8DB !important;
+  background-color: #33aaaa !important;
   color: white !important;
   padding-left: 20px;
   padding-right: 20px;
@@ -95,7 +99,7 @@ md-dialog {
 .wht-button {
   border-radius: 25px !important;
   background-color: white !important;
-  color: #18D8DB !important;
+  color: #33aaaa !important;
   padding-left: 15px;
   padding-right: 15px;
   font-size: 12px;
@@ -103,17 +107,17 @@ md-dialog {
 
 .wht-event-list-btn {
   background-color: white !important;
-  color: #18D8DB !important;
+  color: #33aaaa !important;
   margin: 0 !important;
   border-radius: 0 !important;
 }
 
 .logo-bg {
-  background-color: #18D8DB !important;
+  background-color: #33aaaa !important;
 }
 
 .logo-event-list-btn {
-  background-color: #18D8DB !important;
+  background-color: #33aaaa !important;
   color: white !important;
   margin: 0 !important;
   border-radius: 0 !important;
@@ -166,7 +170,7 @@ md-dialog {
 }
 
 .text-bg {
-  color: #18D8DB !important;
+  color: #33aaaa !important;
 }
 
 .no-selection {
@@ -202,5 +206,10 @@ md-dialog {
   position: absolute;
 }
 
+
+.ui-grid-viewport{
+  //overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
 // injector
 // endinjector
