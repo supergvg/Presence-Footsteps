@@ -10,7 +10,7 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
         };
 
         $scope.formInvalid = function () {
-            return (!$scope.currentGuest.firstName || !$scope.currentGuest.lastName || !$scope.currentGuest.email);
+            return (!$scope.currentGuest.firstName || !$scope.currentGuest.lastName);
         };
 
         $scope.onAddClicked = function () {

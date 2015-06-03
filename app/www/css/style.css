@@ -201,7 +201,7 @@ ion-item {
 }
 
 .flex-center-vertically {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-flex-direction: column;
 }
