@@ -242,14 +242,6 @@
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
-    <Compile Include="Migrations\201505290732003_Initial.cs" />
-    <Compile Include="Migrations\201505290732003_Initial.Designer.cs">
-      <DependentUpon>201505290732003_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506020701598_add_guest_type.cs" />
-    <Compile Include="Migrations\201506020701598_add_guest_type.Designer.cs">
-      <DependentUpon>201506020701598_add_guest_type.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -296,14 +288,6 @@
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505290732003_Initial.resx">
-      <DependentUpon>201505290732003_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506020701598_add_guest_type.resx">
-      <DependentUpon>201506020701598_add_guest_type.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

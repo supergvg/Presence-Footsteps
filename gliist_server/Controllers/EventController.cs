@@ -30,7 +30,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id);
+            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted);
 
             return events;
         }
@@ -41,7 +41,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && e.date >= DateTime.Now);
+            var events = db.Events.Where(e => e.company.id == user.company.id && e.time >= DateTime.Now && !e.isDeleted);
 
             return events;
         }
@@ -52,7 +52,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && e.date < DateTime.Now);
+            var events = db.Events.Where(e => e.company.id == user.company.id && e.time < DateTime.Now && !e.isDeleted);
 
             return events;
 
@@ -121,11 +121,6 @@ namespace gliist_server.Controllers
 
             @event.company = user.company;
 
-            if (@event.date == DateTime.MinValue)
-            {
-                @event.date = DateTime.Today;
-            }
-
             if (@event.time == DateTime.MinValue)
             {
                 @event.time = DateTime.Today;
@@ -158,13 +153,21 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> DeleteEvent(int id)
         {
-            Event @event = await db.Events.FindAsync(id);
+
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+
+            Event @event = db.Events.Where(e => e.id == id && e.company.id == user.company.id).FirstOrDefault();
+
+
             if (@event == null)
             {
                 return NotFound();
             }
 
-            db.Events.Remove(@event);
+            @event.isDeleted = true;
+            db.Entry(@event).State = EntityState.Modified;
+
             await db.SaveChangesAsync();
 
             return Ok(@event);

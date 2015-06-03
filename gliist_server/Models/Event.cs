@@ -14,6 +14,9 @@ namespace gliist_server.Models
         [JsonIgnore]
         public virtual Company company { get; set; }
 
+        [JsonIgnore]
+        public bool isDeleted { get; set; }
+
         public int id { get; set; }
         [Required]
         public string title { get; set; }
@@ -25,8 +28,6 @@ namespace gliist_server.Models
         public string location { get; set; }
 
         public int capacity { get; set; }
-
-        public DateTime date { get; set; }
 
         public DateTime time { get; set; }
 
