@@ -2,6 +2,74 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
 
     function ($scope, $stateParams, eventsService, dialogService, $state) {
 
+        $scope.categories = [
+            'GA',
+            'VIP',
+            'Guest',
+            'Artist',
+            'Production',
+            'Comp',
+            'Others'
+        ];
+
+        $scope.getCategoryStatus = function (category) {
+
+            var count = 0;
+            if (!$scope.event) {
+                return;
+            }
+            angular.forEach($scope.event.guestLists,
+                function (gl) {
+
+                    angular.forEach(gl.actual,
+                        function (chkn) {
+
+                            if (chkn.status !== 'checked in') {
+                                return;
+                            }
+
+                            if (chkn.guest.type === category) {
+                                count += chkn.guest.plus + 1 - chkn.plus;
+                            }
+                            else if (gl.listType === category) {
+                                count += chkn.guest.plus + 1 - chkn.plus;
+                            }
+
+                        });
+                }
+            );
+
+            return count;
+        };
+
+        $scope.getCategoryTotal = function (category) {
+
+            var count = 0;
+
+            if (!$scope.event) {
+                return;
+            }
+
+            angular.forEach($scope.event.guestLists,
+                function (gl) {
+
+                    angular.forEach(gl.actual,
+                        function (guest_info) {
+
+                            if (guest_info.guest.type === category) {
+                                count += guest_info.guest.plus + 1;
+                            }
+                            else if (gl.listType === category) {
+                                count += guest_info.guest.plus + 1;
+                            }
+
+                        });
+                }
+            );
+
+            return count;
+        };
+
         $scope.getTotalGuests = function (gli) {
 
             if (!$scope.event) {
@@ -34,14 +102,10 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
 
         $scope.isLast = function (last) {
             if (!last) {
-                return {
-                    'border-bottom': 'white !important'
-                }
+                return  'bottom-border-wht';
             }
 
-            return {
-                'border-bottom': 'transparentgue !important'
-            }
+            return 'no-bottom-border';
         };
 
         $scope.getActualGuests = function (gli) {

@@ -9,6 +9,12 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
             return ($scope.fetchingData || !$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
         };
 
+        $scope.isNotChecked = function (guestCheckin) {
+            if (!$scope.guestChecked) {
+                return 1
+            }
+        };
+
         $scope.subtractGuestCount = function () {
             if ($scope.guestCheckin.plus === 0) {
                 return;

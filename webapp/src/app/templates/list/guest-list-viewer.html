@@ -10,7 +10,7 @@
                 <h4>Guest List Title</h4>
             </div>
             <div flex="20">
-                <h4>Capacity</h4>
+                <h4>Total Guests</h4>
             </div>
             <div flex="20">
                 <h4>Category</h4>
@@ -25,7 +25,7 @@
                             <h3>{{glist.title}}</h3>
                         </div>
                         <div flex="20">
-                            <h3>{{glist.guests.length}}</h3>
+                            <h3>{{getTotalGuests(glist)}}</h3>
                         </div>
                         <div flex="20">
                             <h3>{{glist.listType}}</h3>

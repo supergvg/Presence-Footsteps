@@ -3,7 +3,14 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope) {
 
         $scope.doEventsRefresh = function () {
-            eventsService.getEvents().then(function (data) {
+            var promise;
+            if ($scope.options && $scope.options.pastEvents) {
+                promise = eventsService.getPastEvents();
+            } else {
+                promise = eventsService.getCurrentEvents();
+            }
+
+            promise.then(function (data) {
                     $scope.events = data;
                 },
                 function (err) {
@@ -14,6 +21,7 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
 
                     });
                 });
+
         };
 
         $scope.getEventInvite = function (event) {

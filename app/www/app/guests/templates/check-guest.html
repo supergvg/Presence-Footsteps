@@ -14,6 +14,11 @@
                 <h3>{{guestListInstance.listType}}</h3>
             </div>
         </div>
+        <div class="row">
+            <div class="centered">
+                <h3>{{guestCheckin.guest.type}}</h3>
+            </div>
+        </div>
 
 
         <div class="row">
@@ -34,7 +39,10 @@
                                 ng-click="subtractGuestCount()"
                                 ng-disabled="guestCheckin.plus == 0"></button>
                         <div style="margin-left: 10px;margin-right: 10px;width: 50px;">
-                            <h3 style="text-align: center"> {{guestCheckin.plus + 1}}</h3>
+                            <h3 style="text-align: center" ng-show="isCheckinDisabled()"> {{guestCheckin.plus}}</h3>
+
+                            <h3 style="text-align: center" ng-show="!isCheckinDisabled()"> {{guestCheckin.plus +
+                                + isNotChecked(guestCheckin)}}</h3>
                         </div>
                         <button class="button button-calm ion-plus col" style="width: 30px!important;"
                                 ng-click="addGuestCount()"

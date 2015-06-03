@@ -4,21 +4,22 @@
     </div>
 
 
-    <div style="margin-left: 30%">
+    <div style="margin-left: 30%;margin-top: -5px;">
         <h2 style="color:white;font-weight: bold">{{event.title}}</h2>
 
-        <p style="font-size: 14px;color:white;line-height: 100%">
-            {{event.date |date:'MMMM dd, yyyy'}}
-            <br>
-            {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
-        </p>
+        <div style="margin-top: 5px">
+            <p style="font-size: 14px;color:white;line-height: 100%">
+                {{event.time |date:'MMM dd'}} {{event.time |date:'h:mma'}}
+                <br>
+            </p>
 
-        <p style="color:white">{{event.location}}</p>
+        </div>
+        <p style="color:white;margin-top: 10px;">{{event.location}}</p>
 
 
         <p style="color:white">{{event.type}}</p>
 
-        <div class="chip" ng-cloak ng-show="event.category">
+        <div class="chip" style="margin-top: 10px;" ng-cloak ng-show="event.category">
             {{event.category}}
         </div>
 

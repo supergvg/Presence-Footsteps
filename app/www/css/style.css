@@ -180,3 +180,28 @@ grey ion-item {
 ion-item {
     background-color: #EEEEEE !important;
 }
+
+.button.button-positive {
+    background-color: #33aaaa !important;
+    border-color: #33aaaa;
+    border-radius: 25px;
+}
+
+.fill .scroll {
+    height: 100%;
+}
+
+.no-bottom-border {
+    border-bottom: transparent !important
+}
+
+.bottom-border-wht {
+    border-bottom: white;
+    border-style: solid;
+}
+
+.flex-center-vertically {
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-flex-direction: column;
+}

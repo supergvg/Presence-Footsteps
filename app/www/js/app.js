@@ -6,8 +6,13 @@
 var app = angular.module('starter', ['ionic', 'ngCordova']);
 
 
-app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
-    function ($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$ionicConfigProvider',
+    function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $ionicConfigProvider) {
+
+        $ionicConfigProvider.backButton.previousTitleText(false);
+        $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
+
+
         $provide.factory('myHttpInterceptor',
             function () {
                 return {

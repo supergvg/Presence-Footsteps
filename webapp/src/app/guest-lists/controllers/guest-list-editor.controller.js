@@ -51,9 +51,8 @@ angular.module('gliist')
                 'Guest',
                 'Artist',
                 'Production',
-                'Staff',
+                'Comp',
                 'Press'
-
             ];
 
             $scope.selected = $scope.selected || [];

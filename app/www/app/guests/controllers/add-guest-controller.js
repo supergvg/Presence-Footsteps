@@ -10,7 +10,7 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
         };
 
         $scope.formInvalid = function () {
-            return (!$scope.currentGuest.firstName || !$scope.currentGuest.lastName || !$scope.currentGuest.email);
+            return (!$scope.currentGuest.firstName || !$scope.currentGuest.lastName);
         };
 
         $scope.onAddClicked = function () {
@@ -19,6 +19,9 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
                 $scope.errorMessage = "Please Fill All Fields";
                 return;
             }
+            $scope.errorMessage = null;
+
+            $scope.fecthingData = true;
             eventsService.addGuestToEvent($scope.currentGuest, $scope.currentEvent.id).then(
                 function () {
                     $scope.addMore = true;
@@ -28,7 +31,9 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
                 function () {
                     dialogService.error('Oops there was a problem adding guest, please try again');
                 }
-            )
+            ).finally(function () {
+                    $scope.fecthingData = false;
+                });
         };
 
         $scope.init = function () {

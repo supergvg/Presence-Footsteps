@@ -3,7 +3,7 @@
     <ion-content class="content-body">
         <event-preview-item event="currentEvent"></event-preview-item>
 
-        <h3 style="color:#444;padding-left: 30px;text-align: center">Add Guest</h3>
+        <h3 style="color:#444;text-align: center">Add Guest</h3>
 
 
         <div class="list" style="padding-left:30px;padding-right: 30px;">
@@ -19,16 +19,38 @@
                 <input type="email" placeholder="Email" ng-model="currentGuest.email" ng-readonly="addMore">
                 <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
             </label>
-        </div>
 
-        <div class="row" style="color:red">
+            <label class="item item-input item-select" style="border-radius: 25px;margin-bottom: 10px;">
+                <div class="input-label">
+                    Guest Type
+                </div>
+                <select ng-model="currentGuest.type" ng-readonly="addMore">
+                    <option>GA</option>
+                    <option>VIP</option>
+                    <option>Guest</option>
+                    <option>Artist</option>
+                    <option>Production</option>
+                    <option>Comp</option>
+                    <option>Others</option>
+                </select>
+                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+            </label>
+            <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
+                <input type="number" placeholder="Number of Additional Guests" min="0" ng-model="currentGuest.plus"
+                       ng-readonly="addMore">
+                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+            </label>
+        </div>
+        <div class="row" style="rcolor:red">
             <div class="col">
                 {{errorMessage}}
             </div>
         </div>
 
-        <button class="button button-calm button-full centered" ng-click="onAddClicked()" ng-if="!addMore">
+        <button class="button button-calm button-full centered" ng-click="onAddClicked()" ng-if="!addMore"
+                ng-disabled="fecthingData">
             Add
+            <ion-spinner ng-show="fecthingData"></ion-spinner>
         </button>
         <button class="button button-calm button-full centered" ng-click="onAddMoreClicked()" ng-if="addMore">
             Add More

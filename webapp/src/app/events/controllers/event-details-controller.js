@@ -165,12 +165,12 @@ angular.module('gliist')
 
             $scope.timeValid = function () {
 
-                if ($scope.event.time && $scope.event.endTime) {
+                /*if ($scope.event.time && $scope.event.endTime) {
                     if ($scope.event.time > $scope.event.endTime) {
                         $scope.timeInvalid = true;
                         return false;
                     }
-                }
+                }*/
                 $scope.timeInvalid = false;
                 return true;
             };
