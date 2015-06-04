@@ -1,13 +1,13 @@
 <ion-view class="light-bg" ng-init="init()" title="Alerts" cache-view="false">
     <ion-content class="content-body" style="text-align: center">
 
-        <ion-spinner ng-show="fecthingData"></ion-spinner>
+        <ion-spinner ng-if="fecthingData"></ion-spinner>
         <ion-refresher
                 pulling-text="Pull to refresh..."
                 on-refresh="doAlertsRefresh()">
         </ion-refresher>
 
-        <h3 ng-show="!fecthingData && alerts.length == 0">You have no new alerts</h3>
+        <h3 ng-if="!fecthingData && alerts.length == 0">You have no new alerts</h3>
 
         <div class="list">
             <a class="item item-avatar grey-bg-1"

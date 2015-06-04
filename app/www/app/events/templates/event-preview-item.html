@@ -16,8 +16,8 @@
                 <br>
             </p>
 
-            <div class="col-50" ng-cloak ng-show="event.category"
-                 style="color:#B6B6B6;padding-left: 20px;padding-right: 20px;padding-top: 10px;background-color: white;border-radius: 25px;text-align: right;font-weight: bold">
+            <div class="col-50" ng-cloak ng-if="event.category"
+                 style="color:#B6B6B6;padding-left: 20px;background-color: white;padding-right: 20px;padding-top: 10px;border-radius: 25px;text-align: right;font-weight: bold">
                 {{event.category}}
             </div>
         </div>

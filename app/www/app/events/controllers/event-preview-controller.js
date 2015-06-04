@@ -3,6 +3,11 @@ angular.module('starter').controller('EventPreviewController', ['$scope', '$stat
     function ($scope, $stateParams, eventsService, dialogService, $state) {
 
 
+        $scope.showWhite = function (category) {
+            if (category) {
+                return 'white-bg';
+            }
+        };
         $scope.getEventInvite = function (event) {
             if (!event) {
                 return;

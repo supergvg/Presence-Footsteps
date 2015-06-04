@@ -39,9 +39,9 @@
                                 ng-click="subtractGuestCount()"
                                 ng-disabled="guestCheckin.plus == 0"></button>
                         <div style="margin-left: 10px;margin-right: 10px;width: 50px;">
-                            <h3 style="text-align: center" ng-show="isCheckinDisabled()"> {{guestCheckin.plus}}</h3>
+                            <h3 style="text-align: center" ng-if="isCheckinDisabled()"> {{guestCheckin.plus}}</h3>
 
-                            <h3 style="text-align: center" ng-show="!isCheckinDisabled()"> {{guestCheckin.plus +
+                            <h3 style="text-align: center" ng-if="!isCheckinDisabled()"> {{guestCheckin.plus +
                                 + isNotChecked(guestCheckin)}}</h3>
                         </div>
                         <button class="button button-calm ion-plus col" style="width: 30px!important;"
@@ -55,7 +55,7 @@
                 <button class="button button-calm centered" ng-disabled="isCheckinDisabled()"
                         ng-click="checkIn()">
                     Check In
-                    <ion-spinner ng-show="fetchingData"></ion-spinner>
+                    <ion-spinner ng-if="fetchingData"></ion-spinner>
 
                 </button>
             </div>

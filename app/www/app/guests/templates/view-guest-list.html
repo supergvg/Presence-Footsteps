@@ -3,9 +3,6 @@
           view-title="Guest Lists"
           cache-view="false">
     <ion-content class="content-body">
-        <div style="margin-left:47%">
-            <ion-spinner ng-show="fecthingData"></ion-spinner>
-        </div>
         <div class="button-bar">
             <a class="button" ng-style="isActive('newGuests')"
                style="border: none;font-weight: bold;background-color: #EEEEEE"
@@ -16,7 +13,7 @@
                ng-click="setActive('checkedIn')">Checked-in</a>
         </div>
 
-        <div class="list list-inset" ng-show="!fecthingData" ng-cloak style="background-color: #EEEEEE">
+        <div class="list list-inset" ng-if="!fecthingData" ng-cloak style="background-color: #EEEEEE">
             <label class="item item-input" style="border-radius: 25px">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text" placeholder="Search Guests" ng-model="filter">
@@ -50,14 +47,17 @@
                     </ion-option-button>
                     <ion-option-button class="button-info logo-bg"
                                        ng-click="checkIn(guestEntry)" style="color:white;background-color: #2CD6D6">
-                        <span ng-show="!checkinSpinnerOn && !isCheckinDisabled(guestEntry)">{{guestEntry.plus + isNotChecked(guestEntry)}}</span>
-                        <span ng-show="!checkinSpinnerOn && isCheckinDisabled(guestEntry)">CHECKED IN</span>
+                        <span ng-if="!checkinSpinnerOn && !isCheckinDisabled(guestEntry)">{{guestEntry.plus + isNotChecked(guestEntry)}}</span>
+                        <span ng-if="!checkinSpinnerOn && isCheckinDisabled(guestEntry)">CHECKED IN</span>
 
-                        <ion-spinner ng-show="checkinSpinnerOn"></ion-spinner>
+                        <ion-spinner ng-if="checkinSpinnerOn"></ion-spinner>
                     </ion-option-button>
                 </ion-item>
             </ion-list>
         </grey>
+        <div style="margin-left:47%">
+            <ion-spinner ng-if="fecthingData"></ion-spinner>
+        </div>
     </ion-content>
 
 </ion-view>

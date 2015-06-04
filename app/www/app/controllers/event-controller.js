@@ -1,10 +1,13 @@
 angular.module('starter').controller('eventController',
-    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner', '$ionicLoading', '$ionicPopup', '$state',
-        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner, $ionicLoading, ionicPopup, $state) {
+    ['$scope', '$rootScope', 'eventsService', '$stateParams', 'dialogService', '$cordovaBarcodeScanner', '$ionicLoading', '$ionicPopup', '$state', '$timeout',
+        function ($scope, $rootScope, eventsService, $stateParams, dialogService, $cordovaBarcodeScanner, $ionicLoading, ionicPopup, $state, $timeout) {
 
             $rootScope.title = 'Event';
 
+
             $scope.scanBarcode = function () {
+
+                $scope.scanning = true;
                 $cordovaBarcodeScanner
                     .scan()
                     .then(function (barcodeData) {
@@ -17,13 +20,13 @@ angular.module('starter').controller('eventController',
                         if (data.length !== 3) {
                             return ionicPopup.alert({
                                 title: 'Error',
-                                template: 'QR code is invalid'
+                                template: 'Invalid Code'
                             });
                         }
                         if (data[0] != $scope.currentEvent.id) {
                             return ionicPopup.alert({
                                 title: 'Error',
-                                template: 'Wrong event'
+                                template: 'No Match Found'
                             });
                         }
 
@@ -37,8 +40,17 @@ angular.module('starter').controller('eventController',
                             title: 'Error',
                             template: 'Reading QR code failed, please try again'
                         });
-                    });
+                    }).finally(
+                    function () {
+                        $scope.scanning = false;
+                    }
+                );
+            };
 
+
+            $scope.isPromoter = function () {
+                return ($rootScope.currentUser &&
+                    ($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('promoter') > -1));
             };
 
             $scope.init = function () {
@@ -70,7 +82,9 @@ angular.module('starter').controller('eventController',
                     }
                 ).finally(
                     function () {
-                        $ionicLoading.hide();
+                        $timeout(function () {
+                            $ionicLoading.hide();
+                        }, 0);
                     }
                 );
 

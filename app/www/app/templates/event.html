@@ -8,8 +8,10 @@
             <div class="row" style="border-bottom: white;height:20%;
          border-style: solid;">
                 <div class="flex-center-vertically" style="width: 100%">
-                    <button class="button button-calm centered" style="height: 45px" ng-click="scanBarcode()">
+                    <button class="button button-calm centered" style="height: 45px" ng-click="scanBarcode()"
+                            ng-disabled="scanning">
                         Scan Barcode
+                        <ion-spinner ng-cloak ng-if="scanning"></ion-spinner>
                     </button>
                 </div>
             </div>
@@ -23,7 +25,7 @@
                 </div>
             </div>
             <div class="row" style="border-bottom: white;height:20%;
-         border-style: solid;">
+         border-style: solid;" ng-if="!isPromoter()" ng-cloak>
                 <div class="flex-center-vertically" style="width: 100%">
 
                     <button class="button button-calm centered" style="height: 45px"

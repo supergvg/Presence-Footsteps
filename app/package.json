@@ -18,7 +18,8 @@
     "https://github.com/wildabeast/BarcodeScanner.git",
     "org.apache.cordova.camera",
     "https://github.com/phonegap-build/PushPlugin.git",
-    "cordova-plugin-splashscreen"
+    "cordova-plugin-splashscreen",
+    "phonegap-plugin-barcodescanner"
   ],
   "cordovaPlatforms": [
     "ios"

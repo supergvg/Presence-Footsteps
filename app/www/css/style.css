@@ -205,3 +205,7 @@ ion-item {
     -webkit-justify-content: center;
     -webkit-flex-direction: column;
 }
+
+.white-bg {
+    background-color: white;
+}
