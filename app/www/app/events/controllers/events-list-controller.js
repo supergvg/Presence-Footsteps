@@ -37,7 +37,15 @@ angular.module('starter').controller('EventsListController', ['$scope', '$stateP
         });
 
 
+        $rootScope.$watch('currentUser', function () {
+            $scope.init();
+        });
+
         $scope.init = function () {
+            if (!$rootScope.currentUser) {
+                return;
+            }
+
             $scope.fecthingData = true;
 
             var promise;
