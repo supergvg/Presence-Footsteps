@@ -22,22 +22,23 @@
     <div style="background-color: #B5B5B5">
         <div class="row"
              style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 10px;text-align: center">
-            <h3 class="centered" style="color:#626060">Summary</h3>
+            <h3 class="centered" style="color:white">Summary</h3>
         </div>
         <div class="row" style="color:white;background-color:#B5B5B5;text-align: center">
             <div class="col" style="border-right: white;border-style: solid">
                 <img src="img/icons/user_stats_single.png" style="height: 30px;">
 
-                <h1 style="color: white;margin-top: 0px;margin-bottom: 0px;">{{getActualGuests()}}</h1>
-                Checked-in
+                <h1 style="color: white;margin-top: 0px;margin-bottom: 0px;font-size: 64px">{{getActualGuests()}}</h1>
+                <span style="color:#444">Checked-in</span>
             </div>
 
             <div class="col">
                 <img src="img/icons/user_stats_multiple.png" style="height: 30px;">
 
                 <div>
-                    <h1 style="color: white;margin-top: 0px;margin-bottom: 0px;">{{getTotalGuests()}}</h1>
-                    Total Guests
+                    <h1 style="color: white;margin-top: 0px;margin-bottom: 0px;font-size: 64px">
+                        {{getTotalGuests()}}</h1>
+                    <span style="color:#444">Total Guests</span>
                 </div>
 
             </div>
@@ -46,10 +47,10 @@
     </div>
 
     <div class="row" style="padding-left: 30px;padding-right: 30px;font-size: 16px;margin-top: 20px;">
-        <div class="col-75">
+        <div class="col-75" style="font-weight: bold">
             Categories
         </div>
-        <div class="col-20">
+        <div class="col-20" style="font-weight: bold">
             Status
         </div>
     </div>
@@ -57,7 +58,7 @@
     <ul class="list" style="padding-left: 30px;padding-right: 30px;padding-bottom: 20px;" ng-show="event">
         <li class="item" ng-repeat="category in categories" style="background-color: #EEEEEE!important;
         border-top:transparent;border-left: transparent;border-right: transparent;border-bottom: white;
-        border-style: solid;" ng-style="isLast($last)">
+        border-style: solid;" ng-class="isLast($last)">
             {{category}}
             <span class="badge">{{getCategoryStatus(category)}}/{{getCategoryTotal(category)}}</span>
         </li>
