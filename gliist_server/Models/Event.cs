@@ -29,9 +29,9 @@ namespace gliist_server.Models
 
         public int capacity { get; set; }
 
-        public DateTime time { get; set; }
+        public DateTimeOffset time { get; set; }
 
-        public DateTime? endTime { get; set; }
+        public DateTimeOffset? endTime { get; set; }
 
         public virtual List<GuestListInstance> guestLists { get; set; }
 

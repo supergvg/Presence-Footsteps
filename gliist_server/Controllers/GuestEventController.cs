@@ -304,7 +304,7 @@ namespace gliist_server.Controllers
                 throw new ArgumentException("guest exceeded maximoum plus");
             }
 
-            checkin.time = DateTime.Now;
+            checkin.time = DateTimeOffset.Now;
             checkin.plus = checkin.plus - checkinData.plus;
             checkin.status = "checked in";
 

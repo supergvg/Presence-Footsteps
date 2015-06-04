@@ -155,7 +155,7 @@ namespace gliist_server.Controllers
 
             _db.Entry(invite).State = EntityState.Modified;
 
-            invite.acceptedAt = DateTime.Now;
+            invite.acceptedAt = DateTimeOffset.Now;
 
             if (!string.Equals(model.UserName, invite.email))
             {

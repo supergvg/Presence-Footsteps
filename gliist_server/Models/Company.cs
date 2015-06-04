@@ -24,7 +24,7 @@ namespace gliist_server.Models
 
         public string[] permissions { get; set; }
 
-        public DateTime? acceptedAt { get; set; }
+        public DateTimeOffset? acceptedAt { get; set; }
 
     }
 

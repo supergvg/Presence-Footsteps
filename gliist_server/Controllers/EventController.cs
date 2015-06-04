@@ -41,7 +41,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && e.time >= DateTime.Now && !e.isDeleted);
+            var events = db.Events.Where(e => e.company.id == user.company.id && e.time >= DateTimeOffset.Now && !e.isDeleted);
 
             return events;
         }
@@ -52,7 +52,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && e.time < DateTime.Now && !e.isDeleted);
+            var events = db.Events.Where(e => e.company.id == user.company.id && e.time < DateTimeOffset.Now && !e.isDeleted);
 
             return events;
 
@@ -121,9 +121,9 @@ namespace gliist_server.Controllers
 
             @event.company = user.company;
 
-            if (@event.time == DateTime.MinValue)
+            if (@event.time == DateTimeOffset.MinValue)
             {
-                @event.time = DateTime.Today;
+                @event.time = DateTimeOffset.Now;
             }
 
             if (!ModelState.IsValid)
