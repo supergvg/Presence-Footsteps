@@ -14,7 +14,7 @@ namespace gliist_server.Helpers
     {
         public const string ON_THE_SPOT_GL = "On the spot";
 
-        public static void AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
+        public static GuestListInstance AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
         {
             var @event = db.Events.Single(e => e.id == eventId);
 
@@ -71,11 +71,12 @@ namespace gliist_server.Helpers
                 gli = onTheSpotGL
             };
 
-            EmailHelper.SendInvite(user, @event, guest, onTheSpotGL);
-
 
             db.Notifications.Add(notification);
             db.Entry(@event).State = EntityState.Modified;
+
+
+            return onTheSpotGL;
         }
 
 

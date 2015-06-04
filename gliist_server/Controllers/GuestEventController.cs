@@ -261,11 +261,13 @@ namespace gliist_server.Controllers
             }
             guest.company = user.company;
 
-            GuestHelper.AddGuestToEvent(guest, eventId, user.company, user, db);
+            var onTheSpotGL = GuestHelper.AddGuestToEvent(guest, eventId, user.company, user, db);
 
             db.Guests.Add(guest);
 
             await db.SaveChangesAsync();
+
+            EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL);
 
             return Ok(guest);
         }

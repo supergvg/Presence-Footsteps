@@ -81,6 +81,7 @@ namespace gliist_server.Controllers
                 city = user.city,
                 company = user.company.name,
                 bio = user.bio,
+                permissions = user.permissions,
 
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
