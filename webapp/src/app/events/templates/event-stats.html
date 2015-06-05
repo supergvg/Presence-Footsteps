@@ -1,4 +1,4 @@
-<md-content layout-padding ng-init="init()">
+<div ng-init="init()">
 
     <div ng-show="initializing">
         <h4>Loading Event...</h4>
@@ -8,10 +8,15 @@
             </span>
     </div>
     <div ng-show="!initializing">
-        <h1>
+        <h1 class="capitalize">
             {{event.title}} Statistics
         </h1>
 
-        <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
+
+        <h3 ng-show="event.guestLists == 0">Event has no guests</h3>
+
+        <div ng-show="event.guestLists> 0">
+            <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
+        </div>
     </div>
-</md-content>
+</div>

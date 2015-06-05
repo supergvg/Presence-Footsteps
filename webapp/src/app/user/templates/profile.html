@@ -1,21 +1,27 @@
-<md-content layout-padding>
+<div>
+    <div layout="row" layout-wrap style="margin-bottom: 8px">
+        <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+            <h3 style="padding-left: 10px">User Profile</h3>
+        </div>
+    </div>
 
-    <section layout="row"
-             layout-align="center center"
-             style="margin-bottom: 10px"
-             class="no-selection">
+    <div layout="row"
+         layout-align="center center"
+         style="margin-bottom: 10px"
+         class="no-selection">
         <div flex>
             <h5 class="text-bg">Profile</h5>
 
             <md-button class="md-fab"
                        style="background-color: white;
-                   height: 30px;
-                   width: 30px"
+                     height: 30px;
+                   width: 30px;
+                   margin: 0"
                        ng-class="getSelected(0)"
                        ng-click="data.selectedIndex = 0">
             </md-button>
             <div style="background-color:white;
-                border-color: white;
+                    border-color: white;
                     height: 10px;
                     margin-top: -20px;">
 
@@ -28,7 +34,8 @@
             <md-button class="md-fab"
                        style="background-color: white;
                    height: 30px;
-                   width: 30px"
+                   width: 30px;
+                   margin: 0"
                        ng-class="getSelected(1)"
                        ng-click="data.selectedIndex = 1">
             </md-button>
@@ -39,7 +46,7 @@
 
             </div>
         </div>
-    </section>
+    </div>
 
 
     <ng-switch on="data.selectedIndex" class="tabpanel-container">
@@ -49,9 +56,10 @@
              ng-switch-when="0"
              md-swipe-left="next()"
              md-swipe-right="previous()">
-            <md-content class="md-padding">
+            <div>
                 <user-details user="currentUser"></user-details>
-            </md-content>
+            </div>
+
             <div layout="row" layout-align="end center">
                 <md-button class="md-primary md-raised" ng-click="next()">
                     Next
@@ -65,9 +73,9 @@
              ng-switch-when="1"
              md-swipe-left="next()"
              md-swipe-right="previous()">
-            <md-content class="md-padding">
+            <div class="md-padding">
                 <account-details user="currentUser"></account-details>
-            </md-content>
+            </div>
             <div layout="row" layout-align="end center">
                 <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
                     Cancel
@@ -82,4 +90,4 @@
         </div>
     </ng-switch>
 
-</md-content>
+</div>

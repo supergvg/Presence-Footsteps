@@ -23,9 +23,15 @@ angular.module('gliist')
                     { field: 'lastName', name: 'Last Name', enableHiding: false},
                     { field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
                     { field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
-                    { field: 'plus', name: 'Plus', enableHiding: false, enableSorting: false}
+                    { field: 'plus',
+                        name: 'Plus',
+                        enableHiding: false,
+                        enableSorting: false}
                 ],
-                rowHeight: 35
+                rowHeight: 35,
+                tabIndex: 0,
+                enableCellSelection: true,
+                noTabInterference: true
             };
 
             $scope.gridOptions.onRegisterApi = function (gridApi) {

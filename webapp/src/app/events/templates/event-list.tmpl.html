@@ -5,13 +5,14 @@
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                               ng-show="fetchingData"></md-progress-circular>
 
-        <md-item ng-repeat="event in currentEvents">
-            <md-item-content layout="row" style="background-color:#FFFFFF;height: 120px">
+        <md-list-item ng-repeat="event in currentEvents">
+            <div layout="row" flex style="background-color:#FFFFFF;height: 120px">
                 <div flex="15" ng-style="getEventInvite(event)">
                 </div>
 
                 <div flex="45" style="padding-left: 15px">
-                    <span class="md-title" style="font-weight: bold;margin:0;color:#8E8E8E">{{event.title}}</span>
+                    <span class="md-title capitalize"
+                          style="font-weight: bold;margin:0;color:#8E8E8E">{{event.title}}</span>
                     <span class="" style="margin:0;font-size: 12px;color:#8E8E8E">{{event.location}}</span>
 
                     <p style="font-size: 14px;color:#8E8E8E;line-height: 100%">
@@ -22,10 +23,9 @@
 
                 </div>
 
-                <div layout="row" ng-hide="options.readyOnly" ng-cloak
-                     style="position: absolute;right:0;top:0;height: 100%">
+                <div layout="row" ng-cloak style="position: absolute;right:0;top:0;height: 100%">
                     <div layout="column">
-                        <md-button flex class="wht-event-list-btn"
+                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
                                    ui-sref="main.event_checkin({eventId:{{event.id}}})">
                             <ng-md-icon icon="assignment_turned_in" style="fill: #33aaaa" size="24"></ng-md-icon>
                         </md-button>
@@ -33,7 +33,7 @@
                         <div flex></div>
                     </div>
                     <div layout="column">
-                        <md-button flex class="wht-event-list-btn"
+                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
                                    ui-sref="main.event_summary({eventId:{{event.id}}})">
                             <ng-md-icon icon="theaters" style="fill: #33aaaa" size="24"></ng-md-icon>
                         </md-button>
@@ -45,19 +45,20 @@
                     </div>
 
                     <div layout="column">
-                        <md-button flex class="wht-event-list-btn"
+                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
                                    ui-sref="main.edit_event({eventId:{{event.id}}})">
                             <ng-md-icon icon="mode_edit" style="fill: #33aaaa" size="24"></ng-md-icon>
                         </md-button>
 
-                        <md-button flex class="logo-event-list-btn" ng-click="deleteEvent($event,event)">
+                        <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly"
+                                   ng-click="deleteEvent($event,event)">
                             <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
                         </md-button>
                     </div>
                 </div>
-            </md-item-content>
+            </div>
             <md-divider ng-if="!$last" style="height: 5px"></md-divider>
-        </md-item>
+        </md-list-item>
     </md-list>
 
 

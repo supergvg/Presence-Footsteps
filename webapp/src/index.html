@@ -60,27 +60,36 @@
                     ng-if="currentUser" ng-cloak>
             <div ng-style="userProfilePic_watch()">
             </div>
-            <md-list role="list" ng-cloak>
-                <md-item ng-repeat="it in menuItems" ng-click="setSelected(it)"
-                         ng-class="getItemClass(it)">
-                    <md-button ui-sref="{{it.ui_sref}}"
-                               ng-class="getItemClass(it)"
-                               style="color:white;width: 100%;
-                               text-align: right;
-                               padding-right: 15px;
-                               height:80px;"
-                               flex>
+
+
+            <div>
+                <div ng-repeat="it in menuItems" ui-sref="{{it.ui_sref}}"
+                     ng-click="setSelected(it)"
+                     ng-class="getItemClass(it)"
+                     style="height: 60px;
+                     border-bottom: white;
+                     border-top: transparent;
+                     border-left: transparent;
+                     border-right: transparent;
+                     border-style: solid;
+                     font-size:15px;
+                     padding: 15px;
+                     text-transform: uppercase;
+                     webkit-focus-ring-color:none">
+                    <div style="color:white;
+                               text-align: right;">
+                        {{it.title}}
                         <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}"
                                     class="left-align"
                                     size="{{it.icon.size}}">
                         </ng-md-icon>
-                        {{it.title}}
-                    </md-button>
-                    <md-divider ng-if="!$last"></md-divider>
-                </md-item>
-            </md-list>
+                    </div>
+                </div>
+            </div>
         </md-sidenav>
-        <div ui-view layout="row" layout-fill flex></div>
+        <md-content flex layout-padding>
+            <div ui-view layout="row" layout-fill flex></div>
+        </md-content>
     </div>
 </div>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

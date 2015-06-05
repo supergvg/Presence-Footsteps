@@ -5,7 +5,8 @@ angular.module('gliist')
 
 
         $scope.options = {
-            past: true
+            past: true,
+            readyOnly: true
         };
 
     }]);

@@ -11,6 +11,7 @@ angular.module('gliist', [
     'ngMdIcons',
     'angularFileUpload',
     'googlechart',
+    'mdDateTime',
     'ui.grid',
     'ui.grid.edit',
     'ui.grid.cellNav',
