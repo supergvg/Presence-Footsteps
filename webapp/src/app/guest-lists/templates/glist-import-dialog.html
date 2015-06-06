@@ -1,18 +1,22 @@
 <md-dialog flex="80" layout-padding>
 
 
-    <h3 class="md-title">Link Previous Guest List</h3>
-    <md-content>
-        <guest-list-view selected="selected" options="options"></guest-list-view>
-    </md-content>
-
-    <div class="md-actions" layout="row">
-        <md-button ng-click="cancel()">
-            Cancel
-        </md-button>
-        <md-button ng-click="importGLists()" class="md-primary">
-            Import
-        </md-button>
+  <div layout="row" layout-wrap style="margin-bottom: 8px">
+    <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+      <h3 style="padding-left: 10px">Link Previous Guest List</h3>
     </div>
+  </div>
+  <div>
+    <guest-list-view selected="selected" options="options"></guest-list-view>
+  </div>
+
+  <div class="md-actions" layout="row">
+    <md-button ng-click="cancel()">
+      Cancel
+    </md-button>
+    <md-button ng-click="importGLists()" class="md-primary">
+      Import
+    </md-button>
+  </div>
 
 </md-dialog>

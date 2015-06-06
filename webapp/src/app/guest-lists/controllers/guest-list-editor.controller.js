@@ -1,216 +1,219 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService) {
+  .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService',
+    function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService) {
 
-            $scope.getRowStyle = function (checkin) {
-                return{
-                    'background-color': 'white',
-                    'border-bottom': 'thin inset #ECECEC'
-                }
-            };
-
-
-            $scope.gridOptions = {
-                rowTemplate: '<div' +
-                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
-                    ' ui-grid-cell></div>' +
-                    '</div>',
-                columnDefs: [
-                    { field: 'firstName', name: 'First Name', enableHiding: false},
-                    { field: 'lastName', name: 'Last Name', enableHiding: false},
-                    { field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
-                    { field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
-                    { field: 'plus',
-                        name: 'Plus',
-                        enableHiding: false,
-                        enableSorting: false}
-                ],
-                rowHeight: 35,
-                tabIndex: 0,
-                enableCellSelection: true,
-                noTabInterference: true
-            };
-
-            $scope.gridOptions.onRegisterApi = function (gridApi) {
-                //set gridApi on scope
-                $scope.gridApi = gridApi;
+      $scope.getRowStyle = function (checkin) {
+        return {
+          'background-color': 'white',
+          'border-bottom': 'thin inset #ECECEC'
+        }
+      };
 
 
-                gridApi.selection.on.rowSelectionChanged($scope, function () {
-                    var selectedRows = $scope.gridApi.selection.getSelectedRows();
+      $scope.gridOptions = {
+        rowTemplate: '<div' +
+        '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+        'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
+        ' ui-grid-cell></div>' +
+        '</div>',
+        columnDefs: [
+          {field: 'firstName', name: 'First Name', enableHiding: false},
+          {field: 'lastName', name: 'Last Name', enableHiding: false},
+          {field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
+          {field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
+          {
+            field: 'plus',
+            name: 'Plus',
+            width: '90',
+            enableHiding: false,
+            enableSorting: false
+          }
+        ],
+        rowHeight: 35,
+        tabIndex: 0,
+        enableCellSelection: true,
+        noTabInterference: true
+      };
 
-                    if (!selectedRows || selectedRows.length === 0) {
-                        return $scope.rowSelected = false;
-                    }
+      $scope.gridOptions.onRegisterApi = function (gridApi) {
+        //set gridApi on scope
+        $scope.gridApi = gridApi;
 
-                    $scope.rowSelected = true;
-                });
+
+        gridApi.selection.on.rowSelectionChanged($scope, function () {
+          var selectedRows = $scope.gridApi.selection.getSelectedRows();
+
+          if (!selectedRows || selectedRows.length === 0) {
+            return $scope.rowSelected = false;
+          }
+
+          $scope.rowSelected = true;
+        });
+      }
+
+
+      $scope.guestListTypes = [
+        'GA',
+        'VIP',
+        'Guest',
+        'Artist',
+        'Production',
+        'Comp',
+        'Press'
+      ];
+
+      $scope.selected = $scope.selected || [];
+
+      $scope.deleteSelectedRows = function () {
+
+        var selectedRows = $scope.gridApi.selection.getSelectedRows();
+
+        if (!selectedRows || selectedRows.length === 0) {
+          return;
+        }
+
+        var guestsIds = _.map(selectedRows, function (row) {
+          return row.id;
+        });
+
+        $scope.isDirty = true;
+
+        $scope.fetchingData = true;
+
+        eventsService.removeGuestsFromGLInstance($scope.list.id, guestsIds).then(
+          function () {
+            $scope.list.guests = _.reject($scope.list.guests, function (row) {
+              return _.find(selectedRows, function (sr) {
+                return sr.id === row.id;
+              });
+            });
+          }
+        ).finally(function () {
+            $scope.fetchingData = false;
+          });
+
+
+        $scope.rowSelected = false;
+
+      };
+
+      $scope.$watchCollection('list', function (newVal, oldValue) {
+        if (!newVal) {
+          return;
+        }
+
+        if (!angular.equals(newVal, oldValue)) {
+          $scope.isDirty = true;
+        }
+        $scope.gridOptions.data = $scope.list.guests;
+      });
+
+      $scope.onFileSelect = function (files) {
+        if (!files || files.length === 0) {
+          return;
+        }
+        $scope.upload(files[0]);
+      };
+
+      $scope.upload = function (files) {
+        $scope.fetchingData = true;
+        uploaderService.uploadGuestList(files).then(function (data) {
+
+            if (!$scope.list) {
+              $scope.list = {};
+            }
+            else {
+              if ($scope.list.title) {
+                delete data.title;
+              }
             }
 
+            _.extend($scope.list, data);
+          },
+          function (err) {
+            dialogService.error('There was a problem saving your image please try again');
+          }
+        ).finally(
+          function () {
+            $scope.fetchingData = false;
+          }
+        )
+      };
 
-            $scope.guestListTypes = [
-                'GA',
-                'VIP',
-                'Guest',
-                'Artist',
-                'Production',
-                'Comp',
-                'Press'
-            ];
+      $scope.onLinkClicked = function (ev) {
+        var scope = $scope.$new();
+        scope.currentGlist = $scope.event;
+        scope.cancel = $scope.cancel;
+        scope.save = $scope.save;
+        scope.selected = [];
+        scope.options = {
+          enableSelection: true
+        }
 
-            $scope.selected = $scope.selected || [];
-
-            $scope.deleteSelectedRows = function () {
-
-                var selectedRows = $scope.gridApi.selection.getSelectedRows();
-
-                if (!selectedRows || selectedRows.length === 0) {
-                    return;
-                }
-
-                var guestsIds = _.map(selectedRows, function (row) {
-                    return row.id;
-                });
-
-                $scope.isDirty = true;
-
-                $scope.fetchingData = true;
-
-                eventsService.removeGuestsFromGLInstance($scope.list.id, guestsIds).then(
-                    function () {
-                        $scope.list.guests = _.reject($scope.list.guests, function (row) {
-                            return _.find(selectedRows, function (sr) {
-                                return sr.id === row.id;
-                            });
-                        });
-                    }
-                ).finally(function () {
-                        $scope.fetchingData = false;
-                    });
+        scope.cancel = function () {
+          $mdDialog.hide();
+        };
 
 
-                $scope.rowSelected = false;
+        $mdDialog.show({
+          //controller: DialogController,
+          scope: scope,
+          templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
+          targetEvent: ev
+        });
+      };
 
-            };
+      $scope.addMore = function () {
+        if (!$scope.list) {
+          $scope.list = {};
+        }
 
-            $scope.$watchCollection('list', function (newVal, oldValue) {
-                if (!newVal) {
-                    return;
-                }
+        if (!$scope.list.guests) {
+          $scope.list.guests = [];
+        }
 
-                if (!angular.equals(newVal, oldValue)) {
-                    $scope.isDirty = true;
-                }
-                $scope.gridOptions.data = $scope.list.guests;
-            });
+        $scope.list.guests.push({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          plus: 0
+        });
+      };
 
-            $scope.onFileSelect = function (files) {
-                if (!files || files.length === 0) {
-                    return;
-                }
-                $scope.upload(files[0]);
-            };
+      $scope.save = function () {
+        $scope.fetchingData = true;
 
-            $scope.upload = function (files) {
-                $scope.fetchingData = true;
-                uploaderService.uploadGuestList(files).then(function (data) {
+        if (!$scope.list.listType) {
+          $scope.list.listType = 'GA';
+        }
+        guestFactory.GuestList.update($scope.list).$promise.then(
+          function (res) {
+            _.extend($scope.list, res);
+            dialogService.success('Guest list saved');
+            $scope.isDirty = false;
 
-                        if (!$scope.list) {
-                            $scope.list = {};
-                        }
-                        else {
-                            if ($scope.list.title) {
-                                delete data.title;
-                            }
-                        }
+            if ($scope.onSave) {
+              $scope.onSave(res);
+            }
 
-                        _.extend($scope.list, data);
-                    },
-                    function (err) {
-                        dialogService.error('There was a problem saving your image please try again');
-                    }
-                ).finally(
-                    function () {
-                        $scope.fetchingData = false;
-                    }
-                )
-            };
+          }, function () {
+            dialogService.error('There was a problem saving your guest list, please try again');
+          }).finally(function () {
+            $scope.fetchingData = false;
+          })
+      };
 
-            $scope.onLinkClicked = function (ev) {
-                var scope = $scope.$new();
-                scope.currentGlist = $scope.event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-                scope.selected = [];
-                scope.options = {
-                    enableSelection: true
-                }
+      $scope.init = function () {
 
-                scope.cancel = function () {
-                    $mdDialog.hide();
-                };
+        if (!$scope.options) {
+          $scope.options = {};
+        }
 
+      };
 
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
-                    targetEvent: ev
-                });
-            };
+      $scope.init();
 
-            $scope.addMore = function () {
-                if (!$scope.list) {
-                    $scope.list = {};
-                }
-
-                if (!$scope.list.guests) {
-                    $scope.list.guests = [];
-                }
-
-                $scope.list.guests.push({
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    phoneNumber: '',
-                    plus: 0
-                });
-            };
-
-            $scope.save = function () {
-                $scope.fetchingData = true;
-
-                if (!$scope.list.listType) {
-                    $scope.list.listType = 'GA';
-                }
-                guestFactory.GuestList.update($scope.list).$promise.then(
-                    function (res) {
-                        _.extend($scope.list, res);
-                        dialogService.success('Guest list saved');
-                        $scope.isDirty = false;
-
-                        if ($scope.onSave) {
-                            $scope.onSave(res);
-                        }
-
-                    }, function () {
-                        dialogService.error('There was a problem saving your guest list, please try again');
-                    }).finally(function () {
-                        $scope.fetchingData = false;
-                    })
-            };
-
-            $scope.init = function () {
-
-                if (!$scope.options) {
-                    $scope.options = {};
-                }
-
-            };
-
-            $scope.init();
-
-        }]);
+    }]);

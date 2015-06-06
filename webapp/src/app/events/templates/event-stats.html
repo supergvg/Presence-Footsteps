@@ -1,22 +1,22 @@
 <div ng-init="init()">
 
-    <div ng-show="initializing">
-        <h4>Loading Event...</h4>
+  <div ng-show="initializing">
+    <h4>Loading Event...</h4>
         <span>
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                ></md-progress-circular>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
             </span>
+  </div>
+  <div ng-show="!initializing">
+    <div layout="row" layout-wrap style="margin-bottom: 30px">
+      <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+        <h3 class="capitalize" style="padding-left: 10px"> {{event.title}} Statistics</h3>
+      </div>
     </div>
-    <div ng-show="!initializing">
-        <h1 class="capitalize">
-            {{event.title}} Statistics
-        </h1>
 
+    <h3 ng-show="event.guestLists == 0">Event has no guests</h3>
 
-        <h3 ng-show="event.guestLists == 0">Event has no guests</h3>
-
-        <div ng-show="event.guestLists> 0">
-            <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
-        </div>
+    <div ng-show="event.guestLists> 0">
+      <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
     </div>
+  </div>
 </div>
