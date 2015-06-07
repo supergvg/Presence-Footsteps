@@ -1,39 +1,40 @@
 <div>
-    <div>
-        <md-input-container flex>
-            <label>Enter guest list title</label>
-            <input type="text" ng-model="gli.title">
-        </md-input-container>
-    </div>
-    <div>
-        <md-select ng-model="gli.listType" flex>
-            <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
-        </md-select>
-        <md-input-container flex>
-        </md-input-container>
+  <div>
+    <div layout layout-sm="column">
+
+      <md-input-container flex="75">
+        <label>Enter guest list title</label>
+        <input type="text" ng-model="gli.title">
+      </md-input-container>
+      <md-select ng-model="gli.listType" flex="25"
+                 style="padding-top: 20px;width: 100%">
+        <md-select-label style="width:100%">{{gli.listType || 'Select Type'}}</md-select-label>
+        <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
+      </md-select>
+
     </div>
 
-    <div>
-        <h3 class="md-subhead">Guests</h3>
+
+    <div class="page-subtitle" style="margin-top: -15px;">
+      <h4>Guests</h4>
     </div>
 
-    <md-divider></md-divider>
 
     <div layout="row" layout-align="end center">
-        <div>
-            <md-button class="md-primary md-raised" ng-disabled="!isDirty" ng-click="save()">
-                Save
-            </md-button>
-        </div>
+      <div>
+        <md-button class="md-primary md-raised" ng-disabled="!isDirty" ng-click="save()">
+          Save
+        </md-button>
+      </div>
     <span>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                               ng-show="fetchingData"></md-progress-circular>
     </span>
     </div>
-    <div>
-        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize
-             style="height:300px;width: 100%"></div>
+    <div style="margin-top: 30px">
+      <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize
+           style="height:300px;width: 100%"></div>
     </div>
 
 
-</div>
+  </div>

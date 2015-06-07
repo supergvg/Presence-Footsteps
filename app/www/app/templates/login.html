@@ -31,10 +31,10 @@
                         style="border-radius: 25px;padding-left: 35px;padding-right:35px" ng-click="onLoginClicked()">
                     Login
                 </button>
-                <ion-spinner ng-show="fecthingData"></ion-spinner>
+                <ion-spinner ng-cloak ng-if="fecthingData"></ion-spinner>
             </div>
         </div>
-        <div class="row" ng-show="false">
+        <div class="row" ng-cloak ng-if="false">
             <div class="centered" style="padding-top: 10px">
                 <a style="color:darkcyan" ng-click="onForgotPasswordClick()">Forgot Password</a>
             </div>

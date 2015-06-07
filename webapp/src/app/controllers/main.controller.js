@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('MainCtrl', [ '$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+  .controller('MainCtrl', ['$scope', '$mdSidenav', '$state',
+    function ($scope, $mdSidenav, $state) {
 
-        $scope.openLeftMenu = function () {
-            $mdSidenav('left').toggle();
-        };
+      $scope.openLeftMenu = function () {
+        $mdSidenav('left').toggle();
+      };
+
+      $scope.getBg = function () {
+      };
 
     }]);

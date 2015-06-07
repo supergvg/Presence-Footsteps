@@ -1,54 +1,54 @@
 <div flex layout="row logo-bg" style="background-color: #33aaaa" layout-fill ng-init="init()">
-    <md-content flex layout-fill layout="column" layout-align="center center" class-="md-padding logo-bg"
-                style="background-color: #33aaaa !important;">
+  <div flex layout="column" layout-align="center center" class-="md-padding logo-bg"
+       style="background-color: #33aaaa !important;">
 
-        <div flex></div>
-        <div flex>
-            <img src="assets/images/gliist_logo.png" style="height:80px"/>
-        </div>
+    <div flex></div>
+    <div flex>
+      <img src="assets/images/gliist_logo.png" style="height:80px"/>
+    </div>
 
-        <div flex>
-            <md-input-container flex>
-                <label style="margin-left: 38%">Email</label>
-                <input class="rounded" type="text" ng-model="credentials.username">
-            </md-input-container>
-            <md-input-container flex>
-                <label style="margin-left: 33%">Password</label>
-                <input class="rounded" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
-            </md-input-container>
-        </div>
-        <div flex layout-align="center center">
-            {{errorMessage}}
-        </div>
+    <div flex>
+      <md-input-container flex>
+        <label style="margin-left: 38%">Email</label>
+        <input class="rounded" type="text" ng-model="credentials.username">
+      </md-input-container>
+      <md-input-container flex>
+        <label style="margin-left: 33%">Password</label>
+        <input class="rounded" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
+      </md-input-container>
+    </div>
+    <div flex layout-align="center center">
+      {{errorMessage}}
+    </div>
 
-        <div flex>
-            <md-button class="md-primary md-raised" style="background-color:#829493!important;" ng-click="login()">
-                login
-            </md-button>
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                  ng-show="fetchingData"></md-progress-circular>
-        </div>
-        <div flex>
-            <md-button class="md-primary" style="color:white!important;" ng-click="forgotPassword()" ng-hide="true">
-                Forgot Password
-            </md-button>
-        </div>
-        <div flex>
+    <div flex>
+      <md-button class="md-primary md-raised" style="background-color:#829493!important;" ng-click="login()">
+        login
+      </md-button>
+      <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                            ng-show="fetchingData"></md-progress-circular>
+    </div>
+    <div flex>
+      <md-button class="md-primary" style="color:white!important;" ng-click="forgotPassword()" ng-hide="true">
+        Forgot Password
+      </md-button>
+    </div>
+    <div flex>
 
-        </div>
-        <div flex></div>
+    </div>
+    <div flex></div>
 
-    </md-content>
+  </div>
 </div>
 <div style="color:white;background-color: #8E8E8E; position: absolute;bottom: 0;width: 100%;left:0;height: 25%">
-    <div layout="column" layout-align="center center">
-        <h3 style="margin-bottom: 0">New Users</h3>
+  <div layout="column" layout-align="center center">
+    <h3 style="margin-bottom: 0">New Users</h3>
 
-        <p style="margin-top:0">Get start with the best guest list platform</p>
+    <p style="margin-top:0">Get start with the best guest list platform</p>
 
-        <md-button ui-sref="signup" class="md-primary md-raised logo-bg">
-            Sign Up
-        </md-button>
-    </div>
+    <md-button ui-sref="signup" class="md-primary md-raised logo-bg">
+      Sign Up
+    </md-button>
+  </div>
 
 </div>

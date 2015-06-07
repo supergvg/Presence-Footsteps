@@ -9,14 +9,14 @@
   <div ng-show="!initializing">
     <div layout="row" layout-wrap style="margin-bottom: 30px">
       <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
-        <h3 class="capitalize" style="padding-left: 10px"> {{event.title}} Statistics</h3>
+        <h3 style="padding-left: 10px">Event Published + Email Delivery Status</h3>
       </div>
     </div>
 
-    <h3 ng-show="event.guestLists == 0">Event has no guests</h3>
 
-    <div ng-show="event.guestLists> 0">
-      <div google-chart chart="chartObject" style="{{cssStyle}}"></div>
-    </div>
+
+    <event-preview event="event"></event-preview>
   </div>
+
+
 </div>

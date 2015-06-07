@@ -55,7 +55,7 @@ angular.module('gliist')
                     { field: 'guest.lastName', name: 'Last Name', enableHiding: false},
                     { field: 'guest.email', name: 'Email', enableHiding: false },
                     { field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false, enableHiding: false},
-                    { field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false},
+                    { field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 60},
                     { name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false,
                         cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0;float: right" title="Checkin">' +
                             '<md-button md-no-ink="\'true\'" class="md-primary" ng-click="grid.appScope.checkinGuest(row.entity)" style="border-radius: 0px!important;position:absolute;right:0;margin-top:-10px">' +

@@ -9,15 +9,15 @@
         <div class="list" style="padding-left:30px;padding-right: 30px;">
             <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="text" placeholder="First Name" ng-model="currentGuest.firstName" ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
             </label>
             <label class=" item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName" ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
             </label>
             <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="email" placeholder="Email" ng-model="currentGuest.email" ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
             </label>
 
             <label class="item item-input item-select" style="border-radius: 25px;margin-bottom: 10px;">
@@ -33,12 +33,12 @@
                     <option>Comp</option>
                     <option>Others</option>
                 </select>
-                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
             </label>
             <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
                 <input type="number" placeholder="Number of Additional Guests" min="0" ng-model="currentGuest.plus"
                        ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-show="addMore"></i>
+                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
             </label>
         </div>
         <div class="row" style="rcolor:red">
@@ -50,9 +50,9 @@
         <button class="button button-calm button-full centered" ng-click="onAddClicked()" ng-if="!addMore"
                 ng-disabled="fecthingData">
             Add
-            <ion-spinner ng-show="fecthingData"></ion-spinner>
+            <ion-spinner ng-if="fecthingData"></ion-spinner>
         </button>
-        <button class="button button-calm button-full centered" ng-click="onAddMoreClicked()" ng-if="addMore">
+        <button class="button button-calm button-full centered" ng-click="onAddMoreClicked()" ng-if="addMore" ng-cloak>
             Add More
         </button>
 

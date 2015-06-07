@@ -31,7 +31,7 @@ angular.module('gliist')
 
             $scope.userProfilePic_watch = function () {
                 return $scope.userProfilePic;
-            }
+            };
 
 
             $scope.init = function () {
@@ -83,10 +83,9 @@ angular.module('gliist')
                 $scope.fetchingData = true;
 
                 userService.login($scope.credentials).then(function (res) {
-                    $state.go('main');
+                    $state.go('main.welcome');
                 }, function (err) {
                     $scope.errorMessage = 'Invalid User or Password';
-                    dialogService.error(err);
                 }).finally(function () {
                         $scope.fetchingData = false
                     }
@@ -123,7 +122,7 @@ angular.module('gliist')
                 {
                     title: 'Events Statistics',
                     ui_sref: 'main.stats',
-                    icon: {name: 'account_balance', style: "fill: white", size: 24 }
+                    icon: {name: 'insert_chart', style: "fill: white", size: 24 }
                 },
                 {
                     title: 'User Profile',

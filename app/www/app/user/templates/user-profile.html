@@ -33,7 +33,7 @@
         <div class="row" style="background-color: #8F8F8F;padding-top: 10px;padding-bottom: 10px;margin-bottom: -30px;">
             <button class="button button-calm centered" ng-click="onSaveChangesClicked()" ng-disabled="fecthingData">
                 Confirm
-                <ion-spinner ng-show="fecthingData"></ion-spinner>
+                <ion-spinner ng-cloak ng-if="fecthingData"></ion-spinner>
             </button>
         </div>
     </ion-content>

@@ -87,7 +87,12 @@ md-dialog {
 }
 
 .md-primary.md-raised {
-  border-radius: 25px;
+  border-radius: 25px !important;
+  /* mozilla */
+  -moz-border-radius: 25px !important;
+  /* webkit */
+  -webkit-border-radius: 25px !important;
+
   background-color: #33aaaa !important;
   color: white !important;
   padding-left: 20px;
@@ -120,6 +125,7 @@ md-dialog {
   background-color: #33aaaa !important;
   color: white !important;
   margin: 0 !important;
+  width: 50px;
   border-radius: 0 !important;
 }
 
@@ -206,10 +212,38 @@ md-dialog {
   position: absolute;
 }
 
-
-.ui-grid-viewport{
+.ui-grid-viewport {
   //overflow-y: auto !important;
   overflow-x: hidden !important;
 }
+
 // injector
 // endinjector
+.capitalize {
+  text-transform: capitalize;
+}
+
+:focus {
+  outline: 0;
+  /* or */
+  outline: none;
+}
+
+.md-button {
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.item-border-white {
+  border-bottom: white;
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  border-style: solid;
+}
+
+.ui-grid-header-cell {
+  color: #A9A9A9 !important;
+  background-color: #E0E0E0 !important;
+  border: none !important;
+}
