@@ -264,6 +264,11 @@ angular.module('gliist')
 
 
       $scope.init = function () {
+
+        if ($scope.event) {
+          return;
+        }
+
         var d1 = new Date(),
           d2 = new Date(d1);
         d1.setHours(d1.getHours() + 6)

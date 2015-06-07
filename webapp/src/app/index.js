@@ -142,6 +142,10 @@ angular.module('gliist', [
           url: '/stats',
           templateUrl: 'app/templates/stats/stats.html',
           controller: 'StatsCtrl'
+        }).state('main.email_stats', {
+          url: '/email_stats/:eventId',
+          templateUrl: 'app/events/templates/email-stats.html',
+          controller: 'EmailStatsController'
         });
 
       $urlRouterProvider.otherwise('/');
