@@ -22,7 +22,7 @@
   <!-- endinject -->
   <!-- endbuild -->
 </head>
-<body ng-controller="AppController" style="background-color: #ECECEC">
+<body ng-controller="AppController" style="background-color: #ECECEC;height: 100%">
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
   your browser</a> to improve your experience.</p>
@@ -40,15 +40,16 @@
 </div>
 <div layout="column" layout-fill ng-show="appReady" ng-cloak>
   <md-toolbar ng-if="currentUser" ng-cloak>
-    <div layout="row logo-bg" layout-padding>
-      <div flex class="docs-logotype">
-        <img src="assets/images/gliist_logo.png" style="height:37.8px">
-        <md-button class="menu" hide-gt-sm ng-click="toggleSidebar()" aria-label="Show User List">
-          <ng-md-icon icon="menu" style="fill:white"
-                      size="24">
-          </ng-md-icon>
-        </md-button>
-      </div>
+    <div layout="row logo-bg">
+      <img src="assets/images/gliist_logo.png" style="height:37.8px;margin-left: 10px;margin-top: 10px;">
+      <md-button class="menu" hide-gt-lg ng-click="toggleSidebar()" aria-label="Show User List"
+                 style="margin-top: 13px;">
+        <ng-md-icon icon="menu" style="fill:white"
+                    size="24">
+        </ng-md-icon>
+      </md-button>
+
+
       <div layout="row" flex layout-align="end center">
         <md-button class="wht-button" ng-click="logout()">
           Logout
@@ -58,7 +59,7 @@
   </md-toolbar>
 
   <div flex layout="row" layout-fill ng-cloak>
-    <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"
+    <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-lg')" md-component-id="left"
                 class="md-whiteframe-z2 logo-bg"
                 ng-if="currentUser" ng-cloak>
       <div ng-style="userProfilePic_watch()">
