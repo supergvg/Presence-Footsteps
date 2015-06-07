@@ -31,7 +31,7 @@ angular.module('gliist')
 
             $scope.userProfilePic_watch = function () {
                 return $scope.userProfilePic;
-            }
+            };
 
 
             $scope.init = function () {
@@ -83,7 +83,7 @@ angular.module('gliist')
                 $scope.fetchingData = true;
 
                 userService.login($scope.credentials).then(function (res) {
-                    $state.go('main');
+                    $state.go('main.welcome');
                 }, function (err) {
                     $scope.errorMessage = 'Invalid User or Password';
                 }).finally(function () {

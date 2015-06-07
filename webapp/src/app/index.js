@@ -86,7 +86,7 @@ angular.module('gliist', [
           controller: 'ProfileCtrl'
         })
         .state('main.create_event', {
-          url: '/',
+          url: '/create',
           templateUrl: 'app/templates/create-event.html',
           controller: 'EventsCtrl'
         }).state('main.create_gl_event', {
@@ -146,9 +146,13 @@ angular.module('gliist', [
           url: '/email_stats/:eventId',
           templateUrl: 'app/events/templates/email-stats.html',
           controller: 'EmailStatsController'
+        }).state('main.welcome', {
+          url: '/welcome',
+          templateUrl: 'app/templates/welcome.html',
+          controller: 'WelcomeController'
         });
 
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/main.welcome');
     }])
   .run(['$rootScope', '$state', 'userService', '$timeout',
     function ($rootScope, $state, userService, $timeout) {
@@ -163,7 +167,7 @@ angular.module('gliist', [
             userService.getCurrentUser().then(function (user) {
               $rootScope.currentUser = user;
               if (next.name === 'home') {
-                $state.go('main', {}, {notify: true}); //when logged in always go by default to home
+                $state.go('main.welcome', {}, {notify: true}); //when logged in always go by default to home
                 event.preventDefault();
               }
             }, function () {

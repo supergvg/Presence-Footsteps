@@ -23,12 +23,7 @@ angular.module('gliist')
 
       $scope.glmOptions = {
         hideManualImport: true
-      }
-
-      $scope.event = $scope.event || {
-          title: '',
-          guestLists: []
-        };
+      };
 
       $scope.getSelected = function (idx) {
         if ($scope.data.selectedIndex === idx) {
@@ -275,6 +270,8 @@ angular.module('gliist')
         d2.setHours(d1.getHours() + 12);
 
         $scope.event = {
+          title: '',
+          guestLists: [],
           time: d1,
           endTime: d2
         }

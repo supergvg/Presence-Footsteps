@@ -5,7 +5,8 @@
     <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                           ng-show="fetchingData"></md-progress-circular>
 
-    <md-list-item class="item-border-white" ng-repeat="event in currentEvents">
+    <md-list-item class="item-border-white"
+                  ng-repeat="event in currentEvents | limitTo:(options.limit || currentEvents.length)">
       <div layout="row" flex style="background-color:#FFFFFF;height: 120px">
         <div flex="15" ng-style="getEventInvite(event)">
         </div>

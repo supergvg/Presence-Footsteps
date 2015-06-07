@@ -1,0 +1,40 @@
+<div>
+  <div style="background-color: white;margin:30px;height: 250px;color:#8E8E8E;overflow: hidden" layout="row">
+    <div flex="33" style="min-width: 250px;">
+      <div ng-style="getEventInvite('250px')" style="width:250px">
+      </div>
+    </div>
+    <div flex="66" style="margin-top: 50px;margin-left: 20px">
+
+      <div layout="row" layout-sm="column">
+
+        <div flex="33">
+          <div style="font-weight: bold;margin:0">
+            {{event.title}}
+          </div>
+          <div style="margin-top: 10px">
+            {{event.time |date:'MMMM dd, yyyy'}}
+          </div>
+          <div style="margin-top: 10px">
+            {{event.location}}
+          </div>
+        </div>
+        <div flex="33">
+          <Div>
+            {{event.category}}
+          </Div>
+          <div style="margin-top: 10px">
+            {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
+          </div>
+          <div style="margin-top: 10px">
+            {{event.capacity}}
+          </div>
+
+        </div>
+      </div>
+      <div layout="row" style="margin-top: 30px">
+        {{event.description}}
+      </div>
+    </div>
+  </div>
+</div>
