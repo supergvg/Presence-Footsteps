@@ -12,7 +12,7 @@ namespace gliist_server.Helpers
     public static class ExcelHelper
     {
 
-        private static GuestList ReadExcel(FileStream stream, string fileName, Company comapny, EventDBContext db)
+        private static GuestList ReadExcel(FileStream stream, string fileName, UserModel user, Company comapny, EventDBContext db)
         {
             //2. Reading from a OpenXml Excel file (2007 format; *.xlsx)
             IExcelDataReader excelReader;
@@ -33,7 +33,8 @@ namespace gliist_server.Helpers
             GuestList guests = new GuestList()
             {
                 title = fileName,
-                company = comapny
+                company = comapny,
+                created_by = user
             };
 
             //5. Data Reader methods
@@ -66,10 +67,10 @@ namespace gliist_server.Helpers
             return guests;
         }
 
-        public static GuestList Read(string filePath, string fileName, Company company, EventDBContext db)
+        public static GuestList Read(string filePath, string fileName, UserModel user, Company company, EventDBContext db)
         {
             FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
-            return ReadExcel(stream, fileName, company, db);
+            return ReadExcel(stream, fileName, user, company, db);
         }
     }
 

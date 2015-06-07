@@ -19,12 +19,17 @@ namespace gliist_server.Models
 
         public virtual List<Guest> guests { get; set; }
 
+        public DateTimeOffset created_on { get; set; }
+
+        public virtual UserModel created_by { get; set; }
+
         [JsonIgnore]
         public bool isDeleted { get; set; }
 
         public GuestList()
         {
             guests = new List<Guest>();
+            created_on = DateTimeOffset.Now;
         }
     }
 }

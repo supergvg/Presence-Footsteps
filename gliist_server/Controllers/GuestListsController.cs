@@ -124,6 +124,7 @@ namespace gliist_server.Controllers
             else
             {
                 guestList.company = user.company;
+                guestList.created_by = user;
 
                 foreach (var guest in guestList.guests)
                 {

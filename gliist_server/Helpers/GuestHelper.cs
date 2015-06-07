@@ -34,6 +34,7 @@ namespace gliist_server.Helpers
                    },
                    linked_guest_list = new GuestList()
                    {
+                       created_by = user,
                        company = comapny,
                        title = string.Format("{0}", ON_THE_SPOT_GL),
                        listType = ON_THE_SPOT_GL,

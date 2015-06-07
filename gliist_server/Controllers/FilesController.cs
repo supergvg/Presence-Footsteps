@@ -91,12 +91,13 @@ namespace gliist_server.Controllers
             return new Tuple<string, Stream>(originalFileName, new FileStream(uploadedFileInfo.FullName, FileMode.Open));
         }
 
-        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, Company company, EventDBContext db)
+        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, UserModel user, Company company, EventDBContext db)
         {
             GuestList retVal = new GuestList()
             {
                 title = originalFileName,
-                company = company
+                company = company,
+                created_by = user
             };
 
             using (FileStream fs = new FileStream(uploadedFileInfo.FullName, FileMode.Open))
@@ -145,7 +146,7 @@ namespace gliist_server.Controllers
             return retVal;
         }
 
-        public async static Task<GuestList> ParseCSV(HttpRequestMessage request, Company company, EventDBContext db)
+        public async static Task<GuestList> ParseCSV(HttpRequestMessage request, UserModel user, Company company, EventDBContext db)
         {
             if (!request.Content.IsMimeMultipartContent())
             {
@@ -167,11 +168,11 @@ namespace gliist_server.Controllers
             GuestList gl;
             if (Path.GetExtension(originalFileName) == ".csv")
             {
-                gl = GetCSV(uploadedFileInfo, originalFileName, company, db);
+                gl = GetCSV(uploadedFileInfo, originalFileName, user, company, db);
             }
             else
             {
-                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, company, db);
+                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, user,company, db);
             }
 
             return gl;

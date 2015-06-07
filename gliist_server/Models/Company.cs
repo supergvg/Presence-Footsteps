@@ -45,6 +45,7 @@ namespace gliist_server.Models
         {
             users = new List<UserModel>();
             invitations = new List<Invite>();
+            logo = @"https://gliist.blob.core.windows.net/invites/1_61_event_placeholder.jpg";
         }
 
 

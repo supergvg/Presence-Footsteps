@@ -31,7 +31,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
 
-            var gl = await FileUploadHelper.ParseCSV(this.Request, user.company, db);
+            var gl = await FileUploadHelper.ParseCSV(this.Request, user, user.company, db);
 
             gl.company = user.company;
 
