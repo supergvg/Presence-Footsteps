@@ -143,6 +143,10 @@ angular.module('gliist')
         $scope.showTitleValidation = true
       };
 
+      $scope.displayDateErrorMessage = function (dateField) {
+
+      };
+
       $scope.displayErrorMessage = function (field) {
 
         if (field === 'title' && $scope.showTitleValidation) {
@@ -153,38 +157,48 @@ angular.module('gliist')
       };
 
 
-      $scope.dateValid = function () {
+      $scope.timeValid = function () {
 
-        if ($scope.event.date < Date.now()) {
-          $scope.dateInvalid = true;
+        if ($scope.event.time < Date.now()) {
+          $scope.timeInvalid = true;
           return false;
         }
-        $scope.dateInvalid = false;
+
+        $scope.timeInvalid = false;
+
+        if ($scope.event.time && $scope.event.endTime) {
+          if ($scope.event.time > $scope.event.endTime) {
+            $scope.endTimeInvalid = true;
+            return false;
+          }
+        }
+        $scope.timeInvalid = false;
+        $scope.endTimeInvalid = false;
+
         return true;
       };
 
-      $scope.timeValid = function () {
+      $scope.dateOptions = {
+        startingDay: 1,
+        showWeeks: false
+      };
+      $scope.hourStep = 1;
+      $scope.minuteStep = 15;
+      $scope.showMeridian = true;
 
-        /*if ($scope.event.time && $scope.event.endTime) {
-         if ($scope.event.time > $scope.event.endTime) {
-         $scope.timeInvalid = true;
-         return false;
-         }
-         }*/
-        $scope.timeInvalid = false;
-        return true;
+      $scope.timeOptions = {
+        hourStep: [1, 2, 3],
+        minuteStep: [1, 5, 10, 15, 25, 30]
       };
 
       $scope.next = function (form) {
 
         if ($scope.data.selectedIndex == 0) {
 
-          if (form && form.$invalid || !$scope.dateValid() || !$scope.timeValid()) {
+          if (form && form.$invalid | !$scope.timeValid()) {
             $scope.showValidation = true;
             return;
           }
-
-
           $scope.savingEvent = true;
           eventsService.createEvent($scope.event).then(
             function (res) {
@@ -248,5 +262,17 @@ angular.module('gliist')
         )
       };
 
-    }])
-;
+
+      $scope.init = function () {
+        var d1 = new Date(),
+          d2 = new Date(d1);
+        d1.setHours(d1.getHours() + 6)
+        d2.setHours(d1.getHours() + 12);
+
+        $scope.event = {
+          time: d1,
+          endTime: d2
+        }
+      };
+
+    }]);

@@ -1,4 +1,4 @@
-<div>
+<div ng-init="init()">
   <div layout="row"
        style="margin-bottom: 30px"
        class="no-selection">
@@ -83,55 +83,39 @@
               </div>
             </md-input-container>
             <md-select placeholder="Select Type" ng-model="event.category" flex="25"
-                       style="padding-top: 20px;width: 100%">
+                       style="padding-top: 27px;width: 100%">
               <md-select-label style="width:100%">{{event.category || 'Event Category'}}</md-select-label>
               <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
             </md-select>
           </div>
 
+
           <div layout layout-sm="column">
-            <md-input-container flex>
-              <label>Event Date</label>
-              <input required name="time" ng-model="event.time" type="date"
-                     ng-focus="hideDateIcon = true;ignoreMo = true"
-                     ng-blur="hideDateIcon = false;ignoreMo = false"
-                     ng-mouseover="!ignoreMo ? hideDateIcon = true: a=true"
-                     ng-mouseleave="!ignoreMo ? hideDateIcon = false : a=false">
-              <md-icon ng-hide="hideDateIcon" class="input-icon"
-                       md-svg-src="assets/images/SVG/calendar.svg"></md-icon>
-              <div ng-messages="eventForm.time.$error"
-                   ng-if="displayErrorMessage(eventForm.time)">
-                <div ng-if="eventForm.time.$error.required" ng-message="required">Date is required
-                </div>
-                <div ng-if="dateInvalid" ng-message="required">Event can't start in the past
-                </div>
-              </div>
-            </md-input-container>
-            <md-input-container flex>
-              <label>Event Start Time</label>
-              <input required name="time" ng-model="event.time" type="time">
-              <md-icon class="input-icon"
-                       md-svg-src="assets/images/SVG/clock.svg"></md-icon>
+            <div flex>
+              <label style="color:#8E8E8E">Starts</label>
+              <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep" minute-step="minuteStep"
+                              ng-model="event.time" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
+                              date-options="dateOptions"
+                              date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
 
-              <div ng-messages="eventForm.time.$error"
-                   ng-if="displayErrorMessage(eventForm.time)">
-                <div ng-if="eventForm.time.$error.required" ng-message="required">Time is required
-                </div>
+              <div ng-if="timeInvalid" ng-message="required">Event can't start in the past
               </div>
-            </md-input-container>
-            <md-input-container flex>
-              <label>Event End Time</label>
-              <input required name="endTime" ng-model="event.endTime" type="time">
 
-              <md-icon class="input-icon" md-svg-src="assets/images/SVG/clock.svg"></md-icon>
 
-              <div ng-messages="eventForm.endTime.$error"
-                   ng-if="displayErrorMessage(eventForm.endTime)">
-                <div ng-if="timeInvalid" ng-message="required">End time has to be after start time
-                </div>
+            </div>
+            <div flex>
+              <label style="color:#8E8E8E">Ends</label>
+              <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep" minute-step="minuteStep"
+                              ng-model="event.endTime" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
+                              date-options="dateOptions"
+                              date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
+
+              <div ng-if="endTimeInvalid" ng-message="required">End time has to be after start time
               </div>
-            </md-input-container>
+
+            </div>
           </div>
+
           <div layout layout-sm="column">
             <md-input-container flex>
               <label>Event Location</label>
