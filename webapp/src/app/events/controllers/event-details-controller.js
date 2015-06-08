@@ -86,7 +86,7 @@ angular.module('gliist')
           $mdDialog.hide();
         };
 
-        $scope.importGLists = function () {
+        scope.importGLists = function () {
           eventsService.linkGuestList(scope.selected, $scope.event.id).then(
             function (guestListInstances) {
               $scope.event.guestLists = guestListInstances;

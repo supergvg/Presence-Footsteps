@@ -144,7 +144,7 @@ angular.module('gliist')
         scope.selected = [];
         scope.options = {
           enableSelection: true
-        }
+        };
 
         scope.cancel = function () {
           $mdDialog.hide();

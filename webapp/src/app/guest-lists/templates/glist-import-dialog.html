@@ -6,15 +6,15 @@
       <h3 style="padding-left: 10px">Link Previous Guest List</h3>
     </div>
   </div>
-  <div>
+  <md-content style="overflow-x: hidden">
     <guest-list-view selected="selected" options="options"></guest-list-view>
-  </div>
+  </md-content>
 
   <div class="md-actions" layout="row">
     <md-button ng-click="cancel()">
       Cancel
     </md-button>
-    <md-button ng-click="importGLists()" class="md-primary">
+    <md-button ng-click="importGLists(selected)" class="md-primary">
       Import
     </md-button>
   </div>

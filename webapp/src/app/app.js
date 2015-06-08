@@ -91,7 +91,7 @@ angular.module('gliist')
       };
 
       $scope.getBg = function () {
-        if ($state.current.abstract || $state.includes('home')) {
+        if ($state.current.abstract || $state.includes('home') || $state.includes('signup')) {
           return 'logo-bg';
         }
       };
