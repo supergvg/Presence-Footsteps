@@ -1,93 +1,96 @@
 <div>
-    <div layout="row" layout-wrap style="margin-bottom: 8px">
-        <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
-            <h3 style="padding-left: 10px">User Profile</h3>
-        </div>
+  <div layout="row" layout-wrap style="margin-bottom: 8px">
+    <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+      <h3 style="padding-left: 10px">User Profile</h3>
     </div>
+  </div>
 
-    <div layout="row"
-         layout-align="center center"
-         style="margin-bottom: 10px"
-         class="no-selection">
-        <div flex>
-            <h5 class="text-bg">Profile</h5>
+  <div layout="row"
+       layout-align="center center"
+       style="margin-bottom: 10px"
+       class="no-selection">
+    <div flex>
+      <h5 class="text-bg">Profile</h5>
 
-            <md-button class="md-fab"
-                       style="background-color: white;
+      <md-button class="md-fab"
+                 style="background-color: white;
                      height: 30px;
                    width: 30px;
                    margin: 0"
-                       ng-class="getSelected(0)"
-                       ng-click="data.selectedIndex = 0">
-            </md-button>
-            <div style="background-color:white;
+                 ng-class="getSelected(0)"
+                 ng-click="data.selectedIndex = 0">
+      </md-button>
+      <div style="background-color:white;
                     border-color: white;
                     height: 10px;
                     margin-top: -20px;">
 
-            </div>
+      </div>
 
-        </div>
-        <div flex>
-            <h5 class="text-bg">Account</h5>
+    </div>
+    <div flex>
+      <h5 class="text-bg">Account</h5>
 
-            <md-button class="md-fab"
-                       style="background-color: white;
+      <md-button class="md-fab"
+                 style="background-color: white;
                    height: 30px;
                    width: 30px;
                    margin: 0"
-                       ng-class="getSelected(1)"
-                       ng-click="data.selectedIndex = 1">
-            </md-button>
-            <div style="background-color:white;
+                 ng-class="getSelected(1)"
+                 ng-click="data.selectedIndex = 1">
+      </md-button>
+      <div style="background-color:white;
                 border-color: white;
                     height: 10px;
                     margin-top: -20px;">
 
-            </div>
-        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="height: 30px;">
+
+  </div>
+  <ng-switch on="data.selectedIndex" class="tabpanel-container">
+    <div role="tabpanel"
+         id="tab1-content"
+         aria-labelledby="tab1"
+         ng-switch-when="0"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+      <div>
+        <user-details user="currentUser"></user-details>
+      </div>
+
+      <div layout="row" layout-align="end center">
+        <md-button class="md-primary md-raised" ng-click="next()">
+          Next
+        </md-button>
+      </div>
     </div>
 
-
-    <ng-switch on="data.selectedIndex" class="tabpanel-container">
-        <div role="tabpanel"
-             id="tab1-content"
-             aria-labelledby="tab1"
-             ng-switch-when="0"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
-            <div>
-                <user-details user="currentUser"></user-details>
-            </div>
-
-            <div layout="row" layout-align="end center">
-                <md-button class="md-primary md-raised" ng-click="next()">
-                    Next
-                </md-button>
-            </div>
-        </div>
-
-        <div role="tabpanel"
-             id="tab2-content"
-             aria-labelledby="tab2"
-             ng-switch-when="1"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
-            <div class="md-padding">
-                <account-details user="currentUser"></account-details>
-            </div>
-            <div layout="row" layout-align="end center">
-                <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
-                    Cancel
-                </md-button>
-                <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
-                    Save
-                </md-button>
-                <md-button class="md-primary md-raised" ng-click="next()">
-                    Next
-                </md-button>
-            </div>
-        </div>
-    </ng-switch>
+    <div role="tabpanel"
+         id="tab2-content"
+         aria-labelledby="tab2"
+         ng-switch-when="1"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+      <div class="md-padding">
+        <account-details user="currentUser"></account-details>
+      </div>
+      <div layout="row" layout-align="end center">
+        <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
+          Cancel
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
+          Save
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="next()">
+          Next
+        </md-button>
+      </div>
+    </div>
+  </ng-switch>
 
 </div>

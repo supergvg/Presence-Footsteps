@@ -46,13 +46,14 @@
           <div>
             <md-button class="logo-event-list-btn"
                        ui-sref="main.edit_glist({listId:{{glist.id}}})"
+                       style="height: 48px;"
                        ng-hide="options.readOnly">
               <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
             </md-button>
           </div>
           <div style="width: 1px"></div>
           <div>
-            <md-button class="logo-event-list-btn" style="padding-left:5px;padding-right:5px"
+            <md-button class="logo-event-list-btn" style="padding-left:5px;padding-right:5px;height: 48px;"
                        ng-click="deleteGlist($event,glist)"
                        ng-hide="options.readOnly" flex>
               <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>

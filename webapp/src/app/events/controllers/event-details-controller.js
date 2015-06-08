@@ -17,7 +17,7 @@ angular.module('gliist')
       ];
 
       $scope.data = {
-        selectedIndex: 2,
+        selectedIndex: 0,
         bottom: 'bottom'
       };
 

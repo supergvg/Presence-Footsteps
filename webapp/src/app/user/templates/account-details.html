@@ -1,69 +1,60 @@
 <div ng-init="init()">
-    <h3 class="md-headline">Manage Account</h3>
+  <h3 class="md-headline">Manage Account</h3>
 
 
-    <div ng-show="initializing">
-        <h4>Loading...</h4>
+  <div ng-show="initializing">
+    <h4>Loading...</h4>
         <span>
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                ></md-progress-circular>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
             </span>
+  </div>
+
+  <md-list style="padding-left: 5px" ng-hide="initializing" ng-cloak>
+    <md-list-item layout="row" style="border-bottom: #C9C9C9 solid;">
+      <div flex="75">
+        <p>Create new Account (Enter details for the users you would like to invite)</p>
+      </div>
+      <div flex="25" layout="row" layout-align="end center">
+        <md-button class="md-primary md-raised" ng-click="linkNewAccount($event)">
+          Invite
+        </md-button>
+      </div>
+    </md-list-item>
+  </md-list>
+
+
+  <div>
+    <div class="page-subtitle" style="margin-top: 15px;">
+      <h4>Edit previously added Accounts</h4>
     </div>
 
-    <md-list flex="90" ng-hide="initializing" ng-cloak>
-        <md-item>
-            <md-item-content>
-                <div class="md-tile-left">
-                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                </div>
-                <div class="md-tile-content">
-                    <h3>Create new Account (Enter details for the users you would like to invite)</h3>
-                </div>
-                <md-button class="md-primary md-raised" ng-click="linkNewAccount($event)">
-                    Invite
-                </md-button>
-            </md-item-content>
-            <md-divider></md-divider>
-        </md-item>
-        <md-item>
-            <md-item-content>
-                <div class="md-tile-left">
-                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
-                </div>
-                <div class="md-tile-content">
-                    <h3>Edit previously added Accounts</h3>
+    <md-list>
+      <md-list-item ng-repeat="user in company.users">
+        <div flex layout="row">
+          <div flex="40">
+            <p>{{user.firstName}} {{user.lastName}}</p>
+          </div>
+          <div flex="15">
+            <p>{{user.permission}}</p>
+          </div>
+          <div flex="20">
+            <p>{{user.UserName}}</p>
+          </div>
+          <div flex="10" style="padding: 0">
+            <p>{{user.phoneNumber}}</p>
+          </div>
+        </div>
 
-                    <md-list>
-                        <md-item ng-repeat="user in company.users">
-                            <md-item-content layout="row">
-                                <div layout="row" class="md-tile-content">
-                                    <div flex="40">
-                                        <h3>{{user.firstName}} {{user.lastName}}</h3>
-                                    </div>
-                                    <div flex="15">
-                                        <h3>{{user.permission}}</h3>
-                                    </div>
-                                    <div flex="20">
-                                        <h3>{{user.UserName}}</h3>
-                                    </div>
-                                    <div flex="10" style="padding: 0">
-                                        <h3>{{user.phoneNumber}}</h3>
-                                    </div>
-                                </div>
+        <md-button class="md-primary md-raised" ng-click="editUser($event,user)"
+                   ng-hide="options.readOnly" ng-cloak>
+          <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
+        </md-button>
 
-                                <md-button class="md-primary md-raised" ng-click="editUser($event,user)"
-                                           ng-hide="options.readOnly" ng-cloak>
-                                    <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
-                                </md-button>
-                            </md-item-content>
-                            <md-divider ng-if="!$last"></md-divider>
-                        </md-item>
-                    </md-list>
+        <md-divider ng-if="!$last"></md-divider>
 
-                </div>
-            </md-item-content>
-        </md-item>
+      </md-list-item>
     </md-list>
 
+  </div>
 
 </div>
