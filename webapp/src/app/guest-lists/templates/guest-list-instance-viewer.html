@@ -3,12 +3,22 @@
   <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
 
 
-  <div layout="row" ng-show="lists.length > 0" style="padding-top: 30px">
+  <div layout="row" ng-show="lists.length > 0">
+    <div flex="25">
+      <h4>Total Guests: {{getTotalGuests()}}</h4>
+    </div>
+    <div flex="15">
+      <h4>Total Capacity: {{getTotalCapacity()}}</h4>
+    </div>
+  </div>
+
+
+  <div layout="row" ng-show="lists.length > 0" style="color:#8E8E8E;padding-top: 30px">
     <div flex="30" style="font-weight: bold">
       Guest list title
     </div>
     <div flex="20" style="font-weight: bold">
-      Count
+      Total
     </div>
     <div flex="20" style="font-weight: bold">
       Category

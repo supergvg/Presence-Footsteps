@@ -5,7 +5,8 @@ angular.module('gliist')
     function ($scope, $mdSidenav, $state) {
 
       $scope.options = {
-        limit: 3
+        limit: 3,
+        readyOnly: true
       };
 
     }]);

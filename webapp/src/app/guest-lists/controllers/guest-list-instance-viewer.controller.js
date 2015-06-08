@@ -18,6 +18,26 @@ angular.module('gliist')
 
         return total;
       };
+      $scope.getTotalGuests = function () {
+
+        var total = 0;
+        angular.forEach($scope.lists, function (list) {
+          total += $scope.getglistTotal(list);
+        });
+
+        return total;
+      };
+
+      $scope.getTotalCapacity = function () {
+
+        var total = 0;
+        angular.forEach($scope.lists, function (list) {
+          total += list.capacity;
+        });
+
+        return total;
+
+      };
 
       $scope.deleteInstance = function (ev, instance) {
 

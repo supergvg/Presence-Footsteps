@@ -14,10 +14,15 @@
         </md-progress-circular>
             </span>
   </div>
+  <div style="margin-top:30px;" ng-show="!initializing">
+    <md-radio-group ng-model="guestFilter">
+      <md-radio-button value="pending" class="md-primary">Pending</md-radio-button>
+      <md-radio-button value="checked" class="md-primary">Checked</md-radio-button>
+    </md-radio-group>
 
-
-  <div style="margin-top: 20px;">
-    <div ui-grid="gridOptions" style="height:100%;width: 100%" ui-grid-auto-resize></div>
+    <div style="margin-top: 20px;">
+      <div ui-grid="gridOptions" style="height:400px;width: 100%" ui-grid-auto-resize></div>
+    </div>
   </div>
 
 </div>

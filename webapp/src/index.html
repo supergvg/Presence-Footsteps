@@ -41,7 +41,7 @@
 <div layout="column" layout-fill ng-show="appReady" ng-cloak>
   <md-toolbar ng-if="currentUser" ng-cloak>
     <div layout="row logo-bg">
-      <img src="assets/images/gliist_logo.png" style="height:37.8px;margin-left: 10px;margin-top: 10px;">
+      <img src="assets/images/gliist_logo.png" style="height:37.8px;margin-left: 10px;margin-top: 10px;" ui-sref="main.welcome">
       <md-button class="menu" hide-gt-lg ng-click="toggleSidebar()" aria-label="Show User List"
                  style="margin-top: 13px;">
         <ng-md-icon icon="menu" style="fill:white"
@@ -91,8 +91,8 @@
         </div>
       </div>
     </md-sidenav>
-    <md-content ng-style="getBg()" layout-fill flex layout-padding>
-      <div ui-view style="height: 100%" layout-fill flex></div>
+    <md-content ng-class="getBg()" layout-fill flex layout-padding>
+      <div ui-view layout-fill flex></div>
     </md-content>
   </div>
 </div>
