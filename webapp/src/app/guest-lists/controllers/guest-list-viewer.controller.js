@@ -1,131 +1,130 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService) {
+  .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService',
+    function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService) {
 
 
-            $scope.selected = $scope.selected || [];
+      $scope.selected = $scope.selected || [];
 
 
-            $scope.getTotalGuests = function (glist) {
-                var total = 0;
+      $scope.getTotalGuests = function (glist) {
+        var total = 0;
 
-                angular.forEach(glist.guests,
-                    function (guest_info) {
-                        total += guest_info.plus + 1;
-                    });
+        angular.forEach(glist.guests,
+          function (guest_info) {
+            total += guest_info.plus + 1;
+          });
 
-                return total;
+        return total;
 
-            };
+      };
 
-            $scope.glistSelected = function (glist) {
+      $scope.glistSelected = function (glist) {
 
-                var found = _.find($scope.selected, function (item) {
-                    return glist.id === item.id;
-                });
+        var found = _.find($scope.selected, function (item) {
+          return glist.id === item.id;
+        });
 
-                if (found) {
-                    return true;
-                }
+        if (found) {
+          return true;
+        }
 
-                return false;
-            };
-            $scope.toggleSelected = function (item) {
-                var idx = $scope.selected.indexOf(item);
-                if (idx > -1) {
-                    $scope.selected.splice(idx, 1)
-                } else {
-                    $scope.selected.push(item);
-                }
-            };
+        return false;
+      };
+      $scope.toggleSelected = function (item) {
+        var idx = $scope.selected.indexOf(item);
+        if (idx > -1) {
+          $scope.selected.splice(idx, 1)
+        } else {
+          $scope.selected.push(item);
+        }
+      };
 
-            $scope.addMore = function () {
-                $scope.list.guests.push({
-                });
-            };
+      $scope.addMore = function () {
+        $scope.list.guests.push({});
+      };
 
-            $scope.deleteGlist = function (ev, glist) {
-                // Appending dialog to document.body to cover sidenav in docs app
-                var confirm = $mdDialog.confirm()
-                    //.parent(angular.element(document.body))
-                    .title('Are you sure you want to delete guest list?')
-                    //.content('Confirm ')
-                    .ariaLabel('Lucky day')
-                    .ok('Yes')
-                    .cancel('No')
-                    .targetEvent(ev);
-                $mdDialog.show(confirm).then(function () {
+      $scope.deleteGlist = function (ev, glist) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+          //.parent(angular.element(document.body))
+          .title('Are you sure you want to delete guest list?')
+          //.content('Confirm ')
+          .ariaLabel('Lucky day')
+          .ok('Yes')
+          .cancel('No')
+          .targetEvent(ev);
+        $mdDialog.show(confirm).then(function () {
 
-                    if ($scope.local) {
+          if ($scope.local) {
 
-                        $scope.guestLists = _.reject($scope.guestLists, function (item) {
-                            return angular.equals(glist, item);
-                        })
+            $scope.guestLists = _.reject($scope.guestLists, function (item) {
+              return angular.equals(glist, item);
+            })
 
-                        return;
-                    }
+            return;
+          }
 
-                    guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
-                        $scope.getGuestLists();
-                    }, function () {
-                        dialogService.error('There was a problem please try again');
-                    })
+          guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
+            $scope.getGuestLists();
+          }, function () {
+            dialogService.error('There was a problem please try again');
+          })
 
 
-                }, function () {
-                    $scope.alert = 'You decided to keep your debt.';
-                });
-            };
+        }, function () {
+          $scope.alert = 'You decided to keep your debt.';
+        });
+      };
 
-            $scope.showGlistDialog = function (ev, event) {
+      $scope.showGlistDialog = function (ev, event) {
 
-                var scope = $scope.$new();
-                scope.currentGlist = event;
-                scope.cancel = function () {
-                    $mdDialog.cancel();
-                };
+        var scope = $scope.$new();
+        scope.currentGlist = event;
+        scope.cancel = function () {
+          $mdDialog.cancel();
+        };
 
-                scope.save = function () {
-                    $mdDialog.toggle();
-                }
+        scope.save = function () {
+          $mdDialog.toggle();
+        };
 
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
-                    targetEvent: ev
-                });
-            };
+        $mdDialog.show({
+          //controller: DialogController,
+          scope: scope,
+          templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
+          targetEvent: ev
+        });
+      };
 
-            $scope.getGuestLists = function () {
+      $scope.getGuestLists = function () {
 
-                if ($scope.lists) {
-                    $scope.guestLists = $scope.lists;
-                    $scope.local = true;
-                    return;
-                }
+        if ($scope.lists) {
+          $scope.guestLists = $scope.lists;
+          $scope.local = true;
+          return;
+        }
 
-                $scope.fetchingData = true
-                guestFactory.GuestLists.get().$promise.then(
-                    function (data) {
-                        $scope.guestLists = data;
-                    }, function () {
-                        dialogService.error('There was a problem getting lists, please try again');
-                    }).finally(function () {
-                        $scope.fetchingData = false;
-                    })
-            };
+        $scope.fetchingData = true
+        guestFactory.GuestLists.get().$promise.then(
+          function (data) {
+            $scope.guestLists = data;
+          }, function () {
+            dialogService.error('There was a problem getting lists, please try again');
+          }).finally(function () {
+            $scope.fetchingData = false;
+          })
+      };
 
-            $scope.init = function () {
+      $scope.init = function () {
 
-                if (!$scope.options) {
-                    $scope.options = {};
-                }
+        if (!$scope.options) {
+          $scope.options = {};
+        }
 
-            };
+      };
 
-            $scope.init();
+      $scope.init();
 
-        }]);
+    }]);

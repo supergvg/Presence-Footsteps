@@ -1,30 +1,33 @@
 <div>
-  <div layout="row" layout-wrap style="margin-bottom: 30px">
-    <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
-      <h3 style="padding-left: 10px">Welcome to gjests</h3>
+    <div layout="row" layout-wrap style="margin-bottom: 30px">
+        <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+            <h3 style="padding-left: 10px">Welcome to gjests</h3>
+        </div>
     </div>
-  </div>
 
-  <div class="page-subtitle" style="margin-top: -15px;">
-    <h4>Check out whats new!</h4>
-  </div>
-  <div style="height: 100px">
-    <h3>Nothing new yet</h3>
-  </div>
+    <div class="page-subtitle" style="margin-top: -15px;">
+        <h4>Check out whats new!</h4>
+    </div>
+    <div>
 
-  <div class="page-subtitle" style="margin-top: -15px;">
-    <h4>Upcoming events</h4>
-  </div>
-  <div>
-    <event-list events="currentEvents" options="options"></event-list>
+        <md-list>
+            <md-subheader class="md-no-sticky">App store is approving our iOS app</md-subheader>
+            <md-divider style="margin-right: 18px"></md-divider>
+            <md-subheader class="md-no-sticky">Android app will be ready in 2 weeks</md-subheader>
+            <md-divider style="margin-right: 18px"></md-divider>
+            <md-subheader class="md-no-sticky">Blackberry app is under development</md-subheader>
+            <md-divider style="margin-right: 18px"></md-divider>
+            <md-subheader class="md-no-sticky">Sync offline is under development</md-subheader>
+        </md-list>
 
-  </div>
 
-  <div class="page-subtitle" style="margin-top: -15px;">
-    <h4>Sponsors</h4>
-  </div>
-  <div style="height: 100px;">
-    <h4>No Sponsors yet</h4>
-  </div>
+    </div>
+
+    <div class="page-subtitle" style="">
+        <h4>Upcoming events</h4>
+    </div>
+    <div>
+        <event-list events="currentEvents" options="options"></event-list>
+    </div>
 
 </div>

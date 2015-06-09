@@ -149,13 +149,23 @@ angular.module('gliist')
         scope.save = $scope.save;
         scope.selected = [];
         scope.options = {
-          enableSelection: true
-        }
+          enableSelection: true,
+          readOnly: true
+        };
 
         scope.cancel = function () {
           $mdDialog.hide();
         };
 
+
+        scope.importGLists = function (selected) {
+
+          angular.forEach(selected, function (toImport) {
+            $scope.list.guests = $scope.list.guests.concat(toImport.guests);
+          });
+          $mdDialog.hide();
+          $scope.save();
+        };
 
         $mdDialog.show({
           //controller: DialogController,

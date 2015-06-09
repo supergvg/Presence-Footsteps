@@ -8,7 +8,6 @@ angular.module('gliist')
         $mdSidenav('left').toggle();
       };
 
-      $scope.getBg = function () {
-      };
+
 
     }]);
