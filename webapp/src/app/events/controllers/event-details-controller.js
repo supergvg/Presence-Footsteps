@@ -259,6 +259,16 @@ angular.module('gliist')
 
             $scope.previewOptions = {hideEdit: true};
 
+            $scope.location = {};
+
+            $scope.$watch('location.details', function (newValue) {
+                if (!newValue) {
+                    return;
+                }
+
+                $scope.event.timeZone = newValue.tz;
+            });
+
             $scope.init = function () {
 
                 if ($scope.event) {

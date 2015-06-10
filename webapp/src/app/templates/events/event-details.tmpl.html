@@ -171,7 +171,8 @@
                 <div layout layout-sm="column">
                     <md-input-container flex="75">
                         <label>Event Location</label>
-                        <input type="text" name="location" g-places-autocomplete ng-model="event.location">
+                        <input type="text" name="location" ng-autocomplete
+                               ng-model="event.location" details="location.details">
                         <md-icon class="input-icon"
                                  md-svg-src="assets/images/SVG/location.svg"></md-icon>
                     </md-input-container>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state',
-        function ($scope, $stateParams, guestFactory, dialogService, eventsService, $state) {
+    .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', "$window",
+        function ($scope, $stateParams, guestFactory, dialogService, eventsService, $state, $window) {
 
 
             $scope.subtractGuestCount = function () {
@@ -17,6 +17,10 @@ angular.module('gliist')
                     return;
                 }
                 $scope.guestCheckin.plus++;
+            };
+
+            $scope.back = function () {
+                $window.history.back();
             };
 
             $scope.checkIn = function () {
@@ -42,7 +46,7 @@ angular.module('gliist')
                     return false;
                 }
 
-                return ($scope.fetchingData || !$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
+                return (!$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
             };
 
             $scope.isNotChecked = function (guestCheckin) {
@@ -88,7 +92,6 @@ angular.module('gliist')
                 );
 
             };
-
 
 
         }]);

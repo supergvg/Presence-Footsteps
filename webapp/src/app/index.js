@@ -11,7 +11,7 @@ angular.module('gliist', [
     'ngMdIcons',
     'angularFileUpload',
     'googlechart',
-    'google.places',
+    'ngAutocomplete',
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
     'ui.grid',
