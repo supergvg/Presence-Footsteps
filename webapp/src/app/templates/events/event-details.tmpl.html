@@ -1,66 +1,112 @@
 <div ng-init="init()">
-<div layout="row"
-     style="margin-bottom: 30px"
-     class="no-selection">
-    <div flex>
-        <h5 class="text-bg">Details</h5>
 
-        <md-button class="md-fab"
-                   style="background-color: white;
+<div layout="row" style="margin-bottom: 50p">
+    <div flex="5">
+        <div style="background-color:white;
+                border-color: white;
+                    height: 10px;
+                    margin-top: 50px;">
+
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg">Details</h5>
+
+            <md-button class="md-fab"
+                       style="background-color: white;
                    height: 30px;
                    width: 30px;
                    margin:0"
-                   ng-class="getSelected(0)"
-                   ng-click="data.selectedIndex = 0">
-        </md-button>
+                       ng-class="getSelected(0)"
+                       ng-click="data.selectedIndex = 0">
+            </md-button>
+        </div>
+    </div>
+    <div flex="28">
         <div style="background-color:white;
                 border-color: white;
                     height: 10px;
-                    margin-top: -20px;">
+                    margin-top: 50px;">
+
+        </div>
+    </div>
+    <div flex="5">
+        <div style="background-color:white;
+                border-color: white;
+                    height: 10px;
+                    margin-top: 50px;">
+
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg">Invite</h5>
+
+            <md-button class="md-fab"
+                       style="background-color: white;
+                            height: 30px;
+                            width: 30px;
+                            margin:0"
+                       ng-disabled="!event.id"
+                       ng-class="getSelected(1)"
+                       ng-click="data.selectedIndex = 1">
+            </md-button>
+        </div>
+    </div>
+    <div flex="28">
+        <div style="background-color:white;
+                border-color: white;
+                    height: 10px;
+                    margin-top: 50px;">
+
+        </div>
+    </div>
+    <div flex="5">
+        <div style="background-color:white;
+                border-color: white;
+                    height: 10px;
+                    margin-top: 50px;">
+
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg">Guests</h5>
+
+            <md-button class="md-fab"
+                       style="background-color: white;
+                   height: 30px;
+                   width: 30px;
+                    margin:0;"
+                       ng-disabled="!event.id"
+                       ng-class="getSelected(2)"
+                       ng-click="data.selectedIndex = 2">
+            </md-button>
+        </div>
+    </div>
+    <div flex="28">
+        <div style="background-color:white;
+                border-color: white;
+                    height: 10px;margin-top: 50px;">
 
         </div>
 
     </div>
-    <div flex>
-        <h5 class="text-bg">Invite</h5>
-
-        <md-button class="md-fab"
-                   style="background-color: white;
-                   height: 30px;
-                   width: 30px;
-                    margin:0"
-                   ng-disabled="!event.id"
-                   ng-class="getSelected(1)"
-                   ng-click="data.selectedIndex = 1">
-        </md-button>
-        <div style="background-color:white;
-                border-color: white;
-                    height: 10px;
-                    margin-top: -20px;">
-
+    <div flex="5">
+        <div style="height: 10px;margin-top: 50px;">
         </div>
-    </div>
-    <div flex>
-        <h5 class="text-bg">Guests</h5>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg" style="text-align: left">Preview</h5>
 
-        <md-button class="md-fab"
-                   style="background-color: white;
+            <md-button class="md-fab"
+                       style="
+                   background-color: white;
                    height: 30px;
                    width: 30px;
-                    margin:0"
-                   ng-disabled="!event.id"
-                   ng-class="getSelected(2)"
-                   ng-click="data.selectedIndex = 2">
-        </md-button>
-
-        <div style="background-color:white;
-                border-color: white;
-                    height: 10px;
-                    margin-top: -20px;">
-
+                    margin:0;"
+                       ng-disabled="!event.id"
+                       ng-class="getSelected(3)"
+                       ng-click="data.selectedIndex = 3">
+            </md-button>
         </div>
     </div>
 </div>
+
 
 <ng-switch on="data.selectedIndex" class="tabpanel-container">
     <div role="tabpanel"
@@ -92,7 +138,9 @@
 
                 <div layout layout-sm="column">
                     <div flex>
-                        <label style="color:#8E8E8E">Starts</label>
+                        <div style="margin-bottom:-35px">
+                            <label style="font-size:14;color:#8E8E8E;">Starts</label>
+                        </div>
                         <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep"
                                         minute-step="minuteStep"
                                         ng-model="event.time" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
@@ -105,10 +153,13 @@
 
                     </div>
                     <div flex>
-                        <label style="color:#8E8E8E">Ends</label>
+                        <div style="margin-bottom:-35px">
+                            <label style="font-size:14;color:#8E8E8E">Ends </label>
+                        </div>
                         <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep"
                                         minute-step="minuteStep"
-                                        ng-model="event.endTime" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
+                                        ng-model="event.endTime" show-meridian="showMeridian"
+                                        date-format="dd-MMM-yyyy"
                                         date-options="dateOptions"
                                         date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
 
@@ -225,10 +276,20 @@
         </div>
 
         <div layout="row" layout-align="end center" style="margin-top: 10px;">
-            <md-button class="md-primary md-raised" ng-click="onFinishClicked()">
-                Finish
+            <md-button class="md-primary md-raised" ng-click="next(eventForm)">
+                Next
             </md-button>
         </div>
+
+    </div>
+    <div role="tabpanel"
+         id="tab4-content"
+         aria-labelledby="tab4"
+         ng-switch-when="3"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+
+        <event-publish event-id="event.id" options="previewOptions"></event-publish>
 
     </div>
 </ng-switch>

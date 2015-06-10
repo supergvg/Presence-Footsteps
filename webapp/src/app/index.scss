@@ -272,7 +272,12 @@ md-dialog {
 }
 
 div[g-places-autocomplete-drawer] {
-  position: absolute;
-  top: -100px;
-  width: 100%;
+  //position: absolute;
+  //top: -100px;
+  //width: 100%;
 }
+
+.md-input-has-value, .md-input-focused {
+  // font-size: 16px;
+}
+

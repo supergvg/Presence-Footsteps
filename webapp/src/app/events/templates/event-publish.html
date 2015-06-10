@@ -1,0 +1,34 @@
+<div>
+
+    <div ng-show="initializing">
+        <h4>Loading...</h4>
+        <span>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                ></md-progress-circular>
+            </span>
+    </div>
+
+    <div ng-show="!initializing">
+
+        <event-preview event="event"></event-preview>
+
+        <div style="background-color: #E0E0E0;">
+            <div flex style="background-color: #CCCCCC;color:white">
+                <h4 style="padding-left: 10px">Linked Guest Lists</h4>
+            </div>
+            <guest-list-instance-view style="padding:10px" lists="event.guestLists"
+                                      options="glOptions"></guest-list-instance-view>
+        </div>
+
+        <div class="md-actions" layout="row" layout-align="center center" style="margin-top: 30px;margin-bottom: 20px">
+
+            <md-button class="md-primary md-raised" style="background-color: #8E8E8E !important;"
+                       ng-hide="options.hideEdit"
+                       ng-click="editEvent()">Edit
+            </md-button>
+
+            <md-button class="md-primary md-raised" ng-click="publishEvent($event)">Publish</md-button>
+        </div>
+    </div>
+
+</div>
