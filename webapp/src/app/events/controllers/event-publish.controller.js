@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventPublishCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService',
-        function ($scope, $stateParams, dialogService, $state, eventsService) {
+    .controller('EventPublishCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$mdDialog',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $mdDialog) {
 
             $scope.publishEvent = function (ev) {
 
