@@ -18,6 +18,39 @@ angular.module('gliist')
 
         return total;
       };
+      $scope.getActualGuests = function (gli) {
+        var checkedCount = 0;
+
+        if (!$scope.event) {
+          return 0;
+        }
+
+        if (gli) {
+          angular.forEach(gli.actual,
+            function (chkn) {
+              if (chkn.status === 'checked in') {
+                checkedCount += chkn.guest.plus + 1 - chkn.plus;
+              }
+            });
+
+          return checkedCount;
+        }
+
+        angular.forEach($scope.event.guestLists,
+          function (gl) {
+
+            angular.forEach(gl.actual,
+              function (chkn) {
+                if (chkn.status === 'checked in') {
+                  checkedCount += chkn.guest.plus + 1 - chkn.plus;
+                }
+              });
+          }
+        );
+
+        return checkedCount;
+      };
+
       $scope.getTotalGuests = function () {
 
         var total = 0;

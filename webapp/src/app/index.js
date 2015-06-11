@@ -153,7 +153,7 @@ angular.module('gliist', [
                     controller: 'WelcomeController'
                 });
 
-            $urlRouterProvider.otherwise('/main.welcome');
+            $urlRouterProvider.otherwise('/main/welcome');
         }])
     .run(['$rootScope', '$state', 'userService', '$timeout',
         function ($rootScope, $state, userService, $timeout) {

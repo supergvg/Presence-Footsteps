@@ -117,6 +117,8 @@ md-dialog {
   color: #33aaaa !important;
   margin: 0 !important;
   border-radius: 0 !important;
+  padding-top: 12px;
+  padding-bottom: 6px;
 }
 
 .logo-bg {
@@ -129,6 +131,7 @@ md-dialog {
   margin: 0 !important;
   width: 50px;
   border-radius: 0 !important;
+  padding-top: 12px;
 }
 
 .left-align {
@@ -245,10 +248,6 @@ md-dialog {
   border: none !important;
 }
 
-.logo-event-list-btn {
-  padding-top: 12px;
-}
-
 .btn-info.active {
   background-color: #33aaaa;
 }
@@ -280,4 +279,5 @@ div[g-places-autocomplete-drawer] {
 .md-input-has-value, .md-input-focused {
   // font-size: 16px;
 }
+
 

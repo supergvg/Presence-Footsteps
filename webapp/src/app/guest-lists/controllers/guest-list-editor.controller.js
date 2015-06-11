@@ -57,11 +57,13 @@ angular.module('gliist')
       $scope.guestListTypes = [
         'GA',
         'VIP',
+        'Super VIP',
         'Guest',
         'Artist',
         'Production',
         'Comp',
-        'Press'
+        'Press',
+        'All Access'
       ];
 
       $scope.selected = $scope.selected || [];
