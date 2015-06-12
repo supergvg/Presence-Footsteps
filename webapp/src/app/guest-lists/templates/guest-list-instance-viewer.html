@@ -4,10 +4,10 @@
 
 
   <div layout="row" ng-show="lists.length > 0 && options.showSummary">
-    <div flex="25">
+    <div flex="40">
       <h4>Total Guests: {{getTotalGuests()}}</h4>
     </div>
-    <div flex="15">
+    <div flex="40">
       <h4>Total Capacity: {{getTotalCapacity()}}</h4>
     </div>
   </div>
@@ -17,8 +17,11 @@
     <div flex="30" style="font-weight: bold">
       Title
     </div>
-    <div flex="20" style="font-weight: bold">
+    <div flex="20" style="font-weight: bold" ng-if="options.stats">
       Status
+    </div>
+    <div flex="20" style="font-weight: bold" ng-if="!options.stats">
+      Total
     </div>
     <div flex="20" style="font-weight: bold">
       Category
@@ -36,8 +39,12 @@
           <p>{{instance.title}}</p>
         </div>
 
-        <div flex="20">
+        <div flex="20" ng-if="options.stats">
           <p>{{getActualGuests(instance)}}/{{getglistTotal(instance)}}</p>
+        </div>
+
+        <div flex="20" ng-if="!options.stats">
+          <p>{{getglistTotal(instance)}}</p>
         </div>
 
         <div flex="20">
@@ -45,7 +52,7 @@
         </div>
 
         <div flex="10" style="padding-left:10px">
-          <md-input-container style="padding-top:10px;padding-bottom: 0">
+          <md-input-container style="padding-bottom: 0">
             <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly"
                    type="number" min="0" step="1">
           </md-input-container>

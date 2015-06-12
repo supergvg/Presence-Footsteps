@@ -9,13 +9,13 @@ angular.module('gliist')
 
 
       $scope.categories = [
-        'GA',
-        'VIP',
-        'Guest',
-        'Artist',
-        'Production',
-        'Comp',
-        'Others'
+        {name: 'GA', color: '#35A9A9'},
+        {name: 'VIP', color: '#3FBEE1'},
+        {name: 'Guest', color: '#42E19E'},
+        {name: 'Artist', color: '#9369E9'},
+        {name: 'Production', color: '#EA69D0'},
+        {name: 'Comp', color: '#35A9A9'},
+        {name: 'Others', color: '#3FBEE1'}
       ];
 
       $scope.getCategoryStatus = function (category) {
@@ -34,10 +34,10 @@ angular.module('gliist')
                   return;
                 }
 
-                if (chkn.guest.type === category) {
+                if (chkn.guest.type === category.name) {
                   count += chkn.guest.plus + 1 - chkn.plus;
                 }
-                else if (gl.listType === category) {
+                else if (gl.listType === category.name) {
                   count += chkn.guest.plus + 1 - chkn.plus;
                 }
 
@@ -47,6 +47,8 @@ angular.module('gliist')
 
         return count;
       };
+
+      $scope.Math = window.Math;
 
       $scope.getCategoryTotal = function (category) {
 
@@ -62,10 +64,10 @@ angular.module('gliist')
             angular.forEach(gl.actual,
               function (guest_info) {
 
-                if (guest_info.guest.type === category) {
+                if (guest_info.guest.type === category.name) {
                   count += guest_info.guest.plus + 1;
                 }
-                else if (gl.listType === category) {
+                else if (gl.listType === category.name) {
                   count += guest_info.guest.plus + 1;
                 }
 
@@ -96,17 +98,24 @@ angular.module('gliist')
           }
         };
 
-        angular.forEach(event.guestLists, function (gl) {
+        angular.forEach($scope.categories, function (category) {
+
+          var categoryCount = $scope.getCategoryStatus(category);
+
           $scope.chartObject.data.rows.push({
             c: [
               {
-                v: gl.listType
+                v: category.name
               },
               {
-                v: gl.actual.length
+                v: categoryCount
               }
             ]
           });
+        });
+
+        angular.forEach(event.guestLists, function (gl) {
+
         });
 
       };
@@ -124,7 +133,8 @@ angular.module('gliist')
       };
 
       $scope.gliOptions = {
-        readOnly: true
+        readOnly: true,
+        stats: true
       };
 
       $scope.currentEvents = [];

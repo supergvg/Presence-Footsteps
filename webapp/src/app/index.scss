@@ -280,4 +280,18 @@ div[g-places-autocomplete-drawer] {
   // font-size: 16px;
 }
 
+.padding-top-45 {
+  padding-top: 45px;
+}
 
+input[ui-grid-editor] {
+  border: none !important;
+}
+
+p {
+  display: block;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+}

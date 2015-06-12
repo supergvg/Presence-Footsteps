@@ -188,7 +188,7 @@ angular.module('gliist')
 
       $scope.next = function (form) {
 
-        if ($scope.data.selectedIndex == 0) {
+        if ($scope.data.selectedIndex == 0 || $scope.data.selectedIndex == 2) {
 
           if (form && form.$invalid | !$scope.timeValid()) {
             $scope.showValidation = true;
@@ -198,7 +198,7 @@ angular.module('gliist')
           eventsService.createEvent($scope.event).then(
             function (res) {
               $scope.event.id = res.id;
-              $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+              $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 3);
               $scope.event.invitePicture = res.invitePicture;
               dialogService.success('Event ' + res.title + ' saved');
 

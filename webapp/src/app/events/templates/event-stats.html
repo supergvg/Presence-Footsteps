@@ -25,21 +25,37 @@
         <div flex="50">
 
           <div layout="row" style="color:#969696">
-            <div flex="50" style="font-weight: bold">
+            <div flex="25" style="font-weight: bold">
               Categories
             </div>
-            <div flex="20" style="font-weight: bold">
-              Status
+            <div flex="25" style="font-weight: bold">
+              Checked in
+            </div>
+            <div flex="25" style="font-weight: bold">
+              Unconfirmed
+            </div>
+            <div flex="25" style="font-weight: bold">
+              Percentage
             </div>
           </div>
 
-          <md-list style="background-color: white;padding-top: 0px;padding-bottom: 0px;">
-            <md-list-item ng-repeat="category in categories" layout="row">
+          <md-list style="background-color: white;padding-top: 0px;padding-bottom: 0px;color:white">
+            <md-list-item ng-repeat="category in categories" layout="row"
+                          style="background-color : {{category.color}}">
               <div flex>
-                {{category}}
+                {{category.name}}
               </div>
               <div flex>
-                <span class="badge">{{getCategoryStatus(category)}}/{{getCategoryTotal(category)}}</span>
+                {{getCategoryStatus(category)}}
+              </div>
+              <div flex>
+                {{getCategoryTotal(category)}}
+              </div>
+              <div flex ng-if="getCategoryTotal(category)">
+                {{ Math.round(getCategoryStatus(category) / getCategoryTotal(category) * 100) }}%
+              </div>
+              <div flex ng-if="!getCategoryTotal(category)">
+                N/A
               </div>
               <md-divider ng-if="!$last"></md-divider>
             </md-list-item>

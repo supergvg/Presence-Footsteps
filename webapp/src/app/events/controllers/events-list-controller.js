@@ -65,6 +65,16 @@ angular.module('gliist')
         )
       };
 
+      $scope.getPadding = function () {
+        if (!$scope.options) {
+          return;
+        }
+
+        if ($scope.options.readyOnly) {
+          return 'padding-top-45';
+        }
+      };
+
       $scope.getItemClass = function (isLast) {
         if (!isLast) {
           //return "item-border-white";
@@ -76,4 +86,5 @@ angular.module('gliist')
       };
 
       $scope.init();
-    }]);
+    }])
+;

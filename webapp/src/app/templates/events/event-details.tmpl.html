@@ -271,12 +271,15 @@
           <div class="page-subtitle" style="margin-top: -15px;">
             <h4>Guests</h4>
           </div>
-          <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
+          <guest-list-instance-view event="event" lists="event.guestLists"
+                                    options="gliOptions"></guest-list-instance-view>
         </div>
 
       </div>
 
       <div layout="row" layout-align="end center" style="margin-top: 10px;">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                              ng-show="savingEvent"></md-progress-circular>
         <md-button class="md-primary md-raised" ng-click="next(eventForm)">
           Next
         </md-button>
