@@ -82,12 +82,15 @@ angular.module('gliist')
         $scope.chartObject = {
           type: 'PieChart',
           options: {
-            title: '',
+            title: 'Total Checked in Guests',
+            titleTextStyle: {
+              fontSize: 14
+            },
             backgroundColor: '#ECECEC',
             legend: 'none',
-            colors: ['#35A9A9', '#42E19E', '#949494', '#9369E9', '#EA69D0'],
+            colors: ['#35A9A9', '#3FBEE1', '#42E19E', '#9369E9', '#EA69D0', '#35A9A9', '#3FBEE1'],
             chartArea: {left: 0, top: '10%', width: '100%', height: '75%'},
-            pieSliceText: 'none',
+            pieSliceText: 'label',
           },
           data: {
             cols: [

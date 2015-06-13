@@ -14,19 +14,25 @@
 
 
   <div layout="row" ng-show="lists.length > 0" style="color:#8E8E8E;padding-top: 30px">
-    <div flex="30" style="font-weight: bold">
+    <div flex="25" style="font-weight: bold">
       Title
     </div>
-    <div flex="20" style="font-weight: bold" ng-if="options.stats">
-      Status
-    </div>
-    <div flex="20" style="font-weight: bold" ng-if="!options.stats">
-      Total
-    </div>
-    <div flex="20" style="font-weight: bold">
+    <div flex="15" style="font-weight: bold">
       Category
     </div>
-    <div flex="10" style="font-weight: bold">
+    <div flex="15" style="font-weight: bold" ng-if="options.stats">
+      Checked in
+    </div>
+    <div flex="15" style="font-weight: bold" ng-if="!options.stats">
+      Total
+    </div>
+    <div flex="20" style="font-weight: bold" ng-if="options.stats">
+      Unconfirmed
+    </div>
+    <div flex="20" style="font-weight: bold" ng-if="options.stats">
+      Total
+    </div>
+    <div flex="10" style="font-weight: bold" ng-if="!options.stats">
       Capacity
     </div>
   </div>
@@ -35,23 +41,32 @@
     <md-list-item ng-repeat="instance in lists">
       <div layout="row" flex style="background-color: white">
 
-        <div flex="30">
+        <div flex="25">
           <p>{{instance.title}}</p>
         </div>
 
-        <div flex="20" ng-if="options.stats">
-          <p>{{getActualGuests(instance)}}/{{getglistTotal(instance)}}</p>
-        </div>
-
-        <div flex="20" ng-if="!options.stats">
-          <p>{{getglistTotal(instance)}}</p>
-        </div>
-
-        <div flex="20">
+        <div flex="15">
           <p>{{instance.listType}}</p>
         </div>
 
-        <div flex="10" style="padding-left:10px">
+        <div flex="15" ng-if="!options.stats">
+          <p>{{getglistTotal(instance)}}</p>
+        </div>
+
+        <div flex="15" ng-if="options.stats">
+          <p>{{getActualGuests(instance)}}</p>
+        </div>
+
+        <div flex="20" ng-if="options.stats">
+          <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
+
+        </div>
+
+        <div flex="20" ng-if="options.stats">
+          <p>{{getglistTotal(instance)}}</p>
+        </div>
+
+        <div flex="10" style="padding-left:10px" ng-if="!options.stats">
           <md-input-container style="padding-bottom: 0">
             <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly"
                    type="number" min="0" step="1">
