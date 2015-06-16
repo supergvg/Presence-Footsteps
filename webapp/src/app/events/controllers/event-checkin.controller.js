@@ -53,8 +53,8 @@ angular.module('gliist')
         columnDefs: [
           {field: 'guest.firstName', name: 'First Name', enableHiding: false},
           {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
-          {field: 'guest.email', name: 'Email', enableHiding: false},
-          {field: 'guest.type', name: 'Type', enableSorting: true, enableHiding: false, width: 60},
+          {field: 'guest.email', name: 'Email', enableHiding: false, width: 300},
+          {field: 'guest.type', name: 'Type', enableSorting: true, enableHiding: false, width: 80},
           {field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false, enableHiding: false},
           {field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 60},
           {
@@ -72,7 +72,7 @@ angular.module('gliist')
         data: []
       };
 
-      $scope.$watch('guestFilter', function (newValue) {
+      $scope.$watchCollection('guestFilter', function (newValue) {
 
           if (!newValue) {
             return;
@@ -101,17 +101,25 @@ angular.module('gliist')
                 checkin.guest.type = gl.listType;
               }
 
-              var guestPending = $scope.guestPending(checkin);
-
-              if (filter === 'checked' && !guestPending) {
-                $scope.gridOptions.data.push(checkin);
+              var passedNameFilter = true;
+              if (filter.name) {
+                if (checkin.guest.firstName.toLowerCase().indexOf(filter.name.toLowerCase()) === -1 &&
+                  checkin.guest.lastName.toLowerCase().indexOf(filter.name.toLowerCase()) === -1) {
+                  passedNameFilter = false;
+                }
               }
+              if (passedNameFilter) {
+                var guestPending = $scope.guestPending(checkin);
 
-              if (filter === 'pending' && guestPending) {
-                $scope.gridOptions.data.push(checkin);
+                if (filter.status === 'checked' && !guestPending) {
+                  $scope.gridOptions.data.push(checkin);
+                }
 
+                if (filter.status === 'pending' && guestPending) {
+                  $scope.gridOptions.data.push(checkin);
+
+                }
               }
-
             }
           );
         });
@@ -122,7 +130,7 @@ angular.module('gliist')
       $scope.init = function () {
         var eventId = $stateParams.eventId;
 
-        $scope.guestFilter = 'pending';
+        $scope.guestFilter = {status: 'pending'};
 
         $scope.initializing = true;
 
@@ -146,5 +154,4 @@ angular.module('gliist')
       $scope.init();
 
     }
-  ])
-;
+  ]);

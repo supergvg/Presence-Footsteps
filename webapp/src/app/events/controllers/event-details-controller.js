@@ -1,6 +1,6 @@
 angular.module('gliist')
-  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$state',
-    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state) {
+  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$state', '$timeout',
+    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state, $timeout) {
       'use strict';
 
       $scope.eventCategories = [
@@ -188,7 +188,7 @@ angular.module('gliist')
 
       $scope.next = function (form) {
 
-        if ($scope.data.selectedIndex == 0) {
+        if ($scope.data.selectedIndex == 0 || $scope.data.selectedIndex == 2) {
 
           if (form && form.$invalid | !$scope.timeValid()) {
             $scope.showValidation = true;
@@ -198,9 +198,9 @@ angular.module('gliist')
           eventsService.createEvent($scope.event).then(
             function (res) {
               $scope.event.id = res.id;
-              $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+              $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 3);
               $scope.event.invitePicture = res.invitePicture;
-              dialogService.success('Event ' + res.title + ' created');
+              dialogService.success('Event ' + res.title + ' saved');
 
             }, function () {
               dialogService.error('There was a problem saving your event, please try again');
@@ -214,7 +214,7 @@ angular.module('gliist')
           return;
         }
 
-        $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2);
+        $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 3);
       };
       $scope.previous = function () {
         $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
@@ -245,7 +245,7 @@ angular.module('gliist')
         eventsService.createEvent($scope.event).then(
           function (res) {
             $scope.event.id = res.id;
-            dialogService.success('Event ' + res.title + 'created');
+            dialogService.success('Event ' + res.title + 'saved');
 
           }, function () {
             dialogService.error('There was a problem saving your event, please try again');
@@ -257,6 +257,37 @@ angular.module('gliist')
         )
       };
 
+      $scope.previewOptions = {hideEdit: true};
+
+      $scope.location = {};
+
+      $scope.minDate = Date.now();
+
+      $scope.endMinDate = function () {
+        return $scope.event.time || $scope.minDate;
+      };
+
+      $scope.resetPlaceholder = function () {
+
+        if (!$("input[placeholder='Enter a location']").length) {
+          $timeout($scope.resetPlaceholder, 100);
+          return;
+        }
+
+        $("input[placeholder='Enter a location']").attr('placeholder', '');
+      };
+
+      $scope.$watch('location.details', function (newValue) {
+        if (!newValue) {
+          return;
+        }
+
+        $scope.event.timeZone = newValue.tz;
+      });
+
+      $scope.gliOptions = {
+        showSummary: true
+      };
 
       $scope.init = function () {
 

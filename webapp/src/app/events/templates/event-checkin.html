@@ -1,28 +1,36 @@
 <div>
 
-  <div layout="row" layout-wrap style="margin-bottom: 8px">
-    <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
-      <h3 style="padding-left: 10px">Check In Guests</h3>
+    <div layout="row" layout-wrap style="margin-bottom: 8px">
+        <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
+            <h3 style="padding-left: 10px">Check In Guests</h3>
+        </div>
     </div>
-  </div>
 
-  <div ng-show="initializing">
-    <h4>Loading Event...</h4>
+    <div ng-show="initializing">
+        <h4>Loading Event...</h4>
         <span>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate">
 
         </md-progress-circular>
             </span>
-  </div>
-  <div style="margin-top:30px;" ng-show="!initializing">
-    <md-radio-group ng-model="guestFilter">
-      <md-radio-button value="pending" class="md-primary">Pending</md-radio-button>
-      <md-radio-button value="checked" class="md-primary">Checked</md-radio-button>
-    </md-radio-group>
-
-    <div style="margin-top: 20px;">
-      <div ui-grid="gridOptions" style="height:400px;width: 100%" ui-grid-auto-resize></div>
     </div>
-  </div>
+    <div style="margin-top:30px;" ng-show="!initializing">
+
+        <div>
+            <md-input-container style="padding-bottom: 0!important;">
+                <label>Search Guest</label>
+                <input ng-model="guestFilter.name">
+            </md-input-container>
+        </div>
+
+        <md-radio-group ng-model="guestFilter.status">
+            <md-radio-button value="pending" class="md-primary">Pending</md-radio-button>
+            <md-radio-button value="checked" class="md-primary">Checked</md-radio-button>
+        </md-radio-group>
+
+        <div style="margin-top: 20px;">
+            <div ui-grid="gridOptions" style="height:400px;width: 100%" ui-grid-auto-resize></div>
+        </div>
+    </div>
 
 </div>

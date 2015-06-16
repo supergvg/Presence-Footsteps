@@ -11,7 +11,7 @@ angular.module('gliist', [
     'ngMdIcons',
     'angularFileUpload',
     'googlechart',
-    'google.places',
+    'ngAutocomplete',
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
     'ui.grid',
@@ -153,7 +153,7 @@ angular.module('gliist', [
                     controller: 'WelcomeController'
                 });
 
-            $urlRouterProvider.otherwise('/main.welcome');
+            $urlRouterProvider.otherwise('/main/welcome');
         }])
     .run(['$rootScope', '$state', 'userService', '$timeout',
         function ($rootScope, $state, userService, $timeout) {

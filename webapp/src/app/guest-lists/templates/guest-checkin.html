@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div ng-show="initializing">
+  <div ng-show="fetchingData">
     <h4>Loading...</h4>
         <span>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate">
@@ -16,8 +16,7 @@
             </span>
   </div>
 
-  <div ng-hide="initializing">
-
+  <div ng-hide="fetchingData">
     <div flex layout="column" layout-align="center center" style="margin-top: 30px">
 
       <div flex>
@@ -27,26 +26,51 @@
         <h3>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</h3>
       </div>
       <div flex>
-        {{guestCheckin.guest.plus + 1 - maxCheckin}}/{{guestCheckin.guest.plus + 1}} Checked
-        in
+        <h3>{{guestListInstance.listType}}</h3>
       </div>
       <div flex>
-        <md-input-container flex style="font-size: 30px">
-          <label style="text-align: center">Guests</label>
-          <input name="capacity" ng-model="guestCheckin.plus" type="number" min="1"
-                 max="{{maxCheckin}}"
-                 step="1">
-        </md-input-container>
+        <h3>{{guestCheckin.guest.type}}</h3>
       </div>
-      <div flex ng-show="maxCheckin >0">
-        <md-button class="md-primary md-raised" ng-click="checkGuest()" ng-disabled="guestCheckin.plus == 0 ">check in
+      <div flex>
+        {{(guestCheckin.guest.plus - maxGuests) + guestChecked}} / {{guestCheckin.guest.plus + 1}} Checked
+      </div>
+      <div flex layout="row" style="width: 200px" ng-show="!isCheckinDisabled()" ng-cloak>
+        <div flex="30">
+
+          <md-button class="md-primary md-raised" style="width: 50px" ng-click="subtractGuestCount()">
+            -
+          </md-button>
+        </div>
+        <div flex="40" style="text-align: center">
+
+          <h3 style="text-align: center" ng-if="isCheckinDisabled()"> {{guestCheckin.plus}}</h3>
+
+          <h3 style="text-align: center;margin-top: 9px;" ng-if="!isCheckinDisabled()"> {{guestCheckin.plus +
+            + isNotChecked(guestCheckin)}}</h3>
+
+
+        </div>
+        <div flex="30">
+          <md-button class="md-primary md-raised" style="width: 50px" ng-click="addGuestCount()">
+            +
+          </md-button>
+        </div>
+      </div>
+      <div flex ng-show="!isCheckinDisabled()">
+        <md-button class="md-primary md-raised" ng-click="checkIn()">
+          check in
         </md-button>
 
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData">
         </md-progress-circular>
       </div>
-      <div flex ng-show="!maxCheckin">
+      <div flex ng-show="isCheckinDisabled()">
         <h3>Guest Checked in</h3>
+      </div>
+      <div flex style="margin-top: 50px;">
+        <md-button class="md-primary md-raised" ng-click="back()">
+          Back
+        </md-button>
       </div>
     </div>
   </div>
