@@ -89,8 +89,24 @@ namespace gliist_server.Controllers
 
                 foreach (var checkin in guestListInstance.actual)
                 {
-                    db.Entry(checkin).State = EntityState.Modified;
-                    db.Entry(checkin.guest).State = EntityState.Modified;
+
+                    if (checkin.id > 0)
+                    {
+                        db.Entry(checkin).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Entry(checkin).State = EntityState.Added;
+
+                    }
+                    if (checkin.guest.id > 0)
+                    {
+                        db.Entry(checkin.guest).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Entry(checkin.guest).State = EntityState.Added;
+                    }
                 }
             }
             else

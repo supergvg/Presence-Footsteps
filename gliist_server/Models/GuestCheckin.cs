@@ -13,7 +13,7 @@ namespace gliist_server.Models
         [JsonIgnore]
         public virtual GuestListInstance guestList { get; set; }
 
-        public int gl_id { get { return guestList.id; } }
+        public int gl_id { get { return guestList != null ? guestList.id : -1; } }
 
         public virtual Guest guest { get; set; }
 
