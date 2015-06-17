@@ -81,20 +81,16 @@ angular.module('gliist')
         }
 
         var guestsIds = _.map(selectedRows, function (row) {
-          return row.id;
+          return row.guest.id;
         });
 
         $scope.isDirty = true;
 
         $scope.fetchingData = true;
 
-        eventsService.removeGuestsFromGL($scope.gli.id, guestsIds).then(
-          function () {
-            $scope.gli.guests = _.reject($scope.gli.guests, function (row) {
-              return _.find(selectedRows, function (sr) {
-                return sr.id === row.id;
-              });
-            });
+        eventsService.removeGuestsFromGLInstance($scope.gli.id, guestsIds).then(
+          function (gli) {
+            $scope.gli = gli;
           }
         ).finally(function () {
             $scope.fetchingData = false;
@@ -164,16 +160,20 @@ angular.module('gliist')
           $scope.gli = {};
         }
 
-        if (!$scope.gli.guests) {
-          $scope.gli.guests = [];
+        if (!$scope.gli.actual) {
+          $scope.gli.actual = [];
         }
 
-        $scope.gli.guests.push({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phoneNumber: '',
-          plus: 0
+        $scope.gli.actual.push({
+          gl_id: $scope.gli.id,
+          status: 'no show',
+          guest: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            plus: 0
+          }
         });
       };
 

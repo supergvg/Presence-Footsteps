@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$stateParams', '$state',
-    function ($scope, $mdDialog, eventsService, dialogService, $stateParams, $state) {
+  .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$stateParams', '$state', '$timeout',
+    function ($scope, $mdDialog, eventsService, dialogService, $stateParams, $state, $timeout) {
 
 
       $scope.cssStyle = "height:400px; width:100%;";
@@ -15,7 +15,10 @@ angular.module('gliist')
         {name: 'Artist', color: '#9369E9'},
         {name: 'Production', color: '#EA69D0'},
         {name: 'Comp', color: '#35A9A9'},
-        {name: 'Others', color: '#3FBEE1'}
+        {name: 'Others', color: '#3FBEE1'},
+        {name: 'Super VIP', color: '#42E19E'},
+        {name: 'All Access', color: '#9369E9'},
+        {name: 'Press', color: '#EA69D0'}
       ];
 
       $scope.getCategoryStatus = function (category) {
@@ -117,9 +120,9 @@ angular.module('gliist')
           });
         });
 
-        angular.forEach(event.guestLists, function (gl) {
-
-        });
+        $timeout(function () {
+          $("text:contains(" + $scope.chartObject.options.title + ")").attr({'x': '20'});
+        }, 1000);
 
       };
 

@@ -14,7 +14,7 @@
 
 
   <div layout="row" ng-show="lists.length > 0" style="color:#8E8E8E;padding-top: 30px">
-    <div flex="25" style="font-weight: bold">
+    <div flex="25" style="font-weight: bold;padding-left: 16px">
       Title
     </div>
     <div flex="15" style="font-weight: bold">
@@ -26,10 +26,10 @@
     <div flex="15" style="font-weight: bold" ng-if="!options.stats">
       Total
     </div>
-    <div flex="20" style="font-weight: bold" ng-if="options.stats">
+    <div flex="15" style="font-weight: bold" ng-if="options.stats">
       Unconfirmed
     </div>
-    <div flex="20" style="font-weight: bold" ng-if="options.stats">
+    <div flex="15" style="font-weight: bold;margin-left: -10px!important" ng-if="options.stats">
       Total
     </div>
     <div flex="10" style="font-weight: bold" ng-if="!options.stats">
@@ -57,12 +57,12 @@
           <p>{{getActualGuests(instance)}}</p>
         </div>
 
-        <div flex="20" ng-if="options.stats">
+        <div flex="15" ng-if="options.stats">
           <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
 
         </div>
 
-        <div flex="20" ng-if="options.stats">
+        <div flex="15" ng-if="options.stats">
           <p>{{getglistTotal(instance)}}</p>
         </div>
 
