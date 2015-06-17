@@ -38,15 +38,26 @@ angular.module('gliist')
       };
 
       $scope.hide = function () {
-        $scope.user.username = null;
-        $scope.user.password = null;
-        $scope.user.confirmPassword = null;
+        $scope.user = {};
         $mdDialog.hide();
       };
       $scope.cancel = function () {
         $mdDialog.cancel();
       };
       $scope.invite = function () {
+
+        if (!$scope.user.username || !$scope.user.firstName || !$scope.user.lastName) {
+          $scope.errorMessage = 'Please Fill All Fields';
+          return;
+        }
+
+        $scope.errorMessage = null;
+        $scope.user.permissions = [];
+        angular.forEach($scope.selected, function (item) {
+          $scope.user.permissions.push(item.label);
+        });
+        $scope.user.permissions = $scope.user.permissions.join();
+
         $scope.fetchingData = true;
 
         userService.sendJoinRequest($scope.user).then(

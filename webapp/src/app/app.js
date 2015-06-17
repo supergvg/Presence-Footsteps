@@ -15,7 +15,80 @@ angular.module('gliist')
         if (!newValue) {
           return;
         }
+
+        if ($rootScope.isPromoter()) {
+          $scope.menuItems = [
+            {
+              title: 'Guest List Management',
+              ui_sref: 'main.list_management',
+              icon: {name: 'content_paste', style: "fill: white", size: 24}
+            },
+            {
+              title: 'Upcoming Events',
+              ui_sref: 'main.current_events',
+              icon: {name: 'today', style: "fill: white", size: 24}
+            },
+            {
+              title: 'Events Statistics',
+              ui_sref: 'main.stats',
+              icon: {name: 'insert_chart', style: "fill: white", size: 24}
+            },
+            {
+              title: 'User Profile',
+              ui_sref: 'main.user',
+              icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+            }
+          ];
+        } else {
+          $scope.menuItems = [
+            {
+              title: 'Guest List Management',
+              ui_sref: 'main.list_management',
+              icon: {name: 'content_paste', style: "fill: white", size: 24}
+            },
+            {
+              title: 'Create Event',
+              ui_sref: 'main.create_event',
+              icon: {name: 'add_circle', style: "fill: white", size: 24}
+            },
+            {
+              title: 'Upcoming Events',
+              ui_sref: 'main.current_events',
+              icon: {name: 'today', style: "fill: white", size: 24}
+            },
+            {
+              title: 'Events Statistics',
+              ui_sref: 'main.stats',
+              icon: {name: 'insert_chart', style: "fill: white", size: 24}
+            },
+            {
+              title: 'User Profile',
+              ui_sref: 'main.user',
+              icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+            }
+          ];
+        }
+
       });
+
+      $rootScope.isPromoter = function () {
+
+        if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
+          return;
+        }
+
+        return $rootScope.currentUser.permissions.indexOf('promoter') > -1;
+
+      };
+
+      $rootScope.isStaff = function () {
+        if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
+          return;
+        }
+
+        return $rootScope.currentUser.permissions.indexOf('staff') > -1;
+
+      };
 
       $scope.hidePhoto = false;
 
@@ -91,7 +164,7 @@ angular.module('gliist')
       };
 
       $scope.getBg = function () {
-        if ($state.current.abstract || $state.includes('home') || $state.includes('signup')) {
+        if ($state.current.abstract || $state.includes('home') || $state.includes('signup') || $state.includes('signup_invite')) {
           return 'logo-bg';
         }
       };

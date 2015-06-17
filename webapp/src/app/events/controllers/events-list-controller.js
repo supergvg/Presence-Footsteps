@@ -1,8 +1,12 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService',
-    function ($scope, $mdDialog, eventsService, dialogService) {
+  .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$rootScope',
+    function ($scope, $mdDialog, eventsService, dialogService, $rootScope) {
+
+      $scope.isPromoter = function () {
+        return $rootScope.isPromoter();
+      };
 
       $scope.getEventInvite = function (event) {
         return {

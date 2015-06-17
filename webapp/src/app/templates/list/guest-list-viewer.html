@@ -42,11 +42,12 @@
           </div>
         </div>
         <div layout="row" ng-cloak
-             style="position: absolute;right:0;top:0;height: 100%">
+             style="position: absolute;right:0;top:0;height: 100%" ng-hide="isStaff()">
           <div>
             <md-button class="logo-event-list-btn"
                        ui-sref="main.edit_glist({listId:{{glist.id}}})"
                        style="height: 48px;"
+                       ng-disabled="blockEdit(glist)"
                        ng-hide="options.readOnly">
               <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
             </md-button>
@@ -55,6 +56,7 @@
           <div>
             <md-button class="logo-event-list-btn" style="padding-left:5px;padding-right:5px;height: 48px;"
                        ng-click="deleteGlist($event,glist)"
+                       ng-disabled="blockEdit(glist)"
                        ng-hide="options.readOnly" flex>
               <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
             </md-button>

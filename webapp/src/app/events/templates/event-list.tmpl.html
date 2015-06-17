@@ -60,7 +60,7 @@
           </div>
 
           <div layout="column" style="height: 120px;">
-            <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
+            <md-button flex class="wht-event-list-btn" ng-disabled="isPromoter()" ng-hide="options.readyOnly"
                        ui-sref="main.event_summary({eventId:{{event.id}}})">
               <ng-md-icon icon="theaters" style="fill: #33aaaa" size="24"></ng-md-icon>
             </md-button>
@@ -79,7 +79,7 @@
               <ng-md-icon icon="mode_edit" style="fill: #33aaaa" size="24"></ng-md-icon>
             </md-button>
 
-            <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly"
+            <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly" ng-disabled="isPromoter()"
                        ng-click="deleteEvent($event,event)">
               <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
             </md-button>

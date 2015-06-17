@@ -1,6 +1,7 @@
 <div ng-init="init()">
-  <h3 class="md-headline">Manage Account</h3>
-
+  <div class="page-subtitle" style="margin-top: 15px;">
+    <h4>Manage Accounts</h4>
+  </div>
 
   <div ng-show="initializing">
     <h4>Loading...</h4>
@@ -10,7 +11,7 @@
   </div>
 
   <md-list style="padding-left: 5px" ng-hide="initializing" ng-cloak>
-    <md-list-item layout="row" style="border-bottom: #C9C9C9 solid;">
+    <md-list-item layout="row">
       <div flex="75">
         <p>Create new Account (Enter details for the users you would like to invite)</p>
       </div>
