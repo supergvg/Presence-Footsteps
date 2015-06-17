@@ -41,7 +41,7 @@ namespace gliist_server.Models
         [DataType(DataType.PhoneNumber)]
         public string phoneNumber { get; set; }
 
-        public string[] permissions { get; set; }
+        public string permissions { get; set; }
 
         public string city { get; set; }
 

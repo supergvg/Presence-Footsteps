@@ -105,25 +105,33 @@ namespace gliist_server.Controllers
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            var invite = new Invite()
-             {
-                 firstName = newUser.firstName,
-                 lastName = newUser.lastName,
-                 email = newUser.UserName,
-                 permissions = newUser.permissions,
-                 phoneNumber = newUser.phoneNumber,
 
-                 token = Guid.NewGuid().ToString(),
-
-             };
-
-
-            if (user.company.invitations.Any(i => string.Equals(i.email, newUser.UserName)))
+            var invite = user.company.invitations.FirstOrDefault(i => string.Equals(i.email, newUser.UserName));
+            if (invite == null)
             {
-                throw new ArgumentException();
-            };
+                invite = new Invite()
+                {
+                    firstName = newUser.firstName,
+                    lastName = newUser.lastName,
+                    email = newUser.UserName,
+                    permissions = newUser.permissions.ToLower(),
+                    phoneNumber = newUser.phoneNumber,
 
-            user.company.invitations.Add(invite);
+                    token = Guid.NewGuid().ToString(),
+
+                };
+
+                user.company.invitations.Add(invite);
+            }
+            else
+            {
+                _db.Entry(invite).State = EntityState.Modified;
+                invite.firstName = newUser.firstName;
+                invite.lastName = newUser.lastName;
+                invite.email = newUser.UserName;
+                invite.permissions = newUser.permissions.ToLower();
+                invite.phoneNumber = newUser.phoneNumber;
+            }
 
             EmailHelper.SendJoinRequest(newUser, user, invite);
 

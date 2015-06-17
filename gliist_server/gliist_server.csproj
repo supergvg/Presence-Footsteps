@@ -250,6 +250,18 @@
     <Compile Include="Migrations\201506072138397_Update_GL.Designer.cs">
       <DependentUpon>201506072138397_Update_GL.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506170721045_user_per.cs" />
+    <Compile Include="Migrations\201506170721045_user_per.Designer.cs">
+      <DependentUpon>201506170721045_user_per.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506170728068_invite_per.cs" />
+    <Compile Include="Migrations\201506170728068_invite_per.Designer.cs">
+      <DependentUpon>201506170728068_invite_per.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506170744041_update_per.cs" />
+    <Compile Include="Migrations\201506170744041_update_per.Designer.cs">
+      <DependentUpon>201506170744041_update_per.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -283,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ate\" />
     <Folder Include="Models\obj\" />
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Files\" />
@@ -303,6 +316,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506072138397_Update_GL.resx">
       <DependentUpon>201506072138397_Update_GL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506170721045_user_per.resx">
+      <DependentUpon>201506170721045_user_per.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506170728068_invite_per.resx">
+      <DependentUpon>201506170728068_invite_per.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506170744041_update_per.resx">
+      <DependentUpon>201506170744041_update_per.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

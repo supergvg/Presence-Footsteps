@@ -60,6 +60,19 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+
+            if (user.permissions.Contains("staff"))
+            {
+                return BadRequest("Invaid permissions");
+            }
+
+            if (user.permissions.Contains("promoter") && guestList.created_by.UserName != user.UserName)
+            {
+                return BadRequest("Invaid permissions");
+            }
+
             if (id != guestList.id)
             {
                 return BadRequest();
@@ -92,6 +105,11 @@ namespace gliist_server.Controllers
         {
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
+
+            if (user.permissions.Contains("staff"))
+            {
+                return BadRequest("Invaid permissions");
+            }
 
 
             GuestList existingGuestList;
@@ -162,11 +180,21 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
 
+            if (user.permissions.Contains("staff"))
+            {
+                return BadRequest("Invaid permissions");
+            }
+
             GuestList guestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefault();
 
             if (guestList == null)
             {
                 return NotFound();
+            }
+
+            if (user.permissions.Contains("promoter") && guestList.created_by.UserName != user.UserName)
+            {
+                return BadRequest("Invaid permissions");
             }
 
             guestList.isDeleted = true;

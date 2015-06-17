@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -22,7 +23,7 @@ namespace gliist_server.Models
 
         public string token { get; set; }
 
-        public string[] permissions { get; set; }
+        public string permissions { get; set; }
 
         public DateTimeOffset? acceptedAt { get; set; }
 

@@ -85,6 +85,12 @@ namespace gliist_server.Controllers
             }
 
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
+            if (user.permissions.Contains("promoter"))
+            {
+                return BadRequest("Invaid permissions");
+            }
 
             db.Entry(@event).State = EntityState.Modified;
 
@@ -118,6 +124,11 @@ namespace gliist_server.Controllers
 
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
+
+            if (user.permissions.Contains("promoter"))
+            {
+                return BadRequest("Invaid permissions");
+            }
 
             @event.company = user.company;
 

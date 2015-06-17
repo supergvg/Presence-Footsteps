@@ -323,6 +323,12 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             UserModel user = UserManager.FindById(userId);
 
+            if (user.permissions.Contains("promoter"))
+            {
+                return BadRequest("Invaid permissions");
+            }
+
+
             Event @event = await db.Events.FindAsync(eventId);
             if (@event == null)
             {
