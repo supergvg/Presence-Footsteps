@@ -16,6 +16,7 @@
                    height: 30px;
                    width: 30px;
                    margin:0"
+                   ng-disabled="isPromoter()"
                    ng-class="getSelected(0)"
                    ng-click="data.selectedIndex = 0">
         </md-button>
@@ -44,7 +45,7 @@
                             height: 30px;
                             width: 30px;
                             margin:0"
-                   ng-disabled="!event.id"
+                   ng-disabled="!event.id || isPromoter()"
                    ng-class="getSelected(1)"
                    ng-click="data.selectedIndex = 1">
         </md-button>
@@ -99,7 +100,7 @@
                    height: 30px;
                    width: 30px;
                     margin:0;"
-                   ng-disabled="!event.id"
+                   ng-disabled="!event.id || isPromoter()"
                    ng-class="getSelected(3)"
                    ng-click="data.selectedIndex = 3">
         </md-button>
@@ -280,7 +281,7 @@
       <div layout="row" layout-align="end center" style="margin-top: 10px;">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                               ng-show="savingEvent"></md-progress-circular>
-        <md-button class="md-primary md-raised" ng-click="next(eventForm)">
+        <md-button class="md-primary md-raised" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
           Next
         </md-button>
       </div>

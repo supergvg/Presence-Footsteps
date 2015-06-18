@@ -1,7 +1,16 @@
 angular.module('gliist')
-  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$state', '$timeout',
-    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state, $timeout) {
+  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$state', '$timeout', '$rootScope',
+    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state, $timeout, $rootScope) {
       'use strict';
+
+
+      $scope.isStaff = function () {
+        return $rootScope.isStaff();
+      };
+
+      $scope.isPromoter = function () {
+        return $rootScope.isPromoter();
+      };
 
       $scope.eventCategories = [
         'Art',
@@ -290,6 +299,10 @@ angular.module('gliist')
       };
 
       $scope.init = function () {
+
+        if ($scope.isPromoter()) {
+          $scope.data.selectedIndex = 2;
+        }
 
         if ($scope.event) {
           return;

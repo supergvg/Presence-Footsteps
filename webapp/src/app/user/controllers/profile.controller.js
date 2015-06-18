@@ -10,7 +10,7 @@ angular.module('gliist')
       });
 
       $scope.data = {
-        selectedIndex: 0
+        selectedIndex: 1
       };
 
       $scope.displayErrorMessage = function (field) {
