@@ -1,7 +1,6 @@
 <md-dialog>
   <md-dialog-content>
     <div>
-
       <div layout="row" layout-wrap style="margin-bottom: 8px">
         <div flex style="background-color: #8E8E8E;color:white;margin:-8px">
           <h3 style="padding-left: 10px">Invite Information</h3>
@@ -13,22 +12,22 @@
           <div layout layout-sm="column">
             <md-input-container flex>
               <label>First Name</label>
-              <input ng-model="user.firstName">
+              <input ng-model="linked_account_in_edit.firstName">
             </md-input-container>
             <md-input-container flex>
               <label>Last Name</label>
-              <input ng-model="user.lastName">
+              <input ng-model="linked_account_in_edit.lastName">
             </md-input-container>
           </div>
 
           <div layout layout-sm="column">
             <md-input-container flex>
               <label>Email</label>
-              <input ng-model="user.username">
+              <input ng-model="linked_account_in_edit.UserName" ng-disabled="linked_account_in_edit.Id">
             </md-input-container>
             <md-input-container flex>
               <label>Phone Number</label>
-              <input ng-model="user.phoneNumber" type="tel">
+              <input ng-model="linked_account_in_edit.phoneNumber" type="tel">
             </md-input-container>
           </div>
         </form>
@@ -67,13 +66,15 @@
         {{errorMessage}}
       </div>
     </div>
-
     <div class="md-actions" layout="row">
       <md-button ng-click="cancel()">
         Cancel
       </md-button>
-      <md-button ng-click="invite()" class="md-primary">
+      <md-button ng-click="invite()" class="md-primary" ng-if="!linked_account_in_edit.Id">
         Invite
+      </md-button>
+      <md-button ng-click="update()" class="md-primary" ng-if="linked_account_in_edit.Id">
+        Update
       </md-button>
       <div ng-if="fetchingData">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
