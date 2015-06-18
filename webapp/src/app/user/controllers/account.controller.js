@@ -5,6 +5,16 @@ angular.module('gliist')
     function ($scope, $mdDialog, userService, dialogService, $state) {
 
 
+
+      $scope.isStaff = function () {
+        return $rootScope.isStaff();
+      };
+
+      $scope.isPromoter = function () {
+        return $rootScope.isPromoter();
+      };
+
+
       $scope.linkNewAccount = function (ev) {
         var scope = $scope.$new();
 
