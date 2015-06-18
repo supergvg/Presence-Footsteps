@@ -142,6 +142,49 @@ namespace gliist_server.Controllers
 
 
         // GET api/Account/CompanyInfo
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("UpdateCompanyUser")]
+        public async Task<IHttpActionResult> PutUpdateCompanyUser(UserModel newUser)
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            if (string.IsNullOrEmpty(newUser.Id))
+            {
+                return BadRequest("Invalid User");
+
+            }
+
+            if (user.permissions != null && (user.permissions.Contains("staff") || user.permissions.Contains("promoter")))
+            {
+                return BadRequest("Invaid permissions");
+            }
+
+
+            var user_to_update = await UserManager.FindByIdAsync(newUser.Id);
+
+            user_to_update.firstName = newUser.firstName;
+            user_to_update.lastName = newUser.lastName;
+            user_to_update.phoneNumber = newUser.phoneNumber;
+            user_to_update.permissions = newUser.permissions.ToLower();
+
+            _db.Entry(user_to_update).State = EntityState.Modified;
+
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+
+
+        // GET api/Account/CompanyInfo
         [Route("CreateUserByAccount")]
         [AllowAnonymous]
         [HttpPost]
@@ -284,6 +327,7 @@ namespace gliist_server.Controllers
             user.profilePicture = profilePicImage.Item1;
 
             _db.Entry(user).State = EntityState.Modified;
+
 
             try
             {
