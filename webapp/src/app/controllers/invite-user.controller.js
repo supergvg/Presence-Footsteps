@@ -100,7 +100,7 @@ angular.module('gliist')
 
       $scope.invite = function () {
 
-        if (!$scope.linked_account_in_edit.username || !$scope.linked_account_in_edit.firstName || !$scope.linked_account_in_edit.lastName) {
+        if (!$scope.linked_account_in_edit.UserName || !$scope.linked_account_in_edit.firstName || !$scope.linked_account_in_edit.lastName) {
           $scope.errorMessage = 'Please Fill All Fields';
           return;
         }
@@ -118,8 +118,12 @@ angular.module('gliist')
           function () {
             $mdDialog.hide();
           },
-          function () {
-            dialogService.error('Oops there was a problem sending invite please try again')
+          function (err) {
+            if (err) {
+              dialogService.error(err.ExceptionMessage);
+            } else {
+              dialogService.error('Oops there was a problem sending invite please try again')
+            }
           }
         ).finally(
           function () {

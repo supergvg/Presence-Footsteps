@@ -53,8 +53,8 @@ angular.module('gliist').factory('eventsService', [ '$rootScope', '$http', '$q',
                     }
                 }).success(function (data) {
                     d.resolve(data);
-                }).error(function () {
-                    d.reject('Oops there was an error trying check in guest, please try again');
+                }).error(function (err) {
+                    d.reject(err);
                 });
 
                 return d.promise;

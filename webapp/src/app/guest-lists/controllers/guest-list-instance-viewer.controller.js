@@ -13,7 +13,7 @@ angular.module('gliist')
 
         angular.forEach(glist.actual,
           function (guest_info) {
-            total += guest_info.plus + 1;
+            total += guest_info.guest.plus + 1;
           });
 
         return total;
