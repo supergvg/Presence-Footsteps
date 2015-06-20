@@ -57,17 +57,18 @@
         </div>
       </div>
       <div flex ng-show="!isCheckinDisabled()">
-        <md-button class="md-primary md-raised" ng-click="checkIn()">
+        <md-button class="md-primary md-raised" ng-click="checkIn()" ng-disabled="checkingGuest">
           check in
         </md-button>
-
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData">
+        <div style="height: 50px">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="checkingGuest">
         </md-progress-circular>
+        </div>
       </div>
       <div flex ng-show="isCheckinDisabled()">
         <h3>Guest Checked in</h3>
       </div>
-      <div flex style="margin-top: 50px;">
+      <div flex style="margin-top-top:50px;">
         <md-button class="md-primary md-raised" ng-click="back()">
           Back
         </md-button>

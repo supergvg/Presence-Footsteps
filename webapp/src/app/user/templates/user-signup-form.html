@@ -64,7 +64,7 @@
             </md-input-container>
         </div>
         <div layout layout-sm="column">
-            <md-input-container flex>
+            <md-input-container flex ng-if="!options.inviteMode">
                 <label style="margin-left: 38%">Invite Code</label>
                 <input name="inviteCode" class="rounded" type="text" ng-model="user.inviteCode" required>
 

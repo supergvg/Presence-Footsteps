@@ -86,6 +86,22 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
       },
 
 
+      deleteUser: function (userName) {
+        var deferred = $q.defer(),
+          url = 'api/Account/DeleteRegisterByInvite';
+        $http({
+          method: 'DELETE',
+          url: url,
+          params: userName
+        }).success(function (data) {
+          deferred.resolve(data);
+        }).error(function (data) {
+          deferred.reject(data);
+        });
+
+        return deferred.promise;
+      },
+
       sendJoinRequest: function (user) {
 
         var deferred = $q.defer(),

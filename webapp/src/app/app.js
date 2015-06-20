@@ -81,6 +81,16 @@ angular.module('gliist')
 
       };
 
+      $rootScope.isAdmin = function () {
+
+        if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
+          return;
+        }
+
+        return $rootScope.currentUser.permissions.indexOf('admin') > -1;
+
+      };
+
       $rootScope.isStaff = function () {
         if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
           return;

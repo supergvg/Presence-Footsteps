@@ -7,7 +7,7 @@ angular.module('gliist').factory('dialogService', [ '$mdToast',
                     $mdToast.simple()
                         .content(err)
                         .position('right')
-                        .hideDelay(3000)
+                        .hideDelay(10000)
                 );
             },
 

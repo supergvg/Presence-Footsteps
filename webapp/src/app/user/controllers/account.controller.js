@@ -5,6 +5,15 @@ angular.module('gliist')
     function ($scope, $mdDialog, userService, dialogService, $state) {
 
 
+      $scope.isStaff = function () {
+        return $rootScope.isStaff();
+      };
+
+      $scope.isPromoter = function () {
+        return $rootScope.isPromoter();
+      };
+
+
       $scope.linkNewAccount = function (ev) {
         var scope = $scope.$new();
 
@@ -26,6 +35,33 @@ angular.module('gliist')
           templateUrl: 'app/user/templates/link-account-dialog.html',
           targetEvent: ev
         });
+
+      };
+
+      $scope.deleteUser = function (ev, user) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+          .title('Are you sure you want to publish the user?')
+          .content('User data will be lost')
+          .ariaLabel('Lucky day')
+          .ok('Yes')
+          .cancel('No')
+          .targetEvent(ev);
+        $mdDialog.show(confirm).then(function () {
+
+          userService.deleteUser({userName: user.UserName}).then(
+            function () {
+              $scope.refresh();
+            },
+            function (err) {
+              dialogService.error(err);
+            }
+          );
+
+        }, function () {
+          dialogService.error('Please try again');
+        });
+
 
       };
 

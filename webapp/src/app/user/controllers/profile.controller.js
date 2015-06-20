@@ -10,7 +10,7 @@ angular.module('gliist')
       });
 
       $scope.data = {
-        selectedIndex: 1
+        selectedIndex: 0
       };
 
       $scope.displayErrorMessage = function (field) {
@@ -33,7 +33,7 @@ angular.module('gliist')
 
         userService.updateUserProfile($scope.currentUser).then(
           function () {
-            dialogService.success('Changes saved');
+            dialogService.success('Changes Saved');
           },
           function (err) {
             dialogService.error(err);

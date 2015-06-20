@@ -47,7 +47,12 @@
             </div>
           </div>
 
-          <md-button class="md-primary md-raised" ng-click="editUser($event,user)"
+
+          <md-button class="md-primary md-raised" ng-click="deleteUser($event,user)" flex="10"
+                     ng-hide="options.readOnly" ng-cloak>
+            <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised" ng-click="editUser($event,user)" flex="10"
                      ng-hide="options.readOnly" ng-cloak>
             <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
           </md-button>
