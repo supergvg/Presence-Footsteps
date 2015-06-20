@@ -16,7 +16,6 @@ angular.module('gliist')
           $scope.hide();
           $state.go('main.welcome');
         }, function (err) {
-          dialogService.error(JSON.stringify(err));
           dialogService.error('There was a problem signing up, please try again');
         }).
           finally(
