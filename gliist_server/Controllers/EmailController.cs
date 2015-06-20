@@ -22,25 +22,7 @@ namespace gliist_server.Controllers
         private EventDBContext db = new EventDBContext();
         private UserManager<UserModel> UserManager;
 
-        [ResponseType(typeof(void))]
-        [HttpPost]
-        [Route("SendEmail")]
-        public async Task<IHttpActionResult> SendEmail()
-        {
-            var userId = User.Identity.GetUserId();
-
-            UserModel user = UserManager.FindById(userId);
-
-
-
-            EmailHelper.SendWelcomeEmail("erank3@gmail.com", "http://www.gliist.com", user.UserName, "http://www.gliist.com");
-            EmailHelper.SendWelcomeEmail("bisousjocelyn@gmail.com", "http://www.gliist.com", user.UserName, "http://www.gliist.com");
-
-
-
-            return StatusCode(HttpStatusCode.Accepted);
-        }
-
+   
         public EmailController()
         {
             UserManager = Startup.UserManagerFactory(db);

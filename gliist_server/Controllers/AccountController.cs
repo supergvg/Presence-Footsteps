@@ -28,6 +28,7 @@ using System.Drawing.Imaging;
 using System.Web.Http.Description;
 using Newtonsoft.Json.Linq;
 using gliist_server.Helpers;
+using System.Web.Security;
 
 namespace gliist_server.Controllers
 {
@@ -104,6 +105,13 @@ namespace gliist_server.Controllers
         public async Task<Company> PostInviteUser(UserModel newUser)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            var existingUser = _db.Users.FirstOrDefault(u => newUser.UserName == u.UserName);
+
+            if (existingUser != null)
+            {
+                throw new ArgumentException("User Already Registered");
+            }
 
 
             var invite = user.company.invitations.FirstOrDefault(i => string.Equals(i.email, newUser.UserName));
@@ -235,6 +243,38 @@ namespace gliist_server.Controllers
             }
 
             EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com");
+            return Ok();
+        }
+
+        // GET api/Account/CompanyInfo
+        [Route("DeleteRegisterByInvite")]
+        [AllowAnonymous]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteRegisterByInvite(string userName)
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            if (!user.permissions.Contains("admin"))
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var to_delete = _db.Users.SingleOrDefault(u => u.UserName == userName);
+            to_delete.company.users.Remove(to_delete);
+
+            _db.Entry(to_delete).State = EntityState.Modified;
+
+
+            await _db.SaveChangesAsync();
+            if (!Membership.DeleteUser(userName))
+            {
+                return BadRequest();
+            }
+
             return Ok();
         }
 
@@ -628,7 +668,8 @@ namespace gliist_server.Controllers
                 UserName = model.UserName,
                 firstName = model.firstName,
                 lastName = model.lastName,
-                company = compnay
+                company = compnay,
+                permissions = "admin"
             };
 
             compnay.users.Add(user);

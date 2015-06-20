@@ -14,6 +14,36 @@ namespace gliist_server.Helpers
     {
         public const string ON_THE_SPOT_GL = "On the spot";
 
+
+
+        public static int GetEventTotalCheckedin(Event @event)
+        {
+            var total = 0;
+
+            foreach (var gli in @event.guestLists)
+            {
+                total += GuestHelper.GetGuestListTotalCheckedin(gli);
+            }
+
+            return total;
+        }
+
+        public static int GetGuestListTotalCheckedin(GuestListInstance gli)
+        {
+            var total = 0;
+            foreach (var chckin in gli.actual)
+            {
+                if (chckin.status == "no show")
+                {
+                    continue;
+                }
+
+                total += (chckin.guest.plus - chckin.plus) + 1;
+            }
+
+            return total;
+        }
+
         public static GuestListInstance AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
         {
             var @event = db.Events.Single(e => e.id == eventId);

@@ -301,14 +301,98 @@ namespace gliist_server.Controllers
                 return BadRequest();
             }
 
+            var totalChk = checkinData.plus;
+            if (checkin.status == "no show")
+            {
+                totalChk++;
+            }
+
+            //Guset Capacity
             if (checkin.plus < checkinData.plus || (checkin.status == "checked in" && checkin.plus == 0))
             {
-                throw new ArgumentException("guest exceeded maximoum plus");
+                throw new ArgumentException("guest exceeded capacity");
             }
+
+            //GL max capacity 
+            if (gli.capacity > 0 && GuestHelper.GetGuestListTotalCheckedin(gli) + totalChk > gli.capacity)
+            {
+                throw new ArgumentException("guest list exceeded capacity");
+            }
+
+
+            //event max capacity
+            if (gli.linked_event.capacity > 0 && GuestHelper.GetEventTotalCheckedin(gli.linked_event) + totalChk > gli.linked_event.capacity)
+            {
+                throw new ArgumentException("event exceeded capacity");
+            }
+
 
             checkin.time = DateTimeOffset.Now;
             checkin.plus = checkin.plus - checkinData.plus;
             checkin.status = "checked in";
+
+
+            if (string.Compare(gli.listType, "artist", true) > -1 || string.Compare(guest.type, "artist", true) > -1)
+            {
+                Notification notification = new Notification()
+                {
+                    company = user.company,
+                    message = string.Format("Artist {0} {1} checked in to event {2}", guest.firstName, guest.lastName, gli.linked_event.title),
+                    originator = user,
+                    guest = guest,
+                    @event = gli.linked_event,
+                    gli = gli
+                };
+
+
+                db.Notifications.Add(notification);
+            }
+            if (string.Compare(guest.type, "super vip", true) > -1 || string.Compare(gli.listType, "super vip", true) > -1)
+            {
+                Notification notification = new Notification()
+                {
+                    company = user.company,
+                    message = string.Format("Super VIP {0} {1} checked in to event {2}", guest.firstName, guest.lastName, gli.linked_event.title),
+                    originator = user,
+                    guest = guest,
+                    @event = gli.linked_event,
+                    gli = gli
+                };
+
+
+                db.Notifications.Add(notification);
+            }
+
+            if (gli.capacity > 0 && GuestHelper.GetGuestListTotalCheckedin(gli) >= gli.capacity)
+            {
+                Notification glMaxNot = new Notification()
+                {
+                    company = user.company,
+                    message = string.Format("Guest List {0} reached its capacity {1}", gli.title, gli.capacity),
+                    originator = user,
+                    guest = guest,
+                    @event = gli.linked_event,
+                    gli = gli
+                };
+
+
+                db.Notifications.Add(glMaxNot);
+            }
+            if (gli.linked_event.capacity > 0 && GuestHelper.GetEventTotalCheckedin(gli.linked_event) >= gli.linked_event.capacity)
+            {
+                Notification eventMaxNot = new Notification()
+                {
+                    company = user.company,
+                    message = string.Format("Event {0} reached its capacity {1}", gli.linked_event.title, gli.linked_event.capacity),
+                    originator = user,
+                    guest = guest,
+                    @event = gli.linked_event,
+                    gli = gli
+                };
+
+
+                db.Notifications.Add(eventMaxNot);
+            }
 
             await db.SaveChangesAsync();
 
