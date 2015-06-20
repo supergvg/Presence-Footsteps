@@ -40,8 +40,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
       getInviteInfo: function (company, token) {
 
         var deferred = $q.defer(),
-          url = 'api/companies/GetInviteInfo',
-          self = this;
+          url = 'api/companies/GetInviteInfo';
 
         if (userData) {
           deferred.resolve(userData);

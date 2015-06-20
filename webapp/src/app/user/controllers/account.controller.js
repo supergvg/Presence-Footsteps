@@ -61,10 +61,19 @@ angular.module('gliist')
         }, function () {
           dialogService.error('Please try again');
         });
-
-
       };
 
+
+      $scope.getLinkedUsers = function () {
+
+        if (!$scope.company) {
+          return [];
+        }
+
+        return _.reject($scope.company.users, function (user) {
+          return user.permissions && user.permissions.indexOf('admin') > -1;
+        });
+      };
 
       $scope.refresh = function () {
 

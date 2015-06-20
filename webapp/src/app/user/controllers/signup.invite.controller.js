@@ -14,7 +14,7 @@ angular.module('gliist')
         $scope.fetchingData = true;
         userService.registerEmail($scope.user).then(function () {
           $scope.hide();
-          $state.go('main');
+          $state.go('main.welcome');
         }, function (err) {
           dialogService.error(JSON.stringify(err));
           dialogService.error('There was a problem signing up, please try again');
@@ -30,7 +30,8 @@ angular.module('gliist')
 
 
         if (userService.getLogged()) {
-          $state.go('app.home');
+          $state.go('main.welcome');
+          return;
         }
 
         $scope.options = {
@@ -43,7 +44,8 @@ angular.module('gliist')
         userService.getInviteInfo(company, token).then(function (userInfo) {
 
           if (!userInfo) { //token is invalid
-            $state.go('main');
+            $state.go('main.welcome');
+            return;
           }
 
           $scope.user = userInfo;

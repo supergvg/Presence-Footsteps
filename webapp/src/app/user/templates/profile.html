@@ -63,12 +63,6 @@
       <div>
         <user-details user="currentUser"></user-details>
       </div>
-
-      <div layout="row" layout-align="end center">
-        <md-button class="md-primary md-raised" ng-click="next()">
-          Next
-        </md-button>
-      </div>
     </div>
 
     <div role="tabpanel"
@@ -79,17 +73,6 @@
          md-swipe-right="previous()">
       <div class="md-padding">
         <account-details user="currentUser"></account-details>
-      </div>
-      <div layout="row" layout-align="end center">
-        <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
-          Cancel
-        </md-button>
-        <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
-          Save
-        </md-button>
-        <md-button class="md-primary md-raised" ng-click="next()">
-          Next
-        </md-button>
       </div>
     </div>
   </ng-switch>

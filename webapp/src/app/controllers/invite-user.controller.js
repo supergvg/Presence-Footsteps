@@ -44,6 +44,9 @@ angular.module('gliist')
 
 
       $scope.toggleSelected = function (item) {
+        $scope.selected = [item];
+        return;
+
         var idx = $scope.selected.indexOf(item);
         if (idx > -1) {
           $scope.selected.splice(idx, 1)
@@ -89,7 +92,7 @@ angular.module('gliist')
             $mdDialog.hide();
           },
           function () {
-            dialogService.error('Oops there was a problem updateing user, please try again')
+            dialogService.error('Oops there was a problem updating user, please try again')
           }
         ).finally(
           function () {
