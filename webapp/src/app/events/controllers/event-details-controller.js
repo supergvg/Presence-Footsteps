@@ -291,7 +291,15 @@ angular.module('gliist')
           return;
         }
 
-        $scope.event.timeZone = newValue.tz;
+        $.ajax({
+          url: "https://maps.googleapis.com/maps/api/timezone/json?location=" +
+          newValue.geometry.location.lat() + "," +
+          newValue.geometry.location.lng() + "&timestamp="
+          + (Math.round((new Date().getTime()) / 1000)).toString() + "&sensor=false",
+        }).done(function (response) {
+          $scope.event.utcOffset = response.dstOffset + response.rawOffset;
+        });
+
       });
 
       $scope.gliOptions = {
