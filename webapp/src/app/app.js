@@ -118,6 +118,7 @@ angular.module('gliist')
 
 
       $scope.init = function () {
+        $scope.errorMessage = '';
         $scope.credentials = {};
       };
 
@@ -174,7 +175,11 @@ angular.module('gliist')
       };
 
       $scope.getBg = function () {
-        if ($state.current.abstract || $state.includes('home') || $state.includes('signup') || $state.includes('signup_invite')) {
+        if ($state.current.abstract || $state.includes('home') ||
+          $state.includes('signup') || $state.includes('signup_invite')
+          || $state.includes('recover_password')
+          || $state.includes('reset_password')
+        ) {
           return 'logo-bg';
         }
       };

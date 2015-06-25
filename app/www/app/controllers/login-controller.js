@@ -70,6 +70,8 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
 
 
         $scope.init = function () {
+            $scope.errorMessage = '';
+
             if (userService.getLogged()) {
                 $state.go('app.home');
             }

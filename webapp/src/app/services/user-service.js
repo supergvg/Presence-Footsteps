@@ -37,6 +37,44 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
     return {
 
+      resetPassword: function (resetPassword) {
+
+        var deferred = $q.defer(),
+          url = 'api/Account/ResetPassword';
+
+        $http({
+          method: 'POST',
+          url: url,
+          data: resetPassword
+        }).success(function (data) {
+          deferred.resolve(data);
+        }).error(function (data) {
+          deferred.reject(data);
+        });
+
+        return deferred.promise;
+      },
+
+      sendPasswordRecover: function (userEmail) {
+
+        var deferred = $q.defer(),
+          url = 'api/EmailController/SendRecoverPasswordEmail';
+
+        $http({
+          method: 'POST',
+          url: url,
+          params: {
+            userEmail: userEmail
+          }
+        }).success(function (data) {
+          deferred.resolve(data);
+        }).error(function (data) {
+          deferred.reject(data);
+        });
+
+        return deferred.promise;
+      },
+
       getInviteInfo: function (company, token) {
 
         var deferred = $q.defer(),
