@@ -31,7 +31,7 @@
 
       <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-if="refreshing"></md-progress-circular>
       <md-list ng-if="!refreshing">
-        <md-list-item ng-repeat="user in company.users">
+        <md-list-item ng-repeat="user in getLinkedUsers()">
           <div flex layout="row">
             <div flex="40">
               <p>{{user.firstName}} {{user.lastName}}</p>
