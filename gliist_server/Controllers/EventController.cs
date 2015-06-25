@@ -136,6 +136,12 @@ namespace gliist_server.Controllers
             {
                 @event.time = DateTimeOffset.Now;
             }
+            @event.time = @event.time.ToOffset(new TimeSpan(0, 0, @event.utcOffset));
+
+            if (@event.endTime != null)
+            {
+                @event.endTime = @event.endTime.ToOffset(new TimeSpan(0, 0, @event.utcOffset));
+            }
 
             if (!ModelState.IsValid)
             {

@@ -266,6 +266,10 @@
     <Compile Include="Migrations\201506241855359_add_reset_password_tokens.Designer.cs">
       <DependentUpon>201506241855359_add_reset_password_tokens.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506250333210_add_event_time_zone.cs" />
+    <Compile Include="Migrations\201506250333210_add_event_time_zone.Designer.cs">
+      <DependentUpon>201506250333210_add_event_time_zone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -333,6 +337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506241855359_add_reset_password_tokens.resx">
       <DependentUpon>201506241855359_add_reset_password_tokens.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506250333210_add_event_time_zone.resx">
+      <DependentUpon>201506250333210_add_event_time_zone.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

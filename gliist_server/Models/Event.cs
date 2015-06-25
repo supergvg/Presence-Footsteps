@@ -31,7 +31,9 @@ namespace gliist_server.Models
 
         public DateTimeOffset time { get; set; }
 
-        public DateTimeOffset? endTime { get; set; }
+        public DateTimeOffset endTime { get; set; }
+
+        public int utcOffset { get; set; }
 
         public virtual List<GuestListInstance> guestLists { get; set; }
 
