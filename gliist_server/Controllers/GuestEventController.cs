@@ -267,7 +267,7 @@ namespace gliist_server.Controllers
 
             await db.SaveChangesAsync();
 
-            EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL);
+            EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority);
 
             return Ok(guest);
         }
@@ -423,7 +423,7 @@ namespace gliist_server.Controllers
             {
                 foreach (var checkin in gli.actual)
                 {
-                    EmailHelper.SendInvite(user, @event, checkin.guest, gli);
+                    EmailHelper.SendInvite(user, @event, checkin.guest, gli, Request.RequestUri.Authority);
                 }
 
             }

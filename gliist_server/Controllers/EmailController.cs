@@ -19,13 +19,48 @@ namespace gliist_server.Controllers
     [Authorize]
     public class EmailController : ApiController
     {
-        private EventDBContext db = new EventDBContext();
+        private EventDBContext _db = new EventDBContext();
         private UserManager<UserModel> UserManager;
 
-   
+
+
+        [ResponseType(typeof(void))]
+        [HttpPost]
+        [Route("SendRecoverPasswordEmail")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SendRecoverPasswordEmail(string userEmail)
+        {
+
+            var existingUser = _db.Users.FirstOrDefault(u => userEmail == u.UserName);
+
+            if (existingUser == null)
+            {
+                return Ok();
+            }
+
+            ResetPasswordToken token = new ResetPasswordToken()
+            {
+                token = Guid.NewGuid().ToString(),
+                user_email = userEmail
+            };
+
+            var url = string.Format("{0}/dist/#/reset_password/{1}", Request.RequestUri.Authority, token.token);
+
+            EmailHelper.SendRecoverPassword(userEmail, url);
+
+            _db.PasswordTokens.Add(token);
+
+            await _db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+
+
         public EmailController()
         {
-            UserManager = Startup.UserManagerFactory(db);
+            UserManager = Startup.UserManagerFactory(_db);
         }
     }
 }
