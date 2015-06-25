@@ -75,8 +75,39 @@ namespace gliist_server.Helpers
         }
 
 
+        public static void SendRecoverPassword(string userEmail, string resetLink)
+        {
+            // Create the email object first, then add the properties.
+            SendGridMessage myMessage = new SendGridMessage();
+            myMessage.AddTo(userEmail);
+            myMessage.From = new MailAddress("dont-replay@gjests.com", "gjests");
 
-        public static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli)
+
+            myMessage.Subject = string.Format("Recover Password");
+
+            myMessage.Html = "<p></p> ";
+
+            myMessage.EnableTemplateEngine("733fe7c2-df2d-46c7-a76a-8b476b7e0439");
+
+
+            myMessage.AddSubstitution(":reset_password_link", new List<string> { resetLink });
+
+
+
+            // Create credentials, specifying your user name and password.
+            var credentials = new NetworkCredential("gliist", "gliist79*");
+
+            // Create an Web transport for sending email.
+            var transportWeb = new Web(credentials);
+
+            // Send the email.
+            // You can also use the **DeliverAsync** method, which returns an awaitable task.
+            transportWeb.Deliver(myMessage);
+        }
+
+
+
+        public static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl)
         {
             var qr_url = UploadQRCode(@event.id, guest.id, gli.id);
 
@@ -84,7 +115,7 @@ namespace gliist_server.Helpers
             // Create the email object first, then add the properties.
             SendGridMessage myMessage = new SendGridMessage();
             myMessage.AddTo(guest.email);
-            myMessage.From = new MailAddress(from.UserName, from.company.name);
+            myMessage.From = new MailAddress("non-reply@gjests.com", from.company.name);
 
             myMessage.Subject = string.Format("{0} - Invitation", @event.title);
 
@@ -92,12 +123,7 @@ namespace gliist_server.Helpers
 
             myMessage.EnableTemplateEngine("70408aab-282a-41a4-a74a-0c207267d5c9");
 
-            var logo = "";
-            if (!string.IsNullOrEmpty(from.company.logo))
-            {
-                logo = from.company.logo;
-            }
-
+            var logo = string.Format("{0}/api/account/ProfilePicture/?userId={1}", baseUrl, from.Id);
 
             var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
 

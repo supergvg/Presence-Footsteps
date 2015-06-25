@@ -451,21 +451,46 @@ namespace gliist_server.Controllers
         }
 
         // POST api/Account/SetPassword
-        [Route("SetPassword")]
-        public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
+        [Route("ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> PostResetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            var token = _db.PasswordTokens.FirstOrDefault(t => string.Equals(t.token, model.token));
+
+            if (token == null)
+            {
+                throw new ArgumentException("Please ask for reset new rest email");
+            }
+
+            _db.Entry(token).State = EntityState.Deleted;
+
+            if ((token.created_at - DateTimeOffset.Now).Hours > 24)
+            {
+                throw new ArgumentException("Reset password token expired");
+            }
+            var userId = UserManager.FindByName(token.user_email).Id;
+
+            IdentityResult result = UserManager.RemovePassword(userId);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
             {
                 return errorResult;
             }
+            result = UserManager.AddPassword(userId, model.NewPassword);
+            errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+
+            await _db.SaveChangesAsync();
 
             return Ok();
         }
