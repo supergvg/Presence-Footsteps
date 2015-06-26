@@ -36,23 +36,27 @@ namespace gliist_server.Controllers
         }
 
         [Route("CurrentEvents")]
-        public IQueryable<Event> GetCurrentEvents()
+        public IList<Event> GetCurrentEvents()
         {
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && e.time >= DateTimeOffset.Now && !e.isDeleted);
+            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+                .AsEnumerable()
+                .Where(e => DateTimeOffset.Compare(e.time, DateTimeOffset.Now) >= 0).ToList();
 
             return events;
         }
 
         [Route("PastEvents")]
-        public IQueryable<Event> GetPastEvents()
+        public IList<Event> GetPastEvents()
         {
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && e.time < DateTimeOffset.Now && !e.isDeleted);
+            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+                .AsEnumerable()
+                .Where(e => DateTimeOffset.Compare(e.time, DateTimeOffset.Now) < 0).ToList();
 
             return events;
 
@@ -136,12 +140,10 @@ namespace gliist_server.Controllers
             {
                 @event.time = DateTimeOffset.Now;
             }
-            @event.time = @event.time.ToOffset(new TimeSpan(0, 0, @event.utcOffset));
 
-            if (@event.endTime != null)
-            {
-                @event.endTime = @event.endTime.ToOffset(new TimeSpan(0, 0, @event.utcOffset));
-            }
+            @event.time = new DateTimeOffset(@event.time.Year, @event.time.Month, @event.time.Day, @event.time.Hour - @event.userOffset, @event.time.Minute, @event.time.Second, new TimeSpan(0, 0, @event.utcOffset));
+
+            @event.endTime = new DateTimeOffset(@event.endTime.Year, @event.endTime.Month, @event.endTime.Day, @event.endTime.Hour - @event.userOffset, @event.endTime.Minute, @event.endTime.Second, new TimeSpan(0, 0, @event.utcOffset));
 
             if (!ModelState.IsValid)
             {

@@ -35,6 +35,8 @@ namespace gliist_server.Models
 
         public int utcOffset { get; set; }
 
+        public int userOffset { get; set; }
+
         public virtual List<GuestListInstance> guestLists { get; set; }
 
         public string invitePicture { get; set; }
