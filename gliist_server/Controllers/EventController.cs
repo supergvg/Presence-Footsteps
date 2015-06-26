@@ -141,9 +141,9 @@ namespace gliist_server.Controllers
                 @event.time = DateTimeOffset.Now;
             }
 
-            @event.time = new DateTimeOffset(@event.time.Year, @event.time.Month, @event.time.Day, @event.time.Hour - @event.userOffset, @event.time.Minute, @event.time.Second, new TimeSpan(0, 0, @event.utcOffset));
+            @event.time = new DateTimeOffset(@event.time.Year, @event.time.Month, @event.time.Day, @event.time.Hour, @event.time.Minute, @event.time.Second, new TimeSpan(0, 0, @event.utcOffset)).AddHours(-@event.userOffset);
 
-            @event.endTime = new DateTimeOffset(@event.endTime.Year, @event.endTime.Month, @event.endTime.Day, @event.endTime.Hour - @event.userOffset, @event.endTime.Minute, @event.endTime.Second, new TimeSpan(0, 0, @event.utcOffset));
+            @event.endTime = new DateTimeOffset(@event.endTime.Year, @event.endTime.Month, @event.endTime.Day, @event.endTime.Hour, @event.endTime.Minute, @event.endTime.Second, new TimeSpan(0, 0, @event.utcOffset)).AddHours(-@event.userOffset);
 
             if (!ModelState.IsValid)
             {
