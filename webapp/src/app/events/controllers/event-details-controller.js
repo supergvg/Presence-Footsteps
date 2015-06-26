@@ -318,6 +318,7 @@ angular.module('gliist')
 
         var d1 = new Date(),
           d2 = new Date(d1);
+
         d2.setHours(d1.getHours() + 12);
         d1.setHours(d1.getHours() + 6);
 
