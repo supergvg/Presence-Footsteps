@@ -9,7 +9,10 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
             'Artist',
             'Production',
             'Comp',
-            'Others'
+            'Others',
+            'Super VIP',
+            'All Access',
+            'Comp'
         ];
 
         $scope.getCategoryStatus = function (category) {
@@ -102,7 +105,7 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
 
         $scope.isLast = function (last) {
             if (!last) {
-                return  'bottom-border-wht';
+                return 'bottom-border-wht';
             }
 
             return 'no-bottom-border';

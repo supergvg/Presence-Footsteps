@@ -195,7 +195,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
           'background-image': bgImg,
           'background-position': 'center center',
           'height': height || '250px',
-          'background-size': 'cover'
+          'background-size': 'cover',
+          'background-repeat': 'contain'
         };
       },
 
@@ -216,7 +217,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
         });
 
         return deferred.promise;
-      },
+      }
+      ,
 
       getCurrentUser: function () {
 
@@ -244,7 +246,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
         });
 
         return deferred.promise;
-      },
+      }
+      ,
 
       getLogged: function () {
 
@@ -257,7 +260,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
         }
 
         return isLogged;
-      },
+      }
+      ,
 
       login: function (credentials) {
 
@@ -288,7 +292,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
 
         return d.promise;
-      },
+      }
+      ,
 
       logout: function () {
 
@@ -299,7 +304,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
         delete window.localStorage['userEmail'];
         delete window.localStorage['access_token'];
-      },
+      }
+      ,
 
       registerEmail: function (user, inviteMode) {
         var deferred = $q.defer();
@@ -342,4 +348,5 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
       }
     }
   }
-]);
+])
+;
