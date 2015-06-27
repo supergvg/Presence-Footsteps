@@ -19,7 +19,8 @@
     "org.apache.cordova.camera",
     "https://github.com/phonegap-build/PushPlugin.git",
     "cordova-plugin-splashscreen",
-    "phonegap-plugin-barcodescanner"
+    "phonegap-plugin-barcodescanner",
+    "cordova-plugin-whitelist"
   ],
   "cordovaPlatforms": [
     "ios",

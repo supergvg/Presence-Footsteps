@@ -3,9 +3,7 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
         $scope.title = 'Login';
 
 
-        $scope.credentials = {
-
-        };
+        $scope.credentials = {};
 
         $scope.onKeyPress = function (keyEvent) {
             if ($scope.credentials.username && keyEvent.which === 13) {
@@ -19,11 +17,12 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
                 $scope.errorMessage = 'Invalid User or Password';
                 return;
             }
+
+            $scope.errorMessage = '';
+
             $scope.fecthingData = true;
 
             userService.login($scope.credentials).then(function (res) {
-
-
                 userService.getCurrentUser().then(function (user) {
                     $rootScope.currentUser = user;
                     $rootScope.$broadcast('refreshEvents');
@@ -69,12 +68,16 @@ angular.module('starter').controller('loginController', ['$scope', '$state', '$r
         });
 
 
-        $scope.init = function () {
+        $scope.$on('$ionicView.enter', function () {
             $scope.errorMessage = '';
 
             if (userService.getLogged()) {
                 $state.go('app.home');
             }
+        });
+
+        $scope.init = function () {
+
         };
     }
 
