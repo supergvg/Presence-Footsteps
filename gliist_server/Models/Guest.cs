@@ -26,7 +26,6 @@ namespace gliist_server.Models
 
         public string phoneNumber { get; set; }
 
-        [Required]
         public string email { get; set; }
 
         public int plus { get; set; }

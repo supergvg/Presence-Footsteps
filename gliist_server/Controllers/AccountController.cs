@@ -266,7 +266,8 @@ namespace gliist_server.Controllers
             var to_delete = _db.Users.SingleOrDefault(u => u.UserName == userName);
             to_delete.company.users.Remove(to_delete);
 
-            _db.Entry(to_delete).State = EntityState.Modified;
+            _db.Users.Remove(to_delete);
+            _db.Entry(to_delete).State = EntityState.Deleted;
 
 
             await _db.SaveChangesAsync();
@@ -672,21 +673,12 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var compnay = _db.Companies.Where(c => c.name == model.company).FirstOrDefault();
+            var compnay = new Company()
+             {
+                 name = model.company
+             };
 
-            if (compnay == null)
-            {
-                compnay = new Company()
-                {
-                    name = model.company
-                };
-
-                _db.Companies.Add(compnay);
-            }
-            else
-            {
-                _db.Entry(compnay).State = EntityState.Modified;
-            }
+            _db.Companies.Add(compnay);
 
             UserModel user = new UserModel
             {
