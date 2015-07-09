@@ -102,7 +102,7 @@ angular.module('gliist', [
           controller: 'ProfileCtrl'
         })
         .state('main.create_event', {
-          url: '/create',
+          url: '/create?view',
           templateUrl: 'app/templates/create-event.html',
           controller: 'EventsCtrl'
         }).state('main.create_gl_event', {
@@ -114,7 +114,7 @@ angular.module('gliist', [
           templateUrl: 'app/events/templates/event-edit-guestlist.html',
           controller: 'EditGLEventCtrl'
         }).state('main.edit_event', {
-          url: '/event/edit/:eventId',
+          url: '/event/edit/:eventId?view',
           templateUrl: 'app/events/templates/edit-event.html',
           controller: 'EditEventCtrl'
         }).state('main.event_summary', {

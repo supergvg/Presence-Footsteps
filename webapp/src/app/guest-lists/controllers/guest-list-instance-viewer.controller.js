@@ -1,92 +1,107 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state',
-    function ($scope, eventsService, dialogService, $state) {
+    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory',
+        function ($scope, eventsService, dialogService, $state, guestFactory) {
 
-      $scope.editInstance = function (ev, instance) {
-        $state.go('main.edit_gl_event', {gli: instance.id});
-      };
+            $scope.editInstance = function (ev, instance) {
+                $state.go('main.edit_gl_event', {gli: instance.id});
+            };
 
-      $scope.getglistTotal = function (glist) {
-        var total = 0;
+            $scope.getglistTotal = function (glist) {
+                var total = 0;
 
-        angular.forEach(glist.actual,
-          function (guest_info) {
-            total += guest_info.guest.plus + 1;
-          });
+                angular.forEach(glist.actual,
+                    function (guest_info) {
+                        total += guest_info.guest.plus + 1;
+                    });
 
-        return total;
-      };
-      $scope.getActualGuests = function (gli) {
-        var checkedCount = 0;
+                return total;
+            };
 
-        if (!$scope.event) {
-          return 0;
-        }
+            $scope.save = function (instance) {
 
-        if (gli) {
-          angular.forEach(gli.actual,
-            function (chkn) {
-              if (chkn.status === 'checked in') {
-                checkedCount += chkn.guest.plus + 1 - chkn.plus;
-              }
-            });
+                guestFactory.GuestListInstance.update(instance).$promise.then(
+                    function (res) {
+                    }, function () {
+                    }).finally(function () {
+                    })
+            };
 
-          return checkedCount;
-        }
+            $scope.onCapacityChanged = function (instance) {
+                $scope.save(instance);
+            };
 
-        angular.forEach($scope.event.guestLists,
-          function (gl) {
+            $scope.getActualGuests = function (gli) {
+                var checkedCount = 0;
 
-            angular.forEach(gl.actual,
-              function (chkn) {
-                if (chkn.status === 'checked in') {
-                  checkedCount += chkn.guest.plus + 1 - chkn.plus;
+                if (!$scope.event) {
+                    return 0;
                 }
-              });
-          }
-        );
 
-        return checkedCount;
-      };
+                if (gli) {
+                    angular.forEach(gli.actual,
+                        function (chkn) {
+                            if (chkn.status === 'checked in') {
+                                checkedCount += chkn.guest.plus + 1 - chkn.plus;
+                            }
+                        });
 
-      $scope.getTotalGuests = function () {
+                    return checkedCount;
+                }
 
-        var total = 0;
-        angular.forEach($scope.lists, function (list) {
-          total += $scope.getglistTotal(list);
-        });
+                angular.forEach($scope.event.guestLists,
+                    function (gl) {
 
-        return total;
-      };
+                        angular.forEach(gl.actual,
+                            function (chkn) {
+                                if (chkn.status === 'checked in') {
+                                    checkedCount += chkn.guest.plus + 1 - chkn.plus;
+                                }
+                            });
+                    }
+                );
 
-      $scope.getTotalCapacity = function () {
+                return checkedCount;
+            };
 
-        var total = 0;
-        angular.forEach($scope.lists, function (list) {
-          total += list.capacity;
-        });
 
-        return total;
+            $scope.getTotalGuests = function () {
 
-      };
+                var total = 0;
+                angular.forEach($scope.lists, function (list) {
+                    total += $scope.getglistTotal(list);
+                });
 
-      $scope.deleteInstance = function (ev, instance) {
+                return total;
+            };
 
-        $scope.fetchingData = true;
+            $scope.getTotalCapacity = function () {
 
-        eventsService.deleteGuestList(instance, $scope.event.id).then(
-          function (lists) {
-            $scope.lists = lists;
-          }, function () {
-            dialogService.error('There was a problem removing guest list, please try again');
-          }
-        ).finally(
-          function () {
-            $scope.fetchingData = false;
-          }
-        );
-      }
+                var total = 0;
+                angular.forEach($scope.lists, function (list) {
+                    total += list.capacity;
+                });
 
-    }]);
+                return total;
+
+            };
+
+            $scope.deleteInstance = function (ev, instance) {
+
+                $scope.fetchingData = true;
+
+                eventsService.deleteGuestList(instance, $scope.event.id).then(
+                    function (lists) {
+                        $scope.lists = lists;
+                    }, function () {
+                        dialogService.error('There was a problem removing guest list, please try again');
+                    }
+                ).finally(
+                    function () {
+                        $scope.fetchingData = false;
+                    }
+                );
+            }
+
+        }]);
