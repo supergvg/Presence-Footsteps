@@ -266,8 +266,10 @@ namespace gliist_server.Controllers
             db.Guests.Add(guest);
 
             await db.SaveChangesAsync();
-
-            EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority);
+            if (!string.IsNullOrEmpty(guest.email))
+            {
+                EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority);
+            }
 
             return Ok(guest);
         }
@@ -402,7 +404,7 @@ namespace gliist_server.Controllers
 
         [HttpPost]
         [Route("PublishEvent")]
-        public async Task<IHttpActionResult> PubishEvent(int eventId)
+        public async Task<IHttpActionResult> PubishEvent(IdsEventModel guestListsIds)
         {
             var userId = User.Identity.GetUserId();
             UserModel user = UserManager.FindById(userId);
@@ -412,21 +414,25 @@ namespace gliist_server.Controllers
                 return BadRequest("Invaid permissions");
             }
 
-
-            Event @event = await db.Events.FindAsync(eventId);
-            if (@event == null)
+            foreach (var gli_id in guestListsIds.ids)
             {
-                return NotFound();
-            }
+                var gli = await db.GuestListInstances.FindAsync(gli_id);
+                if (gli == null)
+                {
+                    continue;
+                }
 
-            foreach (var gli in @event.guestLists)
-            {
+                gli.published = true;
+                db.Entry(gli).State = EntityState.Modified;
+
                 foreach (var checkin in gli.actual)
                 {
-                    EmailHelper.SendInvite(user, @event, checkin.guest, gli, Request.RequestUri.Authority);
+                    EmailHelper.SendInvite(user, gli.linked_event, checkin.guest, gli, Request.RequestUri.Authority);
                 }
 
             }
+
+            await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
         }

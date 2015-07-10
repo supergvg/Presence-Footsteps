@@ -16,6 +16,8 @@ namespace gliist_server.Models
 
         public int capacity { get; set; }
 
+        public bool published { get; set; }
+
         [JsonIgnore]
         public virtual Event linked_event { get; set; }
 

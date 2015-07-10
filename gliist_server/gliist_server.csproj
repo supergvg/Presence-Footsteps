@@ -270,6 +270,10 @@
     <Compile Include="Migrations\201506250333210_add_event_time_zone.Designer.cs">
       <DependentUpon>201506250333210_add_event_time_zone.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507091721572_gli_published.cs" />
+    <Compile Include="Migrations\201507091721572_gli_published.Designer.cs">
+      <DependentUpon>201507091721572_gli_published.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -340,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506250333210_add_event_time_zone.resx">
       <DependentUpon>201506250333210_add_event_time_zone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507091721572_gli_published.resx">
+      <DependentUpon>201507091721572_gli_published.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
