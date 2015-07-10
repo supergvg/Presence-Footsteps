@@ -4,6 +4,8 @@ angular.module('gliist')
     .controller('EventPublishCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$mdDialog',
         function ($scope, $stateParams, dialogService, $state, eventsService, $mdDialog) {
 
+            $scope.toPublish = [];
+
             $scope.publishEvent = function (ev) {
 
                 // Appending dialog to document.body to cover sidenav in docs app
@@ -16,7 +18,7 @@ angular.module('gliist')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
 
-                    eventsService.publishEvent($scope.event.id).then(
+                    eventsService.publishEvent($scope.toPublish).then(
                         function () {
 
                             $state.go('main.email_stats', {eventId: $scope.event.id});
@@ -46,7 +48,8 @@ angular.module('gliist')
                 };
             };
             $scope.glOptions = {
-                readOnly: true
+                readOnly: true,
+                publish: true
             };
 
             $scope.event = {id: 0};

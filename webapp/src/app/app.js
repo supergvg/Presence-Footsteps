@@ -136,7 +136,7 @@ angular.module('gliist')
       };
 
 
-      $scope.logout = function () {
+      $rootScope.logout = function () {
         userService.logout();
         $state.go('home');
       };

@@ -11,7 +11,7 @@ angular.module('gliist')
                     function (guestListInstances) {
                         //$scope.event.guestLists = guestListInstances;
                         dialogService.success('Guest lists were linked');
-                        $state.go('main.edit_event', {eventId: eventId});
+                        $state.go('main.edit_event', {eventId: eventId, view: 2});
                     }, function () {
                         dialogService.error('There was a problem linking, please try again');
                     }

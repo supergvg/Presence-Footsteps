@@ -195,8 +195,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
           'background-image': bgImg,
           'background-position': 'center center',
           'height': height || '250px',
-          'background-size': 'cover',
-          'background-repeat': 'contain'
+          'background-size': 'contain',
+          'background-repeat': 'no-repeat'
         };
       },
 

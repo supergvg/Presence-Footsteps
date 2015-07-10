@@ -145,6 +145,23 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
     }]);
 
 app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush) {
+
+
+    $rootScope.$on("$stateChangeStart", function (event, next, toParams, from, fromParams) {
+        if (next.name === 'login' && userService.getLogged()) {
+            $state.go('app.home', {}, {
+                notify: true
+            });
+        }
+    });
+
+    $ionicPlatform.registerBackButtonAction(function () {
+        if ($state.current.name == 'app.home') {
+            navigator.app.exitApp();
+        }
+    }, 100);
+
+
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)

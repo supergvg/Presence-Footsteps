@@ -11,7 +11,8 @@ angular.module('gliist')
                 event: '=?',
                 lists: '=?',
                 options: '=?',
-                selected: '=?'
+                selected: '=?',
+                published: '=?'
             },
 
             replace: true,

@@ -8,7 +8,7 @@
 
       <div layout="row" layout-sm="column">
 
-        <div flex="33">
+        <div flex="40">
           <div style="font-weight: bold;margin:0">
             {{event.title}}
           </div>
@@ -19,7 +19,7 @@
             {{event.location}}
           </div>
         </div>
-        <div flex="33">
+        <div flex="40">
           <Div>
             {{event.category}}
           </Div>
@@ -27,7 +27,7 @@
             {{event.time |date: 'h:mma'}} - {{event.endTime| date: 'h:mma'}}
           </div>
           <div style="margin-top: 10px">
-            {{event.capacity}}
+            Capacity: {{event.capacity}}
           </div>
 
         </div>

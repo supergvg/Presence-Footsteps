@@ -16,7 +16,7 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
         $scope.onAddClicked = function () {
 
             if ($scope.formInvalid()) {
-                $scope.errorMessage = "Please Fill All Fields";
+                $scope.errorMessage = "Please Fill First and Last Name";
                 return;
             }
             $scope.errorMessage = null;

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
-    function ($scope, $mdDialog, userService, dialogService, $state) {
+  .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state', '$rootScope',
+    function ($scope, $mdDialog, userService, dialogService, $state, $rootScope) {
 
 
       $scope.isStaff = function () {
@@ -38,6 +38,32 @@ angular.module('gliist')
 
       };
 
+      $scope.deleteAccount = function (ev, user) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+          .title('Are you sure you want to delete your account?')
+          .content('All data will be lost')
+          .ariaLabel('Lucky day')
+          .ok('Yes')
+          .cancel('No')
+          .targetEvent(ev);
+        $mdDialog.show(confirm).then(function () {
+
+          userService.deleteUser({userName: $scope.user.UserName}).then(
+            function () {
+            },
+            function (err) {
+              dialogService.error(err);
+            }
+          );
+
+          $rootScope.logout();
+
+        }, function () {
+        });
+      };
+
+
       $scope.deleteUser = function (ev, user) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
@@ -59,7 +85,7 @@ angular.module('gliist')
           );
 
         }, function () {
-          dialogService.error('Please try again');
+
         });
       };
 
