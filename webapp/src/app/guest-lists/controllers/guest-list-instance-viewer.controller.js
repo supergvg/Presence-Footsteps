@@ -19,6 +19,25 @@ angular.module('gliist')
                 return total;
             };
 
+
+            $scope.published = [];
+
+            $scope.isPublished = function (glist) {
+                return $scope.published.indexOf(glist.id) >= 0;
+            };
+
+            $scope.togglePublished = function (glist) {
+
+                var idx = $scope.published.indexOf(glist.id);
+
+                if (idx === -1) {
+                    $scope.published.push(glist.id)
+                } else {
+                    $scope.published.splice(idx, 1);
+                }
+
+            };
+
             $scope.save = function (instance) {
 
                 guestFactory.GuestListInstance.update(instance).$promise.then(

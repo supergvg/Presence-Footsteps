@@ -73,6 +73,16 @@
                     </md-input-container>
                 </div>
 
+                <div ng-if="options.publish" flex="10" style="padding-left: 10px">
+                    <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)"
+                                 aria-label="Import" ng-show="true"
+                                 style="margin-bottom: 0px">
+                    </md-checkbox>
+                </div>
+                <div ng-if="options.publish" flex="10" style="padding-top: 7px">
+                    <ng-md-icon icon="send" style="fill: #33AAAA" size="24" ng-if="instance.published"></ng-md-icon>
+                </div>
+
                 <div layout="row" ng-cloak ng-hide="options.readOnly"
                      style="position: absolute;right:0;top:0;height: 100%">
                     <div>

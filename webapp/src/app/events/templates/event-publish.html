@@ -7,7 +7,6 @@
                 ></md-progress-circular>
             </span>
     </div>
-
     <div ng-show="!initializing">
 
         <event-preview event="event"></event-preview>
@@ -16,7 +15,7 @@
             <div flex style="background-color: #CCCCCC;color:white">
                 <h4 style="padding-left: 10px">Linked Guest Lists</h4>
             </div>
-            <guest-list-instance-view style="padding:10px" lists="event.guestLists"
+            <guest-list-instance-view published="toPublish" style="padding:10px" lists="event.guestLists"
                                       options="glOptions"></guest-list-instance-view>
         </div>
 
