@@ -162,6 +162,9 @@ angular.module('gliist')
 
                 scope.importGLists = function (selected) {
 
+                    $scope.list = $scope.list || {title: 'New Guest List'};
+                    $scope.list.guests = $scope.list.guests || [];
+
                     angular.forEach(selected, function (toImport) {
                         $scope.list.guests = $scope.list.guests.concat(toImport.guests);
                     });
