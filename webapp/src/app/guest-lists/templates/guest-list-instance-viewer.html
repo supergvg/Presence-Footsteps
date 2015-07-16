@@ -13,31 +13,31 @@
     </div>
 
 
-    <div layout="row" ng-show="lists.length > 0" style="color:#8E8E8E;padding-top: 30px">
-        <div flex="25" style="font-weight: bold;padding-left: 16px">
-            Title
-        </div>
-        <div flex="15" style="font-weight: bold">
-            Category
-        </div>
-        <div flex="15" style="font-weight: bold" ng-if="options.stats">
-            Checked in
-        </div>
-        <div flex="15" style="font-weight: bold" ng-if="!options.stats">
-            Total
-        </div>
-        <div flex="15" style="font-weight: bold" ng-if="options.stats">
-            Unconfirmed
-        </div>
-        <div flex="15" style="font-weight: bold;margin-left: -10px!important" ng-if="options.stats">
-            Total
-        </div>
-        <div flex="10" style="font-weight: bold" ng-if="!options.stats">
-            Capacity
-        </div>
-    </div>
-
     <md-list style="background-color: white;padding-top: 0px;padding-bottom: 0px;">
+        <md-list-item layout="row" ng-show="lists.length > 0"
+                      style="color:#8E8E8E;padding-top: 30px;background-color: #ECECEC">
+            <div flex="25" style="font-weight: bold;">
+                Title
+            </div>
+            <div flex="15" style="font-weight: bold">
+                Category
+            </div>
+            <div flex="15" style="font-weight: bold" ng-if="options.stats">
+                Checked in
+            </div>
+            <div flex="15" style="font-weight: bold" ng-if="!options.stats">
+                Total
+            </div>
+            <div flex="15" style="font-weight: bold" ng-if="options.stats">
+                Unconfirmed
+            </div>
+            <div flex="15" style="font-weight: bold;margin-left: -10px!important" ng-if="options.stats">
+                Total
+            </div>
+            <div flex="10" style="font-weight: bold" ng-if="!options.stats">
+                Capacity
+            </div>
+        </md-list-item>
         <md-list-item ng-repeat="instance in lists">
             <div layout="row" flex style="background-color: white">
 
