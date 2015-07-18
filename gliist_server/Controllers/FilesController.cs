@@ -91,22 +91,32 @@ namespace gliist_server.Controllers
             return new Tuple<string, Stream>(originalFileName, new FileStream(uploadedFileInfo.FullName, FileMode.Open));
         }
 
-        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, UserModel user, Company company, EventDBContext db)
+        private static GuestList GetCSV(FileInfo uploadedFileInfo, string originalFileName, UserModel user, Company company, EventDBContext db, GuestList gl)
         {
-            GuestList retVal = new GuestList()
+            GuestList retVal;
+            if (gl != null)
             {
-                title = originalFileName,
-                company = company,
-                created_by = user
-            };
+                retVal = gl;
+                db.Entry(gl).State = System.Data.Entity.EntityState.Modified;
+            }
+            else
+            {
+                retVal = new GuestList()
+                           {
+                               title = originalFileName,
+                               company = company,
+                               created_by = user,
+                               listType = "GA",
+                               guests = new List<Guest>()
+                           };
+            }
+
 
             using (FileStream fs = new FileStream(uploadedFileInfo.FullName, FileMode.Open))
             {
                 using (StreamReader sr = new StreamReader(fs))
                 {
                     List<string> headers = new List<string>();
-                    List<Guest> guests = new List<Guest>();
-
                     headers.AddRange(sr.ReadLine().Split(','));
 
                     while (!sr.EndOfStream)
@@ -131,15 +141,13 @@ namespace gliist_server.Controllers
                                 g = existing;
                             }*/
 
-                            guests.Add(g);
+                            retVal.guests.Add(g);
                         }
                         catch
                         {
 
                         }
                     }
-
-                    retVal.guests = guests;
                 }
             }
 
@@ -156,6 +164,15 @@ namespace gliist_server.Controllers
             var provider = GetMultipartProvider();
             var result = await request.Content.ReadAsMultipartAsync(provider);
 
+            var glid = result.FormData.Get("glId");
+
+            GuestList gl = null;
+            if (glid != null)
+            {
+                var int_id = Int32.Parse(glid);
+                gl = await db.GuestLists.FindAsync(int_id);
+            }
+
             // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
             // so this is how you can get the original file name
             var originalFileName = GetDeserializedFileName(result.FileData.First());
@@ -165,14 +182,13 @@ namespace gliist_server.Controllers
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
 
 
-            GuestList gl;
             if (Path.GetExtension(originalFileName) == ".csv")
             {
-                gl = GetCSV(uploadedFileInfo, originalFileName, user, company, db);
+                gl = GetCSV(uploadedFileInfo, originalFileName, user, company, db, gl);
             }
             else
             {
-                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, user,company, db);
+                gl = ExcelHelper.Read(uploadedFileInfo.FullName, originalFileName, user, company, db, gl);
             }
 
             return gl;

@@ -12,8 +12,27 @@ namespace gliist_server.Helpers
     public static class ExcelHelper
     {
 
-        private static GuestList ReadExcel(FileStream stream, string fileName, UserModel user, Company comapny, EventDBContext db)
+        private static GuestList ReadExcel(FileStream stream, string fileName, UserModel user, Company comapny, EventDBContext db, GuestList gl)
         {
+
+            GuestList retVal;
+            if (gl != null)
+            {
+                retVal = gl;
+                db.Entry(gl).State = System.Data.Entity.EntityState.Modified;
+            }
+            else
+            {
+                retVal = new GuestList()
+                {
+                    title = fileName,
+                    company = comapny,
+                    created_by = user,
+                    listType = "GA",
+                    guests = new List<Guest>()
+                };
+            }
+
             //2. Reading from a OpenXml Excel file (2007 format; *.xlsx)
             IExcelDataReader excelReader;
 
@@ -30,12 +49,6 @@ namespace gliist_server.Helpers
             DataSet result = excelReader.AsDataSet();
             excelReader.Read();//read header
 
-            GuestList guests = new GuestList()
-            {
-                title = fileName,
-                company = comapny,
-                created_by = user
-            };
 
             //5. Data Reader methods
             while (excelReader.Read())
@@ -58,19 +71,19 @@ namespace gliist_server.Helpers
                     g = existing;
                 }*/
 
-                guests.guests.Add(g);
+                retVal.guests.Add(g);
             }
 
             //6. Free resources (IExcelDataReader is IDisposable)
             excelReader.Close();
 
-            return guests;
+            return retVal;
         }
 
-        public static GuestList Read(string filePath, string fileName, UserModel user, Company company, EventDBContext db)
+        public static GuestList Read(string filePath, string fileName, UserModel user, Company company, EventDBContext db, GuestList gl)
         {
             FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
-            return ReadExcel(stream, fileName, user, company, db);
+            return ReadExcel(stream, fileName, user, company, db, gl);
         }
     }
 
