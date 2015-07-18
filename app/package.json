@@ -20,10 +20,12 @@
     "https://github.com/phonegap-build/PushPlugin.git",
     "cordova-plugin-splashscreen",
     "phonegap-plugin-barcodescanner",
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "com.ionic.keyboard",
+    "cordova-plugin-device"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }

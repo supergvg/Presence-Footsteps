@@ -161,12 +161,49 @@ app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush)
         }
     }, 100);
 
+    /*    document.addEventListener("deviceready", function () {
+
+     var mobileServiceClient = new WindowsAzure.MobileServiceClient(
+     'https://todolist-cordova.azure-mobile.net/',
+     'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'),
+
+     iosConfig = {
+     "badge": true,
+     "sound": true,
+     "alert": true
+     };
+
+     $cordovaPush.register(iosConfig).then(function (deviceToken) {
+     // Success -- send deviceToken to server, and store for future use
+     console.log("deviceToken: " + deviceToken)
+
+
+     // Call the integrated Notification Hub client.
+     var hub = new NotificationHub(mobileServiceClient);
+
+     // This is a template registration.
+     var template = "{\"aps\":{\"alert\":\"$(message)\"}}";
+
+     // (deviceId, ["tag1","tag2"], templateName, templateBody, expiration)
+     hub.apns.register(result, null, "myTemplate", template, null).done(function () {
+     alert("Registered with hub!");
+     }).fail(function (error) {
+     alert("Failed registering with hub: " + error);
+     });
+
+
+     //$http.post("http://server.co/", {user: "Bob", tokenID: deviceToken})
+     }, function (err) {
+     alert("Registration error: " + err)
+     });
+     });*/
 
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.disableScroll(true);
         }
 
         setTimeout(function () {
@@ -193,20 +230,5 @@ app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush)
             $rootScope.appReady = true;
             $state.go('login'); //no user logged in
         }
-        var iosConfig = {
-            "badge": true,
-            "sound": true,
-            "alert": true
-        };
-
-        document.addEventListener("deviceready", function () {
-            $cordovaPush.register(iosConfig).then(function (deviceToken) {
-                // Success -- send deviceToken to server, and store for future use
-                console.log("deviceToken: " + deviceToken)
-                //$http.post("http://server.co/", {user: "Bob", tokenID: deviceToken})
-            }, function (err) {
-                //alert("Registration error: " + err)
-            });
-        });
     });
 })

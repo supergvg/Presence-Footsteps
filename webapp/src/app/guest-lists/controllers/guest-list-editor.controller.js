@@ -116,20 +116,36 @@ angular.module('gliist')
                 if (!files || files.length === 0) {
                     return;
                 }
+
+                if ($scope.list) {
+
+                    $scope.fetchingData = true;
+
+                    guestFactory.GuestList.update($scope.list).$promise.then(
+                        function (res) {
+                            _.extend($scope.list, res);
+                            $scope.isDirty = false;
+
+                            $scope.upload(files[0], $scope.list.id);
+
+                        }, function () {
+                            dialogService.error('There was a problem saving your guest list, please try again');
+                            $scope.fetchingData = false;
+                        }).finally(function () {
+                        });
+
+                    return;
+                }
+
                 $scope.upload(files[0]);
             };
 
-            $scope.upload = function (files) {
+            $scope.upload = function (files, glId) {
                 $scope.fetchingData = true;
-                uploaderService.uploadGuestList(files).then(function (data) {
+                uploaderService.uploadGuestList(files, glId).then(function (data) {
 
                         if (!$scope.list) {
                             $scope.list = {};
-                        }
-                        else {
-                            if ($scope.list.title) {
-                                delete data.title;
-                            }
                         }
 
                         _.extend($scope.list, data);
