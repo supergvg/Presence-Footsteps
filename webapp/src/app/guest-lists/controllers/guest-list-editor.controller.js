@@ -140,6 +140,7 @@ angular.module('gliist')
                 $scope.upload(files[0]);
             };
 
+
             $scope.upload = function (files, glId) {
                 $scope.fetchingData = true;
                 uploaderService.uploadGuestList(files, glId).then(function (data) {
