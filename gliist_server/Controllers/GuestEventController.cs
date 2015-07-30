@@ -334,7 +334,7 @@ namespace gliist_server.Controllers
             checkin.status = "checked in";
 
 
-            if (string.Compare(gli.listType, "artist", true) > -1 || string.Compare(guest.type, "artist", true) > -1)
+            if (string.Compare(gli.listType, "artist", true) == 0 || string.Compare(guest.type, "artist", true) == 0)
             {
                 Notification notification = new Notification()
                 {
@@ -349,7 +349,7 @@ namespace gliist_server.Controllers
 
                 db.Notifications.Add(notification);
             }
-            if (string.Compare(guest.type, "super vip", true) > -1 || string.Compare(gli.listType, "super vip", true) > -1)
+            if (string.Compare(guest.type, "super vip", true) == 0 || string.Compare(gli.listType, "super vip", true) == 0)
             {
                 Notification notification = new Notification()
                 {

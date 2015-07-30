@@ -483,6 +483,11 @@ namespace gliist_server.Controllers
             {
                 return errorResult;
             }
+
+            String hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.NewPassword);
+            result = UserManager.AddPassword(userId, hashedNewPassword);
+
+            result = UserManager.RemovePassword(userId);
             result = UserManager.AddPassword(userId, model.NewPassword);
             errorResult = GetErrorResult(result);
 
@@ -490,8 +495,6 @@ namespace gliist_server.Controllers
             {
                 return errorResult;
             }
-
-            await _db.SaveChangesAsync();
 
             return Ok();
         }

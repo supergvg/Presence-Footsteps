@@ -135,6 +135,7 @@ namespace gliist_server.Controllers
                     {
                         guest.company = user.company;
                         guest.linked_guest_lists.Add(existingGuestList);
+                        guest.type = guestList.listType;
                         db.Guests.Add(guest);
                     }
                 }
@@ -146,7 +147,7 @@ namespace gliist_server.Controllers
 
                 foreach (var guest in guestList.guests)
                 {
-
+                    guest.type = guestList.listType;
                     guest.company = user.company;
                     guest.linked_guest_lists.Add(guestList);
                     db.Guests.Add(guest);

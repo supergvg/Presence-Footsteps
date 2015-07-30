@@ -37,6 +37,6 @@ namespace gliist_server.Models
             linked_guest_lists = new List<GuestList>();
             type = "Others";
         }
-
+        
     }
 }
