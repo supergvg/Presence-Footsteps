@@ -15,7 +15,7 @@
     "ng-file-upload": "~3.2.4",
     "underscore": "~1.8.3",
     "angular-google-chart": "~0.0.11",
-    "angular-ui-grid": "~3.0.0-rc.20",
+    "angular-ui-grid": "~3.0.1",
     "moment": "~2.10.2",
     "angular-ui-bootstrap": "~0.13.0",
     "angular-ui-bootstrap-datetimepicker": "~0.11.2",
