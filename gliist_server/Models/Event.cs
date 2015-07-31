@@ -9,6 +9,58 @@ using Newtonsoft.Json;
 
 namespace gliist_server.Models
 {
+
+    public class EventViewModel
+    {
+
+        public int id { get; set; }
+
+        [Required]
+        public string title { get; set; }
+
+        public string category { get; set; }
+
+        public string description { get; set; }
+
+        public string location { get; set; }
+
+        public int capacity { get; set; }
+
+        public DateTimeOffset time { get; set; }
+
+        public DateTimeOffset endTime { get; set; }
+
+        public int utcOffset { get; set; }
+
+        public int userOffset { get; set; }
+
+        public string invitePicture { get; set; }
+
+        public EventViewModel()
+        {
+
+        }
+
+        public EventViewModel(Event @event)
+        {
+
+            id = @event.id;
+            title = @event.title;
+            category = @event.category;
+            description = @event.description;
+            location = @event.location;
+            capacity = @event.capacity;
+            time = @event.time;
+            endTime = @event.endTime;
+            utcOffset = @event.utcOffset;
+            userOffset = @event.userOffset;
+            invitePicture = @event.invitePicture;
+
+        }
+
+    }
+
+
     public class Event
     {
         [JsonIgnore]

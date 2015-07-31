@@ -36,7 +36,7 @@ namespace gliist_server.Controllers
         }
 
         [Route("CurrentEvents")]
-        public IList<Event> GetCurrentEvents()
+        public IList<EventViewModel> GetCurrentEvents()
         {
             var userId = User.Identity.GetUserId();
 
@@ -45,11 +45,15 @@ namespace gliist_server.Controllers
                 .AsEnumerable()
                 .Where(e => DateTimeOffset.Compare(e.time, DateTimeOffset.Now) >= 0).ToList();
 
-            return events;
+
+            var targetList = events
+  .Select(x => new EventViewModel(x) { })
+  .ToList();
+            return targetList;
         }
 
         [Route("PastEvents")]
-        public IList<Event> GetPastEvents()
+        public IList<EventViewModel> GetPastEvents()
         {
             var userId = User.Identity.GetUserId();
 
@@ -58,8 +62,10 @@ namespace gliist_server.Controllers
                 .AsEnumerable()
                 .Where(e => DateTimeOffset.Compare(e.time, DateTimeOffset.Now) < 0).ToList();
 
-            return events;
-
+            var targetList = events
+         .Select(x => new EventViewModel(x) { })
+         .ToList();
+            return targetList;
         }
 
         // GET api/Event/5

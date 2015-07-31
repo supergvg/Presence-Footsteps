@@ -23,16 +23,20 @@ namespace gliist_server.Controllers
         private UserManager<UserModel> UserManager;
 
         // GET: api/GuestLists
-        public IQueryable<GuestList> GetGuestLists()
+        public IList<GuestListViewModel> GetGuestLists()
         {
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
 
             var gls = db.GuestLists.Where(gl => !gl.isDeleted && gl.company.id == user.company.id);
 
-            var gl1 = gls.FirstOrDefault();
+            var retval = new List<GuestListViewModel>();
+            foreach (var gl in gls)
+            {
+                retval.Add(new GuestListViewModel(gl));
+            };
 
-            return gls;
+            return retval;
         }
 
         // GET: api/GuestLists/5
@@ -135,6 +139,7 @@ namespace gliist_server.Controllers
                     {
                         guest.company = user.company;
                         guest.linked_guest_lists.Add(existingGuestList);
+                        guest.type = guestList.listType;
                         db.Guests.Add(guest);
                     }
                 }
@@ -146,7 +151,7 @@ namespace gliist_server.Controllers
 
                 foreach (var guest in guestList.guests)
                 {
-
+                    guest.type = guestList.listType;
                     guest.company = user.company;
                     guest.linked_guest_lists.Add(guestList);
                     db.Guests.Add(guest);
