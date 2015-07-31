@@ -29,7 +29,7 @@ namespace gliist_server.Controllers
             Invite retVal = null;
             foreach (var c in companies)
             {
-                retVal = c.invitations.FirstOrDefault(i => i.token.Equals(token));
+                retVal = c.invitations.FirstOrDefault(i => i.token.Equals(token) && i.acceptedAt == null);
                 if (retVal != null)
                 {
 

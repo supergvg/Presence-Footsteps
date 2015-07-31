@@ -139,6 +139,7 @@ namespace gliist_server.Controllers
                 invite.email = newUser.UserName;
                 invite.permissions = newUser.permissions.ToLower();
                 invite.phoneNumber = newUser.phoneNumber;
+                invite.acceptedAt = null;
             }
 
             EmailHelper.SendJoinRequest(newUser, user, invite);
