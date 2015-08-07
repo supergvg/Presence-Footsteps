@@ -23,10 +23,10 @@ angular.module('gliist')
         userService.sendPasswordRecover($scope.user.email).then(
           function () {
             $scope.recoverSent = true;
-            $scope.message = "An email has been sent to your inbox, please check if for further instructions";
+            $scope.message = "An email has been sent to your inbox, please check it for further instructions";
 
           }, function () {
-            dialogService.error('Oops there was a problem plese try again');
+            dialogService.error('Oops there was a problem please try again');
           }
         ).finally(
           function () {
