@@ -38,7 +38,6 @@ namespace gliist_server.Controllers
         [Route("CurrentEvents")]
         public IList<EventViewModel> GetCurrentEvents()
         {
-
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);

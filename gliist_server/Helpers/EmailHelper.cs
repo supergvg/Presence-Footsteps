@@ -138,7 +138,7 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":event_name", new List<string> { @event.title });
             myMessage.AddSubstitution(":event_date", new List<string> { @event.time.Date.ToShortDateString() });
 
-            myMessage.AddSubstitution(":event_time", new List<string> { @event.time.LocalDateTime.ToLocalTime().ToString("hh:mm tt") });
+            myMessage.AddSubstitution(":event_time", new List<string> { @event.time.ToString("hh:mm tt") });
 
             myMessage.AddSubstitution(":event_location", new List<string> { string.IsNullOrEmpty(@event.location) ? "" : @event.location });
             myMessage.AddSubstitution(":qr_code_url", new List<string> { qr_url });
