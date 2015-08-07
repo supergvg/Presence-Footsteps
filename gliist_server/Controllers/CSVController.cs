@@ -55,7 +55,15 @@ namespace gliist_server.Controllers
                  }*/
             }
 
-            db.GuestLists.Add(gl);
+
+            if (gl.id > -1)
+            {
+                db.Entry(gl).State = EntityState.Modified;
+            }
+            else
+            {
+                db.GuestLists.Add(gl);
+            }
 
             try
             {
