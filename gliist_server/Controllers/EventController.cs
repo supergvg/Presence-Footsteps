@@ -38,12 +38,13 @@ namespace gliist_server.Controllers
         [Route("CurrentEvents")]
         public IList<EventViewModel> GetCurrentEvents()
         {
+
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                 .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.time, DateTimeOffset.Now) >= 0).ToList();
+                .Where(e => DateTimeOffset.Compare(e.endTime, DateTimeOffset.Now) >= 0).ToList();
 
 
             var targetList = events
@@ -60,7 +61,7 @@ namespace gliist_server.Controllers
             var user = UserManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                 .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.time, DateTimeOffset.Now) < 0).ToList();
+                .Where(e => DateTimeOffset.Compare(e.endTime, DateTimeOffset.Now) < 0).ToList();
 
             var targetList = events
          .Select(x => new EventViewModel(x) { })
@@ -73,7 +74,10 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> GetEvent(int id)
         {
             Event @event = await db.Events.FindAsync(id);
-            if (@event == null)
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+
+            if (@event == null || user.company.id != @event.company.id)
             {
                 return NotFound();
             }

@@ -427,6 +427,11 @@ namespace gliist_server.Controllers
 
                 foreach (var checkin in gli.actual)
                 {
+                    if (string.IsNullOrEmpty(checkin.guest.email))
+                    {
+                        continue;
+                    }
+
                     EmailHelper.SendInvite(user, gli.linked_event, checkin.guest, gli, Request.RequestUri.Authority);
                 }
 
