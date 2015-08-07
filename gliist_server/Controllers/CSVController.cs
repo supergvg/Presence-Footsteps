@@ -40,7 +40,7 @@ namespace gliist_server.Controllers
                 guest.company = user.company;
                 guest.linked_guest_lists.Add(gl);
                 db.Guests.Add(guest);
-
+                //remove this code
                 /* var existing = await db.Guests.SingleOrDefaultAsync(g => g.userId == userId && g.email == guest.email);
 
                  if (existing != null)

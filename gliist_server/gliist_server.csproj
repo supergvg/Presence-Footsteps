@@ -274,6 +274,10 @@
     <Compile Include="Migrations\201507091721572_gli_published.Designer.cs">
       <DependentUpon>201507091721572_gli_published.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508070101011_profilePicUrl.cs" />
+    <Compile Include="Migrations\201508070101011_profilePicUrl.Designer.cs">
+      <DependentUpon>201508070101011_profilePicUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -351,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507091721572_gli_published.resx">
       <DependentUpon>201507091721572_gli_published.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508070101011_profilePicUrl.resx">
+      <DependentUpon>201508070101011_profilePicUrl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

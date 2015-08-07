@@ -26,6 +26,8 @@ namespace gliist_server.Models
 
         public string profilePicture { get; set; }
 
+        public string profilePictureUrl { get; set; }
+
         public string city { get; set; }
 
         [JsonIgnore]

@@ -64,7 +64,6 @@ namespace gliist_server.Controllers
             }
 
 
-
             return new Tuple<string, byte[]>(originalFileName, fileData);
         }
 

@@ -47,31 +47,64 @@ namespace gliist_server.Helpers
 
             //4. DataSet - Create column names from first row
             DataSet result = excelReader.AsDataSet();
-            excelReader.Read();//read header
 
-
-            //5. Data Reader methods
-            while (excelReader.Read())
+            if (result.Tables.Count > 0)
             {
-                var g = new Guest()
+
+                for (int i = 1; i < result.Tables[0].Rows.Count; i++)
                 {
+                    var rowI = result.Tables[0].Rows[i];
+                    var itemArr = rowI.ItemArray;
+                    var count = itemArr.Count();
 
-                    firstName = excelReader.FieldCount > 0 ? excelReader.GetString(0) : null,
-                    lastName = excelReader.FieldCount > 1 ? excelReader.GetString(1) : null,
-                    email = excelReader.FieldCount > 2 ? excelReader.GetString(2) : null,
-                    phoneNumber = excelReader.FieldCount > 3 ? excelReader.GetString(3) : null,
-                    plus = excelReader.FieldCount > 4 ? int.Parse(excelReader.GetString(4)) : 0,
-                    company = comapny
-                };
+                    try
+                    {
+                        var g = new Guest()
+                        {
 
-                /*var existing = db.Guests.Where(dbG => dbG.email.Equals(g.email)).FirstOrDefault();
+                            firstName = count > 0 ? itemArr[0].ToString() : null,
+                            lastName = count > 1 ? itemArr[1].ToString() : null,
+                            email = count > 2 ? itemArr[2].ToString() : null,
+                            phoneNumber = count > 3 ? itemArr[3].ToString() : null,
+                            plus = count > 4 ? int.Parse(itemArr[4].ToString()) : 0,
+                            company = comapny
+                        };
 
-                if (existing != null)
+                        retVal.guests.Add(g);
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                excelReader.Read();//read header
+
+                //5. Data Reader methods
+                while (excelReader.Read())
                 {
-                    g = existing;
-                }*/
+                    try
+                    {
+                        var g = new Guest()
+                        {
 
-                retVal.guests.Add(g);
+                            firstName = excelReader.FieldCount > 0 ? excelReader.GetString(0) : null,
+                            lastName = excelReader.FieldCount > 1 ? excelReader.GetString(1) : null,
+                            email = excelReader.FieldCount > 2 ? excelReader.GetString(2) : null,
+                            phoneNumber = excelReader.FieldCount > 3 ? excelReader.GetString(3) : null,
+                            plus = excelReader.FieldCount > 4 ? int.Parse(excelReader.GetString(4)) : 0,
+                            company = comapny
+                        };
+
+                        retVal.guests.Add(g);
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
 
             //6. Free resources (IExcelDataReader is IDisposable)

@@ -123,7 +123,7 @@ namespace gliist_server.Helpers
 
             myMessage.EnableTemplateEngine("70408aab-282a-41a4-a74a-0c207267d5c9");
 
-            var logo = string.Format("{0}/api/account/ProfilePicture/?userId={1}", baseUrl, from.Id);
+            var logo = from.profilePictureUrl;
 
             var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
 

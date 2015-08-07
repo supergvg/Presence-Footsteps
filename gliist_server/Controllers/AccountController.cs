@@ -357,19 +357,34 @@ namespace gliist_server.Controllers
             return resp;
         }
 
+
+        private async Task<string> uploadToBlob(UserModel user, string fileName, byte[] data)
+        {
+            var container = BlobHelper.GetWebApiContainer("profiles");
+            var blob = container.GetBlockBlobReference(user.company.name.ToString() + "_" + DateTime.Now.Millisecond + "_" + fileName);
+            blob.UploadFromByteArray(data, 0, data.Length);
+            var userId = User.Identity.GetUserId();
+
+
+            user.profilePictureUrl = blob.Uri.AbsoluteUri;
+
+            return blob.Uri.AbsoluteUri;
+        }
+
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("ProfilePicture")]
         public async Task<IHttpActionResult> PostProfilePicture()
         {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
             var profilePicImage = await FileUploadHelper.FilesToBytes(this.Request);
 
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            await uploadToBlob(user, profilePicImage.Item1, profilePicImage.Item2);
 
             user.profilePictureData = profilePicImage.Item2;
             user.profilePicture = profilePicImage.Item1;
 
             _db.Entry(user).State = EntityState.Modified;
-
 
             try
             {
@@ -380,7 +395,7 @@ namespace gliist_server.Controllers
                 throw;
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(user.profilePicture);
         }
 
         // POST api/Account/Logout
