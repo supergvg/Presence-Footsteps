@@ -56,7 +56,7 @@ namespace gliist_server.Controllers
             }
 
 
-            if (gl.id > -1)
+            if (gl.id > 0)
             {
                 db.Entry(gl).State = EntityState.Modified;
             }

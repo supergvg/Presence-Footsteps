@@ -67,7 +67,10 @@ namespace gliist_server.Helpers
                             email = count > 2 ? itemArr[2].ToString() : null,
                             phoneNumber = count > 3 ? itemArr[3].ToString() : null,
                             plus = count > 4 ? int.Parse(itemArr[4].ToString()) : 0,
-                            company = comapny
+                            company = comapny,
+
+
+                            type = retVal.listType
                         };
 
                         retVal.guests.Add(g);
@@ -95,7 +98,10 @@ namespace gliist_server.Helpers
                             email = excelReader.FieldCount > 2 ? excelReader.GetString(2) : null,
                             phoneNumber = excelReader.FieldCount > 3 ? excelReader.GetString(3) : null,
                             plus = excelReader.FieldCount > 4 ? int.Parse(excelReader.GetString(4)) : 0,
-                            company = comapny
+                            company = comapny,
+
+
+                            type = retVal.listType
                         };
 
                         retVal.guests.Add(g);

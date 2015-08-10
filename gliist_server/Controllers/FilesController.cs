@@ -130,6 +130,8 @@ namespace gliist_server.Controllers
                                 email = values.Length > 2 ? values[2] : null,
                                 phoneNumber = values.Length > 3 ? values[3] : null,
                                 plus = values.Length > 4 ? int.Parse(values[4]) : 0,
+
+                                type = retVal.listType,
                                 company = company
                             };
 

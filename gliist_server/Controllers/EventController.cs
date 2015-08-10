@@ -43,7 +43,7 @@ namespace gliist_server.Controllers
             var user = UserManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                 .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.endTime, DateTimeOffset.Now) >= 0).ToList();
+                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0).ToList();
 
 
             var targetList = events
@@ -60,7 +60,7 @@ namespace gliist_server.Controllers
             var user = UserManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                 .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.endTime, DateTimeOffset.Now) < 0).ToList();
+                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0).ToList();
 
             var targetList = events
          .Select(x => new EventViewModel(x) { })
@@ -100,7 +100,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
 
-            if (user.permissions.Contains("promoter"))
+            if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
                 return BadRequest("Invaid permissions");
             }
@@ -138,7 +138,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
 
-            if (user.permissions.Contains("promoter"))
+            if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
                 return BadRequest("Invaid permissions");
             }
@@ -184,6 +184,11 @@ namespace gliist_server.Controllers
 
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
+
+            if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
+            {
+                return BadRequest("Invaid permissions");
+            }
 
             Event @event = db.Events.Where(e => e.id == id && e.company.id == user.company.id).FirstOrDefault();
 
