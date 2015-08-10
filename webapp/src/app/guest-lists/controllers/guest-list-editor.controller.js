@@ -34,6 +34,7 @@ angular.module('gliist')
                 rowHeight: 35,
                 tabIndex: 0,
                 enableCellSelection: true,
+                enableCellEditOnFocus: true,
                 noTabInterference: true
             };
 
@@ -152,7 +153,7 @@ angular.module('gliist')
                         _.extend($scope.list, data);
                     },
                     function (err) {
-                        dialogService.error('There was a problem saving your image please try again');
+                        dialogService.error('There was a problem saving your guest list please try again');
                     }
                 ).finally(
                     function () {

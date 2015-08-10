@@ -1,93 +1,96 @@
 <div>
-  <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
+    <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
 
 
-  <md-list style="overflow-y: hidden">
-    <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                          ng-show="fetchingData"></md-progress-circular>
+    <md-list style="overflow-y: hidden">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                              ng-show="fetchingData"></md-progress-circular>
 
-    <md-list-item ng-class="getItemClass($last)"
-                  ng-repeat="event in events | limitTo:(options.limit || events.length)" style="margin-bottom: 5px;">
-      <div layout="row" flex style="background-color:#FFFFFF;height: 120px">
-        <div flex="15" ng-style="getEventInvite(event)">
-        </div>
+        <md-list-item ng-class="getItemClass($last)"
+                      ng-repeat="event in events | limitTo:(options.limit || events.length)"
+                      style="margin-bottom: 5px;">
+            <div layout="row" flex style="background-color:#FFFFFF;height: 120px">
+                <div flex="15" ng-style="getEventInvite(event)">
+                </div>
 
-        <div flex="55" style="padding-left: 15px; padding-top: 15px;" layout="row">
-          <md-grid-list
-            md-cols-gt-sm="2"
-            md-row-height-gt-sm="50px"
-            md-gutter="1px" style="width: 100%;text-align: left">
-            <md-grid-tile>
-              <div class="md-title capitalize"
-                   style="font-weight: bold;color:#8E8E8E;width:100%">{{event.title}}
-              </div>
-            </md-grid-tile>
-            <md-grid-tile>
-              <div class="" style="font-size: 12px;color:#8E8E8E;width:100%">{{event.location}}</div>
-            </md-grid-tile>
-            <md-grid-tile>
-              <p style="margin-right: 10px">Starts:</p>
+                <div flex="55" style="padding-left: 15px; padding-top: 15px;" layout="row">
+                    <md-grid-list
+                            md-cols-gt-sm="2"
+                            md-row-height-gt-sm="50px"
+                            md-gutter="1px" style="width: 100%;text-align: left">
+                        <md-grid-tile>
+                            <div class="md-title capitalize"
+                                 style="font-weight: bold;color:#8E8E8E;width:100%">{{event.title}}
+                            </div>
+                        </md-grid-tile>
+                        <md-grid-tile>
+                            <div class="" style="font-size: 12px;color:#8E8E8E;width:100%">{{event.location}}</div>
+                        </md-grid-tile>
+                        <md-grid-tile>
+                            <p style="margin-right: 10px">Starts:</p>
 
-              <p style="display: inline;font-size: 14px;color:#8E8E8E;line-height: 100;width:100%">
-                {{event.time |date:'MMM dd, yyyy'}}
+                            <p style="display: inline;font-size: 14px;color:#8E8E8E;line-height: 100;width:100%">
+                                {{event.time |date:'MMM dd, yyyy'}}
 
-                {{event.time |date: 'h:mma'}}
-              </p>
-            </md-grid-tile>
-            <md-grid-tile>
-              <p style="margin-right: 10px">Ends:</p>
+                                {{event.time | ignoreTimeZone |date: 'h:mma'}}
+                            </p>
+                        </md-grid-tile>
+                        <md-grid-tile>
+                            <p style="margin-right: 10px">Ends:</p>
 
-              <p style="display: inline;font-size: 14px;color:#8E8E8E;line-height: 100%;width:100%">
-                {{event.endTime |date:'MMM dd, yyyy'}}
+                            <p style="display: inline;font-size: 14px;color:#8E8E8E;line-height: 100%;width:100%">
+                                {{event.endTime |date:'MMM dd, yyyy'}}
 
-                {{event.endTime |date: 'h:mma'}}
-              </p>
-            </md-grid-tile>
+                                {{event.endTime |ignoreTimeZone |date: 'h:mma'}}
+                            </p>
+                        </md-grid-tile>
 
-          </md-grid-list>
+                    </md-grid-list>
 
-        </div>
+                </div>
 
-        <div layout="row" ng-cloak flex="30" layout-align="end center" style=""
-             ng-hide="options.local">
-          <div layout="column">
-            <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
-                       ui-sref="main.event_checkin({eventId:{{event.id}}})">
-              <ng-md-icon icon="assignment_turned_in" style="fill: #33aaaa" size="24"></ng-md-icon>
-            </md-button>
+                <div layout="row" ng-cloak flex="30" layout-align="end center" style=""
+                     ng-hide="options.local">
+                    <div layout="column">
+                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
+                                   ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                            <ng-md-icon icon="assignment_turned_in" style="fill: #33aaaa" size="24"></ng-md-icon>
+                        </md-button>
 
-            <div flex></div>
-          </div>
+                        <div flex></div>
+                    </div>
 
-          <div layout="column" style="height: 120px;">
-            <md-button flex class="wht-event-list-btn" ng-disabled="isPromoter()" ng-hide="options.readyOnly"
-                       ui-sref="main.event_summary({eventId:{{event.id}}})">
-              <ng-md-icon icon="theaters" style="fill: #33aaaa" size="24"></ng-md-icon>
-            </md-button>
-            <md-button flex class="logo-event-list-btn"
-                       ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
-              <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
-            </md-button>
+                    <div layout="column" style="height: 120px;">
+                        <md-button flex class="wht-event-list-btn" ng-disabled="isPromoter() ||isStaff()"
+                                   ng-hide="options.readyOnly"
+                                   ui-sref="main.event_summary({eventId:{{event.id}}})">
+                            <ng-md-icon icon="theaters" style="fill: #33aaaa" size="24"></ng-md-icon>
+                        </md-button>
+                        <md-button flex class="logo-event-list-btn"
+                                   ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
+                            <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
+                        </md-button>
 
-          </div>
-          <div style="width: 1px;background-color: white">
-          </div>
+                    </div>
+                    <div style="width: 1px;background-color: white">
+                    </div>
 
-          <div layout="column" style="height: 120px;">
-            <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly"
-                       ui-sref="main.edit_event({eventId:{{event.id}}})">
-              <ng-md-icon icon="mode_edit" style="fill: #33aaaa" size="24"></ng-md-icon>
-            </md-button>
+                    <div layout="column" style="height: 120px;">
+                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly" ng-disabled="isStaff()"
+                                   ui-sref="main.edit_event({eventId:{{event.id}}})">
+                            <ng-md-icon icon="mode_edit" style="fill: #33aaaa" size="24"></ng-md-icon>
+                        </md-button>
 
-            <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly" ng-disabled="isPromoter()"
-                       ng-click="deleteEvent($event,event)">
-              <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
-            </md-button>
-          </div>
-        </div>
-      </div>
-    </md-list-item>
-  </md-list>
+                        <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly"
+                                   ng-disabled="isPromoter() || isStaff()"
+                                   ng-click="deleteEvent($event,event)">
+                            <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
 
 
 </div>

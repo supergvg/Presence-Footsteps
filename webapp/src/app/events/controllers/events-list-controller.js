@@ -8,6 +8,10 @@ angular.module('gliist')
         return $rootScope.isPromoter();
       };
 
+        $scope.isStaff = function () {
+            return $rootScope.isStaff();
+        }
+
       $scope.getEventInvite = function (event) {
         return {
           'background-image': "url(" + event.invitePicture + ")",

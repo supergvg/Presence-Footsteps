@@ -1,225 +1,246 @@
 angular.module('gliist')
-  .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav',
-    function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav) {
-      'use strict';
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav) {
+            'use strict';
 
-      function buildToggler(navID) {
-        $mdSidenav(navID).toggle();
-      }
-
-      $rootScope.$watch('currentUser', function (newValue) {
-        $scope.currentUser = newValue;
-
-        $scope.getUserPhoto();
-
-        if (!newValue) {
-          return;
-        }
-
-        if ($rootScope.isPromoter()) {
-          $scope.menuItems = [
-            {
-              title: 'Guest List Management',
-              ui_sref: 'main.list_management',
-              icon: {name: 'content_paste', style: "fill: white", size: 24}
-            },
-            {
-              title: 'Upcoming Events',
-              ui_sref: 'main.current_events',
-              icon: {name: 'today', style: "fill: white", size: 24}
-            },
-            {
-              title: 'Events Statistics',
-              ui_sref: 'main.stats',
-              icon: {name: 'insert_chart', style: "fill: white", size: 24}
-            },
-            {
-              title: 'User Profile',
-              ui_sref: 'main.user',
-              icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+            function buildToggler(navID) {
+                $mdSidenav(navID).toggle();
             }
-          ];
-        } else {
-          $scope.menuItems = [
-            {
-              title: 'Guest List Management',
-              ui_sref: 'main.list_management',
-              icon: {name: 'content_paste', style: "fill: white", size: 24}
-            },
-            {
-              title: 'Create Event',
-              ui_sref: 'main.create_event',
-              icon: {name: 'add_circle', style: "fill: white", size: 24}
-            },
-            {
-              title: 'Upcoming Events',
-              ui_sref: 'main.current_events',
-              icon: {name: 'today', style: "fill: white", size: 24}
-            },
-            {
-              title: 'Events Statistics',
-              ui_sref: 'main.stats',
-              icon: {name: 'insert_chart', style: "fill: white", size: 24}
-            },
-            {
-              title: 'User Profile',
-              ui_sref: 'main.user',
-              icon: {name: 'assignment_ind', style: "fill: white", size: 24}
-            }
-          ];
-        }
 
-      });
+            $rootScope.$watch('currentUser', function (newValue) {
+                $scope.currentUser = newValue;
 
-      $rootScope.isPromoter = function () {
+                $scope.getUserPhoto();
 
-        if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
-          return;
-        }
+                if (!newValue) {
+                    return;
+                }
 
-        return $rootScope.currentUser.permissions.indexOf('promoter') > -1;
+                if ($rootScope.isPromoter()) {
+                    $scope.menuItems = [
+                        {
+                            title: 'Guest List Management',
+                            ui_sref: 'main.list_management',
+                            icon: {name: 'content_paste', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Upcoming Events',
+                            ui_sref: 'main.current_events',
+                            icon: {name: 'today', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'User Profile',
+                            ui_sref: 'main.user',
+                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                        }
+                    ];
 
-      };
+                }
+                else if ($rootScope.isStaff()) {
+                    $scope.menuItems = [
+                        {
+                            title: 'Guest List Management',
+                            ui_sref: 'main.list_management',
+                            icon: {name: 'content_paste', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Upcoming Events',
+                            ui_sref: 'main.current_events',
+                            icon: {name: 'today', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Events Statistics',
+                            ui_sref: 'main.stats',
+                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'User Profile',
+                            ui_sref: 'main.user',
+                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                        }
+                    ];
 
-      $rootScope.isAdmin = function () {
+                } else {
+                    $scope.menuItems = [
+                        {
+                            title: 'Guest List Management',
+                            ui_sref: 'main.list_management',
+                            icon: {name: 'content_paste', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Create Event',
+                            ui_sref: 'main.create_event',
+                            icon: {name: 'add_circle', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Upcoming Events',
+                            ui_sref: 'main.current_events',
+                            icon: {name: 'today', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Events Statistics',
+                            ui_sref: 'main.stats',
+                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'User Profile',
+                            ui_sref: 'main.user',
+                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                        }
+                    ];
+                }
 
-        if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
-          return;
-        }
+            });
 
-        return $rootScope.currentUser.permissions.indexOf('admin') > -1;
+            $rootScope.isPromoter = function () {
 
-      };
+                if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
+                    return;
+                }
 
-      $rootScope.isStaff = function () {
-        if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
-          return;
-        }
+                return $rootScope.currentUser.permissions.indexOf('promoter') > -1;
 
-        return $rootScope.currentUser.permissions.indexOf('staff') > -1;
+            };
 
-      };
+            $rootScope.isAdmin = function () {
 
-      $scope.hidePhoto = false;
+                if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
+                    return;
+                }
 
-      $rootScope.$on('userUpdated', function () {
-        $scope.suffix = (new Date()).getTime();
+                return $rootScope.currentUser.permissions.indexOf('admin') > -1;
 
-        $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser, $scope.suffix);
-      });
+            };
 
-      $scope.getUserPhoto = function (height) {
-        $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser, $scope.suffix);
-      };
+            $rootScope.isStaff = function () {
+                if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
+                    return;
+                }
 
-      $scope.userProfilePic_watch = function () {
-        return $scope.userProfilePic;
-      };
+                return $rootScope.currentUser.permissions.indexOf('staff') > -1;
 
+            };
 
-      $scope.init = function () {
-        $scope.errorMessage = '';
-        $scope.credentials = {};
-      };
+            $scope.hidePhoto = false;
 
-      $scope.signUp = function (ev) {
-        $mdDialog.show({
-          controller: 'SignupCtrl',
-          templateUrl: 'app/templates/dialogs/signup-dialog.tmpl.html',
-          targetEvent: ev
-        })
-          .then(function (answer) {
-            $scope.alert = 'You said the information was "' + answer + '".';
-          }, function () {
-            $scope.alert = 'You cancelled the dialog.';
-          });
-      };
+            $rootScope.$on('userUpdated', function () {
+                $scope.suffix = (new Date()).getTime();
+
+                $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser, $scope.suffix);
+            });
+
+            $scope.getUserPhoto = function (height) {
+                $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser, $scope.suffix);
+            };
+
+            $scope.userProfilePic_watch = function () {
+                return $scope.userProfilePic;
+            };
 
 
-      $rootScope.logout = function () {
-        userService.logout();
-        $state.go('home');
-      };
+            $scope.init = function () {
+                $scope.errorMessage = '';
+                $scope.credentials = {};
+            };
 
-      $scope.toggleSidebar = function () {
-        buildToggler('left');
-      };
+            $scope.signUp = function (ev) {
+                $mdDialog.show({
+                    controller: 'SignupCtrl',
+                    templateUrl: 'app/templates/dialogs/signup-dialog.tmpl.html',
+                    targetEvent: ev
+                })
+                    .then(function (answer) {
+                        $scope.alert = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.alert = 'You cancelled the dialog.';
+                    });
+            };
 
 
-      $scope.onKeyPress = function (keyEvent) {
-        if ($scope.credentials.username && keyEvent.which === 13) {
-          $scope.login();
-        }
-      };
+            $rootScope.logout = function () {
+                userService.logout();
+                $state.go('home');
+            };
 
-      $scope.forgotPassword = function () {
-        alert('not implement!');
-      };
+            $scope.toggleSidebar = function () {
+                buildToggler('left');
+            };
 
-      $scope.login = function () {
-        if (!$scope.credentials.username || !$scope.credentials.password) {
-          $scope.errorMessage = 'Invalid User or Password';
-          return;
-        }
 
-        $scope.fetchingData = true;
+            $scope.onKeyPress = function (keyEvent) {
+                if ($scope.credentials.username && keyEvent.which === 13) {
+                    $scope.login();
+                }
+            };
 
-        userService.login($scope.credentials).then(function (res) {
-          $state.go('main.welcome');
-        }, function (err) {
-          $scope.errorMessage = 'Invalid User or Password';
-        }).finally(function () {
-            $scope.fetchingData = false
-          }
-        );
-      };
+            $scope.forgotPassword = function () {
+                alert('not implement!');
+            };
 
-      $scope.getBg = function () {
-        if ($state.current.abstract || $state.includes('home') ||
-          $state.includes('signup') || $state.includes('signup_invite')
-          || $state.includes('recover_password')
-          || $state.includes('reset_password')
-        ) {
-          return 'logo-bg';
-        }
-      };
+            $scope.login = function () {
+                if (!$scope.credentials.username || !$scope.credentials.password) {
+                    $scope.errorMessage = 'Invalid User or Password';
+                    return;
+                }
 
-      $scope.setSelected = function (item) {
-        $scope.selectedMenuItem = item;
-      };
+                $scope.fetchingData = true;
 
-      $scope.getItemClass = function (item) {
+                userService.login($scope.credentials).then(function (res) {
+                    $state.go('main.welcome');
+                }, function (err) {
+                    $scope.errorMessage = 'Invalid User or Password';
+                }).finally(function () {
+                        $scope.fetchingData = false
+                    }
+                );
+            };
 
-        if (item === $scope.selectedMenuItem) {
-          return 'item-selected';
-        }
-      };
+            $scope.getBg = function () {
+                if ($state.current.abstract || $state.includes('home') ||
+                    $state.includes('signup') || $state.includes('signup_invite')
+                    || $state.includes('recover_password')
+                    || $state.includes('reset_password')
+                    ) {
+                    return 'logo-bg';
+                }
+            };
 
-      $scope.menuItems = [
-        {
-          title: 'Guest List Management',
-          ui_sref: 'main.list_management',
-          icon: {name: 'content_paste', style: "fill: white", size: 24}
-        },
-        {
-          title: 'Create Event',
-          ui_sref: 'main.create_event',
-          icon: {name: 'add_circle', style: "fill: white", size: 24}
-        },
-        {
-          title: 'Upcoming Events',
-          ui_sref: 'main.current_events',
-          icon: {name: 'today', style: "fill: white", size: 24}
-        },
-        {
-          title: 'Events Statistics',
-          ui_sref: 'main.stats',
-          icon: {name: 'insert_chart', style: "fill: white", size: 24}
-        },
-        {
-          title: 'User Profile',
-          ui_sref: 'main.user',
-          icon: {name: 'assignment_ind', style: "fill: white", size: 24}
-        }
-      ];
-    }]);
+            $scope.setSelected = function (item) {
+                $scope.selectedMenuItem = item;
+            };
+
+            $scope.getItemClass = function (item) {
+
+                if (item === $scope.selectedMenuItem) {
+                    return 'item-selected';
+                }
+            };
+
+            $scope.menuItems = [
+                {
+                    title: 'Guest List Management',
+                    ui_sref: 'main.list_management',
+                    icon: {name: 'content_paste', style: "fill: white", size: 24}
+                },
+                {
+                    title: 'Create Event',
+                    ui_sref: 'main.create_event',
+                    icon: {name: 'add_circle', style: "fill: white", size: 24}
+                },
+                {
+                    title: 'Upcoming Events',
+                    ui_sref: 'main.current_events',
+                    icon: {name: 'today', style: "fill: white", size: 24}
+                },
+                {
+                    title: 'Events Statistics',
+                    ui_sref: 'main.stats',
+                    icon: {name: 'insert_chart', style: "fill: white", size: 24}
+                },
+                {
+                    title: 'User Profile',
+                    ui_sref: 'main.user',
+                    icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                }
+            ];
+        }]);

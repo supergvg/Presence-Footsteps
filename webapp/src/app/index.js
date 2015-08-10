@@ -171,8 +171,36 @@ angular.module('gliist', [
 
             $urlRouterProvider.otherwise('/main/welcome');
         }])
-    .run(['$rootScope', '$state', 'userService', '$timeout',
-        function ($rootScope, $state, userService, $timeout) {
+    .run(['$rootScope', '$state', 'userService', '$timeout', '$document',
+        function ($rootScope, $state, userService, $timeout, $document) {
+
+            $document.on('keydown', function (event) {
+                var doPrevent = false;
+                if (event.keyCode === 8) {
+                    var d = event.srcElement || event.target;
+                    if ((d.tagName.toUpperCase() === 'INPUT' &&
+                        (
+                            d.type.toUpperCase() === 'TEXT' ||
+                            d.type.toUpperCase() === 'PASSWORD' ||
+                            d.type.toUpperCase() === 'FILE' ||
+                            d.type.toUpperCase() === 'EMAIL' ||
+                            d.type.toUpperCase() === 'SEARCH' ||
+                            d.type.toUpperCase() === 'DATE' )
+                        ) ||
+                        d.tagName.toUpperCase() === 'TEXTAREA') {
+                        doPrevent = d.readOnly || d.disabled;
+                    }
+                    else {
+                        doPrevent = true;
+                    }
+                }
+
+                if (doPrevent) {
+                    event.preventDefault();
+                }
+            });
+
+
             $rootScope.$on("$stateChangeStart",
                 function (event, next, toParams, from, fromParams) {
 
