@@ -47,6 +47,8 @@ namespace gliist_server.Models
 
         public string company { get; set; }
 
+        public string company_id { get; set; }
+
         public string bio { get; set; }
 
         public bool HasRegistered { get; set; }

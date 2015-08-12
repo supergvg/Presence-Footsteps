@@ -138,6 +138,10 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":event_name", new List<string> { @event.title });
             myMessage.AddSubstitution(":event_date", new List<string> { @event.time.Date.ToShortDateString() });
 
+
+            var desc = string.IsNullOrEmpty(@event.description) ? " " : @event.description;
+            myMessage.AddSubstitution(":event_details", new List<string> { desc });
+
             myMessage.AddSubstitution(":event_time", new List<string> { @event.time.ToString("hh:mm tt") });
 
             myMessage.AddSubstitution(":event_location", new List<string> { string.IsNullOrEmpty(@event.location) ? "" : @event.location });

@@ -81,6 +81,7 @@ namespace gliist_server.Controllers
                 phoneNumber = user.phoneNumber,
                 city = user.city,
                 company = user.company.name,
+                company_id = user.company.id.ToString(),
                 bio = user.bio,
                 permissions = user.permissions,
 

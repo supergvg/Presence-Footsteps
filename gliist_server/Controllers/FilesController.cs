@@ -105,7 +105,7 @@ namespace gliist_server.Controllers
                                title = originalFileName,
                                company = company,
                                created_by = user,
-                               listType = "GA",
+                               listType = gl.listType,
                                guests = new List<Guest>()
                            };
             }

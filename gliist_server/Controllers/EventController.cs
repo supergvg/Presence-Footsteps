@@ -41,7 +41,8 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+
+            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted).OrderBy(e => e.time)
                 .AsEnumerable()
                 .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0).ToList();
 
@@ -58,7 +59,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted).OrderBy(e => e.time)
                 .AsEnumerable()
                 .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0).ToList();
 

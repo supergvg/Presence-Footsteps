@@ -346,6 +346,8 @@ namespace gliist_server.Controllers
                     gli = gli
                 };
 
+                gliist_server.Helpers.PushNotificationHelper.SendNotification(notification.message, user.company.id.ToString());
+
 
                 db.Notifications.Add(notification);
             }
@@ -360,6 +362,8 @@ namespace gliist_server.Controllers
                     @event = gli.linked_event,
                     gli = gli
                 };
+
+                gliist_server.Helpers.PushNotificationHelper.SendNotification(notification.message, user.company.id.ToString());
 
 
                 db.Notifications.Add(notification);
@@ -377,6 +381,8 @@ namespace gliist_server.Controllers
                     gli = gli
                 };
 
+                gliist_server.Helpers.PushNotificationHelper.SendNotification(glMaxNot.message, user.company.id.ToString());
+
 
                 db.Notifications.Add(glMaxNot);
             }
@@ -391,6 +397,9 @@ namespace gliist_server.Controllers
                     @event = gli.linked_event,
                     gli = gli
                 };
+
+
+                gliist_server.Helpers.PushNotificationHelper.SendNotification(eventMaxNot.message, user.company.id.ToString());
 
 
                 db.Notifications.Add(eventMaxNot);
