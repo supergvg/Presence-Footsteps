@@ -210,6 +210,51 @@ namespace gliist_server.Controllers
             return Ok(@event.guestLists);
         }
 
+
+
+
+        [ResponseType(typeof(void))]
+        [HttpPost]
+        [Route("ImportGuestList")]
+        public async Task<IHttpActionResult> ImportGuestLists(IdsModel @model)
+        {
+            if (@model.id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
+            var masterGl = await db.GuestLists.FindAsync(@model.id);
+
+            if (masterGl == null || masterGl.company.id != user.company.id)
+            {
+                return BadRequest();
+            }
+
+
+            foreach (var id in @model.ids)
+            {
+                GuestList guestList = await db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefaultAsync();
+                if (guestList == null)
+                {
+                    continue;
+                }
+
+                foreach (var item in guestList.guests)
+                {
+                    masterGl.guests.Add(item);
+                };
+            }
+
+            db.Entry(masterGl).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
+            return Ok(masterGl);
+        }
+
+
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("DeleteGuestList")]
