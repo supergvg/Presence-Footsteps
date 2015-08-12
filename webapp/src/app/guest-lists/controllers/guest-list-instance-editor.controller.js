@@ -41,6 +41,7 @@ angular.module('gliist')
                     {field: 'guest.phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
                     {field: 'guest.plus', name: 'Plus', enableHiding: false, enableSorting: false}
                 ],
+                enableCellEditOnFocus: true,
                 rowHeight: 35
             };
 
