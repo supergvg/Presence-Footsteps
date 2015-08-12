@@ -3,6 +3,7 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
     function ($scope, $stateParams, eventsService, dialogService, $state, $rootScope, $timeout) {
 
 
+        $scope.filter = {};
         $scope.active = 'newGuests';
         $scope.setActive = function (activeScreen) {
             $scope.active = activeScreen;
@@ -107,9 +108,12 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
 
                 },
                 function () {
-                    dialogService.error('Oops there was a problem getting event, please try again')
+                    dialogService.error('Oops there was a problem, please try again')
                 }
             ).finally(function () {
+                    $scope.$broadcast('scroll.refreshComplete', function () {
+
+                    });
                 });
 
         };

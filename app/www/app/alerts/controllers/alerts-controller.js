@@ -35,14 +35,7 @@ angular.module('starter').controller('alertsController', ['$scope', '$rootScope'
         };
 
         $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-
-            if (notification.badge) {
-                $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
-                    // Success!
-                }, function (err) {
-                    // An error occurred. Show a message to the user
-                });
-            }
+            $scope.doAlertsRefresh();
         });
 
     }
