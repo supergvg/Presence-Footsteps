@@ -155,6 +155,30 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
 
+
+            importGuestList: function (masterGLId, guestLists) {
+                var d = $q.defer(),
+                    ids = _.map(guestLists, function (gl) {
+                        if (!gl) {
+                            return;
+                        }
+                        return gl.id
+                    });
+
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/ImportGuestList",
+                    data: {ids: ids, id: masterGLId}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
             deleteGuestList: function (gli, eventId) {
                 var d = $q.defer(),
                     ids = [gli.id];

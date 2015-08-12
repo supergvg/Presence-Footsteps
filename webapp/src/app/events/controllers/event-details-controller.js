@@ -170,7 +170,7 @@ angular.module('gliist')
 
                 var now = Date.now();
                 if ($scope.event.utcOffset) {
-                    now = now + $scope.event.utcOffset * 1000;
+                    now = now - $scope.event.utcOffset * 1000;
                 }
                 if ($scope.event.time < now) {
                     $scope.timeInvalid = true;

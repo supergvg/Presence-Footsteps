@@ -15,7 +15,6 @@ angular.module('gliist')
                 {name: 'Artist', color: '#9369E9'},
                 {name: 'Production', color: '#EA69D0'},
                 {name: 'Comp', color: '#35A9A9'},
-                {name: 'Others', color: '#3FBEE1'},
                 {name: 'Super VIP', color: '#42E19E'},
                 {name: 'All Access', color: '#9369E9'},
                 {name: 'Press', color: '#EA69D0'}
@@ -98,7 +97,6 @@ angular.module('gliist')
                             '#9369E9',
                             '#EA69D0',
                             '#35A9A9',
-                            '#3FBEE1',
                             '#42E19E',
                             '#9369E9',
                             '#EA69D0'],
