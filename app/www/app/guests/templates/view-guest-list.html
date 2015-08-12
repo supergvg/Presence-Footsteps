@@ -16,20 +16,24 @@
         <div class="list list-inset" ng-if="!fecthingData" ng-cloak style="background-color: #EEEEEE">
             <label class="item item-input" style="border-radius: 25px">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search Guests" ng-model="filter">
+                <input type="text" placeholder="Search Guests" ng-model="filter.query">
             </label>
         </div>
-
         <grey>
+            <ion-refresher
+                    pulling-text="Pull to refresh..."
+                    on-refresh="doRefresh()">
+            </ion-refresher>
             <ion-list can-swipe="'true'">
-                <ion-item collection-repeat="guestEntry in guestEntriesFiltered | filter:filter"
-                          class="item-thumbnail-left"
-                          style="margin-left: 30px;margin-right: 30px;border-left: none;border-right: none;"
-                          ui-sref="app.check_guest({guestId:guestEntry.guest.id, gliId:guestEntry.glist.id})">
+                <ion-item
+                        collection-repeat="guestEntry in guestEntriesFiltered | filter:filter.query | orderBy: 'guest.lastName' "
+                        class="item-thumbnail-left"
+                        style="margin-left: 30px;margin-right: 30px;border-left: none;border-right: none;"
+                        ui-sref="app.check_guest({guestId:guestEntry.guest.id, gliId:guestEntry.glist.id})">
 
                     <img ng-src="img/icons/user_01.png">
 
-                    <h2 style="font-weight: bold">{{guestEntry.guest.firstName}} {{guestEntry.guest.lastName}}</h2>
+                    <h2 style="font-weight: bold"> {{guestEntry.guest.lastName}} {{guestEntry.guest.firstName}}</h2>
 
                     <p style="margin-top: 30px;">{{guestEntry.guest.plus + 1 -
                         guestEntry.plusBalance}} /

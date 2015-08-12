@@ -144,8 +144,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
 
     }]);
 
-app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush) {
+app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush, mobileServices) {
 
+    mobileServices.init();
 
     $rootScope.$on("$stateChangeStart", function (event, next, toParams, from, fromParams) {
         if (next.name === 'login' && userService.getLogged()) {
@@ -161,7 +162,7 @@ app.run(function ($ionicPlatform, userService, $rootScope, $state, $cordovaPush)
         }
     }, 100);
 
-    /*    document.addEventListener("deviceready", function () {
+    /*    sdocument.addEventListener("deviceready", function () {
 
      var mobileServiceClient = new WindowsAzure.MobileServiceClient(
      'https://todolist-cordova.azure-mobile.net/',

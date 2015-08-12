@@ -91,9 +91,19 @@ angular.module('gliist')
                         },
                         backgroundColor: '#ECECEC',
                         legend: 'none',
-                        colors: ['#35A9A9', '#3FBEE1', '#42E19E', '#9369E9', '#EA69D0', '#35A9A9', '#3FBEE1'],
+                        colors: [
+                            '#35A9A9',
+                            '#3FBEE1',
+                            '#42E19E',
+                            '#9369E9',
+                            '#EA69D0',
+                            '#35A9A9',
+                            '#3FBEE1',
+                            '#42E19E',
+                            '#9369E9',
+                            '#EA69D0'],
                         chartArea: {left: 0, top: '10%', width: '100%', height: '75%'},
-                        pieSliceText: 'label',
+                        pieSliceText: 'label'
                     },
                     data: {
                         cols: [

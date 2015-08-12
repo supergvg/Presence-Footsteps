@@ -12,7 +12,7 @@
             <p class="col-20" style="font-size: 14px;color:white;line-height: 100%;line-height: 20px;font-weight: bold">
                 {{event.time |date:'MMM dd'}}
                 <br>
-                {{event.time |date:'h:mm a'}}
+                {{event.time |ignoreTimeZone |date:'h:mm a'}}
                 <br>
             </p>
 
