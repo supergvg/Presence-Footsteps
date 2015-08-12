@@ -133,6 +133,7 @@ namespace gliist_server.Controllers
                 {
                     if (guest.id > 0)
                     {
+                        guest.type = guestList.listType;
                         db.Entry(guest).State = EntityState.Modified;
                     }
                     else
