@@ -183,11 +183,23 @@ angular.module('gliist')
                     $scope.list = $scope.list || {title: 'New Guest List'};
                     $scope.list.guests = $scope.list.guests || [];
 
-                    angular.forEach(selected, function (toImport) {
-                        $scope.list.guests = $scope.list.guests.concat(toImport.guests);
-                    });
-                    $mdDialog.hide();
-                    $scope.save();
+
+                    eventsService.importGuestList($scope.list.id, selected).then(function (res) {
+
+                        if (!res) {
+                            return dialogService.error('There was a problem linking your guest list, please try again');
+                        }
+
+                        $scope.list.guests = res.guests;
+
+                    }, function () {
+                        dialogService.error('There was a problem linking your guest list, please try again');
+                    }).finally(
+                        function () {
+                            $mdDialog.hide();
+                        }
+                    );
+
                 };
 
                 $mdDialog.show({
