@@ -7,7 +7,7 @@
         <input type="text" ng-model="gli.title">
       </md-input-container>
       <md-select ng-model="gli.listType" flex="25"
-                 style="padding-top: 27px;width: 100%">
+                 style="padding-top: 27px;width: 100%" ng-disabled="'true'">
         <md-select-label style="width:100%">{{gli.listType || 'Select Type'}}</md-select-label>
         <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
       </md-select>
