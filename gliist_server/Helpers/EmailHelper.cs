@@ -92,7 +92,8 @@ namespace gliist_server.Helpers
 
             myMessage.AddSubstitution(":reset_password_link", new List<string> { resetLink });
 
-
+            myMessage.EnableOpenTracking();
+            myMessage.EnableClickTracking();
 
             // Create credentials, specifying your user name and password.
             var credentials = new NetworkCredential("gliist", "gliist79*");
@@ -123,7 +124,7 @@ namespace gliist_server.Helpers
 
             myMessage.EnableTemplateEngine("70408aab-282a-41a4-a74a-0c207267d5c9");
 
-            var logo = from.profilePictureUrl;
+            var logo = string.IsNullOrEmpty(from.profilePictureUrl) ? from.company.logo : from.profilePictureUrl;
 
             var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
 
@@ -147,6 +148,9 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":event_location", new List<string> { string.IsNullOrEmpty(@event.location) ? "" : @event.location });
             myMessage.AddSubstitution(":qr_code_url", new List<string> { qr_url });
 
+
+            myMessage.EnableOpenTracking();
+            myMessage.EnableClickTracking();
 
             // Create credentials, specifying your user name and password.
             var credentials = new NetworkCredential("gliist", "gliist79*");

@@ -105,6 +105,7 @@ namespace gliist_server.Controllers
                     }
                     else
                     {
+                        checkin.guest.type = guestListInstance.listType;
                         db.Entry(checkin.guest).State = EntityState.Added;
                     }
                 }
