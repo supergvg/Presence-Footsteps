@@ -333,6 +333,7 @@
     <Content Include="packages.config" />
     <Content Include="js\MobileServices.pri" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\gjests.pubxml" />
     <None Include="Properties\PublishProfiles\gliist %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\gliist.pubxml" />
     <Content Include="Views\_ViewStart.cshtml" />
