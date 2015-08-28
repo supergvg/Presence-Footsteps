@@ -81,10 +81,13 @@ angular.module('gliist')
             };
 
             $scope.updateChart = function (event) {
+
+                var totalGuests = 0;
+
                 $scope.chartObject = {
                     type: 'PieChart',
                     options: {
-                        title: 'Total Checked in Guests',
+                        title: 'Total Checked in Guests ' + totalGuests,
                         titleTextStyle: {
                             fontSize: 14
                         },
@@ -116,6 +119,8 @@ angular.module('gliist')
 
                     var categoryCount = $scope.getCategoryStatus(category);
 
+                    totalGuests += categoryCount;
+
                     $scope.chartObject.data.rows.push({
                         c: [
                             {
@@ -127,6 +132,7 @@ angular.module('gliist')
                         ]
                     });
                 });
+                $scope.chartObject.options.title = 'Total Checked in Guests ' + totalGuests;
 
                 $timeout(function () {
                     $("text:contains(" + $scope.chartObject.options.title + ")").attr({'x': '20'});

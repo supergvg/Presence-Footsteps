@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state',
+        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state) {
 
             $scope.getRowStyle = function (checkin) {
                 return {
@@ -52,8 +52,7 @@ angular.module('gliist')
 
                     $scope.rowSelected = true;
                 });
-            }
-
+            };
 
             $scope.guestListTypes = [
                 'GA',
@@ -184,7 +183,7 @@ angular.module('gliist')
                     $scope.list.guests = $scope.list.guests || [];
 
 
-                    eventsService.importGuestList($scope.list.id, selected).then(function (res) {
+                    eventsService.importGuestList($scope.list.id, selected, $scope.list).then(function (res) {
 
                         if (!res) {
                             return dialogService.error('There was a problem linking your guest list, please try again');
@@ -228,12 +227,30 @@ angular.module('gliist')
                 });
             };
 
+            $scope.$watch('list.listType', function (newVal, oldVal) {
+
+                if (!$scope.list || !$scope.list.id) {
+                    return;
+                }
+
+
+                if (newVal && oldVal && (newVal !== oldVal)) {
+                    $scope.glTypeChanged = true;
+                }
+            });
+
             $scope.save = function (goBack) {
                 $scope.fetchingData = true;
 
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
+
+                if ($scope.glTypeChanged) {
+                    $scope.list.id = null;
+                    $scope.list.title += ' ' + $scope.list.listType;
+                }
+
                 guestFactory.GuestList.update($scope.list).$promise.then(
                     function (res) {
                         _.extend($scope.list, res);
@@ -242,6 +259,8 @@ angular.module('gliist')
 
                         if ($scope.onSave && goBack) {
                             $scope.onSave(res);
+                        } else {
+                            $state.go('main.edit_glist', {listId: res.id})
                         }
 
                     }, function () {

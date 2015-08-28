@@ -28,7 +28,7 @@ angular.module('gliist', [
                 .warnPalette('red')
                 .backgroundPalette('grey');
 
-            window.redirectUrl = "http://gliist.azurewebsites.net/";
+            window.redirectUrl = "http://gjests.azurewebsites.net/";
             $provide.factory('myHttpInterceptor', function () {
                 return {
                     'request': function (config) {
@@ -185,6 +185,7 @@ angular.module('gliist', [
                             d.type.toUpperCase() === 'FILE' ||
                             d.type.toUpperCase() === 'EMAIL' ||
                             d.type.toUpperCase() === 'SEARCH' ||
+                            d.type.toUpperCase() === 'NUMBER' ||
                             d.type.toUpperCase() === 'DATE' )
                         ) ||
                         d.tagName.toUpperCase() === 'TEXTAREA') {
