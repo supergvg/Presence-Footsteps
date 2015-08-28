@@ -28,7 +28,7 @@ namespace gliist_server.Helpers
                     title = fileName,
                     company = comapny,
                     created_by = user,
-                    listType = gl.listType,
+                    listType = gl != null ? gl.listType : "GA",
                     guests = new List<Guest>()
                 };
             }

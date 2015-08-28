@@ -37,6 +37,8 @@ namespace gliist_server.Controllers
         public int[] ids { get; set; }
 
         public int id { get; set; }
+
+        public GuestList gl { get; set; }
     }
 
     public class IdsEventModel
@@ -141,7 +143,7 @@ namespace gliist_server.Controllers
             res.gl_instance = new GuestListInstance()
             {
                 id = gli.id,
-                listType = gli.listType,
+                //listType = gli.listType,
                 title = gli.title
             };
 
@@ -218,21 +220,44 @@ namespace gliist_server.Controllers
         [Route("ImportGuestList")]
         public async Task<IHttpActionResult> ImportGuestLists(IdsModel @model)
         {
-            if (@model.id <= 0)
-            {
-                return BadRequest();
-            }
-
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
 
-            var masterGl = await db.GuestLists.FindAsync(@model.id);
+
+            if (@model.gl == null)
+            {
+                @model.gl = new GuestList()
+                {
+                    title = "New Guest List",
+                    listType = "GA"
+                };
+            }
+
+
+            GuestList masterGl;
+            if (@model.id <= 0)
+            {
+                masterGl = new GuestList()
+                   {
+                       created_by = user,
+                       company = user.company,
+                       title = string.Format("{0}", @model.gl.title),
+                       listType = @model.gl.listType
+                   };
+
+                db.GuestLists.Add(masterGl);
+            }
+            else
+            {
+                masterGl = await db.GuestLists.FindAsync(@model.id);
+                db.Entry(masterGl).State = EntityState.Modified;
+
+            }
 
             if (masterGl == null || masterGl.company.id != user.company.id)
             {
                 return BadRequest();
             }
-
 
             foreach (var id in @model.ids)
             {
@@ -248,7 +273,6 @@ namespace gliist_server.Controllers
                 };
             }
 
-            db.Entry(masterGl).State = EntityState.Modified;
             await db.SaveChangesAsync();
 
             return Ok(masterGl);
