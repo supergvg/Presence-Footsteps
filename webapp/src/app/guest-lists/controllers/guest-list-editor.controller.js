@@ -52,8 +52,7 @@ angular.module('gliist')
 
                     $scope.rowSelected = true;
                 });
-            }
-
+            };
 
             $scope.guestListTypes = [
                 'GA',
@@ -184,7 +183,7 @@ angular.module('gliist')
                     $scope.list.guests = $scope.list.guests || [];
 
 
-                    eventsService.importGuestList($scope.list.id, selected).then(function (res) {
+                    eventsService.importGuestList($scope.list.id, selected, $scope.list).then(function (res) {
 
                         if (!res) {
                             return dialogService.error('There was a problem linking your guest list, please try again');

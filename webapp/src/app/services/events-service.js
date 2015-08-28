@@ -156,7 +156,7 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
             },
 
 
-            importGuestList: function (masterGLId, guestLists) {
+            importGuestList: function (masterGLId, guestLists, gl) {
                 var d = $q.defer(),
                     ids = _.map(guestLists, function (gl) {
                         if (!gl) {
@@ -169,7 +169,7 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 $http({
                     method: "POST",
                     url: "api/GuestEventController/ImportGuestList",
-                    data: {ids: ids, id: masterGLId}
+                    data: {ids: ids, id: masterGLId, gl: gl}
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {

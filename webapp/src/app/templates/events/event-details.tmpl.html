@@ -1,205 +1,205 @@
 <div ng-init="init()">
 
-  <div layout="row">
+<div layout="row">
     <div flex="5">
-      <div style="background-color:white;
+        <div style="background-color:white;
                 border-color: white;
                     height: 10px;
                     margin-top: 50px;">
 
-      </div>
-      <div style="margin-top: -55px">
-        <h5 class="text-bg">Details</h5>
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg">Details</h5>
 
-        <md-button class="md-fab"
-                   style="background-color: white;
+            <md-button class="md-fab"
+                       style="background-color: white;
                    height: 30px;
                    width: 30px;
                    margin:0"
-                   ng-disabled="isPromoter()"
-                   ng-class="getSelected(0)"
-                   ng-click="data.selectedIndex = 0">
-        </md-button>
-      </div>
+                       ng-disabled="isPromoter()"
+                       ng-class="getSelected(0)"
+                       ng-click="data.selectedIndex = 0">
+            </md-button>
+        </div>
     </div>
     <div flex="28">
-      <div style="background-color:white;
+        <div style="background-color:white;
                 border-color: white;
                     height: 10px;
                     margin-top: 50px;">
 
-      </div>
+        </div>
     </div>
     <div flex="5">
-      <div style="background-color:white;
+        <div style="background-color:white;
                 border-color: white;
                     height: 10px;
                     margin-top: 50px;">
 
-      </div>
-      <div style="margin-top: -55px">
-        <h5 class="text-bg">Invite</h5>
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg">Invite</h5>
 
-        <md-button class="md-fab"
-                   style="background-color: white;
+            <md-button class="md-fab"
+                       style="background-color: white;
                             height: 30px;
                             width: 30px;
                             margin:0"
-                   ng-disabled="!event.id || isPromoter()"
-                   ng-class="getSelected(1)"
-                   ng-click="data.selectedIndex = 1">
-        </md-button>
-      </div>
+                       ng-disabled="!event.id || isPromoter()"
+                       ng-class="getSelected(1)"
+                       ng-click="data.selectedIndex = 1">
+            </md-button>
+        </div>
     </div>
     <div flex="28">
-      <div style="background-color:white;
+        <div style="background-color:white;
                 border-color: white;
                     height: 10px;
                     margin-top: 50px;">
 
-      </div>
+        </div>
     </div>
     <div flex="5">
-      <div style="background-color:white;
+        <div style="background-color:white;
                 border-color: white;
                     height: 10px;
                     margin-top: 50px;">
 
-      </div>
-      <div style="margin-top: -55px">
-        <h5 class="text-bg">Guests</h5>
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg">Guests</h5>
 
-        <md-button class="md-fab"
-                   style="background-color: white;
+            <md-button class="md-fab"
+                       style="background-color: white;
                    height: 30px;
                    width: 30px;
                     margin:0;"
-                   ng-disabled="!event.id"
-                   ng-class="getSelected(2)"
-                   ng-click="data.selectedIndex = 2">
-        </md-button>
-      </div>
+                       ng-disabled="!event.id"
+                       ng-class="getSelected(2)"
+                       ng-click="data.selectedIndex = 2">
+            </md-button>
+        </div>
     </div>
     <div flex="28">
-      <div style="background-color:white;
+        <div style="background-color:white;
                 border-color: white;
                     height: 10px;margin-top: 50px;">
 
-      </div>
+        </div>
 
     </div>
     <div flex="5">
-      <div style="height: 10px;margin-top: 50px;">
-      </div>
-      <div style="margin-top: -55px">
-        <h5 class="text-bg" style="text-align: left">Preview</h5>
+        <div style="height: 10px;margin-top: 50px;">
+        </div>
+        <div style="margin-top: -55px">
+            <h5 class="text-bg" style="text-align: left">Preview</h5>
 
-        <md-button class="md-fab"
-                   style="
+            <md-button class="md-fab"
+                       style="
                    background-color: white;
                    height: 30px;
                    width: 30px;
                     margin:0;"
-                   ng-disabled="!event.id || isPromoter()"
-                   ng-class="getSelected(3)"
-                   ng-click="data.selectedIndex = 3">
-        </md-button>
-      </div>
+                       ng-disabled="!event.id || isPromoter()"
+                       ng-class="getSelected(3)"
+                       ng-click="data.selectedIndex = 3">
+            </md-button>
+        </div>
     </div>
-  </div>
+</div>
 
 
-  <ng-switch on="data.selectedIndex" class="tabpanel-container">
+<ng-switch on="data.selectedIndex" class="tabpanel-container">
     <div role="tabpanel"
          id="tab1-content"
          aria-labelledby="tab1"
          ng-switch-when="0"
          md-swipe-left="next()"
          md-swipe-right="previous()">
-      <div>
-        <form name="eventForm">
-          <div layout layout-sm="column">
+        <div>
+            <form name="eventForm">
+                <div layout layout-sm="column">
 
-            <md-input-container flex="75">
-              <label>Event Title</label>
-              <input required name="title" ng-model="event.title">
+                    <md-input-container flex="75">
+                        <label>Event Title</label>
+                        <input required name="title" ng-model="event.title">
 
-              <div ng-show="showTitleValidation" ng-messages="eventForm.title.$error"
-                   ng-if="displayErrorMessage(eventForm.title)">
-                <div ng-message="required">Title is required</div>
-              </div>
-            </md-input-container>
-            <md-select placeholder="Select Type" ng-model="event.category" flex="25"
-                       style="padding-top: 27px;width: 100%">
-              <md-select-label style="width:100%">{{event.category || 'Event Category'}}</md-select-label>
-              <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
-            </md-select>
-          </div>
-
-
-          <div layout layout-sm="column">
-            <div flex>
-              <div style="margin-bottom:-35px">
-                <label style="font-size:14;color:#8E8E8E;">Starts</label>
-              </div>
-              <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep"
-                              minute-step="minuteStep"
-                              ng-model="event.time" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
-                              date-options="dateOptions"
-                              date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
-
-              <div ng-if="timeInvalid" ng-message="required">Event can't start in the past
-              </div>
+                        <div ng-show="showTitleValidation" ng-messages="eventForm.title.$error"
+                             ng-if="displayErrorMessage(eventForm.title)">
+                            <div ng-message="required">Title is required</div>
+                        </div>
+                    </md-input-container>
+                    <md-select placeholder="Select Type" ng-model="event.category" flex="25"
+                               style="padding-top: 27px;width: 100%">
+                        <md-select-label style="width:100%">{{event.category || 'Event Category'}}</md-select-label>
+                        <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
+                    </md-select>
+                </div>
 
 
-            </div>
-            <div flex>
-              <div style="margin-bottom:-35px">
-                <label style="font-size:14;color:#8E8E8E">Ends </label>
-              </div>
-              <datetimepicker min-date="endMinDate()" show-weeks="showWeeks" hour-step="hourStep"
-                              minute-step="minuteStep"
-                              ng-model="event.endTime" show-meridian="showMeridian"
-                              date-format="dd-MMM-yyyy"
-                              date-options="dateOptions"
-                              date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
+                <div layout layout-sm="column">
+                    <div flex>
+                        <div style="margin-bottom:-35px">
+                            <label style="font-size:14;color:#8E8E8E;">Starts</label>
+                        </div>
+                        <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep"
+                                        minute-step="minuteStep"
+                                        ng-model="event.time" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
+                                        date-options="dateOptions"
+                                        date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
 
-              <div ng-if="endTimeInvalid" ng-message="required">End time has to be after start time
-              </div>
+                        <div ng-if="timeInvalid" ng-message="required">Event can't start in the past
+                        </div>
 
-            </div>
-          </div>
-          <div layout layout-sm="column">
-            <md-input-container flex="75" ng-init=resetPlaceholder()>
-              <label>Event Location</label>
-              <input type="text" name="location" ng-autocomplete
-                     ng-model="event.location" details="location.details">
-              <md-icon class="input-icon"
-                       md-svg-src="assets/images/SVG/location.svg"></md-icon>
-            </md-input-container>
-            <md-input-container flex="25">
-              <label>Total Capacity</label>
-              <input name="capacity" ng-model="event.capacity" type="number" min="0" step="1">
-              <md-icon class="input-icon"
-                       md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
-            </md-input-container>
-          </div>
-          <md-input-container flex>
-            <label>Event Details</label>
-            <textarea name=" details" ng-model="event.description" columns="1"></textarea>
-          </md-input-container>
-        </form>
 
-      </div>
+                    </div>
+                    <div flex>
+                        <div style="margin-bottom:-35px">
+                            <label style="font-size:14;color:#8E8E8E">Ends </label>
+                        </div>
+                        <datetimepicker min-date="endMinDate()" show-weeks="showWeeks" hour-step="hourStep"
+                                        minute-step="minuteStep"
+                                        ng-model="event.endTime" show-meridian="showMeridian"
+                                        date-format="dd-MMM-yyyy"
+                                        date-options="dateOptions"
+                                        date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
 
-      <div layout="row" layout-align="end center">
-        <span class="md-caption" ng-if="showValidation">Please fix all errors</span>
-        <md-button class="md-primary md-raised" ng-click="next(eventForm)">
-          Next
-        </md-button>
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                              ng-show="savingEvent"></md-progress-circular>
-      </div>
+                        <div ng-if="endTimeInvalid" ng-message="required">End time has to be after start time
+                        </div>
+
+                    </div>
+                </div>
+                <div layout layout-sm="column">
+                    <md-input-container flex="75" ng-init=resetPlaceholder()>
+                        <label>Event Location</label>
+                        <input type="text" name="location" ng-autocomplete
+                               ng-model="event.location" details="location.details">
+                        <md-icon class="input-icon"
+                                 md-svg-src="assets/images/SVG/location.svg"></md-icon>
+                    </md-input-container>
+                    <md-input-container flex="25">
+                        <label>Total Capacity</label>
+                        <input name="capacity" ng-model="event.capacity" type="number" min="0" step="1">
+                        <md-icon class="input-icon"
+                                 md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
+                    </md-input-container>
+                </div>
+                <md-input-container flex>
+                    <label>Event Details</label>
+                    <textarea name=" details" ng-model="event.description" columns="1"></textarea>
+                </md-input-container>
+            </form>
+
+        </div>
+
+        <div layout="row" layout-align="end center">
+            <span class="md-caption" ng-if="showValidation">Please fix all errors</span>
+            <md-button class="md-primary md-raised" ng-click="next(eventForm)">
+                Next
+            </md-button>
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                  ng-show="savingEvent"></md-progress-circular>
+        </div>
     </div>
     <div role="tabpanel"
          id="tab2-content"
@@ -207,35 +207,35 @@
          ng-switch-when="1"
          md-swipe-left="next()"
          md-swipe-right="previous()">
-      <div>
+        <div>
 
-        <md-list style="padding-left: 5px">
-          <md-list-item layout="row" style="border-bottom: #C9C9C9 solid">
-            <div flex="70">
-              <p> Upload your invite (jpg,gif, file formats supported)</p>
-            </div>
-            <div flex="30" layout="row" layout-align="end center">
-              <md-button class="md-primary md-raised" ng-file-select="onInviteSelected($files)"
-                         accept=".jpg,.png,.gif">
-                UPLOAD
-              </md-button>
-              <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                    ng-show="fetchingData"></md-progress-circular>
-            </div>
-          </md-list-item>
+            <md-list style="padding-left: 5px">
+                <md-list-item layout="row" style="border-bottom: #C9C9C9 solid">
+                    <div flex="70">
+                        <p> Upload your invite (jpg,gif, file formats supported)</p>
+                    </div>
+                    <div flex="30" layout="row" layout-align="end center">
+                        <md-button class="md-primary md-raised" ng-file-select="onInviteSelected($files)"
+                                   accept=".jpg,.png,.gif">
+                            UPLOAD
+                        </md-button>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                              ng-show="fetchingData"></md-progress-circular>
+                    </div>
+                </md-list-item>
 
-        </md-list>
-        <div layout="row">
-          <div flex ng-style="getEventInvite('300px')">
-          </div>
+            </md-list>
+            <div layout="row">
+                <div flex ng-style="getEventInvite('300px')">
+                </div>
+            </div>
+
         </div>
-
-      </div>
-      <div layout="row" layout-align="end center">
-        <md-button class="md-primary md-raised" ng-click="next()">
-          Next
-        </md-button>
-      </div>
+        <div layout="row" layout-align="end center">
+            <md-button class="md-primary md-raised" ng-click="next()">
+                Next
+            </md-button>
+        </div>
     </div>
     <div role="tabpanel"
          id="tab3-content"
@@ -243,48 +243,48 @@
          ng-switch-when="2"
          md-swipe-left="next()"
          md-swipe-right="previous()">
-      <div>
-        <md-list style="padding-left: 5px">
-          <md-list-item layout="row" style="border-bottom: #C9C9C9 solid">
-            <div flex>
-              <p>Add existing guest list</p>
-            </div>
-            <div flex layout="row" layout-align="end center">
-              <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event)">
-                Add
-              </md-button>
-            </div>
-          </md-list-item>
-          <md-list-item layout="row">
-            <div flex>
-              <p>Add a new guest list</p>
-            </div>
-            <div flex layout="row" layout-align="end center">
-              <md-button class="md-primary md-raised"
-                         ui-sref="main.create_gl_event({eventId:{{event.id}}})">
-                Create
-              </md-button>
-            </div>
-          </md-list-item>
-        </md-list>
-
         <div>
-          <div class="page-subtitle" style="margin-top: -15px;">
-            <h4>Guests</h4>
-          </div>
-          <guest-list-instance-view event="event" lists="event.guestLists"
-                                    options="gliOptions"></guest-list-instance-view>
+            <md-list style="padding-left: 5px">
+                <md-list-item layout="row" style="border-bottom: #C9C9C9 solid">
+                    <div flex>
+                        <p>Add existing guest list</p>
+                    </div>
+                    <div flex layout="row" layout-align="end center">
+                        <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event)">
+                            Add
+                        </md-button>
+                    </div>
+                </md-list-item>
+                <md-list-item layout="row">
+                    <div flex>
+                        <p>Add a new guest list</p>
+                    </div>
+                    <div flex layout="row" layout-align="end center">
+                        <md-button class="md-primary md-raised"
+                                   ui-sref="main.create_gl_event({eventId:{{event.id}}})">
+                            Create
+                        </md-button>
+                    </div>
+                </md-list-item>
+            </md-list>
+
+            <div>
+                <div class="page-subtitle" style="margin-top: -15px;">
+                    <h4>Guests</h4>
+                </div>
+                <guest-list-instance-view event="event" lists="event.guestLists"
+                                          options="gliOptions"></guest-list-instance-view>
+            </div>
+
         </div>
 
-      </div>
-
-      <div layout="row" layout-align="end center" style="margin-top: 10px;">
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                              ng-show="savingEvent"></md-progress-circular>
-        <md-button class="md-primary md-raised" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
-          Next
-        </md-button>
-      </div>
+        <div layout="row" layout-align="end center" style="margin-top: 10px;">
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                  ng-show="savingEvent"></md-progress-circular>
+            <md-button class="md-primary md-raised" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
+                Next
+            </md-button>
+        </div>
 
     </div>
     <div role="tabpanel"
@@ -294,8 +294,8 @@
          md-swipe-left="next()"
          md-swipe-right="previous()">
 
-      <event-publish event-id="event.id" options="previewOptions"></event-publish>
+        <event-publish event-id="event.id" options="previewOptions"></event-publish>
 
     </div>
-  </ng-switch>
+</ng-switch>
 </div>
