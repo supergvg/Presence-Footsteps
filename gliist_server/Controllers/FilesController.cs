@@ -105,7 +105,7 @@ namespace gliist_server.Controllers
                                title = originalFileName,
                                company = company,
                                created_by = user,
-                               listType = gl.listType,
+                               listType = gl != null ? gl.listType : "GA",
                                guests = new List<Guest>()
                            };
             }
@@ -123,10 +123,23 @@ namespace gliist_server.Controllers
                         var values = sr.ReadLine().Split(',');
                         try
                         {
+
+                            var s = values[0].Split(' ');
+
+                            string firstName = values.Length > 0 ? values[0] : null,
+                              lastName = values.Length > 1 ? values[1] : null;
+
+                            if (s.Length > 1 && (values.Length > 1 && string.IsNullOrEmpty(lastName)))
+                            {
+                                firstName = s[0];
+                                //first column has 2 words and 2nd is empty
+                                lastName = s[1];
+                            }
+
                             var g = new Guest()
                             {
-                                firstName = values.Length > 0 ? values[0] : null,
-                                lastName = values.Length > 1 ? values[1] : null,
+                                firstName = firstName,
+                                lastName = lastName,
                                 email = values.Length > 2 ? values[2] : null,
                                 phoneNumber = values.Length > 3 ? values[3] : null,
                                 plus = values.Length > 4 ? int.Parse(values[4]) : 0,

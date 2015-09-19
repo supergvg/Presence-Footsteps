@@ -59,19 +59,32 @@ namespace gliist_server.Helpers
 
                     try
                     {
-                        var g = new Guest()
+                        var s = itemArr[0].ToString().Split(' ');
+
+                        string firstName = count > 0 ? itemArr[0].ToString() : null,
+                            lastName = count > 1 ? itemArr[1].ToString() : null;
+
+                        if (s.Length > 1 && (count > 1 && string.IsNullOrEmpty(lastName)))
                         {
+                            firstName = s[0];
+                            //first column has 2 words and 2nd is empty
+                            lastName = s[1];
+                        }
 
-                            firstName = count > 0 ? itemArr[0].ToString() : null,
-                            lastName = count > 1 ? itemArr[1].ToString() : null,
-                            email = count > 2 ? itemArr[2].ToString() : null,
-                            phoneNumber = count > 3 ? itemArr[3].ToString() : null,
-                            plus = count > 4 ? int.Parse(itemArr[4].ToString()) : 0,
-                            company = comapny,
+                        var g = new Guest()
+                       {
+
+                           firstName = firstName,
+                           lastName = lastName,
+                           email = count > 2 ? itemArr[2].ToString() : null,
+                           phoneNumber = count > 3 ? itemArr[3].ToString() : null,
+                           plus = count > 4 ? int.Parse(itemArr[4].ToString()) : 0,
+                           company = comapny,
 
 
-                            type = retVal.listType
-                        };
+                           type = retVal.listType
+                       };
+
 
                         retVal.guests.Add(g);
                     }
@@ -90,16 +103,28 @@ namespace gliist_server.Helpers
                 {
                     try
                     {
+
+                        var s = excelReader.GetString(0).Split(' ');
+
+                        string firstName = excelReader.FieldCount > 0 ? excelReader.GetString(0) : null,
+                          lastName = excelReader.FieldCount > 1 ? excelReader.GetString(1) : null;
+
+                        if (s.Length > 1 && (excelReader.FieldCount > 1 && string.IsNullOrEmpty(lastName)))
+                        {
+                            firstName = s[0];
+                            //first column has 2 words and 2nd is empty
+                            lastName = s[1];
+                        }
+
                         var g = new Guest()
                         {
 
-                            firstName = excelReader.FieldCount > 0 ? excelReader.GetString(0) : null,
-                            lastName = excelReader.FieldCount > 1 ? excelReader.GetString(1) : null,
+                            firstName = firstName,
+                            lastName = lastName,
                             email = excelReader.FieldCount > 2 ? excelReader.GetString(2) : null,
                             phoneNumber = excelReader.FieldCount > 3 ? excelReader.GetString(3) : null,
                             plus = excelReader.FieldCount > 4 ? int.Parse(excelReader.GetString(4)) : 0,
                             company = comapny,
-
 
                             type = retVal.listType
                         };
