@@ -12,6 +12,8 @@ using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
 using gliist_server.Helpers;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace gliist_server.Controllers
 {
@@ -68,6 +70,18 @@ namespace gliist_server.Controllers
             try
             {
                 await db.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                validationError.PropertyName,
+                                                validationError.ErrorMessage);
+                    }
+                }
             }
             catch (DbUpdateConcurrencyException)
             {

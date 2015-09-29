@@ -143,7 +143,7 @@ namespace gliist_server.Controllers
                 invite.acceptedAt = null;
             }
 
-            EmailHelper.SendJoinRequest(newUser, user, invite);
+            EmailHelper.SendJoinRequest(newUser, user, invite, Request);
 
             await _db.SaveChangesAsync();
 

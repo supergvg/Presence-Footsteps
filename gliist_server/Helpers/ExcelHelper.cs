@@ -50,8 +50,7 @@ namespace gliist_server.Helpers
 
             if (result.Tables.Count > 0)
             {
-
-                for (int i = 1; i < result.Tables[0].Rows.Count; i++)
+                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
                     var rowI = result.Tables[0].Rows[i];
                     var itemArr = rowI.ItemArray;
@@ -71,6 +70,16 @@ namespace gliist_server.Helpers
                             lastName = s[1];
                         }
 
+                        var pluses = 0;
+
+                        if (itemArr.Length > 4)
+                        {
+                            if (!int.TryParse(itemArr[4].ToString(), out pluses))
+                            {
+                                pluses = 0;
+                            }
+                        }
+
                         var g = new Guest()
                        {
 
@@ -78,13 +87,21 @@ namespace gliist_server.Helpers
                            lastName = lastName,
                            email = count > 2 ? itemArr[2].ToString() : null,
                            phoneNumber = count > 3 ? itemArr[3].ToString() : null,
-                           plus = count > 4 ? int.Parse(itemArr[4].ToString()) : 0,
+                           plus = pluses,
                            company = comapny,
 
 
                            type = retVal.listType
                        };
 
+                        if (string.IsNullOrEmpty(g.firstName))
+                        {
+                            continue;
+                        }
+                        if (string.IsNullOrEmpty(g.lastName))
+                        {
+                            g.lastName = "Guest";
+                        }
 
                         retVal.guests.Add(g);
                     }
@@ -96,8 +113,6 @@ namespace gliist_server.Helpers
             }
             else
             {
-                excelReader.Read();//read header
-
                 //5. Data Reader methods
                 while (excelReader.Read())
                 {
@@ -116,6 +131,18 @@ namespace gliist_server.Helpers
                             lastName = s[1];
                         }
 
+
+                        var pluses = 0;
+
+                        if (excelReader.FieldCount > 4)
+                        {
+                            if (!int.TryParse(excelReader.GetString(4), out pluses))
+                            {
+                                pluses = 0;
+                            }
+                        }
+
+
                         var g = new Guest()
                         {
 
@@ -123,11 +150,20 @@ namespace gliist_server.Helpers
                             lastName = lastName,
                             email = excelReader.FieldCount > 2 ? excelReader.GetString(2) : null,
                             phoneNumber = excelReader.FieldCount > 3 ? excelReader.GetString(3) : null,
-                            plus = excelReader.FieldCount > 4 ? int.Parse(excelReader.GetString(4)) : 0,
+                            plus = pluses,
                             company = comapny,
 
                             type = retVal.listType
                         };
+
+                        if (string.IsNullOrEmpty(g.firstName))
+                        {
+                            continue;
+                        }
+                        if (string.IsNullOrEmpty(g.lastName))
+                        {
+                            g.lastName = "Guest";
+                        }
 
                         retVal.guests.Add(g);
                     }

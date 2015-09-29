@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
@@ -164,7 +165,7 @@ namespace gliist_server.Helpers
         }
 
 
-        public static void SendJoinRequest(UserModel to, UserModel from, Invite invite)
+        public static void SendJoinRequest(UserModel to, UserModel from, Invite invite, HttpRequestMessage request)
         {
             // Create the email object first, then add the properties.
             SendGridMessage myMessage = new SendGridMessage();
@@ -191,7 +192,7 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":account_settings",
                 new List<string>
                 { 
-                string.Format("http://gliist.azurewebsites.net/dist/#/signup/invite/{0}/{1}",from.company.name ,invite.token) 
+                string.Format("{0}/#/signup/invite/{1}/{2}", request.RequestUri.Authority, from.company.name ,invite.token)
                 }
             );
 
