@@ -53,6 +53,11 @@ angular.module('starter').controller('eventController',
                     ($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('promoter') > -1));
             };
 
+            $scope.isStaff = function () {
+                return ($rootScope.currentUser &&
+                    ($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('staff') > -1));
+            };
+
             $scope.init = function () {
 
                 $scope.eventId = $stateParams.eventId;

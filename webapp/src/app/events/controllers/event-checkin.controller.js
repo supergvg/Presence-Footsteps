@@ -84,7 +84,7 @@ angular.module('gliist')
 
 
             $scope.guestPending = function (checkin) {
-                return (checkin.status === 'no show' || checkin.plus > 0);
+                return (checkin.status === 'no show');
             };
 
             $scope.initGridData = function (filter, data) {
@@ -127,7 +127,6 @@ angular.module('gliist')
 
 
             $scope.pastEvent = function () {
-
                 var now = Date.now(),
                     d_now = new Date(now),
                     end_time = new Date($scope.event.endTime);
