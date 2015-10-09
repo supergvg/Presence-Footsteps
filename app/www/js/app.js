@@ -18,7 +18,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider',
                 return {
                     'request': function (config) {
 
-                        var redirectUrl = "http://gliist.azurewebsites.net/";
+                        var redirectUrl = "http://gjests.azurewebsites.net/";
                         if (config.url.indexOf('api') > -1) {
                             config.url = redirectUrl + config.url;
                         } else if (config.url.indexOf('Token') > -1) {

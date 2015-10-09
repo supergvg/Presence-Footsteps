@@ -11,8 +11,7 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
             'Comp',
             'Others',
             'Super VIP',
-            'All Access',
-            'Comp'
+            'All Access'
         ];
 
         $scope.getCategoryStatus = function (category) {

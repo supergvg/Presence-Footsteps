@@ -23,14 +23,14 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
 
             if ($scope.active === 'newGuests') {
                 angular.forEach($scope.guestEntries, function (value) {
-                    if (!value.guestChecked || value.plusBalance > 0) {
+                    if (!value.guestChecked) {
                         $scope.guestEntriesFiltered.push(value);
                     }
                 });
             }
             else {
                 angular.forEach($scope.guestEntries, function (value) {
-                    if (value.guestChecked && value.plusBalance === 0) {
+                    if (value.guestChecked) {
                         $scope.guestEntriesFiltered.push(value);
                     }
                 });
