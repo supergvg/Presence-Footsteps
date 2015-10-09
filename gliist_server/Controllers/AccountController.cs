@@ -244,7 +244,7 @@ namespace gliist_server.Controllers
                 return errorResult;
             }
 
-            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com");
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", compnay.name);
             return Ok();
         }
 
@@ -719,7 +719,7 @@ namespace gliist_server.Controllers
                 return errorResult;
             }
 
-            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com");
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", compnay.name);
             return Ok();
         }
 

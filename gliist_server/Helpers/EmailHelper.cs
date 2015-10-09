@@ -45,11 +45,15 @@ namespace gliist_server.Helpers
             return blob.Uri.AbsoluteUri;
         }
 
-        public static void SendWelcomeEmail(string to, string website, string userName, string accountLink)
+        public static void SendWelcomeEmail(string to, string website, string userName, string accountLink, string companyName)
         {
             // Create the email object first, then add the properties.
             SendGridMessage myMessage = new SendGridMessage();
             myMessage.AddTo(to);
+
+            myMessage.SetCategories(new List<string> { "Welcome Email", companyName });
+
+
             myMessage.From = new MailAddress("admin@gjests.com", "gjests");
 
             myMessage.Subject = "Welcome to gjests";
@@ -76,12 +80,14 @@ namespace gliist_server.Helpers
         }
 
 
-        public static void SendRecoverPassword(string userEmail, string resetLink)
+        public static void SendRecoverPassword(string userEmail, string resetLink, string companyName)
         {
             // Create the email object first, then add the properties.
             SendGridMessage myMessage = new SendGridMessage();
             myMessage.AddTo(userEmail);
             myMessage.From = new MailAddress("dont-replay@gjests.com", "gjests");
+
+            myMessage.SetCategories(new List<string> { "Recover Password", companyName });
 
 
             myMessage.Subject = string.Format("Recover Password");
@@ -117,6 +123,10 @@ namespace gliist_server.Helpers
             // Create the email object first, then add the properties.
             SendGridMessage myMessage = new SendGridMessage();
             myMessage.AddTo(guest.email);
+
+            myMessage.SetCategories(new List<string> { "Event invite", from.company.name });
+
+
             myMessage.From = new MailAddress("non-reply@gjests.com", from.company.name);
 
             myMessage.Subject = string.Format("{0} - Invitation", @event.title);
@@ -170,6 +180,10 @@ namespace gliist_server.Helpers
             // Create the email object first, then add the properties.
             SendGridMessage myMessage = new SendGridMessage();
             myMessage.AddTo(to.UserName);
+
+            myMessage.SetCategories(new List<string> { "Contributor Invitation", from.company.name });
+
+
             myMessage.From = new MailAddress("dontreplay@gjests.com", "gjests");
 
             myMessage.Subject = string.Format("Contributor Invitation from {0} {1}", from.firstName, from.lastName);
@@ -192,7 +206,7 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":account_settings",
                 new List<string>
                 { 
-                string.Format("{0}/#/signup/invite/{1}/{2}", request.RequestUri.Authority, from.company.name ,invite.token)
+                string.Format("{0}/#/signup/invite/{1}/{2}", "http://gjests.azurewebsites.net/", from.company.name ,invite.token)
                 }
             );
 
