@@ -48,7 +48,7 @@ angular.module('gliist')
       $scope.toggleSelected = function (item) {
         var idx = $scope.selected.indexOf(item);
         if (idx > -1) {
-          $scope.selected.splice(idx, 1)
+          $scope.selected.splice(idx, 1);
         } else {
           $scope.selected.push(item);
         }
@@ -74,7 +74,7 @@ angular.module('gliist')
 
             $scope.guestLists = _.reject($scope.guestLists, function (item) {
               return angular.equals(glist, item);
-            })
+            });
 
             return;
           }
@@ -83,7 +83,7 @@ angular.module('gliist')
             $scope.getGuestLists();
           }, function () {
             dialogService.error('There was a problem please try again');
-          })
+          });
 
 
         }, function () {
@@ -119,7 +119,7 @@ angular.module('gliist')
           return;
         }
 
-        $scope.fetchingData = true
+        $scope.fetchingData = true;
         guestFactory.GuestLists.get().$promise.then(
           function (data) {
             $scope.guestLists = data;
@@ -127,7 +127,7 @@ angular.module('gliist')
             dialogService.error('There was a problem getting lists, please try again');
           }).finally(function () {
             $scope.fetchingData = false;
-          })
+          });
       };
 
       $scope.init = function () {

@@ -83,7 +83,7 @@ angular.module('gliist')
             };
 
 
-            $scope.onAddGLClicked = function (ev) {
+            $scope.onAddGLClicked = function (ev, instanceType) {
                 var scope = $scope.$new();
                 scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
@@ -101,7 +101,7 @@ angular.module('gliist')
                 };
 
                 scope.importGLists = function () {
-                    eventsService.linkGuestList(scope.selected, $scope.event.id).then(
+                    eventsService.linkGuestList(scope.selected, $scope.event.id, instanceType).then(
                         function (guestListInstances) {
                             $scope.event.guestLists = guestListInstances;
                             dialogService.success('Guest lists were linked');
@@ -148,21 +148,13 @@ angular.module('gliist')
 
             };
 
-            $scope.eventTitleOnBlur = function () {
-                $scope.showTitleValidation = true
-            };
-
             $scope.displayDateErrorMessage = function (dateField) {
 
             };
 
             $scope.displayErrorMessage = function (field) {
-
-                if (field === 'title' && $scope.showTitleValidation) {
-                    return;
-                }
-
-                return ($scope.showValidation) || (field.$touched && field.$error.required);
+                return false;
+                //return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
 
@@ -207,10 +199,30 @@ angular.module('gliist')
             };
 
             $scope.next = function (form) {
-
-                if ($scope.data.selectedIndex == 0 || $scope.data.selectedIndex == 2) {
-
+                if ($scope.data.selectedIndex == 0 || $scope.data.selectedIndex == 2 || $scope.data.selectedIndex == 3) {
+                    if ($scope.event.rsvpEndDate < $scope.event.time) {
+                        $scope.event.rsvpEndDate = $scope.event.time
+                    }
                     if (form && form.$invalid | !$scope.timeValid()) {
+                        var errors = {
+                            required: {
+                                title: 'Please Enter Event Title',
+                                category: 'Please Select Event Category',
+                                location: 'Please Enter Event Location',
+                                capacity: 'Please Enter Total Capacity'
+                            }
+                        },
+                        errorMessage = [];
+                        angular.forEach(form.$error.required, function(value, key){
+                            errorMessage.push(errors.required[value.$name]);
+                        });
+                        if ($scope.timeInvalid) {
+                            errorMessage.push("Cant Create Event in the Past");
+                        }
+                        if ($scope.endTimeInvalid) {
+                            errorMessage.push("End time has to be after start time");
+                        }
+                        dialogService.error(errorMessage.join(', '));
                         $scope.showValidation = true;
                         return;
                     }
@@ -218,8 +230,13 @@ angular.module('gliist')
                     eventsService.createEvent($scope.event).then(
                         function (res) {
                             $scope.event.id = res.id;
-                            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 3);
+                            $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 4);
                             $scope.event.invitePicture = res.invitePicture;
+                            $scope.event.rsvpUrl = res.rsvpUrl;
+                            $scope.event.ticketingUrl = res.ticketingUrl;
+                            $scope.event.facebookPageUrl = res.facebookPageUrl;
+                            $scope.event.instagrammPageUrl = res.instagrammPageUrl;
+                            $scope.event.twitterPageUrl = res.twitterPageUrl;
                             dialogService.success('Event ' + res.title + ' saved');
 
                         }, function () {
@@ -234,7 +251,7 @@ angular.module('gliist')
                     return;
                 }
 
-                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 3);
+                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 4);
             };
             $scope.previous = function () {
                 $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
@@ -317,10 +334,14 @@ angular.module('gliist')
                 showSummary: true
             };
 
+            $scope.addNewTicket = function() {
+                $scope.event.tickets.push({title: '', price: 10, endTime: new Date(), quantity: 1});
+            }
+
             $scope.init = function () {
 
                 if ($scope.isPromoter()) {
-                    $scope.data.selectedIndex = 2;
+                    $scope.data.selectedIndex = 3;
                 }
 
                 if ($scope.event) {
@@ -328,7 +349,8 @@ angular.module('gliist')
                 }
 
                 var d1 = new Date(),
-                    d2 = new Date(d1);
+                    d2 = new Date(d1),
+                    d3 = new Date(d1);
 
                 d2.setHours(d1.getHours() + 12);
                 d1.setHours(d1.getHours() + 6);
@@ -337,8 +359,15 @@ angular.module('gliist')
                     title: '',
                     guestLists: [],
                     time: d1,
-                    endTime: d2
+                    endTime: d2,
+                    type: 1,
+                    rsvpType: 3,
+                    additionalGuests: 0,
+                    isRsvpCapacityLimited: false,
+                    rsvpEndDate: d3,
+                    tickets: []
                 }
+                $scope.addNewTicket();
             };
 
         }]);

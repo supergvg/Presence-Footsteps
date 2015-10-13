@@ -13,14 +13,14 @@ angular.module('gliist')
                     function (res) {
                         $scope.list = res;
                     }, function () {
-                        $state.go('main.list_management')
+                        $state.go('main.list_management');
                         dialogService.error('There was a problem reading guest list, please try again');
 
                     }).finally(function () {
                         $scope.fetchingData = false;
-                    })
+                    });
 
-            }
+            };
 
             $scope.init();
 

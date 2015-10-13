@@ -116,13 +116,13 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
 
-            publishEvent: function (gli_ids) {
+            publishEvent: function (gli_ids, eventId) {
                 var d = $q.defer();
 
                 $http({
                     method: "POST",
                     url: "api/GuestEventController/PublishEvent",
-                    data: {ids: gli_ids}
+                    data: {ids: gli_ids, eventId: eventId}
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -132,7 +132,7 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
 
-            linkGuestList: function (guestLists, eventId) {
+            linkGuestList: function (guestLists, eventId, instanceType) {
                 var d = $q.defer(),
                     ids = _.map(guestLists, function (gl) {
                         if (!gl) {
@@ -145,7 +145,7 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 $http({
                     method: "POST",
                     url: "api/GuestEventController/linkGuestList",
-                    data: {ids: ids, eventId: eventId}
+                    data: {guestListIds: ids, eventId: eventId, instanceType: instanceType}
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -276,6 +276,70 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 });
 
                 return d.promise;
+            },
+            
+            getPublicEventDetails: function(type, companyName, eventName) {
+                // type = rsvp or tickets
+                var d = $q.defer();
+
+                $http({
+                    method: "GET",
+                    url: "api/"+type+"/PublicDetails/"+companyName+'/'+eventName
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
+            },
+            
+            getPersonalEventDetails: function(type, token) {
+                // type = rsvp or tickets
+                var d = $q.defer();
+
+                $http({
+                    method: "GET",
+                    url: "api/"+type+"/InvitedDetails/"+token
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
+            },
+            
+            confirmRSVPPublicEvent: function(data) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/rsvp/PublicConfirm",
+                    data: data
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
+            },
+            
+            confirmRSVPPersonalEvent: function(data) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/rsvp/InvitedConfirm",
+                    data: data
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
             }
-        }
+        };
     }]);

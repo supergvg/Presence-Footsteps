@@ -6,6 +6,7 @@ angular.module('gliist', [
     'ngTouch',
     'ngSanitize',
     'ngResource',
+    'ngMessages',
     'ui.router',
     'ngMaterial',
     'ngMdIcons',
@@ -107,7 +108,7 @@ angular.module('gliist', [
                     reloadOnSearch: false,
                     controller: 'EventsCtrl'
                 }).state('main.create_gl_event', {
-                    url: '/event/edit/guestlist/:eventId',
+                    url: '/event/edit/guestlist/:eventId/:instanceType',
                     templateUrl: 'app/events/templates/event-add-guestlist.html',
                     controller: 'AddGLEventCtrl'
                 }).state('main.edit_gl_event', {
@@ -167,6 +168,34 @@ angular.module('gliist', [
                     url: '/welcome',
                     templateUrl: 'app/templates/welcome.html',
                     controller: 'WelcomeController'
+                }).state('landing_public', {
+                    url: '/rsvp/:companyName/:eventName',
+                    templateUrl: 'app/templates/landing.html',
+                    controller: 'LandingCtrl',
+                    access: {
+                        allowAnonymous: true
+                    }
+                }).state('landing_personal', {
+                    url: '/rsvp/:token',
+                    templateUrl: 'app/templates/landing.html',
+                    controller: 'LandingCtrl',
+                    access: {
+                        allowAnonymous: true
+                    }
+                }).state('landing_ticketing_public', {
+                    url: '/tickets/:companyName/:eventName',
+                    templateUrl: 'app/templates/landing-ticketing.html',
+                    controller: 'LandingTicketCtrl',
+                    access: {
+                        allowAnonymous: true
+                    }
+                }).state('landing_ticketing_personal', {
+                    url: '/tickets/:token',
+                    templateUrl: 'app/templates/landing-ticketing.html',
+                    controller: 'LandingTicketCtrl',
+                    access: {
+                        allowAnonymous: true
+                    }
                 });
 
             $urlRouterProvider.otherwise('/main/welcome');

@@ -38,7 +38,7 @@ angular.module('gliist')
           function (err) {
             dialogService.error(err);
           }
-        )
+                );
       };
 
       $scope.next = function () {
@@ -48,4 +48,12 @@ angular.module('gliist')
         $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
       };
 
-    }]);
+            $scope.link = function () {
+                userService.updateCompanySocialLinks($scope.currentUser).then(function(){
+                    dialogService.success('Social links saved');
+                }, function(data) {
+                    dialogService.error(data.Message);
+                });
+            };
+        }
+    ]);

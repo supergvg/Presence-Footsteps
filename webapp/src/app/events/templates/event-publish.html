@@ -3,21 +3,17 @@
     <div ng-show="initializing">
         <h4>Loading...</h4>
         <span>
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                ></md-progress-circular>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
             </span>
     </div>
     <div ng-show="!initializing">
 
         <event-preview event="event"></event-preview>
 
-        <div style="background-color: #E0E0E0;">
-            <div flex style="background-color: #CCCCCC;color:white">
-                <h4 style="padding-left: 10px">Linked Guest Lists</h4>
-            </div>
-            <guest-list-instance-view published="toPublish" style="padding:10px" lists="event.guestLists"
-                                      options="glOptions"></guest-list-instance-view>
+        <div flex style="color:#7d7d7d">
+            <h5 style="padding-left: 10px;font-weight:bold;">Linked Guest Lists</h5>
         </div>
+        <guest-list-instance-view published="toPublish" style="padding:10px" lists="event.guestLists" options="glOptions"></guest-list-instance-view>
 
         <div class="md-actions" layout="row" layout-align="center center" style="margin-top: 30px;margin-bottom: 20px">
 

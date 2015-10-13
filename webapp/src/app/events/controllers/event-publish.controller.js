@@ -18,7 +18,7 @@ angular.module('gliist')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
 
-                    eventsService.publishEvent($scope.toPublish).then(
+                    eventsService.publishEvent($scope.toPublish, $scope.event.id).then(
                         function () {
 
                             $state.go('main.email_stats', {eventId: $scope.event.id});

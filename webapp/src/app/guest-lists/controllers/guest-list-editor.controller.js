@@ -1,16 +1,32 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams',
+        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams) {
 
             $scope.getRowStyle = function (checkin) {
                 return {
                     'background-color': 'white',
                     'border-bottom': 'thin inset #ECECEC'
-                }
+            };
             };
 
+            var instanceType = ~~$stateParams.instanceType,
+                columnDefs = [
+                    {field: 'firstName', name: 'First Name', enableHiding: false},
+                    {field: 'lastName', name: 'Last Name', enableHiding: false},
+                    {field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
+                    {field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false}
+                ]; 
+            if (instanceType !== 2){
+                    columnDefs.push({
+                        field: 'plus',
+                        name: 'Plus',
+                        width: '90',
+                        enableHiding: false,
+                        enableSorting: false
+                    });
+                    }
 
             $scope.gridOptions = {
                 rowTemplate: '<div' +
@@ -18,19 +34,7 @@ angular.module('gliist')
                     'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
                     ' ui-grid-cell></div>' +
                     '</div>',
-                columnDefs: [
-                    {field: 'firstName', name: 'First Name', enableHiding: false},
-                    {field: 'lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
-                    {field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
-                    {
-                        field: 'plus',
-                        name: 'Plus',
-                        width: '90',
-                        enableHiding: false,
-                        enableSorting: false
-                    }
-                ],
+                columnDefs: columnDefs,
                 rowHeight: 35,
                 tabIndex: 0,
                 enableCellSelection: true,
@@ -112,6 +116,16 @@ angular.module('gliist')
                 $scope.gridOptions.data = $scope.list.guests;
             });
 
+            $scope.guestsError = function() {
+                if (!$scope.list || !$scope.list.guests)
+                    return true;
+                var result = false;
+                angular.forEach($scope.list.guests, function(value, key) {
+                    result = result || (value.firstName === '') || (value.lastName === '');
+                });
+                return result;
+            };
+            
             $scope.onFileSelect = function (files) {
                 if (!files || files.length === 0) {
                     return;
@@ -158,7 +172,7 @@ angular.module('gliist')
                     function () {
                         $scope.fetchingData = false;
                     }
-                )
+                );
             };
 
             $scope.onLinkClicked = function (ev) {
@@ -240,6 +254,28 @@ angular.module('gliist')
             });
 
             $scope.save = function (goBack) {
+                if (!$scope.createGuestListForm.$valid || !$scope.isDirty) {
+                    var errors = {
+                        required: {
+                            title: 'Please Enter Guest List Title',
+                            listType: 'Please Select Guest Type'
+                        }
+                    },
+                    errorMessage = [];
+                    angular.forEach($scope.createGuestListForm.$error.required, function(value, key){
+                        errorMessage.push(errors.required[value.$name]);
+                    });
+                    if (!$scope.list || !$scope.list.guests || !$scope.list.guests.length) {
+                        errorMessage.push('Please Add Guests');
+                    }
+                    if ($scope.guestsError()) {
+                        errorMessage.push('First Name and Last Name must be not empty.');
+                    }
+                    dialogService.error(errorMessage.join(', '));
+                    $scope.showValidation = false;
+                    return;
+                }
+               
                 $scope.fetchingData = true;
 
                 if (!$scope.list.listType) {
@@ -260,14 +296,19 @@ angular.module('gliist')
                         if ($scope.onSave && goBack) {
                             $scope.onSave(res);
                         } else {
-                            $state.go('main.edit_glist', {listId: res.id})
+                            $state.go('main.edit_glist', {listId: res.id});
                         }
 
                     }, function () {
                         dialogService.error('There was a problem saving your guest list, please try again');
                     }).finally(function () {
                         $scope.fetchingData = false;
-                    })
+                    });
+            };
+            
+            $scope.displayErrorMessage = function(field) {
+                return false;
+                //return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
 
             $scope.init = function () {

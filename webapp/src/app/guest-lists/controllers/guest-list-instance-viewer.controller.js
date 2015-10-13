@@ -9,14 +9,17 @@ angular.module('gliist')
             };
 
             $scope.getglistTotal = function (glist) {
-                var total = 0;
+                return glist.guestsCount;
+                
+                //this old code
+/*                var total = 0;
 
                 angular.forEach(glist.actual,
                     function (guest_info) {
                         total += guest_info.guest.plus + 1;
                     });
 
-                return total;
+                return total;*/
             };
 
 
@@ -31,7 +34,7 @@ angular.module('gliist')
                 var idx = $scope.published.indexOf(glist.id);
 
                 if (idx === -1) {
-                    $scope.published.push(glist.id)
+                    $scope.published.push(glist.id);
                 } else {
                     $scope.published.splice(idx, 1);
                 }
@@ -44,7 +47,7 @@ angular.module('gliist')
                     function (res) {
                     }, function () {
                     }).finally(function () {
-                    })
+                    });
             };
 
             $scope.onCapacityChanged = function (instance) {
@@ -121,6 +124,6 @@ angular.module('gliist')
                         $scope.fetchingData = false;
                     }
                 );
-            }
+            };
 
         }]);

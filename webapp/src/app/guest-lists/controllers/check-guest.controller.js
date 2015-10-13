@@ -34,9 +34,9 @@ angular.module('gliist')
           },
           function (err) {
             if(err) {
-              dialogService.error(err.ExceptionMessage)
+              dialogService.error(err.ExceptionMessage);
             }else{
-              dialogService.error('Oops there was a problem getting guest, please try again')
+              dialogService.error('Oops there was a problem getting guest, please try again');
             }
           }
         ).finally(function () {
@@ -55,7 +55,7 @@ angular.module('gliist')
 
       $scope.isNotChecked = function (guestCheckin) {
         if (!$scope.guestChecked) {
-          return 1
+          return 1;
         }
       };
 
@@ -87,7 +87,7 @@ angular.module('gliist')
 
           },
           function () {
-            dialogService.error('Oops there was a problem getting guest, please try again')
+            dialogService.error('Oops there was a problem getting guest, please try again');
           }
         ).finally(
           function () {

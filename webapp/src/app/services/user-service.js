@@ -345,8 +345,22 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
           });
 
         return deferred.promise;
+            },
+            updateCompanySocialLinks: function(currentUser) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/Companies/UpdateSocialLinks",
+                    data: {id: ~~currentUser.company_id, facebookPageUrl: currentUser.facebookPageUrl, instagrammPageUrl: currentUser.instagrammPageUrl, twitterPageUrl: currentUser.twitterPageUrl}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
       }
+        };
     }
-  }
-])
-;
+]);

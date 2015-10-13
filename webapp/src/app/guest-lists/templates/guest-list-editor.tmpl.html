@@ -1,5 +1,6 @@
 <div>
     <div>
+        <form name="createGuestListForm">
         <div class="page-subtitle">
             <h4>Enter Guest List Title</h4>
         </div>
@@ -7,14 +8,22 @@
 
             <md-input-container flex="75">
                 <label>Enter guest list title</label>
-                <input type="text" ng-model="list.title">
+                    <input type="text" ng-model="list.title" name="title" required>
+                    <div ng-messages="createGuestListForm.title.$error" ng-if="displayErrorMessage(createGuestListForm.title)">
+                        <div ng-message="required">Please Enter Guest List Title</div>
+                    </div>
             </md-input-container>
-            <md-select placeholder="Select Type" ng-model="list.listType" flex="25"
-                       style="padding-top: 20px;width: 100%;margin-top: 7px" ng-disabled="disableChangeGLType()">
+                <md-input-container flex="25">
+                    <md-select placeholder="Select Type" required name="listType" ng-model="list.listType" style="padding-top: 18px;width: 100%;margin-top: 7px" ng-disabled="disableChangeGLType()" flex="100%">
                 <md-select-label style="width:100%">{{list.listType || 'Select Type'}}</md-select-label>
                 <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
             </md-select>
+                    <div ng-messages="createGuestListForm.listType.$error" ng-if="displayErrorMessage(createGuestListForm.listType)">
+                        <div ng-message="required">Please Select Guest Type</div>
+                    </div>
+                </md-input-container>
         </div>
+        </form>
     </div>
     <div>
         <div class="page-subtitle" style="margin-top: -15px;">
@@ -64,8 +73,7 @@
                     <div flex layout="row" layout-align="end center">
                         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                                               ng-show="fetchingData"></md-progress-circular>
-                        <md-button class="md-primary md-raised" ng-disabled="!isDirty"
-                                   ng-click="save(true)">
+                        <md-button class="md-primary md-raised" ng-click="save(true)">
                             Save
                         </md-button>
                     </div>
@@ -73,8 +81,9 @@
             </md-list>
         </div>
         <div>
-            <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize
-                 style="height:300px;width: 100%"></div>
+            <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize style="height:300px;width: 100%"></div>
         </div>
+        <span class="error" ng-if="showValidation && !list.guests.length">Please Add Guests</span><br>
+        <span class="error" ng-if="showValidation && guestsError()">First Name and Last Name must be not empty.</span>
     </div>
 </div>

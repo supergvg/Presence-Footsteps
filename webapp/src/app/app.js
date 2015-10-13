@@ -203,6 +203,14 @@ angular.module('gliist')
                     ) {
                     return 'logo-bg';
                 }
+                if ($state.current.name.match(/^landing_.+/))
+                    return $state.current.name.split('_');
+            };
+            
+            $scope.showUserBars = function(){
+                if ($state.current.name.match(/^landing_.+/))
+                    return false;
+                return $rootScope.currentUser;
             };
 
             $scope.setSelected = function (item) {

@@ -1,40 +1,46 @@
 <div>
-    <div style="background-color: white;margin:30px;height: 250px;color:#8E8E8E;overflow: hidden" layout="row">
-        <div flex="33" style="min-width: 250px;">
-            <div ng-style="getEventInvite('250px')" style="width:250px">
+    <div style="background-color: white;margin:20px 0;height:208px;color:#8E8E8E;overflow: hidden" layout="row" layout-align="space-between start">
+        <div flex="60">
+            <div ng-style="getEventInvite('208px')" style="width:208px; float:left"></div>
+            <div style="margin-top: 20px;margin-left: 235px">
+                <div style="font-weight:bold;margin:0;font-size:30px;line-height:1.2;">
+                    {{event.title}}
+                </div>
+                <div style="margin-top:30px;font-size:12px;">
+                    {{event.description}}
+                </div>
+                <div style="margin-top:20px;font-size:12px;color:#8e8e8e;">
+                    <span ng-if="event.type === 2 && event.rsvpType === 3">
+                        RSVP link : <a href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
+                    </span>
+                    <span ng-if="event.type === 3" style="float:right;padding-right:50px;">
+                        Ticketing link : <a href="{{event.ticketingUrl}}" target="_blank">{{event.ticketingUrl}}</a>
+                    </span>
             </div>
         </div>
-        <div flex="66" style="margin-top: 50px;margin-left: 20px">
-
-            <div layout="row" layout-sm="column">
-
-                <div flex="40">
-                    <div style="font-weight: bold;margin:0">
-                        {{event.title}}
                     </div>
-                    <div style="margin-top: 10px">
-                        {{event.time |date:'MMMM dd, yyyy'}}
+        <div flex="40" style="height:100%">
+            <div style="background-color:#3aaaa9;color:#fff;width:55px;text-align:center;float:right;height:100%">
+                <div style="font-size:18px;padding:20px 0;border-bottom:2px solid #ececec;">
+                    {{event.time | date: 'EEE' | uppercase}}
                     </div>
-                    <div style="margin-top: 10px">
-                        {{event.location}}
+                <div style="margin-top:40px;font-size:18px;font-weight:bold;line-height:1;">
+                    {{event.time | date: 'MMM' | uppercase}}
                     </div>
+                <div style="font-size:35px;font-weight:bold;line-height:1">
+                    {{event.time | date: 'd'}}
                 </div>
-                <div flex="40">
-                    <Div>
-                        {{event.category}}
-                    </Div>
-                    <div style="margin-top: 10px">
-                        {{event.time |ignoreTimeZone| date: 'h:mma' }} - {{event.endTime| ignoreTimeZone | date:
-                        'h:mma'}}
                     </div>
-                    <div style="margin-top: 10px">
-                        Capacity: {{event.capacity}}
+            <div style="padding:20px 0 0 35px;">
+                <div style="font-size:18px;font-weight:bold;padding-bottom:20px;border-bottom:2px solid #ececec;">
+                    {{event.time | date: 'h:mm a'}}
                     </div>
-
+                <div style="margin-top:25px;font-size:12px;font-weight:bold;">
+                    {{event.category}}
                 </div>
+                <div style="margin-top: 10px;font-size:12px;">
+                    {{event.location}}
             </div>
-            <div layout="row" style="margin-top: 30px">
-                {{event.description}}
             </div>
         </div>
     </div>

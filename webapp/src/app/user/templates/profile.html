@@ -63,6 +63,35 @@
       <div>
         <user-details user="currentUser"></user-details>
       </div>
+            <div class="social-links-edit">
+                <h5>Enter the link to your Social Media accounts</h5>
+                <div layout="column" layout-align="start start">
+                    <div class="social-link-edit">
+                        <img src="assets/images/instagram.png"/>
+                        <md-input-container>
+                            <label>Enter instagram link</label>
+                            <input type="text" ng-model="currentUser.instagrammPageUrl">
+                        </md-input-container>
+                    </div>
+                    <div class="social-link-edit">
+                        <img src="assets/images/facebook.png"/>
+                        <md-input-container>
+                            <label>Enter facebook link</label>
+                            <input type="text" ng-model="currentUser.facebookPageUrl">
+                        </md-input-container>
+                    </div>
+                    <div class="social-link-edit">
+                        <img src="assets/images/twitter.png"/>
+                        <md-input-container>
+                            <label>Enter twitter link</label>
+                            <input type="text" ng-model="currentUser.twitterPageUrl">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" layout-align="end start">
+                    <md-button class="md-primary md-raised" ng-click="link()">Link</md-button>
+                </div>
+            </div>
     </div>
 
     <div role="tabpanel"

@@ -110,7 +110,7 @@ angular.module('gliist')
                         $scope.company = data;
                     },
                     function () {
-                        dialogService.error('Oops there was a problem loading account info, please try again')
+                        dialogService.error('Oops there was a problem loading account info, please try again');
                     }
                 ).finally(
                     function () {
@@ -126,7 +126,7 @@ angular.module('gliist')
                         $scope.company = data;
                     },
                     function () {
-                        dialogService.error('Oops there was a problem loading account info, please try again')
+                        dialogService.error('Oops there was a problem loading account info, please try again');
                     }
                 ).finally(
                     function () {

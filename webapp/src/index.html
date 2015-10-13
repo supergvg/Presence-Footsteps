@@ -6,22 +6,20 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="favicon.ico"/>
-
+    <!-- build:css({.tmp/serve,src}) assets/styles/vendor.css -->
     <link rel="stylesheet" href="assets/styles/bootstrap.min.css"/>
-
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
     <!-- bower:css -->
     <!-- run `gulp inject` to automatically populate bower styles dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- build:css({.tmp/serve,src}) assets/styles/main.css -->
     <!-- inject:css -->
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
     <!-- endbuild -->
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
 <body ng-controller="AppController" style="background-color: #ECECEC;height: 100%;">
 <!--[if lt IE 10]>
@@ -42,7 +40,7 @@
     </div>
 </div>
 <div layout="column" layout-fill ng-show="appReady" ng-cloak>
-    <md-toolbar ng-if="currentUser" ng-cloak>
+    <md-toolbar ng-if="showUserBars()" ng-cloak>
         <div layout="row logo-bg">
             <img src="assets/images/gliist_logo.png" style="height:37.8px;margin-left: 10px;margin-top: 10px;"
                  ui-sref="main.welcome">
@@ -65,7 +63,7 @@
     <div flex layout="row" layout-fill ng-cloak>
         <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-lg')" md-component-id="left"
                     class="md-whiteframe-z2 logo-bg"
-                    ng-if="currentUser" ng-cloak>
+                    ng-if="showUserBars()" ng-cloak>
             <div ng-style="userProfilePic_watch()">
             </div>
 

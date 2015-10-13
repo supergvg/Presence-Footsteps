@@ -25,7 +25,7 @@ angular.module('gliist')
                 return {
                     'background-color': 'white',
                     'border-bottom': 'thin inset #ECECEC'
-                }
+                };
             };
 
             $scope.gridOptions = {
@@ -58,7 +58,7 @@ angular.module('gliist')
 
                     $scope.rowSelected = true;
                 });
-            }
+            };
 
             $scope.guestListTypes = [
                 'GA',
@@ -131,7 +131,7 @@ angular.module('gliist')
                     function () {
                         $scope.fetchingData = false;
                     }
-                )
+                );
             };
 
             $scope.onLinkClicked = function (ev) {
@@ -199,7 +199,7 @@ angular.module('gliist')
                         dialogService.error('There was a problem saving your guest list, please try again');
                     }).finally(function () {
                         $scope.fetchingData = false;
-                    })
+                    });
             };
 
             $scope.$watch('id', function (newValue) {
@@ -211,6 +211,9 @@ angular.module('gliist')
 
                 guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function (data) {
                     $scope.gli = data;
+                    if ($scope.gli.instanceType === 2) {
+                        $scope.gridOptions.columnDefs.splice(4);
+                    }
                 }, function () {
                     dialogService.error('There was a problem getting your events, please try again');
                     $state.go('main.current_events');
@@ -218,7 +221,7 @@ angular.module('gliist')
                     function () {
                         $scope.initializing = false;
                     }
-                )
+                );
             });
 
         }]);

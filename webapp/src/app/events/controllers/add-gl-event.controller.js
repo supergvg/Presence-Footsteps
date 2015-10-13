@@ -5,13 +5,14 @@ angular.module('gliist')
         function ($scope, $stateParams, dialogService, $state, eventsService) {
 
             $scope.goBackToEvent = function (glist) {
-                var eventId = $stateParams.eventId;
+                var eventId = $stateParams.eventId,
+                    instanceType = $stateParams.instanceType;
 
-                eventsService.linkGuestList([glist], eventId).then(
+                eventsService.linkGuestList([glist], eventId, instanceType).then(
                     function (guestListInstances) {
                         //$scope.event.guestLists = guestListInstances;
                         dialogService.success('Guest lists were linked');
-                        $state.go('main.edit_event', {eventId: eventId, view: 2});
+                        $state.go('main.edit_event', {eventId: eventId, view: 3});
                     }, function () {
                         dialogService.error('There was a problem linking, please try again');
                     }

@@ -10,7 +10,7 @@ angular.module('gliist')
             $scope.toggleSelected = function (item) {
                 var idx = $scope.selected.indexOf(item);
                 if (idx > -1) {
-                    $scope.selected.splice(idx, 1)
+                    $scope.selected.splice(idx, 1);
                 } else {
                     $scope.selected.push(item);
                 }

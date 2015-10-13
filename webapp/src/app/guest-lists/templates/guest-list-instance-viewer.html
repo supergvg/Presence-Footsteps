@@ -14,8 +14,7 @@
 
 
     <md-list style="background-color: white;padding-top: 0px;padding-bottom: 0px;">
-        <md-list-item layout="row" ng-show="lists.length > 0"
-                      style="color:#8E8E8E;padding-top: 30px;background-color: #ECECEC">
+        <md-list-item layout="row" ng-show="lists.length > 0" style="color:#000;border-bottom:2px solid #ececec;">
             <div flex="25" style="font-weight: bold;">
                 Title
             </div>
@@ -37,9 +36,12 @@
             <div flex="10" style="font-weight: bold" ng-if="!options.stats">
                 Capacity
             </div>
+            <div flex="10" style="font-weight: bold">
+                List
+            </div>
         </md-list-item>
         <md-list-item ng-repeat="instance in lists">
-            <div layout="row" flex style="background-color: white">
+            <div layout="row" flex style="border-bottom:2px solid #ececec;">
 
                 <div flex="25">
                     <p>{{instance.title}}</p>
@@ -66,26 +68,26 @@
                     <p>{{getglistTotal(instance)}}</p>
                 </div>
 
-                <div flex="10" style="padding-left:10px" ng-if="!options.stats">
+                <div flex="10" ng-if="!options.stats">
                     <md-input-container style="padding-bottom: 0">
                         <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly"
                                type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)">
                     </md-input-container>
                 </div>
 
-                <div ng-if="options.publish" flex="10" style="padding-left: 10px">
+                <div ng-if="options.publish" flex="10">
                     <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)"
                                  aria-label="Import" ng-show="true"
                                  style="margin-bottom: 0px">
                     </md-checkbox>
                 </div>
-                <div ng-if="options.publish" flex="10" style="padding-top: 7px">
+                <div ng-if="options.publish" flex="10">
                     <ng-md-icon icon="send" style="fill: #33AAAA" size="24" ng-if="instance.published"></ng-md-icon>
                 </div>
 
                 <div layout="row" ng-cloak ng-hide="options.readOnly"
                      style="position: absolute;right:0;top:0;height: 100%">
-                    <div>
+                    <div ng-if="!instance.published">
                         <md-button class="logo-event-list-btn" ng-click="editInstance($event,instance)">
                             <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
                         </md-button>
@@ -100,6 +102,11 @@
                                  aria-label="Import" ng-show="options.enableSelection"
                                  style="margin-bottom: 0px">
                     </md-checkbox>
+                </div>
+
+                <div flex="10">
+                    <p ng-if="instance.instanceType === 1">Guest</p>
+                    <p ng-if="instance.instanceType === 2">RSVP</p>
                 </div>
 
             </div>

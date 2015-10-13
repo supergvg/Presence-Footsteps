@@ -1,0 +1,68 @@
+<div layout="column" layout-align="center center">
+    <div class="header"><img class="header-image" src="{{event.company.users[0].profilePictureUrl}}" height="130px"/></div>
+    <div class="content" layout="column" layout-align="center center">
+        <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
+        <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
+        <h4 ng-if="event.event.isRsvpExpired">The link to RSVP has been already expired</h4>
+        <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
+        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295px"/></div>
+        <div class="title">
+            <h4>Event:</h4>
+            <h3>{{event.event.title}}</h3>
+            <h4 ng-if="success">Thank you! You have been added to the event guest list!</h4>
+        </div>
+        <div layout="row" class="landing-form">
+            <div class="left-column" layout="column">
+                <div class="item">
+                    <div class="item-label">Date + Time:</div>
+                    <div class="item-text">{{event.event.time | date:'MMMM d, yyyy h:mm a'}}</div>
+                </div>
+                <div class="item">
+                    <div class="item-label">Location:</div>
+                    <div class="item-text">{{event.event.location}}</div>
+                </div>
+                <div class="item">
+                    <div class="item-label">Details:</div>
+                    <div class="item-text">{{event.event.additionalDetails}}</div>
+                </div>
+            </div>
+            <div class="right-column" layout="column">
+                <div class="item-label">RSVP:</div>
+                <form name="rsvpLandingForm">
+                    <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+                        <label>Name</label>
+                        <input type="text" name="name" ng-model="rsvp.name" required/>
+                        <div ng-messages="rsvpLandingForm.name.$error" ng-if="displayErrorMessage(rsvpLandingForm.name)">
+                            <div ng-if="rsvpLandingForm.name.$error.required" ng-message="required">Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+                        <label>Email</label>
+                        <input type="email" name="email" ng-model="rsvp.email" required/>
+                        <div ng-messages="rsvpLandingForm.email.$error" ng-if="displayErrorMessage(rsvpLandingForm.email)">
+                            <div ng-if="rsvpLandingForm.email.$error.required" ng-message="required">Email is required</div>
+                            <div ng-if="rsvpLandingForm.email.$error.email" ng-message="email">Not valid email</div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label>Plus</label>
+                        <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}"/>
+                        <div ng-messages="rsvpLandingForm.plus.$error" ng-if="displayErrorMessage(rsvpLandingForm.plus)">
+                            <div ng-if="rsvpLandingForm.plus.$error.max" ng-message="max">Numer of additional guests cannot exceed {{event.event.additionalGuests}} people</div>
+                        </div>
+                    </div>
+                    <a class="md-primary md-raised" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                </form>
+                <div class="item-label" ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">Event on Social:</div>
+                <ul class="social">
+                    <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
+                    <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
+                    <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
+    </div>
+</div>
