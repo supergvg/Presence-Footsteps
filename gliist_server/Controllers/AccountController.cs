@@ -84,7 +84,9 @@ namespace gliist_server.Controllers
                 company_id = user.company.id.ToString(),
                 bio = user.bio,
                 permissions = user.permissions,
-
+                TwitterPageUrl = user.company.TwitterPageUrl ?? string.Empty,
+                FacebookPageUrl = user.company.FacebookPageUrl ?? string.Empty,
+                InstagrammPageUrl = user.company.InstagrammPageUrl ?? string.Empty,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -150,7 +152,6 @@ namespace gliist_server.Controllers
             return user.company;
         }
 
-
         // GET api/Account/CompanyInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UpdateCompanyUser")]
@@ -166,7 +167,7 @@ namespace gliist_server.Controllers
 
             if (user.permissions != null && (user.permissions.Contains("staff") || user.permissions.Contains("promoter")))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
 
@@ -330,7 +331,8 @@ namespace gliist_server.Controllers
             string fileName;
             if (string.IsNullOrEmpty(user.profilePicture))
             {
-                var path = System.Web.HttpContext.Current.Server.MapPath("~/images/blank_user_icon.png");
+                //var path = HttpContext.Current.Server.MapPath("~/images/blank_user_icon.png");
+                var path = System.Web.Hosting.HostingEnvironment.MapPath("~/images/blank_user_icon.png");
                 fileName = "blank_user_icon.png";
 
                 if (_userProfile == null)
@@ -357,7 +359,6 @@ namespace gliist_server.Controllers
 
             return resp;
         }
-
 
         private async Task<string> uploadToBlob(UserModel user, string fileName, byte[] data)
         {

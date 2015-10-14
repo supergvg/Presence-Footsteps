@@ -39,22 +39,28 @@ namespace gliist_server.Providers
         {
             using (UserManager<UserModel> userManager = _userManagerFactory(_db))
             {
-                UserModel user = await userManager.FindAsync(context.UserName, context.Password);
-
-                if (user == null)
+                try
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
-                    return;
-                }
+                    UserModel user = await userManager.FindAsync(context.UserName, context.Password);
+                    if (user == null)
+                    {
+                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        return;
+                    }
 
-                ClaimsIdentity oAuthIdentity = await userManager.CreateIdentityAsync(user,
-                    context.Options.AuthenticationType);
-                ClaimsIdentity cookiesIdentity = await userManager.CreateIdentityAsync(user,
-                    CookieAuthenticationDefaults.AuthenticationType);
-                AuthenticationProperties properties = CreateProperties(user.UserName);
-                AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-                context.Validated(ticket);
-                context.Request.Context.Authentication.SignIn(cookiesIdentity);
+                    ClaimsIdentity oAuthIdentity = await userManager.CreateIdentityAsync(user,
+                        context.Options.AuthenticationType);
+                    ClaimsIdentity cookiesIdentity = await userManager.CreateIdentityAsync(user,
+                        CookieAuthenticationDefaults.AuthenticationType);
+                    AuthenticationProperties properties = CreateProperties(user.UserName);
+                    AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                    context.Validated(ticket);
+                    context.Request.Context.Authentication.SignIn(cookiesIdentity);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 

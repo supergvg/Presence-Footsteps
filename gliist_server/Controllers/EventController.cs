@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -12,6 +13,7 @@ using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
 using System.Web.Http.Cors;
+using gliist_server.Shared;
 
 
 namespace gliist_server.Controllers
@@ -48,8 +50,8 @@ namespace gliist_server.Controllers
 
 
             var targetList = events
-  .Select(x => new EventViewModel(x) { })
-  .ToList();
+                .Select(x => new EventViewModel(x) { })
+                .ToList();
             return targetList;
         }
 
@@ -82,6 +84,17 @@ namespace gliist_server.Controllers
                 return NotFound();
             }
 
+            if (@event.guestLists != null)
+            {
+                foreach (var guestListInstance in @event.guestLists)
+                {
+                    if (@guestListInstance.linked_guest_list != null)
+                    {
+                        guestListInstance.GuestsCount = @guestListInstance.linked_guest_list.guests.Count;
+                    }
+                }
+            }
+
             return Ok(@event);
         }
 
@@ -103,7 +116,7 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
             db.Entry(@event).State = EntityState.Modified;
@@ -141,7 +154,7 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
             @event.company = user.company;
@@ -159,20 +172,50 @@ namespace gliist_server.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            if (@event.Type == EventType.Ticketing && @event.Tickets.Count == 0)
+            {
+                return BadRequest("Tickets are required for this type of event");
+            }
+            else if (@event.Type == EventType.Rsvp && @event.RsvpEndDate == null)
+            {
+                return BadRequest("rsvpEndDate is required for this type of event");
+            }
+
+            if (@event.Tickets != null && @event.Tickets.Count > 0)
+            {
+                if (@event.Type == EventType.Ticketing)
+                {
+                    @event.Tickets.ForEach(x => x.EventId = @event.id);
+                }
+                else
+                {
+                    @event.Tickets.Clear();
+                }
+
+            }
+
             if (@event.id > 0)
             {
-                db.Entry(@event).State = EntityState.Modified;
-
                 foreach (var gli in @event.guestLists)
                 {
-                    db.Entry(gli).State = EntityState.Modified;
+                    db.Entry(gli).State = (gli.id > 0) ? EntityState.Modified : EntityState.Added;
                 }
+
+                foreach (var ticketType in @event.Tickets)
+                {
+                    db.Entry(ticketType).State = (ticketType.Id > 0) ? EntityState.Modified : EntityState.Added;
+                }
+
+                db.Entry(@event).State = EntityState.Modified;
             }
             else
             {
+                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["landingBaseUrl"]);
+                @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.title);
+                @event.TicketingUrl = linkCreator.GeneratePublicTicketsLandingPageLink(@event.company.name, @event.title);
                 db.Events.Add(@event);
             }
-
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = @event.id }, @event);
@@ -188,10 +231,10 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
-            Event @event = db.Events.Where(e => e.id == id && e.company.id == user.company.id).FirstOrDefault();
+            Event @event = db.Events.FirstOrDefault(e => e.id == id && e.company.id == user.company.id);
 
 
             if (@event == null)
@@ -225,7 +268,5 @@ namespace gliist_server.Controllers
         {
             UserManager = Startup.UserManagerFactory(db);
         }
-
-
     }
 }

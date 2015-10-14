@@ -18,45 +18,6 @@ using System.Net.Http.Headers;
 
 namespace gliist_server.Controllers
 {
-
-    public class GuestGuestListInstanceModel
-    {
-        public int guestId { get; set; }
-        public int gliId { get; set; }
-    }
-
-
-    public class GuestEventModel
-    {
-        public Guest guest { get; set; }
-        public int eventId { get; set; }
-    }
-
-    public class IdsModel
-    {
-        public int[] ids { get; set; }
-
-        public int id { get; set; }
-
-        public GuestList gl { get; set; }
-    }
-
-    public class IdsEventModel
-    {
-        public int[] ids { get; set; }
-
-        public int eventId { get; set; }
-    }
-
-    public class CheckinModel
-    {
-        public int gliId { get; set; }
-
-        public int guestId { get; set; }
-
-        public int plus { get; set; }
-    }
-
     [RoutePrefix("api/GuestEventController")]
     [Authorize]
     public class GuestEventController : ApiController
@@ -154,9 +115,9 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("LinkGuestList")]
-        public async Task<IHttpActionResult> LinkGuestLists(IdsEventModel @model)
+        public async Task<IHttpActionResult> LinkGuestLists(EventGuestListLinkModel eventGuestListModel)
         {
-            if (@model.eventId <= 0)
+            if (eventGuestListModel.EventId <= 0)
             {
                 return BadRequest();
             }
@@ -164,7 +125,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
 
-            Event @event = await db.Events.FindAsync(@model.eventId);
+            Event @event = await db.Events.Include(x => x.EventGuestStatuses).FirstOrDefaultAsync(x => x.id == eventGuestListModel.EventId);
 
             if (@event == null || @event.company.id != user.company.id)
             {
@@ -172,42 +133,75 @@ namespace gliist_server.Controllers
             }
 
 
-            foreach (var id in @model.ids)
+            foreach (var guestListId in eventGuestListModel.GuestListIds)
             {
-                GuestList guestList = await db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefaultAsync();
+                var guestList = await db.GuestLists.FirstOrDefaultAsync(x => x.company.id == user.company.id && x.id == guestListId);
+
                 if (guestList == null)
                 {
                     continue;
                 }
-                if (@event.guestLists.Any(gli => gli.linked_guest_list == guestList))
+
+                if (@event.guestLists.Any(x => x.linked_guest_list.id == guestList.id))
                 {
                     continue;
                 }
 
-                var glInstance = new GuestListInstance()
-                                {
-                                    actual = new List<GuestCheckin>(),
-                                    linked_event = @event,
-                                    linked_guest_list = guestList,
-                                    title = guestList.title,
-                                    listType = guestList.listType
-                                };
-
-                foreach (var item in guestList.guests)
+                var guestListInstance = new GuestListInstance()
                 {
-                    glInstance.actual.Add(new GuestCheckin()
-                    {
-                        guest = item,
-                        guestList = glInstance,
-                        plus = item.plus
-                    });
+                    actual = new List<GuestCheckin>(),
+                    linked_event = @event,
+                    linked_guest_list = guestList,
+                    title = guestList.title,
+                    listType = guestList.listType,
+                    InstanceType = eventGuestListModel.InstanceType
                 };
 
-                @event.guestLists.Add(glInstance);
+
+                @event.guestLists.Add(guestListInstance);
+                await db.SaveChangesAsync();
+
+
+                foreach (var guest in guestList.guests)
+                {
+                    var guestStatus = new EventGuestStatus()
+                    {
+                        EventId = @event.id,
+                        GuestListId = guestList.id,
+                        GuestListInstanceId = guestListInstance.id,
+                        GuestId = guest.id,
+                        GuestListInstanceType = guestListInstance.InstanceType
+                    };
+
+                    @event.EventGuestStatuses.Add(guestStatus);
+
+                    if (guestListInstance.InstanceType == GuestListInstanceType.Confirmed)
+                    {
+                        guestListInstance.actual.Add(new GuestCheckin()
+                        {
+                            guest = guest,
+                            guestList = guestListInstance,
+                            plus = guest.plus
+                        });
+                        guestStatus.IsAutoCheckIn = true;
+                        guestStatus.CheckInDate = DateTime.UtcNow;
+                    }
+                }
             }
 
             db.Entry(@event).State = EntityState.Modified;
             await db.SaveChangesAsync();
+
+            if (@event.guestLists != null)
+            {
+                foreach (var guestListInstance in @event.guestLists)
+                {
+                    if (@guestListInstance.linked_guest_list != null)
+                    {
+                        guestListInstance.GuestsCount = @guestListInstance.linked_guest_list.guests.Count;
+                    }
+                }
+            }
 
             return Ok(@event.guestLists);
         }
@@ -238,12 +232,12 @@ namespace gliist_server.Controllers
             if (@model.id <= 0)
             {
                 masterGl = new GuestList()
-                   {
-                       created_by = user,
-                       company = user.company,
-                       title = string.Format("{0}", @model.gl.title),
-                       listType = @model.gl.listType
-                   };
+                {
+                    created_by = user,
+                    company = user.company,
+                    title = string.Format("{0}", @model.gl.title),
+                    listType = @model.gl.listType
+                };
 
                 db.GuestLists.Add(masterGl);
             }
@@ -333,11 +327,34 @@ namespace gliist_server.Controllers
             var onTheSpotGL = GuestHelper.AddGuestToEvent(guest, eventId, user.company, user, db);
 
             db.Guests.Add(guest);
-
             await db.SaveChangesAsync();
+
+
             if (!string.IsNullOrEmpty(guest.email))
             {
-                EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority);
+
+                var substitutions = new Dictionary<string, string>();
+
+                var eventImageDimensions = ImageHelper.GetImageSizeByUrl(onTheSpotGL.linked_event.invitePicture);
+                eventImageDimensions = ImageHelper.GetScaledDimensions(eventImageDimensions, ImageHelper.EventEmailImageMaxWidth,
+                    ImageHelper.EventEmailImageMaxHeight);
+
+                if (eventImageDimensions != null)
+                {
+                    substitutions.Add(":event_image_width", eventImageDimensions.Width.ToString());
+                    substitutions.Add(":event_image_height", eventImageDimensions.Height.ToString());
+                }
+                var logoImageDimensions = ImageHelper.GetImageSizeByUrl(ImageHelper.GetLogoImageUrl(onTheSpotGL.linked_event.company.logo, user.profilePictureUrl));
+                logoImageDimensions = ImageHelper.GetScaledDimensions(logoImageDimensions, ImageHelper.LogoEmailImageMaxWidth,
+                    ImageHelper.LogoEmailImageMaxHeight);
+
+                if (logoImageDimensions != null)
+                {
+                    substitutions.Add(":logo_image_width", logoImageDimensions.Width.ToString());
+                    substitutions.Add(":logo_image_height", logoImageDimensions.Height.ToString());
+                }
+
+                EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority, substitutions);
             }
 
             return Ok(guest);
@@ -482,45 +499,169 @@ namespace gliist_server.Controllers
 
         [HttpPost]
         [Route("PublishEvent")]
-        public async Task<IHttpActionResult> PubishEvent(IdsEventModel guestListsIds)
+        public async Task<IHttpActionResult> PublishEvent(IdsEventModel eventPublishModel)
         {
             var userId = User.Identity.GetUserId();
             UserModel user = UserManager.FindById(userId);
 
             if (user.permissions.Contains("promoter"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
-            foreach (var gli_id in guestListsIds.ids)
+            var evnt = db.Events.FirstOrDefault(x => x.id == eventPublishModel.eventId);
+            if (evnt == null)
             {
-                var gli = await db.GuestListInstances.FindAsync(gli_id);
-                if (gli == null)
-                {
-                    continue;
-                }
-
-                gli.published = true;
-                db.Entry(gli).State = EntityState.Modified;
-
-                foreach (var checkin in gli.actual)
-                {
-                    if (string.IsNullOrEmpty(checkin.guest.email))
-                    {
-                        continue;
-                    }
-
-                    EmailHelper.SendInvite(user, gli.linked_event, checkin.guest, gli, Request.RequestUri.Authority);
-                }
-
+                return BadRequest("Event not found");
             }
 
-            await db.SaveChangesAsync();
+            Task.Factory.StartNew(() => { Publish(evnt, eventPublishModel, user); });
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        private void Publish(Event @event, IdsEventModel eventPublishModel, UserModel user)
+        {
+            var guestListInstances = db.GuestListInstances
+                .Where(x => x.linked_event.id == @event.id && eventPublishModel.ids.Contains(x.id))
+                .ToList();
 
+            var substitutions = new Dictionary<string, string>();
+
+
+            var eventImageDimensions = ImageHelper.GetImageSizeByUrl(@event.invitePicture);
+            eventImageDimensions = ImageHelper.GetScaledDimensions(eventImageDimensions, ImageHelper.EventEmailImageMaxWidth,
+                ImageHelper.EventEmailImageMaxHeight);
+
+            if (eventImageDimensions != null)
+            {
+                substitutions.Add(":event_image_width", eventImageDimensions.Width.ToString());
+                substitutions.Add(":event_image_height", eventImageDimensions.Height.ToString());
+            }
+            var logoImageDimensions = ImageHelper.GetImageSizeByUrl(ImageHelper.GetLogoImageUrl(@event.company.logo, user.profilePictureUrl));
+            logoImageDimensions = ImageHelper.GetScaledDimensions(logoImageDimensions, ImageHelper.LogoEmailImageMaxWidth,
+                ImageHelper.LogoEmailImageMaxHeight);
+
+            if (logoImageDimensions != null)
+            {
+                substitutions.Add(":logo_image_width", logoImageDimensions.Width.ToString());
+                substitutions.Add(":logo_image_height", logoImageDimensions.Height.ToString());
+            }
+
+
+            foreach (var guestListInstance in guestListInstances)
+            {
+                guestListInstance.InstanceType =
+                    (guestListInstance.InstanceType == GuestListInstanceType.Default)
+                    ? GuestListInstanceType.Confirmed
+                    : guestListInstance.InstanceType;
+
+                if (guestListInstance.InstanceType == GuestListInstanceType.Confirmed)
+                {
+                    SendInvitationConfirmationEmail(guestListInstance, user, substitutions);
+                }
+                else if (guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
+                {
+                    SendRsvpEmail(guestListInstance, user, substitutions);
+                }
+                else if (guestListInstance.InstanceType == GuestListInstanceType.Ticketing)
+                {
+                    SendTicketingEmail(guestListInstance, user, substitutions);
+                }
+                guestListInstance.published = true;
+                db.Entry(guestListInstance).State = EntityState.Modified;
+            }
+
+            db.SaveChangesAsync();
+        }
+
+        private void SendInvitationConfirmationEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions)
+        {
+            var evnt = guestListInstance.linked_event;
+            var guestStatuses =
+                evnt.EventGuestStatuses.Where(
+                    x =>
+                        x.GuestListInstanceId == guestListInstance.id &&
+                        x.GuestListInstanceType == GuestListInstanceType.Confirmed &&
+                        x.InvitationEmailSentDate == null)
+                        .ToList();
+
+            var guestIds = guestStatuses.Select(x => x.GuestId).ToArray();
+
+            if (guestIds.Length == 0)
+                return;
+
+            var guests = db.Guests.Where(x => guestIds.Contains(x.id));
+
+            foreach (var guest in guests)
+            {
+
+                EmailHelper.SendInvite(user, evnt, guest, guestListInstance, Request.RequestUri.Authority, substitutions);
+
+                var guestStatus = guestStatuses.First(x => x.GuestId == guest.id);
+                guestStatus.InvitationEmailSentDate = DateTime.UtcNow;
+                db.Entry(guestStatus).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
+
+        private void SendRsvpEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions)
+        {
+            var evnt = guestListInstance.linked_event;
+            var guestStatuses =
+                evnt.EventGuestStatuses.Where(
+                    x =>
+                        x.GuestListInstanceId == guestListInstance.id &&
+                        x.GuestListInstanceType == GuestListInstanceType.Rsvp &&
+                        x.InvitationEmailSentDate == null &&
+                        x.RsvpEmailSentDate == null)
+                        .ToList();
+
+            var guestIds = guestStatuses.Select(x => x.GuestId).ToArray();
+
+            if (guestIds.Length == 0)
+                return;
+
+            var guests = db.Guests.Where(x => guestIds.Contains(x.id));
+
+            foreach (var guest in guests)
+            {
+                EmailHelper.SendRsvp(user, evnt, guest, guestListInstance, substitutions);
+                var guestStatus = guestStatuses.First(x => x.GuestId == guest.id);
+                guestStatus.RsvpEmailSentDate = DateTime.UtcNow;
+                db.Entry(guestStatus).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
+
+        private void SendTicketingEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions)
+        {
+            var evnt = guestListInstance.linked_event;
+            var guestStatuses =
+                evnt.EventGuestStatuses.Where(
+                    x =>
+                        x.GuestListInstanceId == guestListInstance.id &&
+                        x.GuestListInstanceType == GuestListInstanceType.Ticketing &&
+                        x.InvitationEmailSentDate == null &&
+                        x.TicketsEmailSentDate == null)
+                        .ToList();
+
+            var guestIds = guestStatuses.Select(x => x.GuestId).ToArray();
+
+            if (guestIds.Length == 0)
+                return;
+
+            var guests = db.Guests.Where(x => guestIds.Contains(x.id));
+
+            foreach (var guest in guests)
+            {
+                EmailHelper.SendTicketing(user, evnt, guest, guestListInstance, substitutions);
+                var guestStatus = guestStatuses.First(x => x.GuestId == guest.id);
+                guestStatus.TicketsEmailSentDate = DateTime.UtcNow;
+                db.Entry(guestStatus).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+        }
 
         [HttpPost]
         [Route("InvitePicture")]

@@ -69,12 +69,12 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("staff"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
             if (user.permissions.Contains("promoter") && guestList.created_by.UserName != user.UserName)
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
             if (id != guestList.id)
@@ -112,7 +112,7 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("staff"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
 
@@ -191,7 +191,7 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("staff"))
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
             GuestList guestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefault();
@@ -203,7 +203,7 @@ namespace gliist_server.Controllers
 
             if (user.permissions.Contains("promoter") && guestList.created_by.UserName != user.UserName)
             {
-                return BadRequest("Invaid permissions");
+                return BadRequest("Invalid permissions");
             }
 
             guestList.isDeleted = true;
