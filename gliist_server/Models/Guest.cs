@@ -32,6 +32,8 @@ namespace gliist_server.Models
 
         public string type { get; set; }
 
+        public bool isPublicRegistration { get; set; }
+
         public Guest()
         {
             linked_guest_lists = new List<GuestList>();

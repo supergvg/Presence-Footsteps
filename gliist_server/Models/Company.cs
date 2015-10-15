@@ -3,34 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
 namespace gliist_server.Models
 {
-    public class Invite
-    {
-
-        public int id { get; set; }
-
-        public string firstName { get; set; }
-
-        public string lastName { get; set; }
-
-        public string email { get; set; }
-
-        public string phoneNumber { get; set; }
-
-        public string token { get; set; }
-
-        public string permissions { get; set; }
-
-        public DateTimeOffset? acceptedAt { get; set; }
-
-    }
-
     public class Company
     {
+        private static string defaultImageUrl = ConfigurationManager.AppSettings["defaultCompanyImage"];
+
         public int id { get; set; }
 
         [Required]
@@ -38,15 +20,28 @@ namespace gliist_server.Models
 
         public string logo { get; set; }
 
+        [JsonProperty(PropertyName = "facebookPageUrl")]
+        public string FacebookPageUrl { get; set; }
+
+        [JsonProperty(PropertyName = "instagrammPageUrl")]
+        public string InstagrammPageUrl { get; set; }
+
+        [JsonProperty(PropertyName = "twitterPageUrl")]
+        public string TwitterPageUrl { get; set; } 
+
         public virtual List<UserModel> users { get; set; }
 
         public virtual List<Invite> invitations { get; set; }
+
+        public static string DefaultImageUrl {
+            get { return defaultImageUrl; }
+        }
 
         public Company()
         {
             users = new List<UserModel>();
             invitations = new List<Invite>();
-            logo = @"https://gliist.blob.core.windows.net/invites/1_61_event_placeholder.jpg";
+            logo = defaultImageUrl;
             name = " ";
         }
 

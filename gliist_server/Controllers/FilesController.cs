@@ -101,13 +101,13 @@ namespace gliist_server.Controllers
             else
             {
                 retVal = new GuestList()
-                           {
-                               title = originalFileName,
-                               company = company,
-                               created_by = user,
-                               listType = gl != null ? gl.listType : "GA",
-                               guests = new List<Guest>()
-                           };
+                {
+                    title = originalFileName,
+                    company = company,
+                    created_by = user,
+                    listType = gl != null ? gl.listType : "GA",
+                    guests = new List<Guest>()
+                };
             }
 
 
@@ -131,8 +131,9 @@ namespace gliist_server.Controllers
 
                             var pluses = 0;
 
-                            if(values.Length > 4){
-                                if(!int.TryParse(values[4],out pluses))
+                            if (values.Length > 4)
+                            {
+                                if (!int.TryParse(values[4], out pluses))
                                 {
                                     pluses = 0;
                                 }

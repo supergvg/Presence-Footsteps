@@ -1,30 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace gliist_server.Models
 {
     // Models returned by AccountController actions.
-
-    public class ExternalLoginViewModel
-    {
-        public string Name { get; set; }
-
-        public string Url { get; set; }
-
-        public string State { get; set; }
-    }
-
-    public class ManageInfoViewModel
-    {
-        public string LocalLoginProvider { get; set; }
-
-        public string UserName { get; set; }
-
-        public IEnumerable<UserLoginInfoViewModel> Logins { get; set; }
-
-        public IEnumerable<ExternalLoginViewModel> ExternalLoginProviders { get; set; }
-    }
 
     public class UserInfoViewModel
     {
@@ -54,12 +35,14 @@ namespace gliist_server.Models
         public bool HasRegistered { get; set; }
 
         public string LoginProvider { get; set; }
-    }
 
-    public class UserLoginInfoViewModel
-    {
-        public string LoginProvider { get; set; }
+        [JsonProperty(PropertyName = "facebookPageUrl")]
+        public string FacebookPageUrl { get; set; }
 
-        public string ProviderKey { get; set; }
+        [JsonProperty(PropertyName = "instagrammPageUrl")]
+        public string InstagrammPageUrl { get; set; }
+
+        [JsonProperty(PropertyName = "twitterPageUrl")]
+        public string TwitterPageUrl { get; set; }
     }
 }

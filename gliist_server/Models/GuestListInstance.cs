@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,9 @@ namespace gliist_server.Models
 
         public string listType { get; set; }
 
+        [JsonProperty(PropertyName = "instanceType")]
+        public GuestListInstanceType InstanceType { get; set; }
+
         public int capacity { get; set; }
 
         public bool published { get; set; }
@@ -23,6 +27,10 @@ namespace gliist_server.Models
 
         [JsonIgnore]
         public virtual GuestList linked_guest_list { get; set; }
+
+        [JsonProperty(PropertyName = "guestsCount")]
+        [NotMapped]
+        public int GuestsCount { get; set; }
 
         public virtual List<GuestCheckin> actual { get; set; }
 

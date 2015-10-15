@@ -2,6 +2,7 @@
 using SendGrid;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
+using gliist_server.Shared;
 using ZXing;
 
 namespace gliist_server.Helpers
@@ -23,11 +25,23 @@ namespace gliist_server.Helpers
 
         //http://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/ blob
 
+
+        private static readonly string landingPageBaseUrl = ConfigurationManager.AppSettings["landingBaseUrl"];
+        private static readonly string sendgridUsername = "gliist";
+        private static readonly string sendgridPassword = "gliist925$";
+        private static readonly string inviteEmailSendgridTemplateId = "033338d5-941a-4906-9110-ba02c59dccef";
+        private static readonly string rsvpEmailSendgridTemplateId = "50023ddc-4065-4940-bf46-4c1b340c3411";
+        private static readonly string ticketingEmailSendgridTemplateId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
+
         private static string UploadQRCode(int eventId, int guestId, int gliId)
         {
 
             var writer = new BarcodeWriter();
             writer.Format = BarcodeFormat.QR_CODE;
+            writer.Options.Margin = 0;
+            writer.Options.Width = 200;
+            writer.Options.Height = 200;
+
             var result = writer.Write(string.Format("{0},{1},{2}", eventId, gliId, guestId));
 
             MemoryStream ms = new MemoryStream();
@@ -69,7 +83,7 @@ namespace gliist_server.Helpers
 
 
             // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential("gliist", "gliist79*");
+            var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
 
             // Create an Web transport for sending email.
             var transportWeb = new Web(credentials);
@@ -103,7 +117,7 @@ namespace gliist_server.Helpers
             myMessage.EnableClickTracking();
 
             // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential("gliist", "gliist79*");
+            var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
 
             // Create an Web transport for sending email.
             var transportWeb = new Web(credentials);
@@ -115,63 +129,18 @@ namespace gliist_server.Helpers
 
 
 
-        public static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl)
+        public static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions)
         {
-            var qr_url = UploadQRCode(@event.id, guest.id, gli.id);
+            string subject = string.Format("{0} - Invitation", @event.title);
+            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
 
+            foreach (var key in additionalSubstitutions.Keys)
+            {
+                substitutions.Add(key, additionalSubstitutions[key]);
+            }
 
-            // Create the email object first, then add the properties.
-            SendGridMessage myMessage = new SendGridMessage();
-            myMessage.AddTo(guest.email);
-
-            myMessage.SetCategories(new List<string> { "Event invite", from.company.name });
-
-
-            myMessage.From = new MailAddress("non-reply@gjests.com", from.company.name);
-
-            myMessage.Subject = string.Format("{0} - Invitation", @event.title);
-
-            myMessage.Html = "<p></p> ";
-
-            myMessage.EnableTemplateEngine("70408aab-282a-41a4-a74a-0c207267d5c9");
-
-            var logo = string.IsNullOrEmpty(from.profilePictureUrl) ? from.company.logo : from.profilePictureUrl;
-
-            var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
-
-            myMessage.AddSubstitution(":guest_name", new List<string> { string.Format("{0} {1}", guest.firstName, guest.lastName) });
-
-            myMessage.AddSubstitution(":guest_plus", new List<string> { guest.plus.ToString() });
-
-            myMessage.AddSubstitution(":guest_type", new List<string> { guestType });
-            myMessage.AddSubstitution(":company_logo", new List<string> { logo });
-
-            myMessage.AddSubstitution(":event_invite", new List<string> { @event.invitePicture });
-            myMessage.AddSubstitution(":event_name", new List<string> { @event.title });
-            myMessage.AddSubstitution(":event_date", new List<string> { @event.time.Date.ToShortDateString() });
-
-
-            var desc = string.IsNullOrEmpty(@event.description) ? " " : @event.description;
-            myMessage.AddSubstitution(":event_details", new List<string> { desc });
-
-            myMessage.AddSubstitution(":event_time", new List<string> { @event.time.ToString("hh:mm tt") });
-
-            myMessage.AddSubstitution(":event_location", new List<string> { string.IsNullOrEmpty(@event.location) ? "" : @event.location });
-            myMessage.AddSubstitution(":qr_code_url", new List<string> { qr_url });
-
-
-            myMessage.EnableOpenTracking();
-            myMessage.EnableClickTracking();
-
-            // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential("gliist", "gliist79*");
-
-            // Create an Web transport for sending email.
-            var transportWeb = new Web(credentials);
-
-            // Send the email.
-            // You can also use the **DeliverAsync** method, which returns an awaitable task.
-            transportWeb.Deliver(myMessage);
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions);
+            SendEmail(email);
         }
 
 
@@ -190,7 +159,7 @@ namespace gliist_server.Helpers
 
             myMessage.Html = "<p></p>";
 
-            myMessage.EnableTemplateEngine("105b490c-8585-4e17-b5e6-ee502c1fac85");
+            myMessage.EnableTemplateEngine(inviteEmailSendgridTemplateId);
 
             myMessage.AddSubstitution(":to_first_name", new List<string> { invite.firstName });
 
@@ -206,13 +175,13 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":account_settings",
                 new List<string>
                 { 
-                string.Format("{0}/#/signup/invite/{1}/{2}", "http://gjests.azurewebsites.net/", from.company.name ,invite.token)
+                    string.Format("{0}/#/signup/invite/{1}/{2}", request.RequestUri.Authority, from.company.name ,invite.token)
                 }
             );
 
 
             // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential("gliist", "gliist79*");
+            var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
 
             // Create an Web transport for sending email.
             var transportWeb = new Web(credentials);
@@ -222,6 +191,106 @@ namespace gliist_server.Helpers
             transportWeb.Deliver(myMessage);
         }
 
+        public static void SendRsvp(UserModel from, Event @event, Guest guest, GuestListInstance gli, Dictionary<string, string> additionalSubstitutions)
+        {
+            string subject = string.Format("{0} - Please RSVP for this Event", @event.title);
 
+            var landingPageUrlGenerator = new GjestsLinksGenerator(landingPageBaseUrl);
+            string landingPageUrl = (@event.RsvpType == RsvpType.InvitedGuests) ?
+                landingPageUrlGenerator.GenerateGuestRsvpLandingPageLink(@event.id, guest.id)
+                : @event.RsvpUrl;
+
+            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
+            substitutions.Add(":event_rsvpUrl", landingPageUrl ?? string.Empty);
+
+            substitutions[":event_details"] = (!string.IsNullOrEmpty(@event.AdditionalDetails))
+                ? @event.AdditionalDetails
+                : @event.description;
+
+            foreach (var key in additionalSubstitutions.Keys)
+            {
+                substitutions.Add(key, additionalSubstitutions[key]);
+            }
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, rsvpEmailSendgridTemplateId, subject, substitutions);
+            SendEmail(email);
+        }
+
+        public static void SendTicketing(UserModel from, Event @event, Guest guest, GuestListInstance gli, Dictionary<string, string> additionalSubstitutions)
+        {
+            string subject = string.Format("{0} - Tickets", @event.title);
+
+            var landingPageUrlGenerator = new GjestsLinksGenerator(landingPageBaseUrl);
+            string landingPageUrl = landingPageUrlGenerator.GenerateGuestTicketsLandingPageLink(@event.id, guest.id);
+
+            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
+            substitutions.Add(":event_ticketingUrl", landingPageUrl ?? string.Empty);
+
+            substitutions[":event_details"] = (!string.IsNullOrEmpty(@event.AdditionalDetails))
+                ? @event.AdditionalDetails
+                : @event.description;
+
+            foreach (var key in additionalSubstitutions.Keys)
+            {
+                substitutions.Add(key, additionalSubstitutions[key]);
+            }
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, ticketingEmailSendgridTemplateId, subject, substitutions);
+            SendEmail(email);
+        }
+
+        private static void SendEmail(SendGridMessage email)
+        {
+            var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
+            var transportWeb = new Web(credentials);
+            transportWeb.Deliver(email);
+        }
+
+        private static Dictionary<string, string> PrepareSubstitutionsList(UserModel from, Event @event, Guest guest, GuestListInstance gli)
+        {
+            var qr_url = UploadQRCode(@event.id, guest.id, gli.id);
+            var logo = ImageHelper.GetLogoImageUrl(from.company.logo, from.profilePictureUrl);
+            var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
+
+            var substitutions = new Dictionary<string, string>();
+            substitutions.Add(":guest_name", string.Format("{0} {1}", guest.firstName, guest.lastName));
+            substitutions.Add(":guest_plus", guest.plus.ToString());
+            substitutions.Add(":guest_type", guestType);
+            substitutions.Add(":company_logo", logo);
+            substitutions.Add(":event_invite", @event.invitePicture);
+            substitutions.Add(":event_name", @event.title);
+            substitutions.Add(":event_date", @event.time.Date.ToShortDateString());
+            substitutions.Add(":comapny_facebookUrl", @from.company.FacebookPageUrl ?? string.Empty);
+            substitutions.Add(":company_twitterUrl", @from.company.TwitterPageUrl ?? string.Empty);
+            substitutions.Add(":company_instagrammUrl", @from.company.InstagrammPageUrl ?? string.Empty);
+            substitutions.Add(":event_details", @event.description ?? string.Empty);
+            substitutions.Add(":event_time", @event.time.ToString("hh:mm tt"));
+            substitutions.Add(":event_location", string.IsNullOrEmpty(@event.location) ? "" : @event.location);
+            substitutions.Add(":qr_code_url", qr_url);
+            return substitutions;
+        }
+
+        private static SendGridMessage BuildEmailFromSendGridTemplate(string fromComapnyName, string guestEmail, string templateId, string subject, Dictionary<string, string> substitutions)
+        {
+            SendGridMessage email = new SendGridMessage();
+            email.AddTo(guestEmail);
+            email.From = new MailAddress("non-reply@gjests.com", fromComapnyName);
+            email.Subject = subject;
+            email.Html = "<p></p>";
+
+            if (!string.IsNullOrEmpty(templateId))
+            {
+                email.EnableTemplateEngine(templateId);
+            }
+
+            foreach (var key in substitutions.Keys)
+            {
+                email.AddSubstitution(key, new List<string> { substitutions[key] ?? string.Empty });
+            }
+
+            email.EnableOpenTracking();
+            email.EnableClickTracking();
+            return email;
+        }
     }
 }

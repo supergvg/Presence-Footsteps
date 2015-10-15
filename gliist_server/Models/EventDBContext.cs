@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace gliist_server.Models
 {
@@ -19,21 +17,26 @@ namespace gliist_server.Models
         public EventDBContext()
             : base("name=EventDBContext")
         {
+            
         }
 
-        public System.Data.Entity.DbSet<gliist_server.Models.Event> Events { get; set; }
-        public System.Data.Entity.DbSet<gliist_server.Models.Guest> Guests { get; set; }
-        public System.Data.Entity.DbSet<gliist_server.Models.GuestList> GuestLists { get; set; }
+        public DbSet<Event> Events { get; set; }
 
-        public System.Data.Entity.DbSet<gliist_server.Models.GuestListInstance> GuestListInstances { get; set; }
+        public DbSet<Guest> Guests { get; set; }
 
-        public System.Data.Entity.DbSet<gliist_server.Models.Company> Companies { get; set; }
+        public DbSet<GuestList> GuestLists { get; set; }
 
-        public System.Data.Entity.DbSet<gliist_server.Models.Notification> Notifications { get; set; }
+        public DbSet<GuestListInstance> GuestListInstances { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
 
-        public System.Data.Entity.DbSet<ResetPasswordToken> PasswordTokens { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
+        public DbSet<TicketType> TicketTypes { get; set; }
+
+        public DbSet<ResetPasswordToken> PasswordTokens { get; set; }
+
+        public DbSet<EventGuestStatus> EventGuests { get; set; }
 
     }
 }

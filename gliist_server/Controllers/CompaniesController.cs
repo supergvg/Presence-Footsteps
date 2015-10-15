@@ -116,6 +116,31 @@ namespace gliist_server.Controllers
             return CreatedAtRoute("DefaultApi", new { id = company.id }, company);
         }
 
+        // POST: api/Update socials
+        [Route("UpdateSocialLinks")]
+        [ResponseType(typeof(Company))]
+        public async Task<IHttpActionResult> UpdateSocialLinks(CompanySocialLinksModel companySocialLinksModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var company = db.Companies.FirstOrDefault(x => x.id == companySocialLinksModel.id);
+            if (company == null)
+            {
+                return BadRequest("Company not found");
+            }
+
+            company.FacebookPageUrl = companySocialLinksModel.FacebookPageUrl ?? string.Empty;
+            company.TwitterPageUrl = companySocialLinksModel.TwitterPageUrl ?? string.Empty;
+            company.InstagrammPageUrl = companySocialLinksModel.InstagrammPageUrl ?? string.Empty;
+            db.Entry(company).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+
+            return Ok("Saved");
+        }
+
         // DELETE: api/Companies/5
         [ResponseType(typeof(Company))]
         public async Task<IHttpActionResult> DeleteCompany(int id)
