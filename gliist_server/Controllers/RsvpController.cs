@@ -208,7 +208,7 @@ namespace gliist_server.Controllers
                     linked_event = @event,
                     listType = "rsvp",
                     published = false,
-                    title = "RSVP Public list"
+                    title = "RSVP list"
                 };
                 db.GuestListInstances.Add(publicGuestListInstance);
                 db.SaveChanges();
@@ -224,7 +224,8 @@ namespace gliist_server.Controllers
                     firstName = names[0],
                     lastName = ((names.Length > 1) ? names[1] : string.Empty),
                     isPublicRegistration = true,
-                    type = "Guest"
+                    type = "Guest",
+                    plus = eventGuestModel.AdditionalGuests
                 };
                 try
                 {
@@ -249,7 +250,7 @@ namespace gliist_server.Controllers
                     EventId = @event.id,
                     GuestId = guest.id,
                     GuestListId = 0,
-                    GuestListInstanceId = publicGuestListInstance.id
+                    GuestListInstanceId = publicGuestListInstance.id,
                 };
 
                 db.EventGuests.Add(eventGuestStatus);

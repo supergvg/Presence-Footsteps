@@ -20,9 +20,11 @@ namespace gliist_server.Controllers
         private EventDBContext db = new EventDBContext();
 
         // GET: api/GuestListInstances
-        public IQueryable<GuestListInstance> GetGuestListInstances()
+        public IEnumerable<GuestListInstance> GetGuestListInstances()
         {
-            return db.GuestListInstances;
+            return db.GuestListInstances
+                .Include(x => x.actual)
+                .ToList();
         }
 
         // GET: api/GuestListInstances/5

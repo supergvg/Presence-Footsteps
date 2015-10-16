@@ -170,7 +170,8 @@ namespace gliist_server.Controllers
                         GuestListId = guestList.id,
                         GuestListInstanceId = guestListInstance.id,
                         GuestId = guest.id,
-                        GuestListInstanceType = guestListInstance.InstanceType
+                        GuestListInstanceType = guestListInstance.InstanceType,
+                        AdditionalGuestsRequested = guest.plus
                     };
 
                     @event.EventGuestStatuses.Add(guestStatus);
@@ -380,7 +381,7 @@ namespace gliist_server.Controllers
             db.Entry(checkin).State = EntityState.Modified;
 
 
-            if (guest.company.id != user.company.id)
+            if (!guest.isPublicRegistration && guest.company.id != user.company.id)
             {
                 return BadRequest();
             }
@@ -394,20 +395,20 @@ namespace gliist_server.Controllers
             //Guset Capacity
             if (checkin.plus < checkinData.plus || (checkin.status == "checked in" && checkin.plus == 0))
             {
-                //throw new ArgumentException("guest exceeded capacity");
+                throw new ArgumentException("guest exceeded capacity");
             }
 
             //GL max capacity 
             if (gli.capacity > 0 && GuestHelper.GetGuestListTotalCheckedin(gli) + totalChk > gli.capacity)
             {
-                //throw new ArgumentException("guest list exceeded capacity");
+                throw new ArgumentException("guest list exceeded capacity");
             }
 
 
             //event max capacity
             if (gli.linked_event.capacity > 0 && GuestHelper.GetEventTotalCheckedin(gli.linked_event) + totalChk > gli.linked_event.capacity)
             {
-                //throw new ArgumentException("event exceeded capacity");
+                throw new ArgumentException("event exceeded capacity");
             }
 
 
