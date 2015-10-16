@@ -26,10 +26,11 @@ namespace gliist_server.Helpers
         //http://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/ blob
 
 
-        private static readonly string landingPageBaseUrl = ConfigurationManager.AppSettings["landingBaseUrl"];
+        private static readonly string appBaseUrl = ConfigurationManager.AppSettings["appBaseUrl"];
         private static readonly string sendgridUsername = "gliist";
         private static readonly string sendgridPassword = "gliist925$";
         private static readonly string inviteEmailSendgridTemplateId = "033338d5-941a-4906-9110-ba02c59dccef";
+        private static readonly string inviteUserAccountEmailSendgridTemplateId = "105b490c-8585-4e17-b5e6-ee502c1fac85";
         private static readonly string rsvpEmailSendgridTemplateId = "50023ddc-4065-4940-bf46-4c1b340c3411";
         private static readonly string ticketingEmailSendgridTemplateId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
 
@@ -159,7 +160,7 @@ namespace gliist_server.Helpers
 
             myMessage.Html = "<p></p>";
 
-            myMessage.EnableTemplateEngine(inviteEmailSendgridTemplateId);
+            myMessage.EnableTemplateEngine(inviteUserAccountEmailSendgridTemplateId);
 
             myMessage.AddSubstitution(":to_first_name", new List<string> { invite.firstName });
 
@@ -175,7 +176,7 @@ namespace gliist_server.Helpers
             myMessage.AddSubstitution(":account_settings",
                 new List<string>
                 { 
-                    string.Format("{0}/#/signup/invite/{1}/{2}", request.RequestUri.Authority, from.company.name ,invite.token)
+                    string.Format("{0}/#/signup/invite/{1}/{2}", appBaseUrl , from.company.name ,invite.token)
                 }
             );
 
@@ -195,7 +196,7 @@ namespace gliist_server.Helpers
         {
             string subject = string.Format("{0} - Please RSVP for this Event", @event.title);
 
-            var landingPageUrlGenerator = new GjestsLinksGenerator(landingPageBaseUrl);
+            var landingPageUrlGenerator = new GjestsLinksGenerator(appBaseUrl);
             string landingPageUrl = (@event.RsvpType == RsvpType.InvitedGuests) ?
                 landingPageUrlGenerator.GenerateGuestRsvpLandingPageLink(@event.id, guest.id)
                 : @event.RsvpUrl;
@@ -220,7 +221,7 @@ namespace gliist_server.Helpers
         {
             string subject = string.Format("{0} - Tickets", @event.title);
 
-            var landingPageUrlGenerator = new GjestsLinksGenerator(landingPageBaseUrl);
+            var landingPageUrlGenerator = new GjestsLinksGenerator(appBaseUrl);
             string landingPageUrl = landingPageUrlGenerator.GenerateGuestTicketsLandingPageLink(@event.id, guest.id);
 
             var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);

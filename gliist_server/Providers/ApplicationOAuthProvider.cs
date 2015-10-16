@@ -57,9 +57,15 @@ namespace gliist_server.Providers
                     context.Validated(ticket);
                     context.Request.Context.Authentication.SignIn(cookiesIdentity);
                 }
+                catch (InvalidOperationException ex)
+                {
+                    context.SetError("Exception", ex.ToString());
+                    return;
+                }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    context.SetError("Exception", ex.ToString());
+                    return;
                 }
             }
         }

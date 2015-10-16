@@ -206,9 +206,9 @@ namespace gliist_server.Controllers
                 {
                     InstanceType = GuestListInstanceType.PublicRsvp,
                     linked_event = @event,
-                    listType = "public",
+                    listType = "rsvp",
                     published = false,
-                    title = "Public list"
+                    title = "RSVP Public list"
                 };
                 db.GuestListInstances.Add(publicGuestListInstance);
                 db.SaveChanges();
@@ -262,7 +262,7 @@ namespace gliist_server.Controllers
                 SendInvitationEmail(eventGuestStatus);
                 eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
                 eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
-                eventGuestStatus.CheckInDate = DateTime.UtcNow;
+                //eventGuestStatus.CheckInDate = DateTime.UtcNow;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 CheckIn(eventGuestStatus);
@@ -348,7 +348,7 @@ namespace gliist_server.Controllers
                 eventGuestStatus.AdditionalGuestsRequested = eventGuestModel.AdditionalGuests;
                 eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
                 eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
-                eventGuestStatus.CheckInDate = DateTime.UtcNow;
+                //eventGuestStatus.CheckInDate = DateTime.UtcNow;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 CheckIn(eventGuestStatus);
@@ -359,10 +359,8 @@ namespace gliist_server.Controllers
 
         private IHttpActionResult BadRequest<T>(T value)
         {
-            // Get default content negotiator and negotiate type.  
             var defaultNegotiator = Configuration.Services.GetContentNegotiator();
             var negotationResult = defaultNegotiator.Negotiate(typeof(T), Request, Configuration.Formatters);
-            // Create a 400 response message with negotiated content.  
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
             {
                 Content = new ObjectContent<T>(value, negotationResult.Formatter, negotationResult.MediaType)

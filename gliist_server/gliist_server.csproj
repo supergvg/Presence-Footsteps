@@ -248,6 +248,7 @@
     </Compile>
     <Compile Include="Helpers\BlobHelper.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\EventHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
@@ -319,10 +320,6 @@
     <Compile Include="Migrations\201509021403169_EventsGuests.cs" />
     <Compile Include="Migrations\201509021403169_EventsGuests.Designer.cs">
       <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509021549531_User_CompanyId.cs" />
-    <Compile Include="Migrations\201509021549531_User_CompanyId.Designer.cs">
-      <DependentUpon>201509021549531_User_CompanyId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201509221303395_TicketType.cs" />
     <Compile Include="Migrations\201509221303395_TicketType.Designer.cs">
@@ -486,9 +483,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509021403169_EventsGuests.resx">
       <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509021549531_User_CompanyId.resx">
-      <DependentUpon>201509021549531_User_CompanyId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509221303395_TicketType.resx">
       <DependentUpon>201509221303395_TicketType.cs</DependentUpon>
