@@ -214,7 +214,7 @@ namespace gliist_server.Controllers
                 db.SaveChanges();
             }
 
-            var guest = db.Guests.FirstOrDefault(x => x.email == eventGuestModel.Email);
+            Guest guest = null;//This per Jocleyn request, she always wants to create new guest //db.Guests.FirstOrDefault(x => x.email == eventGuestModel.Email);
             if (guest == null)
             {
                 string[] names = eventGuestModel.Name.Split(' ');
@@ -224,7 +224,7 @@ namespace gliist_server.Controllers
                     firstName = names[0],
                     lastName = ((names.Length > 1) ? names[1] : string.Empty),
                     isPublicRegistration = true,
-                    type = "Guest",
+                    type = "RSVP",
                     plus = eventGuestModel.AdditionalGuests
                 };
                 try

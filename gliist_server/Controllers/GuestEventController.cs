@@ -142,7 +142,7 @@ namespace gliist_server.Controllers
                     continue;
                 }
 
-                if (@event.guestLists.Any(x => x.linked_guest_list.id == guestList.id))
+                if (@event.guestLists.Any(x =>x.linked_guest_list != null && x.linked_guest_list.id == guestList.id))
                 {
                     continue;
                 }

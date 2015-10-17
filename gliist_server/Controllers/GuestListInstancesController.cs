@@ -87,8 +87,6 @@ namespace gliist_server.Controllers
 
             if (guestListInstance.id > 0)
             {
-                db.Entry(guestListInstance).State = EntityState.Modified;
-
                 foreach (var checkin in guestListInstance.actual)
                 {
 
@@ -111,6 +109,8 @@ namespace gliist_server.Controllers
                         db.Entry(checkin.guest).State = EntityState.Added;
                     }
                 }
+
+                db.Entry(guestListInstance).State = EntityState.Modified;
             }
             else
             {
