@@ -70,7 +70,7 @@
 
                 <div flex="10" ng-if="!options.stats">
                     <md-input-container style="padding-bottom: 0">
-                        <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly"
+                        <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
                                type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)">
                     </md-input-container>
                 </div>

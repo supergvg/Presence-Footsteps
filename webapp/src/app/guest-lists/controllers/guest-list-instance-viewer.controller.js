@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory',
-        function ($scope, eventsService, dialogService, $state, guestFactory) {
+    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory', '$rootScope',
+        function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
 
             $scope.editInstance = function (ev, instance) {
                 $state.go('main.edit_gl_event', {gli: instance.id});
@@ -10,20 +10,26 @@ angular.module('gliist')
 
             $scope.getglistTotal = function (glist) {
                 return glist.guestsCount;
-                
+
                 //this old code
-/*                var total = 0;
+                /*                var total = 0;
 
-                angular.forEach(glist.actual,
-                    function (guest_info) {
-                        total += guest_info.guest.plus + 1;
-                    });
+                 angular.forEach(glist.actual,
+                 function (guest_info) {
+                 total += guest_info.guest.plus + 1;
+                 });
 
-                return total;*/
+                 return total;*/
             };
 
 
             $scope.published = [];
+
+
+            $scope.isPromoter = function () {
+                return ($rootScope.currentUser &&
+                    ($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('promoter') > -1));
+            };
 
             $scope.isPublished = function (glist) {
                 return $scope.published.indexOf(glist.id) >= 0;
