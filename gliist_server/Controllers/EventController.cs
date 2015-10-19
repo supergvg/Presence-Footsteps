@@ -13,6 +13,7 @@ using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
 using System.Web.Http.Cors;
+using gliist_server.Helpers;
 using gliist_server.Shared;
 
 
@@ -88,13 +89,9 @@ namespace gliist_server.Controllers
             {
                 foreach (var guestListInstance in @event.guestLists)
                 {
-                    if (@guestListInstance.linked_guest_list != null)
-                    {
-                        guestListInstance.GuestsCount = @guestListInstance.linked_guest_list.guests.Count;
-                    }
+                    guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
                 }
             }
-
             return Ok(@event);
         }
 
@@ -211,7 +208,7 @@ namespace gliist_server.Controllers
             }
             else
             {
-                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["landingBaseUrl"]);
+                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["appBaseUrl"]);
                 @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.title);
                 @event.TicketingUrl = linkCreator.GeneratePublicTicketsLandingPageLink(@event.company.name, @event.title);
                 db.Events.Add(@event);

@@ -17,7 +17,7 @@ namespace gliist_server.Models
         public EventDBContext()
             : base("name=EventDBContext")
         {
-            
+            Database.SetInitializer<EventDBContext>(null);
         }
 
         public DbSet<Event> Events { get; set; }

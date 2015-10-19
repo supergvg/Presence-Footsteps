@@ -28,7 +28,10 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
 
-            var gls = db.GuestLists.Where(gl => !gl.isDeleted && gl.company.id == user.company.id);
+            var gls = db.GuestLists
+                .Where(gl => !gl.isDeleted && gl.company.id == user.company.id)
+                .Include(x => x.guests)
+                .ToList();
 
             var retval = new List<GuestListViewModel>();
             foreach (var gl in gls)

@@ -206,15 +206,15 @@ namespace gliist_server.Controllers
                 {
                     InstanceType = GuestListInstanceType.PublicRsvp,
                     linked_event = @event,
-                    listType = "public",
+                    listType = "rsvp",
                     published = false,
-                    title = "Public list"
+                    title = "RSVP list"
                 };
                 db.GuestListInstances.Add(publicGuestListInstance);
                 db.SaveChanges();
             }
 
-            var guest = db.Guests.FirstOrDefault(x => x.email == eventGuestModel.Email);
+            Guest guest = null;//This per Jocleyn request, she always wants to create new guest //db.Guests.FirstOrDefault(x => x.email == eventGuestModel.Email);
             if (guest == null)
             {
                 string[] names = eventGuestModel.Name.Split(' ');
@@ -224,7 +224,8 @@ namespace gliist_server.Controllers
                     firstName = names[0],
                     lastName = ((names.Length > 1) ? names[1] : string.Empty),
                     isPublicRegistration = true,
-                    type = "Guest"
+                    type = "RSVP",
+                    plus = eventGuestModel.AdditionalGuests
                 };
                 try
                 {
@@ -249,7 +250,7 @@ namespace gliist_server.Controllers
                     EventId = @event.id,
                     GuestId = guest.id,
                     GuestListId = 0,
-                    GuestListInstanceId = publicGuestListInstance.id
+                    GuestListInstanceId = publicGuestListInstance.id,
                 };
 
                 db.EventGuests.Add(eventGuestStatus);
@@ -262,7 +263,7 @@ namespace gliist_server.Controllers
                 SendInvitationEmail(eventGuestStatus);
                 eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
                 eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
-                eventGuestStatus.CheckInDate = DateTime.UtcNow;
+                //eventGuestStatus.CheckInDate = DateTime.UtcNow;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 CheckIn(eventGuestStatus);
@@ -348,7 +349,7 @@ namespace gliist_server.Controllers
                 eventGuestStatus.AdditionalGuestsRequested = eventGuestModel.AdditionalGuests;
                 eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
                 eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
-                eventGuestStatus.CheckInDate = DateTime.UtcNow;
+                //eventGuestStatus.CheckInDate = DateTime.UtcNow;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 CheckIn(eventGuestStatus);
@@ -359,10 +360,8 @@ namespace gliist_server.Controllers
 
         private IHttpActionResult BadRequest<T>(T value)
         {
-            // Get default content negotiator and negotiate type.  
             var defaultNegotiator = Configuration.Services.GetContentNegotiator();
             var negotationResult = defaultNegotiator.Negotiate(typeof(T), Request, Configuration.Formatters);
-            // Create a 400 response message with negotiated content.  
             var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
             {
                 Content = new ObjectContent<T>(value, negotationResult.Formatter, negotationResult.MediaType)
