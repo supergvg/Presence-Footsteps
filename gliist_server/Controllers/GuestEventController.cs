@@ -408,7 +408,8 @@ namespace gliist_server.Controllers
             //event max capacity
             if (gli.linked_event.capacity > 0 && GuestHelper.GetEventTotalCheckedin(gli.linked_event) + totalChk > gli.linked_event.capacity)
             {
-                throw new ArgumentException("event exceeded capacity");
+                //Jocelyn wants to enable checkin even if event passed its capacity 
+                //throw new ArgumentException("event exceeded capacity");
             }
 
 

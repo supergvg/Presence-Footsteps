@@ -140,7 +140,10 @@ namespace gliist_server.Helpers
                 substitutions.Add(key, additionalSubstitutions[key]);
             }
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions);
+
+            var categories = new List<string> { "Event Invitation", from.company.name, @event.title};
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions, categories);
             SendEmail(email);
         }
 
@@ -213,7 +216,11 @@ namespace gliist_server.Helpers
                 substitutions.Add(key, additionalSubstitutions[key]);
             }
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, rsvpEmailSendgridTemplateId, subject, substitutions);
+            var categories = new List<string> { "Event RSVP", from.company.name, @event.title };
+
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, rsvpEmailSendgridTemplateId, subject, substitutions, categories);
+
             SendEmail(email);
         }
 
@@ -236,7 +243,9 @@ namespace gliist_server.Helpers
                 substitutions.Add(key, additionalSubstitutions[key]);
             }
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, ticketingEmailSendgridTemplateId, subject, substitutions);
+            var categories = new List<string> { "Ticket", from.company.name, @event.title };
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, ticketingEmailSendgridTemplateId, subject, substitutions, categories);
             SendEmail(email);
         }
 
@@ -271,13 +280,16 @@ namespace gliist_server.Helpers
             return substitutions;
         }
 
-        private static SendGridMessage BuildEmailFromSendGridTemplate(string fromComapnyName, string guestEmail, string templateId, string subject, Dictionary<string, string> substitutions)
+        private static SendGridMessage BuildEmailFromSendGridTemplate(string fromComapnyName, string guestEmail, string templateId, string subject,
+            Dictionary<string, string> substitutions, List<string> categories)
         {
             SendGridMessage email = new SendGridMessage();
             email.AddTo(guestEmail);
             email.From = new MailAddress("non-reply@gjests.com", fromComapnyName);
             email.Subject = subject;
             email.Html = "<p></p>";
+
+            email.SetCategories(categories);
 
             if (!string.IsNullOrEmpty(templateId))
             {
