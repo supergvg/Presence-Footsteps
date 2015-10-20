@@ -26,7 +26,6 @@
                 border-color: white;
                     height: 10px;
                     margin-top: 50px;">
-
         </div>
         <div style="margin-top: -55px">
             <h5 class="text-bg">Invite</h5>
@@ -62,7 +61,7 @@
                        aria-label="RSVP">
             </md-button>
         </div>
-        </div>
+    </div>
     <div flex="28">
         <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
     </div>
@@ -107,7 +106,6 @@
     </div>
 </div>
 
-
 <ng-switch on="data.selectedIndex" class="tabpanel-container">
     <div role="tabpanel"
          id="tab1-content"
@@ -119,26 +117,24 @@
         <div>
             <form name="eventForm">
                 <div layout layout-sm="column">
-
                     <md-input-container flex="75">
                         <label>Event Title</label>
-                        <input required name="title" ng-model="event.title">
+                        <input required name="title" ng-model="event.title" ng-pattern="/^[\w\s]+$/">
                         <div ng-messages="eventForm.title.$error" ng-if="displayErrorMessage(eventForm.title)">
                             <div ng-message="required">Please Enter Event Title</div>
+                            <div ng-message="pattern">Event Title can only contain alphabets, digits and spaces</div>
                         </div>
                     </md-input-container>
                     <md-input-container style="width: 100%;" flex="25">
                         <md-select required name="category" placeholder="Select Type" ng-model="event.category" flex="100%">
-                        <md-select-label style="width:100%">{{event.category || 'Event Category'}}</md-select-label>
-                        <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
-                    </md-select>
+                            <md-select-label style="width:100%">{{event.category || 'Event Category'}}</md-select-label>
+                            <md-option value="{{t}}" ng-repeat="t in eventCategories">{{t}}</md-option>
+                        </md-select>
                         <div ng-messages="eventForm.category.$error" ng-if="displayErrorMessage(eventForm.category)">
                             <div ng-message="required">Please Select Event Category</div>
                         </div>
                     </md-input-container>
                 </div>
-
-
                 <div layout layout-sm="column">
                     <md-input-container flex="75" ng-init=resetPlaceholder()>
                         <label>Event Location</label>
@@ -239,6 +235,9 @@
 
         </div>
         <div layout="row" layout-align="end center">
+            <md-button class="md-primary md-raised" ng-click="previous()">
+                Back
+            </md-button>
             <md-button class="md-primary md-raised" ng-click="next()">
                 Next
             </md-button>
@@ -347,6 +346,9 @@
             <md-button class="md-primary md-raised" ng-click="addNewTicket()" ng-show="event.type === 3">
                 Add Ticket
             </md-button>
+            <md-button class="md-primary md-raised" ng-click="previous()">
+                Back
+            </md-button>
             <md-button class="md-primary md-raised" ng-click="next(rsvpForm)">
                 Next
             </md-button>
@@ -404,15 +406,16 @@
                     </div>
                 </md-list-item>
             </md-list>
-
             <div>
                 <div class="section-label">Guests :</div>
                 <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
             </div>
-
         </div>
 
         <div layout="row" layout-align="end center" style="margin-top: 10px;">
+            <md-button class="md-primary md-raised" ng-click="previous()">
+                Back
+            </md-button>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
             <md-button class="md-primary md-raised" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
                 Next

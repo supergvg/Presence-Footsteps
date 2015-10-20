@@ -4,7 +4,6 @@ angular.module('gliist')
     .controller('EditEventCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$filter', '$rootScope',
         function ($scope, $stateParams, dialogService, $state, eventsService, $filter, $rootScope) {
 
-
             $scope.isStaff = function () {
                 return $rootScope.isStaff();
             };

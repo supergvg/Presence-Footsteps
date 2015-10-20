@@ -152,7 +152,7 @@ angular.module('gliist')
 
             };
 
-            $scope.displayErrorMessage = function (field) {
+            $scope.displayErrorMessage = function(field) {
                 return false;
                 //return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
@@ -210,11 +210,16 @@ angular.module('gliist')
                                 category: 'Please Select Event Category',
                                 location: 'Please Enter Event Location',
                                 capacity: 'Please Enter Total Capacity'
+                            },
+                            pattern: {
+                                title: 'Event Title can only contain alphabets, digits and spaces'
                             }
                         },
                         errorMessage = [];
-                        angular.forEach(form.$error.required, function(value, key){
-                            errorMessage.push(errors.required[value.$name]);
+                        angular.forEach(form.$error, function(value, key){
+                            angular.forEach(value, function(value1, key1){
+                                errorMessage.push(errors[key][value1.$name]);
+                            });
                         });
                         if ($scope.timeInvalid) {
                             errorMessage.push("Cant Create Event in the Past");
@@ -339,7 +344,6 @@ angular.module('gliist')
             }
 
             $scope.init = function () {
-
                 if ($scope.isPromoter()) {
                     $scope.data.selectedIndex = 3;
                 }

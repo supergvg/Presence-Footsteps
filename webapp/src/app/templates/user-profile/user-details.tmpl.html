@@ -1,5 +1,5 @@
 <div layout="column">
-    <md-whiteframe style="background-color: white" class="md-whiteframe-z1" flex>
+    <md-whiteframe ng-style="!editMode ? {'background-color': 'white'} : {}" ng-class="!editMode ? 'md-whiteframe-z1' : ''" flex class="user-profile">
         <div ng-show="!editMode" layout layout-align="center center">
             <div flex="30" ng-style="getUserPhoto('150px')">
             </div>
@@ -23,80 +23,86 @@
         </div>
 
         <div ng-show="editMode">
-            <div layout="row" layout-align="end start" layout-padding>
-                <md-input-container flex>
-                    Upload your profile picture(jpg,gif, file formats supported)
+            <div class="section-label">Edit your profile:</div>
+            <div layout="row" layout-align="space-between center" class="upload-picture">
+                <md-input-container>
+                    Upload your profile picture (jpg,gif, file formats supported)
                 </md-input-container>
-                <md-input-container flex="20">
+                <md-input-container>
                     <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
                                accept=".jpg,.png,.gif">
-                        BROWSE
+                        UPLOAD
                     </md-button>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                                           ng-show="fetchingData"></md-progress-circular>
                 </md-input-container>
-                <md-input-container flex="20">
-                </md-input-container>
             </div>
+            <md-divider></md-divider>
+            <div class="section-label">Edit Personal Details</div>
             <form name="userForm">
                 <div layout layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container>
                         <label>First Name</label>
                         <input ng-model="user.firstName" name="firstName" required>
-                    </md-input-container>
-                    <div ng-messages="userForm.firstName.$error"
-                         ng-if="displayErrorMessage(userForm.firstName)">
-                        <div ng-if="userForm.firstName.$error.required" ng-message="required">First name
-                            is
-                            required
+                        <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
+                            <div ng-message="required">First name is required</div>
                         </div>
-                    </div>
-                    <md-input-container flex>
+                    </md-input-container>
+                    <md-input-container>
                         <label>Last Name</label>
                         <input ng-model="user.lastName" name="lastName" required>
-                    </md-input-container>
-                    <div ng-messages="userForm.lastName.$error"
-                         ng-if="displayErrorMessage(userForm.lastName)">
-                        <div ng-if="userForm.lastName.$error.required" ng-message="required">Last name
-                            is
-                            required
+                        <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
+                            <div ng-message="required">Last name is required</div>
                         </div>
-                    </div>
+                    </md-input-container>
                 </div>
                 <div layout layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container>
                         <label>Email</label>
                         <input ng-model="user.email" type="email" disabled>
                     </md-input-container>
-                    <md-input-container flex>
+                    <md-input-container>
                         <label>Phone Number</label>
                         <input ng-model="user.phoneNumber" type="tel">
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container>
                         <label>City</label>
                         <input ng-model="user.city">
                     </md-input-container>
-                    <md-input-container flex>
+                    <md-input-container>
                         <label>Company</label>
                         <input ng-model="user.company" ng-disabled="true">
                     </md-input-container>
                 </div>
-                <div layout layout-sm="column">
+                
+                <md-divider></md-divider>
+                
+                <div layout layout-sm="column" ng-show="false">
                     <md-input-container flex>
                         <label>Brief Bio</label>
                         <textarea ng-model="user.bio" columns="1"></textarea>
                     </md-input-container>
                 </div>
-                <div layout layout-sm="column" ng-show="false">
-                    <md-input-container flex>
-                        <label>Password</label>
-                        <input>
+                <div class="section-label">Change your password</div>
+                <div layout layout-sm="column">
+                    <md-input-container>
+                        <label>Enter old password</label>
+                        <input ng-model="user.password" type="password">
                     </md-input-container>
-                    <md-input-container flex>
-                        <label>Re-enter Password</label>
-                        <input>
+                </div>
+                <div layout layout-sm="column">
+                    <md-input-container>
+                        <label>Enter new password</label>
+                        <input ng-model="user.new_password" type="password" name="new_password">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Re-enter new password</label>
+                        <input ng-model="user.re_password" type="password" ng-match="user.new_password" name="re_password">
+                        <div ng-messages="userForm.re_password.$error" class="errors">
+                            <div ng-message="match">Passwords don't match.</div>
+                        </div>
                     </md-input-container>
                 </div>
             </form>

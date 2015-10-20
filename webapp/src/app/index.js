@@ -30,6 +30,7 @@ angular.module('gliist', [
                 .backgroundPalette('grey');
 
             window.redirectUrl = "http://gjests.azurewebsites.net/";
+//	    window.redirectUrl = "http://gjests-api.ideas-implemented.com/";
             $provide.factory('myHttpInterceptor', function () {
                 return {
                     'request': function (config) {
@@ -112,7 +113,7 @@ angular.module('gliist', [
                     templateUrl: 'app/events/templates/event-add-guestlist.html',
                     controller: 'AddGLEventCtrl'
                 }).state('main.edit_gl_event', {
-                    url: '/event/edit/guestlistinstance/:gli',
+                    url: '/event/edit/guestlistinstance/:gli/:eventId',
                     templateUrl: 'app/events/templates/event-edit-guestlist.html',
                     controller: 'EditGLEventCtrl'
                 }).state('main.edit_event', {
@@ -197,7 +198,6 @@ angular.module('gliist', [
                         allowAnonymous: true
                     }
                 });
-
             $urlRouterProvider.otherwise('/main/welcome');
         }])
     .run(['$rootScope', '$state', 'userService', '$timeout', '$document',

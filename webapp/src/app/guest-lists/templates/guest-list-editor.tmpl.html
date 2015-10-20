@@ -1,28 +1,27 @@
 <div>
     <div>
         <form name="createGuestListForm">
-        <div class="page-subtitle">
-            <h4>Enter Guest List Title</h4>
-        </div>
-        <div layout layout-sm="column">
-
-            <md-input-container flex="75">
-                <label>Enter guest list title</label>
+            <div class="page-subtitle">
+                <h4>Enter Guest List Title</h4>
+            </div>
+            <div layout layout-sm="column">
+                <md-input-container flex="75">
+                    <label>Enter guest list title</label>
                     <input type="text" ng-model="list.title" name="title" required>
                     <div ng-messages="createGuestListForm.title.$error" ng-if="displayErrorMessage(createGuestListForm.title)">
                         <div ng-message="required">Please Enter Guest List Title</div>
                     </div>
-            </md-input-container>
+                </md-input-container>
                 <md-input-container flex="25">
                     <md-select placeholder="Select Type" required name="listType" ng-model="list.listType" style="padding-top: 18px;width: 100%;margin-top: 7px" ng-disabled="disableChangeGLType()" flex="100%">
-                <md-select-label style="width:100%">{{list.listType || 'Select Type'}}</md-select-label>
-                <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
-            </md-select>
+                        <md-select-label style="width:100%">{{list.listType || 'Select Type'}}</md-select-label>
+                        <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
+                    </md-select>
                     <div ng-messages="createGuestListForm.listType.$error" ng-if="displayErrorMessage(createGuestListForm.listType)">
                         <div ng-message="required">Please Select Guest Type</div>
                     </div>
                 </md-input-container>
-        </div>
+            </div>
         </form>
     </div>
     <div>

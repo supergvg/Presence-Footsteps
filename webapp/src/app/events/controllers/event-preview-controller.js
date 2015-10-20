@@ -3,7 +3,6 @@
 angular.module('gliist')
   .controller('EventPreviewController', ['$scope',
     function ($scope) {
-
       $scope.getEventInvite = function (height) {
         if (!$scope.event) {
           return;

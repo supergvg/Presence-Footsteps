@@ -8,7 +8,8 @@ angular.module('gliist')
             controller: 'GuestListInstanceEditorCtrl',
 
             scope: {
-                id: '='
+                id: '=',
+                onSave: '=?'
             },
 
             replace: true,

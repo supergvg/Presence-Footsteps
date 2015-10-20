@@ -12,7 +12,7 @@ module.exports = function(options) {
     };
 
     var injectFiles = gulp.src([
-      options.src + '/{app,components}/**/*.scss',
+      options.src + '/{app,components,assets}/**/*.scss',
       '!' + options.src + '/app/index.scss',
       '!' + options.src + '/app/vendor.scss'
     ], { read: false });
@@ -31,7 +31,7 @@ module.exports = function(options) {
     var indexFilter = $.filter('index.scss');
 
     return gulp.src([
-      options.src + '/app/index.scss',
+      options.src + '/assets/styles/index.scss',
       options.src + '/app/vendor.scss'
     ])
     .pipe(indexFilter)
@@ -41,7 +41,7 @@ module.exports = function(options) {
     .pipe($.sass(sassOptions)).on('error', options.errorHandler('Sass'))
     .pipe($.autoprefixer()).on('error', options.errorHandler('Autoprefixer'))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest(options.tmp + '/serve/app/'))
+    .pipe(gulp.dest(options.tmp + '/serve/assets/styles/'))
     .pipe(browserSync.reload({ stream: true }));
   });
 };

@@ -5,23 +5,22 @@ angular.module('gliist')
         function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
 
             $scope.editInstance = function (ev, instance) {
-                $state.go('main.edit_gl_event', {gli: instance.id});
+                $state.go('main.edit_gl_event', {gli: instance.id, eventId: $scope.event.id});
             };
 
             $scope.getglistTotal = function (glist) {
                 return glist.guestsCount;
-
+                
                 //this old code
-                /*                var total = 0;
+/*                var total = 0;
 
-                 angular.forEach(glist.actual,
-                 function (guest_info) {
-                 total += guest_info.guest.plus + 1;
-                 });
+                angular.forEach(glist.actual,
+                    function (guest_info) {
+                        total += guest_info.guest.plus + 1;
+                    });
 
-                 return total;*/
+                return total;*/
             };
-
 
             $scope.published = [];
 

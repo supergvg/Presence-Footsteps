@@ -7,9 +7,7 @@
                     <h2>
                         {{event.event.title}}
                     </h2>
-                    <p>
-                        {{event.event.description}}
-                    </p>
+                    <p ng-bind-html="event.event.description | linky:'_blank'"></p>
                 </div>
                 <img src="{{event.event.invitePicture}}" height="212px"/>
             </div>

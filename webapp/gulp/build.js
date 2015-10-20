@@ -68,15 +68,14 @@ module.exports = function(options) {
     return gulp.src($.mainBowerFiles())
       .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
       .pipe($.flatten())
-      .pipe(gulp.dest(options.dist + '/styles/'));
+      .pipe(gulp.dest(options.dist + '/assets/styles/'));
   });
 
   gulp.task('other', function () {
-    return gulp.src([
-      options.src + '/**/*',
-      '!' + options.src + '/**/*.{html,css,js,scss}'
-    ])
-      .pipe(gulp.dest(options.dist + '/'));
+    gulp.src([options.src + '/favicon.ico'])
+        .pipe(gulp.dest(options.dist));
+    return gulp.src([options.src + '/assets/{fonts,images}/**'])
+        .pipe(gulp.dest(options.dist + '/assets'));
   });
 
   gulp.task('clean', function (done) {

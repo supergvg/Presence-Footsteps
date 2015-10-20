@@ -6,9 +6,7 @@
                 <div style="font-weight:bold;margin:0;font-size:30px;line-height:1.2;">
                     {{event.title}}
                 </div>
-                <div style="margin-top:30px;font-size:12px;">
-                    {{event.description}}
-                </div>
+                <div style="margin-top:30px;font-size:12px;" ng-bind-html="event.description | linky:'_blank'"></div>
                 <div style="margin-top:20px;font-size:12px;color:#8e8e8e;">
                     <span ng-if="event.type === 2 && event.rsvpType === 3">
                         RSVP link : <a href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
@@ -16,31 +14,31 @@
                     <span ng-if="event.type === 3" style="float:right;padding-right:50px;">
                         Ticketing link : <a href="{{event.ticketingUrl}}" target="_blank">{{event.ticketingUrl}}</a>
                     </span>
+                </div>
             </div>
         </div>
-                    </div>
         <div flex="40" style="height:100%">
             <div style="background-color:#3aaaa9;color:#fff;width:55px;text-align:center;float:right;height:100%">
                 <div style="font-size:18px;padding:20px 0;border-bottom:2px solid #ececec;">
                     {{event.time | date: 'EEE' | uppercase}}
-                    </div>
+                </div>
                 <div style="margin-top:40px;font-size:18px;font-weight:bold;line-height:1;">
                     {{event.time | date: 'MMM' | uppercase}}
-                    </div>
+                </div>
                 <div style="font-size:35px;font-weight:bold;line-height:1">
                     {{event.time | date: 'd'}}
                 </div>
-                    </div>
+            </div>
             <div style="padding:20px 0 0 35px;">
                 <div style="font-size:18px;font-weight:bold;padding-bottom:20px;border-bottom:2px solid #ececec;">
                     {{event.time | date: 'h:mm a'}}
-                    </div>
+                </div>
                 <div style="margin-top:25px;font-size:12px;font-weight:bold;">
                     {{event.category}}
                 </div>
                 <div style="margin-top: 10px;font-size:12px;">
                     {{event.location}}
-            </div>
+                </div>
             </div>
         </div>
     </div>

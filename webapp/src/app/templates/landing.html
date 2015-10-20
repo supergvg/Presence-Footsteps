@@ -23,7 +23,7 @@
                 </div>
                 <div class="item">
                     <div class="item-label">Details:</div>
-                    <div class="item-text">{{event.event.additionalDetails}}</div>
+                    <div class="item-text" ng-bind-html="event.event.additionalDetails | linky:'_blank'"></div>
                 </div>
             </div>
             <div class="right-column" layout="column">

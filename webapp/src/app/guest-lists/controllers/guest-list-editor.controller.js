@@ -8,7 +8,7 @@ angular.module('gliist')
                 return {
                     'background-color': 'white',
                     'border-bottom': 'thin inset #ECECEC'
-            };
+                };
             };
 
             var instanceType = ~~$stateParams.instanceType,
@@ -26,7 +26,7 @@ angular.module('gliist')
                         enableHiding: false,
                         enableSorting: false
                     });
-                    }
+            }
 
             $scope.gridOptions = {
                 rowTemplate: '<div' +
@@ -69,6 +69,8 @@ angular.module('gliist')
                 'Press',
                 'All Access'
             ];
+            if (instanceType !== 1)
+                $scope.guestListTypes.push('RSVP');
 
             $scope.selected = $scope.selected || [];
 
@@ -109,7 +111,7 @@ angular.module('gliist')
                 if (!newVal) {
                     return;
                 }
-
+                
                 if (!angular.equals(newVal, oldValue)) {
                     $scope.isDirty = true;
                 }
@@ -318,7 +320,7 @@ angular.module('gliist')
                 }
 
             };
-
+            
             $scope.init();
 
         }]);

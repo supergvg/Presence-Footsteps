@@ -17,7 +17,8 @@ angular.module('gliist')
                 {name: 'Comp', color: '#35A9A9'},
                 {name: 'Super VIP', color: '#42E19E'},
                 {name: 'All Access', color: '#9369E9'},
-                {name: 'Press', color: '#EA69D0'}
+                {name: 'Press', color: '#EA69D0'},
+                {name: 'RSVP', color: '#35A9A9'}
             ];
 
             $scope.getCategoryStatus = function (category) {
@@ -102,7 +103,8 @@ angular.module('gliist')
                             '#35A9A9',
                             '#42E19E',
                             '#9369E9',
-                            '#EA69D0'],
+                            '#EA69D0',
+                            '#35A9A9'],
                         chartArea: {left: 0, top: '10%', width: '100%', height: '75%'},
                         pieSliceText: 'label'
                     },

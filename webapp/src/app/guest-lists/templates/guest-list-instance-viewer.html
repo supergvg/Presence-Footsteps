@@ -1,4 +1,4 @@
-<div>
+<div class='guest-list'>
 
     <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
 
@@ -74,6 +74,11 @@
                                type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)">
                     </md-input-container>
                 </div>
+                
+                <div flex="10">
+                    <p ng-if="instance.instanceType === 1">Guest</p>
+                    <p ng-if="instance.instanceType === 2 || instance.instanceType === 4">RSVP</p>
+                </div>
 
                 <div ng-if="options.publish" flex="10">
                     <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)"
@@ -102,11 +107,6 @@
                                  aria-label="Import" ng-show="options.enableSelection"
                                  style="margin-bottom: 0px">
                     </md-checkbox>
-                </div>
-
-                <div flex="10">
-                    <p ng-if="instance.instanceType === 1">Guest</p>
-                    <p ng-if="instance.instanceType === 2">RSVP</p>
                 </div>
 
             </div>
