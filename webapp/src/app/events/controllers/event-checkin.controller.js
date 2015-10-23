@@ -53,7 +53,7 @@ angular.module('gliist')
                 columnDefs: [
                     {field: 'guest.firstName', name: 'First Name', enableHiding: false},
                     {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'guest.email', name: 'Email', enableHiding: false, width: 300},
+                    {field: 'guest.title', name: 'List Title', enableHiding: false, width: 300},
                     {field: 'guest.type', name: 'Type', enableSorting: true, enableHiding: false, width: 80},
                     {field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false, enableHiding: false},
                     {field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 60},
@@ -99,6 +99,9 @@ angular.module('gliist')
 
                             if (!checkin.guest.type) {
                                 checkin.guest.type = gl.listType;
+                            }
+                            if (!checkin.guest.title) {
+                                checkin.guest.title = gl.title;
                             }
 
                             var passedNameFilter = true;
