@@ -37,17 +37,16 @@ namespace gliist_server.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            using (UserManager<UserModel> userManager = _userManagerFactory(_db))
+            using (UserManager<UserModel> userManager = _userManagerFactory(new EventDBContext()))
             {
                 try
                 {
                     UserModel user = await userManager.FindAsync(context.UserName, context.Password);
                     if (user == null)
                     {
-                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        context.SetError("Error", "The user name or password is incorrect");
                         return;
                     }
-
                     ClaimsIdentity oAuthIdentity = await userManager.CreateIdentityAsync(user,
                         context.Options.AuthenticationType);
                     ClaimsIdentity cookiesIdentity = await userManager.CreateIdentityAsync(user,
