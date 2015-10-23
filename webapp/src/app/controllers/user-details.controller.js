@@ -41,6 +41,24 @@ angular.module('gliist')
                 )
             };
 
+            $scope.updatePassword = function (form) {
+                if (form && form.$invalid) {
+                    $scope.showValidation = true;
+                    return;
+                }
+                userService.changePassword({OldPassword: $scope.user.password,
+                    NewPassword: $scope.user.new_password,
+                    ConfirmPassword: $scope.user.re_password}).then(
+                    function () {
+                        dialogService.success('User password updated');
+                        $scope.editMode = false;
+                    },
+                    function (err) {
+                        dialogService.error(err);
+                    }
+                )
+            };
+
             $scope.saveChanges = function (form) {
                 if (form && form.$invalid) {
                     $scope.showValidation = true;

@@ -76,7 +76,16 @@
                         <input ng-model="user.company" ng-disabled="true">
                     </md-input-container>
                 </div>
-                
+
+                <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
+                    <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
+                        Cancel
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
+                        Save
+                    </md-button>
+                </div>
+
                 <md-divider></md-divider>
                 
                 <div layout layout-sm="column" ng-show="false">
@@ -105,18 +114,20 @@
                         </div>
                     </md-input-container>
                 </div>
+
+                <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
+                    <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
+                        Cancel
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-click="updatePassword(userForm)">
+                        Update
+                    </md-button>
+                </div>
+
             </form>
         </div>
 
 
-        <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
-            <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
-                Cancel
-            </md-button>
-            <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
-                Save
-            </md-button>
-        </div>
 
     </md-whiteframe>
     <p ng-show="!editMode">
