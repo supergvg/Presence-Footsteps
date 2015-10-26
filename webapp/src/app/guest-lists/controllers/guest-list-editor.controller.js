@@ -71,6 +71,9 @@ angular.module('gliist')
             ];
             if (instanceType !== 1) {
                 $scope.guestListTypes = ['RSVP'];
+
+                $scope.list = $scope.list || {};
+
                 $scope.list.listType = 'RSVP';
             }
 
