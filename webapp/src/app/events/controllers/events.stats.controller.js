@@ -9,16 +9,16 @@ angular.module('gliist')
 
 
             $scope.categories = [
-                {name: 'GA', color: '#35A9A9'},
-                {name: 'VIP', color: '#3FBEE1'},
-                {name: 'Guest', color: '#42E19E'},
-                {name: 'Artist', color: '#9369E9'},
-                {name: 'Production', color: '#EA69D0'},
-                {name: 'Comp', color: '#35A9A9'},
-                {name: 'Super VIP', color: '#42E19E'},
-                {name: 'All Access', color: '#9369E9'},
-                {name: 'Press', color: '#EA69D0'},
-                {name: 'RSVP', color: '#35A9A9'}
+                {name: 'GA', color: '#99ccff'},
+                {name: 'VIP', color: '#00ffff'},
+                {name: 'Guest', color: '#cc66ff'},
+                {name: 'Artist', color: '#ff66ee'},
+                {name: 'Production', color: '#99ccff'},
+                {name: 'Comp', color: '#00ccff'},
+                {name: 'Super VIP', color: '#00ccff'},
+                {name: 'All Access', color: '#00ffff'},
+                {name: 'Press', color: '#cc66ff'},
+                {name: 'RSVP', color: '#ff66ee'}
             ];
 
             $scope.getCategoryStatus = function (category) {
