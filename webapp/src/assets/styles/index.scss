@@ -354,6 +354,9 @@ md-checkbox.md-default-theme.md-checked .md-icon {
         md-list-item > div > div > div {
             padding-right: 20px;
         }
+        md-list-item:first-child > div {
+            font-weight: bold;
+        }
     }
 }
 .rsvp {

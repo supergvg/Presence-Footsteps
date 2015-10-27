@@ -3,6 +3,17 @@
 angular.module('gliist')
     .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory', '$rootScope',
         function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
+            var numCol = 4;
+            if ($scope.options.stats) {
+                numCol += 3;
+            }
+            if (!$scope.options.stats) {
+                numCol += 2;
+            }
+            if ($scope.options.publish) {
+                numCol += 2;
+            }
+            $scope.widthColumn = ~~(100 / numCol);
 
             $scope.editInstance = function (ev, instance) {
                 $state.go('main.edit_gl_event', {gli: instance.id, eventId: $scope.event.id});
