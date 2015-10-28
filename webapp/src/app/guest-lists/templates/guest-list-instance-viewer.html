@@ -41,7 +41,7 @@
             </div>
             <div ng-if="options.publish" flex="{{widthColumn}}">
             </div>
-            <div flex="{{widthColumn}}">
+            <div ng-hide="options.readOnly" flex="{{widthColumn}}">
             </div>
         </md-list-item>
         <md-list-item ng-repeat="instance in lists">

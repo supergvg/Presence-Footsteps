@@ -155,7 +155,7 @@ md-dialog {
 }
 
 .item-selected {
-  background-color: #8E8E8E !important;
+  background-color: #aaaaaa !important;
 }
 
 .centered {
@@ -180,7 +180,7 @@ md-dialog {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #8E8E8E;
+  background-color: #aaaaaa;
 
 }
 
@@ -315,11 +315,16 @@ md-checkbox.md-default-theme.md-checked .md-icon {
   background-color: #99ccff;
 }
 
+.section-header {
+    background-color: #aaaaaa;
+    color: white;
+}
+
 .section-label {
     font-weight: bold;
     padding-top: 20px;
     font-size: 14px;
-    color: #8E8E8E;
+    color: #aaaaaa;
 }
 
 .details,
@@ -361,7 +366,7 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 }
 .rsvp {
     font-size: 14px;
-    color: #8E8E8E;
+    color: #aaaaaa;
     
     .section {
         margin-top: 10px;
@@ -445,7 +450,7 @@ md-checkbox.md-default-theme.md-checked .md-icon {
     }
 }
 #tab5-content a {
-    color: #00ddff;
+    color: #99ccff;
 }
 .landing {
     padding: 0 !important;
