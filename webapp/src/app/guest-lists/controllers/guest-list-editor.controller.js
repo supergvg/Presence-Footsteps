@@ -69,10 +69,10 @@ angular.module('gliist')
                 'Press',
                 'All Access'
             ];
-            if (instanceType !== 1) {
+            if (instanceType !== 1 && $scope.list) {
                 $scope.guestListTypes = ['RSVP'];
 
-                $scope.list = $scope.list || {};
+                $scope.list = $scope.list;
 
                 $scope.list.listType = 'RSVP';
             }
@@ -254,6 +254,10 @@ angular.module('gliist')
                     return;
                 }
 
+
+                if(newVal == 'RSVP') {
+                    $scope.guestListTypes = ['RSVP'];
+                }
 
                 if (newVal && oldVal && (newVal !== oldVal)) {
                     $scope.glTypeChanged = true;
