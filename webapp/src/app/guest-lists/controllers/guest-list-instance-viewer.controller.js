@@ -3,6 +3,7 @@
 angular.module('gliist')
     .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory', '$rootScope',
         function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
+            
             var numCol = 4;
             if ($scope.options.stats) {
                 numCol += 3;
