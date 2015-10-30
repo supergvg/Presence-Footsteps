@@ -227,6 +227,18 @@ md-dialog {
   position: absolute;
 }
 
+.md-select-label > *:first-child {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: calc(100% - 2*8px);
+    -webkit-transform: translate3d(0, 2px, 0);
+    transform: translate3d(0, 2px, 0); 
+}
+
 .ui-grid-viewport {
   //overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -357,11 +369,14 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 .guest-list {
     md-list {
         padding-bottom: 0;
-        md-list-item > div > div > div {
-            padding-right: 20px;
-        }
-        md-list-item:first-child > div {
-            font-weight: bold;
+        
+        md-list-item {
+            & > div > div > div {
+                padding-right: 20px;
+            }
+            &:first-child > div {
+                font-weight: bold;
+            }
         }
     }
 }
