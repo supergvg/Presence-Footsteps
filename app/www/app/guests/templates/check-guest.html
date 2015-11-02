@@ -56,7 +56,13 @@
                         ng-click="checkIn()">
                     Check In
                     <ion-spinner ng-if="fetchingData"></ion-spinner>
-
+                </button>
+            </div>
+            <div class="row" style="margin-top: 40px;" ng-if="lastCheckin">
+                <button class="button button-calm centered"
+                        ng-click="undo()">
+                    Undo
+                    <ion-spinner ng-if="fetchingData"></ion-spinner>
                 </button>
             </div>
         </div>

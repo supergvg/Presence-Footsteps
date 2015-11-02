@@ -1,11 +1,11 @@
 /* Empty. Add your own CSS if you like */
 
 .logo-bg {
-    background-color: #33aaaa !important;
+    background-color: #99ccff !important;
 }
 
 .item-content {
-    background-color: #33aaaa !important;
+    background-color: #99ccff !important;
     color: white !important;
 }
 
@@ -41,7 +41,7 @@
     position: absolute;
     bottom: 0;
     height: 50px;
-    background-color: #2CD6D6 !important;
+    background-color: #99ccff !important;
 }
 
 .bar-logo-color {
@@ -140,8 +140,8 @@ input.rounded:focus {
 }
 
 .button.button-calm {
-    background-color: #33aaaa !important;
-    border-color: #33aaaa !important;
+    background-color: #99ccff !important;
+    border-color: #99ccff !important;
     text-transform: uppercase;
     border-radius: 25px;
     padding-left: 15px;
@@ -182,8 +182,8 @@ ion-item {
 }
 
 .button.button-positive {
-    background-color: #33aaaa !important;
-    border-color: #33aaaa;
+    background-color: #99ccff !important;
+    border-color: #99ccff;
     border-radius: 25px;
 }
 

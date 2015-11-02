@@ -154,6 +154,27 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 return d.promise;
             },
 
+
+            undoGuestCheckin: function (checkinData, glInstance) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/UndoCheckinGuest",
+                    data: {
+                        guestId: checkinData.guest.id,
+                        gliId: glInstance.id,
+                        plus: checkinData.plus
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying check in guest, please try again');
+                });
+
+                return d.promise;
+            },
+
             getGuestCheckin: function (guestId, gliId) {
                 var d = $q.defer();
 

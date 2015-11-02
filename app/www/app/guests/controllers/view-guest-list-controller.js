@@ -22,17 +22,27 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
             $scope.guestEntriesFiltered = [];
 
             if ($scope.active === 'newGuests') {
-                angular.forEach($scope.guestEntries, function (value) {
-                    if (!value.guestChecked) {
-                        $scope.guestEntriesFiltered.push(value);
-                    }
+                angular.forEach($scope.guestEntries, function (section) {
+                    var newGuestSection = {name: section.name, guests: []};
+                    $scope.guestEntriesFiltered.push(newGuestSection);
+
+                    angular.forEach(section.guests, function(guestEntry) {
+                        if (!guestEntry.guestChecked) {
+                            newGuestSection.guests.push(guestEntry);
+                        }
+                    });
                 });
             }
             else {
-                angular.forEach($scope.guestEntries, function (value) {
-                    if (value.guestChecked) {
-                        $scope.guestEntriesFiltered.push(value);
-                    }
+                angular.forEach($scope.guestEntries, function (section) {
+                    var newGuestSection = {name: section.name, guests: []};
+                    $scope.guestEntriesFiltered.push(newGuestSection);
+
+                    angular.forEach(section.guests, function(guestEntry) {
+                        if (guestEntry.guestChecked) {
+                            newGuestSection.guests.push(guestEntry);
+                        }
+                    });
                 });
             }
         };
@@ -97,7 +107,7 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
 
         $scope.doRefresh = function () {
             var eventId = $stateParams.eventId;
-            $scope.guestEntries = [];
+            $scope.guestEntries = {};
 
             eventsService.getEvents(eventId).then(
                 function (event) {
@@ -127,9 +137,11 @@ angular.module('starter').controller('viewGuestListController', ['$scope', '$sta
             $scope.guestEntries = [];
 
             angular.forEach($scope.currentEvent.guestLists, function (glist) {
+                var section = {name: glist.title, guests: []};
+                $scope.guestEntries.push(section);
                 angular.forEach(glist.actual, function (guest) {
 
-                    $scope.guestEntries.push({
+                    section.guests.push({
                         idx: $scope.guestEntries.length,
                         glist: {
                             id: glist.id,

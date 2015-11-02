@@ -94,11 +94,14 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 })
                     .success(function (data) {
-
                         self.userData = data;
                         deferred.resolve(self.userData);
 
-                    }).error(function (data) {
+                    }).error(function (data, code) {
+                        if (code === 401) {
+                            self.logout()
+                        }
+
                         deferred.reject(data);
                     });
 

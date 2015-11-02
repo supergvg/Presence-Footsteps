@@ -34,9 +34,43 @@ angular.module('starter').controller('checkGuestController', ['$scope', '$stateP
             eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(
                 function (res) {
                     $scope.maxGuests = res.plus;
+
+                    $scope.lastCheckin = {
+                        guestChecked: $scope.guestChecked,
+                        plus: $scope.guestCheckin.plus + ($scope.guestChecked ? 0 : 1)
+                    };
+
                     $scope.guestCheckin = res;
                     $scope.guestChecked = 1;
+                },
+                function () {
+                    dialogService.error('Oops there was a problem getting guest, please try again')
+                }
+            ).finally(function () {
+                    $scope.fetchingData = false;
+                });
+        };
 
+
+        $scope.undo = function () {
+
+            $scope.fetchingData = true;
+            var undoCheckin = angular.extend({}, $scope.guestCheckin, {plus: $scope.lastCheckin.plus});
+
+            eventsService.undoGuestCheckin(undoCheckin, $scope.guestListInstance).then(
+                function (res) {
+
+                    if(res.status === 'no show') {
+                        $scope.guestChecked = 0;
+                        //res.plus ++;
+                    }
+
+                    $scope.maxGuests = res.plus;
+                    $scope.guestCheckin = res;
+
+
+
+                    $scope.lastCheckin = null;
                 },
                 function () {
                     dialogService.error('Oops there was a problem getting guest, please try again')
