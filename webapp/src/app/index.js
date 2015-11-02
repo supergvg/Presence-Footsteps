@@ -19,7 +19,8 @@ angular.module('gliist', [
     'ui.grid.edit',
     'ui.grid.cellNav',
     'ui.grid.selection',
-    'ui.grid.autoResize'])
+    'ui.grid.autoResize',
+    'ui.mask'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider) {
 
@@ -105,7 +106,7 @@ angular.module('gliist', [
                 }).state('signup_invite', {
                     url: '/signup/invite/:company/:token',
                     templateUrl: 'app/user/templates/signup-invite.html',
-                    controller: 'SignupInviteCtrl',
+                    controller: 'SignupCtrl',
                     access: {
                         allowAnonymous: true
                     }

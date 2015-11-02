@@ -163,16 +163,14 @@ md-dialog {
 }
 
 .rounded {
-  height: 40px;
-  margin-left: 15px;
-
-  margin-right: 15px;
-
-  border-radius: 25px !important;
-  /* mozilla */
-  -moz-border-radius: 25px !important;
-  /* webkit */
-  -webkit-border-radius: 25px !important;
+    height: 40px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 25px !important;
+    /* mozilla */
+    -moz-border-radius: 25px !important;
+    /* webkit */
+    -webkit-border-radius: 25px !important;
 }
 
 .top-title {
@@ -808,5 +806,108 @@ md-checkbox.md-default-theme.md-checked .md-icon {
     }
     form md-input-container {
         width: 300px;
+    }
+}
+
+.signup.section-header {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left:0;
+    height: 25%;
+    margin: 0;
+    background-color: #7ab9f8;
+    h3 {
+        margin-bottom: 0;
+        font-weight: bold;
+    }
+    p {
+        margin-top: 0;
+    }
+    & > div {
+        height: 100%;
+    }
+}
+.signup-form {
+    md-input-container {
+        padding: 0;
+        input {
+            height: 45px;
+            padding: 0;
+            color: #666;
+            &.rounded-lr {
+                border-radius: 25px !important;
+                /* mozilla */
+                -moz-border-radius: 25px !important;
+                /* webkit */
+                -webkit-border-radius: 25px !important;
+            }
+            &.rounded-l {
+                border-radius: 25px 0 0 25px !important;
+                /* mozilla */
+                -moz-border-radius: 25px 0 0 25px !important;
+                /* webkit */
+                -webkit-border-radius: 25px 0 0 25px !important;
+            }
+            &.rounded-r {
+                border-radius: 0 25px 25px 0 !important;
+                /* mozilla */
+                -moz-border-radius: 0 25px 25px 0 !important;
+                /* webkit */
+                -webkit-border-radius: 0 25px 25px 0 !important;
+            }
+        }
+        label {
+            margin-left: 20px;
+            top: 8px;
+            padding: 0;
+        }
+        &.checked {
+            input {
+                padding-right: 40px;
+            }
+            &:after {
+                content: "";
+                width: 17px;
+                height: 15px;
+                background: url(/assets/images/check.png) no-repeat 0 0;
+                position: absolute;
+                right: 20px;
+                top: 38px;
+            }
+        }
+        &.md-input-focused label:not(.md-no-float),
+        &.md-input-has-value label:not(.md-no-float) {
+            -webkit-transform: translate3d(0, -12px, 0) scale(1) !important;
+            transform: translate3d(0, -12px, 0) scale(1) !important;
+        }
+        &:not(.md-input-invalid).md-input-focused label,
+        &:not(.md-input-invalid).md-input-has-value label {
+            color: #fff;
+        }
+        & > div {
+            margin-left: 20px;
+        }
+    }
+    form {
+        margin-top: 50px;
+        & > div {
+            margin-bottom: 25px;
+            md-input-container:first-child {
+                margin-right: -2px;
+            }
+            md-input-container:last-child {
+                margin-left: -2px;
+            }
+        }
+        & > div.passwords > md-input-container:first-child {
+            margin-right: 10px;
+        }
+    }
+    p {
+        color: #fff;
+    }
+    .md-button {
+        background-color: #7ab9f8 !important;
     }
 }
