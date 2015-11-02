@@ -50,6 +50,22 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
+            changePassword: function (changePassword) {
+                var deferred = $q.defer(),
+                    url = 'api/Account/ChangePassword';
+
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: changePassword
+                }).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
+            },
             sendPasswordRecover: function (userEmail) {
 
                 var deferred = $q.defer(),
@@ -203,8 +219,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 });
 
                 return deferred.promise;
-            }
-            ,
+            },
+
             getCurrentUser: function () {
 
                 var deferred = $q.defer(),
