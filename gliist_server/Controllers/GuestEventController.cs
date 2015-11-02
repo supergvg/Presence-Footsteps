@@ -142,7 +142,7 @@ namespace gliist_server.Controllers
                     continue;
                 }
 
-                if (@event.guestLists.Any(x =>x.linked_guest_list != null && x.linked_guest_list.id == guestList.id))
+                if (@event.guestLists.Any(x => x.linked_guest_list != null && x.linked_guest_list.id == guestList.id))
                 {
                     continue;
                 }
@@ -488,6 +488,50 @@ namespace gliist_server.Controllers
 
                 db.Notifications.Add(eventMaxNot);
             }
+
+            await db.SaveChangesAsync();
+
+            return Ok(checkin);
+        }
+
+
+        [ResponseType(typeof(void))]
+        [HttpPost]
+        [Route("UndoCheckinGuest")]
+        public async Task<IHttpActionResult> UndoCheckinGuest(CheckinModel checkinData)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
+            var gliId = checkinData.gliId;
+            var guestId = checkinData.guestId;
+
+            if (gliId <= 0 || guestId <= 0)
+            {
+                return BadRequest();
+            }
+
+            var guest = await db.Guests.FindAsync(guestId);
+            var gli = await db.GuestListInstances.FindAsync(gliId);
+            var checkin = gli.actual.Single(chkn => chkn.guest.id == guest.id);
+
+            db.Entry(checkin).State = EntityState.Modified;
+
+            var totalChk = checkinData.plus;
+            if (totalChk == guest.plus + 1)
+            {
+                checkin.status = "no show";
+                checkin.time = null;
+
+                totalChk--;
+            }
+
+            if (!guest.isPublicRegistration && guest.company.id != user.company.id)
+            {
+                return BadRequest();
+            }
+
+            checkin.plus = checkin.plus + totalChk;
 
             await db.SaveChangesAsync();
 
