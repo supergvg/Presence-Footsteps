@@ -3,60 +3,118 @@
     <ion-content class="content-body">
         <event-preview-item event="currentEvent"></event-preview-item>
 
-        <h3 style="color:#444;text-align: center">Add Guest</h3>
 
-
-        <div class="list" style="padding-left:30px;padding-right: 30px;">
-            <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
-                <input type="text" placeholder="First Name" ng-model="currentGuest.firstName" ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
-            </label>
-            <label class=" item item-input" style="border-radius: 25px;margin-bottom: 10px;">
-                <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName" ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
-            </label>
-            <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
-                <input type="email" placeholder="Email" ng-model="currentGuest.email" ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
-            </label>
-
-            <label class="item item-input item-select" style="border-radius: 25px;margin-bottom: 10px;">
-                <div class="input-label">
-                    Guest Type
-                </div>
-                <select ng-model="currentGuest.type" ng-readonly="addMore">
-                    <option>GA</option>
-                    <option>VIP</option>
-                    <option>Super VIP</option>
-                    <option>Guest</option>
-                    <option>Artist</option>
-                    <option>Production</option>
-                    <option>Comp</option>
-                    <option>RSVP</option>
-                    <option>All Access</option>
-                </select>
-                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
-            </label>
-            <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
-                <input type="number" placeholder="Number of Additional Guests" min="0" ng-model="currentGuest.plus"
-                       ng-readonly="addMore">
-                <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
-            </label>
+        <div class="button-bar">
+            <a class="button" ng-style="isActive('single')"
+               style="border: none;font-weight: bold;background-color: #EEEEEE"
+               ng-click="setActive('single')">Single</a>
+            <a class="button" ng-style="isActive('multiple')"
+               style="border: none;font-weight: bold;background-color: #EEEEEE"
+               ng-click="setActive('multiple')">Multiple</a>
         </div>
-        <div class="row" style="rcolor:red">
-            <div class="col">
-                {{errorMessage}}
+
+
+
+        <div ng-show="active == 'multiple'" style="padding-top: 10px">
+            <h3 style="color:#444;text-align: center">Add Guests</h3>
+
+            <div class="list" style="padding-left:30px;padding-right: 30px;">
+                <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
+                    <input type="text" placeholder="Names" ng-model="guests.names" ng-readonly="addMore">
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
+                <label class="item item-input item-select" style="border-radius: 25px;margin-bottom: 10px;">
+                    <div class="input-label">
+                        Guest Type
+                    </div>
+                    <select ng-model="guests.type" ng-readonly="addMore">
+                        <option>GA</option>
+                        <option>VIP</option>
+                        <option>Super VIP</option>
+                        <option>Guest</option>
+                        <option>Artist</option>
+                        <option>Production</option>
+                        <option>Comp</option>
+                        <option>RSVP</option>
+                        <option>All Access</option>
+                    </select>
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
             </div>
+            <div class="row" style="color:red">
+                <div class="col">
+                    {{errorMessage}}
+                </div>
+            </div>
+
+            <button class="button button-calm button-full centered" ng-click="onAddMultipleClicked()" ng-if="!addMore"
+                    ng-disabled="fecthingData">
+                Add
+                <ion-spinner ng-if="fecthingData"></ion-spinner>
+            </button>
+            <button class="button button-calm button-full centered" ng-click="onAddMoreMultipleClicked()" ng-if="addMore"
+                    ng-cloak>
+                Add More
+            </button>
         </div>
 
-        <button class="button button-calm button-full centered" ng-click="onAddClicked()" ng-if="!addMore"
-                ng-disabled="fecthingData">
-            Add
-            <ion-spinner ng-if="fecthingData"></ion-spinner>
-        </button>
-        <button class="button button-calm button-full centered" ng-click="onAddMoreClicked()" ng-if="addMore" ng-cloak>
-            Add More
-        </button>
+
+        <div ng-show="active == 'single'" style="padding-top: 10px">
+            <h3 style="color:#444;text-align: center">Add Guest</h3>
+
+            <div class="list" style="padding-left:30px;padding-right: 30px;">
+                <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
+                    <input type="text" placeholder="First Name" ng-model="guestsNames" ng-readonly="addMore">
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
+                <label class=" item item-input" style="border-radius: 25px;margin-bottom: 10px;">
+                    <input type="text" placeholder="Last Name" ng-model="currentGuest.lastName" ng-readonly="addMore">
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
+                <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
+                    <input type="email" placeholder="Email" ng-model="currentGuest.email" ng-readonly="addMore">
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
+
+                <label class="item item-input item-select" style="border-radius: 25px;margin-bottom: 10px;">
+                    <div class="input-label">
+                        Guest Type
+                    </div>
+                    <select ng-model="currentGuest.type" ng-readonly="addMore">
+                        <option>GA</option>
+                        <option>VIP</option>
+                        <option>Super VIP</option>
+                        <option>Guest</option>
+                        <option>Artist</option>
+                        <option>Production</option>
+                        <option>Comp</option>
+                        <option>RSVP</option>
+                        <option>All Access</option>
+                    </select>
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
+                <label class="item item-input" style="border-radius: 25px;margin-bottom: 10px;">
+                    <input type="number" placeholder="Number of Additional Guests" min="0" ng-model="currentGuest.plus"
+                           ng-readonly="addMore">
+                    <i class="icon ion-checkmark-round placeholder-icon" ng-if="addMore" ng-cloak></i>
+                </label>
+            </div>
+            <div class="row" style="color:red">
+                <div class="col">
+                    {{errorMessage}}
+                </div>
+            </div>
+
+            <button class="button button-calm button-full centered" ng-click="onAddClicked()" ng-if="!addMore"
+                    ng-disabled="fecthingData">
+                Add
+                <ion-spinner ng-if="fecthingData"></ion-spinner>
+            </button>
+            <button class="button button-calm button-full centered" ng-click="onAddMoreClicked()" ng-if="addMore"
+                    ng-cloak>
+                Add More
+            </button>
+        </div>
 
     </ion-content>
 </ion-view>
