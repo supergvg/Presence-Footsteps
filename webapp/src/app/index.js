@@ -106,7 +106,7 @@ angular.module('gliist', [
                 }).state('signup_invite', {
                     url: '/signup/invite/:company/:token',
                     templateUrl: 'app/user/templates/signup-invite.html',
-                    controller: 'SignupCtrl',
+                    controller: 'SignupInviteCtrl',
                     access: {
                         allowAnonymous: true
                     }
