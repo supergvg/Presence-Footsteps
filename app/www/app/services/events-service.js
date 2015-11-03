@@ -74,7 +74,25 @@ angular.module('starter').factory('eventsService', [ '$rootScope', '$http', '$q'
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
-                    d.reject('Oops there was an error trying to get events, please try again');
+                    d.reject('Oops there was a problem adding guest, please try again');
+                });
+
+                return d.promise;
+            },
+
+            addGuestsToEvent: function (guests, eventId) {
+                var d = $q.defer();
+
+                var params = angular.extend({}, guests, {eventId: eventId});
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/AddGuests",
+                    data: params
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was a problem adding guests, please try again');
                 });
 
                 return d.promise;
