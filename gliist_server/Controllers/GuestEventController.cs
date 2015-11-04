@@ -360,6 +360,53 @@ namespace gliist_server.Controllers
 
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Route("AddGuests")]
+        public async Task<IHttpActionResult> AddGuests(GuestsEventModel guestEvent)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+
+            var eventId = guestEvent.eventId;
+
+            if (eventId < 0)
+            {
+                return BadRequest();
+            }
+
+            if (string.IsNullOrEmpty(guestEvent.names))
+            {
+                return BadRequest("invalid guests names");
+            }
+
+            var type = string.IsNullOrEmpty(guestEvent.type) ? "GA" : guestEvent.type;
+            var names = guestEvent.names.Split(',');
+
+            foreach (var name in names)
+            {
+                var s = name.Trim().Split(' ');
+                if (s.Length == 0)
+                {
+                    continue;
+                }
+
+                string firstName = s.Length > 0 ? s[0] : "",
+                  lastName = s.Length > 1 ? s[1] : "Guest";
+
+                var g = new Guest() { firstName = firstName, lastName = lastName, type = type, company = user.company };
+
+                var onTheSpotGL = GuestHelper.AddGuestToEvent(g, eventId, user.company, user, db);
+                db.Guests.Add(g);
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+
+        [ResponseType(typeof(void))]
+        [HttpPost]
         [Route("CheckinGuest")]
         public async Task<IHttpActionResult> CheckinGuest(CheckinModel checkinData)
         {
