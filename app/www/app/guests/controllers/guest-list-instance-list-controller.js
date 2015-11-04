@@ -9,7 +9,8 @@ angular.module('starter').controller('guestListInstanceListController', ['$scope
             'Artist',
             'Production',
             'Comp',
-            'Others',
+            'Press',
+            'RSVP',
             'Super VIP',
             'All Access'
         ];
