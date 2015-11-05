@@ -27,7 +27,10 @@
         <div layout layout-sm="column">
             <md-input-container flex>
                 <label>Phone Number</label>
-                <input name="phoneNumber" ng-model="user.phoneNumber" class="rounded-l" ui-mask="999-999-9999">
+                <input name="phoneNumber" ng-model="user.phoneNumber" class="rounded-l" type="text" ng-pattern="/^[0-9+-. ()]*$/">
+                <div ng-messages="userForm.phoneNumber.$error" ng-if="displayErrorMessage(userForm.phoneNumber)">
+                    <div ng-message="pattern">Correct phone number</div>
+                </div>
             </md-input-container>
             <md-input-container flex>
                 <label>Organization</label>

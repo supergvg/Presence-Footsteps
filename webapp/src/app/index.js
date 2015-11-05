@@ -19,8 +19,7 @@ angular.module('gliist', [
     'ui.grid.edit',
     'ui.grid.cellNav',
     'ui.grid.selection',
-    'ui.grid.autoResize',
-    'ui.mask'])
+    'ui.grid.autoResize'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider) {
 
