@@ -408,6 +408,7 @@
     <Content Include="images\blank_user_icon.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="images\blank_user_icon_old.png" />
     <Content Include="images\event_placeholder.jpg" />
     <None Include="js\MobileServices.intellisense.js" />
     <Content Include="js\MobileServices.js" />
