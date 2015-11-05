@@ -20,16 +20,16 @@
                             md-gutter="1px" style="width: 100%;text-align: left">
                         <md-grid-tile>
                             <div class="md-title capitalize"
-                                 style="font-weight: bold;color:#8E8E8E;width:100%">{{event.title}}
+                                 style="font-weight: bold;color:#aaaaaa;width:100%">{{event.title}}
                             </div>
                         </md-grid-tile>
                         <md-grid-tile>
-                            <div class="" style="font-size: 12px;color:#8E8E8E;width:100%">{{event.location}}</div>
+                            <div class="" style="font-size: 12px;color:#aaaaaa;width:100%">{{event.location}}</div>
                         </md-grid-tile>
                         <md-grid-tile>
                             <p style="margin-right: 10px">Starts:</p>
 
-                            <p style="display: inline;font-size: 14px;color:#8E8E8E;line-height: 100;width:100%">
+                            <p style="display: inline;font-size: 14px;color:#aaaaaa;line-height: 100;width:100%">
                                 {{event.time |date:'MMM dd, yyyy'}}
 
                                 {{event.time | ignoreTimeZone |date: 'h:mma'}}
@@ -38,7 +38,7 @@
                         <md-grid-tile>
                             <p style="margin-right: 10px">Ends:</p>
 
-                            <p style="display: inline;font-size: 14px;color:#8E8E8E;line-height: 100%;width:100%">
+                            <p style="display: inline;font-size: 14px;color:#aaaaaa;line-height: 100%;width:100%">
                                 {{event.endTime |date:'MMM dd, yyyy'}}
 
                                 {{event.endTime |ignoreTimeZone |date: 'h:mma'}}
@@ -54,7 +54,7 @@
                     <div layout="column">
                         <md-button flex class="wht-event-list-btn"
                                    ui-sref="main.event_checkin({eventId:{{event.id}}})">
-                            <ng-md-icon icon="assignment_turned_in" style="fill: #33aaaa" size="24"></ng-md-icon>
+                            <ng-md-icon icon="assignment_turned_in" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
 
                         <div flex></div>
@@ -64,7 +64,7 @@
                         <md-button flex class="wht-event-list-btn" ng-disabled="isPromoter() ||isStaff()"
                                    ng-hide="options.readyOnly"
                                    ui-sref="main.event_summary({eventId:{{event.id}}})">
-                            <ng-md-icon icon="theaters" style="fill: #33aaaa" size="24"></ng-md-icon>
+                            <ng-md-icon icon="theaters" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
                         <md-button flex class="logo-event-list-btn"
                                    ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
@@ -78,7 +78,7 @@
                     <div layout="column" style="height: 120px;">
                         <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly" ng-disabled="isStaff()"
                                    ui-sref="main.edit_event({eventId:{{event.id}}})">
-                            <ng-md-icon icon="mode_edit" style="fill: #33aaaa" size="24"></ng-md-icon>
+                            <ng-md-icon icon="mode_edit" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
 
                         <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly"

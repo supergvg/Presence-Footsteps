@@ -23,8 +23,25 @@ angular.module('gliist', [
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider) {
 
+            var customPrimary = {
+                '50': '#80eeff',
+                '100': '#66ebff',
+                '200': '#4de7ff',
+                '300': '#33e4ff',
+                '400': '#1ae0ff',
+                '500': '#00ddff',
+                '600': '#00c7e6',
+                '700': '#00b1cc',
+                '800': '#009bb3',
+                '900': '#008599',
+                'A100': '#99f1ff',
+                'A200': '#b3f5ff',
+                'A400': '#ccf8ff',
+                'A700': '#006e80'
+            };
+            $mdThemingProvider.definePalette('customPrimary', customPrimary);
             $mdThemingProvider.theme('default')
-                .primaryPalette('cyan')
+                .primaryPalette('customPrimary')
                 //.accentPalette('grey')
                 .warnPalette('red')
                 .backgroundPalette('grey');

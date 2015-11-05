@@ -69,10 +69,10 @@ angular.module('gliist')
                 'Press',
                 'All Access'
             ];
-            if (instanceType !== 1 && $scope.list) {
+            if (instanceType !== 1 && instanceType > 0) {
                 $scope.guestListTypes = ['RSVP'];
 
-                $scope.list = $scope.list;
+                $scope.list = $scope.list || {};
 
                 $scope.list.listType = 'RSVP';
             }

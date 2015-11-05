@@ -55,7 +55,7 @@ angular.module('gliist')
                     {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
                     {field: 'guest.title', name: 'List Title', enableHiding: false, width: 300},
                     {field: 'guest.type', name: 'Type', enableSorting: true, enableHiding: false, width: 80},
-                    {field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false, enableHiding: false},
+                    {field: 'guest.email', name: 'Email', enableSorting: false, enableHiding: false},
                     {field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 60},
                     {
                         name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false, width: 80,

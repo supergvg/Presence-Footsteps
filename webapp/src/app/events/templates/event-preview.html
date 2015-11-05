@@ -1,5 +1,5 @@
 <div>
-    <div style="background-color: white;margin:20px 0;height:208px;color:#8E8E8E;overflow: hidden" layout="row" layout-align="space-between start">
+    <div style="background-color: white;margin:20px 0;height:208px;color:#aaaaaa;overflow: hidden" layout="row" layout-align="space-between start">
         <div flex="60">
             <div ng-style="getEventInvite('208px')" style="width:208px; float:left"></div>
             <div style="margin-top: 20px;margin-left: 235px">
@@ -7,7 +7,7 @@
                     {{event.title}}
                 </div>
                 <div style="margin-top:30px;font-size:12px;" ng-bind-html="event.description | linky:'_blank'"></div>
-                <div style="margin-top:20px;font-size:12px;color:#8e8e8e;">
+                <div style="margin-top:20px;font-size:12px;color:#aaaaaa;">
                     <span ng-if="event.type === 2 && event.rsvpType === 3">
                         RSVP link : <a href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
                     </span>
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div flex="40" style="height:100%">
-            <div style="background-color:#3aaaa9;color:#fff;width:55px;text-align:center;float:right;height:100%">
+            <div style="background-color:#99ccff;color:#fff;width:55px;text-align:center;float:right;height:100%">
                 <div style="font-size:18px;padding:20px 0;border-bottom:2px solid #ececec;">
                     {{event.time | date: 'EEE' | uppercase}}
                 </div>
