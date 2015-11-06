@@ -53,7 +53,7 @@ angular.module('gliist')
                 columnDefs: [
                     {field: 'guest.firstName', name: 'First Name', enableHiding: false},
                     {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'guest.title', name: 'List Title', enableHiding: false, width: 300},
+                    {field: 'guest.title', name: 'List Title', enableHiding: false},
                     {field: 'guest.type', name: 'Type', enableSorting: true, enableHiding: false, width: 80},
                     {field: 'guest.email', name: 'Email', enableSorting: false, enableHiding: false},
                     {field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 60},
