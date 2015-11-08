@@ -23,6 +23,20 @@ angular.module('gliist')
                 });
             }
 
+            $scope.companyLogo ="http://gjests.blob.core.windows.net/invites/1232_860_Screen%20Shot%202015-10-21%20at%203.49.51%20PM.png";
+            $scope.getCompanyLogo = function (users) {
+                return "http://gjests.blob.core.windows.net/invites/1232_860_Screen%20Shot%202015-10-21%20at%203.49.51%20PM.png";
+                if(!users) {
+                    return
+                }
+
+                angular.forEach($scope.event.company.users, function (user) {
+                    if(user.profilePictureUrl){
+                        return user.profilePictureUrl
+                    }
+                })
+            };
+
             $scope.displayErrorMessage = function(field){
                 return false;
 //                return ($scope.showValidation) || (field.$touched && field.$error.required);

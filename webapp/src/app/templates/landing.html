@@ -1,5 +1,5 @@
 <div layout="column" layout-align="center center">
-    <div class="header"><img class="header-image" src="{{event.company.users[0].profilePictureUrl}}" height="130px"/></div>
+    <div class="header"><img class="header-image" src="{{getCompanyLogo(event.company.users)}}" height="130px"/></div>
     <div class="content" layout="column" layout-align="center center">
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
