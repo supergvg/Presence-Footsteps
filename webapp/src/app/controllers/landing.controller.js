@@ -6,60 +6,60 @@ angular.module('gliist')
             var companyName = $stateParams.companyName,
                 eventName = $stateParams.eventName,
                 token = $stateParams.token;
-        
+
             $scope.public = angular.isUndefined(token);
             $scope.event = {};
             if ($scope.public) {
-                eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(function(data){
+                eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(function (data) {
                     $scope.event = data;
-                }, function(data) {
+                }, function (data) {
                     dialogService.error(data.message);
                 });
             } else {
-                eventsService.getPersonalEventDetails('rsvp', token).then(function(data){
+                eventsService.getPersonalEventDetails('rsvp', token).then(function (data) {
                     $scope.event = data;
-                }, function(data) {
+                }, function (data) {
                     dialogService.error(data.message);
                 });
             }
-
-            $scope.companyLogo ="http://gjests.blob.core.windows.net/invites/1232_860_Screen%20Shot%202015-10-21%20at%203.49.51%20PM.png";
-            $scope.getCompanyLogo = function (users) {
-                return "http://gjests.blob.core.windows.net/invites/1232_860_Screen%20Shot%202015-10-21%20at%203.49.51%20PM.png";
-                if(!users) {
+            $scope.getCompanyLogo = function () {
+                if (!$scope.event || !$scope.event.company || !$scope.event.company.users) {
                     return
                 }
 
+                var retVal;
                 angular.forEach($scope.event.company.users, function (user) {
-                    if(user.profilePictureUrl){
-                        return user.profilePictureUrl
+                    if (user.profilePictureUrl) {
+                        retVal = user.profilePictureUrl
                     }
-                })
+                });
+
+                return retVal;
             };
 
-            $scope.displayErrorMessage = function(field){
+            $scope.displayErrorMessage = function (field) {
                 return false;
 //                return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
-            
+
             $scope.rsvp = {};
-            $scope.onSubmitClicked = function(form) {
+            $scope.onSubmitClicked = function (form) {
                 if (form && form.$invalid) {
                     var errors = {
-                        required: {
-                            name: 'Name is required',
-                            email: 'Email is required',
+                            required: {
+                                name: 'Name is required',
+                                email: 'Email is required',
+                            },
+                            email: {
+                                email: 'Not valid email'
+                            },
+                            max: {
+                                plus: 'Number of additional guests cannot exceed ' + $scope.event.event.additionalGuests + ' people'
+                            }
                         },
-                        email: {
-                            email: 'Not valid email'
-                        },
-                        max: {
-                            plus: 'Number of additional guests cannot exceed '+$scope.event.event.additionalGuests+' people'
-                        }
-                    },
-                    errorMessage = [];
-                    angular.forEach(form.$error, function(value, key){
-                        angular.forEach(value, function(value1, key1){
+                        errorMessage = [];
+                    angular.forEach(form.$error, function (value, key) {
+                        angular.forEach(value, function (value1, key1) {
                             errorMessage.push(errors[key][value1.$name]);
                         });
                     });
@@ -68,17 +68,17 @@ angular.module('gliist')
                     return;
                 }
                 if ($scope.public) {
-                    eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(function(){
+                    eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(function () {
                         dialogService.success('Thank you! You are added to the guest list');
                         $scope.success = true;
-                    }, function(data){
+                    }, function (data) {
                         dialogService.error(data.message || data.Message);
                     });
                 } else {
-                    eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(function(){
+                    eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(function () {
                         dialogService.success('Thank you! You are added to the guest list');
                         $scope.success = true;
-                    }, function(data){
+                    }, function (data) {
                         dialogService.error(data.message || data.Message);
                     });
                 }
@@ -89,25 +89,25 @@ angular.module('gliist')
             var companyName = $stateParams.companyName,
                 eventName = $stateParams.eventName,
                 token = $stateParams.token;
-        
+
             $scope.public = angular.isUndefined(token);
             $scope.event = {};
             if ($scope.public) {
-                eventsService.getPublicEventDetails('tickets', companyName, eventName).then(function(data){
+                eventsService.getPublicEventDetails('tickets', companyName, eventName).then(function (data) {
                     $scope.event = data;
-                }, function(data) {
+                }, function (data) {
                     dialogService.error(data.message);
                 });
             } else {
-                eventsService.getPersonalEventDetails('tickets', token).then(function(data){
+                eventsService.getPersonalEventDetails('tickets', token).then(function (data) {
                     $scope.event = data;
-                }, function(data) {
+                }, function (data) {
                     dialogService.error(data.message);
                 });
             }
 
-            $scope.displayErrorMessage = function(field){
+            $scope.displayErrorMessage = function (field) {
                 return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
-            
+
         }]);
