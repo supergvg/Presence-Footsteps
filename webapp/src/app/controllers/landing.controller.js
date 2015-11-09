@@ -23,8 +23,12 @@ angular.module('gliist')
                 });
             }
             $scope.getCompanyLogo = function () {
-                if (!$scope.event || !$scope.event.company || !$scope.event.company.users) {
+                if (!$scope.event || !$scope.event.company) {
                     return
+                }
+
+                if (!$scope.event.company.users) {
+                    return $scope.event.company.logo;
                 }
 
                 var retVal;
