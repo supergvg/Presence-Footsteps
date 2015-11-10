@@ -100,7 +100,15 @@ namespace gliist_server.Controllers
             companyName = GjestsLinksGenerator.FromUrlSafeName(companyName);
             eventName = GjestsLinksGenerator.FromUrlSafeName(eventName);
 
-            var @event = FindEventByName(companyName, eventName);
+            int eventId;
+            Event @event = null;
+            if (int.TryParse(eventName, out eventId))
+            {
+                @event = db.Events.Where(e => e.id == eventId).FirstOrDefault();
+            } else {           
+                @event = FindEventByName(companyName, eventName);
+            } 
+
             if (@event == null)
             {
                 responseStatus.Code = "event_not_found";
