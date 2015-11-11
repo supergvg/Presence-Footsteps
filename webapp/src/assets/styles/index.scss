@@ -917,3 +917,33 @@ md-checkbox.md-default-theme.md-checked .md-icon {
         background-color: #7ab9f8 !important;
     }
 }
+
+.profile-page {
+    .header {
+        margin-bottom: 8px;
+        .section-header h3 {
+            padding-left: 10px;
+        }
+    }
+    .profile-status-bar {
+        margin-bottom: 10px;
+        button {
+            background-color: white;
+            height: 30px;
+            width: 30px;
+            margin: 0
+        }
+        & > div:last-child {
+            text-align: right;
+        }
+        & > div:nth-child(2) {
+            text-align: center;
+        }
+        .dot {
+            background-color:white;
+            border-color: white;
+            height: 10px;
+            margin-top: -20px;
+        }
+    }
+}
