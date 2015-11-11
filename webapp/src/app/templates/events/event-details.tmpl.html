@@ -119,7 +119,7 @@
                 <div layout layout-sm="column">
                     <md-input-container flex="75">
                         <label>Event Title</label>
-                        <input required name="title" ng-model="event.title" ng-pattern="/^[\w\s]+$/">
+                        <input required name="title" ng-model="event.title">
                         <div ng-messages="eventForm.title.$error" ng-if="displayErrorMessage(eventForm.title)">
                             <div ng-message="required">Please Enter Event Title</div>
                             <div ng-message="pattern">Event Title can only contain alphabets, digits and spaces</div>
