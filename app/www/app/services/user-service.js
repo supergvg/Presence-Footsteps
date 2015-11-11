@@ -158,6 +158,8 @@ angular.module('starter').factory('userService', [ '$rootScope', '$http', '$q',
                 userEmail = '';
                 setAuthToken('');
 
+                delete $http.defaults.headers.common['Authorization']
+
                 delete window.localStorage['userEmail'];
                 delete window.localStorage['access_token'];
             },

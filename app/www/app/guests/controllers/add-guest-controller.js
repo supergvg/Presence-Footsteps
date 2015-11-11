@@ -15,8 +15,8 @@ angular.module('starter').controller('addGuestController', ['$scope', '$statePar
         $scope.isActive = function (activeScreen) {
             if ($scope.active === activeScreen) {
                 return {
-                    'background-color': 'white',
-                    'color': '#9FCBFF'
+                    'background-color': '#9FCBFF',
+                    'color': 'white'
                 }
             }
         };
