@@ -192,6 +192,7 @@ namespace gliist_server.Controllers
 
             }
 
+            var generateRSVPLink = false;
             if (@event.id > 0)
             {
                 foreach (var gli in @event.guestLists)
@@ -208,12 +209,17 @@ namespace gliist_server.Controllers
             }
             else
             {
-                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["appBaseUrl"]);
-                @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.title);
-                @event.TicketingUrl = linkCreator.GeneratePublicTicketsLandingPageLink(@event.company.name, @event.title);
+                generateRSVPLink = true;
                 db.Events.Add(@event);
             }
             await db.SaveChangesAsync();
+
+            if (generateRSVPLink)
+            {
+                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["appBaseUrl"]);
+                @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.id.ToString());
+                @event.TicketingUrl = linkCreator.GeneratePublicTicketsLandingPageLink(@event.company.name, @event.id.ToString());
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = @event.id }, @event);
         }
