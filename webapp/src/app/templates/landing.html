@@ -29,7 +29,7 @@
                 <ul class="social">
                     <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
                     <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.event.title}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
-                    <li><a href="mailto:"><img src="assets/images/icons/email.png" alt="email" /></a></li>
+                    <li><a href="mailto:?subject={{event.event.title}}&amp;body={{event.event.additionalDetails}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
                 </ul>
             </div>
             <div class="right-column" layout="column">
@@ -42,7 +42,6 @@
                             <div ng-if="rsvpLandingForm.name.$error.required" ng-message="required">Name is required</div>
                         </div>
                     </div>
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gjests.s.ideas-implemented.com" data-text="Test" data-count="none">Tweet</a>
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Email</label>
                         <input type="email" name="email" ng-model="rsvp.email" required/>
@@ -62,9 +61,9 @@
                 </form>
                 <div class="item-label" ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">Event on Social:</div>
                 <ul class="social">
-                    <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
-                    <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
-                    <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
+                    <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
+                    <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
+                    <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
                 </ul>
             </div>
         </div>
