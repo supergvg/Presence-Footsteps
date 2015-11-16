@@ -308,6 +308,10 @@ angular.module('gliist')
             $scope.endMinDate = function () {
                 return $scope.event.time || $scope.minDate;
             };
+            $scope.endMaxDate = function () {
+                return $scope.event.endTime || $scope.minDate;
+            };
+
 
             $scope.resetPlaceholder = function () {
 
@@ -318,6 +322,10 @@ angular.module('gliist')
 
                 $("input[placeholder='Enter a location']").attr('placeholder', '');
             };
+
+            $scope.$watch('event.endTime', function (newValue) {
+                $scope.event.rsvpEndDate = newValue;
+            });
 
             $scope.$watch('location.details', function (newValue) {
                 if (!newValue) {
