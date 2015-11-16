@@ -27,8 +27,8 @@
                 </div>
                 <div class="item-label">Share this event:</div>
                 <ul class="social">
-                    <li><a href="http://www.facebook.com/sharer.php?s=100&p[title]={{event.event.title}}&p[url]={{getPageURL() | encodeURIComponent}}&p[summary]={{event.event.additionalDetails | encodeURIComponent}}&p[images][0]={{event.event.invitePicture | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
-                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.event.title}}"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
+                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.event.title}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
                     <li><a href="mailto:"><img src="assets/images/icons/email.png" alt="email" /></a></li>
                 </ul>
             </div>
@@ -42,6 +42,7 @@
                             <div ng-if="rsvpLandingForm.name.$error.required" ng-message="required">Name is required</div>
                         </div>
                     </div>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gjests.s.ideas-implemented.com" data-text="Test" data-count="none">Tweet</a>
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Email</label>
                         <input type="email" name="email" ng-model="rsvp.email" required/>
