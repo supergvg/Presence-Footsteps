@@ -29,7 +29,7 @@
                 <ul class="social">
                     <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
                     <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.event.title}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
-                    <li><a href="mailto:?subject={{event.event.title}}&amp;body={{event.event.additionalDetails}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
+                    <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
                 </ul>
             </div>
             <div class="right-column" layout="column">

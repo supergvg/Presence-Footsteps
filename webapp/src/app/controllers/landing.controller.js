@@ -49,7 +49,7 @@ angular.module('gliist')
             $scope.getPageURL = function() {
                 return $location.absUrl();
             }
-
+            
             $scope.rsvp = {};
             $scope.onSubmitClicked = function (form) {
                 if (form && form.$invalid) {
