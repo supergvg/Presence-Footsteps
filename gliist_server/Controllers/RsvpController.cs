@@ -5,11 +5,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Description;
-using System.Web.Http.ModelBinding;
 using gliist_server.Shared;
 using gliist_server.Helpers;
 using gliist_server.Models;
@@ -55,7 +51,7 @@ namespace gliist_server.Controllers
             var model = new EventGuestCompanyModel();
             try
             {
-                model.Event = db.Set<Event>().Where(x => x.id == eventGuestStatus.EventId)
+                model.Event = db.Set<Event>().Where(x => x.id == eventGuestStatus.EventId && !x.isDeleted)
                     .Include(x => x.company).FirstOrDefault();
                 model.Guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
                 model.Company = model.Event.company;
@@ -105,7 +101,7 @@ namespace gliist_server.Controllers
             Event @event = null;
             if (int.TryParse(eventName, out eventId))
             {
-                @event = db.Events.Where(e => e.id == eventId).FirstOrDefault();
+                @event = db.Events.Where(x => x.id == eventId && !x.isDeleted).FirstOrDefault();
             }
             else
             {
@@ -148,7 +144,7 @@ namespace gliist_server.Controllers
         public IHttpActionResult ConfirmPublicRsvp(PublicEventGuestSubmitModel eventGuestModel)
         {
             var responseStatus = new HttpResponseStatus();
-            var @event = db.Events.FirstOrDefault(x => x.id == eventGuestModel.EventId);
+            var @event = db.Events.FirstOrDefault(x => x.id == eventGuestModel.EventId && !x.isDeleted);
 
             if (@event == null)
             {
@@ -303,7 +299,7 @@ namespace gliist_server.Controllers
             }
 
             var @event = db.Set<Event>()
-                .FirstOrDefault(x => x.id == eventGuestModel.EventId);
+                .FirstOrDefault(x => x.id == eventGuestModel.EventId && !x.isDeleted);
 
             if (@event == null)
             {
@@ -405,7 +401,7 @@ namespace gliist_server.Controllers
             var @event = db.Set<Event>()
                     .Include(x => x.company)
                     .Include(x => x.EventGuestStatuses)
-                    .FirstOrDefault(x => x.id == eventGuestStatus.EventId);
+                    .FirstOrDefault(x => x.id == eventGuestStatus.EventId && !x.isDeleted);
 
             var guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
             var user = @event.company.users.First();
@@ -439,7 +435,7 @@ namespace gliist_server.Controllers
         private Event FindEventByName(string companyName, string eventName)
         {
             var @event = db.Set<Event>()
-                .Where(x => x.title.ToLower() == eventName.ToLower())
+                .Where(x => x.title.ToLower() == eventName.ToLower() && !x.isDeleted)
                 .OrderByDescending(x => x.endTime)
                 .Include(x => x.company)
                 .Include(x => x.Tickets)

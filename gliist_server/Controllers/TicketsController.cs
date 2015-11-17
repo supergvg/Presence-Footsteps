@@ -3,13 +3,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Description;
-using System.Web.Http.ModelBinding;
 using gliist_server.Shared;
-using gliist_server.Helpers;
 using gliist_server.Models;
 
 namespace gliist_server.Controllers
@@ -53,7 +48,7 @@ namespace gliist_server.Controllers
             var model = new EventGuestCompanyModel();
             try
             {
-                model.Event = db.Set<Event>().Where(x => x.id == eventGuestStatus.EventId)
+                model.Event = db.Set<Event>().Where(x => x.id == eventGuestStatus.EventId && !x.isDeleted)
                     .Include(x => x.Tickets)
                     .Include(x => x.company).FirstOrDefault();
                 model.Guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
@@ -104,10 +99,12 @@ namespace gliist_server.Controllers
             Event @event = null;
             if (int.TryParse(eventName, out eventId))
             {
-                @event = db.Events.Where(e => e.id == eventId).FirstOrDefault();
-            } else {           
+                @event = db.Events.FirstOrDefault(e => e.id == eventId && !e.isDeleted);
+            }
+            else
+            {
                 @event = FindEventByName(companyName, eventName);
-            } 
+            }
 
             if (@event == null)
             {
@@ -164,7 +161,7 @@ namespace gliist_server.Controllers
         private Event FindEventByName(string companyName, string eventName)
         {
             var @event = db.Set<Event>()
-                .Where(x => x.title.ToLower() == eventName.ToLower())
+                .Where(x => x.title.ToLower() == eventName.ToLower() && !x.isDeleted)
                 .OrderByDescending(x => x.endTime)
                 .Include(x => x.company)
                 .Include(x => x.Tickets)
