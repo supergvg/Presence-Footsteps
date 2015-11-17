@@ -281,6 +281,4 @@ namespace gliist_server.Helpers
             return bytes;
         }
     }
-    }
-
 }
