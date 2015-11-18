@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -75,7 +74,7 @@ namespace gliist_server.Controllers
         // GET api/Event/GuestsListsExcelFile/{eventId}
         [HttpGet]
         [Route("GuestsListsExcelFile/{eventId}")]
-        public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
+         public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
         {
             var db = new EventDBContext();
             var @event = db.Events.Find(eventId);
@@ -83,9 +82,8 @@ namespace gliist_server.Controllers
 
             HttpResponseMessage response;
             response = Request.CreateResponse(HttpStatusCode.OK);
-            MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/octet-stream");
-            response.Content = new StreamContent(new MemoryStream(excelFile));
-            response.Content.Headers.ContentType = mediaType;
+            response.Content = new StringContent(Convert.ToBase64String(excelFile));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
             response.Content.Headers.ContentDisposition.FileName = string.Format("Guests-{0}.xls", @event.id);
             return response;
