@@ -53,7 +53,7 @@
                      ng-hide="options.local">
                     <div layout="column">
                         <md-button flex class="wht-event-list-btn" ui-sref="main.event_checkin({eventId:{{event.id}}})">
-                            <md-tooltip md-direction="top">check guests in</md-tooltip>
+                            <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
                             <ng-md-icon icon="assignment_turned_in" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
 

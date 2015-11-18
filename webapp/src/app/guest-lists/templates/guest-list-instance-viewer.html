@@ -40,6 +40,7 @@
             <div ng-if="options.publish" flex="{{widthColumn}}">
             </div>
             <div ng-if="options.publish" flex="{{widthColumn}}">
+                <div ng-if="isShowColumn('published')">Sent</div>
             </div>
             <div ng-hide="options.readOnly" flex="{{widthColumn}}">
             </div>
@@ -66,6 +67,7 @@
                 </div>
                 <div flex="{{widthColumn}}" ng-if="!options.stats">
                     <md-input-container style="padding-bottom: 0">
+                        <md-tooltip md-direction="top">enter # of guests to be checked in</md-tooltip>
                         <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
                                type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)">
                     </md-input-container>
@@ -78,6 +80,7 @@
                     <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)"
                                  aria-label="Import" ng-show="true"
                                  style="margin-bottom: 0px">
+                        <md-tooltip md-direction="top">select list to send invites</md-tooltip>
                     </md-checkbox>
                 </div>
                 <div ng-if="options.publish" flex="{{widthColumn}}">
