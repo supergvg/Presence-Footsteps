@@ -78,7 +78,7 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
 
                 return d.promise;
             },
-
+            
             createEvent: function (event) {
                 var d = $q.defer(),
                     server = angular.copy(event);

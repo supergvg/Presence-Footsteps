@@ -265,28 +265,30 @@ angular.module('gliist')
             });
 
             $scope.save = function (goBack) {
+                var errorMessage = [];
                 if (!$scope.createGuestListForm.$valid || !$scope.isDirty) {
                     var errors = {
                         required: {
                             title: 'Please Enter Guest List Title',
                             listType: 'Please Select Guest Type'
                         }
-                    },
-                    errorMessage = [];
+                    };
                     angular.forEach($scope.createGuestListForm.$error.required, function(value, key){
                         errorMessage.push(errors.required[value.$name]);
                     });
-                    if (!$scope.list || !$scope.list.guests || !$scope.list.guests.length) {
-                        errorMessage.push('Please Add Guests');
-                    }
-                    if ($scope.guestsError()) {
-                        errorMessage.push('First Name and Last Name must be not empty.');
-                    }
-                    dialogService.error(errorMessage.join(', '));
                     $scope.showValidation = false;
+                }
+                if (!$scope.list || !$scope.list.guests || $scope.list.guests.length === 0) {
+                    errorMessage.push('Please Add Guests');
+                }
+                if ($scope.guestsError()) {
+                    errorMessage.push('First Name and Last Name must be not empty.');
+                }
+                if (errorMessage.length > 0) {
+                    dialogService.error(errorMessage.join(', '));
                     return;
                 }
-               
+                
                 $scope.fetchingData = true;
 
                 if (!$scope.list.listType) {
