@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
-using System.Web.Http.Cors;
 using gliist_server.Helpers;
 using gliist_server.Shared;
 
@@ -70,6 +69,24 @@ namespace gliist_server.Controllers
          .Select(x => new EventViewModel(x) { })
          .ToList();
             return targetList;
+        }
+
+        // GET api/Event/GuestsListsExcelFile/{eventId}
+        [HttpGet]
+        [Route("GuestsListsExcelFile/{eventId}")]
+         public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
+        {
+            var db = new EventDBContext();
+            var @event = db.Events.Find(eventId);
+            var excelFile = ExcelHelper.CreateGuestsListsExcelFile(@event.guestLists);
+
+            HttpResponseMessage response;
+            response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(Convert.ToBase64String(excelFile));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = string.Format("Guests-{0}.xls", @event.id);
+            return response;
         }
 
         // GET api/Event/5

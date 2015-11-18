@@ -266,18 +266,14 @@ namespace gliist_server.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var to_delete = _db.Users.SingleOrDefault(u => u.UserName == userName);
-            to_delete.company.users.Remove(to_delete);
-
-            _db.Users.Remove(to_delete);
-            _db.Entry(to_delete).State = EntityState.Deleted;
+            var userToDelete = _db.Users.SingleOrDefault(u => u.UserName == userName);
+            userToDelete.company.users.Remove(userToDelete);
 
 
+            _db.Users.Remove(userToDelete);
+            _db.Entry(userToDelete).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
-            if (!Membership.DeleteUser(userName))
-            {
-                return BadRequest();
-            }
+
 
             return Ok();
         }
