@@ -5,7 +5,7 @@ angular.module('gliist')
         function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, userService) {
             
             $scope.getExportExcelUrl = function() {
-                return window.redirectUrl+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?token=Bearer '+ window.localStorage['access_token'];
+                return window.redirectUrl+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+window.localStorage['access_token'];
             };
             
             $scope.checkinGuest = function (checkin) {
