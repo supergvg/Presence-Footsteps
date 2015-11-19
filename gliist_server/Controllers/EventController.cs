@@ -71,21 +71,23 @@ namespace gliist_server.Controllers
             return targetList;
         }
 
-        // GET api/Event/GuestsListsExcelFile/{eventId}
+        // GET api/Event/GuestsListsExcelFile/{eventId}?authToken={token}
         [HttpGet]
         [Route("GuestsListsExcelFile/{eventId}")]
-         public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
+        public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
         {
             var db = new EventDBContext();
             var @event = db.Events.Find(eventId);
             var excelFile = ExcelHelper.CreateGuestsListsExcelFile(@event.guestLists);
 
-            HttpResponseMessage response;
-            response = Request.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StringContent(Convert.ToBase64String(excelFile));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+            MediaTypeHeaderValue mimeType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new ByteArrayContent(excelFile);
+            response.Content.Headers.ContentType = mimeType;
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
             response.Content.Headers.ContentDisposition.FileName = string.Format("Guests-{0}.xls", @event.id);
+
             return response;
         }
 
