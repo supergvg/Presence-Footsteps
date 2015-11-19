@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('LandingCtrl', ['$scope', '$stateParams', 'dialogService', 'eventsService',
-        function ($scope, $stateParams, dialogService, eventsService) {
+    .controller('LandingCtrl', ['$scope', '$stateParams', 'dialogService', 'eventsService', '$location',
+        function ($scope, $stateParams, dialogService, eventsService, $location) {
             var companyName = $stateParams.companyName,
                 eventName = $stateParams.eventName,
                 token = $stateParams.token;
@@ -45,7 +45,11 @@ angular.module('gliist')
                 return false;
 //                return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
-
+            
+            $scope.getPageURL = function() {
+                return $location.absUrl();
+            }
+            
             $scope.rsvp = {};
             $scope.onSubmitClicked = function (form) {
                 if (form && form.$invalid) {

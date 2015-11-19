@@ -52,8 +52,8 @@
                 <div layout="row" ng-cloak flex="30" layout-align="end center" style=""
                      ng-hide="options.local">
                     <div layout="column">
-                        <md-button flex class="wht-event-list-btn"
-                                   ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                        <md-button flex class="wht-event-list-btn" ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                            <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
                             <ng-md-icon icon="assignment_turned_in" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
 
@@ -64,10 +64,12 @@
                         <md-button flex class="wht-event-list-btn" ng-disabled="isPromoter() ||isStaff()"
                                    ng-hide="options.readyOnly"
                                    ui-sref="main.event_summary({eventId:{{event.id}}})">
+                            <md-tooltip md-direction="top">Preview event</md-tooltip>
                             <ng-md-icon icon="theaters" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
                         <md-button flex class="logo-event-list-btn"
                                    ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
+                            <md-tooltip md-direction="top">event stats</md-tooltip>
                             <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
                         </md-button>
 
@@ -78,12 +80,14 @@
                     <div layout="column" style="height: 120px;">
                         <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly" ng-disabled="isStaff()"
                                    ui-sref="main.edit_event({eventId:{{event.id}}})">
+                            <md-tooltip md-direction="top">Edit event</md-tooltip>
                             <ng-md-icon icon="mode_edit" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
 
                         <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly"
                                    ng-disabled="isPromoter() || isStaff()"
                                    ng-click="deleteEvent($event,event)">
+                            <md-tooltip md-direction="top">Delete event</md-tooltip>
                             <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
                         </md-button>
                     </div>

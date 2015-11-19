@@ -327,13 +327,13 @@
                             <spinner ng-model="event.additionalGuests"></spinner>
                             <span>&nbsp;additional people to the event.</span>
                         </span>
-                        <md-checkbox ng-model="event.isRsvpCapacityLimited" aria-label="Limit capacity for rspv">
+                        <!--<md-checkbox ng-model="event.isRsvpCapacityLimited" aria-label="Limit capacity for rspv">
                             Limit capacity for rspv
-                        </md-checkbox>                        
+                        </md-checkbox>-->
                     </div>
                     <div flex="50">
                         <div class="section-label">RSVP timer expires on :</div>
-                        <datetimepicker max-date="endMinDate()" show-weeks="showWeeks" hour-step="hourStep"
+                        <datetimepicker max-date="endMaxDate()" show-weeks="showWeeks" hour-step="hourStep"
                             minute-step="minuteStep"
                             ng-model="event.rsvpEndDate" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
                             date-options="dateOptions"

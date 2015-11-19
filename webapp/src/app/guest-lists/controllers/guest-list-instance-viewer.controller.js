@@ -142,5 +142,16 @@ angular.module('gliist')
                     }
                 );
             };
+            
+            $scope.isShowColumn = function(column) {
+                var show = false;
+                angular.forEach($scope.lists, function(list){
+                    if (list[column]) {
+                        show = true;
+                        return;
+                    }
+                });
+                return show;
+            }
 
         }]);
