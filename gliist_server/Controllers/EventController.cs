@@ -86,7 +86,8 @@ namespace gliist_server.Controllers
             response.Content = new ByteArrayContent(excelFile);
             response.Content.Headers.ContentType = mimeType;
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            response.Content.Headers.ContentDisposition.FileName = string.Format("Guests-{0}.xls", @event.id);
+            string fileName = string.Format("{0}_{1}.xls", (!string.IsNullOrEmpty(@event.title)) ? @event.title : @event.id.ToString(), DateTime.Today.ToString("MM-dd-yyyy"));
+            response.Content.Headers.ContentDisposition.FileName = fileName;
 
             return response;
         }
