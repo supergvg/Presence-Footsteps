@@ -1,0 +1,77 @@
+<div class="billing">
+    <h4>Payment Information :</h4>
+    <div class="stripe-account">
+        <div class="card-number">XXXX XXXX XXXX 2378</div>
+        <div layout="row" layout-align="start center">
+            <div class="stripe-logo">stripe</div>
+            <div class="info">Add your stripe account</div>
+            <md-button class="md-primary md-raised" ng-click="">Link</md-button>
+        </div>
+    </div>
+    <h4>Subscriptions :</h4>
+    <div layout="row" class="tariff-blocks">
+        <div class="tariff-block">
+            <div layout="row" class="tariff-title" layout-align="space-between center">
+                <div class="title">Basic</div>
+                <div class="price">FREE</div>
+            </div>
+            <ul class="description">
+                <li>+ 100 guest check ins</li>
+                <li>+ 3 devices</li>
+                <li>+ 2 staff accounts</li>
+            </ul>
+            <div class="status">
+                <b>ACTIVE</b> Expires on 03 /01/2016
+            </div>
+        </div>
+        <div class="tariff-block">
+            <div layout="row" class="tariff-title" layout-align="space-between center">
+                <div class="title">Pay as you go</div>
+                <div class="price">$ 50</div>
+            </div>
+            <ul class="description">
+                <li>+ 1000 guest check ins</li>
+                <li>+ 5 devices</li>
+                <li>+ 4 staff accounts</li>
+                <li>+ promoter contribution acctounts</li>
+                <li>+ RSVP features</li>
+            </ul>
+            <div class="status">
+                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
+            </div>
+        </div>
+        <div class="tariff-block">
+            <div layout="row" class="tariff-title" layout-align="space-between center">
+                <div class="title">Professional</div>
+                <div class="price">$ 280/m</div>
+            </div>
+            <ul class="description">
+                <li>+ Monthly plan with all our features</li>
+            </ul>
+            <div class="status">
+                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
+            </div>
+        </div>
+    </div>
+    <h4>Invoices :</h4>
+    <div layout="row">
+        <md-list flex="50">
+            <md-list-item>
+                <div flex="60">
+                    Date
+                </div>
+                <div flex="40">
+                    Amount
+                </div>
+            </md-list-item>
+            <md-list-item ng-repeat="invoice in invoices">
+                <div flex="60">
+                    {{invoice.date}}
+                </div>
+                <div flex="40">
+                    {{invoice.amount}}
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
