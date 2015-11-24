@@ -206,15 +206,31 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var compnay = _db.Companies.Where(c => c.name == model.company).FirstOrDefault();
 
-            if (compnay == null)
+            var companies = _db.Companies.Where(c => c.name == model.company);
+
+            if (companies == null)
             {
                 return BadRequest();
             }
 
+            Invite invite = null;
+            Company company = null;
+            foreach (var c in companies)
+            {
+                invite = c.invitations.SingleOrDefault(i => i.token.Equals(model.token));
 
-            var invite = compnay.invitations.Single(i => i.token.Equals(model.token));
+                if (invite != null)
+                {
+                    company = c;
+                    break;
+                }
+            }
+
+            if (invite == null)
+            {
+                return BadRequest("Invitation exptied please contact admin");
+            }
 
             _db.Entry(invite).State = EntityState.Modified;
 
@@ -230,12 +246,12 @@ namespace gliist_server.Controllers
                 UserName = model.UserName,
                 firstName = model.firstName,
                 lastName = model.lastName,
-                company = compnay,
+                company = company,
 
                 permissions = invite.permissions
             };
 
-            compnay.users.Add(user);
+            company.users.Add(user);
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
             IHttpActionResult errorResult = GetErrorResult(result);
@@ -245,7 +261,7 @@ namespace gliist_server.Controllers
                 return errorResult;
             }
 
-            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", compnay.name);
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", company.name);
             return Ok();
         }
 
