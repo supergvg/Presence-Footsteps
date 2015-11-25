@@ -952,11 +952,13 @@ md-checkbox.md-default-theme.md-checked .md-icon {
             font-weight: bold;
             color: #99ccff;
             margin: 0;
-            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        & > div {
+            padding: 15px 0;
+            border-bottom: 2px solid #fff;
         }
         .stripe-account {
-            padding: 25px 0;
-            border-bottom: 2px solid #fff;
             .stripe-logo {
                 color: #5ea5d8;
                 font-size: 30px;
@@ -969,11 +971,12 @@ md-checkbox.md-default-theme.md-checked .md-icon {
             }
         }
         .tariff-blocks {
-            border-bottom: 2px solid #fff;
-            padding: 15px 0;
+            display: inline-block;
             .tariff-block {
                 width: 255px;
                 margin-right: 10px;
+                padding-bottom: 15px;
+                float: left;
                 .tariff-title { 
                     height: 45px;
                     background-color: #fff;
@@ -992,7 +995,7 @@ md-checkbox.md-default-theme.md-checked .md-icon {
                     list-style: none;
                     padding: 10px 0 0 15px;
                     border-bottom: 2px dashed #8e8e8e;
-                    height: 110px;
+                    height: 160px;
                 }
                 .status {
                     text-align: center;
@@ -1000,20 +1003,42 @@ md-checkbox.md-default-theme.md-checked .md-icon {
                 }
             }
         }
-        md-list {
-            margin-top: 15px;
-            padding: 0;
-            md-list-item {
-                background-color: #fff;
-                margin-bottom: 2px;
-                &:first-child {
-                    font-weight: bold;
-                }
-                &:not(:first-child) > div:nth-child(2) {
-                    color: #99ccff;
-                    font-weight: bold;
+        .invoices {
+            clear: both;
+            md-list {
+                margin-top: 15px;
+                padding: 0;
+                md-list-item {
+                    background-color: #fff;
+                    margin-bottom: 2px;
+                    &:first-child {
+                        font-weight: bold;
+                    }
+                    &:not(:first-child) > div:nth-child(2) {
+                        color: #99ccff;
+                        font-weight: bold;
+                    }
                 }
             }
         }
+    }
+}
+.dialog {
+    .header {
+        background-color: #fff;
+        height: 50px;
+        padding: 15px;
+    }
+    .left {
+        background-color: #ececec;
+    }
+    .right {
+        background-color: #dbdbdb;
+    }
+    h4 {
+        color: #8e8e8e;
+        font-weight: bold;
+        padding: 30px 0;
+        text-align: center;
     }
 }

@@ -1,24 +1,25 @@
 <div class="billing">
-    <h4>Payment Information :</h4>
     <div class="stripe-account">
+        <h4>Payment Information :</h4>
         <div class="card-number">XXXX XXXX XXXX 2378</div>
         <div layout="row" layout-align="start center">
             <div class="stripe-logo">stripe</div>
             <div class="info">Add your stripe account</div>
-            <md-button class="md-primary md-raised" ng-click="">Link</md-button>
+            <md-button class="md-primary md-raised" ng-click="squareDialog()">Link</md-button>
         </div>
     </div>
-    <h4>Subscriptions :</h4>
-    <div layout="row" class="tariff-blocks">
+    <div class="tariff-blocks">
+        <h4>Subscriptions :</h4>
         <div class="tariff-block">
             <div layout="row" class="tariff-title" layout-align="space-between center">
                 <div class="title">Basic</div>
                 <div class="price">FREE</div>
             </div>
             <ul class="description">
-                <li>+ 100 guest check ins</li>
-                <li>+ 3 devices</li>
-                <li>+ 2 staff accounts</li>
+                <li>+ up to 100 guest checkin</li>
+                <li>+ 2 devices</li>
+                <li>+ and 2 accounts</li>
+                <li>+ No support</li>
             </ul>
             <div class="status">
                 <b>ACTIVE</b> Expires on 03 /01/2016
@@ -27,14 +28,17 @@
         <div class="tariff-block">
             <div layout="row" class="tariff-title" layout-align="space-between center">
                 <div class="title">Pay as you go</div>
-                <div class="price">$ 50</div>
+                <div class="price">$ 59/event</div>
             </div>
             <ul class="description">
-                <li>+ 1000 guest check ins</li>
+                <li>+ up to 1000 guest checkins</li>
                 <li>+ 5 devices</li>
-                <li>+ 4 staff accounts</li>
-                <li>+ promoter contribution acctounts</li>
-                <li>+ RSVP features</li>
+                <li>+ RSVP feature</li>
+                <li>+ unlimited email invites</li>
+                <li>+ promoter contributor access</li>
+                <li>+ and unlimited sub accounts</li>
+                <li>+ Offline mode</li>
+                <li>+ No Support</li>
             </ul>
             <div class="status">
                 <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
@@ -42,36 +46,65 @@
         </div>
         <div class="tariff-block">
             <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">Professional</div>
-                <div class="price">$ 280/m</div>
+                <div class="title">Monthly</div>
+                <div class="price">$ 260/month</div>
             </div>
             <ul class="description">
-                <li>+ Monthly plan with all our features</li>
+                <li>+ Same services as Pay As you go but with support</li>
+            </ul>
+            <div class="status">
+                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
+            </div>
+        </div>
+        <div class="tariff-block">
+            <div layout="row" class="tariff-title" layout-align="space-between center">
+                <div class="title">One year</div>
+                <div class="price">$ 3000/year</div>
+            </div>
+            <ul class="description">
+                <li>+ Same services as monthly</li>
+                <li>+ 10% off pay up front</li>
+            </ul>
+            <div class="status">
+                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
+            </div>
+        </div>
+        <div class="tariff-block">
+            <div layout="row" class="tariff-title" layout-align="space-between center">
+                <div class="title">Enterprise</div>
+                <div class="price"></div>
+            </div>
+            <ul class="description">
+                <li>+ This will have unlimited access</li>
+                <li>+ Unlock</li>
+                <li>+ Let's create a code for this</li>
             </ul>
             <div class="status">
                 <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
             </div>
         </div>
     </div>
-    <h4>Invoices :</h4>
-    <div layout="row">
-        <md-list flex="50">
-            <md-list-item>
-                <div flex="60">
-                    Date
-                </div>
-                <div flex="40">
-                    Amount
-                </div>
-            </md-list-item>
-            <md-list-item ng-repeat="invoice in invoices">
-                <div flex="60">
-                    {{invoice.date}}
-                </div>
-                <div flex="40">
-                    {{invoice.amount}}
-                </div>
-            </md-list-item>
-        </md-list>
+    <div class="invoices">
+        <h4>Invoices :</h4>
+        <div layout="row">
+            <md-list flex="50">
+                <md-list-item>
+                    <div flex="60">
+                        Date
+                    </div>
+                    <div flex="40">
+                        Amount
+                    </div>
+                </md-list-item>
+                <md-list-item ng-repeat="invoice in invoices">
+                    <div flex="60">
+                        {{invoice.date}}
+                    </div>
+                    <div flex="40">
+                        {{invoice.amount}}
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
     </div>
 </div>
