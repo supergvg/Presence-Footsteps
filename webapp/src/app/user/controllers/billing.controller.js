@@ -21,7 +21,7 @@ angular.module('gliist')
                 };
                 $mdDialog.show({
                     scope: scope,
-                    templateUrl: 'app/user/templates/square-dialog.html'
+                    templateUrl: 'app/user/templates/stripe-dialog.html'
                 });  
             };
         }]);

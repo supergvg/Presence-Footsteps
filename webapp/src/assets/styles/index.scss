@@ -1013,6 +1013,9 @@ md-list {
                 display: inline;
                 padding: 0 15px;
             }
+            ng-md-icon {
+                padding-left: 10px;
+            }
         }
         .tariff-blocks {
             display: inline-block;
@@ -1068,18 +1071,23 @@ md-list {
     }
 }
 .dialog {
+    color: #8e8e8e;
     .header {
         background-color: #fff;
         height: 50px;
         padding: 15px;
+        .logo {
+            font-size: 24px;
+            img {
+                margin-top: -5px;
+            }
+        }
     }
     .left {
         background-color: #ececec;
         .action {
             margin: 20px 0 30px 0;
-            a {
-                margin-right: 25px;
-            }
+            width: 100%;
         }
     }
     .right {
@@ -1087,8 +1095,7 @@ md-list {
         p {
             font-size: 12px;
             font-weight: bold;
-            color: #8e8e8e;
-            width: 300px;
+            padding: 0 40px;
             text-align: justify;
             line-height: 14px;
         }
@@ -1098,13 +1105,13 @@ md-list {
         }
     }
     h4 {
-        color: #8e8e8e;
         font-weight: bold;
         padding: 20px 0;
         margin: 0;
         text-align: center;
     }
     md-input-container {
-        width: 300px;
+        width: 100%;
+        padding: 0 50px;
     }
 }
