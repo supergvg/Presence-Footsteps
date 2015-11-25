@@ -1,28 +1,30 @@
-<md-dialog flex="80" class="dialog">
+<md-dialog flex="50" class="dialog">
     <div layout="row" layout-align="space-between center" class="header">
         <img src="assets/images/square.png"/>
         <img src="assets/images/square-close.png" ng-click="close()"/>
     </div>
-    <div layout="row" layout-align="space-between center">
-        <div flex="50" class="left">
+    <div layout="row" layout-align="space-between top">
+        <div flex="50" class="left" layout="column" layout-align="space-between center">
             <h4>Sign in to Square</h4>
-            <div layout="column" layout-align="center center">
-                <md-input-container>
-                    <label>Email address</label>
-                    <input type="email" name="email">
-                </md-input-container>
-                <md-input-container>
-                    <label>Password</label>
-                    <input type="password" name="password">
-                </md-input-container>
-            </div>            
-            
-            
-            
-            
+            <md-input-container>
+                <label>Email address</label>
+                <input type="email" name="email">
+            </md-input-container>
+            <md-input-container>
+                <label>Password</label>
+                <input type="password" name="password">
+            </md-input-container>
+            <div layout="row" layout-align="space-between center" class="action">
+                <a href="#">Forgot Password?</a>
+                <md-button class="md-primary md-raised" ng-click="">SIGN IN</md-button>
+            </div>
         </div>
-        <div flex="50" class="right">
+        <div flex="50" class="right" layout="column" layout-align="space-between center">
             <h4>Create an Account</h4>
+            <p>Square Register is the perfect point-of-sale system, available in the App Store and Google Play. It's designed to run on a smartphone or tablet, on your counter or on the go.</p>
+            <div layout="row" layout-align="end end" class="action">
+                <md-button class="md-primary md-raised" ng-click="">START</md-button>
+            </div>
         </div>
     </div>
 </md-dialog>

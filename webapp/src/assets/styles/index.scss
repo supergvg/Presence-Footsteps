@@ -80,12 +80,6 @@ md-select.md-default-theme .md-select-label {
   background-color: white !important;
 }
 
-md-input-container md-select.md-default-theme {
-    padding-bottom: 0;
-    padding-top: 22px;
-    padding-left: 0;
-}
-
 span.error {
     color: rgb(244,67,54);
     font-size: 12px;
@@ -325,10 +319,78 @@ md-checkbox.md-default-theme.md-checked .md-icon {
   background-color: #99ccff;
 }
 
-.section-header {
+/* Main styles */
+
+.section-title {
     background-color: #aaaaaa;
     color: white;
-    margin: -8px;
+    & > h3 {
+        padding: 15px 0 15px 20px;
+        margin: 0;
+    }
+}
+
+.section-subtitle {
+    background-color: #CCCCCC;
+    color: white;
+    margin: 0;
+    & > h4 {
+        margin: 0;
+        padding: 5px 0 5px 20px;
+    }
+}
+
+.section-content {
+    padding: 5px 20px 10px 20px;
+    & > span {
+        font-size: 11px;
+        color: #777;
+        font-weight: bold;
+        padding-left: 15px;
+    }
+}
+
+md-input-container {
+    padding-bottom: 0;
+    label {
+        padding-left: 20px !important; 
+        top: 9px;
+    }
+    &.md-input-focused label:not(.md-no-float),
+        &.md-input-has-value label:not(.md-no-float) {
+        transform: translate3d(0, -5px, 0) scale(0.75);
+        -webkit-transform: translate3d(0, -5px, 0) scale(0.75);
+    }
+    .md-input {
+        padding-left: 15px;
+        font-size: 14px !important;
+    }
+    md-select {
+        height: 44px;
+        padding: 0;
+        .md-select-label {
+            width: 100%;
+            padding: 0;
+            & > span:first-child {
+                padding-left: 15px;
+                font-size: 14px;
+                font-weight: normal;
+            }
+            .md-select-icon {
+                right: 5px;
+                top: 9px;
+                position: absolute;
+            }
+        }
+    }
+}
+
+md-list {
+    md-list-item {
+        &:not(:last-child) {
+            border-bottom: #fff solid;
+        }
+    }
 }
 
 .section-label {
@@ -340,24 +402,6 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 
 .details,
 .user-profile {
-    md-input-container {
-        padding: 3px;
-        label {
-            padding-left: 15px;
-            top: 9px;
-        }
-        &.md-input-focused label:not(.md-no-float),
-        &.md-input-has-value label:not(.md-no-float) {
-            transform: translate3d(0, 0px, 0) scale(0.75);
-            -webkit-transform: translate3d(0, 0px, 0) scale(0.75);
-        }
-        input {
-            padding-left: 15px;
-        }
-    }
-    .md-select-label *:first-child {
-        padding-left: 15px;
-    }
     .dates {
         label {
             padding: 15px 0 0 15px;
@@ -1031,14 +1075,36 @@ md-checkbox.md-default-theme.md-checked .md-icon {
     }
     .left {
         background-color: #ececec;
+        .action {
+            margin: 20px 0 30px 0;
+            a {
+                margin-right: 25px;
+            }
+        }
     }
     .right {
         background-color: #dbdbdb;
+        p {
+            font-size: 12px;
+            font-weight: bold;
+            color: #8e8e8e;
+            width: 300px;
+            text-align: justify;
+            line-height: 14px;
+        }
+        .action {
+            margin: 0 30px 30px 0;
+            width: 100%;
+        }
     }
     h4 {
         color: #8e8e8e;
         font-weight: bold;
-        padding: 30px 0;
+        padding: 20px 0;
+        margin: 0;
         text-align: center;
+    }
+    md-input-container {
+        width: 300px;
     }
 }
