@@ -14,81 +14,18 @@
     </div>
     <div class="tariff-blocks">
         <h4>Subscriptions :</h4>
-        <div class="tariff-block">
+        <div class="tariff-block" ng-repeat="tariff in plans">
             <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">Basic</div>
-                <div class="price">FREE</div>
+                <div class="title">{{tariff.title}}</div>
+                <div class="price">{{tariff.price}}</div>
             </div>
             <ul class="description">
-                <li>+ up to 100 guest checkin</li>
-                <li>+ 2 devices</li>
-                <li>+ 2 accounts</li>
-                <li>+ No support</li>
+                <li ng-repeat="feature in tariff.features">+ {{feature}}</li>
             </ul>
-            <div class="status">
-                <b>ACTIVE</b> Expires on 03 /01/2016
+            <div class="status" ng-if="tariff.active">
+                <b>ACTIVE</b> Expires on {{tariff.expires}}
             </div>
-        </div>
-        <div class="tariff-block">
-            <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">Pay as you go</div>
-                <div class="price">$ 59/event</div>
-            </div>
-            <ul class="description">
-                <li>+ up to 1000 guest checkins</li>
-                <li>+ 5 devices</li>
-                <li>+ RSVP feature</li>
-                <li>+ unlimited email invites</li>
-                <li>+ promoter contributor access</li>
-                <li>+ unlimited sub accounts</li>
-                <li>+ Offline mode</li>
-                <li>+ No Support</li>
-            </ul>
-            <div class="status">
-                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
-            </div>
-        </div>
-        <div class="tariff-block">
-            <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">Monthly</div>
-                <div class="price">$ 260/month</div>
-            </div>
-            <ul class="description">
-                <li>+ up to 1000 guest checkins</li>
-                <li>+ 5 devices</li>
-                <li>+ RSVP feature</li>
-                <li>+ unlimited email invites</li>
-                <li>+ promoter contributor access</li>
-                <li>+ unlimited sub accounts</li>
-                <li>+ Offline mode</li>
-            </ul>
-            <div class="status">
-                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
-            </div>
-        </div>
-        <div class="tariff-block">
-            <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">One year</div>
-                <div class="price">$ 3000/year</div>
-            </div>
-            <ul class="description">
-                <li>+ Same services as monthly</li>
-                <li>+ 10% off pay up front</li>
-            </ul>
-            <div class="status">
-                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
-            </div>
-        </div>
-        <div class="tariff-block">
-            <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">Enterprise</div>
-                <div class="price"></div>
-            </div>
-            <ul class="description">
-                <li>+ Access to all our features</li>
-                <li>+ Dedicated account manager</li>
-            </ul>
-            <div class="status">
+            <div class="status" ng-if="!tariff.active">
                 <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
             </div>
         </div>

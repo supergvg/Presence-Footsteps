@@ -205,10 +205,12 @@ angular.module('gliist')
                 }
                 if ($state.current.name.match(/^landing_.+/))
                     return $state.current.name.split('_');
+                if ($state.current.name === 'choose_plan')
+                    return 'choose_plan';
             };
             
             $scope.showUserBars = function(){
-                if ($state.current.name.match(/^landing_.+/))
+                if ($state.current.name.match(/^landing_.+/) || $state.current.name === 'choose_plan')
                     return false;
                 return $rootScope.currentUser;
             };
