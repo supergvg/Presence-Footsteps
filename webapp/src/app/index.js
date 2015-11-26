@@ -214,6 +214,10 @@ angular.module('gliist', [
                     access: {
                         allowAnonymous: true
                     }
+                }).state('choose_plan', {
+                    url: '/choose-plan',
+                    templateUrl: 'app/templates/choose-plan.html',
+                    controller: 'LandingTicketCtrl'
                 });
             $urlRouterProvider.otherwise('/main/welcome');
         }])
