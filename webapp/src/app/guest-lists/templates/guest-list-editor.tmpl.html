@@ -1,10 +1,10 @@
 <div>
     <div>
         <form name="createGuestListForm">
-            <div class="page-subtitle">
+            <div class="section-subtitle">
                 <h4>Enter Guest List Title</h4>
             </div>
-            <div layout layout-sm="column">
+            <div layout layout-sm="column" class="section-content">
                 <md-input-container flex="75">
                     <label>Enter guest list title</label>
                     <input type="text" ng-model="list.title" name="title" required>
@@ -13,8 +13,8 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex="25">
-                    <md-select placeholder="Select Type" required name="listType" ng-model="list.listType" style="padding-top: 18px;width: 100%;margin-top: 7px" ng-disabled="disableChangeGLType()" flex="100%">
-                        <md-select-label style="width:100%">{{list.listType || 'Select Type'}}</md-select-label>
+                    <md-select placeholder="Select Type" required name="listType" ng-model="list.listType" style="padding-top: 22px" ng-disabled="disableChangeGLType()" flex="100%">
+                        <md-select-label>{{list.listType|| 'Select Type'}}</md-select-label>
                         <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
                     </md-select>
                     <div ng-messages="createGuestListForm.listType.$error" ng-if="displayErrorMessage(createGuestListForm.listType)">
@@ -22,14 +22,25 @@
                     </div>
                 </md-input-container>
             </div>
+            <div class="section-subtitle">
+                <h4>Select Promoter</h4>
+            </div>
+            <div class="section-content">
+                <span>Select Promoter</span>
+                <md-input-container flex>
+                    <md-select placeholder="Select Promoter to manage list" name="promoter" ng-model="list.promoter">
+                        
+                    </md-select>
+                </md-input-container>
+            </div>
         </form>
     </div>
     <div>
-        <div class="page-subtitle" style="margin-top: -15px;">
+        <div class="section-subtitle">
             <h4>Import Guests</h4>
         </div>
-        <md-list style="padding-left: 5px">
-            <md-list-item layout="row" style="border-bottom: #C9C9C9 solid;">
+        <md-list class="section-content">
+            <md-list-item layout="row">
                 <div flex>
                     <p>Link previous guest list</p>
                 </div>
@@ -54,32 +65,28 @@
     </div>
 
     <div>
-        <div class="page-subtitle" style="margin-top: -15px;">
+        <div class="section-subtitle">
             <h4>Guests</h4>
         </div>
-        <div style="background-color: #E0E0E0">
+        <div class="section-content">
             <md-list>
                 <md-list-item layout="row">
                     <div flex>
                         <md-button class="md-primary md-raised" ng-click="addMore()">
                             Add Guest
                         </md-button>
-                        <md-button class="md-primary md-raised" ng-disabled="!rowSelected"
-                                   ng-click="deleteSelectedRows()">
+                        <md-button class="md-primary md-raised" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
                             Delete
                         </md-button>
                     </div>
                     <div flex layout="row" layout-align="end center">
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                              ng-show="fetchingData"></md-progress-circular>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
                         <md-button class="md-primary md-raised" ng-click="save(true)">
                             Save
                         </md-button>
                     </div>
                 </md-list-item>
             </md-list>
-        </div>
-        <div>
             <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize style="height:300px;width: 100%"></div>
         </div>
         <span class="error" ng-if="showValidation && !list.guests.length">Please Add Guests</span><br>
