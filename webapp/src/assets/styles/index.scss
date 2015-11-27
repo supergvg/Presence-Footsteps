@@ -1011,7 +1011,7 @@ md-list {
         margin: 50px 0 80px 0;
     }
     .tariff-blocks {
-        margin-top: 57px;
+        margin: 60px 0;
         .tariff-block {
             &.popular {
                 background-color: #aaa;
@@ -1025,9 +1025,6 @@ md-list {
                     text-align: center;
                     color: #fff;
                 }
-            }
-            .description {
-                height: auto;
             }
         }
     }
