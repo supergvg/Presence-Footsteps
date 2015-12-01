@@ -285,6 +285,12 @@ namespace gliist_server.Controllers
             var userToDelete = _db.Users.SingleOrDefault(u => u.UserName == userName);
             userToDelete.company.users.Remove(userToDelete);
 
+            var usersGuestLists = _db.GuestLists.Where(x => x.created_by.Id == userToDelete.Id).ToList();
+
+            foreach (var usersGuestList in usersGuestLists)
+            {
+                usersGuestList.created_by = null;
+            }
 
             _db.Users.Remove(userToDelete);
             _db.Entry(userToDelete).State = EntityState.Deleted;
