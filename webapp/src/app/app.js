@@ -201,7 +201,7 @@ angular.module('gliist')
                     || $state.includes('recover_password')
                     || $state.includes('reset_password')
                     ) {
-                    return 'logo-bg';
+                    return 'logo-bg ' + $state.current.name.split('_');
                 }
                 if ($state.current.name.match(/^landing_.+/))
                     return $state.current.name.split('_');
