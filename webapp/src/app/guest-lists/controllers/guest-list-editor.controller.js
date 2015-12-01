@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService',
+        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams, userService) {
 
             $scope.getRowStyle = function (checkin) {
                 return {
@@ -329,7 +329,16 @@ angular.module('gliist')
                 if (!$scope.options) {
                     $scope.options = {};
                 }
-
+                
+                userService.getUsersByRole('promoter').then(
+                    function(users){
+                        $scope.promoters = users;
+                    },
+                    function() {
+                        dialogService.error('Oops there was a problem loading promoter users, please try again');
+                    }
+                );
+                
             };
             
             $scope.init();

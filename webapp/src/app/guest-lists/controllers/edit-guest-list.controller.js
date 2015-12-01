@@ -19,7 +19,6 @@ angular.module('gliist')
                     }).finally(function () {
                         $scope.fetchingData = false;
                     });
-
             };
 
             $scope.init();

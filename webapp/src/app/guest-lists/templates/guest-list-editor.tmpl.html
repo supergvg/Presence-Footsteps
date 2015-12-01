@@ -28,8 +28,8 @@
             <div class="section-content">
                 <span>Select Promoter</span>
                 <md-input-container flex>
-                    <md-select placeholder="Select Promoter to manage list" name="promoter" ng-model="list.promoter">
-                        
+                    <md-select placeholder="Select Promoter to manage list" name="promoter" ng-model="list.promoter_Id">
+                        <md-option value="{{promoter.Id}}" ng-repeat="promoter in promoters">{{promoter.firstName}} {{promoter.lastName}}</md-option>
                     </md-select>
                 </md-input-container>
             </div>
