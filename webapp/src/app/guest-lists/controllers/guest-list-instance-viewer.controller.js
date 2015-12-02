@@ -152,6 +152,5 @@ angular.module('gliist')
                     }
                 });
                 return show;
-            }
-
+            };
         }]);
