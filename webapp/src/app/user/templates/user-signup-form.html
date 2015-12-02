@@ -1,6 +1,6 @@
 <div class="logo-bg signup-form">
     <form name="userForm">
-        <div layout>
+        <div layout layout-sm="column">
             <md-input-container flex>
                 <label>First Name</label>
                 <input name="firstName" ng-model="user.firstName" required class="rounded-l">
@@ -44,7 +44,7 @@
                 <input name="industry" ng-model="user.industry" class="rounded-r">
             </md-input-container>
         </div>
-        <div layout="row" layout-align="center center" layout-sm="column" class="passwords">
+        <div layout layout-align="center center" layout-sm="column" class="passwords">
             <md-input-container>
                 <label>Password</label>
                 <input class="rounded-lr" name="password" type="password" ng-model="user.password" ng-minlength="6" required>
@@ -57,8 +57,8 @@
                 </div>
             </md-input-container>
         </div>
-        <div layout layout-sm="column">
-            <md-input-container flex ng-if="!options.inviteMode">
+        <div layout layout-sm="column" layout-align="center center">
+            <md-input-container ng-if="!options.inviteMode">
                 <label>Invite Code</label>
                 <input name="inviteCode" class="rounded-lr" type="text" ng-model="user.inviteCode" required>
                 <div ng-messages="userForm.inviteCode.$error" ng-if="displayErrorMessage(userForm.inviteCode)">
