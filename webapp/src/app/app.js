@@ -27,11 +27,6 @@ angular.module('gliist')
                             title: 'Upcoming Events',
                             ui_sref: 'main.current_events',
                             icon: {name: 'today', style: "fill: white", size: 24}
-                        },
-                        {
-                            title: 'User Profile',
-                            ui_sref: 'main.user',
-                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
                         }
                     ];
 
