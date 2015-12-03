@@ -217,9 +217,12 @@ angular.module('gliist')
                         },
                         errorMessage = [];
                         angular.forEach(form.$error, function(value, key){
-                            angular.forEach(value, function(value1, key1){
-                                errorMessage.push(errors[key][value1.$name]);
-                            });
+                            if (errors[key]) {
+                                angular.forEach(value, function(value1, key1){
+                                    if (errors[key][value1.$name])
+                                        errorMessage.push(errors[key][value1.$name]);
+                                });
+                            }
                         });
                         if ($scope.timeInvalid) {
                             errorMessage.push("Cant Create Event in the Past");
