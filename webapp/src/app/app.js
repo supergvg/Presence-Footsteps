@@ -27,6 +27,11 @@ angular.module('gliist')
                             title: 'Upcoming Events',
                             ui_sref: 'main.current_events',
                             icon: {name: 'today', style: "fill: white", size: 24}
+                        },
+                        {
+                            title: 'Events Statistics',
+                            ui_sref: 'main.stats',
+                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
                         }
                     ];
 

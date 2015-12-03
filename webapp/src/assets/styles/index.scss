@@ -348,6 +348,7 @@ md-input-container {
     .md-input {
         padding-left: 15px;
         font-size: 14px !important;
+        margin: 0;
     }
     md-select {
         height: 44px;
@@ -969,5 +970,14 @@ md-list {
     background-color: #99ccff;
     md-input-container {
         width: 300px;
+        label {
+            text-align: center;
+            padding: 0 !important;
+        }
+        &.md-input-focused label:not(.md-no-float),
+        &.md-input-has-value label:not(.md-no-float) {
+            transform: translate3d(30px, -5px, 0) scale(0.75);
+            -webkit-transform: translate3d(30px, -5px, 0) scale(0.75);
+        }
     }
 }
