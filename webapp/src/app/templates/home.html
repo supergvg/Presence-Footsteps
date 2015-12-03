@@ -1,54 +1,43 @@
-<div flex layout="row logo-bg" style="background-color: #99ccff" layout-fill ng-init="init()">
-  <div flex layout="column" layout-align="center center" class-="md-padding logo-bg"
-       style="background-color: #99ccff !important;">
-
-    <div flex></div>
-    <div flex>
-      <img src="assets/images/gliist_logo.png" style="height:80px"/>
+<div flex class="signin" layout="row logo-bg" layout-fill ng-init="init()">
+    <div flex layout="column" layout-align="center center" class-="md-padding logo-bg">
+        <div flex></div>
+        <div flex>
+            <img src="assets/images/gliist_logo.png" style="height:80px"/>
+        </div>
+        <div flex>
+            <md-input-container flex>
+                <label style="margin-left: 30%">Email</label>
+                <input class="rounded" type="text" ng-model="credentials.username">
+            </md-input-container>
+            <md-input-container flex>
+                <label style="margin-left: 25%">Password</label>
+                <input class="rounded" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
+            </md-input-container>
+        </div>
+        <div flex layout-align="center center">
+            {{errorMessage}}
+        </div>
+        <div flex style="margin-top: 25px">
+            <md-button class="md-primary md-raised" style="background-color:#829493!important;" ng-click="login()">
+                login
+            </md-button>
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+        </div>
+        <div flex>
+            <md-button class="md-primary" style="color:white!important;" ui-sref="recover_password">
+                Forgot Password
+            </md-button>
+        </div>
+        <div flex></div>
+        <div flex></div>
     </div>
-
-    <div flex>
-      <md-input-container flex>
-        <label style="margin-left: 30%">Email</label>
-        <input class="rounded" type="text" ng-model="credentials.username">
-      </md-input-container>
-      <md-input-container flex>
-        <label style="margin-left: 25%">Password</label>
-        <input class="rounded" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
-      </md-input-container>
-    </div>
-    <div flex layout-align="center center">
-      {{errorMessage}}
-    </div>
-
-    <div flex style="margin-top: 25px">
-      <md-button class="md-primary md-raised" style="background-color:#829493!important;" ng-click="login()">
-        login
-      </md-button>
-      <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                            ng-show="fetchingData"></md-progress-circular>
-    </div>
-    <div flex>
-      <md-button class="md-primary" style="color:white!important;" ui-sref="recover_password">
-        Forgot Password
-      </md-button>
-    </div>
-    <div flex>
-
-    </div>
-    <div flex></div>
-
-  </div>
 </div>
-<div class="section-title" style="position: absolute;bottom: 0;width: 100%;left:0;height: 25%">
-  <div layout="column" layout-align="center center">
-    <h3 style="margin-bottom: 0">New Users</h3>
-
-    <p style="margin-top:0">Get started with gjests and ditch the clipboard</p>
-
-    <md-button ui-sref="signup" class="md-primary md-raised logo-bg">
-      Sign Up
-    </md-button>
-  </div>
-
+<div class="section-title">
+    <div layout="column" layout-align="center center">
+        <h3>New Users</h3>
+        <p>Get started with gjests and ditch the clipboard</p>
+        <md-button ui-sref="signup" class="md-primary md-raised logo-bg">
+            Sign Up
+        </md-button>
+    </div>
 </div>
