@@ -1006,7 +1006,7 @@ md-list {
 
 .choose_plan {
     padding: 0 !important;
-    background-color: #ececec;
+    background-color: #fff !important;
     .header-image {
         margin: 50px 0 80px 0;
     }
@@ -1025,6 +1025,9 @@ md-list {
                     text-align: center;
                     color: #fff;
                 }
+            }
+            .tariff-title {
+                background-color: #ececec;
             }
         }
     }

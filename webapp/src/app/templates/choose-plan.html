@@ -1,8 +1,7 @@
 <div layout="column" layout-align="start center">
     <img ng-src="assets/images/gjests_logo.png" class="header-image"/>
     <div layout="row" layout-align="start center" class="stripe-account">
-        <div class="info"><span>Select your plan!</span> Your payments are linked to</div>
-        <div class="stripe-logo">stripe</div>
+        <div class="info"><span>Select your plan!</span></div>
     </div>
     <div class="tariff-blocks">
         <div class="tariff-block" ng-repeat="tariff in plans" ng-if="$index != 3" ng-class="$index === 2 ? 'popular' : ''">
