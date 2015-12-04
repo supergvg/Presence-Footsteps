@@ -993,28 +993,12 @@ md-list {
     .signup {
         .signup-form {
             md-input-container {
-                input {
-                    &.rounded-lr {
-                        border-radius: 0 !important;
-                        /* mozilla */
-                        -moz-border-radius: 0 !important;
-                        /* webkit */
-                        -webkit-border-radius: 0 !important;
-                    }
-                    &.rounded-l {
-                        border-radius: 0 0 0 0 !important;
-                        /* mozilla */
-                        -moz-border-radius: 0 0 0 0 !important;
-                        /* webkit */
-                        -webkit-border-radius: 0 0 0 0 !important;
-                    }
-                    &.rounded-r {
-                        border-radius: 0 0 0 0 !important;
-                        /* mozilla */
-                        -moz-border-radius: 0 0 0 0 !important;
-                        /* webkit */
-                        -webkit-border-radius: 0 0 0 0 !important;
-                    }
+                input, input.rounded-l, input.rounded-r, input.rounded-lr {
+                    border-radius: 25px !important;
+                    /* mozilla */
+                    -moz-border-radius: 25px !important;
+                    /* webkit */
+                    -webkit-border-radius: 25px !important;
                 }
             }
         }

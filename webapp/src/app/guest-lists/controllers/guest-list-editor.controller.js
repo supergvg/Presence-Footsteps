@@ -278,12 +278,12 @@ angular.module('gliist')
                     });
                     $scope.showValidation = false;
                 }
-                if (!$scope.list || !$scope.list.guests || $scope.list.guests.length === 0) {
+                /*if (!$scope.list || !$scope.list.guests || $scope.list.guests.length === 0) {
                     errorMessage.push('Please Add Guests');
                 }
                 if ($scope.guestsError()) {
                     errorMessage.push('First Name and Last Name must be not empty.');
-                }
+                }*/
                 if (errorMessage.length > 0) {
                     dialogService.error(errorMessage.join(', '));
                     return;
