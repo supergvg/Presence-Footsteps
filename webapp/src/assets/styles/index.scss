@@ -850,12 +850,15 @@ md-list {
 
 .signup,
 .home {
-    .section-title {
+    padding: 0 !important;
+    .content {
+        margin: 15px 0 215px 0;
+    }    
+    .footer {
+        width: 100%;
+        height: 200px;
         position: absolute;
         bottom: 0;
-        width: 100%;
-        left:0;
-        height: 200px;
         & > div {
             height: 100%;
         }
@@ -871,10 +874,7 @@ md-list {
 
 .signup {
     background-color: #ececec !important;
-    .logo-bg {
-        background-color: #ececec !important;
-    }
-    .section-title {
+    .footer {
         margin: 0;
         background-color: #7ab9f8;
         a.md-button.md-primary.md-raised {
@@ -968,6 +968,13 @@ md-list {
 
 .signin {
     background-color: #99ccff;
+    display: block;
+    .action {
+        margin-top: 25px;
+        & > * {
+            float: left;
+        }
+    }
     md-input-container {
         width: 300px;
         label {
@@ -978,6 +985,38 @@ md-list {
         &.md-input-has-value label:not(.md-no-float) {
             transform: translate3d(30px, -5px, 0) scale(0.75);
             -webkit-transform: translate3d(30px, -5px, 0) scale(0.75);
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .signup {
+        .signup-form {
+            md-input-container {
+                input {
+                    &.rounded-lr {
+                        border-radius: 0 !important;
+                        /* mozilla */
+                        -moz-border-radius: 0 !important;
+                        /* webkit */
+                        -webkit-border-radius: 0 !important;
+                    }
+                    &.rounded-l {
+                        border-radius: 0 0 0 0 !important;
+                        /* mozilla */
+                        -moz-border-radius: 0 0 0 0 !important;
+                        /* webkit */
+                        -webkit-border-radius: 0 0 0 0 !important;
+                    }
+                    &.rounded-r {
+                        border-radius: 0 0 0 0 !important;
+                        /* mozilla */
+                        -moz-border-radius: 0 0 0 0 !important;
+                        /* webkit */
+                        -webkit-border-radius: 0 0 0 0 !important;
+                    }
+                }
+            }
         }
     }
 }

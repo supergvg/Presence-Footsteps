@@ -20,7 +20,7 @@ angular.module('gliist')
                 'Technology',
                 'Gaming',
                 'Sports',
-                'Movies',
+                'Food and wine',
                 'Films',
                 'Others'
             ];

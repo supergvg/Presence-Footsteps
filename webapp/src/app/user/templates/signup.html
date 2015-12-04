@@ -1,15 +1,17 @@
-<md-content flex layout-fill layout="column" layout-align="start center" class="md-padding logo-bg" style="margin-bottom: 200px;">
-    <div style="margin-top: 30px;">
-        <img src="assets/images/gliist_logo_blue.png" style="height:80px"/>
+<div flex layout="column" layout-align="space-between center" layout-fill>
+    <div layout="column" layout-align="center center" class="content">
+        <div>
+            <img src="assets/images/gliist_logo_blue.png" style="height:80px"/>
+        </div>
+        <user-signup user="createUser"></user-signup>
     </div>
-    <user-signup user="createUser"></user-signup>
-</md-content>
-<div class="section-title">
-    <div layout="column" layout-align="center center">
-        <h3>Existing Users</h3>
-        <p> Login and get going with your lists</p>
-        <md-button ui-sref="home" class="md-primary md-raised logo-bg">
-            Login
-        </md-button>
+    <div class="footer section-title">
+        <div layout="column" layout-align="center center">
+            <h3>Existing Users</h3>
+            <p> Login and get going with your lists</p>
+            <md-button ui-sref="home" class="md-primary md-raised logo-bg">
+                Login
+            </md-button>
+        </div>
     </div>
 </div>

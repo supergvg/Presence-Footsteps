@@ -332,7 +332,8 @@ angular.module('gliist')
                 
                 userService.getUsersByRole('promoter').then(
                     function(users){
-                        $scope.promoters = users;
+                        $scope.promoters = [{Id: 0, firstName: 'None', lastName: ''}];
+                        $scope.promoters = $scope.promoters.concat(users);
                     },
                     function() {
                         dialogService.error('Oops there was a problem loading promoter users, please try again');
