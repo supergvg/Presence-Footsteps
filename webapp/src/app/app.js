@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav', '$mdMedia',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav, $mdMedia) {
             'use strict';
 
             function buildToggler(navID) {
@@ -215,6 +215,9 @@ angular.module('gliist')
 
             $scope.setSelected = function (item) {
                 $scope.selectedMenuItem = item;
+                if (!$mdMedia('gt-lg')) {
+                    $mdSidenav('left').close();
+                }
             };
 
             $scope.getItemClass = function (item) {

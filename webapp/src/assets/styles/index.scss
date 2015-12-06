@@ -808,6 +808,7 @@ md-list {
     }
     .social-link-edit {
         position: relative;
+        width: 100%;
         img {
             position: absolute;
             margin-top: 35px;
@@ -815,7 +816,7 @@ md-list {
         md-input-container {
             padding: 0;
             margin-left: 130px;
-            width: 500px;
+            max-width: 500px;
         }
     }
 }

@@ -1,7 +1,6 @@
 <div>
     <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
 
-
     <md-list style="overflow-y: hidden">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"
                               ng-show="fetchingData"></md-progress-circular>
@@ -10,14 +9,16 @@
                       ng-repeat="event in events | limitTo:(options.limit || events.length)"
                       style="margin-bottom: 5px;">
             <div layout="row" flex style="background-color:#FFFFFF;height: 120px">
-                <div flex="15" ng-style="getEventInvite(event)">
-                </div>
+                <div flex="15" ng-style="getEventInvite(event)"></div>
 
                 <div flex="55" style="padding-left: 15px; padding-top: 15px;" layout="row">
                     <md-grid-list
-                            md-cols-gt-sm="2"
-                            md-row-height-gt-sm="50px"
-                            md-gutter="1px" style="width: 100%;text-align: left">
+                            md-cols="2"
+                            md-row-height="50px"
+                            md-cols-sm="1"
+                            md-row-height-sm="25px"
+                            md-gutter="1px" 
+                            style="width: 100%;text-align: left">
                         <md-grid-tile>
                             <div class="md-title capitalize"
                                  style="font-weight: bold;color:#aaaaaa;width:100%">{{event.title}}
@@ -29,7 +30,7 @@
                         <md-grid-tile>
                             <p style="margin-right: 10px">Starts:</p>
 
-                            <p style="display: inline;font-size: 14px;color:#aaaaaa;line-height: 100;width:100%">
+                            <p style="display: inline;font-size: 14px;color:#aaaaaa;line-height: 100%;width:100%">
                                 {{event.time |date:'MMM dd, yyyy'}}
 
                                 {{event.time | ignoreTimeZone |date: 'h:mma'}}
