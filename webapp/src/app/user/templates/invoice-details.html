@@ -1,0 +1,108 @@
+<md-dialog flex="60" class="dialog invoice">
+    <div class="header">
+        <div layout="row" layout-align="end start">
+            <img src="assets/images/stripe-close.png" ng-click="close()"/>
+        </div>
+        <div layout="row" layout-align="center center">
+            <img src="assets/images/gliist_logo.png" height="75"/>
+        </div>
+    </div>
+    <div class="content">
+        <div layout="row" layout-align="space-between center" class="payment-details">
+            <div>
+                <div class="card visa">
+                    <dl>
+                        <dt>Payment:</dt>
+                        <dt class="cnumber"><sup>0000 0000 0000</sup> <span>7438</span></dt>
+                    </dl>
+                </div>
+            </div>
+            <div>
+                <dl>
+                    <dt>Transaction ID</dt>
+                    <dd>BHK37GH29</dd>
+                </dl>
+            </div>
+            <div>
+                <dl>
+                    <dt>Oct 31, 2017</dt>
+                    <dd>11:38 AM</dd>
+                </dl>
+            </div>
+        </div>
+        <div layout="row" layout-align="start center" class="payment-confirm">
+            <div>
+                <h3>Payment Confirmation for gjests registration</h3>
+                <p>Thanks for signing up with gjests. The best guestlist app on the market. Designed for event people by event people. The one stop solution for all your event guest lists.</p>
+                <p>if you need anything else. Please let us know.</p>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between center" class="payment-address">
+            <div>
+                <dl>
+                    <dt>Billing Address:</dt>
+                    <dd>Jason Bourne</dd>
+                    <dd>2314 Fernwood Ave</dd>
+                    <dd>LosAngeles, CA 90027</dd>
+                    <dd>Unite States</dd>
+                </dl>
+            </div>
+            <div>
+                <dl>
+                    <dt>Shipping Address:</dt>
+                    <dd>Jason Bourne</dd>
+                    <dd>2314 Fernwood Ave</dd>
+                    <dd>LosAngeles, CA 90027</dd>
+                    <dd>Unite States</dd>
+                </dl>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between center" class="payment-items">
+            <md-list flex>
+                <md-list-item>
+                    <div flex="50">
+                        Description:
+                    </div>
+                    <div flex="50">
+                        Item Price:
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="50">
+                        Base Price
+                    </div>
+                    <div flex="50">
+                        35.00 $
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="50">
+                        Coupon Code Discount
+                    </div>
+                    <div flex="50">
+                        -5.00 $
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="50">
+                        Tax
+                    </div>
+                    <div flex="50">
+                        3.00 $
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="50">
+                        Total Amount Paid:
+                    </div>
+                    <div flex="50">
+                        33.00 $
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+    <div layout="row" layout-align="center center" class="footer">
+        <div>Powered by <span>gjests</span></div>
+    </div>
+</md-dialog>

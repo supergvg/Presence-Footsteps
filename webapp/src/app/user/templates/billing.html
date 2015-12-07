@@ -42,7 +42,7 @@
                         Amount
                     </div>
                 </md-list-item>
-                <md-list-item ng-repeat="invoice in invoices">
+                <md-list-item ng-repeat="invoice in invoices" ng-click="invoiceDetails()">
                     <div flex="60">
                         {{invoice.date}}
                     </div>

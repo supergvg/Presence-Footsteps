@@ -1137,4 +1137,100 @@ md-list {
         width: 100%;
         padding: 0 50px;
     }
+    
+    &.invoice {
+        color: #000;
+        .header {
+            height: 180px;
+            background-color: #99ccff;
+        }
+        .content {
+            overflow-y: auto;
+            & > div {
+                padding: 50px;
+            }
+            .payment-details,
+            .payment-address {
+                background-color: #c6c6c6;
+                & > div:not(:first-child) {
+                    text-align: right;
+                }
+            }
+            .payment-details {
+                .card {
+                    &:before {
+                        content: "";
+                        display: inline-block;
+                        position: relative;
+                        left: 0;
+                        top: 0;
+                        width: 68px;
+                        height: 42px;
+                        vertical-align: middle;
+                        margin-right: 10px;
+                    }
+                    &.visa:before {
+                        background: url('/assets/images/cards.png') 0 0 no-repeat;
+                    }
+                    &.master:before {
+                        background: url('/assets/images/cards.png') -68px 0 no-repeat;
+                    }
+                    &.aexpress:before {
+                        background: url('/assets/images/cards.png') -136px 0 no-repeat;
+                    }
+                    &.discover:before {
+                        background: url('/assets/images/cards.png') -204px 0 no-repeat;
+                    }
+                }
+                .cnumber {
+                    margin-top: 2px;
+                    span {
+                        position: relative;
+                        top: -2px;
+                    }
+                }
+                dl {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0;
+                }
+            }
+            .payment-confirm {
+                background-color: #fff;
+                h3 {
+                    color: #99ccff;
+                    margin: 0;
+                }
+            }
+            .payment-items {
+                background-color: #fff;
+                md-list, md-list-item {
+                    padding: 0;
+                }
+                md-list-item {
+                    min-height: 40px;
+                    & > div:nth-child(2) {
+                        text-align: right;
+                    }
+                    &:first-child {
+                        border-bottom: 2px solid #c6c6c6;
+                    }    
+                    &:last-child {
+                        border-top: 2px solid #c6c6c6
+                    }
+                    &:first-child,
+                    &:last-child {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        .footer {
+            background-color: #99ccff;
+            height: 80px;
+            span {
+                color: #fff;
+            }
+        }
+    }
 }

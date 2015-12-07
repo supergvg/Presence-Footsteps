@@ -83,7 +83,18 @@ angular.module('gliist')
                 };
                 $mdDialog.show({
                     scope: scope,
-                    templateUrl: 'app/user/templates/stripe-dialog.html'
+                    templateUrl: 'app/user/templates/square-dialog.html'
+                });  
+            };
+            
+            $scope.invoiceDetails = function() {
+                var scope = $scope.$new();
+                scope.close = function() {
+                    $mdDialog.hide();
+                };
+                $mdDialog.show({
+                    scope: scope,
+                    templateUrl: 'app/user/templates/invoice-details.html'
                 });  
             };
         }]);
