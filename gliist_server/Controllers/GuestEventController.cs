@@ -15,6 +15,7 @@ using gliist_server.Helpers;
 using System.Dynamic;
 using System.IO;
 using System.Net.Http.Headers;
+using gliist_server.Attributes;
 
 namespace gliist_server.Controllers
 {
@@ -29,6 +30,7 @@ namespace gliist_server.Controllers
 
         [Route("DeleteGuestsGuestList")]
         [HttpPost]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> DeleteGuestsGuestList(IdsModel model)
         {
             var userId = User.Identity.GetUserId();
@@ -57,6 +59,7 @@ namespace gliist_server.Controllers
 
         [Route("DeleteGuestsGuestListInstance")]
         [HttpPost]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> DeleteGuestsGuestListInstance(IdsModel model)
         {
             var userId = User.Identity.GetUserId();
@@ -115,6 +118,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("LinkGuestList")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> LinkGuestLists(EventGuestListLinkModel eventGuestListModel)
         {
             if (eventGuestListModel.EventId <= 0)
@@ -209,6 +213,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("ImportGuestList")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> ImportGuestLists(IdsModel @model)
         {
             var userId = User.Identity.GetUserId();
@@ -273,6 +278,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("DeleteGuestList")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> DeleteGuestLists(IdsEventModel @model)
         {
             var userId = User.Identity.GetUserId();
@@ -307,6 +313,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("AddGuest")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> AddGuest(GuestEventModel guestEvent)
         {
             var userId = User.Identity.GetUserId();
@@ -361,6 +368,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("AddGuests")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> AddGuests(GuestsEventModel guestEvent)
         {
             var userId = User.Identity.GetUserId();
@@ -408,6 +416,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("CheckinGuest")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> CheckinGuest(CheckinModel checkinData)
         {
             var userId = User.Identity.GetUserId();
@@ -545,6 +554,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("UndoCheckinGuest")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> UndoCheckinGuest(CheckinModel checkinData)
         {
             var userId = User.Identity.GetUserId();
@@ -588,6 +598,7 @@ namespace gliist_server.Controllers
 
         [HttpPost]
         [Route("PublishEvent")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PublishEvent(IdsEventModel eventPublishModel)
         {
             var userId = User.Identity.GetUserId();
@@ -647,24 +658,26 @@ namespace gliist_server.Controllers
 
                 if (guestListInstance.InstanceType == GuestListInstanceType.Confirmed)
                 {
-                    SendInvitationConfirmationEmail(guestListInstance, user, substitutions);
+                    SendInvitationConfirmationEmail(guestListInstance, user, substitutions, @event.IsPublished);
                 }
                 else if (guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
                 {
-                    SendRsvpEmail(guestListInstance, user, substitutions);
+                    SendRsvpEmail(guestListInstance, user, substitutions, @event.IsPublished);
                 }
                 else if (guestListInstance.InstanceType == GuestListInstanceType.Ticketing)
                 {
-                    SendTicketingEmail(guestListInstance, user, substitutions);
+                    SendTicketingEmail(guestListInstance, user, substitutions, @event.IsPublished);
                 }
                 guestListInstance.published = true;
                 db.Entry(guestListInstance).State = EntityState.Modified;
             }
 
+            @event.IsPublished = true;
+            db.Entry(@event).State = EntityState.Modified;
             db.SaveChangesAsync();
         }
 
-        private void SendInvitationConfirmationEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions)
+        private void SendInvitationConfirmationEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions, bool isPublished)
         {
             var evnt = guestListInstance.linked_event;
             var guestStatuses =
@@ -672,7 +685,7 @@ namespace gliist_server.Controllers
                     x =>
                         x.GuestListInstanceId == guestListInstance.id &&
                         x.GuestListInstanceType == GuestListInstanceType.Confirmed &&
-                        x.InvitationEmailSentDate == null)
+                        (!isPublished || x.InvitationEmailSentDate == null))
                         .ToList();
 
             var guestIds = guestStatuses.Select(x => x.GuestId).ToArray();
@@ -694,7 +707,7 @@ namespace gliist_server.Controllers
             db.SaveChanges();
         }
 
-        private void SendRsvpEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions)
+        private void SendRsvpEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions, bool isPublished)
         {
             var evnt = guestListInstance.linked_event;
             var guestStatuses =
@@ -703,7 +716,7 @@ namespace gliist_server.Controllers
                         x.GuestListInstanceId == guestListInstance.id &&
                         x.GuestListInstanceType == GuestListInstanceType.Rsvp &&
                         x.InvitationEmailSentDate == null &&
-                        x.RsvpEmailSentDate == null)
+                        (!isPublished || x.RsvpEmailSentDate == null))
                         .ToList();
 
             var guestIds = guestStatuses.Select(x => x.GuestId).ToArray();
@@ -723,7 +736,7 @@ namespace gliist_server.Controllers
             db.SaveChanges();
         }
 
-        private void SendTicketingEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions)
+        private void SendTicketingEmail(GuestListInstance guestListInstance, UserModel user, Dictionary<string, string> substitutions, bool isPublished)
         {
             var evnt = guestListInstance.linked_event;
             var guestStatuses =
@@ -732,7 +745,7 @@ namespace gliist_server.Controllers
                         x.GuestListInstanceId == guestListInstance.id &&
                         x.GuestListInstanceType == GuestListInstanceType.Ticketing &&
                         x.InvitationEmailSentDate == null &&
-                        x.TicketsEmailSentDate == null)
+                        (!isPublished || x.TicketsEmailSentDate == null))
                         .ToList();
 
             var guestIds = guestStatuses.Select(x => x.GuestId).ToArray();
@@ -754,6 +767,7 @@ namespace gliist_server.Controllers
 
         [HttpPost]
         [Route("InvitePicture")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PostInvitePicture(int eventId)
         {
             var picData = await FileUploadHelper.RequestToStream(this.Request);

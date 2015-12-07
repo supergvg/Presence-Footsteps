@@ -29,6 +29,7 @@ using System.Web.Http.Description;
 using Newtonsoft.Json.Linq;
 using gliist_server.Helpers;
 using System.Web.Security;
+using gliist_server.Attributes;
 
 namespace gliist_server.Controllers
 {
@@ -105,6 +106,7 @@ namespace gliist_server.Controllers
         // GET api/Account/CompanyInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("InviteUser")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<Company> PostInviteUser(UserModel newUser)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -155,6 +157,7 @@ namespace gliist_server.Controllers
         // GET api/Account/CompanyInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UpdateCompanyUser")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PutUpdateCompanyUser(UserModel newUser)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -292,6 +295,16 @@ namespace gliist_server.Controllers
                 usersGuestList.created_by = null;
             }
 
+            if (userToDelete.permissions.Contains("promoter"))
+            {
+                var promoterGuestLists = _db.GuestLists.Where(x => x.promoter_Id == userToDelete.Id).ToList();
+
+                foreach (var promoterGuestList in promoterGuestLists)
+                {
+                    promoterGuestList.promoter_Id = null;
+                }
+            }
+
             _db.Users.Remove(userToDelete);
             _db.Entry(userToDelete).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
@@ -301,6 +314,7 @@ namespace gliist_server.Controllers
         }
 
         // PUT api/Account/UserInfo
+        [CheckAccess(DeniedPermissions = "promoter")]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         public async Task<IHttpActionResult> PutUserInfo(UserModel userModel)
@@ -393,6 +407,7 @@ namespace gliist_server.Controllers
 
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("ProfilePicture")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PostProfilePicture()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -468,6 +483,7 @@ namespace gliist_server.Controllers
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -537,6 +553,7 @@ namespace gliist_server.Controllers
 
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -577,6 +594,7 @@ namespace gliist_server.Controllers
 
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -746,6 +764,7 @@ namespace gliist_server.Controllers
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)
