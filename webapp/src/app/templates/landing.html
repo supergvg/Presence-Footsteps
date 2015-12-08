@@ -15,7 +15,7 @@
             <div class="left-column" layout="column">
                 <div class="item">
                     <div class="item-label">Date + Time:</div>
-                    <div class="item-text">{{event.event.time | date:'MMMM d, yyyy h:mm a'}}</div>
+                    <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</div>
                 </div>
                 <div class="item">
                     <div class="item-label">Location:</div>
