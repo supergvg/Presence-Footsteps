@@ -697,9 +697,17 @@ namespace gliist_server.Controllers
 
             foreach (var guest in guests)
             {
-                EmailHelper.SendInvite(user, evnt, guest, guestListInstance, Request.RequestUri.Authority, substitutions);
-
                 var guestStatus = guestStatuses.First(x => x.GuestId == guest.id);
+
+                if (guestStatus.InvitationEmailSentDate.HasValue)
+                {
+                    EmailHelper.SendInviteUpdated(user, evnt, guest, guestListInstance, Request.RequestUri.Authority, substitutions);
+                }
+                else
+                {
+                    EmailHelper.SendInvite(user, evnt, guest, guestListInstance, Request.RequestUri.Authority, substitutions);
+                }
+
                 guestStatus.InvitationEmailSentDate = DateTime.UtcNow;
                 db.Entry(guestStatus).State = EntityState.Modified;
             }
