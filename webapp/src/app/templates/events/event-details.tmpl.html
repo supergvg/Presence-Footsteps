@@ -1,40 +1,26 @@
-<div ng-init="init()">
+<div ng-init="init()" class="event-details-page">
 
-    <div layout="row">
-        <div flex="10">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
-            <div style="margin-top: -55px">
+    <div layout="row" class="tabs">
+        <div flex="5">
+            <div class="line"></div>
+            <div class="tab">
                 <h5 class="text-bg">Details</h5>
-
-                <md-button class="md-fab"
-                           style="background-color: white;
-                           height: 30px;
-                           width: 30px;
-                           margin:0"
-                           ng-disabled="isPromoter()"
-                           ng-class="getSelected(0)"
-                           ng-click="data.selectedIndex = 0"
+                <md-button class="md-fab" 
+                           ng-disabled="isPromoter()" 
+                           ng-class="getSelected(0)" 
+                           ng-click="data.selectedIndex = 0" 
                            aria-label="Details">
                 </md-button>
             </div>
         </div>
-        <div flex="11">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
+        <div flex>
+            <div class="line"></div>
         </div>
-        <div flex="10">
-            <div style="background-color:white;
-                 border-color: white;
-                 height: 10px;
-                 margin-top: 50px;">
-            </div>
-            <div style="margin-top: -55px">
+        <div flex="5">
+            <div class="line"></div>
+            <div class="tab">
                 <h5 class="text-bg">Invite</h5>
-
                 <md-button class="md-fab"
-                           style="background-color: white;
-                           height: 30px;
-                           width: 30px;
-                           margin:0"
                            ng-disabled="!event.id || isPromoter()"
                            ng-class="getSelected(1)"
                            ng-click="data.selectedIndex = 1"
@@ -42,19 +28,14 @@
                 </md-button>
             </div>
         </div>
-        <div flex="11">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
+        <div flex>
+            <div class="line"></div>
         </div>
-        <div flex="10">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
-            <div style="margin-top: -55px">
+        <div flex="5">
+            <div class="line"></div>
+            <div class="tab">
                 <h5 class="text-bg">RSVP</h5>
-
                 <md-button class="md-fab"
-                           style="background-color: white;
-                           height: 30px;
-                           width: 30px;
-                           margin:0"
                            ng-disabled="!event.id || isPromoter()"
                            ng-class="getSelected(2)"
                            ng-click="data.selectedIndex = 2"
@@ -62,19 +43,14 @@
                 </md-button>
             </div>
         </div>
-        <div flex="11">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
+        <div flex>
+            <div class="line"></div>
         </div>
-        <div flex="10">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
-            <div style="margin-top: -55px">
+        <div flex="5">
+            <div class="line"></div>
+            <div class="tab">
                 <h5 class="text-bg">Guests</h5>
-
                 <md-button class="md-fab"
-                           style="background-color: white;
-                           height: 30px;
-                           width: 30px;
-                           margin:0;"
                            ng-disabled="!event.id"
                            ng-class="getSelected(3)"
                            ng-click="data.selectedIndex = 3"
@@ -82,21 +58,14 @@
                 </md-button>
             </div>
         </div>
-        <div flex="11">
-            <div style="background-color:white;border-color: white;height: 10px;margin-top: 50px;"></div>
+        <div flex>
+            <div class="line"></div>
         </div>
-        <div flex="10">
-            <div style="height: 10px;margin-top: 50px;">
-            </div>
-            <div style="margin-top: -55px">
-                <h5 class="text-bg" style="text-align: left">Preview</h5>
-
+        <div flex="5">
+            <div class="line"></div>
+            <div class="tab">
+                <h5 class="text-bg">Preview</h5>
                 <md-button class="md-fab"
-                           style="
-                           background-color: white;
-                           height: 30px;
-                           width: 30px;
-                           margin:0;"
                            ng-disabled="!event.id || isPromoter()"
                            ng-class="getSelected(4)"
                            ng-click="data.selectedIndex = 4"
@@ -435,7 +404,6 @@
              md-swipe-right="previous()">
 
             <event-publish event-id="event.id" options="previewOptions"></event-publish>
-
         </div>
     </ng-switch>
 </div>

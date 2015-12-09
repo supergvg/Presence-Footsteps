@@ -890,12 +890,16 @@ md-list {
                 height: 45px;
                 padding: 0 20px;
                 color: #666;
+                border-top: 1px solid #99ccff;
+                border-bottom: 1px solid #99ccff;
                 &.rounded-lr {
                     border-radius: 25px !important;
                     /* mozilla */
                     -moz-border-radius: 25px !important;
                     /* webkit */
                     -webkit-border-radius: 25px !important;
+                    border-left: 1px solid #99ccff;
+                    border-right: 1px solid #99ccff;
                 }
                 &.rounded-l {
                     border-radius: 25px 0 0 25px !important;
@@ -903,6 +907,7 @@ md-list {
                     -moz-border-radius: 25px 0 0 25px !important;
                     /* webkit */
                     -webkit-border-radius: 25px 0 0 25px !important;
+                    border-left: 1px solid #99ccff;
                 }
                 &.rounded-r {
                     border-radius: 0 25px 25px 0 !important;
@@ -910,6 +915,7 @@ md-list {
                     -moz-border-radius: 0 25px 25px 0 !important;
                     /* webkit */
                     -webkit-border-radius: 0 25px 25px 0 !important;
+                    border-right: 1px solid #99ccff;
                 }
             }
             label {
@@ -986,6 +992,35 @@ md-list {
         &.md-input-has-value label:not(.md-no-float) {
             transform: translate3d(30px, -5px, 0) scale(0.75);
             -webkit-transform: translate3d(30px, -5px, 0) scale(0.75);
+        }
+    }
+}
+
+.event-details-page {
+    .tabs {
+        & > div {
+            text-align: center;
+        }
+        & > div:first-child {
+            text-align: left;
+        }
+        & > div:last-child {
+            text-align: right;
+        }
+        .line {
+            background-color: white;
+            border-color: white;
+            height: 10px;
+            margin-top: 50px;
+        }
+        button {
+            background-color: white;
+            height: 30px;
+            width: 30px;
+            margin: 0;
+        }
+        .tab {
+            margin-top: -55px;
         }
     }
 }
