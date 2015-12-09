@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using gliist_server.Attributes;
+using gliist_server.Helpers;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
-using gliist_server.Helpers;
-using System.Dynamic;
-using System.IO;
-using System.Net.Http.Headers;
-using gliist_server.Attributes;
 
 namespace gliist_server.Controllers
 {
@@ -93,8 +89,6 @@ namespace gliist_server.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetGuestCheckin(int gliId, int guestId)
         {
-            var userId = User.Identity.GetUserId();
-
             var gli = await db.GuestListInstances.FindAsync(gliId);
 
             var guestInfo = gli.actual.FirstOrDefault(a => a.guest.id == guestId);
@@ -486,7 +480,7 @@ namespace gliist_server.Controllers
                     gli = gli
                 };
 
-                gliist_server.Helpers.PushNotificationHelper.SendNotification(notification.message, user.company.id.ToString());
+                PushNotificationHelper.SendNotification(notification.message, user.company.id.ToString());
 
 
                 db.Notifications.Add(notification);
@@ -503,7 +497,7 @@ namespace gliist_server.Controllers
                     gli = gli
                 };
 
-                gliist_server.Helpers.PushNotificationHelper.SendNotification(notification.message, user.company.id.ToString());
+                PushNotificationHelper.SendNotification(notification.message, user.company.id.ToString());
 
 
                 db.Notifications.Add(notification);
@@ -521,7 +515,7 @@ namespace gliist_server.Controllers
                     gli = gli
                 };
 
-                gliist_server.Helpers.PushNotificationHelper.SendNotification(glMaxNot.message, user.company.id.ToString());
+                PushNotificationHelper.SendNotification(glMaxNot.message, user.company.id.ToString());
 
 
                 db.Notifications.Add(glMaxNot);
@@ -539,7 +533,7 @@ namespace gliist_server.Controllers
                 };
 
 
-                gliist_server.Helpers.PushNotificationHelper.SendNotification(eventMaxNot.message, user.company.id.ToString());
+                PushNotificationHelper.SendNotification(eventMaxNot.message, user.company.id.ToString());
 
 
                 db.Notifications.Add(eventMaxNot);

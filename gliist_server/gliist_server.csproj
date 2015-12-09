@@ -249,6 +249,7 @@
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\RsvpController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
