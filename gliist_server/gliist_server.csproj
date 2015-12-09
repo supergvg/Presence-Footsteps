@@ -368,6 +368,10 @@
     <Compile Include="Migrations\201511261252167_Event_IsPublished.Designer.cs">
       <DependentUpon>201511261252167_Event_IsPublished.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.cs" />
+    <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.Designer.cs">
+      <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -531,6 +535,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511261252167_Event_IsPublished.resx">
       <DependentUpon>201511261252167_Event_IsPublished.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.resx">
+      <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -697,7 +697,6 @@ namespace gliist_server.Controllers
 
             foreach (var guest in guests)
             {
-
                 EmailHelper.SendInvite(user, evnt, guest, guestListInstance, Request.RequestUri.Authority, substitutions);
 
                 var guestStatus = guestStatuses.First(x => x.GuestId == guest.id);
