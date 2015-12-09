@@ -257,12 +257,14 @@
                         <md-radio-group ng-model="event.type" layout layout-sm="column">
                             <md-content>
                                 <span layout="row" layout-align="center center">
+                                    <md-tooltip md-direction="top">Send event invite to guests to confirm the attendance</md-tooltip>                                    
                                     <span>RSVP Event</span>
                                     <md-radio-button ng-value="2" aria-label="RSVP Event"></md-radio-button>
                                 </span>
                             </md-content>
                             <md-content>
                                 <span layout="row" layout-align="center center">
+                                    <md-tooltip md-direction="top">Send confirmation email to guests that are attending the event</md-tooltip>                                    
                                     <span>Private Event</span>
                                     <md-radio-button ng-value="1" aria-label="Private Event"></md-radio-button>
                                 </span>
@@ -276,16 +278,18 @@
                         </md-radio-group>
                     </div>
                     <div class="subsection" layout="column" ng-show="event.type != 1">
-                        <div class="section-label">Send RSVP to :</div>
+                        <div class="section-label">Send RSVP Invite to :</div>
                         <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
                             <md-content>
                                 <span layout="row" layout-align="center center">
+                                    <md-tooltip md-direction="top">Only these guests can rsvp the event. Invite is non transferable</md-tooltip>                                    
                                     <span>Private/Invited guests</span>
                                     <md-radio-button ng-value="2" aria-label="Private/Invited guests"></md-radio-button>
                                 </span>
                             </md-content>
                             <md-content>
                                 <span layout="row" layout-align="center center">
+                                    <md-tooltip md-direction="top">Anyone can rsvp the event with the rsvp link</md-tooltip>                                    
                                     <span>Public Guests</span>
                                     <md-radio-button ng-value="3" aria-label="Public Guests" ng-click="event.additionalGuests = 1"></md-radio-button>
                                 </span>

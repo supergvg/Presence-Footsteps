@@ -37,7 +37,7 @@
                 <form name="rsvpLandingForm">
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Name</label>
-                        <input type="text" name="name" ng-model="rsvp.name" required ng-pattern="/\s+/"/>
+                        <input type="text" name="name" ng-model="rsvp.name" required/>
                         <div ng-messages="rsvpLandingForm.name.$error" ng-if="displayErrorMessage(rsvpLandingForm.name)">
                             <div ng-if="rsvpLandingForm.name.$error.required" ng-message="required">Name is required</div>
                         </div>
