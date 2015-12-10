@@ -213,9 +213,13 @@ angular.module('gliist')
                             },
                             pattern: {
                                 title: 'Event Title can only contain alphabets, digits and spaces'
+                            },
+                            number: {
+                                capacity: "Please enter numbers only"
                             }
                         },
                         errorMessage = [];
+                                console.log(form.$error);
                         angular.forEach(form.$error, function(value, key){
                             if (errors[key]) {
                                 angular.forEach(value, function(value1, key1){
