@@ -74,6 +74,8 @@ module.exports = function(options) {
   gulp.task('other', function () {
     gulp.src([options.src + '/favicon.ico'])
         .pipe(gulp.dest(options.dist));
+    gulp.src([options.src + '/.htaccess'])
+        .pipe(gulp.dest(options.dist));
     return gulp.src([options.src + '/assets/{fonts,images}/**'])
         .pipe(gulp.dest(options.dist + '/assets'));
   });
