@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using gliist_server.Attributes;
 using gliist_server.Models;
 
 namespace gliist_server.Controllers
@@ -68,6 +69,7 @@ namespace gliist_server.Controllers
 
         // PUT: api/Companies/5
         [ResponseType(typeof(void))]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PutCompany(int id, Company company)
         {
             if (!ModelState.IsValid)
@@ -103,6 +105,7 @@ namespace gliist_server.Controllers
 
         // POST: api/Companies
         [ResponseType(typeof(Company))]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PostCompany(Company company)
         {
             if (!ModelState.IsValid)
@@ -119,6 +122,7 @@ namespace gliist_server.Controllers
         // POST: api/Update socials
         [Route("UpdateSocialLinks")]
         [ResponseType(typeof(Company))]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> UpdateSocialLinks(CompanySocialLinksModel companySocialLinksModel)
         {
             if (!ModelState.IsValid)
@@ -143,6 +147,7 @@ namespace gliist_server.Controllers
 
         // DELETE: api/Companies/5
         [ResponseType(typeof(Company))]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> DeleteCompany(int id)
         {
             Company company = await db.Companies.FindAsync(id);

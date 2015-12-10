@@ -5,7 +5,7 @@
         </div>
     </div>
     <div layout layout-align="end center">
-        <md-button class="md-primary md-raised" ui-sref="main.create_list_management" ng-hide="isStaff()" ng-cloak>
+        <md-button class="md-primary md-raised" ui-sref="main.create_list_management" ng-hide="isStaff() || isPromoter()" ng-cloak>
             Create
         </md-button>
     </div>

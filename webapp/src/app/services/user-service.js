@@ -357,6 +357,25 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 });
 
                 return d.promise;
+            },
+            getUsersByRole: function(roleName) {
+                var deferred = $q.defer(),
+                    url = 'api/users/getUsers';
+
+                $http({
+                    method: 'GET',
+                    url: url,
+                    params: {role: roleName},
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
             }
         };
     }

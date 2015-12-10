@@ -1,0 +1,15 @@
+<ifModule mod_rewrite.c>
+RewriteEngine On  
+
+# allow social media crawlers to work by redirecting them to a server-rendered static version on the page
+RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet)
+RewriteRule rsvp/(\w+)/(\w+)$ http://gjests-api.ideas-implemented.com/api/rsvp/share/$1/$2 [P]
+
+# If an existing asset or directory is requested go to it as it is
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+
+# If the requested resource doesn't exist, use index.html
+RewriteRule ^ /index.html
+</ifModule>

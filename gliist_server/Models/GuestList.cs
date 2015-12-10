@@ -20,6 +20,7 @@ namespace gliist_server.Models
         public string title { get; set; }
 
         public virtual List<Guest> guests { get; set; }
+        public string promoter_Id { get; set; }
 
         public DateTimeOffset created_on { get; set; }
 

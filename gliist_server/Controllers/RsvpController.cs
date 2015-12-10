@@ -168,14 +168,6 @@ namespace gliist_server.Controllers
                 return BadRequest(responseStatus);
             }
 
-            if (eventGuestModel.Name.IndexOf(" ") < 1)
-            {
-                responseStatus.Code = "guest_name_is_required";
-                responseStatus.Message = "Last name is required.";
-                return BadRequest(responseStatus);
-            }
-
-
             if (eventGuestModel.AdditionalGuests > @event.AdditionalGuests)
             {
                 responseStatus.Code = "additional_guests_limit_reached";

@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav', '$mdMedia',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav, $mdMedia) {
             'use strict';
 
             function buildToggler(navID) {
@@ -29,9 +29,9 @@ angular.module('gliist')
                             icon: {name: 'today', style: "fill: white", size: 24}
                         },
                         {
-                            title: 'User Profile',
-                            ui_sref: 'main.user',
-                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                            title: 'Events Statistics',
+                            ui_sref: 'main.stats',
+                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
                         }
                     ];
 
@@ -201,7 +201,7 @@ angular.module('gliist')
                     || $state.includes('recover_password')
                     || $state.includes('reset_password')
                     ) {
-                    return 'logo-bg';
+                    return 'logo-bg ' + $state.current.name.split('_');
                 }
                 if ($state.current.name.match(/^landing_.+/))
                     return $state.current.name.split('_');
@@ -217,6 +217,9 @@ angular.module('gliist')
 
             $scope.setSelected = function (item) {
                 $scope.selectedMenuItem = item;
+                if (!$mdMedia('gt-lg')) {
+                    $mdSidenav('left').close();
+                }
             };
 
             $scope.getItemClass = function (item) {

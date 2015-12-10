@@ -43,7 +43,7 @@ angular.module('gliist')
 
             $scope.displayErrorMessage = function (field) {
                 return false;
-//                return ($scope.showValidation) || (field.$touched && field.$error.required);
+                return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
             
             $scope.getPageURL = function() {
@@ -58,6 +58,9 @@ angular.module('gliist')
                                 name: 'Name is required',
                                 email: 'Email is required',
                             },
+                            pattern: {
+                                name: 'Last Name is required'
+                            },  
                             email: {
                                 email: 'Not valid email'
                             },
@@ -75,20 +78,28 @@ angular.module('gliist')
                     $scope.showValidation = true;
                     return;
                 }
-                if ($scope.public) {
-                    eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(function () {
-                        dialogService.success('Thank you! You are added to the guest list');
-                        $scope.success = true;
-                    }, function (data) {
-                        dialogService.error(data.message || data.Message);
-                    });
-                } else {
-                    eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(function () {
-                        dialogService.success('Thank you! You are added to the guest list');
-                        $scope.success = true;
-                    }, function (data) {
-                        dialogService.error(data.message || data.Message);
-                    });
+                if (!$scope.waiting) {
+                    $scope.waiting = true;
+                    $scope.success = false;
+                    if ($scope.public) {
+                        eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(function () {
+                            dialogService.success('Thank you! You are added to the guest list');
+                            $scope.success = true;
+                        }, function (data) {
+                            dialogService.error(data.message || data.Message);
+                        }).finally(function(){
+                            $scope.waiting = false;
+                        });
+                    } else {
+                        eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(function () {
+                            dialogService.success('Thank you! You are added to the guest list');
+                            $scope.success = true;
+                        }, function (data) {
+                            dialogService.error(data.message || data.Message);
+                        }).finally(function(){
+                            $scope.waiting = false;
+                        });
+                    }
                 }
             };
         }])

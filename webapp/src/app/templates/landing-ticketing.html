@@ -14,18 +14,18 @@
             <div class="date-location">
                 <div class="date">
                     <div class="day-week">
-                        {{event.event.time | date: 'EEE' | uppercase}}
+                        {{event.event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
                     </div>
                     <div class="month">
-                        {{event.event.time | date: 'MMM' | uppercase}}
+                        {{event.event.time | ignoreTimeZone | date: 'MMM' | uppercase}}
                     </div>
                     <div class="day">
-                        {{event.event.time | date: 'd'}}
+                        {{event.event.time | ignoreTimeZone | date: 'd'}}
                     </div>
                 </div>
                 <div class="location">
                     <div class="time">
-                        {{event.event.time | date: 'h:mm a'}}
+                        {{event.event.time | ignoreTimeZone | date: 'h:mm a'}}
                     </div>
                     <div class="category">
                         {{event.event.category}}

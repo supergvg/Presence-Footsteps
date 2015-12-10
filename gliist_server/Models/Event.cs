@@ -38,6 +38,9 @@ namespace gliist_server.Models
         [JsonProperty(PropertyName = "isRsvpCapacityLimited")]
         public bool IsRsvpCapacityLimited { get; set; }
 
+        [JsonIgnore]
+        public bool IsPublished { get; set; }
+
         [Required]
         [JsonProperty(PropertyName = "type")]
         public EventType Type { get; set; }

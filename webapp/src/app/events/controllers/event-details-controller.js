@@ -20,7 +20,7 @@ angular.module('gliist')
                 'Technology',
                 'Gaming',
                 'Sports',
-                'Movies',
+                'Food and wine',
                 'Films',
                 'Others'
             ];
@@ -162,10 +162,10 @@ angular.module('gliist')
 
                 var now = Date.now(),
                     d_now = new Date(now);
-
                 if ($scope.event.utcOffset) {
-                    now = now - (d_now.getTimezoneOffset() * 60000) - ($scope.event.utcOffset * 1000);
+                    now = now + (d_now.getTimezoneOffset() * 60000) + ($scope.event.utcOffset * 1000);
                 }
+               
                 if ($scope.event.time < now) {
                     $scope.timeInvalid = true;
                     return false;
@@ -213,13 +213,20 @@ angular.module('gliist')
                             },
                             pattern: {
                                 title: 'Event Title can only contain alphabets, digits and spaces'
+                            },
+                            number: {
+                                capacity: "Please enter numbers only"
                             }
                         },
                         errorMessage = [];
+                                console.log(form.$error);
                         angular.forEach(form.$error, function(value, key){
-                            angular.forEach(value, function(value1, key1){
-                                errorMessage.push(errors[key][value1.$name]);
-                            });
+                            if (errors[key]) {
+                                angular.forEach(value, function(value1, key1){
+                                    if (errors[key][value1.$name])
+                                        errorMessage.push(errors[key][value1.$name]);
+                                });
+                            }
                         });
                         if ($scope.timeInvalid) {
                             errorMessage.push("Cant Create Event in the Past");

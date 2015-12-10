@@ -29,7 +29,8 @@ namespace gliist_server.Controllers
             var user = UserManager.FindById(userId);
 
             var gls = db.GuestLists
-                .Where(gl => !gl.isDeleted && gl.company.id == user.company.id)
+                .Where(gl => !gl.isDeleted && gl.company.id == user.company.id && 
+                    (!user.permissions.Contains("promoter") || gl.promoter_Id == userId))
                 .Include(x => x.guests)
                 .ToList();
 
@@ -49,7 +50,7 @@ namespace gliist_server.Controllers
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
 
-            GuestList guestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefault();
+            GuestList guestList = db.GuestLists.FirstOrDefault(gl => gl.company.id == user.company.id && gl.id == id);
             if (guestList == null)
             {
                 return NotFound();
@@ -118,17 +119,17 @@ namespace gliist_server.Controllers
                 return BadRequest("Invalid permissions");
             }
 
-
             GuestList existingGuestList;
             if (guestList.id > 0)
             {
-                existingGuestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == guestList.id).SingleOrDefault();
+                existingGuestList = db.GuestLists.SingleOrDefault(gl => gl.company.id == user.company.id && gl.id == guestList.id);
                 if (existingGuestList == null)
                 {
                     throw new NotImplementedException();
                 }
                 existingGuestList.title = guestList.title;
                 existingGuestList.listType = guestList.listType;
+                existingGuestList.promoter_Id = guestList.promoter_Id;
                 db.Entry(existingGuestList).State = EntityState.Modified;
 
 

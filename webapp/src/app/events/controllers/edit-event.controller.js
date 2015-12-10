@@ -21,8 +21,8 @@ angular.module('gliist')
                     $scope.event = data;
 
                     $scope.event.date = moment(data.date).toDate();
-                    $scope.event.time = new Date(data.time.replace('T', ' ').slice(0, -6));
-                    $scope.event.endTime = new Date(data.endTime.replace('T', ' ').slice(0, -6));
+                    $scope.event.time = new Date($filter('ignoreTimeZone')(data.time));
+                    $scope.event.endTime = new Date($filter('ignoreTimeZone')(data.endTime));
                 }, function () {
                     dialogService.error('There was a problem getting your events, please try again');
 

@@ -35,12 +35,12 @@
                 Capacity
             </div>
             <div flex="{{widthColumn}}">
-                List
+                Type
             </div>
             <div ng-if="options.publish" flex="{{widthColumn}}">
             </div>
-            <div ng-if="options.publish" flex="{{widthColumn}}">
-                <div ng-if="isShowColumn('published')">Sent</div>
+            <div ng-if="options.publish && isShowColumn('published')" flex="{{widthColumn}}">
+                Sent
             </div>
             <div ng-hide="options.readOnly" flex="{{widthColumn}}">
             </div>
@@ -83,7 +83,7 @@
                         <md-tooltip md-direction="top">select list to send invites</md-tooltip>
                     </md-checkbox>
                 </div>
-                <div ng-if="options.publish" flex="{{widthColumn}}">
+                <div ng-if="options.publish && isShowColumn('published')" flex="{{widthColumn}}">
                     <ng-md-icon icon="send" style="fill: #99ccff" size="24" ng-if="instance.published"></ng-md-icon>
                 </div>
                 <div layout="row" layout-align="end center" ng-cloak ng-hide="options.readOnly" flex="{{widthColumn}}">

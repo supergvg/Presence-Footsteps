@@ -20,18 +20,18 @@
         <div flex="40" style="height:100%">
             <div style="background-color:#99ccff;color:#fff;width:55px;text-align:center;float:right;height:100%">
                 <div style="font-size:18px;padding:20px 0;border-bottom:2px solid #ececec;">
-                    {{event.time | date: 'EEE' | uppercase}}
+                    {{event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
                 </div>
                 <div style="margin-top:40px;font-size:18px;font-weight:bold;line-height:1;">
-                    {{event.time | date: 'MMM' | uppercase}}
+                    {{event.time | ignoreTimeZone | date: 'MMM' | uppercase}}
                 </div>
                 <div style="font-size:35px;font-weight:bold;line-height:1">
-                    {{event.time | date: 'd'}}
+                    {{event.time | ignoreTimeZone | date: 'd'}}
                 </div>
             </div>
             <div style="padding:20px 0 0 35px;">
                 <div style="font-size:18px;font-weight:bold;padding-bottom:20px;border-bottom:2px solid #ececec;">
-                    {{event.time | date: 'h:mm a'}}
+                    {{event.time | ignoreTimeZone | date: 'h:mm a'}}
                 </div>
                 <div style="margin-top:25px;font-size:12px;font-weight:bold;">
                     {{event.category}}

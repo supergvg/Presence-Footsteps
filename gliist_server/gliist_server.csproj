@@ -76,6 +76,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WindowsAzure.ServiceBus.2.7.6\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -234,6 +235,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\PermissionsAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\GuestEventController.cs" />
@@ -247,6 +249,7 @@
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\RsvpController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -361,6 +364,14 @@
     <Compile Include="Migrations\201510060709336_Event_IsRsvpCapacityLimited.Designer.cs">
       <DependentUpon>201510060709336_Event_IsRsvpCapacityLimited.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511261252167_Event_IsPublished.cs" />
+    <Compile Include="Migrations\201511261252167_Event_IsPublished.Designer.cs">
+      <DependentUpon>201511261252167_Event_IsPublished.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.cs" />
+    <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.Designer.cs">
+      <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -418,7 +429,10 @@
     <None Include="js\MobileServices.intellisense.js" />
     <Content Include="js\MobileServices.js" />
     <Content Include="js\MobileServices.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Properties\PublishProfiles\folder.pubxml" />
     <None Include="Properties\PublishProfiles\gjests %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\local-iis-deployment.pubxml" />
   </ItemGroup>
@@ -429,6 +443,7 @@
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Files\" />
     <Folder Include="Views\GLCsv\" />
+    <Folder Include="Views\Users\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>
@@ -517,6 +532,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510060709336_Event_IsRsvpCapacityLimited.resx">
       <DependentUpon>201510060709336_Event_IsRsvpCapacityLimited.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511261252167_Event_IsPublished.resx">
+      <DependentUpon>201511261252167_Event_IsPublished.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.resx">
+      <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

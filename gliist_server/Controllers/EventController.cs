@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using gliist_server.Attributes;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
 using gliist_server.Helpers;
@@ -19,7 +20,6 @@ using gliist_server.Shared;
 namespace gliist_server.Controllers
 {
     [RoutePrefix("api/Event")]
-
     [Authorize]
     public class EventController : ApiController
     {
@@ -44,13 +44,19 @@ namespace gliist_server.Controllers
 
             var user = UserManager.FindById(userId);
 
-            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted).OrderBy(e => e.time)
-                .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0).ToList();
+            //var currentDate = DateTimeOffset.Now.AddHours(-24);
 
+            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+                .OrderBy(e => e.time)
+                //.Where(x => x.time >= currentDate)
+                .AsEnumerable()
+                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0 &&
+                    (!user.permissions.Contains("promoter") || e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id)))
+                .ToList();
 
             var targetList = events
-                .Select(x => new EventViewModel(x) { })
+                .ToList()
+                .Select(x => new EventViewModel(x))
                 .ToList();
             return targetList;
         }
@@ -63,11 +69,14 @@ namespace gliist_server.Controllers
             var user = UserManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted).OrderBy(e => e.time)
                 .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0).ToList();
+                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0 &&
+                    (!user.permissions.Contains("promoter") || e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id)))
+                .ToList();
 
             var targetList = events
-         .Select(x => new EventViewModel(x) { })
-         .ToList();
+                .Select(x => new EventViewModel(x) { })
+                .ToList();
+
             return targetList;
         }
 
@@ -96,6 +105,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> GetEvent(int id)
         {
+            db.Configuration.LazyLoadingEnabled = true;
             Event @event = await db.Events.FindAsync(id);
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
@@ -107,15 +117,22 @@ namespace gliist_server.Controllers
 
             if (@event.guestLists != null)
             {
+                if (user.permissions.Contains("promoter"))
+                {
+                    @event.guestLists = @event.guestLists.Where(x => x.linked_guest_list != null && x.linked_guest_list.promoter_Id == user.Id).ToList();
+                }
+
                 foreach (var guestListInstance in @event.guestLists)
                 {
                     guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
                 }
             }
+
             return Ok(@event);
         }
 
         // PUT api/Event/5
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PutEvent(int id, Event @event)
         {
             if (!ModelState.IsValid)
@@ -159,6 +176,7 @@ namespace gliist_server.Controllers
 
         // POST api/Event
         [ResponseType(typeof(Event))]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PostEvent(Event @event)
         {
             if (@event == null)
@@ -215,6 +233,43 @@ namespace gliist_server.Controllers
             var generateRSVPLink = false;
             if (@event.id > 0)
             {
+                var existingEvent = db.Events.FirstOrDefault(x => x.id == @event.id);
+                var isPublished = false;
+
+                if (existingEvent == null)
+                {
+                    return BadRequest("Event not found");
+                }
+
+                if (existingEvent.IsPublished)
+                {
+                    var hasChanges =
+                        existingEvent.IsRsvpCapacityLimited != @event.IsRsvpCapacityLimited ||
+                        existingEvent.AdditionalDetails != @event.AdditionalDetails ||
+                        existingEvent.FacebookPageUrl != @event.FacebookPageUrl ||
+                        existingEvent.InstagrammPageUrl != @event.InstagrammPageUrl ||
+                        (existingEvent.RsvpEndDate.HasValue && @event.RsvpEndDate.HasValue && 
+                            existingEvent.RsvpEndDate.Value.ToString("MM/dd/yyyy HH:mm") != @event.RsvpEndDate.Value.ToString("MM/dd/yyyy HH:mm")
+                        ) ||
+                        existingEvent.RsvpType != @event.RsvpType ||
+                        existingEvent.RsvpUrl != @event.RsvpUrl ||
+                        existingEvent.TicketingUrl != @event.TicketingUrl ||
+                        existingEvent.TwitterPageUrl != @event.TwitterPageUrl ||
+                        existingEvent.category != @event.category ||
+                        existingEvent.description != @event.description ||
+                        existingEvent.invitePicture != @event.invitePicture ||
+                        existingEvent.location != @event.location ||
+                        existingEvent.title != @event.title ||
+                        existingEvent.Type != @event.Type ||
+                        existingEvent.time.ToString("MM/dd/yyyy HH:mm") != @event.time.ToString("MM/dd/yyyy HH:mm") ||
+                        existingEvent.endTime.ToString("MM/dd/yyyy HH:mm") != @event.endTime.ToString("MM/dd/yyyy HH:mm") ||
+                        existingEvent.capacity != @event.capacity;
+
+                    isPublished = !hasChanges && existingEvent.IsPublished;
+                }
+
+                @event.IsPublished = isPublished;
+
                 foreach (var gli in @event.guestLists)
                 {
                     db.Entry(gli).State = (gli.id > 0) ? EntityState.Modified : EntityState.Added;
@@ -225,7 +280,7 @@ namespace gliist_server.Controllers
                     db.Entry(ticketType).State = (ticketType.Id > 0) ? EntityState.Modified : EntityState.Added;
                 }
 
-                db.Entry(@event).State = EntityState.Modified;
+                db.Entry(existingEvent).CurrentValues.SetValues(@event);
             }
             else
             {
@@ -246,6 +301,7 @@ namespace gliist_server.Controllers
 
         // DELETE api/Event/5
         [ResponseType(typeof(Event))]
+        [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> DeleteEvent(int id)
         {
 

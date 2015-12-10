@@ -46,9 +46,8 @@ namespace gliist_server.Helpers
 
         public static GuestListInstance AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
         {
-            var @event = db.Events.Single(e => e.id == eventId);
-
-            var onTheSpotGL = @event.guestLists.SingleOrDefault(gl => string.Equals(gl.linked_guest_list.listType, ON_THE_SPOT_GL));
+            var @event = db.Events.FirstOrDefault(e => e.id == eventId);
+            var onTheSpotGL = @event != null ? @event.guestLists.FirstOrDefault(gl => gl.linked_guest_list != null && gl.linked_guest_list.listType == ON_THE_SPOT_GL) : null;
 
             if (onTheSpotGL == null)
             {

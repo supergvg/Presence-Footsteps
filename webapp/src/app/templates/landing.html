@@ -9,13 +9,13 @@
         <div class="title">
             <h4>Event:</h4>
             <h3>{{event.event.title}}</h3>
-            <h4 ng-if="success">Thank you! You have been added to the event guest list!</h4>
+            <h4 ng-if="success" class="success">Thank you! You have been added to the event guest list!</h4>
         </div>
         <div layout="row" class="landing-form">
             <div class="left-column" layout="column">
                 <div class="item">
                     <div class="item-label">Date + Time:</div>
-                    <div class="item-text">{{event.event.time | date:'MMMM d, yyyy h:mm a'}}</div>
+                    <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</div>
                 </div>
                 <div class="item">
                     <div class="item-label">Location:</div>
@@ -58,6 +58,7 @@
                         </div>
                     </div>
                     <a class="md-primary md-raised" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
                 </form>
                 <div class="item-label" ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">Event on Social:</div>
                 <ul class="social">

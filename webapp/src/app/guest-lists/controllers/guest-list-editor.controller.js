@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams',
-        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService',
+        function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams, userService) {
 
             $scope.getRowStyle = function (checkin) {
                 return {
@@ -278,12 +278,12 @@ angular.module('gliist')
                     });
                     $scope.showValidation = false;
                 }
-                if (!$scope.list || !$scope.list.guests || $scope.list.guests.length === 0) {
+                /*if (!$scope.list || !$scope.list.guests || $scope.list.guests.length === 0) {
                     errorMessage.push('Please Add Guests');
                 }
                 if ($scope.guestsError()) {
                     errorMessage.push('First Name and Last Name must be not empty.');
-                }
+                }*/
                 if (errorMessage.length > 0) {
                     dialogService.error(errorMessage.join(', '));
                     return;
@@ -329,7 +329,17 @@ angular.module('gliist')
                 if (!$scope.options) {
                     $scope.options = {};
                 }
-
+                
+                userService.getUsersByRole('promoter').then(
+                    function(users){
+                        $scope.promoters = [{Id: 0, firstName: 'None', lastName: ''}];
+                        $scope.promoters = $scope.promoters.concat(users);
+                    },
+                    function() {
+                        dialogService.error('Oops there was a problem loading promoter users, please try again');
+                    }
+                );
+                
             };
             
             $scope.init();
