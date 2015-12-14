@@ -12,12 +12,14 @@ angular.module('gliist')
             if ($scope.public) {
                 eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(function (data) {
                     $scope.event = data;
+                    $scope.rsvp.plus = 0;
                 }, function (data) {
                     dialogService.error(data.message);
                 });
             } else {
                 eventsService.getPersonalEventDetails('rsvp', token).then(function (data) {
                     $scope.event = data;
+                    $scope.rsvp.plus = 0;
                 }, function (data) {
                     dialogService.error(data.message);
                 });
