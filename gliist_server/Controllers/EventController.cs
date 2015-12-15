@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,11 +12,10 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Attributes;
-using gliist_server.Models;
-using Microsoft.AspNet.Identity;
 using gliist_server.Helpers;
+using gliist_server.Models;
 using gliist_server.Shared;
-
+using Microsoft.AspNet.Identity;
 
 namespace gliist_server.Controllers
 {
@@ -24,7 +24,29 @@ namespace gliist_server.Controllers
     public class EventController : ApiController
     {
         private UserManager<UserModel> UserManager;
-        private EventDBContext db = new EventDBContext();
+        private EventDBContext db;
+
+        public EventController()
+            : this(new EventDBContext())
+        {
+        }
+
+        public EventController(EventDBContext db)
+            : this(Startup.UserManagerFactory(db))
+        {
+            this.db = db;
+        }
+
+        public EventController(UserManager<UserModel> userManager)
+        {
+            UserManager = userManager;
+            var userValidator = UserManager.UserValidator as UserValidator<UserModel>;
+
+            if (userValidator != null)
+            {
+                userValidator.AllowOnlyAlphanumericUserNames = false;
+            }
+        }
 
         // GET api/Event
         public IQueryable<Event> GetEvents()
@@ -40,44 +62,63 @@ namespace gliist_server.Controllers
         [Route("CurrentEvents")]
         public IList<EventViewModel> GetCurrentEvents()
         {
-            var userId = User.Identity.GetUserId();
+            try
+            {
+                var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(userId);
+                var user = UserManager.FindById(userId);
+                var isUserPromoter = user.permissions.Contains("promoter");
 
-            //var currentDate = DateTimeOffset.Now.AddHours(-24);
+                var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+                    .OrderBy(e => e.time)
+                    .AsEnumerable()
+                    .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0 &&
+                                (!isUserPromoter || (e.guestLists != null && e.guestLists.Count > 0 &&
+                                  e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id))))
+                    .ToList();
 
-            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
-                .OrderBy(e => e.time)
-                //.Where(x => x.time >= currentDate)
-                .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0 &&
-                    (!user.permissions.Contains("promoter") || e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id)))
-                .ToList();
+                var targetList = events
+                    .ToList()
+                    .Select(x => new EventViewModel(x))
+                    .ToList();
+                return targetList;
 
-            var targetList = events
-                .ToList()
-                .Select(x => new EventViewModel(x))
-                .ToList();
-            return targetList;
+            }
+            catch (Exception exception)
+            {
+                Trace.TraceError(exception.ToString());
+                throw new Exception(exception.Message, exception.InnerException);
+            }
         }
 
         [Route("PastEvents")]
         public IList<EventViewModel> GetPastEvents()
         {
-            var userId = User.Identity.GetUserId();
+            try
+            {
+                var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(userId);
-            var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted).OrderBy(e => e.time)
-                .AsEnumerable()
-                .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0 &&
-                    (!user.permissions.Contains("promoter") || e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id)))
-                .ToList();
+                var user = UserManager.FindById(userId);
+                var isUserPromoter = user.permissions.Contains("promoter");
 
-            var targetList = events
-                .Select(x => new EventViewModel(x) { })
-                .ToList();
+                var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
+                    .OrderBy(e => e.time)
+                    .AsEnumerable()
+                    .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0 &&
+                        (!isUserPromoter || (e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id))))
+                    .ToList();
 
-            return targetList;
+                var targetList = events
+                    .Select(x => new EventViewModel(x))
+                    .ToList();
+
+                return targetList;
+            }
+            catch (Exception exception)
+            {
+                Trace.TraceError(exception.ToString());
+                throw new Exception(exception.Message, exception.InnerException);
+            }
         }
 
         // GET api/Event/GuestsListsExcelFile/{eventId}?authToken={token}
@@ -85,7 +126,6 @@ namespace gliist_server.Controllers
         [Route("GuestsListsExcelFile/{eventId}")]
         public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
         {
-            var db = new EventDBContext();
             var @event = db.Events.Find(eventId);
             var excelFile = ExcelHelper.CreateGuestsListsExcelFile(@event.guestLists);
 
@@ -341,11 +381,6 @@ namespace gliist_server.Controllers
         private bool EventExists(int id)
         {
             return db.Events.Count(e => e.id == id) > 0;
-        }
-
-        public EventController()
-        {
-            UserManager = Startup.UserManagerFactory(db);
         }
     }
 }
