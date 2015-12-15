@@ -1,6 +1,6 @@
 <div class='guest-list'>
 
-    <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
+    <!--<h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>-->
 
     <div layout="row" ng-show="lists.length > 0 && options.showSummary">
         <div flex="40">
@@ -84,7 +84,7 @@
                     </md-checkbox>
                 </div>
                 <div ng-if="options.publish && isShowColumn('published')" flex="{{widthColumn}}">
-                    <ng-md-icon icon="send" style="fill: #99ccff" size="24" ng-if="instance.published"></ng-md-icon>
+                    <ng-md-icon icon="done" style="fill: #99ccff" size="24" ng-if="instance.published"></ng-md-icon>
                 </div>
                 <div layout="row" layout-align="end center" ng-cloak ng-hide="options.readOnly" flex="{{widthColumn}}">
                     <div ng-if="!instance.published">

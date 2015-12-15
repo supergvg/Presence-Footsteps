@@ -60,7 +60,7 @@
                     <div layout="column" style="height: 120px;">
                         <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.event_summary({eventId:{{event.id}}})">
                             <md-tooltip md-direction="top">Preview event</md-tooltip>
-                            <ng-md-icon icon="theaters" style="fill: #99ccff" size="24"></ng-md-icon>
+                            <md-icon md-svg-src="assets/images/SVG/play.svg" style="fill: #99ccff" size="24"></md-icon>
                         </md-button>
                         <md-button flex class="logo-event-list-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
                             <md-tooltip md-direction="top">event stats</md-tooltip>
