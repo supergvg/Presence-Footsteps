@@ -874,7 +874,7 @@ md-list {
 }
 
 .signup {
-    background-color: #ececec !important;
+    background-color: #fff !important;
     .footer {
         margin: 0;
         background-color: #7ab9f8;
@@ -947,6 +947,11 @@ md-list {
             }
             & > div {
                 margin-left: 20px;
+            }
+            &.md-input-focused .md-input, 
+            & .md-input.ng-invalid.ng-dirty {
+                border-top: 1px solid #99ccff;
+                border-bottom: 1px solid #99ccff;
             }
         }
         form {
