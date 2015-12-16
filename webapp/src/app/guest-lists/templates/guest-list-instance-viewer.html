@@ -84,7 +84,7 @@
                     </md-checkbox>
                 </div>
                 <div ng-if="options.publish && isShowColumn('published')" flex="{{widthColumn}}">
-                    <ng-md-icon icon="done" style="fill: #99ccff" size="24" ng-if="instance.published"></ng-md-icon>
+                    <md-icon md-svg-src="assets/images/SVG/sent.svg" ng-if="instance.published" style="margin-top: 13px;"></md-icon>
                 </div>
                 <div layout="row" layout-align="end center" ng-cloak ng-hide="options.readOnly" flex="{{widthColumn}}">
                     <div ng-if="!instance.published">

@@ -405,6 +405,9 @@ md-list {
             }
         }
     }
+    md-icon path {
+        fill: #99ccff;
+    }
 }
 .rsvp {
     font-size: 14px;
@@ -1026,6 +1029,19 @@ md-list {
         }
         .tab {
             margin-top: -55px;
+        }
+    }
+}
+
+.check-in-guests {
+    .ui-grid-column-menu-button {
+        display: none;
+    }
+    .ui-grid-cell-contents > span:nth-child(2) {
+        position: absolute;
+        right: 0;
+        sub {
+            display: none;
         }
     }
 }

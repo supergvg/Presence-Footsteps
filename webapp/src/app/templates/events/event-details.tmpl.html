@@ -98,7 +98,7 @@
                             <md-select required name="category" placeholder="Select Type" style="padding-top: 22px" ng-model="event.category" flex="100%">
                                 <md-select-label>{{event.category || 'Event Category'}}</md-select-label>
                                 <md-option value="{{t}}" ng-repeat="t in eventCategories">
-                                    <img ng-src="assets/images/category_icons/event_category_{{t | lowercase | spaceless}}_icon.png" width="24px" height="24px"/> {{t}}
+                                    <img ng-src="assets/images/category_icons/event_category_{{t | lowercase | spaceless}}_icon.png" width="24px" height="24px" style="margin-right: 10px"/>{{t}}
                                 </md-option>
                             </md-select>
                             <div ng-messages="eventForm.category.$error" ng-if="displayErrorMessage(eventForm.category)">
