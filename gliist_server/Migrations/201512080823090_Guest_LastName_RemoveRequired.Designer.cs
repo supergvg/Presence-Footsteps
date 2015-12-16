@@ -5,8 +5,8 @@ namespace gliist_server.Migrations
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
-    
-    [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
+
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
     public sealed partial class Guest_LastName_RemoveRequired : IMigrationMetadata
     {
         private readonly ResourceManager Resources = new ResourceManager(typeof(Guest_LastName_RemoveRequired));
