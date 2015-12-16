@@ -52,6 +52,10 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -262,6 +266,9 @@
     <Compile Include="Helpers\GuestHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\PushNotificationHelper.cs" />
+    <Compile Include="Logger\Log4NetLogger.cs" />
+    <Compile Include="Logger\LogLevel.cs" />
+    <Compile Include="Logger\TraceExceptionLogger.cs" />
     <Compile Include="Migrations\201506040634259_Initial.cs" />
     <Compile Include="Migrations\201506040634259_Initial.Designer.cs">
       <DependentUpon>201506040634259_Initial.cs</DependentUpon>
@@ -374,6 +381,10 @@
     <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.Designer.cs">
       <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512160746585_GuestList_PromoterId.cs" />
+    <Compile Include="Migrations\201512160746585_GuestList_PromoterId.Designer.cs">
+      <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -434,6 +445,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="log4net.config" />
     <None Include="Properties\PublishProfiles\folder.pubxml" />
     <None Include="Properties\PublishProfiles\gjests %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\local-iis-deployment.pubxml" />
@@ -516,6 +528,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509231359460_FacebookInstagrammTwitter_Fields.resx">
       <DependentUpon>201509231359460_FacebookInstagrammTwitter_Fields.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509241134124_EventGuest_AutoCheckIn.resx">
       <DependentUpon>201509241134124_EventGuest_AutoCheckIn.cs</DependentUpon>
@@ -540,6 +553,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.resx">
       <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512160746585_GuestList_PromoterId.resx">
+      <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,6 +7,8 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Net.Http.Headers;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
+using gliist_server.Logger;
 
 namespace gliist_server
 {
@@ -23,7 +25,6 @@ namespace gliist_server
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("multipart/form-data"));
 
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -32,6 +33,8 @@ namespace gliist_server
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Services.Add(typeof(IExceptionLogger), new TraceExceptionLogger());
         }
     }
 }
