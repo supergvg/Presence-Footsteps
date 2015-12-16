@@ -11,7 +11,7 @@ namespace gliist_server.Migrations
         
         public override void Down()
         {
-            DropColumn("dbo.GuestLists", "promoter_Id");
+            //DropColumn("dbo.GuestLists", "promoter_Id");
         }
     }
 }

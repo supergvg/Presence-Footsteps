@@ -12,7 +12,7 @@ namespace gliist_server.Migrations
         
         public override void Down()
         {
-            AlterColumn("dbo.Guests", "lastName", c => c.String(nullable: false));
+            //AlterColumn("dbo.Guests", "lastName", c => c.String(nullable: false));
         }
     }
 }
