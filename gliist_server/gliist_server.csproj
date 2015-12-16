@@ -372,6 +372,10 @@
     <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.Designer.cs">
       <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512160746585_GuestList_PromoterId.cs" />
+    <Compile Include="Migrations\201512160746585_GuestList_PromoterId.Designer.cs">
+      <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -538,6 +542,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.resx">
       <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512160746585_GuestList_PromoterId.resx">
+      <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
