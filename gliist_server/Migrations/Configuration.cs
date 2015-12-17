@@ -10,7 +10,7 @@ namespace gliist_server.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(gliist_server.Models.EventDBContext context)
