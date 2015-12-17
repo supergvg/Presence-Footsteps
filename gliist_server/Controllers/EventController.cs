@@ -44,11 +44,8 @@ namespace gliist_server.Controllers
 
             var user = UserManager.FindById(userId);
 
-            //var currentDate = DateTimeOffset.Now.AddHours(-24);
-
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                 .OrderBy(e => e.time)
-                //.Where(x => x.time >= currentDate)
                 .AsEnumerable()
                 .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) >= 0 &&
                     (!user.permissions.Contains("promoter") || e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id)))
@@ -105,7 +102,6 @@ namespace gliist_server.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> GetEvent(int id)
         {
-            db.Configuration.LazyLoadingEnabled = true;
             Event @event = await db.Events.FindAsync(id);
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
@@ -117,6 +113,9 @@ namespace gliist_server.Controllers
 
             if (@event.guestLists != null)
             {
+                var totalGuestsCount = 0;
+                var actualGuests = db.EventGuests.Where(x => x.EventId == @event.id).ToList();
+
                 if (user.permissions.Contains("promoter"))
                 {
                     @event.guestLists = @event.guestLists.Where(x => x.linked_guest_list != null && x.linked_guest_list.promoter_Id == user.Id).ToList();
@@ -124,8 +123,12 @@ namespace gliist_server.Controllers
 
                 foreach (var guestListInstance in @event.guestLists)
                 {
-                    guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
+                    var guestsCount = EventHelper.GetGuestsCount(guestListInstance);
+                    guestListInstance.GuestsCount = guestsCount;
+                    totalGuestsCount += guestsCount;
                 }
+
+                @event.GuestListsHaveAdditionalGuests = totalGuestsCount > 0 && actualGuests.Count < totalGuestsCount;
             }
 
             return Ok(@event);
@@ -273,6 +276,11 @@ namespace gliist_server.Controllers
                 foreach (var gli in @event.guestLists)
                 {
                     db.Entry(gli).State = (gli.id > 0) ? EntityState.Modified : EntityState.Added;
+
+                    if (@event.NeedToUpdateEventsGuests)
+                    {
+                        AddNewGuestsFromGuestListToEvent(@event, gli, existingEvent);
+                    }
                 }
 
                 foreach (var ticketType in @event.Tickets)
@@ -297,6 +305,53 @@ namespace gliist_server.Controllers
             }
 
             return CreatedAtRoute("DefaultApi", new { id = @event.id }, @event);
+        }
+
+        private void AddNewGuestsFromGuestListToEvent(Event @event, GuestListInstance gli, Event existingEvent)
+        {
+            var guestListInstance = db.GuestListInstances.Include(x => x.linked_guest_list).FirstOrDefault(x => x.id == gli.id);
+
+            if (guestListInstance == null)
+            {
+                return;
+            }
+
+            foreach (var guest in guestListInstance.linked_guest_list.guests)
+            {
+                var eventGuest = db.EventGuests.FirstOrDefault(x => x.EventId == @event.id && x.GuestId == guest.id);
+
+                if (eventGuest == null)
+                {
+                    var guestStatus = new EventGuestStatus
+                    {
+                        EventId = @event.id,
+                        GuestListId = guestListInstance.linked_guest_list.id,
+                        GuestListInstanceId = gli.id,
+                        GuestId = guest.id,
+                        GuestListInstanceType = gli.InstanceType,
+                        AdditionalGuestsRequested = guest.plus
+                    };
+
+                    if (@event.EventGuestStatuses == null)
+                    {
+                        @event.EventGuestStatuses = existingEvent.EventGuestStatuses;
+                    }
+
+                    @event.EventGuestStatuses.Add(guestStatus);
+
+                    if (gli.InstanceType == GuestListInstanceType.Confirmed)
+                    {
+                        gli.actual.Add(new GuestCheckin()
+                        {
+                            guest = guest,
+                            guestList = gli,
+                            plus = guest.plus
+                        });
+                        guestStatus.IsAutoCheckIn = true;
+                        guestStatus.CheckInDate = DateTime.UtcNow;
+                    }
+                }
+            }
         }
 
         // DELETE api/Event/5

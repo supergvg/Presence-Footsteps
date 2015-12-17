@@ -107,6 +107,8 @@ namespace gliist_server.Controllers
                     {
                         checkin.guest.type = guestListInstance.listType;
                         db.Entry(checkin.guest).State = EntityState.Added;
+
+                        AddNewGuestToTheEventsGuests(guestListInstance, checkin);
                     }
                 }
 
@@ -120,6 +122,34 @@ namespace gliist_server.Controllers
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = guestListInstance.id }, guestListInstance);
+        }
+
+        private void AddNewGuestToTheEventsGuests(GuestListInstance guestListInstance, GuestCheckin checkin)
+        {
+            var existingGuestListInstance = db.GuestListInstances
+                    .Include(x => x.linked_guest_list)
+                    .Include(x => x.linked_event)
+                    .FirstOrDefault(x => x.id == guestListInstance.id);
+
+            if (existingGuestListInstance != null && existingGuestListInstance.linked_event != null)
+            {
+                var evnt = existingGuestListInstance.linked_event;
+                evnt.EventGuestStatuses = evnt.EventGuestStatuses ?? new List<EventGuestStatus>();
+
+                var guestStatus = new EventGuestStatus
+                {
+                    EventId = evnt.id,
+                    GuestListId = existingGuestListInstance.linked_guest_list.id,
+                    GuestListInstanceId = guestListInstance.id,
+                    GuestId = checkin.guest.id,
+                    GuestListInstanceType = guestListInstance.InstanceType,
+                    AdditionalGuestsRequested = checkin.guest.plus
+                };
+
+                evnt.EventGuestStatuses.Add(guestStatus);
+            }
+
+            db.Entry(existingGuestListInstance).State = EntityState.Detached;
         }
 
         // DELETE: api/GuestListInstances/5
