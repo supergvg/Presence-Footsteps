@@ -113,9 +113,6 @@ namespace gliist_server.Controllers
 
             if (@event.guestLists != null)
             {
-                var totalGuestsCount = 0;
-                var actualGuests = db.EventGuests.Where(x => x.EventId == @event.id).ToList();
-
                 if (user.permissions.Contains("promoter"))
                 {
                     @event.guestLists = @event.guestLists.Where(x => x.linked_guest_list != null && x.linked_guest_list.promoter_Id == user.Id).ToList();
@@ -125,13 +122,35 @@ namespace gliist_server.Controllers
                 {
                     var guestsCount = EventHelper.GetGuestsCount(guestListInstance);
                     guestListInstance.GuestsCount = guestsCount;
-                    totalGuestsCount += guestsCount;
                 }
 
-                @event.GuestListsHaveAdditionalGuests = totalGuestsCount > 0 && actualGuests.Count < totalGuestsCount;
+                @event.GuestListsHaveAdditionalGuests = CheckGuestListsHaveAdditionalGuests(@event);
             }
 
             return Ok(@event);
+        }
+
+        private bool CheckGuestListsHaveAdditionalGuests(Event evnt)
+        {
+            if (evnt.guestLists == null || 
+                evnt.guestLists.Count(x => x.linked_guest_list != null) == 0 ||
+                evnt.guestLists.Count(x => x.linked_guest_list != null && x.linked_guest_list.guests != null && x.linked_guest_list.guests.Count > 0) == 0)
+            {
+                return false;
+            }
+
+            var guestListInstancesGuestsIds = evnt.guestLists.Select(x => x.linked_guest_list).SelectMany(x => x.guests).Select(x => x.id);
+            var actualGuests = db.EventGuests.Where(x => x.EventId == evnt.id).ToList();
+
+            foreach (var guest in actualGuests)
+            {
+                if (!guestListInstancesGuestsIds.Contains(guest.GuestId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // PUT api/Event/5
