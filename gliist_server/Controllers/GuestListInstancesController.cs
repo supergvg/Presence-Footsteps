@@ -131,7 +131,7 @@ namespace gliist_server.Controllers
                     .Include(x => x.linked_event)
                     .FirstOrDefault(x => x.id == guestListInstance.id);
 
-            if (existingGuestListInstance != null && existingGuestListInstance.linked_event != null)
+            if (existingGuestListInstance != null && existingGuestListInstance.linked_event != null && existingGuestListInstance.linked_guest_list != null)
             {
                 var evnt = existingGuestListInstance.linked_event;
                 evnt.EventGuestStatuses = evnt.EventGuestStatuses ?? new List<EventGuestStatus>();

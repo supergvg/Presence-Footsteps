@@ -133,13 +133,12 @@ namespace gliist_server.Controllers
         private bool CheckGuestListsHaveAdditionalGuests(Event evnt)
         {
             if (evnt.guestLists == null || 
-                evnt.guestLists.Count(x => x.linked_guest_list != null) == 0 ||
                 evnt.guestLists.Count(x => x.linked_guest_list != null && x.linked_guest_list.guests != null && x.linked_guest_list.guests.Count > 0) == 0)
             {
                 return false;
             }
 
-            var guestListInstancesGuestsIds = evnt.guestLists.Select(x => x.linked_guest_list).SelectMany(x => x.guests).Select(x => x.id);
+            var guestListInstancesGuestsIds = evnt.guestLists.Where(x => x.linked_guest_list != null && x.linked_guest_list.guests != null).Select(x => x.linked_guest_list).SelectMany(x => x.guests).Select(x => x.id);
             var actualGuests = db.EventGuests.Where(x => x.EventId == evnt.id).ToList();
 
             foreach (var guest in actualGuests)

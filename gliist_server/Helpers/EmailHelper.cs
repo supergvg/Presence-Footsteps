@@ -272,6 +272,8 @@ namespace gliist_server.Helpers
             var qr_url = UploadQRCode(@event.id, guest.id, gli.id);
             var logo = ImageHelper.GetLogoImageUrl(from.company.logo, from.profilePictureUrl);
             var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
+            var organizer = @event.company != null && @event.company.users != null ? @event.company.users.FirstOrDefault() : null;
+            var organizerEmail = organizer != null ? organizer.UserName : "";
 
             var substitutions = new Dictionary<string, string>();
             substitutions.Add(":guest_name", string.Format("{0} {1}", guest.firstName, guest.lastName));
@@ -288,6 +290,8 @@ namespace gliist_server.Helpers
             substitutions.Add(":event_time", @event.time.ToString("hh:mm tt"));
             substitutions.Add(":event_location", string.IsNullOrEmpty(@event.location) ? "" : @event.location);
             substitutions.Add(":qr_code_url", qr_url);
+            substitutions.Add(":organizer_email", organizerEmail);
+
             return substitutions;
         }
 
