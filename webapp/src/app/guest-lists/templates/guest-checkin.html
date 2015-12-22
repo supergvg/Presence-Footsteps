@@ -58,6 +58,9 @@
         <md-button class="md-primary md-raised" ng-click="checkIn()" ng-disabled="checkingGuest">
           check in
         </md-button>
+        <md-button class="md-primary md-raised" ng-click="undoCheckIn()" ng-disabled="checkingGuest" ng-show="isCheckinDisabled()">
+          undo
+        </md-button>
         <div style="height: 50px">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="checkingGuest">
         </md-progress-circular>

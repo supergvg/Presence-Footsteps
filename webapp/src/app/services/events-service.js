@@ -60,6 +60,26 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
 
+            postGuestUndoCheckin: function (checkinData, glInstance) {
+                var d = $q.defer();
+
+                $http({
+                    method: "POST",
+                    url: "api/GuestEventController/UndoCheckinGuest",
+                    data: {
+                        guestId: checkinData.guest.id,
+                        gliId: glInstance.id,
+                        plus: checkinData.plus
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function (err) {
+                    d.reject(err);
+                });
+
+                return d.promise;
+            },
+
             getGuestCheckin: function (guestId, gliId) {
                 var d = $q.defer();
 

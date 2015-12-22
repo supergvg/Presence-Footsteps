@@ -30,7 +30,6 @@ angular.module('gliist')
             $scope.maxGuests = res.plus;
             $scope.guestCheckin = res;
             $scope.guestChecked = 1;
-
           },
           function (err) {
             if(err) {
@@ -41,9 +40,28 @@ angular.module('gliist')
           }
         ).finally(function () {
             $scope.checkingGuest = false;
-          });
+        });
       };
-
+      
+      $scope.undoCheckIn = function() {
+        $scope.checkingGuest = true;
+        eventsService.postGuestUndoCheckin($scope.guestCheckin, $scope.guestListInstance).then(
+          function (res) {
+            $scope.maxGuests = res.plus;
+            $scope.guestCheckin = res;
+            $scope.guestChecked = 0;
+          },
+          function (err) {
+            if(err) {
+              dialogService.error(err.ExceptionMessage);
+            }else{
+              dialogService.error('Oops there was a problem getting guest, please try again');
+            }
+          }
+        ).finally(function () {
+            $scope.checkingGuest = false;
+        });
+      }
 
       $scope.isCheckinDisabled = function () {
         if (!$scope.guestChecked) {
@@ -84,7 +102,6 @@ angular.module('gliist')
 
 
             $scope.guestListInstance = res.gl_instance;
-
           },
           function () {
             dialogService.error('Oops there was a problem getting guest, please try again');
