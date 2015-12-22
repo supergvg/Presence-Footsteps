@@ -65,7 +65,7 @@ angular.module('gliist')
                         cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0;float: right" title="Checkin">' +
                             '<md-button md-no-ink="\'true\'" class="md-primary" ng-click="grid.appScope.checkinGuest(row.entity)" style="border-radius: 0px!important;position:absolute;right:0;margin-top:-10px">' +
                             '<md-icon ng-show="row.entity.status == \'checked in\'" style="margin-right: 5px;margin-top: 5px" md-svg-src="assets/images/SVG/checkGreen.svg"></md-icon>' +
-                            '<md-icon class="logo-bg" ng-show="grid.appScope.guestPending(row.entity)" style="height: 53px;width: 50px;margin-top: -2px;margin-right: -6px;" md-svg-src="assets/images/SVG/edit01.svg"></md-icon>' +
+                            '<md-icon class="logo-bg" ng-show="grid.appScope.guestPending(row.entity)" style="height: 53px;width: 50px;margin-top: -2px;margin-right: -6px;" md-svg-src="assets/images/SVG/checklist.svg"></md-icon>' +
                             '</md-button>' +
                             '</div>'
                     }
