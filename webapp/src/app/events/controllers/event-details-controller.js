@@ -209,7 +209,7 @@ angular.module('gliist')
                                 title: 'Please Enter Event Title',
                                 category: 'Please Select Event Category',
                                 location: 'Please Enter Event Location',
-                                capacity: 'Please Enter Total Capacity'
+                                capacity: 'Please Enter Event Capacity'
                             },
                             pattern: {
                                 title: 'Event Title can only contain alphabets, digits and spaces'
@@ -219,7 +219,6 @@ angular.module('gliist')
                             }
                         },
                         errorMessage = [];
-                                console.log(form.$error);
                         angular.forEach(form.$error, function(value, key){
                             if (errors[key]) {
                                 angular.forEach(value, function(value1, key1){
@@ -319,15 +318,8 @@ angular.module('gliist')
                 return $scope.event.endTime || $scope.minDate;
             };
 
-
             $scope.resetPlaceholder = function () {
-
-                if (!$("input[placeholder='Enter a location']").length) {
-                    $timeout($scope.resetPlaceholder, 100);
-                    return;
-                }
-
-                $("input[placeholder='Enter a location']").attr('placeholder', '');
+                $("input[name='location']").attr('placeholder', '');
             };
 
             $scope.$watch('event.endTime', function (newValue) {

@@ -108,20 +108,19 @@
                     </div>
                     <div layout layout-sm="column">
                         <md-input-container flex="75" ng-init=resetPlaceholder()>
-                            <label>Event Location</label>
-                            <input type="text" name="location" required ng-autocomplete
-                                   ng-model="event.location" details="location.details">
+                            <label>Enter event location</label>
+                            <input type="text" name="location" required ng-autocomplete ng-model="event.location" details="location.details">
                             <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
                             <div ng-messages="eventForm.location.$error" ng-if="displayErrorMessage(eventForm.location)">
                                 <div ng-message="required">Please Enter Event Location</div>
                             </div>
                         </md-input-container>
                         <md-input-container flex="25">
-                            <label>Total Capacity</label>
+                            <label>Event Capacity</label>
                             <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1">
                             <md-icon class="input-icon" md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
                             <div ng-messages="eventForm.capacity.$error" ng-if="displayErrorMessage(eventForm.capacity)">
-                                <div ng-message="required">Please Enter Total Capacity</div>
+                                <div ng-message="required">Please Enter Event Capacity</div>
                             </div>
                         </md-input-container>
                     </div>
