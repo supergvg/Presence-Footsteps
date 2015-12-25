@@ -71,7 +71,7 @@ namespace gliist_server.Controllers
                 .ToList();
 
             var targetList = events
-                .Select(x => new EventViewModel(x) { })
+                .Select(x => new EventViewModel(x))
                 .ToList();
 
             return targetList;
@@ -82,8 +82,8 @@ namespace gliist_server.Controllers
         [Route("GuestsListsExcelFile/{eventId}")]
         public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
         {
-            var db = new EventDBContext();
-            var @event = db.Events.Find(eventId);
+            var context = new EventDBContext();
+            var @event = context.Events.Find(eventId);
             var excelFile = ExcelHelper.CreateGuestsListsExcelFile(@event.guestLists);
 
             MediaTypeHeaderValue mimeType = new MediaTypeHeaderValue("application/vnd.ms-excel");
@@ -120,7 +120,8 @@ namespace gliist_server.Controllers
 
                 foreach (var guestListInstance in @event.guestLists)
                 {
-                    var guestsCount = EventHelper.GetGuestsCount(guestListInstance);
+                    //var guestsCount = EventHelper.GetGuestsCount(guestListInstance);
+                    var guestsCount = EventHelper.GetGuestsCount2(@event, guestListInstance);
                     guestListInstance.GuestsCount = guestsCount;
                 }
 

@@ -20,8 +20,8 @@ namespace gliist_server.Controllers
     public class GuestEventController : ApiController
     {
 
-        private EventDBContext db = new EventDBContext();
-        private UserManager<UserModel> UserManager;
+        private readonly EventDBContext db = new EventDBContext();
+        private readonly UserManager<UserModel> userManager;
 
 
         [Route("DeleteGuestsGuestList")]
@@ -30,7 +30,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> DeleteGuestsGuestList(IdsModel model)
         {
             var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
 
 
             var gli = await db.GuestLists.FindAsync(model.id);
@@ -59,7 +59,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> DeleteGuestsGuestListInstance(IdsModel model)
         {
             var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
 
 
             var gli = await db.GuestListInstances.FindAsync(model.id);
@@ -121,7 +121,7 @@ namespace gliist_server.Controllers
             }
 
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             Event @event = await db.Events.Include(x => x.EventGuestStatuses).FirstOrDefaultAsync(x => x.id == eventGuestListModel.EventId);
 
@@ -195,7 +195,8 @@ namespace gliist_server.Controllers
             {
                 foreach (var guestListInstance in @event.guestLists)
                 {
-                    guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
+                    guestListInstance.GuestsCount = EventHelper.GetGuestsCount2(@event, guestListInstance);
+                    //guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
                 }
             }
             return Ok(@event.guestLists);
@@ -211,7 +212,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> ImportGuestLists(IdsModel @model)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
 
             if (@model.gl == null)
@@ -276,7 +277,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> DeleteGuestLists(IdsEventModel @model)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             Event @event = await db.Events.FindAsync(@model.eventId);
 
@@ -311,7 +312,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> AddGuest(GuestEventModel guestEvent)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             var eventId = guestEvent.eventId;
             var guest = guestEvent.guest;
@@ -366,7 +367,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> AddGuests(GuestsEventModel guestEvent)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             var eventId = guestEvent.eventId;
 
@@ -414,7 +415,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> CheckinGuest(CheckinModel checkinData)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             var gliId = checkinData.gliId;
             var guestId = checkinData.guestId;
@@ -429,12 +430,6 @@ namespace gliist_server.Controllers
             var checkin = gli.actual.Single(chkn => chkn.guest.id == guest.id);
 
             db.Entry(checkin).State = EntityState.Modified;
-
-
-            if (!guest.isPublicRegistration && guest.company.id != user.company.id)
-            {
-                return BadRequest();
-            }
 
             var totalChk = checkinData.plus;
             if (checkin.status == "no show")
@@ -552,7 +547,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> UndoCheckinGuest(CheckinModel checkinData)
         {
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             var gliId = checkinData.gliId;
             var guestId = checkinData.guestId;
@@ -568,21 +563,17 @@ namespace gliist_server.Controllers
 
             db.Entry(checkin).State = EntityState.Modified;
 
-            var totalChk = checkinData.plus;
-            if (totalChk == guest.plus + 1)
+            var totalChk = checkinData.plus + 1;
+            if (totalChk >= guest.plus + 1)
             {
                 checkin.status = "no show";
                 checkin.time = null;
-
-                totalChk--;
+                checkin.plus = 0;
             }
-
-            if (!guest.isPublicRegistration && guest.company.id != user.company.id)
+            else
             {
-                return BadRequest();
+                checkin.plus += totalChk;
             }
-
-            checkin.plus = checkin.plus + totalChk;
 
             await db.SaveChangesAsync();
 
@@ -596,7 +587,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PublishEvent(IdsEventModel eventPublishModel)
         {
             var userId = User.Identity.GetUserId();
-            UserModel user = UserManager.FindById(userId);
+            UserModel user = userManager.FindById(userId);
 
             if (user.permissions.Contains("promoter"))
             {
@@ -780,7 +771,7 @@ namespace gliist_server.Controllers
             blob.UploadFromStream(picData.Item2);
 
             var userId = User.Identity.GetUserId();
-            UserModel user = await UserManager.FindByIdAsync(userId);
+            UserModel user = await userManager.FindByIdAsync(userId);
 
             Event @event = await db.Events.FindAsync(eventId);
             if (@event == null || @event.company.id != user.company.id)
@@ -806,7 +797,7 @@ namespace gliist_server.Controllers
 
         public GuestEventController()
         {
-            UserManager = Startup.UserManagerFactory(db);
+            userManager = Startup.UserManagerFactory(db);
         }
     }
 }
