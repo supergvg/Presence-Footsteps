@@ -17,3 +17,4 @@
 /gliist_server/Logs
 /pass
 /*.suo
+/gliist_server.Tests/obj/Debug

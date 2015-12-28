@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
+using gliist_server.Models.GuestListInstances;
 
 namespace gliist_server.Controllers
 {
@@ -14,7 +15,7 @@ namespace gliist_server.Controllers
     [Authorize]
     public class GuestListInstancesController : ApiController
     {
-        private EventDBContext db = new EventDBContext();
+        private readonly EventDBContext db = new EventDBContext();
 
         // GET: api/GuestListInstances
         public IEnumerable<GuestListInstance> GetGuestListInstances()
@@ -25,7 +26,7 @@ namespace gliist_server.Controllers
         }
 
         // GET: api/GuestListInstances/5
-        [ResponseType(typeof(GuestListInstance))]
+        [ResponseType(typeof (GuestListInstance))]
         public async Task<IHttpActionResult> GetGuestListInstance(int id)
         {
             GuestListInstance guestListInstance = await db.GuestListInstances.FindAsync(id);
@@ -33,6 +34,8 @@ namespace gliist_server.Controllers
             {
                 return NotFound();
             }
+
+            RsvpGuestListInstancePatch.Run(guestListInstance, db.EventGuests.Where(x => x.GuestListInstanceId == id));
 
             return Ok(guestListInstance);
         }
@@ -121,35 +124,8 @@ namespace gliist_server.Controllers
             return CreatedAtRoute("DefaultApi", new { id = guestListInstance.id }, guestListInstance);
         }
 
-        private void AddNewGuestToTheEventsGuests(GuestListInstance guestListInstance, GuestCheckin checkin)
-        {
-            var existingGuestListInstance = db.GuestListInstances
-                    .Include(x => x.linked_guest_list)
-                    .Include(x => x.linked_event)
-                    .FirstOrDefault(x => x.id == guestListInstance.id);
-
-            if (existingGuestListInstance != null && existingGuestListInstance.linked_event != null && existingGuestListInstance.linked_guest_list != null)
-            {
-                var evnt = existingGuestListInstance.linked_event;
-                evnt.EventGuestStatuses = evnt.EventGuestStatuses ?? new List<EventGuestStatus>();
-
-                var guestStatus = new EventGuestStatus
-                {
-                    EventId = evnt.id,
-                    GuestListId = existingGuestListInstance.linked_guest_list.id,
-                    GuestListInstanceId = guestListInstance.id,
-                    GuestId = checkin.guest.id,
-                    GuestListInstanceType = guestListInstance.InstanceType,
-                    AdditionalGuestsRequested = checkin.guest.plus
-                };
-
-                evnt.EventGuestStatuses.Add(guestStatus);
-            }
-
-            db.Entry(existingGuestListInstance).State = EntityState.Detached;
-        }
-
         // DELETE: api/GuestListInstances/5
+
         [ResponseType(typeof(GuestListInstance))]
         public async Task<IHttpActionResult> DeleteGuestListInstance(int id)
         {
@@ -174,9 +150,43 @@ namespace gliist_server.Controllers
             base.Dispose(disposing);
         }
 
+        #region private methods
+
+        private void AddNewGuestToTheEventsGuests(GuestListInstance guestListInstance, GuestCheckin checkin)
+        {
+            var existingGuestListInstance = db.GuestListInstances
+                .Include(x => x.linked_guest_list)
+                .Include(x => x.linked_event)
+                .FirstOrDefault(x => x.id == guestListInstance.id);
+
+            if (existingGuestListInstance != null && existingGuestListInstance.linked_event != null &&
+                existingGuestListInstance.linked_guest_list != null)
+            {
+                var evnt = existingGuestListInstance.linked_event;
+                evnt.EventGuestStatuses = evnt.EventGuestStatuses ?? new List<EventGuestStatus>();
+
+                var guestStatus = new EventGuestStatus
+                {
+                    EventId = evnt.id,
+                    GuestListId = existingGuestListInstance.linked_guest_list.id,
+                    GuestListInstanceId = guestListInstance.id,
+                    GuestId = checkin.guest.id,
+                    GuestListInstanceType = guestListInstance.InstanceType,
+                    AdditionalGuestsRequested = checkin.guest.plus
+                };
+
+                evnt.EventGuestStatuses.Add(guestStatus);
+            }
+
+            db.Entry(existingGuestListInstance).State = EntityState.Detached;
+        }
+
         private bool GuestListInstanceExists(int id)
         {
             return db.GuestListInstances.Count(e => e.id == id) > 0;
         }
+
+        #endregion
+
     }
 }
