@@ -44,37 +44,6 @@ section.jumbotron {
     }
 }
 
-.techs {
-    display: flex;
-    flex-flow: row wrap;
-
-    md-card {
-        width: 30%;
-
-        img.pull-right {
-            float: right;
-            width: 50px;
-        }
-    }
-}
-
-.myGrid {
-    width: 500px;
-    height: 250px;
-}
-
-.white-bg {
-    background-color: white !important;
-}
-
-.input-icon {
-    position: absolute;
-    right: 15px;
-
-    top: 34px !important;
-    left: auto !important;
-}
-
 md-input-container.md-default-theme .md-input,
 md-select.md-default-theme .md-select-label {
     background-color: white !important;
@@ -87,10 +56,6 @@ span.error {
 
 md-select:not([disabled]):focus .md-select-label {
     border-bottom-color: #00ddff;
-}
-
-md-content {
-    background-color: #ececec !important;
 }
 
 md-dialog {
@@ -152,10 +117,6 @@ md-dialog {
     background-color: #aaaaaa !important;
 }
 
-.centered {
-    margin: 0 auto
-}
-
 .rounded {
     height: 40px;
     margin-left: 15px;
@@ -165,15 +126,6 @@ md-dialog {
     -moz-border-radius: 25px !important;
     /* webkit */
     -webkit-border-radius: 25px !important;
-}
-
-.top-title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #aaaaaa;
-
 }
 
 .text-bg {
@@ -197,10 +149,16 @@ md-dialog {
 .ui-grid-header-cell {
     background-color: #ECECEC !important;
     border: none !important;
+    color: #A9A9A9 !important;
 }
 
 .ui-grid-row.ui-grid-cell.ui-grid-cell-contents {
     background-color: white !important;
+}
+
+.ui-grid-viewport {
+    //overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
 .md-select-label > *:first-child {
@@ -215,13 +173,6 @@ md-dialog {
     transform: translate3d(0, 2px, 0); 
 }
 
-.ui-grid-viewport {
-    //overflow-y: auto !important;
-    overflow-x: hidden !important;
-}
-
-// injector
-// endinjector
 .capitalize {
     text-transform: capitalize;
 }
@@ -235,6 +186,39 @@ md-dialog {
 .md-button {
     min-width: 30px;
     min-height: 30px;
+    box-shadow: 0 3px 0 0 #7ab9f8 !important;
+    color: #fff;
+    font-weight: bold;
+}
+
+.icon-btn {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    ng-md-icon {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%); 
+        height: 24px;
+        fill: white;
+    }
+}
+
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 34px !important;
+    left: auto !important;
+}
+
+.actions {
+    & > *:not(:first-child) {
+        margin-left: 20px !important;
+    }
 }
 
 .item-border-white {
@@ -245,21 +229,10 @@ md-dialog {
     border-style: solid;
 }
 
-.ui-grid-header-cell {
-    color: #A9A9A9 !important;
-    background-color: #E0E0E0 !important;
-    border: none !important;
-}
-
-.btn-info.active {
-    background-color: #99ccff;
-}
-
-.btn-success {
-    background-color: #99ccff;
-}
-
-.btn-info {
+.btn-info,
+.btn-info.active,
+.btn-success
+{
     background-color: #99ccff;
 }
 
@@ -306,11 +279,12 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 /* Main styles */
 
 .section-title {
-    background-color: #aaaaaa;
-    color: white;
+    background-color: #e6e6e6;
+    color: #666;
+    padding: 10px 15px;
     & > h3 {
-        padding: 15px 0 15px 20px;
         margin: 0;
+        font-size: 28px;
     }
 }
 
@@ -371,9 +345,13 @@ md-input-container {
 }
 
 md-list {
+    padding-bottom: 0;
     md-list-item {
-        &:not(:last-child) {
-            border-bottom: #fff solid;
+        &:nth-child(even) {
+            background: #f0f6fb;
+        }
+        &:nth-child(odd) {
+            background: #fff;
         }
     }
 }
@@ -392,10 +370,8 @@ md-list {
         }
     }
 }
-.guest-list {
+.guest-list-instance {
     md-list {
-        padding-bottom: 0;
-
         md-list-item {
             & > div > div > div {
                 padding-right: 20px;
@@ -409,6 +385,21 @@ md-list {
         fill: #99ccff;
     }
 }
+
+.guest-list-viewer {
+    md-list {
+        md-list-item {
+            font-size: 16px;
+            color: #666;
+            border: none;
+            &:first-child h4 {
+                font-weight: bold;
+                margin: 20px 0;
+            }
+        }
+    }
+}
+
 .rsvp {
     font-size: 14px;
     color: #aaaaaa;

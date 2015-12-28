@@ -8,7 +8,7 @@
         <md-list-item ng-class="getItemClass($last)"
                       ng-repeat="event in events | limitTo:(options.limit || events.length)"
                       style="margin-bottom: 5px;">
-            <div layout="row" flex style="background-color:#FFFFFF;height: 120px">
+            <div layout="row" flex style="height: 120px">
                 <div flex="15" ng-style="getEventInvite(event)"></div>
 
                 <div flex="55" style="padding-left: 15px; padding-top: 15px;" layout="row">
