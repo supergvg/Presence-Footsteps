@@ -4,13 +4,6 @@ angular.module('gliist')
     .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService',
         function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams, userService) {
 
-            $scope.getRowStyle = function (checkin) {
-                return {
-                    'background-color': 'white',
-                    'border-bottom': 'thin inset #ECECEC'
-                };
-            };
-
             var instanceType = ~~$stateParams.instanceType,
                 columnDefs = [
                     {field: 'firstName', name: 'First Name', enableHiding: false},
@@ -31,11 +24,11 @@ angular.module('gliist')
             $scope.gridOptions = {
                 rowTemplate: '<div' +
                     '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
+                    'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
                     ' ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: columnDefs,
-                rowHeight: 35,
+                rowHeight: 45,
                 tabIndex: 0,
                 enableCellSelection: true,
                 enableCellEditOnFocus: true,
