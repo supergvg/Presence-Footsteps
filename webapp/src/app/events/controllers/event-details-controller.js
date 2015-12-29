@@ -40,10 +40,7 @@ angular.module('gliist')
             };
 
             $scope.getSelected = function (idx) {
-                if ($scope.data.selectedIndex == idx) {
-                    return 'logo-bg';
-                }
-
+                return ($scope.data.selectedIndex == idx);
             };
 
             $scope.getEventInvite = function (height) {
@@ -316,10 +313,6 @@ angular.module('gliist')
             };
             $scope.endMaxDate = function () {
                 return $scope.event.endTime || $scope.minDate;
-            };
-
-            $scope.resetPlaceholder = function () {
-                $("input[name='location']").attr('placeholder', '');
             };
 
             $scope.$watch('event.endTime', function (newValue) {
