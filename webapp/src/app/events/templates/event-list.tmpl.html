@@ -62,7 +62,7 @@
                             <md-tooltip md-direction="top">Preview event</md-tooltip>
                             <md-icon md-svg-src="assets/images/SVG/play.svg" style="fill: #99ccff" size="24"></md-icon>
                         </md-button>
-                        <md-button flex class="logo-event-list-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
+                        <md-button flex class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
                             <md-tooltip md-direction="top">event stats</md-tooltip>
                             <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
                         </md-button>
@@ -75,7 +75,7 @@
                             <md-tooltip md-direction="top">Edit event</md-tooltip>
                             <ng-md-icon icon="mode_edit" style="fill: #99ccff" size="24"></ng-md-icon>
                         </md-button>
-                        <md-button flex class="logo-event-list-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ng-click="deleteEvent($event,event)">
+                        <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ng-click="deleteEvent($event,event)">
                             <md-tooltip md-direction="top">Delete event</md-tooltip>
                             <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
                         </md-button>

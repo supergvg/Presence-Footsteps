@@ -1,22 +1,16 @@
-<md-dialog flex="80" layout-padding>
-
-
-  <div layout="row" layout-wrap style="margin-bottom: 8px">
-    <div flex class="section-title">
-      <h3>Link Previous Guest List</h3>
+<md-dialog flex="80">
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>Link Previous Guest List</h3>
     </div>
-  </div>
-  <md-content style="overflow-x: hidden">
-    <guest-list-view selected="selected" options="options"></guest-list-view>
-  </md-content>
-
-  <div class="md-actions" layout="row">
-    <md-button ng-click="cancel()">
-      Cancel
-    </md-button>
-    <md-button ng-click="importGLists(selected)" class="md-primary">
-      Import
-    </md-button>
-  </div>
-
+    <md-content style="overflow-x: hidden">
+        <guest-list-view selected="selected" options="options"></guest-list-view>
+    </md-content>
+    <div class="actions" layout="row" layout-align="end center">
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="importGLists(selected)">
+            Import
+        </md-button>
+    </div>
 </md-dialog>

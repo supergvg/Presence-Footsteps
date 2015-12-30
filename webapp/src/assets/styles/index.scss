@@ -1,7 +1,10 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
+p,
+h4,
 html {
     font-family: 'Arial', serif;
+    color: #666;
 }
 
 [layout=row] {
@@ -33,14 +36,17 @@ md-checkbox.md-default-theme.md-checked .md-icon,
     background-color: #99ccff !important;
 }
 
+.btn-link,
+.text-bg {
+    color: #99ccff !important;
+}
+
 section.jumbotron {
     margin-bottom: 30px;
     padding: 1px 30px;
     background-color: #99ccff;
     text-align: center;
-
     color: white;
-
     h1 {
         font-size: 3em;
     }
@@ -49,23 +55,6 @@ section.jumbotron {
 span.error {
     color: rgb(244,67,54);
     font-size: 12px;
-}
-
-md-dialog {
-    background-color: #ececec !important;
-}
-
-.md-primary.md-raised {
-    border-radius: 25px !important;
-    /* mozilla */
-    -moz-border-radius: 25px !important;
-    /* webkit */
-    -webkit-border-radius: 25px !important;
-    background-color: #99ccff !important;
-    color: white !important;
-    padding: 0 20px;
-    margin: 0;
-    width: 150px;
 }
 
 .wht-button {
@@ -86,15 +75,6 @@ md-dialog {
     padding-bottom: 6px;
 }
 
-.logo-event-list-btn {
-    background-color: #99ccff !important;
-    color: white !important;
-    margin: 0 !important;
-    width: 50px;
-    border-radius: 0 !important;
-    padding-top: 12px;
-}
-
 .left-align {
     position: absolute;
     left: 15px;
@@ -102,11 +82,6 @@ md-dialog {
 
 .item-selected {
     background-color: #aaaaaa !important;
-}
-
-.btn-link,
-.text-bg {
-    color: #99ccff !important;
 }
 
 .no-selection {
@@ -117,7 +92,6 @@ md-dialog {
     -o-user-select: none;
 }
 
-
 div[ui-grid] {
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -126,9 +100,10 @@ div[ui-grid] {
     height: 300px;  
     .ui-grid-cell {
         border: none !important;
+        padding: 12px;
     }
     .ui-grid-cell-contents {
-        padding-top: 12px;
+        padding: 0;
         & > span:nth-child(2) sub {
             display: none;
         }
@@ -138,6 +113,7 @@ div[ui-grid] {
         border: none !important;
         font-weight: bold;
         height: 45px;
+        padding: 12px;
     }
     .ui-grid-viewport {
         overflow-x: hidden !important;
@@ -180,7 +156,7 @@ div[ui-grid] {
     border-style: solid;
 }
 
-.interval {
+.margin-top {
     margin-top: 15px;
 }
 
@@ -200,21 +176,39 @@ p {
     -webkit-margin-end: 0px;
 }
 
+.md-primary.md-raised {
+    border-radius: 25px !important;
+    /* mozilla */
+    -moz-border-radius: 25px !important;
+    /* webkit */
+    -webkit-border-radius: 25px !important;
+    background-color: #99ccff !important;
+    color: #fff !important;
+    padding: 0 20px;
+    margin: 0;
+    width: 150px;
+    box-shadow: 0 3px 0 0 #7ab9f8 !important;
+}
+
 .md-button {
     min-width: 30px;
     min-height: 30px;
-    box-shadow: 0 3px 0 0 #7ab9f8 !important;
-    color: #fff;
+    color: #666;
     font-weight: bold;
+    &:hover {
+        background-color: #aaddff !important;
+    }
 }
 
 .icon-btn {
     width: 35px;
     height: 35px;
     padding: 0;
+    margin: 0;
     border-radius: 5px !important;
     -moz-border-radius: 5px !important;
     -webkit-border-radius: 5px !important;
+    background-color: #99ccff;
     ng-md-icon {
         position: absolute;
         top: 50%;
@@ -243,10 +237,10 @@ p {
 
 .block-field {
     padding: 20px 0;
+    color: #666;
     border-bottom: 1px solid #e6e6e6;
     & > h4 {
         font-weight: bold;
-        color: #666;
         margin: 0 0 15px 0;
     }
     md-input-container+md-input-container {
@@ -264,7 +258,7 @@ p {
     & > h3 {
         margin: 0;
     }
-    height: 55px;
+    min-height: 55px;
 }
 
 .section-label {
@@ -302,7 +296,6 @@ input.form-control {
     }
     h4 {
         font-weight: bold;
-        color: #666;
         margin: 0;
     }
 }
@@ -401,7 +394,6 @@ md-input-container {
         }
         & > h4 {
             font-weight: bold;
-            color: #666;
             margin: 15px 0;
         }
     }
@@ -409,7 +401,6 @@ md-input-container {
 
 md-list {
     padding: 0;
-    color: #8e8e8e;
     font-size: 16px;
     &.zebra md-list-item {
         &:nth-child(even) {
@@ -422,8 +413,9 @@ md-list {
 }
 
 md-radio-button {
-    color: #666;
+    overflow-x: hidden;
     margin: 0;
+    color: #666;
     .md-container {
         top: 0;
         vertical-align: middle;
@@ -456,20 +448,42 @@ md-radio-button {
         }
     }
 }
+
+.waiting {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+}
         
-.guest-list-instance {
+.guest-list-instance-viewer {
     md-list {
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border: 1px solid #ccc;
         md-list-item {
-            & > div > div > div {
-                padding-right: 20px;
+            min-height: 40px;
+            .md-list-item-inner {
+                min-height: 40px;
             }
-            &:first-child > div {
+            &:first-child {
                 font-weight: bold;
+                background-color: #e6e6e6;
+                & > div {
+                    padding: 10px;
+                }
+            }
+            p {
+                margin: 0;
+                padding: 10px;
+            }
+            .actions {
+                margin: 0;
+            }
+            md-input-container {
+                width: 90px;
             }
         }
-    }
-    md-icon path {
-        fill: #99ccff;
     }
 }
 
@@ -483,11 +497,45 @@ md-radio-button {
                 font-weight: bold;
                 margin: 20px 0;
             }
+            md-checkbox {
+                margin: 0;
+                .md-icon {
+                    border-color: #aaa;
+                }
+            }
         }
     }
 }
 
-.rsvp {
+md-dialog {
+    overflow-x: hidden;
+    .actions,
+    md-content {
+        padding: 10px 20px;
+    }
+    .guest-list-viewer {
+        md-list {
+            &.zebra md-list-item {
+                &:nth-child(even) {
+                    background: #fff;
+                }
+            }
+            md-list-item {
+                border-bottom: 1px solid #e6e6e6;
+                p {
+                    margin: 0;
+                    padding: 12px 0;
+                }
+                h4 {
+                    margin: 12px 0 !important;
+                }
+            }
+        }
+    }
+}
+
+
+.event-tab {
     .price-block {
         width: 290px;
         float: left;
@@ -1031,7 +1079,6 @@ md-radio-button {
 }
 
 .event-details-page {
-    color: #666;
     .tabs {
         .line {
             background-color: #e6e6e6;

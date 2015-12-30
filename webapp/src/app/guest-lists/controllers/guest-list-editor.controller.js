@@ -32,7 +32,8 @@ angular.module('gliist')
                 tabIndex: 0,
                 enableCellSelection: true,
                 enableCellEditOnFocus: true,
-                noTabInterference: true
+                noTabInterference: true,
+                selectionRowHeaderWidth: 50
             };
 
             $scope.gridOptions.onRegisterApi = function (gridApi) {

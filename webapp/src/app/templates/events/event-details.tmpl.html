@@ -1,6 +1,6 @@
 <div ng-init="init()" class="event-details-page">
 
-    <div layout="row"  layout-align="space-between center" class="tabs interval">
+    <div layout="row"  layout-align="space-between center" class="tabs margin-top">
         <div flex="5" class="tab">
             <div class="line"></div>
             <h5 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h5>
@@ -191,7 +191,7 @@
              ng-switch-when="2"
              md-swipe-left="next()"
              md-swipe-right="previous()"
-             class="rsvp">
+             class="event-tab">
             <div>
                 <form name="rsvpForm">
                     <div class="block-field" layout="column">
@@ -290,59 +290,64 @@
              aria-labelledby="tab4"
              ng-switch-when="3"
              md-swipe-left="next()"
-             md-swipe-right="previous()"
-             class="guests">
+             md-swipe-right="previous()">
             <div>
-                <md-list style="color: #aaaaaa;">
-                    <md-list-item layout="row" style="border-bottom: #fff solid;">
-                        <div flex>
-                            <p>Link previous guest list</p>
-                        </div>
-                        <div flex layout="row" layout-align="end center">
-                            <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event, 1)" style="margin:15px;">
-                                Link
-                            </md-button>
-                        </div>
-                    </md-list-item>
-                    <md-list-item layout="row" style="border-bottom: #fff solid;">
-                        <div flex>
-                            <p>Create new guest list</p>
-                        </div>
-                        <div flex layout="row" layout-align="end center">
-                            <md-button class="md-primary md-raised" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 1})" style="margin:15px;">
-                                Create
-                            </md-button>
-                        </div>
-                    </md-list-item>
-                </md-list>
-                <md-list style="color: #aaaaaa;" ng-if="event.type !== 1">
-                    <md-list-item layout="row" style="border-bottom: #fff solid;">
-                        <div flex>
-                            <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
-                        </div>
-                        <div flex layout="row" layout-align="end center">
-                            <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)" style="margin:15px;">
-                                Link
-                            </md-button>
-                        </div>
-                    </md-list-item>
-                    <md-list-item layout="row" style="border-bottom: #fff solid;">
-                        <div flex>
-                            <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
-                        </div>
-                        <div flex layout="row" layout-align="end center">
-                            <md-button class="md-primary md-raised" ui-sref="main.create_gl_event({eventId: event.id, instanceType: event.type === 3 ? 3 : 2})" style="margin:15px;">
-                                Create
-                            </md-button>
-                        </div>
-                    </md-list-item>
-                </md-list>
-                <div>
+                <div class="block-field">
+                    <h4>Send event confirmation invite to</h4>
+                    <md-list>
+                        <md-list-item layout="row">
+                            <div flex>
+                                <p>Link previous guest list</p>
+                            </div>
+                            <div flex layout="row" layout-align="end center">
+                                <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event, 1)">
+                                    Link
+                                </md-button>
+                            </div>
+                        </md-list-item>
+                        <md-list-item layout="row">
+                            <div flex>
+                                <p>Create new guest list</p>
+                            </div>
+                            <div flex layout="row" layout-align="end center">
+                                <md-button class="md-primary md-raised" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 1})">
+                                    Create
+                                </md-button>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+                <div class="block-field" ng-if="event.type !== 1">
+                    <h4>Send RSVP to</h4>
+                    <md-list>
+                        <md-list-item layout="row">
+                            <div flex>
+                                <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
+                            </div>
+                            <div flex layout="row" layout-align="end center">
+                                <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
+                                    Link
+                                </md-button>
+                            </div>
+                        </md-list-item>
+                        <md-list-item layout="row">
+                            <div flex>
+                                <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
+                            </div>
+                            <div flex layout="row" layout-align="end center">
+                                <md-button class="md-primary md-raised" ui-sref="main.create_gl_event({eventId: event.id, instanceType: event.type === 3 ? 3 : 2})">
+                                    Create
+                                </md-button>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+                <div class="block-field">
+                    <h4>Guest Lists</h4>
                     <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
                 </div>
             </div>
-
-            <div layout="row" layout-align="end center" style="margin-top: 10px;">
+            <div layout="row" layout-align="end center" class="actions">
                 <md-button class="md-primary md-raised" ng-click="previous()">
                     Back
                 </md-button>
@@ -359,7 +364,6 @@
              ng-switch-when="4"
              md-swipe-left="next()"
              md-swipe-right="previous()">
-
             <event-publish event-id="event.id" options="previewOptions"></event-publish>
         </div>
     </ng-switch>
