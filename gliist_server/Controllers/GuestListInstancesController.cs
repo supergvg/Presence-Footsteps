@@ -99,7 +99,8 @@ namespace gliist_server.Controllers
                     {
                         db.Entry(checkin).State = EntityState.Modified;
                     }
-                    else
+                    else if (guestListInstance.InstanceType != GuestListInstanceType.Rsvp &&
+                             guestListInstance.InstanceType != GuestListInstanceType.PublicRsvp)
                     {
                         db.Entry(checkin).State = EntityState.Added;
 
