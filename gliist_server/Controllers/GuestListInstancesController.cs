@@ -76,7 +76,7 @@ namespace gliist_server.Controllers
         }
 
         // POST: api/GuestListInstances
-        [ResponseType(typeof(GuestListInstance))]
+        [ResponseType(typeof (GuestListInstance))]
         public async Task<IHttpActionResult> PostGuestListInstance(GuestListInstance guestListInstance)
         {
             if (!ModelState.IsValid)
@@ -84,17 +84,23 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
+            var checkins = guestListInstance.actual.ToArray();
+
+            if (guestListInstance.InstanceType == GuestListInstanceType.Rsvp ||
+                guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp)
+                guestListInstance.actual.Clear();
+
 
             if (guestListInstance.id > 0)
             {
-                foreach (var checkin in guestListInstance.actual)
+                foreach (var checkin in checkins)
                 {
-
                     if (checkin.id > 0)
                     {
                         db.Entry(checkin).State = EntityState.Modified;
                     }
-                    else
+                    else if (guestListInstance.InstanceType != GuestListInstanceType.Rsvp &&
+                             guestListInstance.InstanceType != GuestListInstanceType.PublicRsvp)
                     {
                         db.Entry(checkin).State = EntityState.Added;
 
@@ -119,9 +125,11 @@ namespace gliist_server.Controllers
                 db.GuestListInstances.Add(guestListInstance);
             }
 
+
+
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = guestListInstance.id }, guestListInstance);
+            return CreatedAtRoute("DefaultApi", new {id = guestListInstance.id}, guestListInstance);
         }
 
         // DELETE: api/GuestListInstances/5
