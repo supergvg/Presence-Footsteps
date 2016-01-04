@@ -76,7 +76,7 @@ namespace gliist_server.Controllers
         }
 
         // POST: api/GuestListInstances
-        [ResponseType(typeof(GuestListInstance))]
+        [ResponseType(typeof (GuestListInstance))]
         public async Task<IHttpActionResult> PostGuestListInstance(GuestListInstance guestListInstance)
         {
             if (!ModelState.IsValid)
@@ -129,7 +129,7 @@ namespace gliist_server.Controllers
 
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = guestListInstance.id }, guestListInstance);
+            return CreatedAtRoute("DefaultApi", new {id = guestListInstance.id}, guestListInstance);
         }
 
         // DELETE: api/GuestListInstances/5
