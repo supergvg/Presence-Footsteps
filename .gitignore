@@ -18,3 +18,5 @@
 /pass
 /*.suo
 /gliist_server.Tests/obj/Debug
+/gliist_server.Tests/bin/Debug
+/gliist_server.Tests/obj/Release

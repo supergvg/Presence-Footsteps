@@ -15,11 +15,9 @@ namespace gliist_server.Controllers
     [RoutePrefix("api/rsvp")]
     public class RsvpController : ApiController
     {
-        private EventDBContext db;
-        private bool isInitialized = false;
+        private readonly EventDBContext db;
 
         public RsvpController()
-            : base()
         {
             db = new EventDBContext();
         }

@@ -84,12 +84,17 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
+            var checkins = guestListInstance.actual.ToArray();
+
+            if (guestListInstance.InstanceType == GuestListInstanceType.Rsvp ||
+                guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp)
+                guestListInstance.actual.Clear();
+
 
             if (guestListInstance.id > 0)
             {
-                foreach (var checkin in guestListInstance.actual)
+                foreach (var checkin in checkins)
                 {
-
                     if (checkin.id > 0)
                     {
                         db.Entry(checkin).State = EntityState.Modified;
@@ -118,6 +123,8 @@ namespace gliist_server.Controllers
             {
                 db.GuestListInstances.Add(guestListInstance);
             }
+
+            
 
             await db.SaveChangesAsync();
 
