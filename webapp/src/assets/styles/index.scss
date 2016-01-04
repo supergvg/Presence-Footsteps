@@ -468,6 +468,7 @@ md-radio-button {
             }
             &:first-child {
                 font-weight: bold;
+                color: #666;
                 background-color: #e6e6e6;
                 & > div {
                     padding: 10px;
@@ -531,64 +532,6 @@ md-dialog {
                 }
             }
         }
-    }
-}
-
-
-.event-tab {
-    .price-block {
-        width: 290px;
-        float: left;
-    }
-    .price-block:nth-last-child(n+2) {
-        margin: 0 15px 15px 0;
-    }
-    .title-price,
-    .price-block {
-        border-bottom: 2px dashed #8e8e8e;
-    }
-    .title-price md-input-container {
-        padding: 0;
-
-        &:first-child input {
-            font-size: 14px !important;
-            text-align: left;
-            padding-left: 15px;
-        }
-        &:nth-child(2) {
-            position: relative;
-            font-size: 24px !important;
-
-            input {
-                text-align: right;
-                padding-right: 5px;
-                font-size: 24px !important;
-            }
-            &:before {
-                content: '$ ';
-                position: absolute;
-                left: 0;
-                top: 5px;
-                color: #99ccff;
-            }
-        }
-    }
-    .price-blocks {
-        margin-top: 15px;
-        display: inline-block;
-    }
-    .price-options a {
-        display: block;
-        font-size: 11px;
-        line-height: 25px;
-        padding-left: 20px;
-        text-decoration: none;
-        cursor: pointer;
-
-        &.active {
-            background-color: #99ccff;
-            color: #fff;
-        }    
     }
 }
 
@@ -1075,6 +1018,9 @@ md-dialog {
     }
     .footer {
         background-color: #aaa;
+        p {
+            color: #fff;
+        }
     }
 }
 
@@ -1114,6 +1060,121 @@ md-dialog {
         }
         .md-button.md-fab {
             background-color: #d0d0d0;
+        }
+    }
+}
+
+.event-tab {
+    .price-block {
+        width: 290px;
+        float: left;
+    }
+    .price-block:nth-last-child(n+2) {
+        margin: 0 15px 15px 0;
+    }
+    .title-price,
+    .price-block {
+        border-bottom: 2px dashed #8e8e8e;
+    }
+    .title-price md-input-container {
+        padding: 0;
+
+        &:first-child input {
+            font-size: 14px !important;
+            text-align: left;
+            padding-left: 15px;
+        }
+        &:nth-child(2) {
+            position: relative;
+            font-size: 24px !important;
+
+            input {
+                text-align: right;
+                padding-right: 5px;
+                font-size: 24px !important;
+            }
+            &:before {
+                content: '$ ';
+                position: absolute;
+                left: 0;
+                top: 5px;
+                color: #99ccff;
+            }
+        }
+    }
+    .price-blocks {
+        margin-top: 15px;
+        display: inline-block;
+    }
+    .price-options a {
+        display: block;
+        font-size: 11px;
+        line-height: 25px;
+        padding-left: 20px;
+        text-decoration: none;
+        cursor: pointer;
+
+        &.active {
+            background-color: #99ccff;
+            color: #fff;
+        }    
+    }
+}
+
+.event-preview {
+    background-color: #f5f9fc;
+    color: #666;
+    margin-bottom: 50px;
+    div[flex] {
+        overflow: hidden;
+    }
+    .event-image {
+        width:220px;
+        background-position-x: 0 !important;
+    }
+    .event-descr {
+        padding-left: 10px;
+        h2 {
+            font-weight: bold;
+            margin: 0 0 50px 0;
+        }
+        .links {
+            padding-top: 10px;
+        }
+    }
+    .date {
+        width: 80px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        .dayOfWeek {
+            width: 100%;
+            padding: 25px;
+            border-bottom: 2px solid #fff;
+        }
+        .month {
+            padding-top: 45px;
+        }
+        .day {
+            font-size: 32px;
+            line-height: 1;
+        }
+    }
+    .time {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 25px 0;
+        border-bottom: 2px solid #fff;
+        width: 100%;
+    }
+    .event-prop {
+        padding-right: 25px;
+        & > div:first-child {
+            margin-bottom: 10px;
+        }
+        md-icon,
+        img {
+            margin-right: 10px;
         }
     }
 }
