@@ -92,12 +92,18 @@ div[ui-grid] {
         font-weight: bold;
         height: 45px;
         padding: 12px;
+        .sortable span.ui-grid-invisible {
+            visibility: visible;
+            .ui-grid-icon-blank:before {
+                content: '\c359\a\c358';
+                white-space: pre;
+                line-height: 0.5;
+                vertical-align: middle;
+            }
+        }
     }
     .ui-grid-viewport {
         overflow-x: hidden !important;
-    }
-    .ui-grid-column-menu-button {
-        display: none;
     }
     .ui-grid-row {
         &:nth-child(even) .ui-grid-cell {
@@ -506,6 +512,9 @@ md-radio-button {
                 width: 90px;
             }
         }
+    }
+    h4 + h4 {
+        margin-left: 50px;
     }
 }
 
