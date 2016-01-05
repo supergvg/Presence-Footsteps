@@ -449,7 +449,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="log4net.config" />
-    <None Include="Properties\PublishProfiles\folder.pubxml" />
     <None Include="Properties\PublishProfiles\gjests %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\local-iis-deployment.pubxml" />
   </ItemGroup>
