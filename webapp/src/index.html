@@ -30,63 +30,37 @@
         <div style="display: none;" id="placesNode">
 
         </div>
-        <div id="loading" layout="column" layout-align="center center" layout-fill class="logo-bg" style="background-color:#99ccff;color:white;z-index:100;position: absolute;top:0;left: 0;">
+        <div id="loading" layout="column" layout-align="center center" layout-fill class="logo-bg">
             <div>
-                <img src="assets/images/gliist_logo.png" style="height:37.8px">
+                <img src="assets/images/gliist_logo.png" class="logo">
             </div>
             <div layout="row">
-                <h2 class=".md-display-1">Loading...</h2>
+                <h2>Loading...</h2>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
             </div>
         </div>
         <div layout="column" layout-fill ng-show="appReady" ng-cloak>
             <md-toolbar ng-if="showUserBars()" ng-cloak>
-                <div layout="row logo-bg">
-                    <img src="assets/images/gliist_logo.png" style="height:37.8px;margin-left: 10px;margin-top: 10px;"
-                         ui-sref="main.welcome">
-                    <md-button class="menu" hide-gt-lg ng-click="toggleSidebar()" aria-label="Show User List"
-                               style="margin-top: 13px;">
-                        <ng-md-icon icon="menu" style="fill:white"
-                                    size="24">
-                        </ng-md-icon>
-                    </md-button>
-                    <div layout="row" flex layout-align="end center">
-                        <md-button class="wht-button" ng-click="logout()">
-                            Logout
+                <div layout="row" layout-align="space-between center">
+                    <div>
+                        <img src="assets/images/gliist_logo.png" ui-sref="main.welcome" class="logo">
+                        <md-button hide-gt-lg ng-click="toggleSidebar()" aria-label="Show User List">
+                            <ng-md-icon icon="menu" style="fill:white" size="24"></ng-md-icon>
                         </md-button>
                     </div>
+                    <md-button class="md-primary md-raised white" ng-click="logout()">
+                        Log out
+                    </md-button>
                 </div>
             </md-toolbar>
-
             <div flex layout="row" layout-fill ng-cloak>
-                <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-lg')" md-component-id="left"
-                            class="md-whiteframe-z2 logo-bg"
-                            ng-if="showUserBars()" ng-cloak>
+                <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-lg')" md-component-id="left" class="logo-bg" ng-if="showUserBars()" ng-cloak>
                     <div ng-style="userProfilePic_watch()"></div>
                     <div>
-                        <div ng-repeat="it in menuItems" ui-sref="{{it.ui_sref}}"
-                             ng-click="setSelected(it)"
-                             ng-class="getItemClass(it)"
-                             style="height: 80px;
-                             border-bottom: white;
-                             border-top: transparent;
-                             border-left: transparent;
-                             border-right: transparent;
-                             border-style: solid;
-                             font-size:15px;
-                             padding-top: 20px;
-                             padding-bottom: 20px;
-                             padding-left:10px;
-                             padding-right:10px;
-                             text-transform: uppercase;
-                             webkit-focus-ring-color:none">
-                            <div style="color:white;
-                                 text-align: right;">
+                        <div ng-repeat="it in menuItems" ui-sref="{{it.ui_sref}}" ng-click="setSelected(it)" ng-class="getItemClass(it)" class="sidenav-item">
+                            <div>
                                 {{it.title}}
-                                <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}"
-                                            class="left-align"
-                                            size="{{it.icon.size}}">
-                                </ng-md-icon>
+                                <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}" size="{{it.icon.size}}"></ng-md-icon>
                             </div>
                         </div>
                     </div>

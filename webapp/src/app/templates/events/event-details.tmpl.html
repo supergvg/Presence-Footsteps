@@ -1,9 +1,9 @@
 <div ng-init="init()" class="event-details-page">
 
     <div layout="row"  layout-align="space-between center" class="tabs margin-top">
-        <div flex="5" class="tab">
+        <div class="tab">
             <div class="line"></div>
-            <h5 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h5>
+            <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(0) ? 'logo-bg' : ''"
                        ng-disabled="isPromoter()" 
@@ -12,9 +12,9 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div flex class="tab">
+        <div class="tab">
             <div class="line"></div>
-            <h5 ng-class="getSelected(1) ? 'text-bg' : ''">Invite</h5>
+            <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Invite</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(1) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
@@ -23,9 +23,9 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div flex class="tab">
+        <div class="tab">
             <div class="line"></div>
-            <h5 ng-class="getSelected(2) ? 'text-bg' : ''">Event</h5>
+            <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Event</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(2) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
@@ -34,9 +34,9 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div flex class="tab">
+        <div class="tab">
             <div class="line"></div>
-            <h5 ng-class="getSelected(3) ? 'text-bg' : ''">Guests</h5>
+            <h4 ng-class="getSelected(3) ? 'text-bg' : ''">Guests</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(3) ? 'logo-bg' : ''"
                        ng-disabled="!event.id"
@@ -45,9 +45,9 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div flex="5" class="tab">
+        <div class="tab">
             <div class="line"></div>
-            <h5 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h5>
+            <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(4) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
@@ -70,7 +70,7 @@
                         <div layout layout-sm="column">
                             <md-input-container flex="75" md-no-float>
                                 <h4>Event Title</h4>
-                                <input required name="title" ng-model="event.title" placeholder="Enter event title, eg. Holiday Party">
+                                <input required name="title" ng-model="event.title" placeholder="Enter event title, e.g. Holiday Party">
                                 <div ng-messages="eventForm.title.$error" ng-if="displayErrorMessage(eventForm.title)">
                                     <div ng-message="required">Please Enter Event Title</div>
                                     <div ng-message="pattern">Event Title can only contain alphabets, digits and spaces</div>

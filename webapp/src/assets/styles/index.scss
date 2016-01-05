@@ -7,10 +7,6 @@ html {
     color: #666;
 }
 
-[layout=row] {
-    flex-direction: row;
-}
-
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -57,15 +53,6 @@ span.error {
     font-size: 12px;
 }
 
-.wht-button {
-    border-radius: 25px !important;
-    background-color: white !important;
-    color: #99ccff !important;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-size: 12px;
-}
-
 .wht-event-list-btn {
     background-color: white !important;
     color: #99ccff !important;
@@ -73,15 +60,6 @@ span.error {
     border-radius: 0 !important;
     padding-top: 12px;
     padding-bottom: 6px;
-}
-
-.left-align {
-    position: absolute;
-    left: 15px;
-}
-
-.item-selected {
-    background-color: #aaaaaa !important;
 }
 
 .no-selection {
@@ -148,14 +126,6 @@ div[ui-grid] {
     outline: none;
 }
 
-.item-border-white {
-    border-bottom: white;
-    border-top: transparent;
-    border-left: transparent;
-    border-right: transparent;
-    border-style: solid;
-}
-
 .margin-top {
     margin-top: 15px;
 }
@@ -174,6 +144,51 @@ p {
     -webkit-margin-after: 1em;
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
+}
+
+img.logo {
+    height: 37.8px;
+}
+
+#loading {
+    color: #fff;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+md-toolbar {
+    & > div {
+        padding: 0 30px 0 10px;
+        min-height: 64px;
+    }
+}
+
+md-sidenav {
+    .item-selected {
+        background-color: #ccc !important;
+    }
+    .sidenav-item {
+        height: 80px;
+        border-bottom: white;
+        border-top: transparent;
+        border-left: transparent;
+        border-right: transparent;
+        border-style: solid;
+        font-size:15px;
+        padding: 25px 10px;
+        text-transform: uppercase;
+        webkit-focus-ring-color:none;
+        & > div {
+            color: #fff; 
+            text-align: right;
+            ng-md-icon {
+                position: absolute;
+                left: 15px;
+            }
+        }
+    }
 }
 
 md-dialog .md-actions button,
@@ -198,6 +213,11 @@ md-dialog .md-actions button,
     font-weight: bold;
     &:hover {
         background-color: #aaddff !important;
+    }
+    &.white {
+        color: #99ccff !important;
+        background-color: #fff !important;
+        box-shadow: 0 3px 0 0 #e6e6e6 !important;
     }
 }
 
@@ -1051,7 +1071,7 @@ md-dialog {
             &:last-child .line {
                 width: 50%;
             }
-            h5 {
+            h4 {
                 margin: 0;
                 font-weight: bold;
                 color: #666;
@@ -1059,7 +1079,7 @@ md-dialog {
             .line {
                 margin: 0;
                 position: absolute;
-                top: 32px;
+                top: 34px;
                 width: 100%;
             }
         }
