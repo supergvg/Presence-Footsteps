@@ -176,6 +176,7 @@ p {
     -webkit-margin-end: 0px;
 }
 
+md-dialog .md-actions button,
 .md-primary.md-raised {
     border-radius: 25px !important;
     /* mozilla */
@@ -510,9 +511,18 @@ md-radio-button {
 
 md-dialog {
     overflow-x: hidden;
+    color: #666;
     .actions,
     md-content {
         padding: 10px 20px;
+    }
+    .md-actions button {
+        width: auto;
+        &:first-child {
+            background: none !important;
+            color: #aaa !important;
+            box-shadow: none !important;
+        }
     }
     .guest-list-viewer {
         md-list {
