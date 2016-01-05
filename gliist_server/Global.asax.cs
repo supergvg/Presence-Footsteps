@@ -12,6 +12,8 @@ namespace gliist_server
     {
         protected void Application_Start()
         {
+            Logger.Log4NetLogger.Log("The application is started.");
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
