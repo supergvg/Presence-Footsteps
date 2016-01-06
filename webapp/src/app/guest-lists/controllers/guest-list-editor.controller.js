@@ -6,10 +6,10 @@ angular.module('gliist')
 
             var instanceType = ~~$stateParams.instanceType,
                 columnDefs = [
-                    {field: 'firstName', name: 'First Name', enableHiding: false},
-                    {field: 'lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
-                    {field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false}
+                    {field: 'firstName', name: 'First Name'},
+                    {field: 'lastName', name: 'Last Name'},
+                    {field: 'email', name: 'Email', enableSorting: false},
+                    {field: 'phoneNumber', name: 'Phone Number', enableSorting: false}
                 ]; 
             if (instanceType !== 2){
                     columnDefs.push({
@@ -22,10 +22,9 @@ angular.module('gliist')
             }
 
             $scope.gridOptions = {
-                rowTemplate: '<div' +
-                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
-                    ' ui-grid-cell></div>' +
+                rowTemplate: '<div>' +
+                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: columnDefs,
                 rowHeight: 45,

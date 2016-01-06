@@ -1,45 +1,29 @@
 <div>
-    <div layout="row" layout-wrap style="margin-bottom: 10px">
-        <div flex class="section-title">
-            <h3>Welcome to gjests</h3>
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>Welcome to gjests</h3>
+    </div>
+    <div layout="row" layout-align="space-between stretch" class="margin-top" layout-sm="column" layout-align-sm="start stretch">
+        <div class="billet" layout="column" layout-align="start stretch" flex>
+            <h4>Check out whats new!</h4>
+            <md-subheader>Updates: Make sure to update to the new gjests iOS app</md-subheader>
+            <md-subheader>Ticketing system ready in Jan 2016</md-subheader>
+            <md-subheader>Offline mode under development</md-subheader>
         </div>
-    </div>
-    <div class="section-subtitle">
-        <h4>Check out whats new!</h4>
-    </div>
-    <div>
-        <md-list>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                Download gjests app here
+        <div class="billet" layout="column" layout-align="start stretch" flex>
+            <h4>Download gjests app</h4>
+            <md-subheader>
                 <a href="https://geo.itunes.apple.com/us/app/gjests/id1001494301?mt=8" target="_blank">
                     <img alt="iOS app on App Store" src="http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg"/>
                 </a>
-            </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                Download gjests app here
+                <br><br>
                 <a href="https://play.google.com/store/apps/details?id=com.gjests.app" target="_blank">
                     <img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png"/>
                 </a>
             </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                Updates: Make sure to update to the new gjests iOS app
-            </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                Ticketing system ready in Jan 2016
-            </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                Offline mode under development
-            </md-subheader>
-        </md-list>
+        </div>
     </div>
-    <div class="section-subtitle">
+    <div class="billet margin-top" layout="column" layout-align="start stretch">
         <h4>Upcoming events</h4>
-    </div>
-    <div>
         <event-list events="currentEvents" options="options"></event-list>
     </div>
 </div>

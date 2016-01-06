@@ -1,53 +1,38 @@
 <div>
-  <div>
-    <div layout layout-sm="column">
-
-      <md-input-container flex="75">
-        <label>Enter guest list title</label>
-        <input type="text" ng-model="gli.title">
-      </md-input-container>
-      <md-select ng-model="gli.listType" flex="25"
-                 style="padding-top: 27px;width: 100%" ng-disabled="'true'">
-        <md-select-label style="width:100%">{{gli.listType || 'Select Type'}}</md-select-label>
-        <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
-      </md-select>
-
+    <div class="block-field">
+        <h4>Guest List Title</h4>
+        <div layout layout-sm="column">
+            <md-input-container flex="75" md-no-float>
+                <input type="text" ng-model="gli.title" name="title" required placeholder="Enter Guest List Title">
+            </md-input-container>
+            <md-input-container flex="25" md-no-float>
+                <md-select placeholder="Select Type" required name="listType" ng-model="gli.listType" ng-disabled="'true'" flex>
+                    <md-select-label>{{gli.listType || 'Select Type'}}</md-select-label>
+                    <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
     </div>
-
-
-    <div class="section-subtitle">
-      <h4>Guests</h4>
+    <div class="block-field">
+        <h4>Guests</h4>
+        <md-list>
+            <md-list-item layout="row">
+                <div flex class="actions">
+                    <md-button class="md-primary md-raised" ng-click="addMore()">
+                        Add Guest
+                    </md-button>
+                    <md-button class="md-primary md-raised" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
+                        Delete
+                    </md-button>
+                </div>
+                <div flex layout="row" layout-align="end center">
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                    <md-button class="md-primary md-raised" ng-disabled="!isDirty" ng-click="save()">
+                        Save
+                    </md-button>
+                </div>
+            </md-list-item>
+        </md-list>
+        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize class="margin-top"></div>
     </div>
-
-
-    <div style="background-color: #E0E0E0">
-      <md-list>
-        <md-list-item layout="row">
-          <div flex>
-            <md-button class="md-primary md-raised" ng-click="addMore()">
-              Add Guest
-            </md-button>
-            <md-button class="md-primary md-raised" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
-              Delete
-            </md-button>
-          </div>
-          <div flex layout="row" layout-align="end center">
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                  ng-show="fetchingData"></md-progress-circular>
-            <md-button class="md-primary md-raised" ng-disabled="!isDirty"
-                       ng-click="save()">
-              Save
-            </md-button>
-          </div>
-        </md-list-item>
-      </md-list>
-    </div>
-
-    <div style="margin-top: 30px">
-      <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize
-           style="height:300px;width: 100%"></div>
-    </div>
-
-
-  </div>
 </div>

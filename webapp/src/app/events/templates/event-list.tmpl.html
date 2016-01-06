@@ -1,90 +1,56 @@
-<div>
+<div class="event-list">
     <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
-
-    <md-list style="overflow-y: hidden">
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                              ng-show="fetchingData"></md-progress-circular>
-
-        <md-list-item ng-class="getItemClass($last)"
-                      ng-repeat="event in events | limitTo:(options.limit || events.length)"
-                      style="margin-bottom: 5px;">
-            <div layout="row" flex style="height: 120px">
+    <md-list>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+        <md-list-item ng-repeat="event in events | limitTo:(options.limit || events.length)">
+            <div layout="row" layout-align="start center" flex>
                 <div flex="15" ng-style="getEventInvite(event)"></div>
-
-                <div flex="55" style="padding-left: 15px; padding-top: 15px;" layout="row">
-                    <md-grid-list
-                            md-cols="2"
-                            md-row-height="50px"
-                            md-cols-sm="1"
-                            md-row-height-sm="25px"
-                            md-gutter="1px" 
-                            style="width: 100%;text-align: left">
-                        <md-grid-tile>
-                            <div class="md-title capitalize"
-                                 style="font-weight: bold;color:#aaaaaa;width:100%">{{event.title}}
-                            </div>
+                <div flex="60">
+                    <md-grid-list md-cols="2" md-row-height="50px" md-row-height-sm="60px" md-cols-sm="1" md-gutter="1px">
+                        <md-grid-tile class="capitalize">
+                            <h3>{{event.title}}</h3>
                         </md-grid-tile>
                         <md-grid-tile>
-                            <div class="" style="font-size: 12px;color:#aaaaaa;width:100%">{{event.location}}</div>
+                            {{event.location}}
                         </md-grid-tile>
                         <md-grid-tile>
-                            <p style="margin-right: 10px">Starts:</p>
-
-                            <p style="display: inline;font-size: 14px;color:#aaaaaa;line-height: 100%;width:100%">
-                                {{event.time | ignoreTimeZone |date:'MMM dd, yyyy'}}
-
-                                {{event.time | ignoreTimeZone |date: 'h:mma'}}
-                            </p>
+                            Starts: {{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
                         </md-grid-tile>
                         <md-grid-tile>
-                            <p style="margin-right: 10px">Ends:</p>
-
-                            <p style="display: inline;font-size: 14px;color:#aaaaaa;line-height: 100%;width:100%">
-                                {{event.endTime |date:'MMM dd, yyyy'}}
-
-                                {{event.endTime |ignoreTimeZone |date: 'h:mma'}}
-                            </p>
+                            Ends: {{event.endTime | date : 'MMM dd, yyyy h:mma'}}
                         </md-grid-tile>
                     </md-grid-list>
                 </div>
-
-                <div layout="row" ng-cloak flex="30" layout-align="end center" ng-hide="options.local">
+                <div layout="row" ng-cloak flex="25" layout-align="end center" ng-hide="options.local" class="actions" layout-sm="column">
                     <div layout="column">
-                        <md-button flex class="wht-event-list-btn" ng-hide="isPromoter()" ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                        <md-button flex class="icon-btn" ng-hide="isPromoter()" ui-sref="main.event_checkin({eventId:{{event.id}}})">
                             <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
-                            <ng-md-icon icon="assignment_turned_in" style="fill: #99ccff" size="24"></ng-md-icon>
+                            <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
                         </md-button>
                         <div flex></div>
                     </div>
-
-                    <div layout="column" style="height: 120px;">
-                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.event_summary({eventId:{{event.id}}})">
+                    <div layout="column">
+                        <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.event_summary({eventId:{{event.id}}})">
                             <md-tooltip md-direction="top">Preview event</md-tooltip>
-                            <md-icon md-svg-src="assets/images/SVG/play.svg" style="fill: #99ccff" size="24"></md-icon>
+                            <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
                         </md-button>
-                        <md-button flex class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" ng-class="getPadding()">
+                        <md-button flex class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})">
                             <md-tooltip md-direction="top">event stats</md-tooltip>
-                            <ng-md-icon icon="insert_chart" style="fill: white" size="24"></ng-md-icon>
+                            <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
                         </md-button>
                     </div>
-                    <div style="width: 1px;background-color: white">
-                    </div>
-
-                    <div layout="column" style="height: 120px;">
-                        <md-button flex class="wht-event-list-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.edit_event({eventId:{{event.id}}})">
+                    <div layout="column">
+                        <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.edit_event({eventId:{{event.id}}})">
                             <md-tooltip md-direction="top">Edit event</md-tooltip>
-                            <ng-md-icon icon="mode_edit" style="fill: #99ccff" size="24"></ng-md-icon>
+                            <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                         </md-button>
                         <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ng-click="deleteEvent($event,event)">
                             <md-tooltip md-direction="top">Delete event</md-tooltip>
-                            <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
+                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
                         </md-button>
                     </div>
                 </div>
             </div>
         </md-list-item>
     </md-list>
-
-
 </div>
-

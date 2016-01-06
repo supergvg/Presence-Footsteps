@@ -21,28 +21,22 @@ angular.module('gliist')
                 return total;
             };
 
-            $scope.getRowStyle = function (checkin) {
-                return {
-                    'background-color': 'white',
-                    'border-bottom': 'thin inset #ECECEC'
-                };
-            };
-
             $scope.gridOptions = {
-                rowTemplate: '<div' +
-                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
-                    ' ui-grid-cell></div>' +
+                rowTemplate: '<div>' +
+                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: [
-                    {field: 'guest.firstName', name: 'First Name', enableHiding: false},
-                    {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'guest.email', name: 'Email', enableHiding: false, enableSorting: false},
-                    {field: 'guest.phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
-                    {field: 'guest.plus', name: 'Plus', enableHiding: false, enableSorting: false}
+                    {field: 'guest.firstName', name: 'First Name'},
+                    {field: 'guest.lastName', name: 'Last Name'},
+                    {field: 'guest.email', name: 'Email', enableSorting: false},
+                    {field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false},
+                    {field: 'guest.plus', name: 'Plus', enableSorting: false}
                 ],
                 enableCellEditOnFocus: true,
-                rowHeight: 35
+                rowHeight: 45,
+                selectionRowHeaderWidth: 50,
+                enableColumnMenus: false
             };
 
             $scope.gridOptions.onRegisterApi = function (gridApi) {
