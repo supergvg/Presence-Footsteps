@@ -455,7 +455,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ate\" />
-    <Folder Include="Models\obj\" />
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Files\" />
     <Folder Include="Views\GLCsv\" />
