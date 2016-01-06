@@ -408,7 +408,8 @@
     <Compile Include="Models\GuestGuestListInstanceModel.cs" />
     <Compile Include="Models\GuestList.cs" />
     <Compile Include="Models\GuestListInstance.cs" />
-    <Compile Include="Models\GuestListInstances\RsvpGuestListInstancePatch.cs" />
+    <Compile Include="Models\Patches\GuestCheckinPlusUpdatingPatch.cs" />
+    <Compile Include="Models\Patches\RsvpGuestListInstancePatch.cs" />
     <Compile Include="Models\GuestListInstanceType.cs" />
     <Compile Include="Models\GuestListViewModel.cs" />
     <Compile Include="Models\HttpResponseStatus.cs" />

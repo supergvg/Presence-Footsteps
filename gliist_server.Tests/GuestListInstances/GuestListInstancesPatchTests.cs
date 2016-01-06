@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using gliist_server.Models;
-using gliist_server.Models.GuestListInstances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace gliist_server.Tests.GuestListInstances
@@ -136,7 +135,6 @@ namespace gliist_server.Tests.GuestListInstances
         }
 
         #endregion
-
     }
 }
 

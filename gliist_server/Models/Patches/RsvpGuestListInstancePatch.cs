@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace gliist_server.Models.GuestListInstances
+namespace gliist_server.Models
 {
     public static class RsvpGuestListInstancePatch
     {

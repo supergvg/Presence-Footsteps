@@ -6,7 +6,7 @@
     <WebStackScaffolding_IsReferencingScriptLibrariesSelected>True</WebStackScaffolding_IsReferencingScriptLibrariesSelected>
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_IsAsyncSelected>True</WebStackScaffolding_IsAsyncSelected>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <WebStackScaffolding_DbContextTypeFullName>gliist_server.Models.EventDBContext</WebStackScaffolding_DbContextTypeFullName>
     <NameOfLastUsedPublishProfile>local-iis-deployment</NameOfLastUsedPublishProfile>
     <WebStackScaffolding_ControllerDialogWidth>600.125654450262</WebStackScaffolding_ControllerDialogWidth>

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
-using gliist_server.Models.GuestListInstances;
 
 namespace gliist_server.Controllers
 {
@@ -83,13 +82,16 @@ namespace gliist_server.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var linkedEvent =
+                db.GuestListInstances.Where(x => x.id == guestListInstance.id).Select(x => x.linked_event).First();
+
+            PatchCheckins(guestListInstance, linkedEvent);
 
             var checkins = guestListInstance.actual.ToArray();
 
             if (guestListInstance.InstanceType == GuestListInstanceType.Rsvp ||
                 guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp)
                 guestListInstance.actual.Clear();
-
 
             if (guestListInstance.id > 0)
             {
@@ -108,6 +110,7 @@ namespace gliist_server.Controllers
                     if (checkin.guest.id > 0)
                     {
                         db.Entry(checkin.guest).State = EntityState.Modified;
+                        UpdateEventsGuest(checkin, linkedEvent);
                     }
                     else
                     {
@@ -130,6 +133,22 @@ namespace gliist_server.Controllers
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new {id = guestListInstance.id}, guestListInstance);
+        }
+
+        private void UpdateEventsGuest(GuestCheckin checkin, Event linkedEvent)
+        {
+            var guestEvent =
+                db.EventGuests.FirstOrDefault(x => x.EventId == linkedEvent.id && x.GuestId == checkin.guest.id);
+            if (guestEvent != null)
+            {
+                guestEvent.AdditionalGuestsRequested = checkin.guest.plus;
+            }
+        }
+
+        private void PatchCheckins(GuestListInstance guestListInstance, Event linkedEvent)
+        {
+            GuestCheckinPlusUpdatingPatch.Run(guestListInstance,
+                db.EventGuests.Where(x => x.EventId == linkedEvent.id).ToArray());
         }
 
         // DELETE: api/GuestListInstances/5
