@@ -43,7 +43,9 @@ namespace gliist_server.Models
             var eventGuest = eventGuests.FirstOrDefault(x => x.GuestId == checkin.guest.id);
             if (eventGuest != null)
             {
-                checkin.plus = checkin.guest.plus - (eventGuest.AdditionalGuestsRequested - checkin.plus);
+                var plus = checkin.guest.plus - (eventGuest.AdditionalGuestsRequested - checkin.plus);
+                checkin.plus = (plus >= 0) ? plus : 0;
+
             }
         }
     }

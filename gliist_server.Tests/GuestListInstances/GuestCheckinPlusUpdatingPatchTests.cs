@@ -113,6 +113,22 @@ namespace gliist_server.Tests.GuestListInstances
             Assert.AreEqual(listInstance.actual[1].plus, expected);
         }
 
+        [TestMethod]
+        public void CalculatedToZero_IfStatusIsCheckedInAndResultIsNegative()
+        {
+            var listInstance = CreateListInstance(GuestListInstanceType.Confirmed);
+
+            var eventGuests = new[] {new EventGuestStatus
+            {
+                GuestId = 2,
+                AdditionalGuestsRequested = 5
+            }};
+
+            GuestCheckinPlusUpdatingPatch.Run(listInstance, eventGuests);
+
+            Assert.AreEqual(0, listInstance.actual[1].plus);
+        }
+
         private static GuestListInstance CreateListInstance(GuestListInstanceType type)
         {
             return new GuestListInstance
