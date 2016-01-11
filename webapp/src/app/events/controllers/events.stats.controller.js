@@ -90,7 +90,6 @@ angular.module('gliist')
 
                 angular.forEach($scope.categories, function(category) {
                     var categoryCount = $scope.getCategoryStatus(category);
-                    categoryCount = 1;
                     totalGuests += categoryCount;
                     $scope.chartObject.data.rows.push({
                         c: [
