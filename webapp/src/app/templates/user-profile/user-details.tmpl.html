@@ -16,7 +16,7 @@
             </div>
 
             <div flex="30" layout="row" layout-align="end end">
-                <md-button class="md-primary md-raised" ng-click="editMode = !editMode">
+                <md-button class="raised-btn" ng-click="editMode = !editMode">
                     Edit
                 </md-button>
             </div>
@@ -29,8 +29,7 @@
                     Support jpg, gif file. (To be included in all communication to guests)
                 </md-input-container>
                 <md-input-container>
-                    <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
-                               accept=".jpg,.png,.gif">
+                    <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".jpg,.png,.gif">
                         UPLOAD
                     </md-button>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate"
@@ -78,10 +77,10 @@
                 </div>
 
                 <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
-                    <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
+                    <md-button class="raised-btn" ng-click="editMode=!editMode">
                         Cancel
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-click="saveChanges(userForm)">
+                    <md-button class="raised-btn" ng-click="saveChanges(userForm)">
                         Save
                     </md-button>
                 </div>
@@ -116,10 +115,10 @@
                 </div>
 
                 <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
-                    <md-button class="md-primary md-raised" ng-click="editMode=!editMode">
+                    <md-button class="raised-btn" ng-click="editMode=!editMode">
                         Cancel
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-click="updatePassword(userForm)">
+                    <md-button class="raised-btn" ng-click="updatePassword(userForm)">
                         Update
                     </md-button>
                 </div>

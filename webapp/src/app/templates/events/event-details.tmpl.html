@@ -144,7 +144,7 @@
                 </form>
             </div>
             <div layout="row" layout-align="end center">
-                <md-button class="md-primary md-raised" ng-click="next(eventForm)">
+                <md-button class="raised-btn" ng-click="next(eventForm)">
                     Next
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate"
@@ -164,7 +164,7 @@
                             <p>Upload your invite (jpg,gif, file formats supported)</p>
                         </div>
                         <div flex="30" layout="row" layout-align="end center">
-                            <md-button class="md-primary md-raised" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
+                            <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
                                 UPLOAD
                             </md-button>
                             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
@@ -177,10 +177,10 @@
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="actions">
-                <md-button class="md-primary md-raised" ng-click="previous()">
+                <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
-                <md-button class="md-primary md-raised" ng-click="next()">
+                <md-button class="raised-btn" ng-click="next()">
                     Next
                 </md-button>
             </div>
@@ -274,13 +274,13 @@
                 </form>
             </div>
             <div layout="row" layout-align="end center" class="actions">
-                <md-button class="md-primary md-raised" ng-click="addNewTicket()" ng-show="event.type === 3">
+                <md-button class="raised-btn" ng-click="addNewTicket()" ng-show="event.type === 3">
                     Add Ticket
                 </md-button>
-                <md-button class="md-primary md-raised" ng-click="previous()">
+                <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
-                <md-button class="md-primary md-raised" ng-click="next(rsvpForm)">
+                <md-button class="raised-btn" ng-click="next(rsvpForm)">
                     Next
                 </md-button>
             </div>
@@ -300,7 +300,7 @@
                                 <p>Link previous guest list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event, 1)">
+                                <md-button class="raised-btn" ng-click="onAddGLClicked($event, 1)">
                                     Link
                                 </md-button>
                             </div>
@@ -310,7 +310,7 @@
                                 <p>Create new guest list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="md-primary md-raised" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 1})">
+                                <md-button class="raised-btn" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 1})">
                                     Create
                                 </md-button>
                             </div>
@@ -325,7 +325,7 @@
                                 <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="md-primary md-raised" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
+                                <md-button class="raised-btn" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
                                     Link
                                 </md-button>
                             </div>
@@ -335,7 +335,7 @@
                                 <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="md-primary md-raised" ui-sref="main.create_gl_event({eventId: event.id, instanceType: event.type === 3 ? 3 : 2})">
+                                <md-button class="raised-btn" ui-sref="main.create_gl_event({eventId: event.id, instanceType: event.type === 3 ? 3 : 2})">
                                     Create
                                 </md-button>
                             </div>
@@ -348,11 +348,11 @@
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="actions">
-                <md-button class="md-primary md-raised" ng-click="previous()">
+                <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="md-primary md-raised" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
+                <md-button class="raised-btn" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
                     Next
                 </md-button>
             </div>

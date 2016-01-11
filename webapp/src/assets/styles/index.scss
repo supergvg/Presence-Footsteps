@@ -54,17 +54,11 @@ span.error {
 }
 
 .no-selection {
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    -o-user-select: none;
 }
 
 div[ui-grid] {
     border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     color: #666;
     height: 300px;  
     .ui-grid-cell {
@@ -107,8 +101,6 @@ div[ui-grid] {
     .ui-grid-selection-row-header-buttons {
         border: 1px solid #666 !important;
         border-radius: 5px !important;
-        -moz-border-radius: 5px !important;
-        -webkit-border-radius: 5px !important;
         width: 21px;
     }
 }
@@ -186,60 +178,86 @@ md-sidenav {
     }
 }
 
-md-dialog .md-actions button,
-.md-primary.md-raised {
-    border-radius: 25px !important;
-    /* mozilla */
-    -moz-border-radius: 25px !important;
-    /* webkit */
-    -webkit-border-radius: 25px !important;
-    background-color: #99ccff !important;
-    color: #fff !important;
-    padding: 0 20px;
-    margin: 0;
-    width: 150px;
-    box-shadow: 0 3px 0 0 #7ab9f8 !important;
-}
-
 .md-button {
     min-width: 30px;
     min-height: 30px;
-    color: #666;
     font-weight: bold;
-    &:hover {
-        background-color: #aaddff !important;
+    color: #aaa;
+    span {
+        line-height: 1;
     }
-    &.white {
-        box-shadow: 0 3px 5px rgba(0,0,0,0.1) !important;
+    &.raised-btn {
+        color: #fff;
+        border: 1px solid #84add5;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        border-radius: 25px;
+        background-color: #99ccff;
+        padding: 0 20px;
+        margin: 0;
+        width: 150px;
+        text-shadow: 0 -1px 0 #b3b3b3;
+        background: linear-gradient(to bottom, #98ccff, #6db2f6);
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 148px;
+            height: 36px;
+            border: 1px solid #b3d9ff;
+            border-radius: 25px;
+        }
+        &:hover {
+            background:  linear-gradient(to bottom, #6db2f6, #98ccff);
+        }
+    }
+    &.white-btn {
         border: 1px solid #b3b3b3;
         background: linear-gradient(to bottom, #fff, #eee);
-        span {
-            text-shadow: 0 -1px 1px #b3b3b3;
-            color: #7ab9f8;
+        color: #7ab9f8 !important;
+        &:before {
+            border-color: #f4f4f4;
+        }
+        &:hover {
+            background: linear-gradient(to bottom, #eee, #fff);
+        }
+    }
+    &.icon-btn {
+        width: 35px;
+        height: 35px;
+        padding: 0;
+        margin: 0;
+        border-radius: 5px;
+        background: linear-gradient(to bottom, #98ccff, #65aef6);
+        border: 1px solid #65aef6;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        color: #fff;
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 33px;
+            height: 33px;
+            border: 1px solid #abd5ff;
+            border-radius: 5px;
+        }
+        &:hover {
+            background: linear-gradient(to bottom, #65aef6, #98ccff);
+        }
+        md-icon,
+        ng-md-icon {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%,-50%); 
+            height: 24px;
+            fill: white;
         }
     }
 }
 
-.icon-btn {
-    width: 35px;
-    height: 35px;
-    padding: 0;
-    margin: 0;
-    border-radius: 5px !important;
-    -moz-border-radius: 5px !important;
-    -webkit-border-radius: 5px !important;
-    background: linear-gradient(to bottom, #98ccff, #65aef6);
-    border: 1px solid #65aef6;
-    box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-    md-icon,
-    ng-md-icon {
-        position: absolute;
-        top: 50%;
-        -webkit-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%); 
-        height: 24px;
-        fill: white;
-    }
+.md-actions .md-button:last-child {
+    @extend .icon-btn;
 }
 
 .input-icon {
@@ -283,14 +301,10 @@ md-dialog .md-actions button,
     }
     min-height: 55px;
     border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
 }
 
 .billet {
     border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border: 1px solid #ccc;
     & + & {
         margin-left: 15px;
@@ -351,7 +365,6 @@ md-input-container {
     &.md-input-focused label:not(.md-no-float),
     &.md-input-has-value label:not(.md-no-float) {
         transform: translate3d(0, -5px, 0) scale(0.75);
-        -webkit-transform: translate3d(0, -5px, 0) scale(0.75);
     }
     .md-input {
         background-color: #fff;
@@ -361,27 +374,15 @@ md-input-container {
         line-height: 40px !important;
         &.rounded-lr {
             border-radius: 25px !important;
-            /* mozilla */
-            -moz-border-radius: 25px !important;
-            /* webkit */
-            -webkit-border-radius: 25px !important;
             border-left: 1px solid #99ccff;
             border-right: 1px solid #99ccff;
         }
         &.rounded-l {
             border-radius: 25px 0 0 25px !important;
-            /* mozilla */
-            -moz-border-radius: 25px 0 0 25px !important;
-            /* webkit */
-            -webkit-border-radius: 25px 0 0 25px !important;
             border-left: 1px solid #99ccff;
         }
         &.rounded-r {
             border-radius: 0 25px 25px 0 !important;
-            /* mozilla */
-            -moz-border-radius: 0 25px 25px 0 !important;
-            /* webkit */
-            -webkit-border-radius: 0 25px 25px 0 !important;
             border-right: 1px solid #99ccff;
         }
     }
@@ -415,8 +416,6 @@ md-input-container {
         .md-input {
             border: 1px solid #ccc;
             border-radius: 5px;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;            
         }
         &.md-input-focused .md-input {
             border-color: #99ccff;
@@ -485,7 +484,6 @@ md-radio-button {
             border-color: #99ccff;
         }        
         .md-on {
-            -webkit-transform: scale(0.4);
             transform: scale(0.4);
         }
     }
@@ -500,8 +498,6 @@ md-radio-button {
 .guest-list-instance-viewer {
     md-list {
         border-radius: 5px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
         border: 1px solid #ccc;
         md-list-item {
             min-height: 40px;
@@ -566,6 +562,7 @@ md-dialog {
             background: none !important;
             color: #aaa !important;
             box-shadow: none !important;
+            
         }
     }
     .guest-list-viewer {
@@ -1009,7 +1006,6 @@ md-dialog {
             }
             &.md-input-focused label:not(.md-no-float),
                 &.md-input-has-value label:not(.md-no-float) {
-                -webkit-transform: translate3d(0, -12px, 0) scale(1) !important;
                 transform: translate3d(0, -12px, 0) scale(1) !important;
             }
             &:not(.md-input-invalid).md-input-focused label,
@@ -1067,7 +1063,6 @@ md-dialog {
         &.md-input-focused label:not(.md-no-float),
         &.md-input-has-value label:not(.md-no-float) {
             transform: translate3d(30px, -5px, 0) scale(0.75);
-            -webkit-transform: translate3d(30px, -5px, 0) scale(0.75);
         }
     }
     .footer {
@@ -1257,10 +1252,6 @@ md-dialog {
             md-input-container {
                 input, input.rounded-l, input.rounded-r, input.rounded-lr {
                     border-radius: 25px !important;
-                    /* mozilla */
-                    -moz-border-radius: 25px !important;
-                    /* webkit */
-                    -webkit-border-radius: 25px !important;
                     border: 1px solid #99ccff;
                 }
             }

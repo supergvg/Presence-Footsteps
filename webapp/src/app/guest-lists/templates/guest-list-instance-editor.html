@@ -18,16 +18,16 @@
         <md-list>
             <md-list-item layout="row">
                 <div flex class="actions">
-                    <md-button class="md-primary md-raised" ng-click="addMore()">
+                    <md-button class="raised-btn" ng-click="addMore()">
                         Add Guest
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
+                    <md-button class="raised-btn" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
                         Delete
                     </md-button>
                 </div>
                 <div flex layout="row" layout-align="end center">
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                    <md-button class="md-primary md-raised" ng-disabled="!isDirty" ng-click="save()">
+                    <md-button class="raised-btn" ng-disabled="!isDirty" ng-click="save()">
                         Save
                     </md-button>
                 </div>

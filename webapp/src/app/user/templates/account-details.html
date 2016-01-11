@@ -17,7 +17,7 @@
           <p>Create new Account (Enter details for the users you would like to invite)</p>
         </div>
         <div flex="25" layout="row" layout-align="end center">
-          <md-button class="md-primary md-raised" ng-click="linkNewAccount($event)">
+          <md-button class="raised-btn" ng-click="linkNewAccount($event)">
             Invite
           </md-button>
         </div>
@@ -27,7 +27,7 @@
           <p>Delete Account</p>
         </div>
         <div flex="25" layout="row" layout-align="end center">
-          <md-button class="md-primary md-raised" ng-click="deleteAccount($event)">
+          <md-button class="raised-btn" ng-click="deleteAccount($event)">
             Delete
           </md-button>
         </div>
@@ -59,11 +59,11 @@
           </div>
 
 
-          <md-button class="md-primary md-raised" ng-click="deleteUser($event,user)" flex="10"
+          <md-button class="raised-btn" ng-click="deleteUser($event,user)" flex="10"
                      ng-hide="options.readOnly" ng-cloak>
             <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
           </md-button>
-          <md-button class="md-primary md-raised" ng-click="editUser($event,user)" flex="10"
+          <md-button class="raised-btn" ng-click="editUser($event,user)" flex="10"
                      ng-hide="options.readOnly" ng-cloak>
             <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
           </md-button>

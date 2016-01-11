@@ -39,7 +39,7 @@
                     <p>Link previous guest list</p>
                 </div>
                 <div flex layout="row" layout-align="end center">
-                    <md-button class="md-primary md-raised" ng-click="onLinkClicked($event)">
+                    <md-button class="raised-btn" ng-click="onLinkClicked($event)">
                         Link
                     </md-button>
                 </div>
@@ -49,8 +49,7 @@
                     <p>Upload new guest list (csv, xlsx)</p>
                 </div>
                 <div flex layout="row" layout-align="end center">
-                    <md-button class="md-primary md-raised" ng-file-select="onFileSelect($files)"
-                               accept=".csv,.xlsx,.xls">
+                    <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv,.xlsx,.xls">
                         Upload
                     </md-button>
                 </div>
@@ -62,16 +61,16 @@
         <md-list>
             <md-list-item layout="row">
                 <div flex class="actions">
-                    <md-button class="md-primary md-raised" ng-click="addMore()">
+                    <md-button class="raised-btn" ng-click="addMore()">
                         Add Guest
                     </md-button>
-                    <md-button class="md-primary md-raised" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
+                    <md-button class="raised-btn" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
                         Delete
                     </md-button>
                 </div>
                 <div flex layout="row" layout-align="end center">
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                    <md-button class="md-primary md-raised" ng-click="save(true)">
+                    <md-button class="raised-btn" ng-click="save(true)">
                         Save
                     </md-button>
                 </div>
