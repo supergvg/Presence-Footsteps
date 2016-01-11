@@ -5,42 +5,7 @@ namespace gliist_server.Helpers
 {
     static class EventHelper
     {
-        public static int GetGuestsCount(GuestListInstance guestListInstance)
-        {
-            var count = 0;
-
-            var guestList = guestListInstance.linked_guest_list;
-            var guestCheckins = guestListInstance.actual;
-
-            if (guestList != null)
-            {
-                if (guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp ||
-                    guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
-                {
-                    count = guestList.guests.Count();
-                }
-                else
-                {
-                    count += guestList.guests.Sum(x => 1 + x.plus);
-                }
-            }
-            else if (guestCheckins != null)
-            {
-                if (guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp ||
-                    guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
-                {
-                    count = guestCheckins.Count();
-                }
-                else
-                {
-                    count += guestCheckins.Sum(x => 1 + x.plus);
-                }
-            }
-
-            return count;
-        }
-
-        public static int GetGuestsCount2(Event @event, GuestListInstance listInstance)
+        public static int GetGuestsCount(Event @event, GuestListInstance listInstance)
         {
             var count = 0;
             foreach(var guest in @event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listInstance.id))

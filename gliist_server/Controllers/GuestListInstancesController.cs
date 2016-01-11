@@ -28,7 +28,7 @@ namespace gliist_server.Controllers
         [ResponseType(typeof (GuestListInstance))]
         public async Task<IHttpActionResult> GetGuestListInstance(int id)
         {
-            GuestListInstance guestListInstance = await db.GuestListInstances.FindAsync(id);
+            var guestListInstance = await db.GuestListInstances.FindAsync(id);
             if (guestListInstance == null)
             {
                 return NotFound();
@@ -65,10 +65,7 @@ namespace gliist_server.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -128,27 +125,9 @@ namespace gliist_server.Controllers
                 db.GuestListInstances.Add(guestListInstance);
             }
 
-
-
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new {id = guestListInstance.id}, guestListInstance);
-        }
-
-        private void UpdateEventsGuest(GuestCheckin checkin, Event linkedEvent)
-        {
-            var guestEvent =
-                db.EventGuests.FirstOrDefault(x => x.EventId == linkedEvent.id && x.GuestId == checkin.guest.id);
-            if (guestEvent != null)
-            {
-                guestEvent.AdditionalGuestsRequested = checkin.guest.plus;
-            }
-        }
-
-        private void PatchCheckins(GuestListInstance guestListInstance, Event linkedEvent)
-        {
-            GuestCheckinPlusUpdatingPatch.Run(guestListInstance,
-                db.EventGuests.Where(x => x.EventId == linkedEvent.id).ToArray());
         }
 
         // DELETE: api/GuestListInstances/5
@@ -178,6 +157,22 @@ namespace gliist_server.Controllers
         }
 
         #region private methods
+
+        private void UpdateEventsGuest(GuestCheckin checkin, Event linkedEvent)
+        {
+            var guestEvent =
+                db.EventGuests.FirstOrDefault(x => x.EventId == linkedEvent.id && x.GuestId == checkin.guest.id);
+            if (guestEvent != null)
+            {
+                guestEvent.AdditionalGuestsRequested = checkin.guest.plus;
+            }
+        }
+
+        private void PatchCheckins(GuestListInstance guestListInstance, Event linkedEvent)
+        {
+            GuestCheckinPlusUpdatingPatch.Run(guestListInstance,
+                db.EventGuests.Where(x => x.EventId == linkedEvent.id).ToArray());
+        }
 
         private void AddNewGuestToTheEventsGuests(GuestListInstance guestListInstance, GuestCheckin checkin)
         {

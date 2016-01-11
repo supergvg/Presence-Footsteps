@@ -23,15 +23,20 @@ namespace gliist_server.Controllers
     [Authorize]
     public class EventController : ApiController
     {
-        private UserManager<UserModel> UserManager;
-        private EventDBContext db = new EventDBContext();
+        private readonly UserManager<UserModel> userManager;
+        private readonly EventDBContext db = new EventDBContext();
 
+        public EventController()
+        {
+            userManager = Startup.UserManagerFactory(db);
+        }
+        
         // GET api/Event
         public IQueryable<Event> GetEvents()
         {
             var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted);
 
             return events;
@@ -42,7 +47,7 @@ namespace gliist_server.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
 
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                 .OrderBy(e => e.time)
@@ -63,7 +68,7 @@ namespace gliist_server.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
             var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted).OrderBy(e => e.time)
                 .AsEnumerable()
                 .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0 &&
@@ -78,6 +83,7 @@ namespace gliist_server.Controllers
         }
 
         // GET api/Event/GuestsListsExcelFile/{eventId}?authToken={token}
+
         [HttpGet]
         [Route("GuestsListsExcelFile/{eventId}")]
         public HttpResponseMessage GetGuestsListsExcelFile(int eventId)
@@ -99,12 +105,13 @@ namespace gliist_server.Controllers
         }
 
         // GET api/Event/5
+
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> GetEvent(int id)
         {
             Event @event = await db.Events.FindAsync(id);
             var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
 
             if (@event == null || user.company.id != @event.company.id)
             {
@@ -120,8 +127,7 @@ namespace gliist_server.Controllers
 
                 foreach (var guestListInstance in @event.guestLists)
                 {
-                    //var guestsCount = EventHelper.GetGuestsCount(guestListInstance);
-                    var guestsCount = EventHelper.GetGuestsCount2(@event, guestListInstance);
+                    var guestsCount = EventHelper.GetGuestsCount(@event, guestListInstance);
                     guestListInstance.GuestsCount = guestsCount;
                 }
 
@@ -131,29 +137,8 @@ namespace gliist_server.Controllers
             return Ok(@event);
         }
 
-        private bool CheckGuestListsHaveAdditionalGuests(Event evnt)
-        {
-            if (evnt.guestLists == null || 
-                evnt.guestLists.Count(x => x.linked_guest_list != null && x.linked_guest_list.guests != null && x.linked_guest_list.guests.Count > 0) == 0)
-            {
-                return false;
-            }
-
-            var guestListInstancesGuestsIds = evnt.guestLists.Where(x => x.linked_guest_list != null && x.linked_guest_list.guests != null).Select(x => x.linked_guest_list).SelectMany(x => x.guests).Select(x => x.id);
-            var actualGuests = db.EventGuests.Where(x => x.EventId == evnt.id).ToList();
-
-            foreach (var guest in actualGuests)
-            {
-                if (!guestListInstancesGuestsIds.Contains(guest.GuestId))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         // PUT api/Event/5
+
         [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PutEvent(int id, Event @event)
         {
@@ -168,7 +153,7 @@ namespace gliist_server.Controllers
             }
 
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
@@ -197,6 +182,7 @@ namespace gliist_server.Controllers
         }
 
         // POST api/Event
+
         [ResponseType(typeof(Event))]
         [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PostEvent(Event @event)
@@ -207,7 +193,7 @@ namespace gliist_server.Controllers
             }
 
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
 
             if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
             {
@@ -326,9 +312,81 @@ namespace gliist_server.Controllers
             return CreatedAtRoute("DefaultApi", new { id = @event.id }, @event);
         }
 
+        // DELETE api/Event/5
+
+        [ResponseType(typeof(Event))]
+        [CheckAccess(DeniedPermissions = "promoter")]
+        public async Task<IHttpActionResult> DeleteEvent(int id)
+        {
+
+            var userId = User.Identity.GetUserId();
+            var user = userManager.FindById(userId);
+
+            if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
+            {
+                return BadRequest("Invalid permissions");
+            }
+
+            Event @event = db.Events.FirstOrDefault(e => e.id == id && e.company.id == user.company.id);
+
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            @event.isDeleted = true;
+            db.Entry(@event).State = EntityState.Modified;
+
+            await db.SaveChangesAsync();
+
+            return Ok(@event);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region private methods
+
+        private bool CheckGuestListsHaveAdditionalGuests(Event evnt)
+        {
+            if (evnt.guestLists == null ||
+                evnt.guestLists.Count(
+                    x =>
+                        x.linked_guest_list != null && x.linked_guest_list.guests != null &&
+                        x.linked_guest_list.guests.Count > 0) == 0)
+            {
+                return false;
+            }
+
+            var guestListInstancesGuestsIds =
+                evnt.guestLists.Where(x => x.linked_guest_list != null && x.linked_guest_list.guests != null)
+                    .Select(x => x.linked_guest_list)
+                    .SelectMany(x => x.guests)
+                    .Select(x => x.id);
+            var actualGuests = db.EventGuests.Where(x => x.EventId == evnt.id).ToList();
+
+            foreach (var guest in actualGuests)
+            {
+                if (!guestListInstancesGuestsIds.Contains(guest.GuestId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void AddNewGuestsFromGuestListToEvent(Event @event, GuestListInstance gli, Event existingEvent)
         {
-            var guestListInstance = db.GuestListInstances.Include(x => x.linked_guest_list).FirstOrDefault(x => x.id == gli.id);
+            var guestListInstance =
+                db.GuestListInstances.Include(x => x.linked_guest_list).FirstOrDefault(x => x.id == gli.id);
 
             if (guestListInstance == null)
             {
@@ -373,53 +431,12 @@ namespace gliist_server.Controllers
             }
         }
 
-        // DELETE api/Event/5
-        [ResponseType(typeof(Event))]
-        [CheckAccess(DeniedPermissions = "promoter")]
-        public async Task<IHttpActionResult> DeleteEvent(int id)
-        {
-
-            var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
-
-            if (user.permissions.Contains("promoter") || user.permissions.Contains("staff"))
-            {
-                return BadRequest("Invalid permissions");
-            }
-
-            Event @event = db.Events.FirstOrDefault(e => e.id == id && e.company.id == user.company.id);
-
-
-            if (@event == null)
-            {
-                return NotFound();
-            }
-
-            @event.isDeleted = true;
-            db.Entry(@event).State = EntityState.Modified;
-
-            await db.SaveChangesAsync();
-
-            return Ok(@event);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         private bool EventExists(int id)
         {
             return db.Events.Count(e => e.id == id) > 0;
         }
 
-        public EventController()
-        {
-            UserManager = Startup.UserManagerFactory(db);
-        }
+        #endregion
+
     }
 }
