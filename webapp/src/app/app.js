@@ -29,7 +29,7 @@ angular.module('gliist')
                             icon: {name: 'today', style: "fill: white", size: 24}
                         },
                         {
-                            title: 'Events Statistics',
+                            title: 'Events Stats',
                             ui_sref: 'main.stats',
                             icon: {name: 'insert_chart', style: "fill: white", size: 24}
                         }
@@ -49,7 +49,7 @@ angular.module('gliist')
                             icon: {name: 'today', style: "fill: white", size: 24}
                         },
                         {
-                            title: 'Events Statistics',
+                            title: 'Events Stats',
                             ui_sref: 'main.stats',
                             icon: {name: 'insert_chart', style: "fill: white", size: 24}
                         },
@@ -78,7 +78,7 @@ angular.module('gliist')
                             icon: {name: 'today', style: "fill: white", size: 24}
                         },
                         {
-                            title: 'Events Statistics',
+                            title: 'Events Stats',
                             ui_sref: 'main.stats',
                             icon: {name: 'insert_chart', style: "fill: white", size: 24}
                         },
