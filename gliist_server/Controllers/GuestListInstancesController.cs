@@ -192,7 +192,7 @@ namespace gliist_server.Controllers
                     EventId = evnt.id,
                     GuestListId = existingGuestListInstance.linked_guest_list.id,
                     GuestListInstanceId = guestListInstance.id,
-                    GuestId = checkin.guest.id,
+                    Guest = checkin.guest,
                     GuestListInstanceType = guestListInstance.InstanceType,
                     AdditionalGuestsRequested = checkin.guest.plus
                 };
