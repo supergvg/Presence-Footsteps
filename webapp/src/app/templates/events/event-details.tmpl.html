@@ -1,6 +1,6 @@
 <div ng-init="init()" class="event-details-page">
 
-    <div layout="row"  layout-align="space-between center" class="tabs margin-top">
+    <div layout="row" layout-align="space-between center" class="tabs margin-top">
         <div class="tab">
             <div class="line"></div>
             <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <ng-switch on="data.selectedIndex" class="tabpanel-container">
+    <ng-switch on="data.selectedIndex">
         <div role="tabpanel"
              id="tab1-content"
              aria-labelledby="tab1"
@@ -172,8 +172,7 @@
                     </md-list-item>
                 </md-list>
                 <div layout="row">
-                    <div flex ng-style="getEventInvite('300px')">
-                    </div>
+                    <div flex ng-style="getEventInvite('300px')"></div>
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="actions">

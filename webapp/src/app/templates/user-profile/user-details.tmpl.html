@@ -1,20 +1,14 @@
 <div layout="column">
-    <md-whiteframe ng-style="!editMode ? {'background-color': 'white'} : {}" ng-class="!editMode ? 'md-whiteframe-z1' : ''" flex class="user-profile">
+    <md-whiteframe ng-style="!editMode ? {'background-color': 'white'} : {}" ng-class="!editMode ? 'md-whiteframe-z1' : ''" flex class="user-details">
         <div ng-show="!editMode" layout layout-align="center center">
-            <div flex="30" ng-style="getUserPhoto('150px')">
-            </div>
-
+            <div flex="30" ng-style="getUserPhoto('150px')"></div>
             <div flex="40" layout="column" layout-align="start start" style="padding-left: 20px">
                 <h3 class="md-title">{{user.firstName}} {{user.lastName}}</h3>
-
                 <div>{{user.email}}</div>
-
                 <div>{{user.phoneNumber}}</div>
-
                 <div>{{user.city}}</div>
                 <div>{{user.company}}</div>
             </div>
-
             <div flex="30" layout="row" layout-align="end end">
                 <md-button class="raised-btn" ng-click="editMode = !editMode">
                     Edit
@@ -23,114 +17,108 @@
         </div>
 
         <div ng-show="editMode">
-            <div class="section-label">Upload your company's logo:</div>
-            <div layout="row" layout-align="space-between center" class="upload-picture">
-                <md-input-container>
-                    Support jpg, gif file. (To be included in all communication to guests)
-                </md-input-container>
-                <md-input-container>
-                    <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".jpg,.png,.gif">
-                        UPLOAD
-                    </md-button>
-                    <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                          ng-show="fetchingData"></md-progress-circular>
-                </md-input-container>
+            <div class="block-field">
+                <h4>Upload your company's logo:</h4>
+                <div layout="row" layout-align="space-between center">
+                    <md-input-container>
+                        Support jpg, gif file. (To be included in all communication to guests)
+                    </md-input-container>
+                    <md-input-container>
+                        <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".jpg,.png,.gif">
+                            UPLOAD
+                        </md-button>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                    </md-input-container>
+                </div>
             </div>
-            <md-divider></md-divider>
-            <div class="section-label">Edit Personal Details</div>
             <form name="userForm">
-                <div layout layout-sm="column">
-                    <md-input-container>
-                        <label>First Name</label>
-                        <input ng-model="user.firstName" name="firstName" required>
-                        <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
-                            <div ng-message="required">First name is required</div>
+                <div class="block-field">
+                    <h4>Edit Personal Details</h4>
+                    <div layout="row" layout-sm="column" layout-align="start start">
+                        <div layout="column">
+                            <md-input-container>
+                                <label>First Name</label>
+                                <input ng-model="user.firstName" name="firstName" required>
+                                <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
+                                    <div ng-message="required">First name is required</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Email</label>
+                                <input ng-model="user.email" type="email" disabled>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>City</label>
+                                <input ng-model="user.city">
+                            </md-input-container>                        
                         </div>
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Last Name</label>
-                        <input ng-model="user.lastName" name="lastName" required>
-                        <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
-                            <div ng-message="required">Last name is required</div>
+                        <div layout="column">
+                            <md-input-container>
+                                <label>Last Name</label>
+                                <input ng-model="user.lastName" name="lastName" required>
+                                <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
+                                    <div ng-message="required">Last name is required</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Phone Number</label>
+                                <input ng-model="user.phoneNumber" type="tel">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Company</label>
+                                <input ng-model="user.company" ng-disabled="true">
+                            </md-input-container>
+                        </div>                    
+                        <div layout="column" ng-show="false">
+                            <md-input-container>
+                                <label>Brief Bio</label>
+                                <textarea ng-model="user.bio"></textarea>
+                            </md-input-container>
                         </div>
-                    </md-input-container>
+                    </div>
+                    <div class="actions" layout="row" layout-align="end center" ng-show="editMode">
+                        <md-button class="raised-btn" ng-click="editMode=!editMode">
+                            Cancel
+                        </md-button>
+                        <md-button class="raised-btn" ng-click="saveChanges(userForm)">
+                            Save
+                        </md-button>
+                    </div>
                 </div>
-                <div layout layout-sm="column">
-                    <md-input-container>
-                        <label>Email</label>
-                        <input ng-model="user.email" type="email" disabled>
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Phone Number</label>
-                        <input ng-model="user.phoneNumber" type="tel">
-                    </md-input-container>
+                <div class="block-field">
+                    <h4>Change your password</h4>
+                    <div layout layout-sm="column">
+                        <md-input-container>
+                            <label>Enter old password</label>
+                            <input ng-model="user.password" type="password">
+                        </md-input-container>
+                    </div>
+                    <div layout layout-sm="column">
+                        <md-input-container>
+                            <label>Enter new password</label>
+                            <input ng-model="user.new_password" type="password" name="new_password">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Re-enter new password</label>
+                            <input ng-model="user.re_password" type="password" ng-match="user.new_password" name="re_password">
+                            <div ng-messages="userForm.re_password.$error" class="errors">
+                                <div ng-message="match">Passwords don't match.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div class="actions" layout="row" layout-align="end center" ng-show="editMode">
+                        <md-button class="raised-btn" ng-click="editMode=!editMode">
+                            Cancel
+                        </md-button>
+                        <md-button class="raised-btn" ng-click="updatePassword(userForm)">
+                            Update
+                        </md-button>
+                    </div>
                 </div>
-                <div layout layout-sm="column">
-                    <md-input-container>
-                        <label>City</label>
-                        <input ng-model="user.city">
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Company</label>
-                        <input ng-model="user.company" ng-disabled="true">
-                    </md-input-container>
-                </div>
-
-                <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
-                    <md-button class="raised-btn" ng-click="editMode=!editMode">
-                        Cancel
-                    </md-button>
-                    <md-button class="raised-btn" ng-click="saveChanges(userForm)">
-                        Save
-                    </md-button>
-                </div>
-
-                <md-divider></md-divider>
-                
-                <div layout layout-sm="column" ng-show="false">
-                    <md-input-container flex>
-                        <label>Brief Bio</label>
-                        <textarea ng-model="user.bio" columns="1"></textarea>
-                    </md-input-container>
-                </div>
-                <div class="section-label">Change your password</div>
-                <div layout layout-sm="column">
-                    <md-input-container>
-                        <label>Enter old password</label>
-                        <input ng-model="user.password" type="password">
-                    </md-input-container>
-                </div>
-                <div layout layout-sm="column">
-                    <md-input-container>
-                        <label>Enter new password</label>
-                        <input ng-model="user.new_password" type="password" name="new_password">
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Re-enter new password</label>
-                        <input ng-model="user.re_password" type="password" ng-match="user.new_password" name="re_password">
-                        <div ng-messages="userForm.re_password.$error" class="errors">
-                            <div ng-message="match">Passwords don't match.</div>
-                        </div>
-                    </md-input-container>
-                </div>
-
-                <div class="md-actions" layout="row" layout-align="end center" ng-show="editMode">
-                    <md-button class="raised-btn" ng-click="editMode=!editMode">
-                        Cancel
-                    </md-button>
-                    <md-button class="raised-btn" ng-click="updatePassword(userForm)">
-                        Update
-                    </md-button>
-                </div>
-
             </form>
         </div>
-
-
-
     </md-whiteframe>
     <p ng-show="!editMode">
         {{user.bio}}
     </p>
-
 </div>
