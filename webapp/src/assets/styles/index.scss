@@ -1238,9 +1238,15 @@ md-dialog {
             font-weight: bold;
             margin: 0;
         }
-        md-grid-tile * {
-            width: 100%;
+        md-grid-tile figure {
+            justify-content: flex-start;
         }
+    }
+    md-list-item {
+        border: 1px solid #ebebeb;
+    }
+    md-list-item + md-list-item {
+        margin-top: 15px;
     }
     .actions {
         padding-right: 10px;

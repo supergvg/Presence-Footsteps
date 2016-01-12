@@ -14,41 +14,34 @@
                             {{event.location}}
                         </md-grid-tile>
                         <md-grid-tile>
-                            Starts: {{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
+                            <b>Starts:</b>&nbsp;{{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
                         </md-grid-tile>
                         <md-grid-tile>
-                            Ends: {{event.endTime | date : 'MMM dd, yyyy h:mma'}}
+                            <b>Ends:</b>&nbsp;{{event.endTime | date : 'MMM dd, yyyy h:mma'}}
                         </md-grid-tile>
                     </md-grid-list>
                 </div>
                 <div layout="row" ng-cloak flex="25" layout-align="end center" ng-hide="options.local" class="actions" layout-sm="column">
-                    <div layout="column">
-                        <md-button flex class="icon-btn" ng-hide="isPromoter()" ui-sref="main.event_checkin({eventId:{{event.id}}})">
-                            <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
-                            <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
-                        </md-button>
-                        <div flex></div>
-                    </div>
-                    <div layout="column">
-                        <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.event_summary({eventId:{{event.id}}})">
-                            <md-tooltip md-direction="top">Preview event</md-tooltip>
-                            <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
-                        </md-button>
-                        <md-button flex class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})">
-                            <md-tooltip md-direction="top">event stats</md-tooltip>
-                            <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
-                        </md-button>
-                    </div>
-                    <div layout="column">
-                        <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.edit_event({eventId:{{event.id}}})">
-                            <md-tooltip md-direction="top">Edit event</md-tooltip>
-                            <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
-                        </md-button>
-                        <md-button flex class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ng-click="deleteEvent($event,event)">
-                            <md-tooltip md-direction="top">Delete event</md-tooltip>
-                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                        </md-button>
-                    </div>
+                    <md-button class="icon-btn" ng-hide="isPromoter()" ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                        <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
+                        <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.edit_event({eventId:{{event.id}}})">
+                        <md-tooltip md-direction="top">Edit event</md-tooltip>
+                        <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.event_summary({eventId:{{event.id}}})">
+                        <md-tooltip md-direction="top">Preview event</md-tooltip>
+                        <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
+                    </md-button>
+                    <md-button class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})">
+                        <md-tooltip md-direction="top">event stats</md-tooltip>
+                        <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
+                    </md-button>
+                    <md-button class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ng-click="deleteEvent($event,event)">
+                        <md-tooltip md-direction="top">Delete event</md-tooltip>
+                        <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                    </md-button>
                 </div>
             </div>
         </md-list-item>
