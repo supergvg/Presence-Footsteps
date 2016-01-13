@@ -64,6 +64,12 @@ div[ui-grid] {
     .ui-grid-cell {
         border: none !important;
         padding: 12px;
+        position: relative;
+        .actions {
+           margin: 0;
+           position: absolute;
+           top: 0;
+        }
     }
     .ui-grid-cell-contents {
         padding: 0;
@@ -267,6 +273,7 @@ md-sidenav {
     top: auto;
     left: auto;
     margin: 0;
+    color: #8e8e8e !important;
 }
 
 .actions {
@@ -473,6 +480,17 @@ md-radio-button {
         }        
         .md-on {
             transform: scale(0.4);
+        }
+    }
+    &.radio-icon {
+        img {
+            position: absolute;
+        }
+        span {
+            margin-left: 25px;
+        }
+        .md-label {
+            margin-left: 15px;
         }
     }
 }
@@ -1247,6 +1265,12 @@ md-dialog {
                 margin-bottom: 4px;
             }
         }
+    }
+}
+
+.event-checkin {
+    md-radio-button + md-radio-button {
+        margin-top: 15px;
     }
 }
 
