@@ -6,9 +6,9 @@
     <WebStackScaffolding_IsReferencingScriptLibrariesSelected>True</WebStackScaffolding_IsReferencingScriptLibrariesSelected>
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_IsAsyncSelected>True</WebStackScaffolding_IsAsyncSelected>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <WebStackScaffolding_DbContextTypeFullName>gliist_server.Models.EventDBContext</WebStackScaffolding_DbContextTypeFullName>
-    <NameOfLastUsedPublishProfile>gjests %282%29</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>local-iis-deployment</NameOfLastUsedPublishProfile>
     <WebStackScaffolding_ControllerDialogWidth>600.125654450262</WebStackScaffolding_ControllerDialogWidth>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
   </PropertyGroup>
@@ -31,7 +31,7 @@
           </StartCmdLineArguments>
           <StartWorkingDirectory>
           </StartWorkingDirectory>
-          <EnableENC>True</EnableENC>
+          <EnableENC>False</EnableENC>
           <AlwaysStartWebServerOnDebug>True</AlwaysStartWebServerOnDebug>
         </WebProjectProperties>
       </FlavorProperties>

@@ -9,37 +9,37 @@ using gliist_server.Models;
 
 namespace gliist_server.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class CheckAccess : ActionFilterAttribute
     {
-        private string _allowPermissions;
-        private string[] _allowPermissionsSplit;
-        private string _deniedPermissions;
-        private string[] _deniedPermissionsSplit;
+        private string allowPermissions;
+        private string[] allowPermissionsSplit;
+        private string deniedPermissions;
+        private string[] deniedPermissionsSplit;
 
         public string AllowPermissions
         {
-            get { return _allowPermissions; }
+            get { return allowPermissions; }
             set
             {
-                _allowPermissions = value;
-                _allowPermissionsSplit = _allowPermissions.Split(',');
+                allowPermissions = value;
+                allowPermissionsSplit = allowPermissions.Split(',');
             }
         }
 
         public string DeniedPermissions
         {
-            get { return _deniedPermissions; }
+            get { return deniedPermissions; }
             set
             {
-                _deniedPermissions = value;
-                _deniedPermissionsSplit = _deniedPermissions.Split(',');
+                deniedPermissions = value;
+                deniedPermissionsSplit = deniedPermissions.Split(',');
             }
         }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            if ((_allowPermissionsSplit == null || _allowPermissionsSplit.Length == 0) && (_deniedPermissionsSplit == null || _deniedPermissionsSplit.Length == 0))
+            if ((allowPermissionsSplit == null || allowPermissionsSplit.Length == 0) && (deniedPermissionsSplit == null || deniedPermissionsSplit.Length == 0))
             {
                 return;
             }
@@ -63,8 +63,8 @@ namespace gliist_server.Attributes
 
             var userPermissions = user.permissions;
 
-            if ((_deniedPermissionsSplit != null && _deniedPermissionsSplit.Length > 0 && _deniedPermissionsSplit.Any(x => userPermissions.Contains(x))) ||
-                (_allowPermissionsSplit != null && _allowPermissionsSplit.Length > 0 && !_allowPermissionsSplit.Any(x => userPermissions.Contains(x))))
+            if ((deniedPermissionsSplit != null && deniedPermissionsSplit.Length > 0 && deniedPermissionsSplit.Any(x => userPermissions.Contains(x))) ||
+                (allowPermissionsSplit != null && allowPermissionsSplit.Length > 0 && !allowPermissionsSplit.Any(x => userPermissions.Contains(x))))
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
             }

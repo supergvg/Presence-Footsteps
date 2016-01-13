@@ -1,11 +1,9 @@
+using System.Data.Entity.Migrations;
+using gliist_server.Models;
+
 namespace gliist_server.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<gliist_server.Models.EventDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<EventDBContext>
     {
         public Configuration()
         {
@@ -13,7 +11,7 @@ namespace gliist_server.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(gliist_server.Models.EventDBContext context)
+        protected override void Seed(EventDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 

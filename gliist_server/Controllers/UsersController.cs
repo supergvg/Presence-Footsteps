@@ -10,7 +10,7 @@ namespace gliist_server.Controllers
     public class UsersController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private EventDBContext _db;
+        private readonly EventDBContext db;
 
         public UsersController()
             : this(new EventDBContext())
@@ -20,14 +20,14 @@ namespace gliist_server.Controllers
 
         public UsersController(EventDBContext db)
         {
-            _db = db;
+            this.db = db;
         }
 
         [Route("getUsers")]
         [AllowAnonymous]
         public IHttpActionResult GetUsers(string role)
         {
-            var user = _db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
 
             if (string.IsNullOrEmpty(role))
             {
@@ -35,8 +35,8 @@ namespace gliist_server.Controllers
             }
 
             var users = user != null
-                ? _db.Users.Where(x => x.permissions.Contains(role) && (role.Equals("admin") || x.company.id == user.company.id)).ToList()
-                : _db.Users.Where(x => x.permissions.Contains(role)).ToList();
+                ? db.Users.Where(x => x.permissions.Contains(role) && (role.Equals("admin") || x.company.id == user.company.id)).ToList()
+                : db.Users.Where(x => x.permissions.Contains(role)).ToList();
 
             return Ok(users);
         }

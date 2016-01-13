@@ -147,10 +147,9 @@ namespace gliist_server.Controllers
                 return BadRequest("Invalid permissions");
             }
 
-            GuestList existingGuestList;
-            if (guestList.id > 0)
+            if (guestList.id > 0 && !guestList.CreateCopy)
             {
-                existingGuestList = db.GuestLists.SingleOrDefault(gl => gl.company.id == user.company.id && gl.id == guestList.id);
+                var existingGuestList = db.GuestLists.SingleOrDefault(gl => gl.company.id == user.company.id && gl.id == guestList.id);
                 if (existingGuestList == null)
                 {
                     throw new NotImplementedException();
@@ -158,8 +157,8 @@ namespace gliist_server.Controllers
                 existingGuestList.title = guestList.title;
                 existingGuestList.listType = guestList.listType;
                 existingGuestList.promoter_Id = guestList.promoter_Id;
-                db.Entry(existingGuestList).State = EntityState.Modified;
 
+                db.Entry(existingGuestList).State = EntityState.Modified;
 
                 foreach (var guest in guestList.guests)
                 {
@@ -180,6 +179,8 @@ namespace gliist_server.Controllers
             }
             else
             {
+                guestList.id = 0;
+                guestList.title += guestList.CreateCopy ? "_Copy" : "";
                 guestList.company = user.company;
                 guestList.created_by = user;
 

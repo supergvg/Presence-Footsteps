@@ -130,21 +130,16 @@ namespace gliist_server.Helpers
 
 
 
+        public static void SendInviteUpdated(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions)
+        {
+            string subject = string.Format("{0} - Invitation. Event was updated", @event.title);
+            SendInvite(from, @event, guest, gli, baseUrl, additionalSubstitutions, subject);
+        }
+
         public static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions)
         {
             string subject = string.Format("{0} - Invitation", @event.title);
-            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
-
-            foreach (var key in additionalSubstitutions.Keys)
-            {
-                substitutions.Add(key, additionalSubstitutions[key]);
-            }
-
-
-            var categories = new List<string> { "Event Invitation", from.company.name, @event.title};
-
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions, categories);
-            SendEmail(email);
+            SendInvite(from, @event, guest, gli, baseUrl, additionalSubstitutions, subject);
         }
 
 
@@ -246,6 +241,22 @@ namespace gliist_server.Helpers
             var categories = new List<string> { "Ticket", from.company.name, @event.title };
 
             var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, ticketingEmailSendgridTemplateId, subject, substitutions, categories);
+            SendEmail(email);
+        }
+
+        private static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions, string subject)
+        {
+            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
+
+            foreach (var key in additionalSubstitutions.Keys)
+            {
+                substitutions.Add(key, additionalSubstitutions[key]);
+            }
+
+
+            var categories = new List<string> { "Event Invitation", from.company.name, @event.title };
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions, categories);
             SendEmail(email);
         }
 
