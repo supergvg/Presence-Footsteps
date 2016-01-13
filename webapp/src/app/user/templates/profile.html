@@ -1,65 +1,37 @@
-<div>
-    <div layout="row" layout-wrap style="margin-bottom: 8px">
-        <div flex class="section-title">
-            <h3>User Profile</h3>
-        </div>
+<div class="profile">
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>User Profile</h3>
     </div>
-
-    <div layout="row"
-         layout-align="center center"
-         style="margin-bottom: 10px"
-         class="no-selection">
-        <div flex>
-            <h5 class="text-bg">Profile</h5>
-
+    <div layout="row" layout-align="space-between center" class="tabs margin-top">
+        <div class="tab">
+            <div class="line"></div>
+            <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Profile</h4>
             <md-button class="md-fab"
-                       style="background-color: white;
-                       height: 30px;
-                       width: 30px;
-                       margin: 0"
-                       ng-class="getSelected(0)"
+                       ng-class="getSelected(0) ? 'logo-bg' : ''"
                        ng-click="data.selectedIndex = 0">
             </md-button>
-            <div style="background-color:white;
-                 border-color: white;
-                 height: 10px;
-                 margin-top: -20px;">
-
-            </div>
-
         </div>
-        <div flex>
-            <h5 class="text-bg">Account</h5>
-
+        <div flex class="line"></div>
+        <div class="tab">
+            <div class="line"></div>
+            <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Account</h4>
             <md-button class="md-fab"
-                       style="background-color: white;
-                       height: 30px;
-                       width: 30px;
-                       margin: 0"
+                       ng-class="getSelected(1) ? 'logo-bg' : ''"
                        ng-disabled="!isAdmin()"
-                       ng-class="getSelected(1)"
                        ng-click="data.selectedIndex = 1">
             </md-button>
-            <div style="background-color:white;
-                 border-color: white;
-                 height: 10px;
-                 margin-top: -20px;">
-
-            </div>
         </div>
+        <div flex class="line"></div>
     </div>
-
-
-    <div style="height: 30px;">
-
-    </div>
-    <ng-switch on="data.selectedIndex" class="tabpanel-container">
+    
+    <ng-switch on="data.selectedIndex">
         <div role="tabpanel"
              id="tab1-content"
              aria-labelledby="tab1"
              ng-switch-when="0"
              md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-right="previous()"
+             class="margin-top">
             <div>
                 <user-details user="currentUser"></user-details>
             </div>
@@ -89,20 +61,17 @@
                     </div>
                 </div>
                 <div layout="row" layout-align="end start">
-                    <md-button ng-click="link()">Link</md-button>
+                    <md-button class="raised-btn" ng-click="link()">Link</md-button>
                 </div>
             </div>
         </div>
-
         <div role="tabpanel"
              id="tab2-content"
              aria-labelledby="tab2"
              ng-switch-when="1"
              md-swipe-left="next()"
              md-swipe-right="previous()">
-            <div class="md-padding">
-                <account-details user="currentUser"></account-details>
-            </div>
+            <account-details user="currentUser"></account-details>
         </div>
     </ng-switch>
 </div>

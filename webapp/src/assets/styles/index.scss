@@ -257,7 +257,7 @@ md-sidenav {
 }
 
 .md-actions .md-button:last-child {
-    @extend .icon-btn;
+    @extend .raised-btn;
 }
 
 .input-icon {
@@ -317,22 +317,6 @@ md-sidenav {
     }
 }
 
-.section-label {
-    font-weight: bold;
-    padding-top: 20px;
-    font-size: 14px;
-}
-
-.section-subtitle {
-    background-color: #CCCCCC;
-    color: white;
-    margin: 0;
-    & > h4 {
-        margin: 0;
-        padding: 5px 0 5px 20px;
-    }
-}
-
 input.form-control {
     height: auto;
     line-height: 40px;
@@ -365,6 +349,10 @@ md-input-container {
     &.md-input-focused label:not(.md-no-float),
     &.md-input-has-value label:not(.md-no-float) {
         transform: translate3d(0, -5px, 0) scale(0.75);
+        color: #99ccff;
+    }
+    &:not(.md-input-invalid).md-input-focused .md-input {
+        border-color: #99ccff;
     }
     .md-input {
         background-color: #fff;
@@ -891,53 +879,36 @@ md-dialog {
         }
     }
 }
-.social-links-edit {
+
+.profile {
     color: #8e8e8e;
-    border-top: 2px solid #fff;
-    h5 {
-        font-weight: bold;
-        margin: 20px 0;
-    }
-    .social-link-edit {
-        position: relative;
-        width: 100%;
-        img {
-            position: absolute;
-            margin-top: 35px;
-        }
-        md-input-container {
-            padding: 0;
-            margin-left: 130px;
-            max-width: 500px;
-        }
-    }
-}
-.user-profile {
-    color: #8e8e8e;
-    padding-bottom: 20px;
-    md-divider {
+    .social-links-edit {
         border-top: 2px solid #fff;
-        margin-top: 20px;
-    }
-    md-input-container {
-        padding: 0;
-        margin-right: 12px;
-        input {
-            padding-left: 12px;
+        h5 {
+            font-weight: bold;
+            margin: 20px 0;
         }
-        .errors {
-            text-align: right;
-            div {
-                width: 100%;
-                padding: 0;
+        .social-link-edit {
+            position: relative;
+            width: 100%;
+            img {
+                position: absolute;
+                margin-top: 35px;
+            }
+            md-input-container {
+                margin-left: 130px;
+                max-width: 500px;
             }
         }
     }
-    .upload-picture {
-        padding: 5px 0 0 0;
-    }
-    form md-input-container {
-        width: 300px;
+    .user-details {
+        .block-field md-input-container + md-input-container {
+            padding-left: 0 !important;
+        }
+        md-input-container {
+            padding: 0 20px 20px 0;
+            max-width: 300px;
+        }
     }
 }
 
@@ -1074,12 +1045,13 @@ md-dialog {
     }
 }
 
+.profile,
 .event-details-page {
     .tabs {
         .line {
             background-color: #e6e6e6;
             height: 10px;
-            margin-top: 17px;
+            margin-top: 18px;
         }
         .tab {
             position: relative;
@@ -1099,7 +1071,7 @@ md-dialog {
             .line {
                 margin: 0;
                 position: absolute;
-                top: 34px;
+                top: 35px;
                 width: 100%;
             }
         }
@@ -1238,9 +1210,15 @@ md-dialog {
             font-weight: bold;
             margin: 0;
         }
-        md-grid-tile * {
-            width: 100%;
+        md-grid-tile figure {
+            justify-content: flex-start;
         }
+    }
+    md-list-item {
+        border: 1px solid #ebebeb;
+    }
+    md-list-item + md-list-item {
+        margin-top: 15px;
     }
     .actions {
         padding-right: 10px;
