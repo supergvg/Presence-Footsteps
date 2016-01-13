@@ -11,7 +11,7 @@
                             <h3>{{event.title}}</h3>
                         </md-grid-tile>
                         <md-grid-tile>
-                            {{event.location}}
+                            <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>{{event.location}}
                         </md-grid-tile>
                         <md-grid-tile>
                             <b>Starts:</b>&nbsp;{{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}

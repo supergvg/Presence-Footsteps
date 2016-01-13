@@ -57,7 +57,7 @@
                             <div ng-if="rsvpLandingForm.plus.$error.max" ng-message="max">Numer of additional guests cannot exceed {{event.event.additionalGuests}} people</div>
                         </div>
                     </div>
-                    <a ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                    <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
                 </form>
                 <div class="item-label" ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">Event on Social:</div>

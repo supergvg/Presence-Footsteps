@@ -184,6 +184,10 @@ md-sidenav {
     }
 }
 
+md-tooltip .md-content{
+    font-size: 16px;
+}
+
 .md-button {
     min-width: 30px;
     min-height: 30px;
@@ -696,17 +700,7 @@ md-dialog {
                     text-align: left;
                 }
                 a {
-                    font-size: 12px;
-                    width: 175px;
-                    height: 25px;
-                    display: block;
-                    padding: 0;
-                    float: right;
-                    margin: 12px 0 0 0;
-                    text-align: center;
-                    line-height: 25px;
-                    text-decoration: none;
-                    cursor: pointer;
+                    margin: 12px 12px 0 0;
                 }
                 form {
                     margin-bottom: 20px;
@@ -1235,6 +1229,9 @@ md-dialog {
             margin: 0;
         }
         md-grid-tile figure {
+            md-icon {
+                margin: 0 10px 0 0;
+            }
             justify-content: flex-start;
         }
     }

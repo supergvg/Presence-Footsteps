@@ -199,7 +199,7 @@ angular.module('gliist')
                     if ($scope.event.rsvpEndDate < $scope.event.time) {
                         $scope.event.rsvpEndDate = $scope.event.time;
                     }
-                    if (form && form.$invalid | !$scope.timeValid()) {
+                    if (form && form.$invalid || !$scope.timeValid() || !$scope.location.details) {
                         var errors = {
                             required: {
                                 title: 'Please Enter Event Title',
@@ -354,6 +354,7 @@ angular.module('gliist')
                 }
 
                 if ($scope.event) {
+                    $scope.location.details = {};
                     return;
                 }
 
