@@ -190,7 +190,7 @@ angular.module('gliist')
                 }, function (err) {
                     $scope.errorMessage = 'Invalid User or Password';
                 }).finally(function () {
-                        $scope.fetchingData = false
+                        $scope.fetchingData = false;
                     }
                 );
             };

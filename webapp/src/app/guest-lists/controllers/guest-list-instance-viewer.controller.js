@@ -49,7 +49,7 @@ angular.module('gliist')
             $scope.save = function (instance) {
 
                 guestFactory.GuestListInstance.update(instance).$promise.then(
-                    function (res) {
+                    function () {
                     }, function () {
                     }).finally(function () {
                     });

@@ -6,20 +6,16 @@ angular.module('gliist')
 
       $scope.user = {};
 
-      $scope.cancel = function () {
-        $mdDialog.cancel();
-      };
-
       $scope.register = function () {
         $scope.fetchingData = true;
         userService.registerEmail($scope.user).then(function () {
           $scope.hide();
           $state.go('main.welcome');
-        }, function (err) {
+        }, function() {
           dialogService.error('There was a problem signing up, please try again');
         }).
           finally(
-          function () {
+          function() {
             $scope.fetchingData = false;
           }
         );
@@ -52,7 +48,7 @@ angular.module('gliist')
           $scope.user.company = company;
           $scope.user.token = token;
 
-        }, function (err) {
+        }, function() {
           dialogService.error('There was a problem signing up, please try again');
         }).
           finally(

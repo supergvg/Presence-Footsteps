@@ -92,7 +92,7 @@
                         <div layout layout-sm="column">
                             <md-input-container flex="75" md-no-float>
                                 <h4>Event Location</h4>
-                                <input type="text" name="location" required ng-autocomplete ng-model="event.location" details="location.details" placeholder="Event location">
+                                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="event.location" options="{types: '(cities)', watchEnter: true}" details="location.details" placeholder="Enter event location">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
                                 <div ng-messages="eventForm.location.$error" ng-if="displayErrorMessage(eventForm.location)">
                                     <div ng-message="required">Please Enter Event Location</div>
@@ -100,7 +100,7 @@
                             </md-input-container>
                             <md-input-container flex="25" md-no-float>
                                 <h4>Event Capacity</h4>
-                                <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1" placeholder="Event capacity">
+                                <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1" placeholder="Enter event capacity">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
                                 <div ng-messages="eventForm.capacity.$error" ng-if="displayErrorMessage(eventForm.capacity)">
                                     <div ng-message="required">Please Enter Event Capacity</div>

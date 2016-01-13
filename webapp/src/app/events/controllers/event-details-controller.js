@@ -3,7 +3,6 @@ angular.module('gliist')
         function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $state, $timeout, $rootScope, $stateParams, $location) {
             'use strict';
 
-
             $scope.isStaff = function () {
                 return $rootScope.isStaff();
             };
@@ -76,7 +75,7 @@ angular.module('gliist')
                     function () {
                         $scope.fetchingData = false;
                     }
-                )
+                );
             };
 
 
@@ -198,14 +197,14 @@ angular.module('gliist')
             $scope.next = function (form) {
                 if ($scope.data.selectedIndex == 0 || $scope.data.selectedIndex == 2 || $scope.data.selectedIndex == 3) {
                     if ($scope.event.rsvpEndDate < $scope.event.time) {
-                        $scope.event.rsvpEndDate = $scope.event.time
+                        $scope.event.rsvpEndDate = $scope.event.time;
                     }
                     if (form && form.$invalid | !$scope.timeValid()) {
                         var errors = {
                             required: {
                                 title: 'Please Enter Event Title',
                                 category: 'Please Select Event Category',
-                                location: 'Please Enter Event Location',
+                                /*location: 'Please Enter Event Location',*/
                                 capacity: 'Please Enter Event Capacity'
                             },
                             pattern: {
@@ -229,6 +228,9 @@ angular.module('gliist')
                         }
                         if ($scope.endTimeInvalid) {
                             errorMessage.push("End time has to be after start time");
+                        }
+                        if (!$scope.location.details) {
+                            errorMessage.push("Please enter the city of the event or event location");
                         }
                         dialogService.error(errorMessage.join(', '));
                         $scope.showValidation = true;
@@ -282,7 +284,7 @@ angular.module('gliist')
                     function () {
                         $scope.savingEvent = false;
                     }
-                )
+                );
             };
 
             $scope.createEvent = function () {
@@ -299,12 +301,15 @@ angular.module('gliist')
                     function () {
                         $scope.savingEvent = false;
                     }
-                )
+                );
             };
 
             $scope.previewOptions = {hideEdit: true};
 
-            $scope.location = {};
+            $scope.clearLocation = function() {
+                $scope.location = {};
+            };
+            $scope.clearLocation();
 
             $scope.minDate = Date.now();
 
@@ -323,12 +328,12 @@ angular.module('gliist')
                 if (!newValue) {
                     return;
                 }
-
+                
                 $.ajax({
                     url: "https://maps.googleapis.com/maps/api/timezone/json?location=" +
                         newValue.geometry.location.lat() + "," +
                         newValue.geometry.location.lng() + "&timestamp="
-                        + (Math.round((new Date().getTime()) / 1000)).toString() + "&sensor=false",
+                        + (Math.round((new Date().getTime()) / 1000)).toString() + "&sensor=false"
                 }).done(function (response) {
                     $scope.event.utcOffset = response.dstOffset + response.rawOffset;
                 });
@@ -341,7 +346,7 @@ angular.module('gliist')
 
             $scope.addNewTicket = function() {
                 $scope.event.tickets.push({title: '', price: 10, endTime: new Date(), quantity: 1});
-            }
+            };
 
             $scope.init = function () {
                 if ($scope.isPromoter()) {
@@ -370,7 +375,7 @@ angular.module('gliist')
                     isRsvpCapacityLimited: false,
                     rsvpEndDate: d3,
                     tickets: []
-                }
+                };
                 $scope.addNewTicket();
             };
 

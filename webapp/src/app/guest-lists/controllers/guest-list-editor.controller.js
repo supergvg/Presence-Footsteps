@@ -9,7 +9,7 @@ angular.module('gliist')
                     {field: 'firstName', name: 'First Name'},
                     {field: 'lastName', name: 'Last Name'},
                     {field: 'email', name: 'Email', enableSorting: false},
-                    {field: 'phoneNumber', name: 'Phone Number', enableSorting: false}
+                    {field: 'phoneNumber', name: 'Note', enableSorting: false}
                 ]; 
             if (instanceType !== 2){
                     columnDefs.push({

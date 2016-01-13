@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$stateParams', '$state', '$timeout',
-        function ($scope, $mdDialog, eventsService, dialogService, $stateParams, $state, $timeout) {
+    .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$stateParams', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, $stateParams, $state) {
 
             $scope.categories = [
                 {name: 'GA', color: '#d4e4f9'},
@@ -58,7 +58,7 @@ angular.module('gliist')
                 return count;
             };
 
-            $scope.updateChart = function(event) {
+            $scope.updateChart = function() {
                 var totalGuests = 0;
                 $scope.chartObject = {
                     type: 'PieChart',
@@ -81,8 +81,8 @@ angular.module('gliist')
                     },
                     data: {
                         cols: [
-                            {id: "t", label: "Topping", type: "string"},
-                            {id: "s", label: "Slices", type: "number"}
+                            {id: 't', label: 'Topping', type: 'string'},
+                            {id: 's', label: 'Slices', type: 'number'}
                         ],
                         rows: []
                     }

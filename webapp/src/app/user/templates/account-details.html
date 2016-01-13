@@ -48,12 +48,14 @@
                             <p>{{user.phoneNumber}}</p>
                         </div>
                     </div>
-                    <md-button class="icon-btn" ng-click="deleteUser($event, user)" flex="10" ng-hide="options.readOnly" ng-cloak>
-                        <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                    </md-button>
-                    <md-button class="icon-btn" ng-click="editUser($event, user)" flex="10" ng-hide="options.readOnly" ng-cloak>
-                        <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
-                    </md-button>
+                    <div class="actions">
+                        <md-button class="icon-btn" ng-click="deleteUser($event, user)" ng-hide="options.readOnly" ng-cloak>
+                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                        </md-button>
+                        <md-button class="icon-btn" ng-click="editUser($event, user)" ng-hide="options.readOnly" ng-cloak>
+                            <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+                        </md-button>
+                    </div>
                 </md-list-item>
             </md-list>
         </div>

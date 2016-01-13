@@ -26,7 +26,7 @@ angular.module('gliist')
             }
             $scope.getCompanyLogo = function () {
                 if (!$scope.event || !$scope.event.company) {
-                    return
+                    return;
                 }
 
                 if (!$scope.event.company.users) {
@@ -36,7 +36,7 @@ angular.module('gliist')
                 var retVal;
                 angular.forEach($scope.event.company.users, function (user) {
                     if (user.profilePictureUrl) {
-                        retVal = user.profilePictureUrl
+                        retVal = user.profilePictureUrl;
                     }
                 });
 
@@ -50,7 +50,7 @@ angular.module('gliist')
             
             $scope.getPageURL = function() {
                 return $location.absUrl();
-            }
+            };
             
             $scope.rsvp = {};
             $scope.onSubmitClicked = function (form) {
@@ -58,7 +58,7 @@ angular.module('gliist')
                     var errors = {
                             required: {
                                 name: 'Name is required',
-                                email: 'Email is required',
+                                email: 'Email is required'
                             },
                             pattern: {
                                 name: 'Last Name is required'

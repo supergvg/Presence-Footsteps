@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('RecoverPasswordCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
-    function ($scope, $mdDialog, userService, dialogService, $state) {
+  .controller('RecoverPasswordCtrl', ['$scope', 'userService', 'dialogService',
+    function ($scope, userService, dialogService) {
 
 
       $scope.recoverSent = false;

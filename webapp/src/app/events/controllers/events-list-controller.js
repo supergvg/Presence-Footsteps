@@ -10,7 +10,7 @@ angular.module('gliist')
 
         $scope.isStaff = function () {
             return $rootScope.isStaff();
-        }
+        };
 
       $scope.getEventInvite = function (event) {
         return {
@@ -37,7 +37,7 @@ angular.module('gliist')
             $scope.refreshEvents();
           }, function () {
             dialogService.error('There was a problem please try again');
-          })
+          });
 
 
         }, function () {
@@ -70,7 +70,7 @@ angular.module('gliist')
           function () {
             $scope.fetchingData = false;
           }
-        )
+        );
       };
 
       $scope.init = function () {

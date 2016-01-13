@@ -38,7 +38,7 @@ angular.module('gliist')
 
             };
 
-            $scope.deleteAccount = function (ev, user) {
+            $scope.deleteAccount = function (ev) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete your account?')

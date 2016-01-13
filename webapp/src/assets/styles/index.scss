@@ -533,6 +533,12 @@ md-radio-button {
     h4 + h4 {
         margin-left: 50px;
     }
+    .single-icon {
+        margin: 9px;
+        path {
+            fill: #99ccff;
+        }
+    }
 }
 
 .guest-list-viewer {
