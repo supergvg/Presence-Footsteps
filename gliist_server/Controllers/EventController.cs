@@ -104,7 +104,7 @@ namespace gliist_server.Controllers
                 var events = db.Events.Where(e => e.company.id == user.company.id && !e.isDeleted)
                     .OrderBy(e => e.time)
                     .AsEnumerable()
-                    .Where(e => DateTimeOffset.Compare(e.time + new TimeSpan(24, 0, 0), DateTimeOffset.Now) < 0 &&
+                    .Where(e => DateTimeOffset.Compare(e.endTime, DateTimeOffset.Now) < 0 &&
                         (!isUserPromoter || (e.guestLists != null && e.guestLists.Count > 0 && e.guestLists.Any(y => y.linked_guest_list != null && y.linked_guest_list.promoter_Id == user.Id))))
                     .ToList();
 
