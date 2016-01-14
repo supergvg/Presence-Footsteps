@@ -4,12 +4,6 @@ angular.module('gliist')
     .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService', 'eventsService',
         function ($scope, guestFactory, dialogService, $state, uploaderService, eventsService) {
 
-
-            function mergeGuestList(parent, merge) {
-                parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
-            }
-
-
             $scope.getglistTotal = function (glist) {
                 var total = 0;
 
@@ -118,7 +112,7 @@ angular.module('gliist')
                 uploaderService.uploadGuestList(files).then(function (data) {
                         _.extend($scope.gli, data.data);
                     },
-                    function (err) {
+                    function() {
                         dialogService.error('There was a problem saving your image please try again');
                     }
                 ).finally(
@@ -128,7 +122,7 @@ angular.module('gliist')
                 );
             };
 
-            $scope.onLinkClicked = function (ev) {
+            $scope.onLinkClicked = function() {
                 var scope = $scope.$new();
                 scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
@@ -137,18 +131,6 @@ angular.module('gliist')
                 scope.options = {
                     enableSelection: true
                 };
-
-                scope.cancel = function () {
-                    $mdDialog.hide();
-                };
-
-
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
-                    targetEvent: ev
-                });
             };
 
             $scope.addMore = function () {

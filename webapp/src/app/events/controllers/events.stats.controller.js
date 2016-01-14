@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$stateParams', '$state',
-        function ($scope, $mdDialog, eventsService, dialogService, $stateParams, $state) {
+    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state',
+        function ($scope, eventsService, dialogService, $stateParams, $state) {
 
             $scope.categories = [
                 {name: 'GA', color: '#d4e4f9'},

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('gliist').factory('uploaderService',
     ['$upload', '$q',
         function ($upload, $q) {
@@ -79,6 +81,6 @@ angular.module('gliist').factory('uploaderService',
 
                     }
                 }
-            }
+            };
         }
     ]);

@@ -4,15 +4,10 @@ angular.module('gliist')
   .controller('RecoverPasswordCtrl', ['$scope', 'userService', 'dialogService',
     function ($scope, userService, dialogService) {
 
-
       $scope.recoverSent = false;
-
-
       $scope.user = {};
 
       $scope.onRecoverClicked = function (form) {
-
-
         if (form && form.$invalid) {
           $scope.showValidation = true;
           return;
@@ -23,7 +18,7 @@ angular.module('gliist')
         userService.sendPasswordRecover($scope.user.email).then(
           function () {
             $scope.recoverSent = true;
-            $scope.message = "An email has been sent to your inbox, please check it for further instructions";
+            $scope.message = 'An email has been sent to your inbox, please check it for further instructions';
 
           }, function () {
             dialogService.error('Oops there was a problem please try again');

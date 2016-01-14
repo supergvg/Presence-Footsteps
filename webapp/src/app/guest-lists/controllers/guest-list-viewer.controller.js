@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', '$rootScope',
-    function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, $rootScope) {
+  .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope',
+    function ($scope, guestFactory, dialogService, $mdDialog, $rootScope) {
 
 
       $scope.selected = $scope.selected || [];
@@ -13,7 +13,7 @@ angular.module('gliist')
           return false;
         }
 
-        return glist.created_by.UserName != $rootScope.currentUser.UserName;
+        return glist.created_by.UserName !== $rootScope.currentUser.UserName;
 
       };
 

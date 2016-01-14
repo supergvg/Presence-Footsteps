@@ -210,7 +210,7 @@
                         </md-radio-group>
                     </div>
                     <div class="block-field" layout="column" ng-show="event.type != 1">
-                        <h4>Send RSVP Invite to :</h4>
+                        <h4>Send RSVP Invite to:</h4>
                         <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
                             <md-content layout="row" layout-align="left center" flex="20">
                                 <md-tooltip md-direction="top">Only these guests can rsvp the event. Invite is non transferable</md-tooltip>                                    
@@ -223,7 +223,7 @@
                         </md-radio-group>
                     </div>
                     <div class="block-field" layout="row" ng-show="event.type == 3">
-                        <h4>Ticket types :</h4>
+                        <h4>Ticket types:</h4>
                     </div>
                     <div layout="row" ng-show="event.type == 3" class="price-blocks">
                         <div ng-repeat="ticket in event.tickets track by $index" class="price-block">
@@ -251,7 +251,7 @@
                     </div>                    
                     <div layout="column" ng-show="(event.type == 1 && event.rsvpType == 2) || (event.type == 2)">
                         <div class="block-field">
-                            <h4>Additional Guests :</h4>
+                            <h4>Additional Guests:</h4>
                             <span layout="row" layout-align="start center">
                                 <span>Guests are allowed to bring&nbsp;</span>
                                 <spinner ng-model="event.additionalGuests"></spinner>
@@ -262,7 +262,7 @@
                             </md-checkbox>-->
                         </div>
                         <div class="block-field date">
-                            <h4>RSVP timer expires on :</h4>
+                            <h4>RSVP timer expires on:</h4>
                             <datetimepicker max-date="endMaxDate()" show-weeks="showWeeks" hour-step="hourStep"
                                             minute-step="minuteStep"
                                             ng-model="event.rsvpEndDate" show-meridian="showMeridian" date-format="dd-MMM-yyyy"

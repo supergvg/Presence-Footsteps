@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
     function ($rootScope, $http, $q) {
         return {
@@ -6,8 +8,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/DeleteGuestsGuestList",
+                    method: 'POST',
+                    url: 'api/GuestEventController/DeleteGuestsGuestList',
                     data: {
                         id: guestListId,
                         ids: guestIds
@@ -25,8 +27,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/DeleteGuestsGuestListInstance",
+                    method: 'POST',
+                    url: 'api/GuestEventController/DeleteGuestsGuestListInstance',
                     data: {
                         id: guestListId,
                         ids: guestIds
@@ -44,8 +46,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/CheckinGuest",
+                    method: 'POST',
+                    url: 'api/GuestEventController/CheckinGuest',
                     data: {
                         guestId: checkinData.guest.id,
                         gliId: glInstance.id,
@@ -64,8 +66,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/UndoCheckinGuest",
+                    method: 'POST',
+                    url: 'api/GuestEventController/UndoCheckinGuest',
                     data: {
                         guestId: checkinData.guest.id,
                         gliId: glInstance.id,
@@ -84,8 +86,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/GuestEventController/GetGuestCheckin",
+                    method: 'GET',
+                    url: 'api/GuestEventController/GetGuestCheckin',
                     params: {
                         gliId: gliId,
                         guestId: guestId
@@ -100,16 +102,16 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
             },
             
             createEvent: function (event) {
-                var d = $q.defer(),
-                    server = angular.copy(event);
+                var d = $q.defer();
+                //    server = angular.copy(event);
 
                 //server.time = moment.tz(server.time, "Atlantic/Reykjavik").toString();
                 //server.endTime = moment.tz(server.endTime, "Atlantic/Reykjavik").toString();
                 event.userOffset = event.time.getTimezoneOffset() / 60;
 
                 $http({
-                    method: "POST",
-                    url: "api/event",
+                    method: 'POST',
+                    url: 'api/event',
                     data: event
                 }).success(function (data) {
                     d.resolve(data);
@@ -124,8 +126,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/AddGuest",
+                    method: 'POST',
+                    url: 'api/GuestEventController/AddGuest',
                     data: {guest: guest, eventId: eventId}
                 }).success(function (data) {
                     d.resolve(data);
@@ -140,8 +142,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/PublishEvent",
+                    method: 'POST',
+                    url: 'api/GuestEventController/PublishEvent',
                     data: {ids: gli_ids, eventId: eventId}
                 }).success(function (data) {
                     d.resolve(data);
@@ -158,13 +160,13 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                         if (!gl) {
                             return;
                         }
-                        return gl.id
+                        return gl.id;
                     });
 
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/linkGuestList",
+                    method: 'POST',
+                    url: 'api/GuestEventController/linkGuestList',
                     data: {guestListIds: ids, eventId: eventId, instanceType: instanceType}
                 }).success(function (data) {
                     d.resolve(data);
@@ -182,13 +184,13 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                         if (!gl) {
                             return;
                         }
-                        return gl.id
+                        return gl.id;
                     });
 
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/ImportGuestList",
+                    method: 'POST',
+                    url: 'api/GuestEventController/ImportGuestList',
                     data: {ids: ids, id: masterGLId, gl: gl}
                 }).success(function (data) {
                     d.resolve(data);
@@ -204,8 +206,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                     ids = [gli.id];
 
                 $http({
-                    method: "POST",
-                    url: "api/GuestEventController/DeleteGuestList",
+                    method: 'POST',
+                    url: 'api/GuestEventController/DeleteGuestList',
                     data: {ids: ids, eventId: eventId}
                 }).success(function (data) {
                     d.resolve(data);
@@ -220,8 +222,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/event/PastEvents/"
+                    method: 'GET',
+                    url: 'api/event/PastEvents/'
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -235,8 +237,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/event/CurrentEvents/"
+                    method: 'GET',
+                    url: 'api/event/CurrentEvents/'
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -250,8 +252,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/event/" + (id || '')
+                    method: 'GET',
+                    url: 'api/event/' + (id || '')
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function () {
@@ -265,8 +267,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "DELETE",
-                    url: "api/event",
+                    method: 'DELETE',
+                    url: 'api/event',
                     params: {
                         id: id
                     }
@@ -283,8 +285,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/guest/",
+                    method: 'GET',
+                    url: 'api/guest/',
                     params: {
                         eventId: eventId,
                         guestId: guestId
@@ -303,8 +305,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/"+type+"/PublicDetails/"+companyName+'/'+eventName
+                    method: 'GET',
+                    url: 'api/'+type+'/PublicDetails/'+companyName+'/'+eventName
                 }).success(function(data) {
                     d.resolve(data);
                 }).error(function(data) {
@@ -319,8 +321,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "GET",
-                    url: "api/"+type+"/InvitedDetails/"+token
+                    method: 'GET',
+                    url: 'api/'+type+'/InvitedDetails/'+token
                 }).success(function(data) {
                     d.resolve(data);
                 }).error(function(data) {
@@ -334,8 +336,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/rsvp/PublicConfirm",
+                    method: 'POST',
+                    url: 'api/rsvp/PublicConfirm',
                     data: data
                 }).success(function (data) {
                     d.resolve(data);
@@ -350,8 +352,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/rsvp/InvitedConfirm",
+                    method: 'POST',
+                    url: 'api/rsvp/InvitedConfirm',
                     data: data
                 }).success(function (data) {
                     d.resolve(data);
