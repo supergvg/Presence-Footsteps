@@ -1,6 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
 p,
+b,
+h3,
 h4,
 html {
     font-family: 'Arial', serif;
@@ -212,13 +214,13 @@ md-tooltip .md-content{
             position: absolute;
             left: 0;
             top: 0;
-            width: 148px;
-            height: 36px;
+            bottom: 0;
+            right: 0;
             border: 1px solid #b3d9ff;
             border-radius: 25px;
         }
         &:hover {
-            background:  linear-gradient(to bottom, #6db2f6, #98ccff);
+            background: linear-gradient(to bottom, #6db2f6, #98ccff);
         }
     }
     &.white-btn {
@@ -247,8 +249,8 @@ md-tooltip .md-content{
             position: absolute;
             left: 0;
             top: 0;
-            width: 33px;
-            height: 33px;
+            bottom: 0;
+            right: 0;
             border: 1px solid #abd5ff;
             border-radius: 5px;
         }
@@ -279,6 +281,32 @@ md-tooltip .md-content{
     left: auto;
     margin: 0;
     color: #8e8e8e !important;
+}
+
+.spinner-plusminus-h {
+    & > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    h4 {
+        margin: 0 -4px;
+        padding: 0 20px;
+        border-top: 1px solid #65aef6;
+        border-bottom: 1px solid #65aef6;
+        height: 38px;
+        line-height: 38px;
+    }
+    .md-button {
+        width: auto;
+        &:first-child:before,
+        &:first-child {
+            border-radius: 25px 0 0 25px;
+        }
+        &:last-child:before,
+        &:last-child {
+            border-radius: 0 25px 25px 0;
+        }
+    }
 }
 
 .actions {
@@ -563,6 +591,15 @@ md-radio-button {
                 }
             }
         }
+    }
+}
+
+.guest-checkin {
+    .content > div {
+        margin-top: 25px;
+    }
+    h3 {
+        margin: 0;
     }
 }
 
