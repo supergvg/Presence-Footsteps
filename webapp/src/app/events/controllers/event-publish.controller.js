@@ -78,8 +78,7 @@ angular.module('gliist')
                     function () {
                         $scope.initializing = false;
                     }
-                )
-
+                );
             };
 
             $scope.init();

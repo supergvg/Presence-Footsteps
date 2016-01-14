@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
-        function ($scope, $rootScope, userService, dialogService, uploaderService, $mdDialog) {
+    .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService',
+        function ($scope, $rootScope, userService, dialogService, uploaderService) {
 
 
             $scope.data = {
@@ -38,7 +38,7 @@ angular.module('gliist')
                     function () {
                         $scope.fetchingData = false;
                     }
-                )
+                );
             };
 
             $scope.updatePassword = function (form) {
@@ -56,7 +56,7 @@ angular.module('gliist')
                     function (err) {
                         dialogService.error(err);
                     }
-                )
+                );
             };
 
             $scope.saveChanges = function (form) {

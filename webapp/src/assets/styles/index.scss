@@ -64,6 +64,12 @@ div[ui-grid] {
     .ui-grid-cell {
         border: none !important;
         padding: 12px;
+        position: relative;
+        .actions {
+           margin: 0;
+           position: absolute;
+           top: 0;
+        }
     }
     .ui-grid-cell-contents {
         padding: 0;
@@ -178,6 +184,10 @@ md-sidenav {
     }
 }
 
+md-tooltip .md-content{
+    font-size: 16px;
+}
+
 .md-button {
     min-width: 30px;
     min-height: 30px;
@@ -258,6 +268,7 @@ md-sidenav {
 
 .md-actions .md-button:last-child {
     @extend .raised-btn;
+    width: auto;
 }
 
 .input-icon {
@@ -267,6 +278,7 @@ md-sidenav {
     top: auto;
     left: auto;
     margin: 0;
+    color: #8e8e8e !important;
 }
 
 .actions {
@@ -475,6 +487,17 @@ md-radio-button {
             transform: scale(0.4);
         }
     }
+    &.radio-icon {
+        img {
+            position: absolute;
+        }
+        span {
+            margin-left: 25px;
+        }
+        .md-label {
+            margin-left: 15px;
+        }
+    }
 }
 
 .waiting {
@@ -514,6 +537,12 @@ md-radio-button {
     }
     h4 + h4 {
         margin-left: 50px;
+    }
+    .single-icon {
+        margin: 9px;
+        path {
+            fill: #99ccff;
+        }
     }
 }
 
@@ -672,17 +701,7 @@ md-dialog {
                     text-align: left;
                 }
                 a {
-                    font-size: 12px;
-                    width: 175px;
-                    height: 25px;
-                    display: block;
-                    padding: 0;
-                    float: right;
-                    margin: 12px 0 0 0;
-                    text-align: center;
-                    line-height: 25px;
-                    text-decoration: none;
-                    cursor: pointer;
+                    margin: 12px 12px 0 0;
                 }
                 form {
                     margin-bottom: 20px;
@@ -1211,6 +1230,9 @@ md-dialog {
             margin: 0;
         }
         md-grid-tile figure {
+            md-icon {
+                margin: 0 10px 0 0;
+            }
             justify-content: flex-start;
         }
     }
@@ -1247,6 +1269,12 @@ md-dialog {
                 margin-bottom: 4px;
             }
         }
+    }
+}
+
+.event-checkin {
+    md-radio-button + md-radio-button {
+        margin-top: 15px;
     }
 }
 

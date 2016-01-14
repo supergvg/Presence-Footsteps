@@ -20,6 +20,6 @@ angular.module('gliist')
           function () {
             $scope.initializing = false;
           }
-        )
+        );
       };
     }]);

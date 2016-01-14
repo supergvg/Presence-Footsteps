@@ -61,7 +61,7 @@ angular.module('gliist')
         ).finally(function () {
             $scope.checkingGuest = false;
         });
-      }
+      };
 
       $scope.isCheckinDisabled = function () {
         if (!$scope.guestChecked) {

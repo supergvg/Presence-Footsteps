@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
-        function ($scope, $rootScope, userService, dialogService, uploaderService, $mdDialog) {
+    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService',
+        function ($scope, $rootScope, userService, dialogService) {
 
 
             $rootScope.$watch('currentUser', function (newValue) {

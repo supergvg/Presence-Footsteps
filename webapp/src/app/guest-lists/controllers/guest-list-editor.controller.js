@@ -9,7 +9,7 @@ angular.module('gliist')
                     {field: 'firstName', name: 'First Name'},
                     {field: 'lastName', name: 'Last Name'},
                     {field: 'email', name: 'Email', enableSorting: false},
-                    {field: 'phoneNumber', name: 'Phone Number', enableSorting: false}
+                    {field: 'phoneNumber', name: 'Note', enableSorting: false}
                 ]; 
             if (instanceType !== 2){
                     columnDefs.push({
@@ -24,7 +24,7 @@ angular.module('gliist')
             $scope.gridOptions = {
                 rowTemplate: '<div>' +
                     '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ui-grid-cell></div>' +
+                    'class="ui-grid-cell" ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: columnDefs,
                 rowHeight: 45,

@@ -24,13 +24,13 @@ angular.module('gliist')
             $scope.gridOptions = {
                 rowTemplate: '<div>' +
                     '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ui-grid-cell></div>' +
+                    'class="ui-grid-cell" ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: [
                     {field: 'guest.firstName', name: 'First Name'},
                     {field: 'guest.lastName', name: 'Last Name'},
                     {field: 'guest.email', name: 'Email', enableSorting: false},
-                    {field: 'guest.phoneNumber', name: 'Phone Number', enableSorting: false},
+                    {field: 'guest.phoneNumber', name: 'Note', enableSorting: false},
                     {field: 'guest.plus', name: 'Plus', enableSorting: false}
                 ],
                 enableCellEditOnFocus: true,
