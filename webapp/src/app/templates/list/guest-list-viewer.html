@@ -2,7 +2,9 @@
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     <h3 class="md-title" ng-show="guestLists.length == 0">No guest lists found</h3>
     <div>
-        <md-list class="zebra">
+        <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top" ng-if="options.sorting"></div>
+        
+        <md-list class="zebra" ng-if="!options.sorting">
             <md-list-item ng-show="guestLists.length > 0">
                 <div flex="25">
                     <h4>Guest List</h4>
@@ -53,9 +55,7 @@
                         <md-tooltip md-direction="top">delete guest list</md-tooltip>
                         <ng-md-icon icon="delete"></ng-md-icon>
                     </md-button>
-                    <md-checkbox ng-checked="glistSelected(glist)" ng-click="toggleSelected(glist)"
-                                 aria-label="Import" ng-show="options.enableSelection">
-                    </md-checkbox>
+                    <md-checkbox ng-checked="glistSelected(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ></md-checkbox>
                 </div>
             </md-list-item>
         </md-list>
