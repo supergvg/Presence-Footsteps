@@ -44,7 +44,7 @@ angular.module('gliist')
 
             $scope.getEventInvite = function (height) {
                 return {
-                    'background-image': "url(" + $scope.event.invitePicture + ")",
+                    'background-image': 'url(' + $scope.event.invitePicture + ')',
                     'background-position': 'center center',
                     'height': height || '250px',
                     'background-repeat': 'no-repeat',
@@ -68,8 +68,8 @@ angular.module('gliist')
                         dialogService.success('Invite saved');
 
                     },
-                    function (err) {
-                        dialogService.error("There was a problem saving your image please try again");
+                    function() {
+                        dialogService.error('There was a problem saving your image please try again');
                     }
                 ).finally(
                     function () {
@@ -144,10 +144,6 @@ angular.module('gliist')
 
             };
 
-            $scope.displayDateErrorMessage = function (dateField) {
-
-            };
-
             $scope.displayErrorMessage = function(field) {
                 return false;
                 //return ($scope.showValidation) || (field.$touched && field.$error.required);
@@ -211,26 +207,27 @@ angular.module('gliist')
                                 title: 'Event Title can only contain alphabets, digits and spaces'
                             },
                             number: {
-                                capacity: "Please enter numbers only"
+                                capacity: 'Please enter numbers only'
                             }
                         },
                         errorMessage = [];
                         angular.forEach(form.$error, function(value, key){
                             if (errors[key]) {
                                 angular.forEach(value, function(value1, key1){
-                                    if (errors[key][value1.$name])
+                                    if (errors[key][value1.$name]) {
                                         errorMessage.push(errors[key][value1.$name]);
+                                    }
                                 });
                             }
                         });
                         if ($scope.timeInvalid) {
-                            errorMessage.push("Cant Create Event in the Past");
+                            errorMessage.push('Cant Create Event in the Past');
                         }
                         if ($scope.endTimeInvalid) {
-                            errorMessage.push("End time has to be after start time");
+                            errorMessage.push('End time has to be after start time');
                         }
                         if (!$scope.location.details) {
-                            errorMessage.push("Please enter the city of the event or event location");
+                            errorMessage.push('Please enter the city of the event or event location');
                         }
                         dialogService.error(errorMessage.join(', '));
                         $scope.showValidation = true;
@@ -329,15 +326,16 @@ angular.module('gliist')
                     return;
                 }
                 
-                $.ajax({
-                    url: "https://maps.googleapis.com/maps/api/timezone/json?location=" +
-                        newValue.geometry.location.lat() + "," +
-                        newValue.geometry.location.lng() + "&timestamp="
-                        + (Math.round((new Date().getTime()) / 1000)).toString() + "&sensor=false"
-                }).done(function (response) {
-                    $scope.event.utcOffset = response.dstOffset + response.rawOffset;
-                });
-
+                if (newValue.geometry) {
+                    $.ajax({
+                        url: 'https://maps.googleapis.com/maps/api/timezone/json?location=' +
+                            newValue.geometry.location.lat() + ',' +
+                            newValue.geometry.location.lng() + '&timestamp=' +
+                            (Math.round((new Date().getTime()) / 1000)).toString() + '&sensor=false'
+                    }).done(function (response) {
+                        $scope.event.utcOffset = response.dstOffset + response.rawOffset;
+                    });
+                }
             });
 
             $scope.gliOptions = {

@@ -9,10 +9,11 @@ angular.module('gliist')
             link: function(scope, el, attrs, ngModelCtrl) {
                 function formatter(value) {
                     value = parseInt(value.toString().replace(/[^0-9]/g, ''));
-                    if (value < 0)
+                    if (value < 0) {
                         value = 0;
-                    else if (value > 9999)
+                    } else if (value > 9999) {
                         value = 9999;
+                    }
                     var formattedValue = $filter('currency')(value, '', 0);
                     el.val(formattedValue);
                     return formattedValue;

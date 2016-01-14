@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', "$window",
+  .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', '$window',
     function ($scope, $stateParams, guestFactory, dialogService, eventsService, $state, $window) {
 
 
@@ -71,7 +71,7 @@ angular.module('gliist')
         return (!$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
       };
 
-      $scope.isNotChecked = function (guestCheckin) {
+      $scope.isNotChecked = function(guestCheckin) {
         if (!$scope.guestChecked) {
           return 1;
         }

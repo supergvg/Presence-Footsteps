@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('EditGLEventCtrl', ['$scope', '$stateParams', 'dialogService', '$state',
-    function ($scope, $stateParams, dialogService, $state) {
+  .controller('EditGLEventCtrl', ['$scope', '$stateParams', '$state',
+    function ($scope, $stateParams, $state) {
 
-        $scope.goBackToEvent = function(glist) {
+        $scope.goBackToEvent = function() {
             $state.go('main.edit_event', {eventId: $scope.eventId, view: 3});
         };
 

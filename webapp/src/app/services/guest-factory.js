@@ -1,6 +1,7 @@
-angular.module('gliist').factory("guestFactory", [
-    "$resource", function ($resource) {
-        "use strict";
+'use strict';
+
+angular.module('gliist').factory('guestFactory', [
+    '$resource', function ($resource) {
         return {
             Guest: $resource('/api/guest/:id', {
                 id: '@id'

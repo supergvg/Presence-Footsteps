@@ -31,8 +31,8 @@ angular.module('gliist')
                         $scope.suffix = (new Date()).getTime();
                         $rootScope.$broadcast('userUpdated');
                     },
-                    function (err) {
-                        dialogService.error("There was a problem saving your image please try again");
+                    function() {
+                        dialogService.error('There was a problem saving your image please try again');
                     }
                 ).finally(
                     function () {
@@ -66,13 +66,13 @@ angular.module('gliist')
                 }
 
                 userService.updateUserProfile($scope.user).then(
-                    function () {
+                    function() {
                         dialogService.success('Changes saved');
                         $scope.editMode = false;
                     },
-                    function (err) {
+                    function(err) {
                         dialogService.error(err);
                     }
-                )
+                );
             };
         }]);

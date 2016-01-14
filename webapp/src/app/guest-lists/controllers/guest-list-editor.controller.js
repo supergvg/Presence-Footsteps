@@ -118,8 +118,9 @@ angular.module('gliist')
             });
 
             $scope.guestsError = function() {
-                if (!$scope.list || !$scope.list.guests)
+                if (!$scope.list || !$scope.list.guests) {
                     return true;
+                }
                 var result = false;
                 angular.forEach($scope.list.guests, function(value, key) {
                     result = result || (value.firstName === '') || (value.lastName === '');
@@ -166,7 +167,7 @@ angular.module('gliist')
 
                         _.extend($scope.list, data);
                     },
-                    function (err) {
+                    function() {
                         dialogService.error('There was a problem saving your guest list please try again');
                     }
                 ).finally(
@@ -249,7 +250,7 @@ angular.module('gliist')
                 }
 
 
-                if(newVal == 'RSVP') {
+                if(newVal === 'RSVP') {
                     $scope.guestListTypes = ['RSVP'];
                 }
 

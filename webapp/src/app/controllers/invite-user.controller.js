@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
-    function ($scope, $mdDialog, userService, dialogService, $state) {
+  .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService',
+    function ($scope, $mdDialog, userService, dialogService) {
 
 
       $scope.permissions = [
@@ -47,12 +47,12 @@ angular.module('gliist')
         $scope.selected = [item];
         return;
 
-        var idx = $scope.selected.indexOf(item);
+/*        var idx = $scope.selected.indexOf(item);
         if (idx > -1) {
-          $scope.selected.splice(idx, 1)
+          $scope.selected.splice(idx, 1);
         } else {
           $scope.selected.push(item);
-        }
+        }*/
       };
 
 
@@ -92,7 +92,7 @@ angular.module('gliist')
             $mdDialog.hide();
           },
           function () {
-            dialogService.error('Oops there was a problem updating user, please try again')
+            dialogService.error('Oops there was a problem updating user, please try again');
           }
         ).finally(
           function () {
@@ -125,7 +125,7 @@ angular.module('gliist')
             if (err) {
               dialogService.error(err.ExceptionMessage);
             } else {
-              dialogService.error('Oops there was a problem sending invite please try again')
+              dialogService.error('Oops there was a problem sending invite please try again');
             }
           }
         ).finally(

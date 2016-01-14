@@ -18,6 +18,7 @@ angular.module('gliist')
                 var nullable = !!$scope.nullable;
                 var min = parseNumber($scope.min, 0);
                 var max = parseNumber($scope.max, 365);
+
                 $scope.ngModel = parseNumber($scope.ngModel, nullable ? null : 0);
 
                 $scope.validate = function() {
@@ -52,7 +53,7 @@ angular.module('gliist')
                         $scope.ngModel++;
                     }
                 };
-
+                
                 function parseNumber(value, defaultValue) {
                     defaultValue = angular.isNumber(defaultValue) ? defaultValue : null;
                     value = parseInt(value);

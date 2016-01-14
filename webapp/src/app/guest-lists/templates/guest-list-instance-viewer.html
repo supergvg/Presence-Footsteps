@@ -60,7 +60,7 @@
                     <md-input-container>
                         <md-tooltip md-direction="top">Enter # of guests that can be checked in</md-tooltip>
                         <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
-                               type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)">
+                               type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)" aria-label="capacity">
                     </md-input-container>
                 </div>
                 <div flex>
@@ -82,7 +82,7 @@
                         </md-button>
                     </div>
                     <div>
-                        <md-button class="icon-btn" ng-click="deleteInstance($event,instance)">
+                        <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="deleteInstance"> 
                             <ng-md-icon icon="delete" size="24"></ng-md-icon>
                         </md-button>
                     </div>

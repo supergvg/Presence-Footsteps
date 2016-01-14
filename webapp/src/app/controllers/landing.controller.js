@@ -45,7 +45,7 @@ angular.module('gliist')
 
             $scope.displayErrorMessage = function (field) {
                 return false;
-                return ($scope.showValidation) || (field.$touched && field.$error.required);
+                //return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
             
             $scope.getPageURL = function() {
