@@ -3,9 +3,9 @@
     <md-list>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
         <md-list-item ng-repeat="event in events | limitTo:(options.limit || events.length)">
-            <div layout="row" layout-align="start center" flex>
+            <div layout="row" layout-align="space-between center" flex>
                 <div flex="15" ng-style="getEventInvite(event)"></div>
-                <div flex="60">
+                <div flex>
                     <md-grid-list md-cols="2" md-row-height="50px" md-row-height-sm="60px" md-cols-sm="1" md-gutter="1px">
                         <md-grid-tile class="capitalize">
                             <h3>{{event.title}}</h3>
@@ -21,16 +21,16 @@
                         </md-grid-tile>
                     </md-grid-list>
                 </div>
-                <div layout="row" ng-cloak flex="25" layout-align="end center" ng-hide="options.local" class="actions" layout-sm="column">
-                    <md-button class="icon-btn" ng-hide="isPromoter()" ui-sref="main.event_checkin({eventId:{{event.id}}})">
+                <div layout="row" ng-cloak layout-align="end center" ng-hide="options.local" class="actions" layout-sm="column">
+                    <md-button class="icon-btn" ng-if="!isPromoter()" ui-sref="main.event_checkin({eventId:{{event.id}}})">
                         <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
                         <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
                     </md-button>
-                    <md-button class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.edit_event({eventId:{{event.id}}})">
+                    <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ui-sref="main.edit_event({eventId:{{event.id}}})">
                         <md-tooltip md-direction="top">Edit event</md-tooltip>
                         <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                     </md-button>
-                    <md-button class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ui-sref="main.event_summary({eventId:{{event.id}}})">
+                    <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ui-sref="main.event_summary({eventId:{{event.id}}})">
                         <md-tooltip md-direction="top">Preview event</md-tooltip>
                         <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
                     </md-button>
@@ -38,7 +38,7 @@
                         <md-tooltip md-direction="top">event stats</md-tooltip>
                         <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
                     </md-button>
-                    <md-button class="icon-btn" ng-hide="options.readyOnly || isPromoter() || isStaff()" ng-click="deleteEvent($event,event)">
+                    <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ng-click="deleteEvent($event,event)">
                         <md-tooltip md-direction="top">Delete event</md-tooltip>
                         <ng-md-icon icon="delete" size="24"></ng-md-icon>
                     </md-button>
