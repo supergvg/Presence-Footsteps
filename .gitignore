@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -12,3 +12,13 @@
 /packages
 /webapp/nbproject/private/
 /app
+/gliist_server/obj/Release
+/gliist_server/App_Data/Tmp/FileUploads
+/gliist_server/Logs
+/pass
+/*.suo
+/gliist_server.Tests/obj/Debug
+/gliist_server.Tests/bin/Debug
+/gliist_server.Tests/obj/Release
+/*.suo
+/*.suo

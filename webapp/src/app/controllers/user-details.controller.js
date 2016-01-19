@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService', '$mdDialog',
-        function ($scope, $rootScope, userService, dialogService, uploaderService, $mdDialog) {
+    .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService',
+        function ($scope, $rootScope, userService, dialogService, uploaderService) {
 
 
             $scope.data = {
@@ -31,14 +31,14 @@ angular.module('gliist')
                         $scope.suffix = (new Date()).getTime();
                         $rootScope.$broadcast('userUpdated');
                     },
-                    function (err) {
-                        dialogService.error("There was a problem saving your image please try again");
+                    function() {
+                        dialogService.error('There was a problem saving your image please try again');
                     }
                 ).finally(
                     function () {
                         $scope.fetchingData = false;
                     }
-                )
+                );
             };
 
             $scope.updatePassword = function (form) {
@@ -56,7 +56,7 @@ angular.module('gliist')
                     function (err) {
                         dialogService.error(err);
                     }
-                )
+                );
             };
 
             $scope.saveChanges = function (form) {
@@ -66,13 +66,13 @@ angular.module('gliist')
                 }
 
                 userService.updateUserProfile($scope.user).then(
-                    function () {
+                    function() {
                         dialogService.success('Changes saved');
                         $scope.editMode = false;
                     },
-                    function (err) {
+                    function(err) {
                         dialogService.error(err);
                     }
-                )
+                );
             };
         }]);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout', 'userService',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, userService) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout) {
             
             $scope.getExportExcelUrl = function() {
                 return window.redirectUrl+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+window.localStorage['access_token'];
@@ -15,63 +15,33 @@ angular.module('gliist')
                 });
             };
 
-            $scope.getEventInvite = function (height) {
-                return {
-                    'background-image': "url(" + $scope.event.invitePicture + ")",
-                    'background-position': 'center center',
-                    'height': height || '250px',
-                    'background-size': 'cover'
-                };
-            };
-
             $scope.glOptions = {
                 readOnly: true
             };
 
-            $scope.getRowStyle = function (checkin) {
-                if (!$scope.guestPending(checkin)) {
-                    return {
-                        'background-color': '#CCCCCC',
-                        'color': 'white',
-                        'padding-top': '10px',
-                        'height': '50px'
-                    }
-                } else {
-                    return {
-                        'border-bottom': 'thin inset #ECECEC',
-                        'background-color': 'white',
-                        'padding-top': '10px',
-                        'height': '50px'
-                    }
-                }
-
-            };
-
             $scope.gridOptions = {
-                rowTemplate: '<div' +
-                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
-                    ' ui-grid-cell></div>' +
-                    '</div>',
+                rowTemplate: '<div><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ui-grid-cell></div></div>',
                 columnDefs: [
                     {field: 'guest.firstName', name: 'First Name', enableHiding: false},
                     {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
                     {field: 'guest.title', name: 'List Title', enableHiding: false},
                     {field: 'guest.type', name: 'Type', enableSorting: true, enableHiding: false, width: 80},
                     {field: 'guest.email', name: 'Email', enableSorting: false, enableHiding: false},
-                    {field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 60},
+                    {field: 'guest.plus', name: 'Plus', enableSorting: false, enableHiding: false, width: 80},
                     {
-                        name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false, width: 80,
-                        cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0;float: right" title="Checkin">' +
-                            '<md-button md-no-ink="\'true\'" class="md-primary" ng-click="grid.appScope.checkinGuest(row.entity)" style="border-radius: 0px!important;position:absolute;right:0;margin-top:-10px">' +
-                            '<md-icon ng-show="row.entity.status == \'checked in\'" style="margin-right: 5px;margin-top: 5px" md-svg-src="assets/images/SVG/checkGreen.svg"></md-icon>' +
-                            '<md-icon class="logo-bg" ng-show="grid.appScope.guestPending(row.entity)" style="height: 53px;width: 50px;margin-top: -2px;margin-right: -6px;" md-svg-src="assets/images/SVG/edit01.svg"></md-icon>' +
+                        name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false, width: 90,
+                        cellTemplate: '<div class="actions" title="Checkin">' +
+                            '<md-button class="icon-btn" md-no-ink="\'true\'" ng-click="grid.appScope.checkinGuest(row.entity)">' +
+                            '<md-icon ng-show="row.entity.status == \'checked in\'" md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>' +
+                            '<md-icon ng-show="grid.appScope.guestPending(row.entity)" md-svg-src="assets/images/SVG/checklist.svg"></md-icon>' +
                             '</md-button>' +
                             '</div>'
                     }
 
                 ],
-                rowHeight: 35,
+                rowHeight: 45,
+                selectionRowHeaderWidth: 50,
+                enableColumnMenus: false,
                 data: []
             };
 
@@ -180,7 +150,7 @@ angular.module('gliist')
                     function () {
                         $scope.initializing = false;
                     }
-                )
+                );
 
             };
 

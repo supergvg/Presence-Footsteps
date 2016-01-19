@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using gliist_server.Shared;
 using gliist_server.Helpers;
 using gliist_server.Models;
+using gliist_server.Shared;
 
 namespace gliist_server.Controllers
 {

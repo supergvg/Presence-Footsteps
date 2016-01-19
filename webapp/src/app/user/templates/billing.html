@@ -1,4 +1,4 @@
-<div class="billing">
+<div class="billing margin-top">
     <div class="stripe-account">
         <h4>Payment Information :</h4>
         <div layout="row" layout-align="start center">
@@ -9,7 +9,7 @@
         <div layout="row" layout-align="start center">
             <div class="stripe-logo">stripe</div>
             <div class="info">Add your stripe account</div>
-            <md-button class="md-primary md-raised" ng-click="squareDialog()">Link</md-button>
+            <md-button class="raised-btn" ng-click="squareDialog()">Link</md-button>
         </div>
     </div>
     <div class="tariff-blocks">
@@ -26,7 +26,7 @@
                 <b>ACTIVE</b> Expires on {{tariff.expires}}
             </div>
             <div class="status" ng-if="!tariff.active">
-                <md-button class="md-primary md-raised" ng-click="">UPGRADE</md-button>
+                <md-button class="raised-btn" ng-click="">UPGRADE</md-button>
             </div>
         </div>
     </div>

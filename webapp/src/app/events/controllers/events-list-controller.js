@@ -10,11 +10,11 @@ angular.module('gliist')
 
         $scope.isStaff = function () {
             return $rootScope.isStaff();
-        }
+        };
 
       $scope.getEventInvite = function (event) {
         return {
-          'background-image': "url(" + event.invitePicture + ")",
+          'background-image': 'url(' + event.invitePicture + ')',
           'background-position': 'center center',
           'height': '120px',
           'background-size': 'cover'
@@ -33,13 +33,11 @@ angular.module('gliist')
           .cancel('No')
           .targetEvent(ev);
         $mdDialog.show(confirm).then(function () {
-          eventsService.deleteEvent(event.id).then(function (data) {
+          eventsService.deleteEvent(event.id).then(function() {
             $scope.refreshEvents();
           }, function () {
             dialogService.error('There was a problem please try again');
-          })
-
-
+          });
         }, function () {
           $scope.alert = 'You decided to keep your debt.';
         });
@@ -70,23 +68,7 @@ angular.module('gliist')
           function () {
             $scope.fetchingData = false;
           }
-        )
-      };
-
-      $scope.getPadding = function () {
-        if (!$scope.options) {
-          return;
-        }
-
-        if ($scope.options.readyOnly) {
-          return 'padding-top-45';
-        }
-      };
-
-      $scope.getItemClass = function (isLast) {
-        if (!isLast) {
-          //return "item-border-white";
-        }
+        );
       };
 
       $scope.init = function () {

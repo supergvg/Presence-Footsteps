@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using Newtonsoft.Json;
 
@@ -38,7 +40,7 @@ namespace gliist_server.Models
         [JsonProperty(PropertyName = "isRsvpCapacityLimited")]
         public bool IsRsvpCapacityLimited { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "isPublished")]
         public bool IsPublished { get; set; }
 
         [Required]
@@ -107,6 +109,12 @@ namespace gliist_server.Models
         {
             get { return defaultImageUrl; }
         }
+
+        [NotMapped]
+        public bool GuestListsHaveAdditionalGuests { get; set; }
+
+        [NotMapped]
+        public bool NeedToUpdateEventsGuests { get; set; }
 
         public Event()
         {

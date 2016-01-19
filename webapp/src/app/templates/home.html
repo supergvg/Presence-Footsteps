@@ -6,18 +6,18 @@
         <div>
             <md-input-container>
                 <label>Email</label>
-                <input class="rounded" type="text" ng-model="credentials.username">
+                <input class="rounded-lr" type="text" ng-model="credentials.username">
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <input class="rounded" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
+                <input class="rounded-lr" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
             </md-input-container>
         </div>
         <div layout-align="center center">
             {{errorMessage}}
         </div>
         <div class="action">
-            <md-button class="md-primary md-raised" style="background-color:#829493!important;" ng-click="login()">
+            <md-button class="raised-btn" ng-click="login()">
                 login
             </md-button>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
@@ -28,11 +28,11 @@
             </md-button>
         </div>
     </div>
-    <div class="footer section-title">
+    <div class="footer">
         <div layout="column" layout-align="center center">
             <h3>New Users</h3>
             <p>Get started with gjests and ditch the clipboard</p>
-            <md-button ui-sref="signup" class="md-primary md-raised logo-bg">
+            <md-button ui-sref="signup" class="raised-btn">
                 Sign Up
             </md-button>
         </div>

@@ -4,12 +4,6 @@ angular.module('gliist')
     .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService', 'eventsService',
         function ($scope, guestFactory, dialogService, $state, uploaderService, eventsService) {
 
-
-            function mergeGuestList(parent, merge) {
-                parent.guests = parent.guests.concat(merge.guests); //TODO need to ignore merges
-            }
-
-
             $scope.getglistTotal = function (glist) {
                 var total = 0;
 
@@ -21,28 +15,22 @@ angular.module('gliist')
                 return total;
             };
 
-            $scope.getRowStyle = function (checkin) {
-                return {
-                    'background-color': 'white',
-                    'border-bottom': 'thin inset #ECECEC'
-                };
-            };
-
             $scope.gridOptions = {
-                rowTemplate: '<div' +
-                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
-                    ' ui-grid-cell></div>' +
+                rowTemplate: '<div>' +
+                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'class="ui-grid-cell" ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: [
-                    {field: 'guest.firstName', name: 'First Name', enableHiding: false},
-                    {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'guest.email', name: 'Email', enableHiding: false, enableSorting: false},
-                    {field: 'guest.phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false},
-                    {field: 'guest.plus', name: 'Plus', enableHiding: false, enableSorting: false}
+                    {field: 'guest.firstName', name: 'First Name'},
+                    {field: 'guest.lastName', name: 'Last Name'},
+                    {field: 'guest.email', name: 'Email', enableSorting: false},
+                    {field: 'guest.phoneNumber', name: 'Note', enableSorting: false},
+                    {field: 'guest.plus', name: 'Plus', enableSorting: false}
                 ],
                 enableCellEditOnFocus: true,
-                rowHeight: 35
+                rowHeight: 45,
+                selectionRowHeaderWidth: 50,
+                enableColumnMenus: false
             };
 
             $scope.gridOptions.onRegisterApi = function (gridApi) {
@@ -124,7 +112,7 @@ angular.module('gliist')
                 uploaderService.uploadGuestList(files).then(function (data) {
                         _.extend($scope.gli, data.data);
                     },
-                    function (err) {
+                    function() {
                         dialogService.error('There was a problem saving your image please try again');
                     }
                 ).finally(
@@ -134,7 +122,7 @@ angular.module('gliist')
                 );
             };
 
-            $scope.onLinkClicked = function (ev) {
+            $scope.onLinkClicked = function() {
                 var scope = $scope.$new();
                 scope.currentGlist = $scope.event;
                 scope.cancel = $scope.cancel;
@@ -143,18 +131,6 @@ angular.module('gliist')
                 scope.options = {
                     enableSelection: true
                 };
-
-                scope.cancel = function () {
-                    $mdDialog.hide();
-                };
-
-
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
-                    targetEvent: ev
-                });
             };
 
             $scope.addMore = function () {

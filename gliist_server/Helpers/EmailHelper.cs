@@ -130,21 +130,16 @@ namespace gliist_server.Helpers
 
 
 
+        public static void SendInviteUpdated(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions)
+        {
+            string subject = string.Format("{0} - Invitation. Event was updated", @event.title);
+            SendInvite(from, @event, guest, gli, baseUrl, additionalSubstitutions, subject);
+        }
+
         public static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions)
         {
             string subject = string.Format("{0} - Invitation", @event.title);
-            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
-
-            foreach (var key in additionalSubstitutions.Keys)
-            {
-                substitutions.Add(key, additionalSubstitutions[key]);
-            }
-
-
-            var categories = new List<string> { "Event Invitation", from.company.name, @event.title};
-
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions, categories);
-            SendEmail(email);
+            SendInvite(from, @event, guest, gli, baseUrl, additionalSubstitutions, subject);
         }
 
 
@@ -249,6 +244,22 @@ namespace gliist_server.Helpers
             SendEmail(email);
         }
 
+        private static void SendInvite(UserModel from, Event @event, Guest guest, GuestListInstance gli, string baseUrl, Dictionary<string, string> additionalSubstitutions, string subject)
+        {
+            var substitutions = PrepareSubstitutionsList(from, @event, guest, gli);
+
+            foreach (var key in additionalSubstitutions.Keys)
+            {
+                substitutions.Add(key, additionalSubstitutions[key]);
+            }
+
+
+            var categories = new List<string> { "Event Invitation", from.company.name, @event.title };
+
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, inviteEmailSendgridTemplateId, subject, substitutions, categories);
+            SendEmail(email);
+        }
+
         private static void SendEmail(SendGridMessage email)
         {
             var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
@@ -261,6 +272,8 @@ namespace gliist_server.Helpers
             var qr_url = UploadQRCode(@event.id, guest.id, gli.id);
             var logo = ImageHelper.GetLogoImageUrl(from.company.logo, from.profilePictureUrl);
             var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
+            var organizer = @event.company != null && @event.company.users != null ? @event.company.users.FirstOrDefault() : null;
+            var organizerEmail = organizer != null ? organizer.UserName : "";
 
             var substitutions = new Dictionary<string, string>();
             substitutions.Add(":guest_name", string.Format("{0} {1}", guest.firstName, guest.lastName));
@@ -277,6 +290,8 @@ namespace gliist_server.Helpers
             substitutions.Add(":event_time", @event.time.ToString("hh:mm tt"));
             substitutions.Add(":event_location", string.IsNullOrEmpty(@event.location) ? "" : @event.location);
             substitutions.Add(":qr_code_url", qr_url);
+            substitutions.Add(":organizer_email", organizerEmail);
+            
             return substitutions;
         }
 

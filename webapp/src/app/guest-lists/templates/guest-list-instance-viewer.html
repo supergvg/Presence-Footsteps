@@ -1,117 +1,101 @@
-<div class='guest-list'>
-
-    <h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>
-
-    <div layout="row" ng-show="lists.length > 0 && options.showSummary">
-        <div flex="40">
-            <h4>Total Guests: {{getTotalGuests()}}</h4>
-        </div>
-        <div flex="40">
-            <h4>Total Capacity: {{getTotalCapacity()}}</h4>
-        </div>
-    </div>
-
-    <md-list style="background-color: white;padding-top: 0px;padding-bottom: 0px;">
-        <md-list-item layout="row" ng-show="lists.length > 0" style="color:#000;border-bottom:2px solid #ececec;">
-            <div flex="{{widthColumn}}">
+<div class='guest-list-instance-viewer'>
+    <!--<h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>-->
+    <md-list class="zebra">
+        <md-list-item layout="row" ng-show="lists.length > 0">
+            <div flex>
                 Title
             </div>
-            <div flex="{{widthColumn}}">
+            <div flex>
                 Category
             </div>
-            <div flex="{{widthColumn}}" ng-if="options.stats">
+            <div flex ng-if="options.stats">
                 Checked in
             </div>
-            <div flex="{{widthColumn}}" ng-if="!options.stats">
+            <div flex ng-if="!options.stats">
                 Total
             </div>
-            <div flex="{{widthColumn}}" ng-if="options.stats">
+            <div flex ng-if="options.stats">
                 Unconfirmed
             </div>
-            <div flex="{{widthColumn}}" ng-if="options.stats">
+            <div flex ng-if="options.stats">
                 Total
             </div>
-            <div flex="{{widthColumn}}" ng-if="!options.stats">
+            <div flex ng-if="!options.stats">
                 Capacity
             </div>
-            <div flex="{{widthColumn}}">
+            <div flex>
                 Type
             </div>
-            <div ng-if="options.publish" flex="{{widthColumn}}">
+            <div flex ng-if="options.publish">
+                Send Invites
             </div>
-            <div ng-if="options.publish && isShowColumn('published')" flex="{{widthColumn}}">
+            <div flex ng-if="options.publish && isShowColumn('published')">
                 Sent
             </div>
-            <div ng-hide="options.readOnly" flex="{{widthColumn}}">
+            <div flex="10" ng-if="!options.readOnly">
+                Edit/Delete
             </div>
         </md-list-item>
         <md-list-item ng-repeat="instance in lists">
-            <div layout="row" flex style="border-bottom:2px solid #ececec;">
-                <div flex="{{widthColumn}}">
+            <div layout="row" flex>
+                <div flex>
                     <p>{{instance.title}}</p>
                 </div>
-                <div flex="{{widthColumn}}">
+                <div flex>
                     <p>{{instance.listType}}</p>
                 </div>
-                <div flex="{{widthColumn}}" ng-if="!options.stats">
-                    <p>{{getglistTotal(instance)}}</p>
-                </div>
-                <div flex="{{widthColumn}}" ng-if="options.stats">
+                <div flex ng-if="options.stats">
                     <p>{{getActualGuests(instance)}}</p>
                 </div>
-                <div flex="{{widthColumn}}" ng-if="options.stats">
-                    <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
-                </div>
-                <div flex="{{widthColumn}}" ng-if="options.stats">
+                <div flex ng-if="!options.stats">
                     <p>{{getglistTotal(instance)}}</p>
                 </div>
-                <div flex="{{widthColumn}}" ng-if="!options.stats">
-                    <md-input-container style="padding-bottom: 0">
-                        <md-tooltip md-direction="top">enter # of guests to be checked in</md-tooltip>
+                <div flex ng-if="options.stats">
+                    <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
+                </div>
+                <div flex ng-if="options.stats">
+                    <p>{{getglistTotal(instance)}}</p>
+                </div>
+                <div flex ng-if="!options.stats">
+                    <md-input-container>
+                        <!--<md-tooltip md-direction="top">Enter # of guests that can be checked in</md-tooltip>-->
                         <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
-                               type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)">
+                               type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)" aria-label="capacity">
                     </md-input-container>
                 </div>
-                <div flex="{{widthColumn}}">
+                <div flex>
                     <p ng-if="instance.instanceType === 1">Guest</p>
                     <p ng-if="instance.instanceType === 2 || instance.instanceType === 4">RSVP</p>
                 </div>
-                <div ng-if="options.publish" flex="{{widthColumn}}">
-                    <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)"
-                                 aria-label="Import" ng-show="true"
-                                 style="margin-bottom: 0px">
+                <div flex ng-if="options.publish">
+                    <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)" aria-label="Import" ng-show="true">
                         <md-tooltip md-direction="top">select list to send invites</md-tooltip>
                     </md-checkbox>
                 </div>
-                <div ng-if="options.publish && isShowColumn('published')" flex="{{widthColumn}}">
-                    <ng-md-icon icon="send" style="fill: #99ccff" size="24" ng-if="instance.published"></ng-md-icon>
+                <div flex ng-if="options.publish && isShowColumn('published')">
+                    <md-icon class="single-icon" md-svg-src="assets/images/SVG/sent.svg" ng-if="instance.published"></md-icon>
                 </div>
-                <div layout="row" layout-align="end center" ng-cloak ng-hide="options.readOnly" flex="{{widthColumn}}">
+                <div layout="row" layout-align="end center" ng-cloak ng-if="!options.readOnly" flex="10" class="actions">
                     <div ng-if="!instance.published">
-                        <md-button class="logo-event-list-btn" ng-click="editInstance($event,instance)">
-                            <ng-md-icon icon="mode_edit" style="fill: white" size="24"></ng-md-icon>
+                        <md-button class="icon-btn" ng-click="editInstance($event,instance)">
+                            <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                         </md-button>
                     </div>
-                    <div style="width: 1px"></div>
                     <div>
-                        <md-button class="logo-event-list-btn" ng-click="deleteInstance($event,instance)">
-                            <ng-md-icon icon="delete" style="fill: white" size="24"></ng-md-icon>
+                        <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="deleteInstance"> 
+                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
                         </md-button>
                     </div>
-                    <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)"
-                                 aria-label="Import" ng-show="options.enableSelection"
-                                 style="margin-bottom: 0px">
-                    </md-checkbox>
+                    <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ng-show="options.enableSelection"></md-checkbox>
                 </div>
             </div>
-            <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
     </md-list>
-
-    <div style="position: absolute; top:50%;left: 50%;">
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                              ng-show="fetchingData"></md-progress-circular>
+    <div layout="row" layout-align="end center" ng-show="lists.length > 0 && options.showSummary" class="margin-top">
+        <h4>Total Guest: {{getTotalGuests()}}</h4>
+        <h4>Total Capacity: {{getTotalCapacity()}}</h4>
     </div>
-
-
+    <div class="waiting">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+    </div>
 </div>

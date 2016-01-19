@@ -1,35 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
+using gliist_server.Attributes;
+using gliist_server.Helpers;
+using gliist_server.Models;
+using gliist_server.Providers;
+using gliist_server.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using gliist_server.Models;
-using gliist_server.Providers;
-using gliist_server.Results;
-using System.Web.Http.Cors;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Net;
-using System.Drawing;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Web.Hosting;
-using System.Drawing.Imaging;
-using System.Web.Http.Description;
-using Newtonsoft.Json.Linq;
-using gliist_server.Helpers;
-using System.Web.Security;
-using gliist_server.Attributes;
 
 namespace gliist_server.Controllers
 {
@@ -38,11 +31,10 @@ namespace gliist_server.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private EventDBContext _db;
+        private readonly EventDBContext _db;
         public AccountController()
             : this(new EventDBContext())
         {
-
         }
 
         public AccountController(EventDBContext db)
@@ -364,7 +356,7 @@ namespace gliist_server.Controllers
             if (string.IsNullOrEmpty(user.profilePicture))
             {
                 //var path = HttpContext.Current.Server.MapPath("~/images/blank_user_icon.png");
-                var path = System.Web.Hosting.HostingEnvironment.MapPath("~/images/blank_user_icon.png");
+                var path = HostingEnvironment.MapPath("~/images/blank_user_icon.png");
                 fileName = "blank_user_icon.png";
 
                 if (_userProfile == null)

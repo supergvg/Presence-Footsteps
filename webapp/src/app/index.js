@@ -22,7 +22,7 @@ angular.module('gliist', [
     'ui.grid.autoResize'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider) {
-            $locationProvider.html5Mode(true);
+//            $locationProvider.html5Mode(true);
             var customPrimary = {
                 '50': '#80eeff',
                 '100': '#66ebff',
@@ -46,8 +46,8 @@ angular.module('gliist', [
                 .warnPalette('red')
                 .backgroundPalette('grey');
 
-            window.redirectUrl = "http://gjests.azurewebsites.net/";
-//	    window.redirectUrl = "http://gjests-api.ideas-implemented.com/";
+            window.redirectUrl = 'http://gjests.azurewebsites.net/';
+//	    window.redirectUrl = 'http://gjests-api.ideas-implemented.com/';
             $provide.factory('myHttpInterceptor', function () {
                 return {
                     'request': function (config) {

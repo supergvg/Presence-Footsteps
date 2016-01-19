@@ -12,19 +12,21 @@ angular.module('gliist')
             if ($scope.public) {
                 eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(function (data) {
                     $scope.event = data;
+                    $scope.rsvp.plus = 0;
                 }, function (data) {
                     dialogService.error(data.message);
                 });
             } else {
                 eventsService.getPersonalEventDetails('rsvp', token).then(function (data) {
                     $scope.event = data;
+                    $scope.rsvp.plus = 0;
                 }, function (data) {
                     dialogService.error(data.message);
                 });
             }
             $scope.getCompanyLogo = function () {
                 if (!$scope.event || !$scope.event.company) {
-                    return
+                    return;
                 }
 
                 if (!$scope.event.company.users) {
@@ -34,7 +36,7 @@ angular.module('gliist')
                 var retVal;
                 angular.forEach($scope.event.company.users, function (user) {
                     if (user.profilePictureUrl) {
-                        retVal = user.profilePictureUrl
+                        retVal = user.profilePictureUrl;
                     }
                 });
 
@@ -43,12 +45,12 @@ angular.module('gliist')
 
             $scope.displayErrorMessage = function (field) {
                 return false;
-                return ($scope.showValidation) || (field.$touched && field.$error.required);
+                //return ($scope.showValidation) || (field.$touched && field.$error.required);
             };
             
             $scope.getPageURL = function() {
                 return $location.absUrl();
-            }
+            };
             
             $scope.rsvp = {};
             $scope.onSubmitClicked = function (form) {
@@ -56,7 +58,7 @@ angular.module('gliist')
                     var errors = {
                             required: {
                                 name: 'Name is required',
-                                email: 'Email is required',
+                                email: 'Email is required'
                             },
                             pattern: {
                                 name: 'Last Name is required'

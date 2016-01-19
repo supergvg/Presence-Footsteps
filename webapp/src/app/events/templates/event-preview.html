@@ -1,44 +1,44 @@
-<div>
-    <div style="background-color: white;margin:20px 0;height:208px;color:#aaaaaa;overflow: hidden" layout="row" layout-align="space-between start">
-        <div flex="60">
-            <div ng-style="getEventInvite('208px')" style="width:208px; float:left"></div>
-            <div style="margin-top: 20px;margin-left: 235px">
-                <div style="font-weight:bold;margin:0;font-size:30px;line-height:1.2;">
-                    {{event.title}}
+<div class="event-preview margin-top" layout="row" layout-align="space-between stretch">
+    <div layout="row" layout-align="start center" flex>
+        <div ng-style="getEventInvite('230px')" class="event-image"></div>
+        <div layout="column" layout-align="center start" class="event-descr">
+            <h2>
+                {{event.title}}
+            </h2>
+            <div ng-bind-html="event.description | linky:'_blank'"></div>
+            <div class="links">
+                <span ng-if="event.type === 2 && event.rsvpType === 3">
+                    RSVP link : <a href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
+                </span>
+                <span ng-if="event.type === 3">
+                    Ticketing link : <a href="{{event.ticketingUrl}}" target="_blank">{{event.ticketingUrl}}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div layout="row" layout-align="end stretch" flex>
+        <div layout="column" layout-align="center start" flex>
+            <div class="time">
+                {{event.time | ignoreTimeZone | date: 'h:mm a'}}
+            </div>
+            <div layout="column" layout-align="center start" class="event-prop" flex>
+                <div>
+                    <img ng-src="assets/images/category_icons/gray_{{event.category | lowercase | spaceless}}.png" width="24px" height="24px"/>{{event.category}}
                 </div>
-                <div style="margin-top:30px;font-size:12px;" ng-bind-html="event.description | linky:'_blank'"></div>
-                <div style="margin-top:20px;font-size:12px;color:#aaaaaa;">
-                    <span ng-if="event.type === 2 && event.rsvpType === 3">
-                        RSVP link : <a href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
-                    </span>
-                    <span ng-if="event.type === 3" style="float:right;padding-right:50px;">
-                        Ticketing link : <a href="{{event.ticketingUrl}}" target="_blank">{{event.ticketingUrl}}</a>
-                    </span>
+                <div>
+                    <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>{{event.location}}
                 </div>
             </div>
         </div>
-        <div flex="40" style="height:100%">
-            <div style="background-color:#99ccff;color:#fff;width:55px;text-align:center;float:right;height:100%">
-                <div style="font-size:18px;padding:20px 0;border-bottom:2px solid #ececec;">
-                    {{event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
-                </div>
-                <div style="margin-top:40px;font-size:18px;font-weight:bold;line-height:1;">
-                    {{event.time | ignoreTimeZone | date: 'MMM' | uppercase}}
-                </div>
-                <div style="font-size:35px;font-weight:bold;line-height:1">
-                    {{event.time | ignoreTimeZone | date: 'd'}}
-                </div>
+        <div class="date logo-bg" layout="column" layout-align="start center">
+            <div class="dayOfWeek">
+                {{event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
             </div>
-            <div style="padding:20px 0 0 35px;">
-                <div style="font-size:18px;font-weight:bold;padding-bottom:20px;border-bottom:2px solid #ececec;">
-                    {{event.time | ignoreTimeZone | date: 'h:mm a'}}
-                </div>
-                <div style="margin-top:25px;font-size:12px;font-weight:bold;">
-                    {{event.category}}
-                </div>
-                <div style="margin-top: 10px;font-size:12px;">
-                    {{event.location}}
-                </div>
+            <div class="month">
+                {{event.time | ignoreTimeZone | date: 'MMM' | uppercase}}
+            </div>
+            <div class="day">
+                {{event.time | ignoreTimeZone | date: 'd'}}
             </div>
         </div>
     </div>

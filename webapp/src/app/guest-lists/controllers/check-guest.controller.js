@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', "$window",
+  .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', '$window',
     function ($scope, $stateParams, guestFactory, dialogService, eventsService, $state, $window) {
 
 
@@ -30,7 +30,6 @@ angular.module('gliist')
             $scope.maxGuests = res.plus;
             $scope.guestCheckin = res;
             $scope.guestChecked = 1;
-
           },
           function (err) {
             if(err) {
@@ -41,9 +40,28 @@ angular.module('gliist')
           }
         ).finally(function () {
             $scope.checkingGuest = false;
-          });
+        });
       };
-
+      
+      $scope.undoCheckIn = function() {
+        $scope.checkingGuest = true;
+        eventsService.postGuestUndoCheckin($scope.guestCheckin, $scope.guestListInstance).then(
+          function (res) {
+            $scope.maxGuests = res.plus;
+            $scope.guestCheckin = res;
+            $scope.guestChecked = 0;
+          },
+          function (err) {
+            if(err) {
+              dialogService.error(err.ExceptionMessage);
+            }else{
+              dialogService.error('Oops there was a problem getting guest, please try again');
+            }
+          }
+        ).finally(function () {
+            $scope.checkingGuest = false;
+        });
+      };
 
       $scope.isCheckinDisabled = function () {
         if (!$scope.guestChecked) {
@@ -53,7 +71,7 @@ angular.module('gliist')
         return (!$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
       };
 
-      $scope.isNotChecked = function (guestCheckin) {
+      $scope.isNotChecked = function(guestCheckin) {
         if (!$scope.guestChecked) {
           return 1;
         }
@@ -84,7 +102,6 @@ angular.module('gliist')
 
 
             $scope.guestListInstance = res.gl_instance;
-
           },
           function () {
             dialogService.error('Oops there was a problem getting guest, please try again');

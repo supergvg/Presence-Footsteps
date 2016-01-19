@@ -1,42 +1,29 @@
 <div>
-    <div layout="row" layout-wrap style="margin-bottom: 10px">
-        <div flex class="section-title">
-            <h3>Welcome to gjests</h3>
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>Welcome to gjests</h3>
+    </div>
+    <div layout="row" layout-align="space-between stretch" class="margin-top" layout-sm="column" layout-align-sm="start stretch">
+        <div class="billet" layout="column" layout-align="start stretch" flex>
+            <h4>Check out whats new!</h4>
+            <md-subheader>Updates: Added Note to comment on guest, new web app layout</md-subheader>
+            <md-subheader>Ticketing system ready in Feb</md-subheader>
+            <md-subheader>Offline mode under development</md-subheader>
         </div>
-    </div>
-    <div class="section-subtitle">
-        <h4>Check out whats new!</h4>
-    </div>
-    <div>
-        <md-list>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                <span style="margin-top: -15px">gjests app iOS app is available</span>
-                <a href="https://geo.itunes.apple.com/us/app/gjests/id1001494301?mt=8" target="_blank"
-                   style="display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat;width:165px;height:40px;"></a>
-            </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">Android app is now available
+        <div class="billet" layout="column" layout-align="start stretch" flex>
+            <h4>Download gjests app</h4>
+            <md-subheader>
+                <a href="https://geo.itunes.apple.com/us/app/gjests/id1001494301?mt=8" target="_blank">
+                    <img alt="iOS app on App Store" src="http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg"/>
+                </a>
+                <br><br>
                 <a href="https://play.google.com/store/apps/details?id=com.gjests.app" target="_blank">
-                    <img alt="Android app on Google Play"
-                         src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png"/>
+                    <img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png"/>
                 </a>
             </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                <span style="margin-top: -15px">New feature: Event RSVP</span>
-            </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">
-                <span style="margin-top: -15px">New updates: Excel export, share event icons on event RSVP page</span>
-            </md-subheader>
-            <md-divider></md-divider>
-            <md-subheader style="margin-right: 0px!important;" class="md-no-sticky">Offline feature & ticketing system under development</md-subheader>
-        </md-list>
+        </div>
     </div>
-    <div class="section-subtitle">
+    <div class="billet margin-top" layout="column" layout-align="start stretch">
         <h4>Upcoming events</h4>
-    </div>
-    <div>
         <event-list events="currentEvents" options="options"></event-list>
     </div>
 </div>

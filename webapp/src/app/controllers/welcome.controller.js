@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('WelcomeController', ['$scope', '$mdSidenav', '$state',
-    function ($scope, $mdSidenav, $state) {
+  .controller('WelcomeController', ['$scope',
+    function ($scope) {
 
       $scope.options = {
         limit: 3,

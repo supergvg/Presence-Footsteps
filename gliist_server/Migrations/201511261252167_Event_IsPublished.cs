@@ -12,7 +12,7 @@ namespace gliist_server.Migrations
         
         public override void Down()
         {
-            DropColumn("dbo.Events", "IsPublished");
+            //DropColumn("dbo.Events", "IsPublished");
         }
     }
 }

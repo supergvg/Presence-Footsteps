@@ -14,7 +14,7 @@
                 <li ng-repeat="feature in tariff.features">+ {{feature}}</li>
             </ul>
             <div class="status">
-                <md-button class="md-primary md-raised" ng-click="">SELECT</md-button>
+                <md-button class="raised-btn" ng-click="">SELECT</md-button>
             </div>
             <div ng-if="$index === 2">
                 <div layout="row" class="tariff-title" layout-align="space-between center">
@@ -25,7 +25,7 @@
                     <li ng-repeat="feature in plans[$index+1].features">+ {{feature}}</li>
                 </ul>
                 <div class="status">
-                    <md-button class="md-primary md-raised" ng-click="">SELECT</md-button>
+                    <md-button class="raised-btn" ng-click="">SELECT</md-button>
                 </div>
             </div>
         </div>

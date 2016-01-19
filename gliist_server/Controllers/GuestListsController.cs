@@ -1,46 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
-using gliist_server.Helpers;
-
 
 namespace gliist_server.Controllers
 {
     [RoutePrefix("api/GuestLists")]
     public class GuestListsController : ApiController
     {
-        private EventDBContext db = new EventDBContext();
+        private EventDBContext db;
         private UserManager<UserModel> UserManager;
+
+        public GuestListsController()
+            : this(new EventDBContext())
+        {
+        }
+
+        public GuestListsController(EventDBContext db)
+            : this(Startup.UserManagerFactory(db))
+        {
+            this.db = db;
+        }
+
+        public GuestListsController(UserManager<UserModel> userManager)
+        {
+            UserManager = userManager;
+            var userValidator = UserManager.UserValidator as UserValidator<UserModel>;
+
+            if (userValidator != null)
+            {
+                userValidator.AllowOnlyAlphanumericUserNames = false;
+            }
+        }
 
         // GET: api/GuestLists
         public IList<GuestListViewModel> GetGuestLists()
         {
-            var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
-
-            var gls = db.GuestLists
-                .Where(gl => !gl.isDeleted && gl.company.id == user.company.id && 
-                    (!user.permissions.Contains("promoter") || gl.promoter_Id == userId))
-                .Include(x => x.guests)
-                .ToList();
-
-            var retval = new List<GuestListViewModel>();
-            foreach (var gl in gls)
+            try
             {
-                retval.Add(new GuestListViewModel(gl));
-            };
+                var userId = User.Identity.GetUserId();
+                var user = UserManager.FindById(userId);
+                var isUserPromoter = user.permissions.Contains("promoter");
 
-            return retval;
+                var gls = db.GuestLists
+                    .Where(gl => !gl.isDeleted && gl.company.id == user.company.id &&
+                        (!isUserPromoter || gl.promoter_Id == userId))
+                    .Include(x => x.guests)
+                    .ToList();
+
+                var retval = new List<GuestListViewModel>();
+                foreach (var gl in gls)
+                {
+                    retval.Add(new GuestListViewModel(gl));
+                };
+
+                return retval;
+            }
+            catch (Exception exception)
+            {
+                Trace.TraceError(exception.ToString());
+                throw new Exception(exception.Message, exception.InnerException);
+            }
         }
 
         // GET: api/GuestLists/5
@@ -119,10 +147,9 @@ namespace gliist_server.Controllers
                 return BadRequest("Invalid permissions");
             }
 
-            GuestList existingGuestList;
-            if (guestList.id > 0)
+            if (guestList.id > 0 && !guestList.CreateCopy)
             {
-                existingGuestList = db.GuestLists.SingleOrDefault(gl => gl.company.id == user.company.id && gl.id == guestList.id);
+                var existingGuestList = db.GuestLists.SingleOrDefault(gl => gl.company.id == user.company.id && gl.id == guestList.id);
                 if (existingGuestList == null)
                 {
                     throw new NotImplementedException();
@@ -130,8 +157,8 @@ namespace gliist_server.Controllers
                 existingGuestList.title = guestList.title;
                 existingGuestList.listType = guestList.listType;
                 existingGuestList.promoter_Id = guestList.promoter_Id;
-                db.Entry(existingGuestList).State = EntityState.Modified;
 
+                db.Entry(existingGuestList).State = EntityState.Modified;
 
                 foreach (var guest in guestList.guests)
                 {
@@ -152,6 +179,8 @@ namespace gliist_server.Controllers
             }
             else
             {
+                guestList.id = 0;
+                guestList.title += guestList.CreateCopy ? "_Copy" : "";
                 guestList.company = user.company;
                 guestList.created_by = user;
 
@@ -198,7 +227,7 @@ namespace gliist_server.Controllers
                 return BadRequest("Invalid permissions");
             }
 
-            GuestList guestList = db.GuestLists.Where(gl => gl.company.id == user.company.id && gl.id == id).FirstOrDefault();
+            GuestList guestList = db.GuestLists.FirstOrDefault(gl => gl.company.id == user.company.id && gl.id == id);
 
             if (guestList == null)
             {
@@ -231,11 +260,6 @@ namespace gliist_server.Controllers
         private bool GuestListExists(int id)
         {
             return db.GuestLists.Count(e => e.id == id) > 0;
-        }
-
-        public GuestListsController()
-        {
-            UserManager = Startup.UserManagerFactory(db);
         }
     }
 }

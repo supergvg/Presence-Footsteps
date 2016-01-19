@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('gliist').factory('dialogService', [ '$mdToast',
 
     function ($mdToast) {
@@ -19,6 +21,6 @@ angular.module('gliist').factory('dialogService', [ '$mdToast',
                         .hideDelay(3000)
                 );
             }
-        }
+        };
     }
 ]);

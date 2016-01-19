@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -16,17 +16,36 @@ namespace gliist_server.Controllers
 {
     public class NotificationsController : ApiController
     {
-        private EventDBContext db = new EventDBContext();
-        private UserManager<UserModel> UserManager;
+        private readonly EventDBContext db = new EventDBContext();
+        private readonly UserManager<UserModel> userManager;
+
+        public NotificationsController()
+        {
+            userManager = Startup.UserManagerFactory(db);
+        }
 
         // GET: api/Notifications
-        public IQueryable<Notification> GetNotifications()
+
+        public IQueryable<NotificationViewModel> GetNotifications()
         {
             var userId = User.Identity.GetUserId();
 
-            var user = UserManager.FindById(userId);
+            var user = userManager.FindById(userId);
 
-            return db.Notifications.Where(n => n.company.id == user.company.id).OrderByDescending(n => n.time);
+            return db.Notifications.Where(n => n.company.id == user.company.id).OrderByDescending(n => n.time)
+                .Select(x => new NotificationViewModel
+                {
+                    time = x.time,
+                    message = x.message,
+                    guest = new GuestViewModel
+                    {
+                        id = x.guest.id
+                    },
+                    gli = new GuestListInstanceViewModel
+                    {
+                        id = x.gli.id
+                    }
+                });
         }
 
         protected override void Dispose(bool disposing)
@@ -36,17 +55,6 @@ namespace gliist_server.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public NotificationsController()
-        {
-            UserManager = Startup.UserManagerFactory(db);
-        }
-
-
-        private bool NotificationExists(int id)
-        {
-            return db.Notifications.Count(e => e.id == id) > 0;
         }
     }
 }

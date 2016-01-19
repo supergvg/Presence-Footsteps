@@ -6,10 +6,8 @@
         </span>
     </div>
     <div ng-if="!initializing">
-        <div layout="row" layout-wrap style="margin-bottom: 8px">
-            <div flex class="section-title">
-                <h3 class="capitalize">Edit {{event.title}}</h3>
-            </div>
+        <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+            <h3>Edit {{event.title}}</h3>
         </div>
         <event-details event="event"></event-details>
     </div>

@@ -3,16 +3,12 @@
 angular.module('gliist')
   .controller('ResetPasswordCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state', '$stateParams',
     function ($scope, $mdDialog, userService, dialogService, $state, $stateParams) {
-
-
       $scope.recoverSent = false;
-
-
       $scope.user = {};
 
       $scope.onResetClicked = function (form) {
         if ($scope.user.password !== $scope.user.confirmPassword) {
-          $scope.message = "Password don't match ";
+          $scope.message = 'Password don\'t match ';
           return;
         }
 

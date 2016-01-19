@@ -35,12 +35,12 @@ angular.module('gliist')
             };
 
             $scope.editEvent = function () {
-                $state.go("main.edit_event", {eventId: $scope.event.id});
+                $state.go('main.edit_event', {eventId: $scope.event.id});
             };
 
             $scope.getEventInvite = function (height) {
                 return {
-                    'background-image': "url(" + $scope.event.invitePicture + ")",
+                    'background-image': 'url(' + $scope.event.invitePicture + ')',
                     'background-position': 'center center',
                     'height': height || '250px',
                     'background-repeat': 'no-repeat',
@@ -78,8 +78,7 @@ angular.module('gliist')
                     function () {
                         $scope.initializing = false;
                     }
-                )
-
+                );
             };
 
             $scope.init();

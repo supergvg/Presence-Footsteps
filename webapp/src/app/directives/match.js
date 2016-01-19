@@ -14,7 +14,7 @@ angular.module('gliist')
                 scope.$watch(checker, function (n) {
                     //set the form control to valid if both 
                     //passwords are the same, else invalid
-                    ctrl.$setValidity("match", n);
+                    ctrl.$setValidity('match', n);
                 });
             }
         };

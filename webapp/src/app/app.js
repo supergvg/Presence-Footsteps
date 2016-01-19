@@ -21,17 +21,17 @@ angular.module('gliist')
                         {
                             title: 'Guest List Management',
                             ui_sref: 'main.list_management',
-                            icon: {name: 'content_paste', style: "fill: white", size: 24}
+                            icon: {name: 'content_paste', style: 'fill: white', size: 24}
                         },
                         {
                             title: 'Upcoming Events',
                             ui_sref: 'main.current_events',
-                            icon: {name: 'today', style: "fill: white", size: 24}
+                            icon: {name: 'today', style: 'fill: white', size: 24}
                         },
                         {
-                            title: 'Events Statistics',
+                            title: 'Events Stats',
                             ui_sref: 'main.stats',
-                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
+                            icon: {name: 'insert_chart', style: 'fill: white', size: 24}
                         }
                     ];
 
@@ -41,22 +41,22 @@ angular.module('gliist')
                         {
                             title: 'Guest List Management',
                             ui_sref: 'main.list_management',
-                            icon: {name: 'content_paste', style: "fill: white", size: 24}
+                            icon: {name: 'content_paste', style: 'fill: white', size: 24}
                         },
                         {
                             title: 'Upcoming Events',
                             ui_sref: 'main.current_events',
-                            icon: {name: 'today', style: "fill: white", size: 24}
+                            icon: {name: 'today', style: 'fill: white', size: 24}
                         },
                         {
-                            title: 'Events Statistics',
+                            title: 'Events Stats',
                             ui_sref: 'main.stats',
-                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
+                            icon: {name: 'insert_chart', style: 'fill: white', size: 24}
                         },
                         {
                             title: 'User Profile',
                             ui_sref: 'main.user',
-                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                            icon: {name: 'assignment_ind', style: 'fill: white', size: 24}
                         }
                     ];
 
@@ -65,27 +65,27 @@ angular.module('gliist')
                         {
                             title: 'Guest List Management',
                             ui_sref: 'main.list_management',
-                            icon: {name: 'content_paste', style: "fill: white", size: 24}
+                            icon: {name: 'content_paste', style: 'fill: white', size: 24}
                         },
                         {
                             title: 'Create Event',
                             ui_sref: 'main.create_event',
-                            icon: {name: 'add_circle', style: "fill: white", size: 24}
+                            icon: {name: 'add_circle', style: 'fill: white', size: 24}
                         },
                         {
                             title: 'Upcoming Events',
                             ui_sref: 'main.current_events',
-                            icon: {name: 'today', style: "fill: white", size: 24}
+                            icon: {name: 'today', style: 'fill: white', size: 24}
                         },
                         {
-                            title: 'Events Statistics',
+                            title: 'Events Stats',
                             ui_sref: 'main.stats',
-                            icon: {name: 'insert_chart', style: "fill: white", size: 24}
+                            icon: {name: 'insert_chart', style: 'fill: white', size: 24}
                         },
                         {
                             title: 'User Profile',
                             ui_sref: 'main.user',
-                            icon: {name: 'assignment_ind', style: "fill: white", size: 24}
+                            icon: {name: 'assignment_ind', style: 'fill: white', size: 24}
                         }
                     ];
                 }
@@ -190,23 +190,23 @@ angular.module('gliist')
                 }, function (err) {
                     $scope.errorMessage = 'Invalid User or Password';
                 }).finally(function () {
-                        $scope.fetchingData = false
+                        $scope.fetchingData = false;
                     }
                 );
             };
 
             $scope.getBg = function () {
                 if ($state.current.abstract || $state.includes('home') ||
-                    $state.includes('signup') || $state.includes('signup_invite')
-                    || $state.includes('recover_password')
-                    || $state.includes('reset_password')
-                    ) {
+                    $state.includes('signup') || $state.includes('signup_invite') ||
+                    $state.includes('recover_password') || $state.includes('reset_password')) {
                     return 'logo-bg ' + $state.current.name.split('_');
                 }
-                if ($state.current.name.match(/^landing_.+/))
+                if ($state.current.name.match(/^landing_.+/)) {
                     return $state.current.name.split('_');
-                if ($state.current.name === 'choose_plan')
+                }
+                if ($state.current.name === 'choose_plan') {
                     return 'choose_plan';
+                }
             };
             
             $scope.showUserBars = function(){

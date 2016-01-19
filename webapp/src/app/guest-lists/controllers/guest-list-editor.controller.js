@@ -4,19 +4,12 @@ angular.module('gliist')
     .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$http', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService',
         function ($scope, guestFactory, dialogService, $mdDialog, $http, uploaderService, eventsService, $state, $stateParams, userService) {
 
-            $scope.getRowStyle = function (checkin) {
-                return {
-                    'background-color': 'white',
-                    'border-bottom': 'thin inset #ECECEC'
-                };
-            };
-
             var instanceType = ~~$stateParams.instanceType,
                 columnDefs = [
-                    {field: 'firstName', name: 'First Name', enableHiding: false},
-                    {field: 'lastName', name: 'Last Name', enableHiding: false},
-                    {field: 'email', name: 'Email', enableHiding: false, enableSorting: false},
-                    {field: 'phoneNumber', name: 'Phone Number', enableHiding: false, enableSorting: false}
+                    {field: 'firstName', name: 'First Name'},
+                    {field: 'lastName', name: 'Last Name'},
+                    {field: 'email', name: 'Email', enableSorting: false},
+                    {field: 'phoneNumber', name: 'Note', enableSorting: false}
                 ]; 
             if (instanceType !== 2){
                     columnDefs.push({
@@ -29,17 +22,18 @@ angular.module('gliist')
             }
 
             $scope.gridOptions = {
-                rowTemplate: '<div' +
-                    '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'ng-style="grid.appScope.getRowStyle(row.entity)" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ' +
-                    ' ui-grid-cell></div>' +
+                rowTemplate: '<div>' +
+                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'class="ui-grid-cell" ui-grid-cell></div>' +
                     '</div>',
                 columnDefs: columnDefs,
-                rowHeight: 35,
+                rowHeight: 45,
                 tabIndex: 0,
                 enableCellSelection: true,
                 enableCellEditOnFocus: true,
-                noTabInterference: true
+                noTabInterference: true,
+                selectionRowHeaderWidth: 50,
+                enableColumnMenus: false
             };
 
             $scope.gridOptions.onRegisterApi = function (gridApi) {
@@ -124,8 +118,9 @@ angular.module('gliist')
             });
 
             $scope.guestsError = function() {
-                if (!$scope.list || !$scope.list.guests)
+                if (!$scope.list || !$scope.list.guests) {
                     return true;
+                }
                 var result = false;
                 angular.forEach($scope.list.guests, function(value, key) {
                     result = result || (value.firstName === '') || (value.lastName === '');
@@ -172,7 +167,7 @@ angular.module('gliist')
 
                         _.extend($scope.list, data);
                     },
-                    function (err) {
+                    function() {
                         dialogService.error('There was a problem saving your guest list please try again');
                     }
                 ).finally(
@@ -255,7 +250,7 @@ angular.module('gliist')
                 }
 
 
-                if(newVal == 'RSVP') {
+                if(newVal === 'RSVP') {
                     $scope.guestListTypes = ['RSVP'];
                 }
 

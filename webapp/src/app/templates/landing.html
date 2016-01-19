@@ -28,7 +28,7 @@
                 <div class="item-label">Share this event:</div>
                 <ul class="social">
                     <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
-                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name}} is hosting {{event.event.title}}! RSVP here" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
+                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text=#{{event.company.name}} is hosting #{{event.event.title}} ! RSVP here" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
                     <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
                 </ul>
             </div>
@@ -57,7 +57,7 @@
                             <div ng-if="rsvpLandingForm.plus.$error.max" ng-message="max">Numer of additional guests cannot exceed {{event.event.additionalGuests}} people</div>
                         </div>
                     </div>
-                    <a class="md-primary md-raised" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                    <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
                 </form>
                 <div class="item-label" ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">Event on Social:</div>

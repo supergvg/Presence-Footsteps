@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
     function ($rootScope, $http, $q) {
 
@@ -188,7 +190,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
             getUserPhoto: function (height, currentUser, suffix) {
                 var bgImg;
                 if (currentUser) {
-                    bgImg = window.redirectUrl + "/api/account/ProfilePicture/?userId=" + currentUser.userId + "&suffix=" + suffix;
+                    bgImg = window.redirectUrl + '/api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
                     bgImg = "url(" + bgImg + ")";
                 } else {
                     bgImg = "url('assets/images/blank_user_icon.png')";
@@ -210,9 +212,9 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 $http({
                     method: 'PUT',
                     url: url,
-                    data: user,
+                    data: user
                 }).success(function (data) {
-                    deferred.resolve(data)
+                    deferred.resolve(data);
 
                 }).error(function (data) {
                     deferred.reject(data);
@@ -247,8 +249,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 });
 
                 return deferred.promise;
-            }
-            ,
+            },
+            
             getLogged: function () {
 
                 if (isLogged) {
@@ -260,8 +262,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 }
 
                 return isLogged;
-            }
-            ,
+            },
+            
             login: function (credentials) {
 
                 var d = $q.defer();
@@ -291,8 +293,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
 
                 return d.promise;
-            }
-            ,
+            },
+            
             logout: function () {
 
                 isLogged = false;
@@ -302,8 +304,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 delete window.localStorage['userEmail'];
                 delete window.localStorage['access_token'];
-            }
-            ,
+            },
+            
             registerEmail: function (user, inviteMode) {
                 var deferred = $q.defer();
 
@@ -343,6 +345,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
+            
             updateCompanySocialLinks: function(currentUser) {
                 var d = $q.defer();
 
@@ -358,6 +361,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return d.promise;
             },
+            
             getUsersByRole: function(roleName) {
                 var deferred = $q.defer(),
                     url = 'api/users/getUsers';

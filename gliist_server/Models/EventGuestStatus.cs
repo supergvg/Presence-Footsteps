@@ -11,13 +11,11 @@ namespace gliist_server.Models
         [Key]
         public int Id { get; set; }
         
-        //[Index("IX_EventsGuest", 1)] 
-        public int EventId { get; set; }
+        public int? EventId { get; set; }
 
         [ForeignKey("EventId")]
         public virtual Event Event { get; set; }
 
-        //[Index("IX_EventsGuest", 2)] 
         public int GuestId { get; set; }
 
         [ForeignKey("GuestId")]

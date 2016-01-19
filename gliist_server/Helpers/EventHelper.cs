@@ -1,43 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using gliist_server.Models;
 
 namespace gliist_server.Helpers
 {
-    public static class EventHelper
+    static class EventHelper
     {
-        public static int GetGuestsCount(GuestListInstance guestListInstance)
+        public static int GetGuestsCount(Event @event, GuestListInstance listInstance)
         {
-            int count = 0;
-
-            var guestList = guestListInstance.linked_guest_list;
-            var guestCheckins = guestListInstance.actual;
-
-            if (guestList != null)
+            var count = 0;
+            foreach(var guest in @event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listInstance.id))
             {
-                if (guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp ||
-                    guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
+                count += 1;
+
+                if (listInstance.InstanceType != GuestListInstanceType.PublicRsvp &&
+                    listInstance.InstanceType != GuestListInstanceType.Rsvp)
                 {
-                    count = guestList.guests.Count();
-                }
-                else
-                {
-                    count += guestList.guests.Sum(x => 1 + x.plus);
-                }
-            }
-            else if (guestCheckins != null)
-            {
-                if (guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp ||
-                    guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
-                {
-                    count = guestCheckins.Count();
-                }
-                else
-                {
-                    count += guestCheckins.Sum(x => 1 + x.plus);
+                    count += guest.AdditionalGuestsRequested;
                 }
             }
 
