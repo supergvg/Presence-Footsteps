@@ -10,7 +10,7 @@ angular.module('gliist')
 
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
-                    .title('Are you sure you want to publish the event?')
+                    .title('Are you sure you want to publish the guest list?')
                     .content('Invitations will be sent to selected guest lists')
                     .ariaLabel('Lucky day')
                     .ok('Yes')
