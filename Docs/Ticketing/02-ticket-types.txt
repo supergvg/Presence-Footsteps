@@ -58,13 +58,13 @@
 УДАЛЕНИЕ:
 	9. GIVEN Мероприятие не опубликовано	
 		 AND Проданных билетов нет.		 
-	    WHEN Пользователь выбирает одно из сохраненных мероприятий 
+	    WHEN Пользователь выбирает один из сохраненных типов 
 		 AND Нажимает кнопку "DELETE"
 		 AND Подтверждает удаление.
 	    THEN Мероприятие удаляется на сервере
 		 AND Удаляется на клиенте.
 		 
-	10. GIVEN Мероприятие опубликовано	
+	10. GIVEN Мероприятие опубликовано
 		  AND Продано 2 билета "Early Bird Passes".
 	     WHEN Пользователь выбирает тип "Early Bird Passes" 
 		  AND Нажимает кнопку "DELETE"
@@ -78,6 +78,12 @@
 	     WHEN Пользователь изменяет одно из значений существующего типа билетов.
 	     THEN Появляются кнопки "OK" и "CANCEL"
 		  AND Исчезает кнопка "DELETE".
+		  
+	12. GIVEN Мероприятие не опубликовано	
+		  AND Проданных билетов нет
+		  AND Пользователь редактирует тип.
+	     WHEN Пользователь изменяет поле NAME на пустое значение.
+	     THEN Кнопка "OK" становится не активной.
 		  
 	12. GIVEN Мероприятие опубликовано	
 		  AND Продано 2 билета "Early Bird Passes".
@@ -107,6 +113,31 @@
 		  AND Существует "Last Chance" со значением SALE EXPIRATION DATE равным 25-Jan-2016
 		  AND Продано 6 билетов "Early Bird Passes".
 	     WHEN Пользователь выбирает тип "Early Bird Passes"
-		  AND Изменяет PRICE на 3
+		  AND Изменяет SALE EXPIRATION DATE на 26-Jan-2016
 		  AND Нажимает кнопку "OK".
-	     THEN Пользователь получает сообщение об ошибке "There are already 6 selled tickets. Please specify correct value and try again".
+	     THEN Пользователь получает сообщение об ошибке "Invalid expiration date. Next plan starts from 25-Jan-2016".
+		 
+	16. GIVEN Мероприятие опубликовано
+		  AND Существует "Early Bird Passes" со значением SALE EXPIRATION DATE равным 25-Dec-2015
+		  AND Существует "Last Chance" со значением SALE EXPIRATION DATE равным 25-Jan-2016
+		  AND Продано 6 билетов "Early Bird Passes"
+		  AND Продан 1 билет "Last Chance"
+		  AND На дворе - 27-Dec-2015.
+	     WHEN Пользователь выбирает тип "Early Bird Passes"
+		  AND Изменяет SALE EXPIRATION DATE на 01-Jan-2016
+		  AND Нажимает кнопку "OK".
+	     THEN Пользователь получает сообщение об ошибке "Invalid expiration date. Next plan is already started.".
+
+Server side:
+	API:
+		1. GetTickets/EventId - GET
+		2. AddTicket          - POST
+		3. UpdateTicket       - POST  
+		4. DeleteTicket       - POST
+	
+Errors:
+	
+		 
+
+		 
+		 
