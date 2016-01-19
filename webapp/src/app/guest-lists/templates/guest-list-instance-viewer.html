@@ -23,71 +23,69 @@
             <div flex ng-if="!options.stats">
                 Capacity
             </div>
-            <div flex>
+            <div flex="10">
                 Type
             </div>
-            <div flex ng-if="options.publish">
+            <div flex="10" ng-if="options.publish" class="center">
                 Send Invites
             </div>
-            <div flex ng-if="options.publish && isShowColumn('published')">
+            <div flex="5" ng-if="options.publish && isShowColumn('published')" class="center">
                 Sent
             </div>
             <div flex="10" ng-if="!options.readOnly">
                 Edit/Delete
             </div>
         </md-list-item>
-        <md-list-item ng-repeat="instance in lists">
-            <div layout="row" flex>
-                <div flex>
-                    <p>{{instance.title}}</p>
+        <md-list-item ng-repeat="instance in lists" layout="row">
+            <div flex>
+                <p>{{instance.title}}</p>
+            </div>
+            <div flex>
+                <p>{{instance.listType}}</p>
+            </div>
+            <div flex ng-if="options.stats">
+                <p>{{getActualGuests(instance)}}</p>
+            </div>
+            <div flex ng-if="!options.stats">
+                <p>{{getglistTotal(instance)}}</p>
+            </div>
+            <div flex ng-if="options.stats">
+                <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
+            </div>
+            <div flex ng-if="options.stats">
+                <p>{{getglistTotal(instance)}}</p>
+            </div>
+            <div flex ng-if="!options.stats">
+                <md-input-container>
+                    <!--<md-tooltip md-direction="top">Enter # of guests that can be checked in</md-tooltip>-->
+                    <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
+                           type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)" aria-label="capacity">
+                </md-input-container>
+            </div>
+            <div flex="10">
+                <p ng-if="instance.instanceType === 1">Guest</p>
+                <p ng-if="instance.instanceType === 2 || instance.instanceType === 4">RSVP</p>
+            </div>
+            <div flex="10" ng-if="options.publish" class="center">
+                <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)" aria-label="Import" ng-show="true">
+                    <md-tooltip md-direction="top">select list to send invites</md-tooltip>
+                </md-checkbox>
+            </div>
+            <div flex="5" ng-if="options.publish && isShowColumn('published')" class="center">
+                <md-icon class="single-icon" md-svg-src="assets/images/SVG/sent.svg" ng-if="instance.published"></md-icon>
+            </div>
+            <div flex="10" layout="row" layout-align="end center" ng-cloak ng-if="!options.readOnly" class="actions">
+                <div ng-if="!instance.published">
+                    <md-button class="icon-btn" ng-click="editInstance($event,instance)">
+                        <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+                    </md-button>
                 </div>
-                <div flex>
-                    <p>{{instance.listType}}</p>
+                <div>
+                    <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="deleteInstance"> 
+                        <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                    </md-button>
                 </div>
-                <div flex ng-if="options.stats">
-                    <p>{{getActualGuests(instance)}}</p>
-                </div>
-                <div flex ng-if="!options.stats">
-                    <p>{{getglistTotal(instance)}}</p>
-                </div>
-                <div flex ng-if="options.stats">
-                    <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
-                </div>
-                <div flex ng-if="options.stats">
-                    <p>{{getglistTotal(instance)}}</p>
-                </div>
-                <div flex ng-if="!options.stats">
-                    <md-input-container>
-                        <!--<md-tooltip md-direction="top">Enter # of guests that can be checked in</md-tooltip>-->
-                        <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
-                               type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)" aria-label="capacity">
-                    </md-input-container>
-                </div>
-                <div flex>
-                    <p ng-if="instance.instanceType === 1">Guest</p>
-                    <p ng-if="instance.instanceType === 2 || instance.instanceType === 4">RSVP</p>
-                </div>
-                <div flex ng-if="options.publish">
-                    <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)" aria-label="Import" ng-show="true">
-                        <md-tooltip md-direction="top">select list to send invites</md-tooltip>
-                    </md-checkbox>
-                </div>
-                <div flex ng-if="options.publish && isShowColumn('published')">
-                    <md-icon class="single-icon" md-svg-src="assets/images/SVG/sent.svg" ng-if="instance.published"></md-icon>
-                </div>
-                <div layout="row" layout-align="end center" ng-cloak ng-if="!options.readOnly" flex="10" class="actions">
-                    <div ng-if="!instance.published">
-                        <md-button class="icon-btn" ng-click="editInstance($event,instance)">
-                            <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
-                        </md-button>
-                    </div>
-                    <div>
-                        <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="deleteInstance"> 
-                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                        </md-button>
-                    </div>
-                    <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ng-show="options.enableSelection"></md-checkbox>
-                </div>
+                <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ng-show="options.enableSelection"></md-checkbox>
             </div>
         </md-list-item>
     </md-list>
