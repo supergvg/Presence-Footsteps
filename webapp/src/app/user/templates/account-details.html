@@ -1,5 +1,4 @@
-<div ng-init="init()" class="block-field">
-    <h4>Manage Accounts</h4>
+<div ng-init="init()">
     <div ng-show="initializing">
         <h4>Loading...</h4>
         <span>
@@ -7,28 +6,31 @@
         </span>
     </div>
     <div ng-hide="initializing" ng-cloak>
-        <md-list>
-            <md-list-item layout="row">
-                <div flex="75">
-                    <p>Create new Account (Enter details for the users you would like to invite)</p>
-                </div>
-                <div flex="25" layout="row" layout-align="end center">
-                    <md-button class="raised-btn" ng-click="linkNewAccount($event)">
-                        Invite
-                    </md-button>
-                </div>
-            </md-list-item>
-            <md-list-item layout="row">
-                <div flex="75">
-                    <p>Delete Account</p>
-                </div>
-                <div flex="25" layout="row" layout-align="end center">
-                    <md-button class="raised-btn" ng-click="deleteAccount($event)">
-                        Delete
-                    </md-button>
-                </div>
-            </md-list-item>
-        </md-list>
+        <div class="block-field">
+            <h4>Manage Accounts</h4>
+            <md-list>
+                <md-list-item layout="row">
+                    <div flex="75">
+                        <p>Create new Account (Enter details for the users you would like to invite)</p>
+                    </div>
+                    <div flex="25" layout="row" layout-align="end center">
+                        <md-button class="raised-btn" ng-click="linkNewAccount($event)">
+                            Invite
+                        </md-button>
+                    </div>
+                </md-list-item>
+                <md-list-item layout="row">
+                    <div flex="75">
+                        <p>Delete Account</p>
+                    </div>
+                    <div flex="25" layout="row" layout-align="end center">
+                        <md-button class="raised-btn" ng-click="deleteAccount($event)">
+                            Delete
+                        </md-button>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
         <div class="block-field">
             <h4>Edit previously added Accounts</h4>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-if="refreshing"></md-progress-circular>

@@ -1,25 +1,24 @@
 <div layout="column">
-    <md-whiteframe ng-style="!editMode ? {'background-color': 'white'} : {}" ng-class="!editMode ? 'md-whiteframe-z1' : ''" flex class="user-details">
-        <div ng-show="!editMode" layout layout-align="center center">
+    <md-whiteframe flex class="user-details">
+        <div ng-show="!editMode" layout layout-align="center stretch" layout-sm="column" layout-align-sm="space-between stretch" class="user-details-teaser">
             <div flex="30" ng-style="getUserPhoto('150px')"></div>
-            <div flex="40" layout="column" layout-align="start start" style="padding-left: 20px">
-                <h3 class="md-title">{{user.firstName}} {{user.lastName}}</h3>
-                <div>{{user.email}}</div>
-                <div>{{user.phoneNumber}}</div>
-                <div>{{user.city}}</div>
-                <div>{{user.company}}</div>
+            <div flex="40" layout="column" layout-align="space-around start" class="description">
+                <h3>{{user.firstName}} {{user.lastName}}</h3>
+                <div ng-if="user.email">{{user.email}}</div>
+                <div ng-if="user.phoneNumber">{{user.phoneNumber}}</div>
+                <div ng-if="user.city">{{user.city}}</div>
+                <div ng-if="user.company">{{user.company}}</div>
             </div>
-            <div flex="30" layout="row" layout-align="end end">
+            <div flex="30" layout="row" layout-align="end center" layout-align-sm="center center">
                 <md-button class="raised-btn" ng-click="editMode = !editMode">
                     Edit
                 </md-button>
             </div>
         </div>
-
         <div ng-show="editMode">
             <div class="block-field">
-                <h4>Upload your company's logo:</h4>
-                <div layout="row" layout-align="space-between center">
+                <h4>Upload company logo</h4>
+                <div layout="row" layout-sm="column" layout-align="space-between center">
                     <md-input-container>
                         Support jpg, gif file. (To be included in all communication to guests)
                     </md-input-container>
@@ -34,47 +33,49 @@
             <form name="userForm">
                 <div class="block-field">
                     <h4>Edit Personal Details</h4>
-                    <div layout="row" layout-sm="column" layout-align="start start">
-                        <div layout="column">
-                            <md-input-container>
-                                <label>First Name</label>
-                                <input ng-model="user.firstName" name="firstName" required>
-                                <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
-                                    <div ng-message="required">First name is required</div>
-                                </div>
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Email</label>
-                                <input ng-model="user.email" type="email" disabled>
-                            </md-input-container>
-                            <md-input-container>
-                                <label>City</label>
-                                <input ng-model="user.city">
-                            </md-input-container>                        
+                    <div layout="row" layout-sm="column" layout-align="start stretch">
+                        <div layout="column" layout-align="start stretch">
+                            <div layout="row" layout-sm="column" layout-align="start stretch">
+                                <md-input-container>
+                                    <label>First Name</label>
+                                    <input ng-model="user.firstName" name="firstName" required>
+                                    <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
+                                        <div ng-message="required">First name is required</div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Last Name</label>
+                                    <input ng-model="user.lastName" name="lastName" required>
+                                    <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
+                                        <div ng-message="required">Last name is required</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout="row" layout-sm="column" layout-align="start stretch" class="margin-top">
+                                <md-input-container>
+                                    <label>Email</label>
+                                    <input ng-model="user.email" type="email" disabled>
+                                </md-input-container>
+                                <md-input-container>
+                                    <label>Phone Number</label>
+                                    <input ng-model="user.phoneNumber" type="tel">
+                                </md-input-container>
+                            </div>
+                            <div layout="row" layout-sm="column" layout-align="start stretch" class="margin-top">
+                                <md-input-container>
+                                    <label>City</label>
+                                    <input ng-model="user.city">
+                                </md-input-container>                        
+                                <md-input-container>
+                                    <label>Company</label>
+                                    <input ng-model="user.company" ng-disabled="true">
+                                </md-input-container>
+                            </div>
                         </div>
-                        <div layout="column">
-                            <md-input-container>
-                                <label>Last Name</label>
-                                <input ng-model="user.lastName" name="lastName" required>
-                                <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
-                                    <div ng-message="required">Last name is required</div>
-                                </div>
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Phone Number</label>
-                                <input ng-model="user.phoneNumber" type="tel">
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Company</label>
-                                <input ng-model="user.company" ng-disabled="true">
-                            </md-input-container>
-                        </div>                    
-                        <div layout="column" ng-show="false">
-                            <md-input-container>
-                                <label>Brief Bio</label>
-                                <textarea ng-model="user.bio"></textarea>
-                            </md-input-container>
-                        </div>
+                        <md-input-container>
+                            <label>Company's info for guest</label>
+                            <textarea ng-model="user.bio"></textarea>
+                        </md-input-container>
                     </div>
                     <div class="actions" layout="row" layout-align="end center" ng-show="editMode">
                         <md-button class="raised-btn" ng-click="editMode=!editMode">
@@ -118,7 +119,4 @@
             </form>
         </div>
     </md-whiteframe>
-    <p ng-show="!editMode">
-        {{user.bio}}
-    </p>
 </div>
