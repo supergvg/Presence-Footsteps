@@ -2,7 +2,7 @@
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     <h3 class="md-title" ng-show="guestLists.length == 0">No guest lists found</h3>
     <div>
-        <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top" ng-if="options.sorting"></div>
+        <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top" ng-if="options.sorting" ng-style="getTableHeight()"></div>
         
         <md-list class="zebra" ng-if="!options.sorting">
             <md-list-item ng-show="guestLists.length > 0">

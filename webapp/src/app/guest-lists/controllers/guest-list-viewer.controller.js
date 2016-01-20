@@ -22,6 +22,8 @@ angular.module('gliist')
                 ],
                 rowHeight: 45,
                 enableColumnMenus: false,
+                enableVerticalScrollbar: 0,
+                enableHorizontalScrollbar: 0,
                 data: []
             };
             if (!$scope.isStaff()) {
@@ -39,6 +41,12 @@ angular.module('gliist')
                         '<md-checkbox ng-checked="grid.appScope.glistSelected(row.entity.glist)" ng-click="grid.appScope.toggleSelected(row.entity.glist)" aria-label="Import" ng-show="grid.appScope.options.enableSelection"></md-checkbox>'
                 });
             }
+
+            $scope.getTableHeight = function() {
+                return {
+                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + "px"
+                };
+            };
 
             $scope.selected = $scope.selected || [];
 
