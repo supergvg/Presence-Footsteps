@@ -197,8 +197,6 @@ namespace gliist_server.Controllers
                             guestList = guestListInstance,
                             plus = guest.plus
                         });
-                        guestStatus.IsAutoCheckIn = true;
-                        guestStatus.CheckInDate = DateTime.UtcNow;
                     }
                 }
             }
@@ -211,7 +209,6 @@ namespace gliist_server.Controllers
                 foreach (var guestListInstance in @event.guestLists)
                 {
                     guestListInstance.GuestsCount = EventHelper.GetGuestsCount(@event, guestListInstance);
-                    //guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
                 }
             }
             return Ok(@event.guestLists);
@@ -444,7 +441,7 @@ namespace gliist_server.Controllers
                 totalChk++;
             }
 
-            //Guset Capacity
+            //Guest Capacity
             if (checkin.plus < checkinData.plus || (checkin.status == "checked in" && checkin.plus == 0))
             {
                 throw new ArgumentException("guest exceeded capacity");
@@ -605,7 +602,7 @@ namespace gliist_server.Controllers
                 return BadRequest("Event not found");
             }
 
-            Task.Factory.StartNew(() => { Publish(evnt, eventPublishModel, user); });
+            await Task.Factory.StartNew(() => { Publish(evnt, eventPublishModel, user); });
 
             return StatusCode(HttpStatusCode.NoContent);
         }

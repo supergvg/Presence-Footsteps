@@ -15,14 +15,7 @@ namespace gliist_server.Controllers
     [RoutePrefix("api/rsvp")]
     public class RsvpController : ApiController
     {
-        private EventDBContext db;
-        private bool isInitialized = false;
-
-        public RsvpController()
-            : base()
-        {
-            db = new EventDBContext();
-        }
+        private EventDBContext db = new EventDBContext();
 
         [HttpGet]
         [Route("InvitedDetails/{token}")]
@@ -56,7 +49,7 @@ namespace gliist_server.Controllers
                 model.Guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
                 model.Company = model.Event.company;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 responseStatus.Code = "server_error";
                 responseStatus.Message = "Server error";
@@ -382,8 +375,6 @@ namespace gliist_server.Controllers
             });
             db.Entry(guestListInstance).State = EntityState.Modified;
 
-            eventGuestStatus.IsAutoCheckIn = false;
-            eventGuestStatus.CheckInDate = DateTime.UtcNow;
             db.Entry(eventGuestStatus).State = EntityState.Modified;
             db.SaveChanges();
         }

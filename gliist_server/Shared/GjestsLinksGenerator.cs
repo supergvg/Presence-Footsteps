@@ -87,7 +87,7 @@ namespace gliist_server.Shared
                     Token = token
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 eventGuestMail = null;
             }

@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http;
 using System.Web.Hosting;
+using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using gliist_server.Attributes;
+using gliist_server.Helpers;
 using gliist_server.Models;
 using gliist_server.Providers;
 using gliist_server.Results;
-using gliist_server.Helpers;
-using gliist_server.Attributes;
 
 namespace gliist_server.Controllers
 {
@@ -393,12 +393,9 @@ namespace gliist_server.Controllers
         {
             var container = BlobHelper.GetWebApiContainer("profiles");
             var blob = container.GetBlockBlobReference(user.company.name.ToString() + "_" + DateTime.Now.Millisecond + "_" + fileName);
-            blob.UploadFromByteArray(data, 0, data.Length);
-            var userId = User.Identity.GetUserId();
-
-
+            await blob.UploadFromByteArrayAsync(data, 0, data.Length);
+            
             user.profilePictureUrl = blob.Uri.AbsoluteUri;
-
             return blob.Uri.AbsoluteUri;
         }
 
@@ -488,8 +485,7 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
@@ -523,9 +519,10 @@ namespace gliist_server.Controllers
             {
                 throw new ArgumentException("Reset password token expired");
             }
-            var userId = UserManager.FindByName(token.user_email).Id;
+            var user = await UserManager.FindByNameAsync(token.user_email);
+            string userId = user.Id;
 
-            IdentityResult result = UserManager.RemovePassword(userId);
+            IdentityResult result = await UserManager.RemovePasswordAsync(userId);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
@@ -533,11 +530,11 @@ namespace gliist_server.Controllers
                 return errorResult;
             }
 
-            String hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.NewPassword);
-            result = UserManager.AddPassword(userId, hashedNewPassword);
+            string hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.NewPassword);
+            result = await UserManager.AddPasswordAsync(userId, hashedNewPassword);
 
-            result = UserManager.RemovePassword(userId);
-            result = UserManager.AddPassword(userId, model.NewPassword);
+            result = await UserManager.RemovePasswordAsync(userId);
+            result = await UserManager.AddPasswordAsync(userId, model.NewPassword);
             errorResult = GetErrorResult(result);
 
             if (errorResult != null)
