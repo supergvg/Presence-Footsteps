@@ -199,7 +199,7 @@ angular.module('gliist')
                 if ($state.current.abstract || $state.includes('home') ||
                     $state.includes('signup') || $state.includes('signup_invite') ||
                     $state.includes('recover_password') || $state.includes('reset_password')) {
-                    return 'logo-bg ' + $state.current.name.split('_');
+                    return 'logo-bg ' + $state.current.name;
                 }
                 if ($state.current.name.match(/^landing_.+/)) {
                     return $state.current.name.split('_');

@@ -3,91 +3,66 @@
         <h3>User Profile</h3>
     </div>
     <div layout="row" layout-align="space-between center" class="tabs margin-top">
-        <div class="tab">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Profile</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(0) ? 'logo-bg' : ''"
-                       ng-click="data.selectedIndex = 0">
-            </md-button>
-        </div>
-        <div flex class="line"></div>
-        <div class="tab">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Account</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(1) ? 'logo-bg' : ''"
-                       ng-disabled="!isAdmin()"
-                       ng-click="data.selectedIndex = 1">
-            </md-button>
-        </div>
-        <div flex class="line"></div>
-        <div class="tab">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Billing</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(2) ? 'logo-bg' : ''"
-                       ng-click="data.selectedIndex = 2">
-            </md-button>
-        </div>
+        <md-button ng-class="getSelected(0) ? 'active' : ''" ng-click="data.selectedIndex = 0" flex>
+            Profile
+        </md-button>
+        <md-button ng-class="getSelected(1) ? 'active' : ''" ng-disabled="!isAdmin()" ng-click="data.selectedIndex = 1" flex>
+            Account
+        </md-button>
+        <md-button ng-class="getSelected(2) ? 'active' : ''" ng-click="data.selectedIndex = 2" flex>
+            Billing
+        </md-button>
     </div>
-    
-    <ng-switch on="data.selectedIndex">
-        <div role="tabpanel"
-             id="tab1-content"
-             aria-labelledby="tab1"
-             ng-switch-when="0"
-             md-swipe-left="next()"
-             md-swipe-right="previous()"
-             class="margin-top">
-            <div>
+    <div class='tab-content'>
+        <ng-switch on="data.selectedIndex">
+            <div role="tabpanel"
+                 id="tab1-content"
+                 aria-labelledby="tab1"
+                 ng-switch-when="0"
+                 md-swipe-left="next()"
+                 md-swipe-right="previous()">
                 <user-details user="currentUser"></user-details>
-            </div>
-            <div class="social-links-edit">
-                <h5>Enter Social Media Account Links (To be included in all invites & confirmations to guests)</h5>
-                <div layout="column" layout-align="start start">
-                    <div class="social-link-edit">
+                <div layout="column" layout-align="start stretch" class="social-links-edit">
+                    <h4>Enter company's social media account link (to be included in all communications to guests)</h4>
+                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
                         <img src="assets/images/instagram.png"/>
-                        <md-input-container>
-                            <label>Enter instagram link</label>
-                            <input type="text" ng-model="currentUser.instagrammPageUrl">
+                        <md-input-container md-no-float flex="60">
+                            <input type="text" ng-model="currentUser.instagrammPageUrl" placeholder="Enter instagram link">
                         </md-input-container>
                     </div>
-                    <div class="social-link-edit">
+                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
                         <img src="assets/images/facebook.png"/>
-                        <md-input-container>
-                            <label>Enter facebook link</label>
-                            <input type="text" ng-model="currentUser.facebookPageUrl">
+                        <md-input-container md-no-float flex="60">
+                            <input type="text" ng-model="currentUser.facebookPageUrl" placeholder="Enter facebook link">
                         </md-input-container>
                     </div>
-                    <div class="social-link-edit">
+                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
                         <img src="assets/images/twitter.png"/>
-                        <md-input-container>
-                            <label>Enter twitter link</label>
-                            <input type="text" ng-model="currentUser.twitterPageUrl">
+                        <md-input-container md-no-float flex="60">
+                            <input type="text" ng-model="currentUser.twitterPageUrl" placeholder="Enter twitter link">
                         </md-input-container>
                     </div>
-                </div>
-                <div layout="row" layout-align="end start">
-                    <md-button class="raised-btn" ng-click="link()">Link</md-button>
+                    <div layout="row" layout-align="end start" class="actions" layout-align-sm="center center">
+                        <md-button class="raised-btn" ng-click="link()">Link</md-button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div role="tabpanel"
-             id="tab2-content"
-             aria-labelledby="tab2"
-             ng-switch-when="1"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
-            <account-details user="currentUser"></account-details>
-        </div>
-        <div role="tabpanel"
-             id="tab3-content"
-             aria-labelledby="tab3"
-             ng-switch-when="2"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
-            <billing></billing>
-        </div>
-    </ng-switch>
+            <div role="tabpanel"
+                 id="tab2-content"
+                 aria-labelledby="tab2"
+                 ng-switch-when="1"
+                 md-swipe-left="next()"
+                 md-swipe-right="previous()">
+                <account-details user="currentUser"></account-details>
+            </div>
+            <div role="tabpanel"
+                 id="tab3-content"
+                 aria-labelledby="tab3"
+                 ng-switch-when="2"
+                 md-swipe-left="next()"
+                 md-swipe-right="previous()">
+                <billing></billing>
+            </div>
+        </ng-switch>
+    </div>
 </div>

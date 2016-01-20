@@ -418,6 +418,11 @@ md-input-container {
             border-radius: 0 25px 25px 0 !important;
             border-right: 1px solid #99ccff;
         }
+        &[disabled] {
+            background: none;
+            margin-bottom: 0;
+            border-color: #aaa !important;
+        }
     }
     md-select {
         height: 44px;
@@ -482,6 +487,14 @@ md-list {
         }
         &:nth-child(odd) {
             background: #fff;
+        }
+    }
+    md-list-item {
+        .center {
+            text-align: center;
+            & > * {
+                display: inline-block;
+            }
         }
     }
 }
@@ -1086,32 +1099,65 @@ md-dialog {
 
 .profile {
     color: #8e8e8e;
-    .social-links-edit {
-        border-top: 2px solid #fff;
-        h5 {
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .social-link-edit {
-            position: relative;
-            width: 100%;
-            img {
-                position: absolute;
-                margin-top: 35px;
+    .tabs {
+        & > * {
+            text-align: center;
+            text-transform: none;
+            font-size: 16px;
+            color: #8e8e8e;
+            border-radius: 3px 3px 0 0;
+            border: 1px solid #b3b3b3;
+            margin: 0;
+            background-color: #e6e6e6;
+            text-shadow: -1px 0 0 #cbcbcb;
+            height: 50px;
+            &.active {
+                color: #7ab9f8;
+                text-shadow: -1px 0 0 #d0e5fc;
+                background: none;
+                border-bottom-color: transparent;
             }
-            md-input-container {
-                margin-left: 130px;
-                max-width: 500px;
+            + * {
+                margin-left: -1px;
             }
         }
     }
-    .user-details {
-        .block-field md-input-container + md-input-container {
-            padding-left: 0 !important;
+    .tab-content {
+        border-left: 1px solid #b3b3b3;
+        border-right: 1px solid #b3b3b3;
+        border-bottom: 1px solid #b3b3b3;
+        padding: 20px;
+    }
+    .social-links-edit {
+        border-top: 1px solid #b3b3b3;
+        h4 {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 30px 0 0 0;
         }
-        md-input-container {
-            padding: 0 20px 20px 0;
-            max-width: 300px;
+        & > div {
+            margin-top: 20px;
+            img {
+                margin-right: 35px;
+            }
+        }
+        .actions {
+            margin-bottom: 0;
+            margin-right: 15px;
+        }
+    }
+    .user-details {
+        .user-details-teaser {
+            background-color: #f5f9fc;
+            margin-bottom: 20px;
+            padding: 20px;
+            .description {
+                padding-left: 20px;
+                h3 {
+                    margin: 0;
+                    font-weight: bold;
+                }
+            }
         }
     }
 }
@@ -1203,7 +1249,6 @@ md-dialog {
     }
 }
 
-.signup,
 .home {
     padding: 0 !important;
     .content {
@@ -1221,6 +1266,7 @@ md-dialog {
         h3 {
             margin-bottom: 0;
             font-weight: bold;
+            color: #fff;
         }
         p {
             margin-top: 0;
@@ -1229,7 +1275,9 @@ md-dialog {
     }
 }
 
+.signup_invite,
 .signup {
+    @extend .home;
     background-color: #fff !important;
     .footer {
         margin: 0;
@@ -1330,13 +1378,13 @@ md-dialog {
     }
     .footer {
         background-color: #aaa;
+        h3,
         p {
             color: #fff;
         }
     }
 }
 
-.profile,
 .event-details-page {
     .tabs {
         .line {
@@ -1552,6 +1600,7 @@ md-dialog {
 }
 
 @media screen and (max-width: 600px) {
+    .signup_invite,
     .signup {
         .signup-form {
             md-input-container {
@@ -1571,5 +1620,23 @@ md-dialog {
     .billet + .billet {
         margin-left: 0;
         margin-top: 15px;
+    }
+    .profile {
+        .social-links-edit {
+            & > div {
+                img {
+                    margin-bottom: 5px;
+                    margin-right: 0;
+                }
+            }
+        }
+        .user-details {
+            .user-details-teaser {
+                .description {
+                    padding-left: 0;
+                    margin-bottom: 20px;
+                }
+            }
+        }
     }
 }

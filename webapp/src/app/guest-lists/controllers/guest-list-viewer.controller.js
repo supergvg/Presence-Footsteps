@@ -15,7 +15,7 @@ angular.module('gliist')
                     '</div>',
                 columnDefs: [
                     {field: 'title', name: 'Guest List'},
-                    {field: 'total', name: 'Total'},
+                    {field: 'total', name: 'Total', enableSorting: false},
                     {field: 'listType', name: 'Category'},
                     {field: 'created_on', name: 'Date'},
                     {field: 'created_by', name: 'Created By', enableSorting: false}
