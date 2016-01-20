@@ -35,15 +35,15 @@
                     <h4>Edit Personal Details</h4>
                     <div layout="row" layout-sm="column" layout-align="start stretch">
                         <div layout="column" layout-align="start stretch">
-                            <div layout="row" layout-sm="column" layout-align="start stretch">
-                                <md-input-container>
+                            <div layout="row" layout-sm="column" layout-align="space-between stretch">
+                                <md-input-container flex>
                                     <label>First Name</label>
                                     <input ng-model="user.firstName" name="firstName" required>
                                     <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
                                         <div ng-message="required">First name is required</div>
                                     </div>
                                 </md-input-container>
-                                <md-input-container>
+                                <md-input-container flex>
                                     <label>Last Name</label>
                                     <input ng-model="user.lastName" name="lastName" required>
                                     <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
@@ -51,28 +51,38 @@
                                     </div>
                                 </md-input-container>
                             </div>
-                            <div layout="row" layout-sm="column" layout-align="start stretch" class="margin-top">
-                                <md-input-container>
+                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
+                                <md-input-container flex>
                                     <label>Email</label>
                                     <input ng-model="user.email" type="email" disabled>
                                 </md-input-container>
-                                <md-input-container>
+                                <md-input-container flex>
                                     <label>Phone Number</label>
                                     <input ng-model="user.phoneNumber" type="tel">
                                 </md-input-container>
                             </div>
-                            <div layout="row" layout-sm="column" layout-align="start stretch" class="margin-top">
-                                <md-input-container>
+                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
+                                <md-input-container flex>
                                     <label>City</label>
                                     <input ng-model="user.city">
                                 </md-input-container>                        
-                                <md-input-container>
+                                <md-input-container flex>
                                     <label>Company</label>
                                     <input ng-model="user.company" ng-disabled="true">
                                 </md-input-container>
                             </div>
+                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
+                                <md-input-container flex>
+                                    <label>Contact Email for guests</label>
+                                    <input ng-model="user.contactEmail">
+                                </md-input-container>                        
+                                <md-input-container flex>
+                                    <label>Contact Phone Number for guests</label>
+                                    <input ng-model="user.contactPhone">
+                                </md-input-container>
+                            </div>
                         </div>
-                        <md-input-container>
+                        <md-input-container class='bio'>
                             <label>Company's info for guest</label>
                             <textarea ng-model="user.bio"></textarea>
                         </md-input-container>
