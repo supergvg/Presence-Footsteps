@@ -440,15 +440,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Site.css" />
     <Content Include="images\blank_user_icon.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="images\blank_user_icon_old.png" />
     <Content Include="images\event_placeholder.jpg" />
-    <None Include="js\MobileServices.intellisense.js" />
-    <Content Include="js\MobileServices.js" />
-    <Content Include="js\MobileServices.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -458,11 +454,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ate\" />
-    <Folder Include="Views\Email\" />
-    <Folder Include="Views\Files\" />
-    <Folder Include="Views\GLCsv\" />
-    <Folder Include="Views\Users\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>
@@ -470,8 +461,6 @@
     <Content Include="js\MobileServices.pri" />
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\gjests.pubxml" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506040634259_Initial.resx">
