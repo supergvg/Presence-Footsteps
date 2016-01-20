@@ -1,0 +1,113 @@
+Требование:	
+	предоставить гостю возможность покупать билеты на мероприятие.
+
+Сценарии:
+	BACKGROUND:
+		GIVEN Пользователь на странице покупки билетов
+		  AND Создано 2 типа билетов - "Early Bird Passes" и "Last Chance"
+		  AND "Early Bird Passes" QUANTITY равно 5
+		  AND "Last Chance" QUANTITY равно 4
+		  AND "Early Bird Passes" SALE EXPIRATION DATE равно 25-Dec-2015
+		  AND "Last Chance" SALE EXPIRATION DATE равно 25-Jan-2016.
+		  
+TICKET TYPES:
+	1.  WHEN Продано 3 билета "Early Bird Passes"
+		 AND На дворе - 27-Dec-2015.
+	    THEN Билеты "Early Bird Passes" не доступны
+		 AND Билеты "Last Chance" доступны.
+		 
+	2.  WHEN Продано 5 билетов "Early Bird Passes"
+		 AND На дворе - 21-Dec-2015.
+	    THEN Билеты "Early Bird Passes" не доступны
+		 AND Билеты "Last Chance" не доступны.
+		 
+	3.  WHEN Продано 5 билетов "Early Bird Passes"
+		 AND На дворе - 27-Dec-2015.
+	    THEN Билеты "Early Bird Passes" не доступны
+		 AND Билеты "Last Chance" доступны.
+		 
+	4.  WHEN "Early Bird Passes" билеты доступны
+	     AND Нет проданных билетов.		 
+	    THEN Минимально допустимое значение Quantity равно 01,
+			 Максимальное значение равно 4.
+			 
+	5.  WHEN "Early Bird Passes" билеты доступны
+	     AND Продано 3 билета "Early Bird Passes"
+		 AND Билеты данным гостем не покупались ранее.
+	    THEN Минимально допустимое значение Quantity равно 01,
+			 Максимальное значение равно 2.
+			 
+	6.  WHEN "Early Bird Passes" билеты доступны
+	     AND Продано 4 билета "Early Bird Passes"
+		 AND Все 4 билета куплены данным гостем ранее.
+	    THEN Билеты "Early Bird Passes" не доступны.
+
+PROMO CODE:	
+    7.  WHEN Поле Promo Code пустое	     
+	    THEN Кнопка Apply Code не доступна.
+		
+	8.  WHEN Поле Promo Code заполнено
+	    THEN Кнопка Apply Code доступна.
+		
+	9. GIVEN Гость заполнил поле Promo Code допустимым значением.
+	    WHEN Гость нажимает Apply Code.
+	    THEN Гость получает сообщение "Your promo code is validated and will be applied to ticket buying.".	
+		
+	10.GIVEN Гость заполнил поле Promo Code не допустимым значением.
+	    WHEN Гость нажимает Apply Code.
+	    THEN Гость получает сообщение "This code is invalid for this event.".	
+		
+	11.GIVEN Гость заполнил поле Promo Code допустимым значением
+	     AND Данный Promo Code уже применен при покупке билетов данным гостем ранее.
+	    WHEN Гость нажимает Apply Code.
+	    THEN Гость получает сообщение "The code has been used already".
+	
+GET TICKETS:
+	12. WHEN Нет доступных билетов.
+	    THEN Кнопка Get Tickets не доступна.
+		
+	13. WHEN Гость кликает "Get Tickets".
+	    THEN Появляется POPUP с кнопками "BUY" и "CANCEL"
+		 AND Информацией о цене покупки
+		 AND Полями для заполнения - name, email, credit card, CVC (все поля обязательны для заполнения).
+		 
+	14.GIVEN Гость применил PROMO CODE (скидка 4$) 
+	     AND Стоимость билета равна 9$
+		 AND Гость указал количество равное 2
+		WHEN Гость кликает "Get Tickets".
+	    THEN Появляется POPUP с кнопками с суммой заказа равной 10$.		 
+		
+	15.GIVEN Гость кликнул "Get Tickets"
+	     AND Появился POPUP оплаты.
+	    WHEN Гость кликает "CANCEL".
+	    THEN POPUP исчезает.
+		
+	16.GIVEN Гость кликнул "Get Tickets"
+	     AND Появился POPUP оплаты
+		 AND Гость указал все необходимые данные.
+	    WHEN Гость кликает "BUY".
+	    THEN Отправляется запрос на покупку в Stripe.
+		
+STRIPE RESPONSE:
+	17. WHEN Stripe возвращает ошибку.
+	    THEN Гость получает сообщение с вернувшейся ошибкой.
+	
+	18. WHEN Stripe возвращает положительный результат.	
+	    THEN Система формирует email c купленными билетами и отправляет пользователю на почту
+		 AND Гость перенаправляется на страницу Confirmed Purchase.
+
+TICKET EMAIL:
+	19. WHEN Гость приватный
+	     AND Куплено 2 билета.	
+	    THEN формируется один электронный билет, который будет применен дважды.
+		 
+	19. WHEN Гость публичный
+	     AND Куплено 2 билета.	
+	    THEN формируется 2 электронных билета, которые прикрепляются как PDF-файлы в формируемом для гостя сообщении.
+		 
+
+
+Server side:
+	API:
+	
+	Errors:
