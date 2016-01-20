@@ -94,7 +94,8 @@ STRIPE RESPONSE:
 	
 	18. WHEN Stripe возвращает положительный результат.	
 	    THEN Система формирует email c купленными билетами и отправляет пользователю на почту
-		 AND Гость перенаправляется на страницу Confirmed Purchase.
+		 AND Гость перенаправляется на страницу Confirmed Purchase
+		 AND Гость в системе помечается как CONFIRMED.
 
 TICKET EMAIL:
 	19. WHEN Гость приватный
