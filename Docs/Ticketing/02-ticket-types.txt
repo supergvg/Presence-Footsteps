@@ -93,18 +93,18 @@
 	     THEN Изменения сохраняются на сервере и клиенте.
 		 
 	13. GIVEN Мероприятие опубликовано	  
-		  AND Существует "Early Bird Passes" со значением PRICE равным 8
+		  AND Существует "Early Bird Passes" со значением QUANTITY равным 8
 		  AND Продано 2 билета "Early Bird Passes".
 	     WHEN Пользователь выбирает тип "Early Bird Passes"
-		  AND Изменяет PRICE на 3
+		  AND Изменяет QUANTITY на 3
 		  AND Нажимает кнопку "OK".
 	     THEN Изменения сохраняются на сервере и клиенте.
 		 
 	14. GIVEN Мероприятие опубликовано	  
-		  AND Существует "Early Bird Passes" со значением PRICE равным 8
+		  AND Существует "Early Bird Passes" со значением QUANTITY равным 8
 		  AND Продано 6 билетов "Early Bird Passes".
 	     WHEN Пользователь выбирает тип "Early Bird Passes"
-		  AND Изменяет PRICE на 3
+		  AND Изменяет QUANTITY на 3
 		  AND Нажимает кнопку "OK".
 	     THEN Пользователь получает сообщение об ошибке "There are already 6 selled tickets. Please specify correct value and try again".
 	
