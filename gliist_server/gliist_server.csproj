@@ -427,7 +427,7 @@
     <Compile Include="Models\ResetPasswordToken.cs" />
     <Compile Include="Models\RsvpType.cs" />
     <Compile Include="Models\TicketType.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserLoginInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />

@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
-using System.Web.Hosting;
 using System.Web.Http;
-using gliist_server.Attributes;
-using gliist_server.Helpers;
-using gliist_server.Models;
-using gliist_server.Providers;
-using gliist_server.Results;
+using System.Web.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using gliist_server.Models;
+using gliist_server.Providers;
+using gliist_server.Results;
+using gliist_server.Helpers;
+using gliist_server.Attributes;
 
 namespace gliist_server.Controllers
 {
@@ -31,10 +31,11 @@ namespace gliist_server.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private readonly EventDBContext _db;
+        private EventDBContext _db;
         public AccountController()
             : this(new EventDBContext())
         {
+
         }
 
         public AccountController(EventDBContext db)
@@ -76,6 +77,8 @@ namespace gliist_server.Controllers
                 company = user.company.name,
                 company_id = user.company.id.ToString(),
                 bio = user.bio,
+                contactEmail = user.contactEmail,
+                contactPhone = user.contactPhone,
                 permissions = user.permissions,
                 TwitterPageUrl = user.company.TwitterPageUrl ?? string.Empty,
                 FacebookPageUrl = user.company.FacebookPageUrl ?? string.Empty,
@@ -224,7 +227,7 @@ namespace gliist_server.Controllers
 
             if (invite == null)
             {
-                return BadRequest("Invitation exptied please contact admin");
+                return BadRequest("Invitation expired please contact admin");
             }
 
             _db.Entry(invite).State = EntityState.Modified;
@@ -329,6 +332,8 @@ namespace gliist_server.Controllers
             user.city = userModel.city;
             user.company = userModel.company;
             user.bio = userModel.bio;
+            user.contactPhone = userModel.contactPhone;
+            user.contactEmail = userModel.contactEmail;
 
             _db.Entry(user).State = EntityState.Modified;
 
@@ -723,9 +728,9 @@ namespace gliist_server.Controllers
             }
 
             var compnay = new Company()
-             {
-                 name = model.company
-             };
+            {
+                name = model.company
+            };
 
             _db.Companies.Add(compnay);
 
