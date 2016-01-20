@@ -1159,6 +1159,11 @@ md-dialog {
                 }
             }
         }
+        form[name="userForm"] {
+            .bio {
+                margin-left: 20px;
+            }
+        }
     }
 }
 
@@ -1635,6 +1640,11 @@ md-dialog {
                 .description {
                     padding-left: 0;
                     margin-bottom: 20px;
+                }
+            }
+            form[name="userForm"] {
+                .bio {
+                    margin-left: 0;
                 }
             }
         }
