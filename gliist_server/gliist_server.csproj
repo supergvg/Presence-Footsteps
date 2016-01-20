@@ -392,7 +392,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\CheckinModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanySocialLinksModel.cs" />
