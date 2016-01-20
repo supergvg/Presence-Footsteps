@@ -458,7 +458,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="js\MobileServices.pri" />
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\gjests.pubxml" />
   </ItemGroup>
