@@ -53,8 +53,7 @@
     <Compile Include="GuestListInstances\GuestCheckinPlusUpdatingPatchTests.cs" />
     <Compile Include="GuestListInstances\GuestListInstancesPatchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TicketingEvents\Stripe\Settings.cs" />
-    <Compile Include="TicketingEvents\Stripe\TicketsPurchasingTests.cs" />
+    <Compile Include="TicketingEvents\StripeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gliist_server\gliist_server.csproj">
