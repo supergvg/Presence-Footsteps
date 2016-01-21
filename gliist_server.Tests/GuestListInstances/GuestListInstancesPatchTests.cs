@@ -36,6 +36,19 @@ namespace gliist_server.Tests.GuestListInstances
         }
 
         [TestMethod]
+        public void ParticularActualNotChanged_IfCheckinExists()
+        {
+            var listInstances = GetListInstances();
+            listInstances[0].actual = new List<GuestCheckin> {new GuestCheckin {guest = new Guest {id = 55}, plus = 5}};
+            var eventGuests = GetEventGuests();
+
+            RsvpGuestListInstancePatch.Run(listInstances[0], eventGuests);
+
+            Assert.IsTrue(listInstances[0].actual.Count == 2);
+            Assert.IsTrue(listInstances[0].actual[0].plus == 5);
+        }
+
+        [TestMethod]
         public void ActualChanged_IfInstanceIsRsvp()
         {
             var listInstances = GetListInstances();
@@ -116,6 +129,7 @@ namespace gliist_server.Tests.GuestListInstances
                     GuestListInstanceId = 1,
                     Guest = new Guest
                     {
+                        id = 55,
                         email = "user@email.com"
                     }
                 },

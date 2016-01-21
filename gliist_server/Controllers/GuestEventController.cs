@@ -335,6 +335,8 @@ namespace gliist_server.Controllers
             db.Guests.Add(guest);
             await db.SaveChangesAsync();
 
+            await AddEventGuests(onTheSpotGL, new[] {guest}, eventId);
+
 
             if (!string.IsNullOrEmpty(guest.email))
             {
@@ -390,6 +392,9 @@ namespace gliist_server.Controllers
             var type = string.IsNullOrEmpty(guestEvent.type) ? "GA" : guestEvent.type;
             var names = guestEvent.names.Split(',');
 
+            var addedGuests = new List<Guest>();
+            GuestListInstance addedListInstance = null;
+
             foreach (var name in names)
             {
                 var s = name.Trim().Split(' ');
@@ -402,12 +407,17 @@ namespace gliist_server.Controllers
                   lastName = s.Length > 1 ? s[1] : "Guest";
 
                 var g = new Guest() { firstName = firstName, lastName = lastName, type = type, company = user.company };
+                addedGuests.Add(g);
 
                 var onTheSpotGL = GuestHelper.AddGuestToEvent(g, eventId, user.company, user, db);
+                if (addedListInstance == null)
+                    addedListInstance = onTheSpotGL;
                 db.Guests.Add(g);
             }
 
             await db.SaveChangesAsync();
+
+            await AddEventGuests(addedListInstance, addedGuests.ToArray(), eventId);
 
             return Ok();
         }
@@ -634,7 +644,20 @@ namespace gliist_server.Controllers
         }
 
         #region private methods
+        private async Task AddEventGuests(GuestListInstance onTheSpotGl, Guest[] guests, int eventId)
+        {
+            db.EventGuests.AddRange(guests.Select(x => new EventGuestStatus
+            {
+                EventId = eventId,
+                Guest = x,
+                AdditionalGuestsRequested = x.plus,
+                GuestListId = onTheSpotGl.linked_guest_list.id,
+                GuestListInstanceId = onTheSpotGl.id,
+                GuestListInstanceType = onTheSpotGl.InstanceType
+            }));
 
+            await db.SaveChangesAsync();
+        }
         private void Publish(Event @event, IdsEventModel eventPublishModel, UserModel user)
         {
             var guestListInstances = db.GuestListInstances
