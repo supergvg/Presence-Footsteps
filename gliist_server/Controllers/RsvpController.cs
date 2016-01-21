@@ -430,7 +430,6 @@ namespace gliist_server.Controllers
                 .Where(x => x.title.ToLower() == eventName.ToLower() && !x.isDeleted)
                 .OrderByDescending(x => x.endTime)
                 .Include(x => x.company)
-                .Include(x => x.Tickets)
                 .FirstOrDefault(x => x.company.name.ToLower() == companyName.ToLower());
             return @event;
         }

@@ -242,6 +242,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Ticketing\Controllers\TicketTypesController.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTypes\TicketType.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTypes\TicketTypeViewModel.cs" />
+    <Compile Include="Areas\Ticketing\TicketingAreaRegistration.cs" />
     <Compile Include="Attributes\PermissionsAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
@@ -342,10 +346,6 @@
     <Compile Include="Migrations\201509021403169_EventsGuests.Designer.cs">
       <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509221303395_TicketType.cs" />
-    <Compile Include="Migrations\201509221303395_TicketType.Designer.cs">
-      <DependentUpon>201509221303395_TicketType.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201509231131497_GuestListInstanceType.cs" />
     <Compile Include="Migrations\201509231131497_GuestListInstanceType.Designer.cs">
       <DependentUpon>201509231131497_GuestListInstanceType.cs</DependentUpon>
@@ -426,7 +426,6 @@
     <Compile Include="Models\PublicEventGuestSubmitModel.cs" />
     <Compile Include="Models\ResetPasswordToken.cs" />
     <Compile Include="Models\RsvpType.cs" />
-    <Compile Include="Models\TicketType.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLoginInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -525,9 +524,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509021403169_EventsGuests.resx">
       <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509221303395_TicketType.resx">
-      <DependentUpon>201509221303395_TicketType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509231131497_GuestListInstanceType.resx">
       <DependentUpon>201509231131497_GuestListInstanceType.cs</DependentUpon>

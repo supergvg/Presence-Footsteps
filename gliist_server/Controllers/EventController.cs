@@ -254,26 +254,9 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (@event.Type == EventType.Ticketing && @event.Tickets.Count == 0)
-            {
-                return BadRequest("Tickets are required for this type of event");
-            }
-            else if (@event.Type == EventType.Rsvp && @event.RsvpEndDate == null)
+            if (@event.Type == EventType.Rsvp && @event.RsvpEndDate == null)
             {
                 return BadRequest("rsvpEndDate is required for this type of event");
-            }
-
-            if (@event.Tickets != null && @event.Tickets.Count > 0)
-            {
-                if (@event.Type == EventType.Ticketing)
-                {
-                    @event.Tickets.ForEach(x => x.EventId = @event.id);
-                }
-                else
-                {
-                    @event.Tickets.Clear();
-                }
-
             }
 
             var generateRSVPLink = false;
@@ -324,11 +307,6 @@ namespace gliist_server.Controllers
                     {
                         AddNewGuestsFromGuestListToEvent(@event, gli, existingEvent);
                     }
-                }
-
-                foreach (var ticketType in @event.Tickets)
-                {
-                    db.Entry(ticketType).State = (ticketType.Id > 0) ? EntityState.Modified : EntityState.Added;
                 }
 
                 db.Entry(existingEvent).CurrentValues.SetValues(@event);

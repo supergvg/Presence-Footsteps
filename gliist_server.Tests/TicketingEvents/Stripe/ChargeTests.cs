@@ -5,7 +5,6 @@ namespace gliist_server.Tests.TicketingEvents.Stripe
     [TestClass]
     public class ChargeTests
     {
-        [Ignore]
         [TestMethod]
         public void CreateCharge()
         {

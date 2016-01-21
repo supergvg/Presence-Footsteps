@@ -49,7 +49,6 @@ namespace gliist_server.Controllers
             try
             {
                 model.Event = db.Set<Event>().Where(x => x.id == eventGuestStatus.EventId && !x.isDeleted)
-                    .Include(x => x.Tickets)
                     .Include(x => x.company).FirstOrDefault();
                 model.Guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
                 model.Company = model.Event.company;
@@ -164,7 +163,6 @@ namespace gliist_server.Controllers
                 .Where(x => x.title.ToLower() == eventName.ToLower() && !x.isDeleted)
                 .OrderByDescending(x => x.endTime)
                 .Include(x => x.company)
-                .Include(x => x.Tickets)
                 .FirstOrDefault(x => x.company.name.ToLower() == companyName.ToLower());
             return @event;
         }

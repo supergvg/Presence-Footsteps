@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Migrations;
 
 namespace gliist_server.Models
@@ -31,11 +32,9 @@ namespace gliist_server.Models
 
         public DbSet<Notification> Notifications { get; set; }
 
-        public DbSet<TicketType> TicketTypes { get; set; }
-
         public DbSet<ResetPasswordToken> PasswordTokens { get; set; }
 
         public DbSet<EventGuestStatus> EventGuests { get; set; }
-
+        public DbSet<TicketType> TicketTypes { get; set; }
     }
 }
