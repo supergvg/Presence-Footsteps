@@ -1,28 +1,23 @@
-﻿using gliist_server.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+using gliist_server.Models;
 
 namespace gliist_server.Helpers
 {
     public static class GuestHelper
     {
-        public const string ON_THE_SPOT_GL = "On the spot";
-
-
-
+        public const string OnTheSpotGuestListLabel = "On the spot";
+        
         public static int GetEventTotalCheckedin(Event @event)
         {
             var total = 0;
 
             foreach (var gli in @event.guestLists)
             {
-                total += GuestHelper.GetGuestListTotalCheckedin(gli);
+                total += GetGuestListTotalCheckedin(gli);
             }
 
             return total;
@@ -47,7 +42,7 @@ namespace gliist_server.Helpers
         public static GuestListInstance AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
         {
             var @event = db.Events.FirstOrDefault(e => e.id == eventId);
-            var onTheSpotGl = @event != null ? @event.guestLists.FirstOrDefault(gl => gl.linked_guest_list != null && gl.linked_guest_list.listType == ON_THE_SPOT_GL) : null;
+            var onTheSpotGl = @event != null ? @event.guestLists.FirstOrDefault(gl => gl.linked_guest_list != null && gl.linked_guest_list.listType == OnTheSpotGuestListLabel) : null;
 
             if (onTheSpotGl == null)
             {
@@ -67,15 +62,15 @@ namespace gliist_server.Helpers
                     {
                         created_by = user,
                         company = comapny,
-                        title = string.Format("{0}", ON_THE_SPOT_GL),
-                        listType = ON_THE_SPOT_GL,
+                       title = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title),
+                       listType = OnTheSpotGuestListLabel,
                         guests = new List<Guest>()
                         {
                             guest
                         }
                     },
-                    title = string.Format("{0}", ON_THE_SPOT_GL),
-                    listType = ON_THE_SPOT_GL
+                   title = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title),
+                   listType = OnTheSpotGuestListLabel
                 };
 
                 @event.guestLists.Add(onTheSpotGl);
@@ -108,7 +103,6 @@ namespace gliist_server.Helpers
             return onTheSpotGl;
         }
 
-
         public async static Task<List<Guest>> Save(GuestList guestList, Company company, EventDBContext db, List<Guest> toMerge = null)
         {
             toMerge = toMerge != null ? new List<Guest>() : toMerge;
@@ -134,7 +128,7 @@ namespace gliist_server.Helpers
 
                     if (attached.company.id != company.id)
                     {
-                        throw new UnauthorizedAccessException("User trying to get access to differnt tenant guest");
+                        throw new UnauthorizedAccessException("User trying to get access to different tenant guest");
                     }
                 }
                 else
