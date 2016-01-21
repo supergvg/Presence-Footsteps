@@ -1,6 +1,6 @@
 namespace gliist_server.Tests.TicketingEvents.Stripe
 {
-    static class StripeSettings
+    static class Settings
     {
         public const string BaseUrl = "https://api.stripe.com/";
         public const string Version = "v1";
