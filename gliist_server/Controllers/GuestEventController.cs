@@ -543,40 +543,28 @@ namespace gliist_server.Controllers
             return Ok(checkin);
         }
 
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof (void))]
         [HttpPost]
         [Route("UndoCheckinGuest")]
         [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> UndoCheckinGuest(CheckinModel checkinData)
         {
-            var userId = User.Identity.GetUserId();
-            var user = await userManager.FindByIdAsync(userId);
-
-            var gliId = checkinData.gliId;
-            var guestId = checkinData.guestId;
-
-            if (gliId <= 0 || guestId <= 0)
+            if (checkinData.gliId <= 0 || checkinData.guestId <= 0)
             {
                 return BadRequest();
             }
 
-            var guest = await db.Guests.FindAsync(guestId);
-            var gli = await db.GuestListInstances.FindAsync(gliId);
-            var checkin = gli.actual.Single(chkn => chkn.guest.id == guest.id);
+            var gli = await db.GuestListInstances.FindAsync(checkinData.gliId);
+            var checkin = gli.actual.Single(x => x.guest.id == checkinData.guestId);
 
-            db.Entry(checkin).State = EntityState.Modified;
+            var eventGuest =
+                gli.linked_event.EventGuestStatuses.Single(x => x.GuestId == checkinData.guestId);
 
-            var totalChk = checkinData.plus + 1;
-            if (totalChk >= guest.plus + 1)
-            {
-                checkin.status = "no show";
-                checkin.time = null;
-                checkin.plus = 0;
-            }
-            else
-            {
-                checkin.plus += totalChk;
-            }
+            eventGuest.CheckInDate = null;
+
+            checkin.status = "no show";
+            checkin.time = null;
+            checkin.plus = eventGuest.AdditionalGuestsRequested;
 
             await db.SaveChangesAsync();
 
