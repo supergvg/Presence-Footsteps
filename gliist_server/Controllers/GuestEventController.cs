@@ -570,8 +570,6 @@ namespace gliist_server.Controllers
             var eventGuest =
                 gli.linked_event.EventGuestStatuses.Single(x => x.GuestId == checkinData.guestId);
 
-            eventGuest.CheckInDate = null;
-
             checkin.status = "no show";
             checkin.time = null;
             checkin.plus = eventGuest.AdditionalGuestsRequested;
