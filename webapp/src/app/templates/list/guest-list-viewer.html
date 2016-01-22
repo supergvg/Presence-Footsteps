@@ -43,14 +43,13 @@
                 <div flex ng-if="!isStaff()" layout="row" layout-align="end center" class="actions">
                     <md-button class="icon-btn"
                                ui-sref="main.edit_glist({listId:{{glist.id}}})"
-                               ng-disabled="blockEdit(glist)"
                                ng-hide="options.readOnly">
                         <md-tooltip md-direction="top">edit guest list</md-tooltip>
                         <ng-md-icon icon="mode_edit"></ng-md-icon>
                     </md-button>
                     <md-button class="icon-btn"
                                ng-click="deleteGlist($event,glist)"
-                               ng-disabled="blockEdit(glist)"
+                               ng-disabled="isRemoval(glist)"
                                ng-hide="options.readOnly">
                         <md-tooltip md-direction="top">delete guest list</md-tooltip>
                         <ng-md-icon icon="delete"></ng-md-icon>

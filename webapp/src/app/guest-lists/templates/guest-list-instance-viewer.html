@@ -32,7 +32,7 @@
             <div flex="5" ng-if="options.publish && isShowColumn('published')" class="center">
                 Sent
             </div>
-            <div flex="10" ng-if="!options.readOnly">
+            <div flex="10" ng-if="!options.readOnly" style="text-align: right">
                 Edit/Delete
             </div>
         </md-list-item>
@@ -76,7 +76,7 @@
                 <md-icon class="single-icon" md-svg-src="assets/images/SVG/sent.svg" ng-if="instance.published"></md-icon>
             </div>
             <div flex="10" layout="row" layout-align="end center" ng-cloak ng-if="!options.readOnly" class="actions">
-                <div ng-if="!instance.published">
+                <div>
                     <md-button class="icon-btn" ng-click="editInstance($event,instance)">
                         <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                     </md-button>
