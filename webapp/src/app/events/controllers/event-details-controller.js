@@ -196,30 +196,32 @@ angular.module('gliist')
                         $scope.event.rsvpEndDate = $scope.event.time;
                     }
                     if (form && form.$invalid || !$scope.timeValid() || !$scope.location.details) {
-                        var errors = {
-                            required: {
-                                title: 'Please Enter Event Title',
-                                category: 'Please Select Event Category',
-                                /*location: 'Please Enter Event Location',*/
-                                capacity: 'Please Enter Event Capacity'
-                            },
-                            pattern: {
-                                title: 'Event Title can only contain alphabets, digits and spaces'
-                            },
-                            number: {
-                                capacity: 'Please enter numbers only'
-                            }
-                        },
-                        errorMessage = [];
-                        angular.forEach(form.$error, function(value, key){
-                            if (errors[key]) {
-                                angular.forEach(value, function(value1, key1){
-                                    if (errors[key][value1.$name]) {
-                                        errorMessage.push(errors[key][value1.$name]);
-                                    }
-                                });
-                            }
-                        });
+                        var errorMessage = [];
+                        if (form) {
+                            var errors = {
+                                required: {
+                                    title: 'Please Enter Event Title',
+                                    category: 'Please Select Event Category',
+                                    /*location: 'Please Enter Event Location',*/
+                                    capacity: 'Please Enter Event Capacity'
+                                },
+                                pattern: {
+                                    title: 'Event Title can only contain alphabets, digits and spaces'
+                                },
+                                number: {
+                                    capacity: 'Please enter numbers only'
+                                }
+                            };
+                            angular.forEach(form.$error, function(value, key){
+                                if (errors[key]) {
+                                    angular.forEach(value, function(value1, key1){
+                                        if (errors[key][value1.$name]) {
+                                            errorMessage.push(errors[key][value1.$name]);
+                                        }
+                                    });
+                                }
+                            });
+                        }
                         if ($scope.timeInvalid) {
                             errorMessage.push('Cant Create Event in the Past');
                         }
