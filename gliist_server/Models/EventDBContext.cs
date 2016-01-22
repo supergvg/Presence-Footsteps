@@ -19,9 +19,7 @@ namespace gliist_server.Models
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<EventDBContext, Configuration>());
         }
-
-        public DbSet<Event> Events { get; set; }
-
+        
         public DbSet<Guest> Guests { get; set; }
 
         public DbSet<GuestList> GuestLists { get; set; }
@@ -35,6 +33,21 @@ namespace gliist_server.Models
         public DbSet<ResetPasswordToken> PasswordTokens { get; set; }
 
         public DbSet<EventGuestStatus> EventGuests { get; set; }
-        public virtual DbSet<TicketTier> TicketTypes { get; set; }
+
+#if DEBUG
+
+        public virtual DbSet<Event> Events { get; set; }
+
+        public virtual DbSet<TicketTier> TicketTiers { get; set; }
+
+        public virtual void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+#else
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<TicketTier> TicketTiers { get; set; }
+#endif
     }
 }

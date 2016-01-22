@@ -1,5 +1,9 @@
-﻿using System.Web.Http;
+﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.ModelBinding;
 using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Models;
 
@@ -19,39 +23,47 @@ namespace gliist_server.Areas.Ticketing.Controllers
             db = dbContext;
         }
 
-        // GET: api/TicketTypes/5
+        // GET: api/TicketTiers/5
         [ResponseType(typeof(TicketTier))]
         public IHttpActionResult Get(int eventId)
         {
             return Ok(new TicketTier());
         }
 
-        // POST: api/TicketTypes
-        [ResponseType(typeof(TicketTier))]
-        public IHttpActionResult Post(TicketTier ticketTier)
+        // POST: api/TicketTiers
+        [ResponseType(typeof (TicketTier))]
+        public IHttpActionResult Post(TicketTier model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var result = TicketTierValidator.Run(model, db, ModelState);
+            if (result != null)
+                return BadRequest(result);
 
-            //db.TicketTypes.Add(TicketTier);
+            if (model.Id > 0)
+#if DEBUG
+                db.SetModified(model);
+#else
+                db.Entry(model).State = EntityState.Modified;
+#endif
+            else
+                db.TicketTiers.Add(model);
+
             db.SaveChanges();
 
-            return CreatedAtRoute("Ticketing_default", new { id = ticketTier.Id }, ticketTier);
+            return Ok(model);
         }
 
-        // DELETE: api/TicketTypes/5
+        // DELETE: api/TicketTiers/5
+
         [ResponseType(typeof(TicketTier))]
         public IHttpActionResult Delete(int id)
         {
-//            TicketTier TicketTier = db.TicketTypes.Find(id);
+            TicketTier ticketTier = db.TicketTiers.Find(id);
 //            if (TicketTier == null)
 //            {
 //                return NotFound();
 //            }
 //
-//            db.TicketTypes.Remove(TicketTier);
+            db.TicketTiers.Remove(ticketTier);
 //            db.SaveChanges();
 
             return Ok(new TicketTier());
@@ -65,5 +77,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
     }
 }

@@ -10,7 +10,8 @@ namespace gliist_server.Tests.Shared
     {
         public static IHttpActionResult ExecuteAction<T>(this ApiController controller, Func<T, IHttpActionResult> action, T model) where T: class
         {
-            BindModel(controller, model);
+            if (model != null)
+                BindModel(controller, model);
 
             return action(model);
         }

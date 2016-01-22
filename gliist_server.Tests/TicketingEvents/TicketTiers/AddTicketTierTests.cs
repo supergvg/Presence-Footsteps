@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Web.Http.Results;
 using gliist_server.Areas.Ticketing.Controllers;
 using gliist_server.Areas.Ticketing.Models;
@@ -37,7 +39,8 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
 
             var mockContext = new Mock<EventDBContext>();
             var mockSet = MoqHelper.CreateDbSet(data);
-            mockContext.Setup(x => x.TicketTypes).Returns(mockSet.Object);
+            mockContext.Setup(x => x.TicketTiers).Returns(mockSet.Object);
+            mockContext.Setup(x => x.SetModified(data[0])).Callback(() => { });
 
             var controller = new TicketTiersController(mockContext.Object);
             var result = controller.ExecuteAction(controller.Post,
