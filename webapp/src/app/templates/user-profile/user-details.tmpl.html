@@ -36,55 +36,55 @@
                     <div layout="row" layout-sm="column" layout-align="start stretch">
                         <div layout="column" layout-align="start stretch">
                             <div layout="row" layout-sm="column" layout-align="space-between stretch">
-                                <md-input-container flex>
-                                    <label>First Name</label>
-                                    <input ng-model="user.firstName" name="firstName" required>
+                                <md-input-container flex md-no-float>
+                                    <h4>First Name</h4>
+                                    <input ng-model="user.firstName" name="firstName" required placeholder="First Name">
                                     <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)" class="errors">
                                         <div ng-message="required">First name is required</div>
                                     </div>
                                 </md-input-container>
-                                <md-input-container flex>
-                                    <label>Last Name</label>
-                                    <input ng-model="user.lastName" name="lastName" required>
+                                <md-input-container flex md-no-float>
+                                    <h4>Last Name</h4>
+                                    <input ng-model="user.lastName" name="lastName" required placeholder="Last Name">
                                     <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)" class="errors">
                                         <div ng-message="required">Last name is required</div>
                                     </div>
                                 </md-input-container>
                             </div>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
-                                <md-input-container flex>
-                                    <label>Email</label>
-                                    <input ng-model="user.email" type="email" disabled>
+                                <md-input-container flex md-no-float>
+                                    <h4>Email</h4>
+                                    <input ng-model="user.email" type="email" disabled placeholder="Email">
                                 </md-input-container>
-                                <md-input-container flex>
-                                    <label>Phone Number</label>
-                                    <input ng-model="user.phoneNumber" type="tel">
-                                </md-input-container>
-                            </div>
-                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
-                                <md-input-container flex>
-                                    <label>City</label>
-                                    <input ng-model="user.city">
-                                </md-input-container>                        
-                                <md-input-container flex>
-                                    <label>Company</label>
-                                    <input ng-model="user.company" ng-disabled="true">
+                                <md-input-container flex md-no-float>
+                                    <h4>Phone Number</h4>
+                                    <input ng-model="user.phoneNumber" type="tel" placeholder="Phone Number">
                                 </md-input-container>
                             </div>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
-                                <md-input-container flex>
-                                    <label>Contact Email for guests</label>
-                                    <input ng-model="user.contactEmail">
+                                <md-input-container flex md-no-float>
+                                    <h4>City</h4>
+                                    <input ng-model="user.city" placeholder="City">
                                 </md-input-container>                        
-                                <md-input-container flex>
-                                    <label>Contact Phone Number for guests</label>
-                                    <input ng-model="user.contactPhone">
+                                <md-input-container flex md-no-float>
+                                    <h4>Company</h4>
+                                    <input ng-model="user.company" ng-disabled="true" placehoder="Company">
+                                </md-input-container>
+                            </div>
+                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
+                                <md-input-container flex md-no-float>
+                                    <h4>Contact Email for guests</h4>
+                                    <input ng-model="user.contactEmail" placeholder="Contact Email for guests">
+                                </md-input-container>                        
+                                <md-input-container flex md-no-float>
+                                    <h4>Contact Phone Number for guests</h4>
+                                    <input ng-model="user.contactPhone" placeholder="Contact Phone Number for guests">
                                 </md-input-container>
                             </div>
                         </div>
-                        <md-input-container class='bio'>
-                            <label>Company's info for guest</label>
-                            <textarea ng-model="user.bio"></textarea>
+                        <md-input-container class='bio' md-no-float>
+                            <h4>Company's info for guest</h4>
+                            <textarea ng-model="user.bio" placeholder="Company's info for guest"></textarea>
                         </md-input-container>
                     </div>
                     <div class="actions" layout="row" layout-align="end center" ng-show="editMode">
@@ -99,19 +99,19 @@
                 <div class="block-field">
                     <h4>Change your password</h4>
                     <div layout layout-sm="column">
-                        <md-input-container>
-                            <label>Enter old password</label>
-                            <input ng-model="user.password" type="password">
+                        <md-input-container md-no-float>
+                            <h4>Enter old password</h4>
+                            <input ng-model="user.password" type="password" placeholder="Enter old password">
                         </md-input-container>
                     </div>
                     <div layout layout-sm="column">
-                        <md-input-container>
-                            <label>Enter new password</label>
-                            <input ng-model="user.new_password" type="password" name="new_password">
+                        <md-input-container md-no-float>
+                            <h4>Enter new password</h4>
+                            <input ng-model="user.new_password" type="password" name="new_password" placeholder="Enter new password">
                         </md-input-container>
-                        <md-input-container>
-                            <label>Re-enter new password</label>
-                            <input ng-model="user.re_password" type="password" ng-match="user.new_password" name="re_password">
+                        <md-input-container md-no-float>
+                            <h4>Re-enter new password</h4>
+                            <input ng-model="user.re_password" type="password" ng-match="user.new_password" name="re_password" placeholder="Re-enter new password">
                             <div ng-messages="userForm.re_password.$error" class="errors">
                                 <div ng-message="match">Passwords don't match.</div>
                             </div>

@@ -2,7 +2,7 @@
     <!--<h3 class="md-title" ng-show="lists.length == 0">No guest lists found</h3>-->
     <md-list class="zebra">
         <md-list-item layout="row" ng-show="lists.length > 0">
-            <div flex>
+            <div flex="30">
                 Title
             </div>
             <div flex>
@@ -37,7 +37,7 @@
             </div>
         </md-list-item>
         <md-list-item ng-repeat="instance in lists" layout="row">
-            <div flex>
+            <div flex="30">
                 <p>{{instance.title}}</p>
             </div>
             <div flex>
