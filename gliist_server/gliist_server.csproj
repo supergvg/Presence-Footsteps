@@ -242,9 +242,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Ticketing\Controllers\TicketTypesController.cs" />
-    <Compile Include="Areas\Ticketing\Models\TicketTypes\TicketType.cs" />
-    <Compile Include="Areas\Ticketing\Models\TicketTypes\TicketTypeViewModel.cs" />
+    <Compile Include="Areas\Ticketing\Controllers\TicketTiersController.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierViewModel.cs" />
     <Compile Include="Areas\Ticketing\TicketingAreaRegistration.cs" />
     <Compile Include="Attributes\PermissionsAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -258,10 +258,6 @@
     <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
-    <Compile Include="Migrations\201601221147423_TicketType_Drop.cs" />
-    <Compile Include="Migrations\201601221147423_TicketType_Drop.Designer.cs">
-      <DependentUpon>201601221147423_TicketType_Drop.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
@@ -562,9 +558,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512160746585_GuestList_PromoterId.resx">
       <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601221147423_TicketType_Drop.resx">
-      <DependentUpon>201601221147423_TicketType_Drop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

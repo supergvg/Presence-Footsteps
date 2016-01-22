@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace gliist_server.Tests.TicketingEvents.TicketTypes
+namespace gliist_server.Tests.TicketingEvents.TicketTiers
 {
     [TestClass]
-    public class UpdateTicketTypeTests
+    public class UpdateTicketTierTests
     {
         [TestMethod]
         public void BadRequest_IfTicketTypeAlreadyExists()

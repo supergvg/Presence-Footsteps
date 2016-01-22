@@ -1,9 +1,10 @@
 ﻿using System.Web.Http.Results;
 using gliist_server.Areas.Ticketing.Controllers;
+using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace gliist_server.Tests.TicketingEvents.TicketTypes
+namespace gliist_server.Tests.TicketingEvents.TicketTiers
 {
     [TestClass]
     public class AddOrUpdateValidationTests
@@ -11,8 +12,8 @@ namespace gliist_server.Tests.TicketingEvents.TicketTypes
         [TestMethod]
         public void BadRequest_IfTicketTypeIsNull()
         {
-            var controller = new TicketTypesController();
-            var result = controller.ExecuteAction<Areas.Ticketing.Models.TicketType>(controller.Post, null);
+            var controller = new TicketTiersController();
+            var result = controller.ExecuteAction<TicketTier>(controller.Post, null);
 
             var actual = result as BadRequestErrorMessageResult;
 
@@ -23,9 +24,9 @@ namespace gliist_server.Tests.TicketingEvents.TicketTypes
         [TestMethod]
         public void BadRequest_IfNameIsEmpty()
         {
-            var controller = new TicketTypesController();
+            var controller = new TicketTiersController();
             
-            var result = controller.ExecuteAction(controller.Post, new Areas.Ticketing.Models.TicketType {Name = string.Empty});
+            var result = controller.ExecuteAction(controller.Post, new TicketTier {Name = string.Empty});
             
             var actual = result as BadRequestErrorMessageResult;
 

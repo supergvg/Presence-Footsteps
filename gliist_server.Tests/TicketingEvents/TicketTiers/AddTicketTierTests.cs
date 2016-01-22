@@ -8,10 +8,10 @@ using gliist_server.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace gliist_server.Tests.TicketingEvents.TicketTypes
+namespace gliist_server.Tests.TicketingEvents.TicketTiers
 {
     [TestClass]
-    public class AddTicketTypeTests
+    public class AddTicketTierTests
     {
         [TestMethod]
         public void BadRequest_IfTicketTypeAlreadyExists()
@@ -28,20 +28,20 @@ namespace gliist_server.Tests.TicketingEvents.TicketTypes
         [TestMethod]
         public void CreatedTicketTypeIsReturned_IfSuccess()
         {
-            var data = new List<TicketType>
+            var data = new List<TicketTier>
             {
-                new TicketType {Name = "BBB"},
-                new TicketType {Name = "ZZZ"},
-                new TicketType {Name = "AAA"},
+                new TicketTier {Name = "BBB"},
+                new TicketTier {Name = "ZZZ"},
+                new TicketTier {Name = "AAA"},
             };
 
             var mockContext = new Mock<EventDBContext>();
             var mockSet = MoqHelper.CreateDbSet(data);
             mockContext.Setup(x => x.TicketTypes).Returns(mockSet.Object);
 
-            var controller = new TicketTypesController(mockContext.Object);
+            var controller = new TicketTiersController(mockContext.Object);
             var result = controller.ExecuteAction(controller.Post,
-                new TicketType
+                new TicketTier
                 {
                     Name = "First",
                     EventId = 1,
@@ -50,7 +50,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTypes
                     Quantity = 32
                 });
 
-            mockSet.Verify(m => m.Add(It.IsAny<TicketType>()), Times.Once());
+            mockSet.Verify(m => m.Add(It.IsAny<TicketTier>()), Times.Once());
             mockContext.Verify(m => m.SaveChanges(), Times.Once()); 
 
             var actual = result as BadRequestErrorMessageResult;

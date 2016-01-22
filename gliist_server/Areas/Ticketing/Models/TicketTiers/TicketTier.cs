@@ -4,7 +4,7 @@ using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Models
 {
-    public class TicketType
+    public class TicketTier
     {
         public int Id { get; set; }
         public int EventId { get; set; }
@@ -14,8 +14,8 @@ namespace gliist_server.Areas.Ticketing.Models
         [MaxLength(100, ErrorMessage = "Name length should be less than or equal to 100 symbols.")]
         public string Name { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Price should be greater than ZERO.")]
-        public int Price { get; set; }
+        [Range(1.0, int.MaxValue, ErrorMessage = "Price should be greater than ZERO.")]
+        public decimal Price { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Quantity should be greater than ZERO.")]
         public int Quantity { get; set; }

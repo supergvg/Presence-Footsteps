@@ -1,61 +1,60 @@
-﻿using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Controllers
 {
-    public class TicketTypesController : ApiController
+    public class TicketTiersController : ApiController
     {
         private readonly EventDBContext db;
 
-        public TicketTypesController()
+        public TicketTiersController()
         {
             db = new EventDBContext();
         }
 
-        public TicketTypesController(EventDBContext dbContext)
+        public TicketTiersController(EventDBContext dbContext)
         {
             db = dbContext;
         }
 
         // GET: api/TicketTypes/5
-        [ResponseType(typeof(TicketType))]
+        [ResponseType(typeof(TicketTier))]
         public IHttpActionResult Get(int eventId)
         {
-            return Ok(new TicketType());
+            return Ok(new TicketTier());
         }
 
         // POST: api/TicketTypes
-        [ResponseType(typeof(TicketType))]
-        public IHttpActionResult Post(TicketType ticketType)
+        [ResponseType(typeof(TicketTier))]
+        public IHttpActionResult Post(TicketTier ticketTier)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //db.TicketTypes.Add(ticketType);
+            //db.TicketTypes.Add(TicketTier);
             db.SaveChanges();
 
-            return CreatedAtRoute("Ticketing_default", new { id = ticketType.Id }, ticketType);
+            return CreatedAtRoute("Ticketing_default", new { id = ticketTier.Id }, ticketTier);
         }
 
         // DELETE: api/TicketTypes/5
-        [ResponseType(typeof(TicketType))]
+        [ResponseType(typeof(TicketTier))]
         public IHttpActionResult Delete(int id)
         {
-//            TicketType ticketType = db.TicketTypes.Find(id);
-//            if (ticketType == null)
+//            TicketTier TicketTier = db.TicketTypes.Find(id);
+//            if (TicketTier == null)
 //            {
 //                return NotFound();
 //            }
 //
-//            db.TicketTypes.Remove(ticketType);
+//            db.TicketTypes.Remove(TicketTier);
 //            db.SaveChanges();
 
-            return Ok(new TicketType());
+            return Ok(new TicketTier());
         }
 
         protected override void Dispose(bool disposing)

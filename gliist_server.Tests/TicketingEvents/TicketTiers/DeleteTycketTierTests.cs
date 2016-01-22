@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace gliist_server.Tests.TicketingEvents.TicketTypes
+namespace gliist_server.Tests.TicketingEvents.TicketTiers
 {
     [TestClass]
-    public class DeleteTycketTypeTests
+    public class DeleteTycketTierTests
     {
         [TestMethod]
         public void BadRequest_IfTycketTypeDoesNotExists()

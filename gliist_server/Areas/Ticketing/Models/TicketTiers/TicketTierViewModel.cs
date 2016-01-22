@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace gliist_server.Areas.Ticketing.Models
 {
-    public class TicketTypeViewModel
+    public class TicketTierViewModel
     {
         [JsonProperty("id")]
         public int Id { get; set; }
