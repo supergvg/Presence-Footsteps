@@ -35,6 +35,6 @@ namespace gliist_server.Models
         public DbSet<ResetPasswordToken> PasswordTokens { get; set; }
 
         public DbSet<EventGuestStatus> EventGuests { get; set; }
-        public DbSet<TicketType> TicketTypes { get; set; }
+        public virtual DbSet<TicketType> TicketTypes { get; set; }
     }
 }

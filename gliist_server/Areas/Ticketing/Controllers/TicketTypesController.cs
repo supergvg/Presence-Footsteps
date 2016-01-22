@@ -1,12 +1,24 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Areas.Ticketing.Models;
+using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Controllers
 {
     public class TicketTypesController : ApiController
     {
-        //private readonly EventDBContext db = new EventDBContext();
+        private readonly EventDBContext db;
+
+        public TicketTypesController()
+        {
+            db = new EventDBContext();
+        }
+
+        public TicketTypesController(EventDBContext dbContext)
+        {
+            db = dbContext;
+        }
 
         // GET: api/TicketTypes/5
         [ResponseType(typeof(TicketType))]
@@ -25,7 +37,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
             }
 
             //db.TicketTypes.Add(ticketType);
-            //db.SaveChanges();
+            db.SaveChanges();
 
             return CreatedAtRoute("Ticketing_default", new { id = ticketType.Id }, ticketType);
         }

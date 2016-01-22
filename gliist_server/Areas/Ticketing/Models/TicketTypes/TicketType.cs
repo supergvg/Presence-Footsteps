@@ -11,7 +11,7 @@ namespace gliist_server.Areas.Ticketing.Models
         public Event Event { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
-        [MaxLength(3, ErrorMessage = "Name length should be less than or equal to 100 symbols.")]
+        [MaxLength(100, ErrorMessage = "Name length should be less than or equal to 100 symbols.")]
         public string Name { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Price should be greater than ZERO.")]

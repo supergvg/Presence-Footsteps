@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace gliist_server.Tests.TicketingEvents.TicketType
+namespace gliist_server.Tests.TicketingEvents.TicketTypes
 {
     [TestClass]
     public class UpdateTicketTypeTests
