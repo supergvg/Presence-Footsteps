@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Web.Http.Results;
 using gliist_server.Areas.Ticketing.Controllers;
 using gliist_server.Areas.Ticketing.Models;
