@@ -258,6 +258,10 @@
     <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Migrations\201601221147423_TicketType_Drop.cs" />
+    <Compile Include="Migrations\201601221147423_TicketType_Drop.Designer.cs">
+      <DependentUpon>201601221147423_TicketType_Drop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
@@ -559,6 +563,9 @@
     <EmbeddedResource Include="Migrations\201512160746585_GuestList_PromoterId.resx">
       <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601221147423_TicketType_Drop.resx">
+      <DependentUpon>201601221147423_TicketType_Drop.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -574,7 +581,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1746</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
