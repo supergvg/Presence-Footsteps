@@ -19,10 +19,18 @@ angular.module('gliist', [
     'ui.grid.edit',
     'ui.grid.cellNav',
     'ui.grid.selection',
-    'ui.grid.autoResize'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider) {
+    'ui.grid.autoResize',
+    'angular-google-analytics'])
+    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider',
+        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider) {
 //            $locationProvider.html5Mode(true);
+
+            AnalyticsProvider
+                .useAnalytics(false)
+                .setAccount('UA-63764118-2')
+                .trackPages(true)
+                .setPageEvent('$stateChangeSuccess');
+
             var customPrimary = {
                 '50': '#80eeff',
                 '100': '#66ebff',
@@ -217,8 +225,8 @@ angular.module('gliist', [
                 });
             $urlRouterProvider.otherwise('/main/welcome');
         }])
-    .run(['$rootScope', '$state', 'userService', '$timeout', '$document',
-        function ($rootScope, $state, userService, $timeout, $document) {
+    .run(['$rootScope', '$state', 'userService', '$timeout', '$document', 'Analytics',
+        function ($rootScope, $state, userService, $timeout, $document, Analytics) {
 
             $document.on('keydown', function (event) {
                 var doPrevent = false;
