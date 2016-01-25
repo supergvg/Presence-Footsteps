@@ -104,8 +104,10 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var ticketTierMockSet = MoqHelper.CreateDbSet(new TicketTier[] {});
             mockContext.Setup(x => x.Events).Returns(eventMockSet.Object);
             mockContext.Setup(x => x.TicketTiers).Returns(ticketTierMockSet.Object);
-            
-            var controller = new TicketTiersController(mockContext.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
             var result = controller.ExecuteAction(controller.Post, ticket);
             
             var actual = result as BadRequestErrorMessageResult;

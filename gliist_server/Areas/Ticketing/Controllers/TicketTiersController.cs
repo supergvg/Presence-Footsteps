@@ -8,15 +8,17 @@ namespace gliist_server.Areas.Ticketing.Controllers
     public class TicketTiersController : ApiController
     {
         private readonly EventDBContext db;
+        private readonly ISellingFacade sellingFacade;
 
         public TicketTiersController()
         {
             db = new EventDBContext();
         }
 
-        public TicketTiersController(EventDBContext dbContext)
+        public TicketTiersController(EventDBContext dbContext, ISellingFacade sellingFacade)
         {
             db = dbContext;
+            this.sellingFacade = sellingFacade;
         }
 
         // GET: api/TicketTiers/5
@@ -49,16 +51,18 @@ namespace gliist_server.Areas.Ticketing.Controllers
         [ResponseType(typeof(TicketTier))]
         public IHttpActionResult Delete(int id)
         {
-            TicketTier ticketTier = db.TicketTiers.Find(id);
-//            if (TicketTier == null)
-//            {
-//                return NotFound();
-//            }
-//
-            db.TicketTiers.Remove(ticketTier);
-//            db.SaveChanges();
+            var ticketTier = db.TicketTiers.Find(id);
+            if (ticketTier == null)
+                return NotFound();
 
-            return Ok(new TicketTier());
+            if (sellingFacade.GetSoldTicketsNumber(id) > 0)
+                return BadRequest("You cannot delete the ticket tier that has sold tickets.");
+
+
+            db.TicketTiers.Remove(ticketTier);
+            db.SaveChanges();
+
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)

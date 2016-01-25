@@ -242,6 +242,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Ticketing\Models\Selling\ISellingFacade.cs" />
     <Compile Include="Areas\Ticketing\Controllers\TicketTiersController.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />

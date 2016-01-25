@@ -8,7 +8,7 @@ namespace gliist_server.Tests.Shared
 {
     public static class ControllerHelper
     {
-        public static IHttpActionResult ExecuteAction<T>(this ApiController controller, Func<T, IHttpActionResult> action, T model) where T: class
+        public static IHttpActionResult ExecuteAction<T>(this ApiController controller, Func<T, IHttpActionResult> action, T model)
         {
             if (model != null)
                 BindModel(controller, model);

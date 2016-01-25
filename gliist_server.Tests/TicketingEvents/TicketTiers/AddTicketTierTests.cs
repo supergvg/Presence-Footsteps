@@ -47,8 +47,10 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var eventsMockSet = MoqHelper.CreateDbSet(events);
             mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
             mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
 
-            var controller = new TicketTiersController(mockContext.Object);
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
             var result = controller.ExecuteAction(controller.Post, ticket);
 
             var actual = result as BadRequestErrorMessageResult;
@@ -93,8 +95,10 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var eventsMockSet = MoqHelper.CreateDbSet(events);
             mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
             mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
 
-            var controller = new TicketTiersController(mockContext.Object);
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
             var result = controller.ExecuteAction(controller.Post, ticket);
 
             var actual = result as BadRequestErrorMessageResult;
@@ -139,8 +143,10 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var eventsMockSet = MoqHelper.CreateDbSet(events);
             mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
             mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
 
-            var controller = new TicketTiersController(mockContext.Object);
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
             var result = controller.ExecuteAction(controller.Post, ticket);
 
             var actual = result as OkNegotiatedContentResult<TicketTier>;
