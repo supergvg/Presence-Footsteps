@@ -67,10 +67,36 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         [TestMethod]
         public void BadRequest_IfExpirationDateIsPast()
         {
-            var controller = new TicketTiersController();
+            var data = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(1).AddHours(17)
+                },
+                
+            };
 
-            var result = controller.ExecuteAction(controller.Post, new TicketTier { Name = "name", Price = 5, Quantity = 3, ExpirationDate = DateTime.Now.AddHours(-1)});
+            var ticket = new TicketTier
+            {
+                Name = "name",
+                Price = 5,
+                Quantity = 3,
+                ExpirationDate = DateTime.Today.AddDays(-1),
+                EventId = 1
+            };
 
+            var mockContext = new Mock<EventDBContext>();
+            var eventMockSet = MoqHelper.CreateDbSet(data);
+            var ticketTierMockSet = MoqHelper.CreateDbSet(new TicketTier[] { });
+            mockContext.Setup(x => x.Events).Returns(eventMockSet.Object);
+            mockContext.Setup(x => x.TicketTiers).Returns(ticketTierMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+            
             var actual = result as BadRequestErrorMessageResult;
 
             Assert.IsNotNull(actual);

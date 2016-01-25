@@ -62,7 +62,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         }
 
         [TestMethod]
-        public void BadRequest_IfExpirationDatesOverlap()
+        public void BadRequest_IfExpirationDatesAlreadyExists()
         {
             var now = DateTime.Today.AddDays(1).AddHours(5).AddMinutes(55);
             var events = new List<Event>
@@ -149,7 +149,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
             var result = controller.ExecuteAction(controller.Post, ticket);
 
-            var actual = result as OkNegotiatedContentResult<TicketTier>;
+            var actual = result as OkNegotiatedContentResult<TicketTierViewModel>;
 
             Assert.IsNotNull(actual);
             tiersMockSet.Verify(m => m.Add(ticket), Times.Once);

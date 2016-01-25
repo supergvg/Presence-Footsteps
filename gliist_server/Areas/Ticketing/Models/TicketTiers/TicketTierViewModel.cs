@@ -10,7 +10,7 @@ namespace gliist_server.Areas.Ticketing.Models
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("price")]
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
         [JsonProperty("expirationDate")]

@@ -65,31 +65,237 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         [TestMethod]
         public void BadRequest_IfQuantityIsLessThanNumberOfSoldTickets()
         {
-            Assert.Inconclusive();
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(1).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1},
+                new TicketTier {Id = 3, Name = "AAA", EventId = 1}
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 2,
+                Name = "ZZZ",
+                Price = 5,
+                Quantity = 3,
+                ExpirationDate = DateTime.Today.AddDays(1).AddHours(13),
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns<int>(id => 6);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("There are already 6 tickets sold. Please specify this or greater value and try again.", actual.Message);
+            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod]
         public void BadRequest_IfExpirationDatesOverlap()
         {
-            Assert.Inconclusive();
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(12).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationDate = DateTime.Now.AddDays(5)},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationDate = DateTime.Now.AddDays(7)}
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 1,
+                Name = "BBB",
+                Price = 5,
+                Quantity = 9,
+                ExpirationDate = DateTime.Now.AddDays(8),
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns<int>(id => (id == 1) ? 6 : 0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(string.Format("Sale expiration date cannot be greater than {0}.", DateTime.Today.AddDays(7).ToString("MMM dd, yyyy")), actual.Message);
+            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod]
         public void BadRequest_IfFirstTicketTypeIsExtendedButSecondTicketTypeIsStartedSelling()
         {
-            Assert.Inconclusive();
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(12).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationDate = DateTime.Now.AddDays(5)},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationDate = DateTime.Now.AddDays(7)}
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 1,
+                Name = "BBB",
+                Price = 5,
+                Quantity = 9,
+                ExpirationDate = DateTime.Now.AddDays(6),
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns<int>(id => id);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("You cannot change expiration date because next tier is started to be sold.", actual.Message);
+            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod]
         public void UpdatedTicketTypeIsReturned_IfSuccess()
         {
-            Assert.Inconclusive();
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(12).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationDate = DateTime.Now.AddDays(5)},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationDate = DateTime.Now.AddDays(7)}
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 1,
+                Name = "BBB",
+                Price = 5,
+                Quantity = 9,
+                ExpirationDate = DateTime.Now.AddDays(6),
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as OkNegotiatedContentResult<TicketTierViewModel>;
+
+            Assert.IsNotNull(actual);
+            mockContext.Verify(x => x.SetModified(ticket), Times.Once);
+            mockContext.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [TestMethod]
         public void SoldTicketsIsUpdated_IfSuccessAndAppearedSoldTickets()
         {
-            Assert.Inconclusive();
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(12).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationDate = DateTime.Now.AddDays(5)},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationDate = DateTime.Now.AddDays(7)}
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 1,
+                Name = "BBB",
+                Price = 5,
+                Quantity = 90,
+                ExpirationDate = tiers[0].ExpirationDate,
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns<int>(id => (id == 1) ? 5 : 0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as OkNegotiatedContentResult<TicketTierViewModel>;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(5, actual.Content.SoldTicketsCount);
+
+            mockContext.Verify(x => x.SetModified(ticket), Times.Once);
+            mockContext.Verify(x => x.SaveChanges(), Times.Once);
         }
     }
 }

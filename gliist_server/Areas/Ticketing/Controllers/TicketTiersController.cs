@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Models;
@@ -22,17 +23,32 @@ namespace gliist_server.Areas.Ticketing.Controllers
         }
 
         // GET: api/TicketTiers/5
-        [ResponseType(typeof(TicketTier))]
+        [ResponseType(typeof(IEnumerable<TicketTierViewModel>))]
         public IHttpActionResult Get(int eventId)
         {
             return Ok(new TicketTier());
         }
 
         // POST: api/TicketTiers
-        [ResponseType(typeof (TicketTier))]
+        [ResponseType(typeof (TicketTierViewModel))]
         public IHttpActionResult Post(TicketTier model)
         {
-            var result = TicketTierValidator.Run(model, db, ModelState);
+            if (model == null)
+                return BadRequest("Ticket tier is NULL.");
+
+            var soldTickets = (model.Id > 0) 
+                ? sellingFacade.GetSoldTicketsNumber(model.Id) 
+                : 0;
+
+            var result = TicketTierValidator.Run(new TicketTierValidatorOptions
+            {
+                Model = model,
+                DbContext = db,
+                ModelState = ModelState,
+                SoldTicketsOfCurrentModel = soldTickets,
+                SellingFacade = sellingFacade
+            });
+
             if (result != null)
                 return BadRequest(result);
 
@@ -43,7 +59,15 @@ namespace gliist_server.Areas.Ticketing.Controllers
 
             db.SaveChanges();
 
-            return Ok(model);
+            return Ok(new TicketTierViewModel
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Price = model.Price,
+                Quantity = model.Quantity,
+                ExpirationDate = model.ExpirationDate,
+                SoldTicketsCount = soldTickets
+            });
         }
 
         // DELETE: api/TicketTiers/5
@@ -69,11 +93,9 @@ namespace gliist_server.Areas.Ticketing.Controllers
         {
             if (disposing)
             {
-                //db.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }
-
-        
     }
 }

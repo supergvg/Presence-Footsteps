@@ -244,9 +244,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Ticketing\Models\Selling\ISellingFacade.cs" />
     <Compile Include="Areas\Ticketing\Controllers\TicketTiersController.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\TickerTierExpirationValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierViewModel.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierValidatorOptions.cs" />
     <Compile Include="Areas\Ticketing\TicketingAreaRegistration.cs" />
     <Compile Include="Attributes\PermissionsAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />

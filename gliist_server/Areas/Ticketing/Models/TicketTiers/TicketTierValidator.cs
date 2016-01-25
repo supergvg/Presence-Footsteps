@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http.ModelBinding;
 using gliist_server.Models;
 
@@ -7,26 +6,21 @@ namespace gliist_server.Areas.Ticketing.Models
 {
     static class TicketTierValidator
     {
-        public static string Run(TicketTier model, EventDBContext db, ModelStateDictionary modelState)
+        public static string Run(TicketTierValidatorOptions options)
         {
-            if (model == null)
-                return "Ticket tier is NULL.";
+            if (!options.ModelState.IsValid)
+                return GetFirstError(options.ModelState);
 
-            if (!modelState.IsValid)
-                return GetFirstError(modelState);
-
-            if (model.ExpirationDate < DateTime.Now)
-                return "Expiration Date is past.";
-
-            if (!IsExpirationDatePossible(model, db))
-                return "Expiration Date is incorrect.";
-
-            if (NameAlreadyExists(model, db))
+            if (NameAlreadyExists(options.Model, options.DbContext))
                 return "Ticket tier with the same name already exists. Please change tier NAME and try again.";
 
-            return ExpiratioDateAlreadyExists(model, db) 
-                ? "Ticket tier with the same expiration date already exists. Please change EXPIRATION DATE and try again." 
-                : null;
+            if(ExpiratioDateAlreadyExists(options.Model, options.DbContext))
+                return "Ticket tier with the same expiration date already exists. Please change EXPIRATION DATE and try again.";
+
+            if (options.Model.Id > 0 && options.Model.Quantity < options.SoldTicketsOfCurrentModel)
+                return string.Format("There are already {0} tickets sold. Please specify this or greater value and try again.", options.SoldTicketsOfCurrentModel);
+
+            return TicketTierExpirationValidator.Run(options);
         }
 
         private static bool NameAlreadyExists(TicketTier model, EventDBContext db)
@@ -41,15 +35,6 @@ namespace gliist_server.Areas.Ticketing.Models
             var tier = db.TicketTiers.FirstOrDefault(x => x.Id != model.Id && x.ExpirationDate == model.ExpirationDate && x.EventId == model.EventId);
 
             return tier != null;
-        }
-
-        private static bool IsExpirationDatePossible(TicketTier tier, EventDBContext db)
-        {
-            var @event = db.Events.Select(x => new {x.time, x.id}).FirstOrDefault(x => x.id == tier.EventId);
-            if (@event == null)
-                return true;
-
-            return (@event.time - tier.ExpirationDate).TotalHours >= 3;
         }
 
         public static string GetFirstError(ModelStateDictionary modelState)
