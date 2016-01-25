@@ -22,6 +22,8 @@ angular.module('gliist')
             };
 
             $scope.formatedLocation = function(location) {
+                if (!location)
+                    return '';
                 var parsed = location.split(', '),
                     country = parsed.splice(parsed.length - 1, 1);
                 return parsed.length > 0 ? parsed.join(', ') +'<br>'+ country : location;
