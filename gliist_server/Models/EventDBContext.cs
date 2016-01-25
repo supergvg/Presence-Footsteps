@@ -34,8 +34,17 @@ namespace gliist_server.Models
 
         public DbSet<EventGuestStatus> EventGuests { get; set; }
 
-#if DEBUG
+#if !DEBUG
 
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<TicketTier> TicketTiers { get; set; }
+
+        public void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+#else
         public virtual DbSet<Event> Events { get; set; }
 
         public virtual DbSet<TicketTier> TicketTiers { get; set; }
@@ -44,10 +53,6 @@ namespace gliist_server.Models
         {
             Entry(entity).State = EntityState.Modified;
         }
-#else
-        public DbSet<Event> Events { get; set; }
-
-        public DbSet<TicketTier> TicketTiers { get; set; }
 #endif
     }
 }

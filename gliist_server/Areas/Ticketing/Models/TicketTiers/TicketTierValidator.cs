@@ -18,7 +18,18 @@ namespace gliist_server.Areas.Ticketing.Models
             if (model.ExpirationDate < DateTime.Now)
                 return "Expiration Date is past.";
 
-            return null;
+            return !IsExpirationDatePossible(model, db)
+                ? "Expiration Date is incorrect."
+                : null;
+        }
+
+        private static bool IsExpirationDatePossible(TicketTier tier, EventDBContext db)
+        {
+            var @event = db.Events.Select(x => new {x.time, x.id}).FirstOrDefault(x => x.id == tier.EventId);
+            if (@event == null)
+                return true;
+
+            return (@event.time - tier.ExpirationDate).TotalHours >= 3;
         }
 
         public static string GetFirstError(ModelStateDictionary modelState)

@@ -1,9 +1,5 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.ModelBinding;
 using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Models;
 
@@ -39,11 +35,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 return BadRequest(result);
 
             if (model.Id > 0)
-#if DEBUG
                 db.SetModified(model);
-#else
-                db.Entry(model).State = EntityState.Modified;
-#endif
             else
                 db.TicketTiers.Add(model);
 

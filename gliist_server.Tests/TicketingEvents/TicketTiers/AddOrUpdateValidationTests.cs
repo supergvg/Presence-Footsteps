@@ -85,7 +85,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 new Event
                 {
                     id = 1,
-                    endTime = DateTime.Today.AddDays(1).AddHours(17)
+                    time = DateTime.Today.AddDays(1).AddHours(17)
                 },
                 
             };
