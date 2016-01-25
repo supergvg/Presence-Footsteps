@@ -55,6 +55,12 @@ span.error {
     font-size: 12px;
 }
 
+.street-address ~ span:nth-child(2):before,
+.country-name:before {
+    content: '';
+    display: block;
+}
+
 .no-selection {
     user-select: none;
 }
@@ -1319,6 +1325,12 @@ md-dialog {
         md-icon,
         img {
             margin-right: 10px;
+        }
+    }
+    .location {
+        p {
+            display: inline-block;
+            vertical-align: middle;
         }
     }
 }

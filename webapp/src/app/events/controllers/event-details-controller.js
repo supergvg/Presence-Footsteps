@@ -222,7 +222,7 @@ angular.module('gliist')
                                 }
                             });
                         }
-                        if ($scope.timeInvalid) {
+                        if ($scope.timeInvalid || form.$error['date-disabled']) {
                             errorMessage.push('Cant Create Event in the Past');
                         }
                         if ($scope.endTimeInvalid) {
@@ -236,6 +236,7 @@ angular.module('gliist')
                         return;
                     }
                     $scope.savingEvent = true;
+                    $scope.event.location = $scope.location.formatted;
                     eventsService.createEvent($scope.event).then(
                         function (res) {
                             $scope.event.id = res.id;
@@ -304,11 +305,14 @@ angular.module('gliist')
             };
 
             $scope.previewOptions = {hideEdit: true};
+            $scope.location = {
+                value: '',
+                formatted: ''
+            };
 
             $scope.clearLocation = function() {
-                $scope.location = {};
+                delete $scope.location.details;
             };
-            $scope.clearLocation();
 
             $scope.minDate = Date.now();
 
@@ -327,7 +331,6 @@ angular.module('gliist')
                 if (!newValue) {
                     return;
                 }
-                
                 if (newValue.geometry) {
                     $.ajax({
                         url: 'https://maps.googleapis.com/maps/api/timezone/json?location=' +
@@ -337,6 +340,7 @@ angular.module('gliist')
                     }).done(function (response) {
                         $scope.event.utcOffset = response.dstOffset + response.rawOffset;
                     });
+                    $scope.location.formatted = newValue.adr_address;
                 }
             });
 
@@ -352,12 +356,13 @@ angular.module('gliist')
                 if ($scope.isPromoter()) {
                     $scope.data.selectedIndex = 3;
                 }
-
                 if ($scope.event) {
                     $scope.location.details = {};
+                    $scope.location.formatted = $scope.event.location;
+                    $scope.location.value = $scope.location.formatted.replace(/<[^>]+>/gm, '');
                     return;
                 }
-
+                
                 var d1 = new Date(),
                     d2 = new Date(d1),
                     d3 = new Date(d1);

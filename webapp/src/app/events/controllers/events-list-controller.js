@@ -21,14 +21,6 @@ angular.module('gliist')
                 };
             };
 
-            $scope.formatedLocation = function(location) {
-                if (!location)
-                    return '';
-                var parsed = location.split(', '),
-                    country = parsed.splice(parsed.length - 1, 1);
-                return parsed.length > 0 ? parsed.join(', ') +'<br>'+ country : location;
-            };
-
             $scope.deleteEvent = function (ev, event) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
@@ -76,7 +68,7 @@ angular.module('gliist')
                         }
                 );
             };
-
+            
             $scope.init = function () {
                 $scope.refreshEvents();
             };

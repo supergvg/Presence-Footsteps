@@ -92,7 +92,7 @@
                         <div layout layout-sm="column">
                             <md-input-container flex="75" md-no-float>
                                 <h4>Event Location</h4>
-                                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="event.location" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
+                                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="location.value" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
                                 <div ng-messages="eventForm.location.$error" ng-if="displayErrorMessage(eventForm.location)">
                                     <div ng-message="required">Please Enter Event Location</div>
