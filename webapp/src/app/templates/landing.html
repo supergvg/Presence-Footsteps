@@ -1,6 +1,6 @@
-<div layout="column" layout-align="center center">
-    <div class="header"><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130px"/></div>
-    <div class="content" layout="column" layout-align="center center">
+<div layout="column" layout-align="center stretch">
+    <div class="header" flex><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130px"/></div>
+    <div class="content" layout="column" layout-align="center stretch" flex>
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
         <h4 ng-if="event.event.isRsvpExpired">The link to RSVP has been already expired</h4>
@@ -11,8 +11,8 @@
             <h3>{{event.event.title}}</h3>
             <h4 ng-if="success" class="success">Thank you! You have been added to the event guest list!</h4>
         </div>
-        <div layout="row" class="landing-form">
-            <div class="left-column" layout="column">
+        <div layout="row" layout-align="center center" layout-sm="column" class="landing-form" flex>
+            <div layout="column" layout-align-sm="center center">
                 <div class="item">
                     <div class="item-label">Date + Time:</div>
                     <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</div>
@@ -32,7 +32,7 @@
                     <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
                 </ul>
             </div>
-            <div class="right-column" layout="column">
+            <div layout="column">
                 <div class="item-label">RSVP:</div>
                 <form name="rsvpLandingForm">
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="footer">
+    <div class="footer" flex>
         <p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
     </div>
 </div>

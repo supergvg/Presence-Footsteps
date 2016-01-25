@@ -670,7 +670,6 @@ md-dialog {
     background-color: #99ccff;
     background-image: linear-gradient(#99ccff 405px, #ffffff 405px, #ffffff 100%);
     .header {
-        width: 100%;
         height: 170px;
         background: #000;
         img.header-image {
@@ -712,17 +711,19 @@ md-dialog {
         .landing-form {
             margin: 40px 0 80px 0;
             padding: 10px;
-            width: 500px;
             font-size: 12px;
             .item-label {
                 color: #99ccff;
                 padding: 0;
                 font-weight: bold;
             }
-            .left-column {
+            & > div {
+                width: 250px;
+            }
+            & > div:first-child {
+                padding-right: 20px;
                 text-align: left;
                 color: #000;
-                width: 100%;
                 .item {
                     margin-bottom: 9px;
                     width: 190px;
@@ -739,10 +740,10 @@ md-dialog {
                     }
                 }
             }
-            .right-column {
+            & > div:last-child {
                 border-left: 2px solid #ececec;
                 text-align: right;
-                width: 100%;
+                padding-left: 20px;
                 .form-item {
                     margin-bottom: 5px;
                     input {
@@ -786,11 +787,11 @@ md-dialog {
         }
     }
     .footer {
-        width: 100%;
         height: 55px;
         position: absolute;
         bottom: 0;
         left: 0;
+        right: 0;
         background-color: #99ccff;
         text-align: center;
         p {
@@ -1435,6 +1436,22 @@ md-dialog {
             form[name="userForm"] {
                 .bio {
                     margin-left: 0;
+                }
+            }
+        }
+    }
+    .landing {
+        .content {
+            .landing-form {
+                & > div:first-child {
+                    padding: 0;
+                    .item {
+                        text-align: center;
+                    }
+                }
+                & > div:last-child {
+                    border: none;
+                    padding: 20px 0 0 0;
                 }
             }
         }
