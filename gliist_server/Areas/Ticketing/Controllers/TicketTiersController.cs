@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Areas.Ticketing.Models;
@@ -26,7 +27,15 @@ namespace gliist_server.Areas.Ticketing.Controllers
         [ResponseType(typeof(IEnumerable<TicketTierViewModel>))]
         public IHttpActionResult Get(int eventId)
         {
-            return Ok(new TicketTier());
+            return Ok(db.TicketTiers.Where(x => x.EventId == eventId).Select(x => new TicketTierViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                Quantity = x.Quantity,
+                ExpirationDate = x.ExpirationDate,
+                SoldTicketsCount = sellingFacade.GetSoldTicketsNumber(eventId)
+            }));
         }
 
         // POST: api/TicketTiers
