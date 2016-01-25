@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Web.Http.Results;
 using gliist_server.Areas.Ticketing.Controllers;
 using gliist_server.Areas.Ticketing.Models;
@@ -18,48 +16,138 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         [TestMethod]
         public void BadRequest_IfTicketTypeAlreadyExists()
         {
-            Assert.Inconclusive();
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(1).AddHours(17)
+                },
+                
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1},
+                new TicketTier {Id = 3, Name = "AAA", EventId = 1}
+            };
+
+            var ticket = new TicketTier
+            {
+                Name = "BBB",
+                Price = 5,
+                Quantity = 3,
+                ExpirationDate = DateTime.Today.AddDays(1).AddHours(13),
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+
+            var controller = new TicketTiersController(mockContext.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("Ticket tier with the same name already exists. Please change tier NAME and try again.", actual.Message);
+            tiersMockSet.Verify(x => x.Add(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod]
         public void BadRequest_IfExpirationDatesOverlap()
         {
-            Assert.Inconclusive();
+            var now = DateTime.Today.AddDays(1).AddHours(5).AddMinutes(55);
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(1).AddHours(17)
+                },
+                
+            };
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationDate = new DateTime(2016, 01, 05, 5, 55, 0)},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationDate = new DateTime(2016, 01, 15, 5, 55, 0)},
+                new TicketTier {Id = 3, Name = "AAA", EventId = 1, ExpirationDate = now}
+            };
+
+            var ticket = new TicketTier
+            {
+                Name = "CCC",
+                Price = 5,
+                Quantity = 3,
+                ExpirationDate = now,
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+
+            var controller = new TicketTiersController(mockContext.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("Ticket tier with the same expiration date already exists. Please change EXPIRATION DATE and try again.", actual.Message);
+            tiersMockSet.Verify(x => x.Add(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
 
         [TestMethod]
         public void CreatedTicketTypeIsReturned_IfSuccess()
         {
-            var data = new List<TicketTier>
+            var tiers = new List<TicketTier>
             {
-                new TicketTier {Name = "BBB"},
-                new TicketTier {Name = "ZZZ"},
-                new TicketTier {Name = "AAA"},
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1},
+                new TicketTier {Id = 3, Name = "AAA", EventId = 1}
+            };
+
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(1).AddHours(17)
+                },
+                
+            };
+
+            var ticket = new TicketTier
+            {
+                Name = "CCC",
+                Price = 5,
+                Quantity = 3,
+                ExpirationDate = DateTime.Today.AddDays(1).AddHours(13),
+                EventId = 1
             };
 
             var mockContext = new Mock<EventDBContext>();
-            var mockSet = MoqHelper.CreateDbSet(data);
-            mockContext.Setup(x => x.TicketTiers).Returns(mockSet.Object);
-            mockContext.Setup(x => x.SetModified(data[0])).Callback(() => { });
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
 
             var controller = new TicketTiersController(mockContext.Object);
-            var result = controller.ExecuteAction(controller.Post,
-                new TicketTier
-                {
-                    Name = "First",
-                    EventId = 1,
-                    ExpirationDate = new DateTime(2016, 01, 22),
-                    Price = 55,
-                    Quantity = 32
-                });
+            var result = controller.ExecuteAction(controller.Post, ticket);
 
-            mockSet.Verify(m => m.Add(It.IsAny<TicketTier>()), Times.Once());
-            mockContext.Verify(m => m.SaveChanges(), Times.Once()); 
-
-            var actual = result as BadRequestErrorMessageResult;
+            var actual = result as OkNegotiatedContentResult<TicketTier>;
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual("Wrong ticket type.", actual.Message);
+            tiersMockSet.Verify(m => m.Add(ticket), Times.Once);
+            mockContext.Verify(x => x.SaveChanges(), Times.AtLeastOnce);
         }
     }
 }

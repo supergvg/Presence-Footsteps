@@ -90,43 +90,29 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 
             };
 
+            var ticket = new TicketTier
+            {
+                Name = "name",
+                Price = 5,
+                Quantity = 3,
+                ExpirationDate = DateTime.Today.AddDays(1).AddHours(16),
+                EventId = 1
+            };
+
             var mockContext = new Mock<EventDBContext>();
             var eventMockSet = MoqHelper.CreateDbSet(data);
             var ticketTierMockSet = MoqHelper.CreateDbSet(new TicketTier[] {});
             mockContext.Setup(x => x.Events).Returns(eventMockSet.Object);
             mockContext.Setup(x => x.TicketTiers).Returns(ticketTierMockSet.Object);
-            mockContext.Setup(x => x.SetModified(data[0])).Callback(() => { });
             
             var controller = new TicketTiersController(mockContext.Object);
-            var result = controller.ExecuteAction(controller.Post,
-                new TicketTier
-                {
-                    Name = "name",
-                    Price = 5, 
-                    Quantity = 3,
-                    ExpirationDate = DateTime.Today.AddDays(1).AddHours(16),
-                    EventId = 1
-                });
+            var result = controller.ExecuteAction(controller.Post, ticket);
             
-            var result2 = controller.ExecuteAction(controller.Post,
-                new TicketTier
-                {
-                    Name = "name",
-                    Price = 5,
-                    Quantity = 3,
-                    ExpirationDate = DateTime.Today.AddDays(1).AddHours(13),
-                    EventId = 1
-                });
-
             var actual = result as BadRequestErrorMessageResult;
 
             Assert.IsNotNull(actual);
             Assert.AreEqual("Expiration Date is incorrect.", actual.Message);
-
-            var actual2 = result2 as OkNegotiatedContentResult<TicketTier>;
-
-            Assert.IsNotNull(actual2);
-            mockContext.Verify(x => x.SaveChanges(), Times.Once);
+            ticketTierMockSet.Verify(x => x.Add(ticket), Times.Never);
         }
     }
 }

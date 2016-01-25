@@ -5,7 +5,7 @@ using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Models
 {
-    internal static class TicketTierValidator
+    static class TicketTierValidator
     {
         public static string Run(TicketTier model, EventDBContext db, ModelStateDictionary modelState)
         {
@@ -18,9 +18,29 @@ namespace gliist_server.Areas.Ticketing.Models
             if (model.ExpirationDate < DateTime.Now)
                 return "Expiration Date is past.";
 
-            return !IsExpirationDatePossible(model, db)
-                ? "Expiration Date is incorrect."
+            if (!IsExpirationDatePossible(model, db))
+                return "Expiration Date is incorrect.";
+
+            if (NameAlreadyExists(model, db))
+                return "Ticket tier with the same name already exists. Please change tier NAME and try again.";
+
+            return ExpiratioDateAlreadyExists(model, db) 
+                ? "Ticket tier with the same expiration date already exists. Please change EXPIRATION DATE and try again." 
                 : null;
+        }
+
+        private static bool NameAlreadyExists(TicketTier model, EventDBContext db)
+        {
+            var tier = db.TicketTiers.FirstOrDefault(x => x.Id != model.Id && x.Name == model.Name && x.EventId == model.EventId);
+
+            return tier != null;
+        }
+
+        private static bool ExpiratioDateAlreadyExists(TicketTier model, EventDBContext db)
+        {
+            var tier = db.TicketTiers.FirstOrDefault(x => x.Id != model.Id && x.ExpirationDate == model.ExpirationDate && x.EventId == model.EventId);
+
+            return tier != null;
         }
 
         private static bool IsExpirationDatePossible(TicketTier tier, EventDBContext db)
