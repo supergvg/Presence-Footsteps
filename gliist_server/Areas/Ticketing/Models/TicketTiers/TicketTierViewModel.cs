@@ -15,7 +15,7 @@ namespace gliist_server.Areas.Ticketing.Models
         public int Quantity { get; set; }
         [JsonProperty("expirationDate")]
         public DateTime ExpirationDate { get; set; }
-        [JsonProperty("soldTicketCount")]
+        [JsonProperty("soldTicketsCount")]
         public int SoldTicketsCount { get; set; }
     }
 }

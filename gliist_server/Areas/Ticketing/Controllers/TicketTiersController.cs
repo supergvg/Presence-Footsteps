@@ -7,6 +7,8 @@ using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Controllers
 {
+    [Authorize]
+    [RoutePrefix("ticketing/tickettiers")]
     public class TicketTiersController : ApiController
     {
         private readonly EventDBContext db;
@@ -15,6 +17,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
         public TicketTiersController()
         {
             db = new EventDBContext();
+            sellingFacade = new SellingFacade();
         }
 
         public TicketTiersController(EventDBContext dbContext, ISellingFacade sellingFacade)
