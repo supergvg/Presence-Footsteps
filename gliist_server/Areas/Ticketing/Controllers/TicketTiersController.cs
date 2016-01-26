@@ -8,7 +8,6 @@ using gliist_server.Models;
 namespace gliist_server.Areas.Ticketing.Controllers
 {
     [Authorize]
-    [RoutePrefix("ticketing/tickettiers")]
     public class TicketTiersController : ApiController
     {
         private readonly EventDBContext db;
@@ -28,17 +27,20 @@ namespace gliist_server.Areas.Ticketing.Controllers
 
         // GET: api/TicketTiers/5
         [ResponseType(typeof(IEnumerable<TicketTierViewModel>))]
-        public IHttpActionResult Get(int eventId)
+        public IHttpActionResult Get(int id)
         {
-            return Ok(db.TicketTiers.Where(x => x.EventId == eventId).Select(x => new TicketTierViewModel
+            var ticketTiers = db.TicketTiers.Where(x => x.EventId == id).Select(x => new TicketTierViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 Price = x.Price,
                 Quantity = x.Quantity,
-                ExpirationDate = x.ExpirationDate,
-                SoldTicketsCount = sellingFacade.GetSoldTicketsNumber(eventId)
-            }));
+                ExpirationDate = x.ExpirationDate
+            }).ToList();
+
+            AddSoldTickets(ticketTiers);
+
+            return Ok(ticketTiers);
         }
 
         // POST: api/TicketTiers
@@ -98,7 +100,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
             db.TicketTiers.Remove(ticketTier);
             db.SaveChanges();
 
-            return Ok();
+            return Ok(id);
         }
 
         protected override void Dispose(bool disposing)
@@ -108,6 +110,14 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void AddSoldTickets(IEnumerable<TicketTierViewModel> ticketTiers)
+        {
+            foreach (var ticketTier in ticketTiers)
+            {
+                ticketTier.SoldTicketsCount = sellingFacade.GetSoldTicketsNumber(ticketTier.Id);
+            }
         }
     }
 }

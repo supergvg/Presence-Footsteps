@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http;
+using System.Web.Mvc;
 
 namespace gliist_server.Areas.Ticketing
 {
@@ -11,11 +12,10 @@ namespace gliist_server.Areas.Ticketing
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-            context.MapRoute(
+            context.Routes.MapHttpRoute(
                 "Ticketing_default",
-                "ticketing/{controller}/{action}/{id}",
-                new {action = "Index", id = UrlParameter.Optional},
-                new[] {"gliist_server.Areas.Ticketing"}
+                "api/ticketing/{controller}/{id}",
+                new {id = UrlParameter.Optional}
                 );
         }
     }

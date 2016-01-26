@@ -97,9 +97,10 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
             var result = controller.ExecuteAction(controller.Delete, 2);
 
-            var actual = result as OkResult;
+            var actual = result as OkNegotiatedContentResult<int>;
 
             Assert.IsNotNull(actual);
+            Assert.AreEqual(2, actual.Content);
             tiersMockSet.Verify(x => x.Remove(tiers[1]), Times.Once);
             mockContext.Verify(x => x.SaveChanges(), Times.Once);
         }

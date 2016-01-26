@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using gliist_server.Models;
+using Newtonsoft.Json;
 
 namespace gliist_server.Areas.Ticketing.Models
 {
@@ -8,6 +9,8 @@ namespace gliist_server.Areas.Ticketing.Models
     {
         public int Id { get; set; }
         public int EventId { get; set; }
+
+        [JsonIgnore]
         public Event Event { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
