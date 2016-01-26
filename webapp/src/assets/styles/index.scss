@@ -1393,6 +1393,85 @@ md-dialog {
     }
 }
 
+.email-stats {
+    .header {
+        div {
+            background-color: #8E8E8E;
+            color:white;
+            h3 {
+                padding-left: 10px;
+            }
+        }
+    }
+    h4 {
+        font-weight: bold;
+        color: #8e8e8e;
+        margin: 35px 0;
+    }
+    h5 {
+        font-weight: bold;
+        color:#7d7d7d;
+        margin-top: 20px;
+    }
+    div[event="event"] > div {
+        color: #000 !important;
+        margin-bottom: 0 !important;
+    }
+    .search {
+        button {
+            position: absolute;
+            top: 38px;
+            right: 12px;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+        input {
+            padding-right: 35px;
+        }
+    }
+    md-list {
+        background-color: white;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 10px;
+        md-list-item {
+            border-bottom:2px solid #ececec;
+            .last {
+                text-align: right;
+            }
+            &:first-child {
+                color: #000;
+                border-bottom: 2px solid #ececec;
+                font-weight: bold;
+            }
+            md-checkbox {
+                float: right;
+            }
+            p.checked {
+                color: #33aaaa;
+                &:after {
+                    content: "(Edit)";
+                    color: #000;
+                    margin-left: 5px;
+                }
+            }
+            .asc {
+                background: url(../images/icons/up.png) no-repeat 50px 5px;
+            }
+            .desc {
+                background: url(../images/icons/down.png) no-repeat 50px 5px;
+            }
+        }
+    }
+    .actions {
+        margin-top: 35px;
+        button:first-child {
+            margin-right: 20px;
+        }
+    }
+}
+
 @media screen and (max-width: 600px) {
     .signup_invite,
     .signup {
