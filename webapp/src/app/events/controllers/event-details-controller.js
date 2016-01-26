@@ -340,7 +340,11 @@ angular.module('gliist')
                     }).done(function (response) {
                         $scope.event.utcOffset = response.dstOffset + response.rawOffset;
                     });
-                    $scope.location.formatted = newValue.adr_address;
+                    if (newValue.adr_address.indexOf(newValue.name) + 1) {
+                        $scope.location.formatted = newValue.adr_address;
+                    } else {
+                        $scope.location.formatted = '<span class="venue-name">'+newValue.name+', </span>'+newValue.adr_address;
+                    }
                 }
             });
 

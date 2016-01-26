@@ -55,8 +55,9 @@ span.error {
     font-size: 12px;
 }
 
-.street-address ~ span:nth-child(2):before,
-.country-name:before {
+.venue-name,
+.venue-name + .street-address ~ span:nth-child(3):before,
+.street-address:first-child ~ span:nth-child(2):before {
     content: '';
     display: block;
 }
@@ -687,9 +688,12 @@ md-dialog {
             padding: 0 20px;
         }
         .event-image {
-            height: 292px;
+            margin: 0 20px;
             img {
                 border: 9px solid #aaa;
+                max-width: 100%;
+                height: auto;   
+                max-height: 292px;
             }
         }
         .title {
@@ -1326,12 +1330,6 @@ md-dialog {
         md-icon,
         img {
             margin-right: 10px;
-        }
-    }
-    .location {
-        p {
-            display: inline-block;
-            vertical-align: middle;
         }
     }
 }

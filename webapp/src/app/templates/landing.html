@@ -1,11 +1,11 @@
 <div layout="column" layout-align="center stretch">
-    <div class="header" flex><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130px"/></div>
+    <div class="header" flex><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130"/></div>
     <div class="content" layout="column" layout-align="start center" flex>
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
         <h4 ng-if="event.event.isRsvpExpired">The link to RSVP has been already expired</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
-        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295px"/></div>
+        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
         <div class="title">
             <h4>Event:</h4>
             <h3>{{event.event.title}}</h3>
