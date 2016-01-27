@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
-using gliist_server.Attributes;
-using gliist_server.Helpers;
-using gliist_server.Models;
-using gliist_server.Providers;
-using gliist_server.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using gliist_server.Attributes;
+using gliist_server.Helpers;
+using gliist_server.Models;
+using gliist_server.Providers;
+using gliist_server.Results;
 
 namespace gliist_server.Controllers
 {
@@ -31,10 +31,11 @@ namespace gliist_server.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private readonly EventDBContext _db;
+        private EventDBContext _db;
         public AccountController()
             : this(new EventDBContext())
         {
+
         }
 
         public AccountController(EventDBContext db)
@@ -76,6 +77,8 @@ namespace gliist_server.Controllers
                 company = user.company.name,
                 company_id = user.company.id.ToString(),
                 bio = user.bio,
+                contactEmail = user.contactEmail,
+                contactPhone = user.contactPhone,
                 permissions = user.permissions,
                 TwitterPageUrl = user.company.TwitterPageUrl ?? string.Empty,
                 FacebookPageUrl = user.company.FacebookPageUrl ?? string.Empty,
@@ -224,7 +227,7 @@ namespace gliist_server.Controllers
 
             if (invite == null)
             {
-                return BadRequest("Invitation exptied please contact admin");
+                return BadRequest("Invitation expired please contact admin");
             }
 
             _db.Entry(invite).State = EntityState.Modified;
@@ -329,6 +332,8 @@ namespace gliist_server.Controllers
             user.city = userModel.city;
             user.company = userModel.company;
             user.bio = userModel.bio;
+            user.contactPhone = userModel.contactPhone;
+            user.contactEmail = userModel.contactEmail;
 
             _db.Entry(user).State = EntityState.Modified;
 
@@ -388,12 +393,9 @@ namespace gliist_server.Controllers
         {
             var container = BlobHelper.GetWebApiContainer("profiles");
             var blob = container.GetBlockBlobReference(user.company.name.ToString() + "_" + DateTime.Now.Millisecond + "_" + fileName);
-            blob.UploadFromByteArray(data, 0, data.Length);
-            var userId = User.Identity.GetUserId();
-
-
+            await blob.UploadFromByteArrayAsync(data, 0, data.Length);
+            
             user.profilePictureUrl = blob.Uri.AbsoluteUri;
-
             return blob.Uri.AbsoluteUri;
         }
 
@@ -483,8 +485,7 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
@@ -518,9 +519,10 @@ namespace gliist_server.Controllers
             {
                 throw new ArgumentException("Reset password token expired");
             }
-            var userId = UserManager.FindByName(token.user_email).Id;
+            var user = await UserManager.FindByNameAsync(token.user_email);
+            string userId = user.Id;
 
-            IdentityResult result = UserManager.RemovePassword(userId);
+            IdentityResult result = await UserManager.RemovePasswordAsync(userId);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
@@ -528,11 +530,11 @@ namespace gliist_server.Controllers
                 return errorResult;
             }
 
-            String hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.NewPassword);
-            result = UserManager.AddPassword(userId, hashedNewPassword);
+            string hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.NewPassword);
+            result = await UserManager.AddPasswordAsync(userId, hashedNewPassword);
 
-            result = UserManager.RemovePassword(userId);
-            result = UserManager.AddPassword(userId, model.NewPassword);
+            result = await UserManager.RemovePasswordAsync(userId);
+            result = await UserManager.AddPasswordAsync(userId, model.NewPassword);
             errorResult = GetErrorResult(result);
 
             if (errorResult != null)
@@ -723,9 +725,9 @@ namespace gliist_server.Controllers
             }
 
             var compnay = new Company()
-             {
-                 name = model.company
-             };
+            {
+                name = model.company
+            };
 
             _db.Companies.Add(compnay);
 

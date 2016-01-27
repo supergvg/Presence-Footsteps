@@ -7,7 +7,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(0) ? 'logo-bg' : ''"
                        ng-disabled="isPromoter()" 
-                       ng-click="data.selectedIndex = 0" 
+                       ng-click="selectedIndex = 0" 
                        aria-label="Details">
             </md-button>
         </div>
@@ -18,7 +18,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(1) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
-                       ng-click="data.selectedIndex = 1"
+                       ng-click="selectedIndex = 1"
                        aria-label="Invite">
             </md-button>
         </div>
@@ -29,7 +29,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(2) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
-                       ng-click="data.selectedIndex = 2"
+                       ng-click="selectedIndex = 2"
                        aria-label="RSVP">
             </md-button>
         </div>
@@ -40,7 +40,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(3) ? 'logo-bg' : ''"
                        ng-disabled="!event.id"
-                       ng-click="data.selectedIndex = 3"
+                       ng-click="selectedIndex = 3"
                        aria-label="Guests">
             </md-button>
         </div>
@@ -51,13 +51,13 @@
             <md-button class="md-fab"
                        ng-class="getSelected(4) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
-                       ng-click="data.selectedIndex = 4"
+                       ng-click="selectedIndex = 4"
                        aria-label="Preview">
             </md-button>
         </div>
     </div>
 
-    <ng-switch on="data.selectedIndex">
+    <ng-switch on="selectedIndex">
         <div role="tabpanel"
              id="tab1-content"
              aria-labelledby="tab1"
@@ -81,7 +81,7 @@
                                 <md-select required name="category" placeholder="Select event category" ng-model="event.category">
                                     <md-select-label>{{event.category || 'Select event category'}}</md-select-label>
                                     <md-option value="{{t}}" ng-repeat="t in eventCategories">
-                                        <img ng-src="assets/images/category_icons/blue_{{t | lowercase | spaceless}}.png" width="24px" height="24px" style="margin-right: 10px"/>{{t}}
+                                        <img ng-src="assets/images/category_icons/blue_{{t | lowercase | spaceless}}.png" width="24" height="24" style="margin-right: 10px"/>{{t}}
                                     </md-option>
                                 </md-select>
                                 <div ng-messages="eventForm.category.$error" ng-if="displayErrorMessage(eventForm.category)">
@@ -92,7 +92,7 @@
                         <div layout layout-sm="column">
                             <md-input-container flex="75" md-no-float>
                                 <h4>Event Location</h4>
-                                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="event.location" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
+                                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="location.value" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
                                 <div ng-messages="eventForm.location.$error" ng-if="displayErrorMessage(eventForm.location)">
                                     <div ng-message="required">Please Enter Event Location</div>

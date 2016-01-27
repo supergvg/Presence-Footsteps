@@ -197,8 +197,6 @@ namespace gliist_server.Controllers
                             guestList = guestListInstance,
                             plus = guest.plus
                         });
-                        guestStatus.IsAutoCheckIn = true;
-                        guestStatus.CheckInDate = DateTime.UtcNow;
                     }
                 }
             }
@@ -211,7 +209,6 @@ namespace gliist_server.Controllers
                 foreach (var guestListInstance in @event.guestLists)
                 {
                     guestListInstance.GuestsCount = EventHelper.GetGuestsCount(@event, guestListInstance);
-                    //guestListInstance.GuestsCount = EventHelper.GetGuestsCount(guestListInstance);
                 }
             }
             return Ok(@event.guestLists);
@@ -338,6 +335,8 @@ namespace gliist_server.Controllers
             db.Guests.Add(guest);
             await db.SaveChangesAsync();
 
+            await AddEventGuests(onTheSpotGL, new[] {guest}, eventId);
+
 
             if (!string.IsNullOrEmpty(guest.email))
             {
@@ -393,6 +392,9 @@ namespace gliist_server.Controllers
             var type = string.IsNullOrEmpty(guestEvent.type) ? "GA" : guestEvent.type;
             var names = guestEvent.names.Split(',');
 
+            var addedGuests = new List<Guest>();
+            GuestListInstance addedListInstance = null;
+
             foreach (var name in names)
             {
                 var s = name.Trim().Split(' ');
@@ -405,12 +407,17 @@ namespace gliist_server.Controllers
                   lastName = s.Length > 1 ? s[1] : "Guest";
 
                 var g = new Guest() { firstName = firstName, lastName = lastName, type = type, company = user.company };
+                addedGuests.Add(g);
 
                 var onTheSpotGL = GuestHelper.AddGuestToEvent(g, eventId, user.company, user, db);
+                if (addedListInstance == null)
+                    addedListInstance = onTheSpotGL;
                 db.Guests.Add(g);
             }
 
             await db.SaveChangesAsync();
+
+            await AddEventGuests(addedListInstance, addedGuests.ToArray(), eventId);
 
             return Ok();
         }
@@ -444,7 +451,7 @@ namespace gliist_server.Controllers
                 totalChk++;
             }
 
-            //Guset Capacity
+            //Guest Capacity
             if (checkin.plus < checkinData.plus || (checkin.status == "checked in" && checkin.plus == 0))
             {
                 throw new ArgumentException("guest exceeded capacity");
@@ -546,40 +553,26 @@ namespace gliist_server.Controllers
             return Ok(checkin);
         }
 
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof (void))]
         [HttpPost]
         [Route("UndoCheckinGuest")]
         [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> UndoCheckinGuest(CheckinModel checkinData)
         {
-            var userId = User.Identity.GetUserId();
-            var user = await userManager.FindByIdAsync(userId);
-
-            var gliId = checkinData.gliId;
-            var guestId = checkinData.guestId;
-
-            if (gliId <= 0 || guestId <= 0)
+            if (checkinData.gliId <= 0 || checkinData.guestId <= 0)
             {
                 return BadRequest();
             }
 
-            var guest = await db.Guests.FindAsync(guestId);
-            var gli = await db.GuestListInstances.FindAsync(gliId);
-            var checkin = gli.actual.Single(chkn => chkn.guest.id == guest.id);
+            var gli = await db.GuestListInstances.FindAsync(checkinData.gliId);
+            var checkin = gli.actual.Single(x => x.guest.id == checkinData.guestId);
 
-            db.Entry(checkin).State = EntityState.Modified;
+            var eventGuest =
+                gli.linked_event.EventGuestStatuses.Single(x => x.GuestId == checkinData.guestId);
 
-            var totalChk = checkinData.plus + 1;
-            if (totalChk >= guest.plus + 1)
-            {
-                checkin.status = "no show";
-                checkin.time = null;
-                checkin.plus = 0;
-            }
-            else
-            {
-                checkin.plus += totalChk;
-            }
+            checkin.status = "no show";
+            checkin.time = null;
+            checkin.plus = eventGuest.AdditionalGuestsRequested;
 
             await db.SaveChangesAsync();
 
@@ -605,7 +598,7 @@ namespace gliist_server.Controllers
                 return BadRequest("Event not found");
             }
 
-            Task.Factory.StartNew(() => { Publish(evnt, eventPublishModel, user); });
+            await Task.Factory.StartNew(() => { Publish(evnt, eventPublishModel, user); });
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -649,7 +642,20 @@ namespace gliist_server.Controllers
         }
 
         #region private methods
+        private async Task AddEventGuests(GuestListInstance onTheSpotGl, Guest[] guests, int eventId)
+        {
+            db.EventGuests.AddRange(guests.Select(x => new EventGuestStatus
+            {
+                EventId = eventId,
+                Guest = x,
+                AdditionalGuestsRequested = x.plus,
+                GuestListId = onTheSpotGl.linked_guest_list.id,
+                GuestListInstanceId = onTheSpotGl.id,
+                GuestListInstanceType = onTheSpotGl.InstanceType
+            }));
 
+            await db.SaveChangesAsync();
+        }
         private void Publish(Event @event, IdsEventModel eventPublishModel, UserModel user)
         {
             var guestListInstances = db.GuestListInstances

@@ -22,17 +22,19 @@ angular.module('gliist')
                 ],
                 rowHeight: 45,
                 enableColumnMenus: false,
+                enableVerticalScrollbar: 0,
+                enableHorizontalScrollbar: 0,
                 data: []
             };
             if (!$scope.isStaff()) {
                 $scope.gridOptions.columnDefs.push({
                     name: '', field: 'id', enableSorting: false,
                     cellTemplate: '<div class="actions" title="Actions">' +
-                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{row.entity.id}}})" ng-disabled="grid.appScope.blockEdit(row.entity.glist)" ng-hide="grid.appScope.options.readOnly">' +
+                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{row.entity.id}}})" ng-hide="grid.appScope.options.readOnly">' +
                         '<md-tooltip md-direction="top">edit guest list</md-tooltip>' +
                         '<ng-md-icon icon="mode_edit"></ng-md-icon>' +
                         '</md-button>' +
-                        '<md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.blockEdit(row.entity.glist)" ng-hide="grid.appScope.options.readOnly">' +
+                        '<md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.readOnly">' +
                         '<md-tooltip md-direction="top">delete guest list</md-tooltip>' +
                         '<ng-md-icon icon="delete"></ng-md-icon>' +
                         '</md-button>' +
@@ -40,13 +42,18 @@ angular.module('gliist')
                 });
             }
 
+            $scope.getTableHeight = function() {
+                return {
+                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + "px"
+                };
+            };
+
             $scope.selected = $scope.selected || [];
 
-            $scope.blockEdit = function(glist) {
+            $scope.isRemoval = function(glist) {
                 if (!$rootScope.isPromoter() || !glist.created_by) {
                     return false;
                 }
-
                 return glist.created_by.UserName !== $rootScope.currentUser.UserName;
             };
 

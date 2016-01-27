@@ -61,7 +61,8 @@ angular.module('gliist')
                 'Production',
                 'Comp',
                 'Press',
-                'All Access'
+                'All Access',
+                'Reduced'
             ];
             if (instanceType !== 1 && instanceType > 0) {
                 $scope.guestListTypes = ['RSVP'];

@@ -55,6 +55,13 @@ span.error {
     font-size: 12px;
 }
 
+.venue-name,
+.venue-name + .street-address ~ span:nth-child(3):before,
+.street-address:first-child ~ span:nth-child(2):before {
+    content: '';
+    display: block;
+}
+
 .no-selection {
     user-select: none;
 }
@@ -457,6 +464,7 @@ md-input-container {
         }
         &.md-input-focused .md-input {
             border-color: #99ccff;
+            border-width: 1px;
         }
         &.md-input-invalid .md-input {
             border-color: #f00;   
@@ -806,7 +814,6 @@ md-dialog {
     background-color: #99ccff;
     background-image: linear-gradient(#99ccff 405px, #ffffff 405px, #ffffff 100%);
     .header {
-        width: 100%;
         height: 170px;
         background: #000;
         img.header-image {
@@ -816,14 +823,20 @@ md-dialog {
     }
     .content {
         text-align: center;
+        margin-bottom: 90px;
+        font-size: 12px;
         h4 {
             margin: 35px 0;
             color: #fff;
+            padding: 0 20px;
         }
         .event-image {
-            height: 292px;
+            margin: 0 20px;
             img {
                 border: 9px solid #aaa;
+                max-width: 100%;
+                height: auto;   
+                max-height: 292px;
             }
         }
         .title {
@@ -832,6 +845,7 @@ md-dialog {
                 font-weight: bold;
                 margin: 0;
                 line-height: 2;
+                padding: 0 20px;
             }
             h4 {
                 font-size: 16px;
@@ -845,88 +859,86 @@ md-dialog {
                 padding: 10px;
             }
         }
-        .landing-form {
-            margin: 40px 0 80px 0;
-            padding: 10px;
-            width: 500px;
-            font-size: 12px;
-            .item-label {
-                color: #99ccff;
-                padding: 0;
-                font-weight: bold;
-            }
-            .left-column {
-                text-align: left;
-                color: #000;
-                width: 100%;
-                .item {
-                    margin-bottom: 9px;
-                    width: 190px;
-                    &:first-child {
-                        .item-text {
-                            font-size: 12px;
-                        }
-                    }
-                }
-                ul.social {
-                    padding-left: 0;
-                    li {
-                        margin-right: 20px;
-                    }
-                }
-            }
-            .right-column {
-                border-left: 2px solid #ececec;
-                text-align: right;
-                width: 100%;
-                .form-item {
-                    margin-bottom: 5px;
-                    input {
-                        width: 175px;
-                        height: 25px;
-                        background-color: #ececec;
-                        border: none;
-                        padding: 5px;
-                    }
-                    label {
-                        text-align: left;
-                        font-weight: normal;
-                        width: 40px;
-                    }
-                }
-                .item-label {
-                    padding-left: 12px;
-                    text-align: left;
+        .item {
+            text-align: left;
+            margin-bottom: 9px;
+        }
+        .item-label {
+            color: #99ccff;
+            font-weight: bold;
+            text-align: left;
+        }
+        ul.social {
+            display: inline-block;
+            list-style: none;
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+            li {
+                float: left;
+                + li {
+                    margin-left: 5px;
                 }
                 a {
-                    margin: 12px 12px 0 0;
-                }
-                form {
-                    margin-bottom: 20px;
-                }
-            }
-            ul.social {
-                list-style: none;
-                margin: 10px 0 0 0;
-                padding-left: 20px;
-                li {
-                    float: left;
-                    margin-right: 5px;
-                    a {
-                        width: auto;
-                        height: 30px;
-                        margin: 0;
-                    }
+                    width: auto;
+                    height: 30px;
+                    margin: 0;
                 }
             }
         }
+        ul.share {
+            padding-left: 0;
+            li + li {
+                margin-left: 20px;
+            }
+        }
+        .blocks {
+            & > * {
+                width: 280px;
+                padding: 0 20px 0 0;
+                &:nth-child(even) {
+                    border-left: 2px solid #ececec;
+                    padding: 0 0 0 20px;
+                    text-align: right;
+                }
+            }
+        }
+        .event-details {
+            margin-top: 30px;
+        }
+        form {
+            .form-item {
+                margin-bottom: 5px;
+                input {
+                    width: 175px;
+                    height: 25px;
+                    background-color: #ececec;
+                    border: none;
+                    padding: 5px;
+                    line-height: 1;
+                }
+                label {
+                    text-align: left;
+                    font-weight: normal;
+                    width: 40px;
+                }
+            }
+            .actions {
+                margin: 0;
+                a {
+                    margin: 12px 12px 0 0;
+                }
+            }
+        }
+        .socials > * {
+            text-align: left !important;
+        }
     }
     .footer {
-        width: 100%;
         height: 55px;
         position: absolute;
         bottom: 0;
         left: 0;
+        right: 0;
         background-color: #99ccff;
         text-align: center;
         p {
@@ -1160,6 +1172,13 @@ md-dialog {
             }
         }
         form[name="userForm"] {
+            md-input-container {
+                &[md-no-float] {
+                    & > h4 {
+                        font-size: 13px;
+                    }            
+                }
+            }
             .bio {
                 margin-left: 20px;
             }
@@ -1645,6 +1664,41 @@ md-dialog {
             form[name="userForm"] {
                 .bio {
                     margin-left: 0;
+                }
+            }
+        }
+    }
+    .landing {
+        .content {
+            .item-label,
+            .item {
+                text-align: center;
+            }
+            .item {
+                margin-bottom: 20px;
+            }
+            
+            .blocks {
+                & > * {
+                    padding: 0 20px !important;
+                    &:nth-child(even) {
+                        border: none;
+                    }
+                }
+            }
+            form {
+                margin-top: 5px;
+                .actions {
+                    text-align: center;
+                }
+            }
+            ul.social {
+                padding: 0;
+            }
+            .socials {
+                & > * {
+                    text-align: center !important;
+                    margin-top: 15px;
                 }
             }
         }

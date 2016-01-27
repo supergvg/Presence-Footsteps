@@ -1,10 +1,6 @@
-﻿using Microsoft.ServiceBus.Notifications;
+﻿using System.Collections.Generic;
+using Microsoft.ServiceBus.Notifications;
 using Microsoft.WindowsAzure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 
 namespace gliist_server.Helpers
 {

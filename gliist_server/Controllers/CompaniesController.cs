@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -23,7 +19,7 @@ namespace gliist_server.Controllers
 
         [AllowAnonymous]
         [Route("GetInviteInfo")]
-        public async Task<Invite> GetInviteInfo(string companyName, string token)
+        public Invite GetInviteInfo(string companyName, string token)
         {
             var companies = db.Companies.Where(c => c.name.Equals(companyName));
 

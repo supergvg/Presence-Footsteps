@@ -1,38 +1,32 @@
-<div layout="column" layout-align="center center">
-    <div class="header"><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130px"/></div>
-    <div class="content" layout="column" layout-align="center center">
+<div layout="column" layout-align="center stretch">
+    <div class="header" flex><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130"/></div>
+    <div class="content" layout="column" layout-align="start center" flex>
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
         <h4 ng-if="event.event.isRsvpExpired">The link to RSVP has been already expired</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
-        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295px"/></div>
+        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
         <div class="title">
             <h4>Event:</h4>
             <h3>{{event.event.title}}</h3>
             <h4 ng-if="success" class="success">Thank you! You have been added to the event guest list!</h4>
         </div>
-        <div layout="row" class="landing-form">
-            <div class="left-column" layout="column">
+        <div layout="row" layout-sm="column" class="blocks event-details">
+            <div layout="column">
                 <div class="item">
                     <div class="item-label">Date + Time:</div>
                     <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</div>
                 </div>
                 <div class="item">
                     <div class="item-label">Location:</div>
-                    <div class="item-text">{{event.event.location}}</div>
+                    <div class="item-text" ng-bind-html="event.event.location"></div>
                 </div>
                 <div class="item">
                     <div class="item-label">Details:</div>
                     <div class="item-text" ng-bind-html="event.event.additionalDetails | linky:'_blank'"></div>
                 </div>
-                <div class="item-label">Share this event:</div>
-                <ul class="social">
-                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
-                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name}},{{event.event.title}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
-                    <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
-                </ul>
             </div>
-            <div class="right-column" layout="column">
+            <div layout="column">
                 <div class="item-label">RSVP:</div>
                 <form name="rsvpLandingForm">
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
@@ -57,19 +51,35 @@
                             <div ng-if="rsvpLandingForm.plus.$error.max" ng-message="max">Numer of additional guests cannot exceed {{event.event.additionalGuests}} people</div>
                         </div>
                     </div>
-                    <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                    <div class="actions">
+                        <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                    </div>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
                 </form>
-                <div class="item-label" ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">Event on Social:</div>
-                <ul class="social">
-                    <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
-                    <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
-                    <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
+            </div>
+        </div>
+        <div layout="row" layout-sm="column" class="blocks socials">
+            <div>
+                <div class="item-label">Share this event:</div>
+                <ul class="social share">
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
+                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
+                    <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
                 </ul>
+            </div>
+            <div>
+                <div ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">
+                    <div class="item-label">Event on Social:</div>
+                    <ul class="social">
+                        <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
+                        <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
+                        <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div class="footer">
+    <div class="footer" flex>
         <p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
     </div>
 </div>

@@ -1,9 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
-using gliist_server.Logger;
 using Microsoft.Owin.Security.OAuth;
-
+using gliist_server.Logger;
 namespace gliist_server
 {
     public static class WebApiConfig

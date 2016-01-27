@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace gliist_server.Models
@@ -34,6 +28,10 @@ namespace gliist_server.Models
         public virtual Company company { get; set; }
 
         public string bio { get; set; }
+
+        public string contactPhone { get; set; }
+
+        public string contactEmail { get; set; }
 
         public string permissions { get; set; }
     }

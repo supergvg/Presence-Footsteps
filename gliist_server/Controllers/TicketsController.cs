@@ -12,14 +12,7 @@ namespace gliist_server.Controllers
     [RoutePrefix("api/tickets")]
     public class TicketsController : ApiController
     {
-        private EventDBContext db;
-        private bool isInitialized = false;
-
-        public TicketsController()
-            : base()
-        {
-            db = new EventDBContext();
-        }
+        private EventDBContext db = new EventDBContext();
 
         [HttpGet]
         [Route("InvitedDetails/{token}")]
@@ -54,7 +47,7 @@ namespace gliist_server.Controllers
                 model.Guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
                 model.Company = model.Event.company;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 responseStatus.Code = "server_error";
                 responseStatus.Message = "Server error";

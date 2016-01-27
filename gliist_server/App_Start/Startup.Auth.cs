@@ -4,9 +4,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using gliist_server.Providers;
 using Microsoft.Owin.Cors;
 using gliist_server.Models;
+using gliist_server.Providers;
 
 namespace gliist_server
 {

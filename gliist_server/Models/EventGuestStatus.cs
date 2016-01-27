@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -35,10 +34,6 @@ namespace gliist_server.Models
 
         public Nullable<DateTime> TicketsEmailSentDate { get; set; }
 
-        public Nullable<DateTime> CheckInDate { get; set; }
-
-        public bool IsAutoCheckIn { get; set; }
-
         public int AdditionalGuestsRequested { get; set; }
 
         [NotMapped]
@@ -52,8 +47,5 @@ namespace gliist_server.Models
 
         [NotMapped]
         public bool IsTicketsEmailSent { get { return this.TicketsEmailSentDate != null; } }
-
-        [NotMapped]
-        public bool IsCheckedIn { get { return this.CheckInDate != null; } }
     }
 }

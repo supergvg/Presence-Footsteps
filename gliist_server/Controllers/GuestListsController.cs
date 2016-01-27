@@ -8,8 +8,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using gliist_server.Models;
 using Microsoft.AspNet.Identity;
+using gliist_server.Models;
 
 namespace gliist_server.Controllers
 {
@@ -76,7 +76,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> GetGuestList(int id)
         {
             var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
+            var user = await UserManager.FindByIdAsync(userId);
 
             GuestList guestList = db.GuestLists.FirstOrDefault(gl => gl.company.id == user.company.id && gl.id == id);
             if (guestList == null)

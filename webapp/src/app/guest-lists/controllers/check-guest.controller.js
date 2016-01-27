@@ -1,118 +1,88 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', '$window',
-    function ($scope, $stateParams, guestFactory, dialogService, eventsService, $state, $window) {
+    .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'guestFactory', 'dialogService', 'eventsService', '$state', '$window',
+        function ($scope, $stateParams, guestFactory, dialogService, eventsService, $state, $window) {
 
+            $scope.maxGuests = 0;
+            $scope.notCheckInGuests = 0;
+            $scope.checkInGuests = 0;
+            $scope.guestChecked = false;
 
-      $scope.subtractGuestCount = function () {
-        if ($scope.guestCheckin.plus === 0) {
-          return;
-        }
-        $scope.guestCheckin.plus--;
-      };
+            var success = function(result) {
+                    $scope.guestCheckin = result;
+                    $scope.initVars();
+                },
+                error = function(error) {
+                    if (error) {
+                        dialogService.error(error.ExceptionMessage);
+                    } else {
+                        dialogService.error('Oops there was a problem getting guest, please try again');
+                    }
+                };
 
-      $scope.addGuestCount = function () {
-        if ($scope.guestCheckin.plus >= $scope.maxGuests) {
-          return;
-        }
-        $scope.guestCheckin.plus++;
-      };
+            $scope.subtractGuestCount = function () {
+                $scope.guestCheckin.plus = $scope.guestCheckin.plus <= 1 ? 1 : $scope.guestCheckin.plus - 1;
+            };
 
-      $scope.back = function () {
-        $window.history.back();
-      };
+            $scope.addGuestCount = function () {
+                $scope.guestCheckin.plus = $scope.guestCheckin.plus >= $scope.notCheckInGuests ? $scope.notCheckInGuests : $scope.guestCheckin.plus + 1;
+            };
 
-      $scope.checkIn = function () {
-        $scope.checkingGuest = true;
-        eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(
-          function (res) {
-            $scope.maxGuests = res.plus;
-            $scope.guestCheckin = res;
-            $scope.guestChecked = 1;
-          },
-          function (err) {
-            if(err) {
-              dialogService.error(err.ExceptionMessage);
-            }else{
-              dialogService.error('Oops there was a problem getting guest, please try again');
-            }
-          }
-        ).finally(function () {
-            $scope.checkingGuest = false;
-        });
-      };
-      
-      $scope.undoCheckIn = function() {
-        $scope.checkingGuest = true;
-        eventsService.postGuestUndoCheckin($scope.guestCheckin, $scope.guestListInstance).then(
-          function (res) {
-            $scope.maxGuests = res.plus;
-            $scope.guestCheckin = res;
-            $scope.guestChecked = 0;
-          },
-          function (err) {
-            if(err) {
-              dialogService.error(err.ExceptionMessage);
-            }else{
-              dialogService.error('Oops there was a problem getting guest, please try again');
-            }
-          }
-        ).finally(function () {
-            $scope.checkingGuest = false;
-        });
-      };
+            $scope.back = function () {
+                $window.history.back();
+            };
 
-      $scope.isCheckinDisabled = function () {
-        if (!$scope.guestChecked) {
-          return false;
-        }
+            $scope.checkIn = function () {
+                $scope.checkingGuest = true;
+                if (!$scope.guestChecked) {
+                    $scope.guestCheckin.plus--;
+                }
+                eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(success, error)
+                    .finally(function () {
+                        $scope.checkingGuest = false;
+                    });
+            };
 
-        return (!$scope.maxGuests || (!$scope.guestCheckin.plus && $scope.guestChecked));
-      };
+            $scope.undoCheckIn = function () {
+                $scope.checkingGuest = true;
+                eventsService.postGuestUndoCheckin($scope.guestCheckin, $scope.guestListInstance).then(success, error)
+                    .finally(function () {
+                        $scope.checkingGuest = false;
+                    });
+            };
+            
+            $scope.initVars = function() {
+                $scope.maxGuests = $scope.guestCheckin.guest.plus + 1;
+                $scope.guestChecked = $scope.guestCheckin.status === 'checked in';
+                $scope.notCheckInGuests = $scope.guestCheckin.plus + !$scope.guestChecked;
+                $scope.checkInGuests = $scope.maxGuests - $scope.notCheckInGuests;
+                if (!$scope.guestChecked) {
+                    $scope.guestCheckin.plus++;
+                }
+            };
+            
+            $scope.init = function () {
+                var guestId = $stateParams.guestId,
+                    gliId = $stateParams.gliId;
 
-      $scope.isNotChecked = function(guestCheckin) {
-        if (!$scope.guestChecked) {
-          return 1;
-        }
-      };
+                if (!guestId || !gliId) {
+                    $state.go('main.welcome');
+                    return;
+                }
 
-
-      $scope.init = function () {
-        var guestId = $stateParams.guestId,
-          gliId = $stateParams.gliId;
-
-        if (!guestId || !gliId) {
-          $state.go('main.welcome');
-          return;
-        }
-
-
-        $scope.fetchingData = true;
-        eventsService.getGuestCheckin(guestId, gliId).then(
-          function (res) {
-
-            $scope.guestCheckin = res.checkin;
-
-            $scope.maxGuests = $scope.guestCheckin.plus;
-
-            if ($scope.guestCheckin.status === 'checked in') {
-              $scope.guestChecked = 1;
-            }
-
-
-            $scope.guestListInstance = res.gl_instance;
-          },
-          function () {
-            dialogService.error('Oops there was a problem getting guest, please try again');
-          }
-        ).finally(
-          function () {
-            $scope.fetchingData = false;
-          }
-        );
-
-      };
-
-
-    }]);
+                $scope.fetchingData = true;
+                eventsService.getGuestCheckin(guestId, gliId).then(
+                    function(res) {
+                        $scope.guestCheckin = res.checkin;
+                        $scope.initVars();
+                        $scope.guestListInstance = res.gl_instance;
+                    },
+                    function() {
+                        dialogService.error('Oops there was a problem getting guest, please try again');
+                    }
+                ).finally(function() {
+                    $scope.fetchingData = false;
+                });
+            };
+        }]);

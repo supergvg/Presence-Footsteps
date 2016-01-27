@@ -2,7 +2,7 @@
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     <h3 class="md-title" ng-show="guestLists.length == 0">No guest lists found</h3>
     <div>
-        <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top" ng-if="options.sorting"></div>
+        <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top" ng-if="options.sorting" ng-style="getTableHeight()"></div>
         
         <md-list class="zebra" ng-if="!options.sorting">
             <md-list-item ng-show="guestLists.length > 0">
@@ -43,14 +43,13 @@
                 <div flex ng-if="!isStaff()" layout="row" layout-align="end center" class="actions">
                     <md-button class="icon-btn"
                                ui-sref="main.edit_glist({listId:{{glist.id}}})"
-                               ng-disabled="blockEdit(glist)"
                                ng-hide="options.readOnly">
                         <md-tooltip md-direction="top">edit guest list</md-tooltip>
                         <ng-md-icon icon="mode_edit"></ng-md-icon>
                     </md-button>
                     <md-button class="icon-btn"
                                ng-click="deleteGlist($event,glist)"
-                               ng-disabled="blockEdit(glist)"
+                               ng-disabled="isRemoval(glist)"
                                ng-hide="options.readOnly">
                         <md-tooltip md-direction="top">delete guest list</md-tooltip>
                         <ng-md-icon icon="delete"></ng-md-icon>

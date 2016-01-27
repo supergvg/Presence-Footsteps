@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace gliist_server.Models
@@ -31,6 +29,10 @@ namespace gliist_server.Models
         public string company_id { get; set; }
 
         public string bio { get; set; }
+
+        public string contactEmail { get; set; }
+
+        public string contactPhone { get; set; }
 
         public bool HasRegistered { get; set; }
 

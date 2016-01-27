@@ -23,10 +23,11 @@
             </div>
             <div layout="column" layout-align="center start" class="event-prop" flex>
                 <div>
-                    <img ng-src="assets/images/category_icons/gray_{{event.category | lowercase | spaceless}}.png" width="24px" height="24px"/>{{event.category}}
+                    <img ng-src="assets/images/category_icons/gray_{{event.category | lowercase | spaceless}}.png" width="24" height="24"/>{{event.category}}
                 </div>
-                <div>
-                    <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>{{event.location}}
+                <div class="location" layout="row">
+                    <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>
+                    <p ng-bind-html="event.location" flex></p>
                 </div>
             </div>
         </div>

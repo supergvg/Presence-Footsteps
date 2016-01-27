@@ -23,32 +23,28 @@
                 <h3>{{guestCheckin.guest.type}}</h3>
             </div>
             <div flex>
-                <b>{{(guestCheckin.guest.plus - maxGuests) + guestChecked}}/{{guestCheckin.guest.plus + 1}} Checked</b>
+                <b>{{checkInGuests}}/{{maxGuests}} Checked</b>
             </div>
             <div flex>
                 <b>Note: </b>{{guestCheckin.guest.phoneNumber}}
             </div>
-            <div flex class="spinner-plusminus-h">
-                <md-button class="raised-btn" ng-click="subtractGuestCount()">
+            <div flex class="spinner-plusminus-h" ng-show="notCheckInGuests > 0">
+                <md-button class="raised-btn" ng-click="subtractGuestCount()" ng-disabled="checkingGuest">
                     -
                 </md-button>
-                <h4 ng-if="isCheckinDisabled()">{{guestCheckin.plus}}</h4>
-                <h4 ng-if="!isCheckinDisabled()">{{guestCheckin.plus + isNotChecked(guestCheckin)}}</h4>
-                <md-button class="raised-btn" ng-click="addGuestCount()">
+                <h4>{{guestCheckin.plus}}</h4>
+                <md-button class="raised-btn" ng-click="addGuestCount()" ng-disabled="checkingGuest">
                     +
                 </md-button>
             </div>
-            <div flex ng-show="!isCheckinDisabled()">
-                <md-button class="raised-btn" ng-click="checkIn()" ng-disabled="checkingGuest">
+            <div flex>
+                <md-button class="raised-btn" ng-click="checkIn()" ng-disabled="checkingGuest" ng-show="notCheckInGuests > 0">
                     check in
                 </md-button>
-                <md-button class="raised-btn" ng-click="undoCheckIn()" ng-disabled="checkingGuest" ng-show="isCheckinDisabled()">
+                <md-button class="raised-btn" ng-click="undoCheckIn()" ng-disabled="checkingGuest" ng-show="checkInGuests > 0">
                     undo
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="checkingGuest"></md-progress-circular>
-            </div>
-            <div flex ng-show="isCheckinDisabled()">
-                <h3>Guest Checked in</h3>
             </div>
             <div flex>
                 <md-button class="raised-btn" ng-click="back()">

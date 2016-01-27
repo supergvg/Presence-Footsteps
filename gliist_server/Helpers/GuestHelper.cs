@@ -1,28 +1,23 @@
-﻿using gliist_server.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+using gliist_server.Models;
 
 namespace gliist_server.Helpers
 {
     public static class GuestHelper
     {
-        public const string ON_THE_SPOT_GL = "On the spot";
-
-
-
+        public const string OnTheSpotGuestListLabel = "On the spot";
+        
         public static int GetEventTotalCheckedin(Event @event)
         {
             var total = 0;
 
             foreach (var gli in @event.guestLists)
             {
-                total += GuestHelper.GetGuestListTotalCheckedin(gli);
+                total += GetGuestListTotalCheckedin(gli);
             }
 
             return total;
@@ -47,68 +42,66 @@ namespace gliist_server.Helpers
         public static GuestListInstance AddGuestToEvent(Guest guest, int eventId, Company comapny, UserModel user, EventDBContext db)
         {
             var @event = db.Events.FirstOrDefault(e => e.id == eventId);
-            var onTheSpotGL = @event != null ? @event.guestLists.FirstOrDefault(gl => gl.linked_guest_list != null && gl.linked_guest_list.listType == ON_THE_SPOT_GL) : null;
+            var onTheSpotGl = @event != null ? @event.guestLists.FirstOrDefault(gl => gl.linked_guest_list != null && gl.linked_guest_list.listType == OnTheSpotGuestListLabel) : null;
 
-            if (onTheSpotGL == null)
+            if (onTheSpotGl == null)
             {
-                onTheSpotGL = new GuestListInstance()
-               {
-                   linked_event = @event,
-                   actual = new List<GuestCheckin> { 
-                       new GuestCheckin() { 
-                           guest = guest,
-                            guestList = onTheSpotGL,
+                onTheSpotGl = new GuestListInstance
+                {
+                    linked_event = @event,
+                    actual = new List<GuestCheckin>
+                    {
+                        new GuestCheckin
+                        {
+                            guest = guest,
+                            guestList = onTheSpotGl,
                             plus = guest.plus
-                       } 
-                   },
-                   linked_guest_list = new GuestList()
-                   {
-                       created_by = user,
-                       company = comapny,
-                       title = string.Format("{0}", ON_THE_SPOT_GL),
-                       listType = ON_THE_SPOT_GL,
-                       guests = new List<Guest>()
-                       {
-                          guest
-                       }
-                   },
-                   title = string.Format("{0}", ON_THE_SPOT_GL),
-                   listType = ON_THE_SPOT_GL
-               };
+                        }
+                    },
+                    linked_guest_list = new GuestList
+                    {
+                        created_by = user,
+                        company = comapny,
+                       title = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title),
+                       listType = OnTheSpotGuestListLabel,
+                        guests = new List<Guest>()
+                        {
+                            guest
+                        }
+                    },
+                   title = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title),
+                   listType = OnTheSpotGuestListLabel
+                };
 
-                @event.guestLists.Add(onTheSpotGL);
+                @event.guestLists.Add(onTheSpotGl);
             }
             else
             {
-                onTheSpotGL.linked_guest_list.guests.Add(guest);
-                onTheSpotGL.actual.Add(
-                     new GuestCheckin()
-                     {
-                         guest = guest,
-                         guestList = onTheSpotGL,
-                         plus = guest.plus
-                     }
-                    );
+                onTheSpotGl.linked_guest_list.guests.Add(guest);
+                onTheSpotGl.actual.Add(
+                    new GuestCheckin
+                    {
+                        guest = guest,
+                        guestList = onTheSpotGl,
+                        plus = guest.plus
+                    });
             }
-
-            Notification notification = new Notification()
+            
+            var notification = new Notification
             {
                 company = comapny,
                 message = string.Format("{0} {1} has been added to {2}", guest.firstName, guest.lastName, @event.title),
                 originator = user,
                 guest = guest,
                 @event = @event,
-                gli = onTheSpotGL
+                gli = onTheSpotGl
             };
-
 
             db.Notifications.Add(notification);
             db.Entry(@event).State = EntityState.Modified;
 
-
-            return onTheSpotGL;
+            return onTheSpotGl;
         }
-
 
         public async static Task<List<Guest>> Save(GuestList guestList, Company company, EventDBContext db, List<Guest> toMerge = null)
         {
@@ -135,7 +128,7 @@ namespace gliist_server.Helpers
 
                     if (attached.company.id != company.id)
                     {
-                        throw new UnauthorizedAccessException("User trying to get access to differnt tenant guest");
+                        throw new UnauthorizedAccessException("User trying to get access to different tenant guest");
                     }
                 }
                 else
