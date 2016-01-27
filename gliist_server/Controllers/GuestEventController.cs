@@ -595,17 +595,17 @@ namespace gliist_server.Controllers
             UserModel user = userManager.FindById(userId);
 
             if (user.permissions.Contains("promoter"))
-            {
                 return BadRequest("Invalid permissions");
-            }
 
-            var evnt = db.Events.FirstOrDefault(x => x.id == eventPublishModel.eventId);
-            if (evnt == null)
-            {
+            if(!db.Events.Any(x => x.id == eventPublishModel.eventId))
                 return BadRequest("Event not found");
-            }
 
-            Task.Factory.StartNew(() => { Publish(evnt, eventPublishModel, user); });
+            var publisher = EventPublisher.Create(db, eventPublishModel, user);
+            
+            await Task.Factory.StartNew(() =>
+            {
+                publisher.Run(); 
+            });
 
             return StatusCode(HttpStatusCode.NoContent);
         }
