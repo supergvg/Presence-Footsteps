@@ -126,7 +126,7 @@ namespace gliist_server.Controllers
                         model.Company.logo = user.profilePictureUrl;
                     }
                 }
-                model.Company.users = null;
+                //model.Company.users = null;
                 model.Company.invitations = null;
             }
 
