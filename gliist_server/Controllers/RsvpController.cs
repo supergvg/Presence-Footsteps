@@ -387,7 +387,9 @@ namespace gliist_server.Controllers
                     .FirstOrDefault(x => x.id == eventGuestStatus.EventId && !x.isDeleted);
 
             var guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
-            var user = @event.company.users.First();
+            var user = @event.company.users.FirstOrDefault(x => x.permissions == "admin")
+                       ?? @event.company.users.First();
+
             var guestListInstance = db.Set<GuestListInstance>()
                 .FirstOrDefault(x => x.id == eventGuestStatus.GuestListInstanceId);
 
@@ -402,7 +404,7 @@ namespace gliist_server.Controllers
                 substitutions.Add(":event_image_width", eventImageDimensions.Width.ToString());
                 substitutions.Add(":event_image_height", eventImageDimensions.Height.ToString());
             }
-            var logoImageDimensions = ImageHelper.GetImageSizeByUrl(ImageHelper.GetLogoImageUrl(@event.company.logo, user.profilePictureUrl));
+            var logoImageDimensions = ImageHelper.GetImageSizeByUrl(user.profilePictureUrl);
             logoImageDimensions = ImageHelper.GetScaledDimensions(logoImageDimensions, ImageHelper.LogoEmailImageMaxWidth,
                 ImageHelper.LogoEmailImageMaxHeight);
 

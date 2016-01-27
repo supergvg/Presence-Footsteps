@@ -36,11 +36,6 @@ namespace gliist_server.Helpers
             return imageInfo;
         }
 
-        public static string GetLogoImageUrl(string companyImageUrl, string profileImageUrl)
-        {
-            return string.IsNullOrEmpty(profileImageUrl) ? companyImageUrl : profileImageUrl;
-        }
-
         public static ImageDimensions GetScaledDimensions(ImageDimensions originalDimensions, int maxWidth, int maxHeight)
         {
             if (originalDimensions == null || originalDimensions.Width == 0 || originalDimensions.Height == 0)

@@ -270,7 +270,7 @@ namespace gliist_server.Helpers
         private static Dictionary<string, string> PrepareSubstitutionsList(UserModel from, Event @event, Guest guest, GuestListInstance gli)
         {
             var qr_url = UploadQRCode(@event.id, guest.id, gli.id);
-            var logo = ImageHelper.GetLogoImageUrl(from.company.logo, from.profilePictureUrl);
+            var logo = from.profilePictureUrl;
             var guestType = string.IsNullOrEmpty(guest.type) ? gli.listType : guest.type;
             var organizer = @event.company != null && @event.company.users != null ? @event.company.users.FirstOrDefault() : null;
             var organizerEmail = organizer != null ? organizer.UserName : "";

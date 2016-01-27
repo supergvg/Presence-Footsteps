@@ -340,6 +340,9 @@ namespace gliist_server.Controllers
 
             if (!string.IsNullOrEmpty(guest.email))
             {
+                var admin = (user.permissions == "admin")
+                    ? user
+                    : onTheSpotGL.linked_event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? user;
 
                 var substitutions = new Dictionary<string, string>();
 
@@ -352,7 +355,7 @@ namespace gliist_server.Controllers
                     substitutions.Add(":event_image_width", eventImageDimensions.Width.ToString());
                     substitutions.Add(":event_image_height", eventImageDimensions.Height.ToString());
                 }
-                var logoImageDimensions = ImageHelper.GetImageSizeByUrl(ImageHelper.GetLogoImageUrl(onTheSpotGL.linked_event.company.logo, user.profilePictureUrl));
+                var logoImageDimensions = ImageHelper.GetImageSizeByUrl(admin.profilePictureUrl);
                 logoImageDimensions = ImageHelper.GetScaledDimensions(logoImageDimensions, ImageHelper.LogoEmailImageMaxWidth,
                     ImageHelper.LogoEmailImageMaxHeight);
 
@@ -362,7 +365,7 @@ namespace gliist_server.Controllers
                     substitutions.Add(":logo_image_height", logoImageDimensions.Height.ToString());
                 }
 
-                EmailHelper.SendInvite(user, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority, substitutions);
+                EmailHelper.SendInvite(admin, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority, substitutions);
             }
 
             return Ok(guest);
@@ -670,13 +673,17 @@ namespace gliist_server.Controllers
                 ImageHelper.EventEmailImageMaxWidth,
                 ImageHelper.EventEmailImageMaxHeight);
 
+            var admin = (user.permissions == "admin")
+                ? user
+                : @event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? user;
+
             if (eventImageDimensions != null)
             {
                 substitutions.Add(":event_image_width", eventImageDimensions.Width.ToString());
                 substitutions.Add(":event_image_height", eventImageDimensions.Height.ToString());
             }
             var logoImageDimensions =
-                ImageHelper.GetImageSizeByUrl(ImageHelper.GetLogoImageUrl(@event.company.logo, user.profilePictureUrl));
+                ImageHelper.GetImageSizeByUrl(admin.profilePictureUrl);
             logoImageDimensions = ImageHelper.GetScaledDimensions(logoImageDimensions,
                 ImageHelper.LogoEmailImageMaxWidth,
                 ImageHelper.LogoEmailImageMaxHeight);
@@ -697,15 +704,15 @@ namespace gliist_server.Controllers
 
                 if (guestListInstance.InstanceType == GuestListInstanceType.Confirmed)
                 {
-                    SendInvitationConfirmationEmail(guestListInstance, user, substitutions, @event.IsPublished);
+                    SendInvitationConfirmationEmail(guestListInstance, admin, substitutions, @event.IsPublished);
                 }
                 else if (guestListInstance.InstanceType == GuestListInstanceType.Rsvp)
                 {
-                    SendRsvpEmail(guestListInstance, user, substitutions, @event.IsPublished);
+                    SendRsvpEmail(guestListInstance, admin, substitutions, @event.IsPublished);
                 }
                 else if (guestListInstance.InstanceType == GuestListInstanceType.Ticketing)
                 {
-                    SendTicketingEmail(guestListInstance, user, substitutions, @event.IsPublished);
+                    SendTicketingEmail(guestListInstance, admin, substitutions, @event.IsPublished);
                 }
                 guestListInstance.published = true;
                 db.Entry(guestListInstance).State = EntityState.Modified;
