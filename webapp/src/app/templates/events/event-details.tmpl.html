@@ -7,7 +7,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(0) ? 'logo-bg' : ''"
                        ng-disabled="isPromoter()" 
-                       ng-click="data.selectedIndex = 0" 
+                       ng-click="selectedIndex = 0" 
                        aria-label="Details">
             </md-button>
         </div>
@@ -18,7 +18,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(1) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
-                       ng-click="data.selectedIndex = 1"
+                       ng-click="selectedIndex = 1"
                        aria-label="Invite">
             </md-button>
         </div>
@@ -29,7 +29,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(2) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
-                       ng-click="data.selectedIndex = 2"
+                       ng-click="selectedIndex = 2"
                        aria-label="RSVP">
             </md-button>
         </div>
@@ -40,7 +40,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(3) ? 'logo-bg' : ''"
                        ng-disabled="!event.id"
-                       ng-click="data.selectedIndex = 3"
+                       ng-click="selectedIndex = 3"
                        aria-label="Guests">
             </md-button>
         </div>
@@ -51,13 +51,13 @@
             <md-button class="md-fab"
                        ng-class="getSelected(4) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
-                       ng-click="data.selectedIndex = 4"
+                       ng-click="selectedIndex = 4"
                        aria-label="Preview">
             </md-button>
         </div>
     </div>
 
-    <ng-switch on="data.selectedIndex">
+    <ng-switch on="selectedIndex">
         <div role="tabpanel"
              id="tab1-content"
              aria-labelledby="tab1"
