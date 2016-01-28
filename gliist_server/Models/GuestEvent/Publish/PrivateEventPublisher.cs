@@ -6,5 +6,15 @@
             : base(dbContext, publishDetails, user)
         {
         }
+
+        protected override void PublishList(GuestListInstance listInstance)
+        {
+            
+        }
+
+        protected override bool EventNeedsToBePublished()
+        {
+            return false;
+        }
     }
 }

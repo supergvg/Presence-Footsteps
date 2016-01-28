@@ -26,10 +26,12 @@ namespace gliist_server.Helpers
         private static readonly string AppBaseUrl = ConfigurationManager.AppSettings["appBaseUrl"];
         private const string SendgridUsername = "gliist";
         private const string SendgridPassword = "gliist925$";
-        private const string InviteEmailSendgridTemplateId = "033338d5-941a-4906-9110-ba02c59dccef";
+        
         private const string InviteUserAccountEmailSendgridTemplateId = "105b490c-8585-4e17-b5e6-ee502c1fac85";
-        private const string RsvpEmailSendgridTemplateId = "50023ddc-4065-4940-bf46-4c1b340c3411";
-        private const string TicketingEmailSendgridTemplateId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
+
+        private const string ConfirmedGuestEmailId = "033338d5-941a-4906-9110-ba02c59dccef";
+        private const string EventRsvpEmailId = "50023ddc-4065-4940-bf46-4c1b340c3411";
+        private const string EventTicketingEmailId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
 
         public static void SendWelcomeEmail(string to, string website, string userName, string accountLink, string companyName)
         {
@@ -183,7 +185,7 @@ namespace gliist_server.Helpers
             var categories = new List<string> { "Event RSVP", from.company.name, @event.title };
 
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, RsvpEmailSendgridTemplateId, subject, substitutions, categories);
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventRsvpEmailId, subject, substitutions, categories);
 
             SendEmail(email);
         }
@@ -209,7 +211,7 @@ namespace gliist_server.Helpers
 
             var categories = new List<string> { "Ticket", from.company.name, @event.title };
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, TicketingEmailSendgridTemplateId, subject, substitutions, categories);
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventTicketingEmailId, subject, substitutions, categories);
             SendEmail(email);
         }
 
@@ -253,7 +255,7 @@ namespace gliist_server.Helpers
 
             var categories = new List<string> {"Event Invitation", from.company.name, @event.title};
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, InviteEmailSendgridTemplateId,
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, ConfirmedGuestEmailId,
                 subject, substitutions, categories);
             SendEmail(email);
         }

@@ -22,10 +22,25 @@ namespace gliist_server.Models
             currentUser = user;
         }
 
-        public virtual void Run()
+        public void Run()
         {
             Initialize();
+
+            var guestListInstances = DBContext.GuestListInstances
+                .Where(x => x.linked_event.id == Event.id && PublishDetails.ids.Contains(x.id))
+                .ToList();
+
+            foreach (var listInstance in guestListInstances)
+            {
+                PublishList(listInstance);
+            }
+
+            Event.IsPublished = true;
+            DBContext.SetModified(Event);
+            DBContext.SaveChanges();
         }
+
+        protected abstract void PublishList(GuestListInstance listInstance);
 
         [SuppressMessage("ReSharper", "NotResolvedInText")]
         private void Initialize()
