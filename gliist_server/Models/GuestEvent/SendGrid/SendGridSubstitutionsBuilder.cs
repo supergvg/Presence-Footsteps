@@ -2,11 +2,11 @@
 
 namespace gliist_server.Models
 {
-    public class SubstitutionsBuilder
+    public class SendGridSubstitutionsBuilder
     {
         public Dictionary<string, string> Result { get; private set; }
 
-        public SubstitutionsBuilder()
+        public SendGridSubstitutionsBuilder()
         {
             Result = new Dictionary<string, string>();
         }

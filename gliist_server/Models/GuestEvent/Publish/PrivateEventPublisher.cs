@@ -30,7 +30,7 @@ namespace gliist_server.Models
                 To = guest.Guest.email
             });
 
-            var substitutionBuilder = new SubstitutionsBuilder();
+            var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
             substitutionBuilder.CreateGuestDetails(guest, listInstance);
             substitutionBuilder.CreateEventDetails(Event);
