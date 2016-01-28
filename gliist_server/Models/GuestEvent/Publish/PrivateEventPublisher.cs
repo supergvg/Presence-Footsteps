@@ -1,4 +1,7 @@
-﻿namespace gliist_server.Models
+﻿using System;
+using SendGrid;
+
+namespace gliist_server.Models
 {
     public class PrivateEventPublisher : EventPublisher
     {
@@ -7,14 +10,45 @@
         {
         }
 
-        protected override void PublishList(GuestListInstance listInstance)
+        protected override bool ListShouldBePublished(GuestListInstance listInstance)
         {
-            
+            return listInstance.InstanceType == GuestListInstanceType.Default ||
+                   listInstance.InstanceType == GuestListInstanceType.Confirmed;
         }
 
-        protected override bool EventNeedsToBePublished()
+        protected override bool GuestAlreadyNotificated(EventGuestStatus guest)
         {
-            return false;
+            return guest.IsInvitationEmailSent;
+        }
+
+        protected override ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest, GuestListInstance listInstance)
+        {
+            var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
+            {
+                Subject = string.Format("{0} - Invitation", Event.title),
+                From = Administrator.company.name,
+                To = guest.Guest.email
+            });
+
+            var substitutionBuilder = new SubstitutionsBuilder();
+            substitutionBuilder.CreateGuestName(guest.Guest);
+            substitutionBuilder.CreateGuestDetails(guest, listInstance);
+            substitutionBuilder.CreateEventDetails(Event);
+            substitutionBuilder.CreateOrganizer(Administrator);
+            substitutionBuilder.CreateSocialLinks(Administrator);
+            substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
+
+            messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
+
+            messageBuilder.ApplyTemplate(SendGridTemplateIdLocator.EventPrivateGuestConfirmation);
+            messageBuilder.SetCategories(new[] { "Event Invitation", Administrator.company.name, Event.title });
+
+            return messageBuilder.Result;
+        }
+
+        protected override void MarkGuestAsNotificated(EventGuestStatus guest)
+        {
+            guest.InvitationEmailSentDate = DateTime.UtcNow;
         }
     }
 }

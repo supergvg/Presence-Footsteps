@@ -29,9 +29,11 @@ namespace gliist_server.Helpers
         
         private const string InviteUserAccountEmailSendgridTemplateId = "105b490c-8585-4e17-b5e6-ee502c1fac85";
 
-        private const string ConfirmedGuestEmailId = "033338d5-941a-4906-9110-ba02c59dccef";
-        private const string EventRsvpEmailId = "50023ddc-4065-4940-bf46-4c1b340c3411";
-        private const string EventTicketingEmailId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
+        private const string EventPrivateGuestConfirmationId = "033338d5-941a-4906-9110-ba02c59dccef";
+        private const string EventPrivateEventDetailsUpdatingId = "7e33176d-e6b2-49a6-ab6b-879a790fb8a4";
+        private const string EventRsvpGuestInvitationId = "50023ddc-4065-4940-bf46-4c1b340c3411";
+        private const string EventTicketingGuestInvitationId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
+        private const string EventTicketingPurchasedTicketId = "2e017045-d764-40ae-b969-00556d7bfbb0";
 
         public static void SendWelcomeEmail(string to, string website, string userName, string accountLink, string companyName)
         {
@@ -185,7 +187,7 @@ namespace gliist_server.Helpers
             var categories = new List<string> { "Event RSVP", from.company.name, @event.title };
 
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventRsvpEmailId, subject, substitutions, categories);
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventRsvpGuestInvitationId, subject, substitutions, categories);
 
             SendEmail(email);
         }
@@ -211,7 +213,7 @@ namespace gliist_server.Helpers
 
             var categories = new List<string> { "Ticket", from.company.name, @event.title };
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventTicketingEmailId, subject, substitutions, categories);
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventTicketingGuestInvitationId, subject, substitutions, categories);
             SendEmail(email);
         }
 
@@ -222,11 +224,11 @@ namespace gliist_server.Helpers
         private static string UploadQRCode(int eventId, int guestId, int gliId)
         {
 
-            var writer = new BarcodeWriter();
-            writer.Format = BarcodeFormat.QR_CODE;
-            writer.Options.Margin = 0;
-            writer.Options.Width = 200;
-            writer.Options.Height = 200;
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = {Margin = 0, Width = 200, Height = 200}
+            };
 
             var result = writer.Write(string.Format("{0},{1},{2}", eventId, gliId, guestId));
 
@@ -255,7 +257,7 @@ namespace gliist_server.Helpers
 
             var categories = new List<string> {"Event Invitation", from.company.name, @event.title};
 
-            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, ConfirmedGuestEmailId,
+            var email = BuildEmailFromSendGridTemplate(from.company.name, guest.email, EventPrivateGuestConfirmationId,
                 subject, substitutions, categories);
             SendEmail(email);
         }
@@ -283,6 +285,7 @@ namespace gliist_server.Helpers
                 {":guest_name", string.Format("{0} {1}", guest.firstName, guest.lastName)},
                 {":guest_plus", guest.plus.ToString()},
                 {":guest_type", guestType},
+
                 {":company_logo", logo},
                 {":event_invite", @event.invitePicture},
                 {":event_name", @event.title},

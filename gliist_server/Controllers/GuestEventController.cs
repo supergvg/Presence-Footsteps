@@ -592,7 +592,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PublishEvent(IdsEventModel eventPublishModel)
         {
             var userId = User.Identity.GetUserId();
-            UserModel user = userManager.FindById(userId);
+            var user = userManager.FindById(userId);
 
             if (user.permissions.Contains("promoter"))
                 return BadRequest("Invalid permissions");

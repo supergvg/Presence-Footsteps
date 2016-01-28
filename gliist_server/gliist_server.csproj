@@ -263,6 +263,12 @@
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Models\GuestEvent\Publish\EventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\PrivateEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\Publish\RsvpEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridHeader.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridMessageBuilder.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridSender.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIdLocator.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SubstitutionsBuilder.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
