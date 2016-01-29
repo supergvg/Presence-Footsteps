@@ -25,7 +25,7 @@ namespace gliist_server.Models
             throw new System.NotImplementedException();
         }
 
-        protected override void MarkGuestAsNotificated(EventGuestStatus guest)
+        protected override void MarkGuestAsNotificated(EventGuestStatus guest, GuestListInstance listInstance)
         {
             throw new System.NotImplementedException();
         }

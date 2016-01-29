@@ -342,13 +342,14 @@ namespace gliist_server.Controllers
 
             if (!eventGuestStatus.IsInvitationEmailSent)
             {
-                SendInvitationEmail(eventGuestStatus);
                 eventGuestStatus.AdditionalGuestsRequested = eventGuestModel.AdditionalGuests;
                 eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
                 eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
                 //eventGuestStatus.CheckInDate = DateTime.UtcNow;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
+
+                SendInvitationEmail(eventGuestStatus);
                 CheckIn(eventGuestStatus);
             }
 
@@ -412,7 +413,7 @@ namespace gliist_server.Controllers
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest);
-            substitutionBuilder.CreateGuestDetails(guest.plus, guest, guestListInstance);
+            substitutionBuilder.CreateGuestDetails(eventGuestStatus.AdditionalGuestsRequested, guest, guestListInstance);
             substitutionBuilder.CreateEventDetails(@event, @event.description);
             substitutionBuilder.CreateOrganizer(user);
             substitutionBuilder.CreateSocialLinks(user);

@@ -46,7 +46,7 @@ namespace gliist_server.Models
             GuestListInstance listInstance);
 
         protected abstract bool GuestAlreadyNotificated(EventGuestStatus guest, GuestListInstance listInstance);
-        protected abstract void MarkGuestAsNotificated(EventGuestStatus guest);
+        protected abstract void MarkGuestAsNotificated(EventGuestStatus guest, GuestListInstance listInstance);
 
         #region private
 
@@ -86,7 +86,7 @@ namespace gliist_server.Models
 
                 SendMessage(message);
 
-                MarkGuestAsNotificated(guest);
+                MarkGuestAsNotificated(guest, listInstance);
             }
 
             listInstance.published = true;

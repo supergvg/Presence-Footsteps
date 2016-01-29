@@ -3,7 +3,7 @@ using SendGrid;
 
 namespace gliist_server.Models
 {
-    class PrivateEventPublisher : EventPublisher
+    class  PrivateEventPublisher : EventPublisher
     {
         public PrivateEventPublisher(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user, Event @event) 
             : base(dbContext, publishDetails, user, @event)
@@ -18,10 +18,12 @@ namespace gliist_server.Models
 
         protected override bool GuestAlreadyNotificated(EventGuestStatus guest, GuestListInstance listInstance)
         {
-            return guest.IsInvitationEmailSent;
+            return (listInstance.InstanceType == GuestListInstanceType.Default ||
+                    listInstance.InstanceType == GuestListInstanceType.Confirmed) && guest.IsInvitationEmailSent;
         }
 
-        protected override ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest, GuestListInstance listInstance)
+        protected override ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest, 
+            GuestListInstance listInstance)
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
@@ -47,7 +49,8 @@ namespace gliist_server.Models
             return messageBuilder.Result;
         }
 
-        protected override void MarkGuestAsNotificated(EventGuestStatus guest)
+        protected override void MarkGuestAsNotificated(EventGuestStatus guest, 
+            GuestListInstance listInstance)
         {
             guest.InvitationEmailSentDate = DateTime.UtcNow;
         }
