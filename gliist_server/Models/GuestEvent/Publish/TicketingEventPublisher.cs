@@ -14,7 +14,8 @@ namespace gliist_server.Models
             throw new System.NotImplementedException();
         }
 
-        protected override bool GuestAlreadyNotificated(EventGuestStatus guest)
+        protected override bool GuestAlreadyNotificated(EventGuestStatus guest,
+            GuestListInstance listInstance)
         {
             throw new System.NotImplementedException();
         }

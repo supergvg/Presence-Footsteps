@@ -45,7 +45,7 @@ namespace gliist_server.Models
         protected abstract ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest,
             GuestListInstance listInstance);
 
-        protected abstract bool GuestAlreadyNotificated(EventGuestStatus guest);
+        protected abstract bool GuestAlreadyNotificated(EventGuestStatus guest, GuestListInstance listInstance);
         protected abstract void MarkGuestAsNotificated(EventGuestStatus guest);
 
         #region private
@@ -77,10 +77,10 @@ namespace gliist_server.Models
 
             foreach (var guest in guests)
             {
-                if (Event.IsPublished && GuestAlreadyNotificated(guest))
+                if (Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
                     continue;
 
-                var message = (!Event.IsPublished && GuestAlreadyNotificated(guest))
+                var message = (!Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
                     ? PrepareUpdatingEmailMessage(guest)
                     : PrepareSpecificMessageToGuest(guest, listInstance);
 
@@ -103,7 +103,7 @@ namespace gliist_server.Models
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event);
+            substitutionBuilder.CreateEventDetails(Event, Event.description);
             substitutionBuilder.CreateOrganizer(Administrator);
             substitutionBuilder.CreateSocialLinks(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);

@@ -16,7 +16,7 @@ namespace gliist_server.Models
                    listInstance.InstanceType == GuestListInstanceType.Confirmed;
         }
 
-        protected override bool GuestAlreadyNotificated(EventGuestStatus guest)
+        protected override bool GuestAlreadyNotificated(EventGuestStatus guest, GuestListInstance listInstance)
         {
             return guest.IsInvitationEmailSent;
         }
@@ -33,7 +33,7 @@ namespace gliist_server.Models
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
             substitutionBuilder.CreateGuestDetails(guest.AdditionalGuestsRequested, guest.Guest, listInstance);
-            substitutionBuilder.CreateEventDetails(Event);
+            substitutionBuilder.CreateEventDetails(Event, Event.description);
             substitutionBuilder.CreateOrganizer(Administrator);
             substitutionBuilder.CreateSocialLinks(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
