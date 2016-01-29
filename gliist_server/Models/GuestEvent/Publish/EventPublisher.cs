@@ -6,20 +6,21 @@ using SendGrid;
 
 namespace gliist_server.Models
 {
-    public abstract class EventPublisher
+    abstract class EventPublisher
     {
         private readonly UserModel currentUser;
         private readonly EventDBContext dbContext;
         private readonly IdsEventModel publishDetails;
 
-        protected Event Event;
+        protected readonly Event Event;
         protected UserModel Administrator;
 
-        protected EventPublisher(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user)
+        protected EventPublisher(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user, Event @event)
         {
             this.dbContext = dbContext;
             this.publishDetails = publishDetails;
             currentUser = user;
+            Event = @event;
         }
 
         public void Run()
@@ -36,12 +37,14 @@ namespace gliist_server.Models
             }
 
             Event.IsPublished = true;
-            dbContext.SetModified(Event);
             dbContext.SaveChanges();
         }
 
         protected abstract bool ListShouldBePublished(GuestListInstance listInstance);
-        protected abstract ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest, GuestListInstance listInstance);
+
+        protected abstract ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest,
+            GuestListInstance listInstance);
+
         protected abstract bool GuestAlreadyNotificated(EventGuestStatus guest);
         protected abstract void MarkGuestAsNotificated(EventGuestStatus guest);
 
@@ -50,10 +53,6 @@ namespace gliist_server.Models
         [SuppressMessage("ReSharper", "NotResolvedInText")]
         private void Initialize()
         {
-            Event = dbContext.Events.FirstOrDefault(x => x.id == publishDetails.eventId);
-            if (Event == null)
-                throw new InvalidOperationException("Event is not found;");
-
             Administrator = currentUser.permissions == "admin"
                 ? currentUser
                 : Event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
@@ -87,14 +86,10 @@ namespace gliist_server.Models
 
                 SendMessage(message);
 
-                guest.InvitationEmailSentDate = DateTime.UtcNow;
-
                 MarkGuestAsNotificated(guest);
-                dbContext.SetModified(guest);
             }
 
             listInstance.published = true;
-            dbContext.SetModified(listInstance);
         }
 
         private ISendGrid PrepareUpdatingEmailMessage(EventGuestStatus guest)
@@ -115,8 +110,8 @@ namespace gliist_server.Models
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
-            messageBuilder.ApplyTemplate(SendGridTemplateIdLocator.EventPrivateEventDetailsUpdating);
-            messageBuilder.SetCategories(new[] { "Event Updated", Administrator.company.name, Event.title });
+            messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateEventDetailsUpdating);
+            messageBuilder.SetCategories(new[] {"Event Updated", Administrator.company.name, Event.title});
 
             return messageBuilder.Result;
         }
@@ -125,9 +120,21 @@ namespace gliist_server.Models
 
         #region factory
 
-        public static EventPublisher Create(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user)
+        public static EventPublisher Create(EventDBContext dbContext, IdsEventModel publishDetails,
+            UserModel user, Event @event)
         {
-            return new PrivateEventPublisher(dbContext, publishDetails, user);
+            if (@event == null)
+                throw new ArgumentNullException("event");
+
+            switch (@event.Type)
+            {
+                case EventType.Rsvp:
+                    return new RsvpEventPublisher(dbContext, publishDetails, user, @event);
+                case EventType.Ticketing:
+                    return new TicketingEventPublisher(dbContext, publishDetails, user, @event);
+                default:
+                    return new PrivateEventPublisher(dbContext, publishDetails, user, @event);
+            }
         }
 
         #endregion

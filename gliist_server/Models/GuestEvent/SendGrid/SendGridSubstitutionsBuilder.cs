@@ -1,8 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
+using gliist_server.Helpers;
+using gliist_server.Shared;
+using ZXing;
 
 namespace gliist_server.Models
 {
-    public class SendGridSubstitutionsBuilder
+    class SendGridSubstitutionsBuilder
     {
         public Dictionary<string, string> Result { get; private set; }
 
@@ -17,14 +23,14 @@ namespace gliist_server.Models
                 Result.Add(":guest_name", string.Format("{0} {1}", guest.firstName, guest.lastName));
         }
 
-        public void CreateGuestDetails(EventGuestStatus guestStatus, GuestListInstance listInstance)
+        public void CreateGuestDetails(int plus, Guest guest, GuestListInstance listInstance)
         {
             if (!Result.ContainsKey(":guest_plus"))
-                Result.Add(":guest_plus", guestStatus.AdditionalGuestsRequested.ToString());
+                Result.Add(":guest_plus", plus.ToString());
 
-            var guestType = string.IsNullOrEmpty(guestStatus.Guest.type)
+            var guestType = string.IsNullOrEmpty(guest.type)
                 ? listInstance.listType
-                : guestStatus.Guest.type;
+                : guest.type;
 
             if (!Result.ContainsKey(":guest_type"))
                 Result.Add(":guest_type", guestType);
@@ -75,9 +81,40 @@ namespace gliist_server.Models
                 Result.Add(":company_instagrammUrl", user.company.InstagrammPageUrl ?? string.Empty);
         }
 
-        public void CreateRsvpUrl()
+        public void CreateRsvpUrl(Event @event, Guest guest, string baseUrl)
         {
+            if(Result.ContainsKey(":event_rsvpUrl"))
+                return;
+            
+            var landingPageUrlGenerator = new GjestsLinksGenerator(baseUrl);
+            var landingPageUrl = landingPageUrlGenerator.GenerateGuestRsvpLandingPageLink(@event.id, guest.id);
 
+            Result.Add(":event_rsvpUrl", landingPageUrl ?? string.Empty);
+        }
+
+        public void CreateQrCode(int eventId, int listId, int guestId)
+        {
+            if (Result.ContainsKey(":qr_code_url"))
+                return;
+
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = { Margin = 0, Width = 200, Height = 200 }
+            };
+
+            var result = writer.Write(string.Format("{0},{1},{2}", eventId, listId, guestId));
+
+            var ms = new MemoryStream();
+            result.Save(ms, ImageFormat.Jpeg);
+
+            var container = BlobHelper.GetWebApiContainer("qrcodes");
+
+            var blob = container.GetBlockBlobReference(guestId + "_" + DateTime.Now.Millisecond + "_" + "qr.jpeg");
+
+            blob.UploadFromByteArray(ms.ToArray(), 0, ms.ToArray().Length);
+
+            Result.Add(":qr_code_url", blob.Uri.AbsoluteUri);
         }
     }
 }

@@ -320,7 +320,7 @@ namespace gliist_server.Controllers
 
             if (generateRSVPLink)
             {
-                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["appBaseUrl"]);
+                var linkCreator = new GjestsLinksGenerator(Config.AppBaseUrl);
                 @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.id.ToString());
                 @event.TicketingUrl = linkCreator.GeneratePublicTicketsLandingPageLink(@event.company.name, @event.id.ToString());
             }

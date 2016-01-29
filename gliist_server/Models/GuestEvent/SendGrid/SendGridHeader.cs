@@ -1,6 +1,6 @@
 ﻿namespace gliist_server.Models
 {
-    public class SendGridHeader
+    class SendGridHeader
     {
         public string To { get; set; }
         public string From { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace gliist_server.Models
 {
-    public class SendGridTemplateIdLocator
+    class SendGridTemplateIds
     {
         public const string EventPrivateGuestConfirmation = "033338d5-941a-4906-9110-ba02c59dccef";
         public const string EventPrivateEventDetailsUpdating = "7e33176d-e6b2-49a6-ab6b-879a790fb8a4";

@@ -264,10 +264,11 @@
     <Compile Include="Models\GuestEvent\Publish\EventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\PrivateEventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\RsvpEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\Publish\TicketingEventPublisher.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridHeader.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridMessageBuilder.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSender.cs" />
-    <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIdLocator.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIds.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSubstitutionsBuilder.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
@@ -444,6 +445,7 @@
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Shared\Common.cs" />
+    <Compile Include="Shared\Config.cs" />
     <Compile Include="Shared\DateFormatter.cs" />
     <Compile Include="Shared\GjestsLinksGenerator.cs" />
     <Compile Include="Shared\RijndaelManagedEncryption.cs" />

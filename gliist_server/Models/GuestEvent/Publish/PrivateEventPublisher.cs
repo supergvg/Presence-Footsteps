@@ -3,10 +3,10 @@ using SendGrid;
 
 namespace gliist_server.Models
 {
-    public class PrivateEventPublisher : EventPublisher
+    class PrivateEventPublisher : EventPublisher
     {
-        public PrivateEventPublisher(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user) 
-            : base(dbContext, publishDetails, user)
+        public PrivateEventPublisher(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user, Event @event) 
+            : base(dbContext, publishDetails, user, @event)
         {
         }
 
@@ -32,15 +32,16 @@ namespace gliist_server.Models
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateGuestDetails(guest, listInstance);
+            substitutionBuilder.CreateGuestDetails(guest.AdditionalGuestsRequested, guest.Guest, listInstance);
             substitutionBuilder.CreateEventDetails(Event);
             substitutionBuilder.CreateOrganizer(Administrator);
             substitutionBuilder.CreateSocialLinks(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
+            substitutionBuilder.CreateQrCode(Event.id, listInstance.id, guest.GuestId);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
-            messageBuilder.ApplyTemplate(SendGridTemplateIdLocator.EventPrivateGuestConfirmation);
+            messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateGuestConfirmation);
             messageBuilder.SetCategories(new[] { "Event Invitation", Administrator.company.name, Event.title });
 
             return messageBuilder.Result;

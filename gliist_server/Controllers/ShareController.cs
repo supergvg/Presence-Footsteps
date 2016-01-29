@@ -35,7 +35,7 @@ namespace gliist_server.Controllers
             Event @event = null;
             var response = new HttpResponseMessage();
 
-            var websiteUrl = ConfigurationManager.AppSettings["appBaseUrl"] ?? "";
+            var websiteUrl = Config.AppBaseUrl ?? string.Empty;
             var url = Path.Combine(websiteUrl, string.Format("#/rsvp/{0}/{1}", companyName, eventName));
             var title = "";
             var description = "";

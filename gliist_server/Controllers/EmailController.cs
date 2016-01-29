@@ -45,7 +45,7 @@ namespace gliist_server.Controllers
                 user_email = userEmail
             };
 
-            var url = string.Format("{0}/#/reset_password/{1}", ConfigurationManager.AppSettings["appBaseUrl"], token.token);
+            var url = string.Format("{0}/#/reset_password/{1}", Config.AppBaseUrl, token.token);
 
             EmailHelper.SendRecoverPassword(userEmail, url, existingUser.company.name);
 

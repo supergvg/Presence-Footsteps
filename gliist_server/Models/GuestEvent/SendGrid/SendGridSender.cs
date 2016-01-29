@@ -3,7 +3,7 @@ using SendGrid;
 
 namespace gliist_server.Models
 {
-    public static class SendGridSender
+    static class SendGridSender
     {
         private const string Username = "gliist";
         private const string Password = "gliist925$";

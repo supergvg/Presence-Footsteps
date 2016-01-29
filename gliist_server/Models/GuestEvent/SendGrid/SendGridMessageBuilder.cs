@@ -4,7 +4,7 @@ using SendGrid;
 
 namespace gliist_server.Models
 {
-    public class SendGridMessageBuilder
+    class SendGridMessageBuilder
     {
         public ISendGrid Result { get; private set; }
 
