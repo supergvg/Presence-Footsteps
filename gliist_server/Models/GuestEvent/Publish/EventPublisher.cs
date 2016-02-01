@@ -96,7 +96,7 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Invitation. Event is updated", Event.title),
+                Subject = string.Format("{0} - Event is updated", Event.title),
                 From = Administrator.company.name,
                 To = guest.Guest.email
             });
