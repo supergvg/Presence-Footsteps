@@ -42,7 +42,7 @@
                                 {{getCategoryTotal(category)}}
                             </div>
                             <div flex ng-if="getCategoryTotal(category)">
-                                {{ Math.round(getCategoryStatus(category) / getCategoryTotal(category) * 100) }}%
+                                {{Math.round(getCategoryStatus(category) / getCategoryTotal(category) * 100)}}%
                             </div>
                             <div flex ng-if="!getCategoryTotal(category)">
                                 N/A

@@ -8,18 +8,11 @@ angular.module('gliist')
                 $state.go('main.edit_gl_event', {gli: instance.id, eventId: $scope.event.id});
             };
 
-            $scope.getglistTotal = function (glist) {
+            $scope.getglistTotal = function(glist) {
+                if (glist.listType === 'On the spot') {
+                    return glist.actual.length;
+                }
                 return glist.guestsCount;
-                
-                //this old code
-/*                var total = 0;
-
-                angular.forEach(glist.actual,
-                    function (guest_info) {
-                        total += guest_info.guest.plus + 1;
-                    });
-
-                return total;*/
             };
 
             $scope.published = [];

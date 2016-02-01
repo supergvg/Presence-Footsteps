@@ -19,21 +19,18 @@ angular.module('gliist')
 
             $scope.getCategoryStatus = function (category) {
                 var count = 0;
-                if (!$scope.event) {
-                    return;
-                }
-                angular.forEach($scope.event.guestLists, function(gl) {
-                    angular.forEach(gl.actual, function(chkn) {
-                        if (chkn.status !== 'checked in') {
-                          return;
-                        }
-                        if (chkn.guest.type === category.name) {
-                            count += chkn.guest.plus + 1 - chkn.plus;
-                        } else if (gl.listType === category.name) {
-                            count += chkn.guest.plus + 1 - chkn.plus;
+                if ($scope.event) {
+                    angular.forEach($scope.event.guestLists, function(gl) {
+                        if (gl.listType.toLowerCase() === category.name.toLowerCase()) {
+                            angular.forEach(gl.actual, function(chkn) {
+                                if (chkn.status !== 'checked in') {
+                                  return;
+                                }
+                                count += chkn.guest.plus + 1 - chkn.plus;
+                            });
                         }
                     });
-                });
+                }
 
                 return count;
             };
@@ -42,19 +39,13 @@ angular.module('gliist')
 
             $scope.getCategoryTotal = function (category) {
                 var count = 0;
-                if (!$scope.event) {
-                    return;
-                }
-                angular.forEach($scope.event.guestLists, function(gl) {
-                    angular.forEach(gl.actual, function(guest_info) {
-                        if (gl.listType === 'On the spot' && guest_info.guest.type === category.name) {
-                            count += guest_info.guest.plus + 1;
-                        } else if (gl.listType === category.name) {
-                            count += guest_info.guest.plus + 1;
+                if ($scope.event) {
+                    angular.forEach($scope.event.guestLists, function(gl) {
+                        if (gl.listType.toLowerCase() === category.name.toLowerCase()) {
+                            count += gl.guestsCount;
                         }
                     });
-                });
-
+                }
                 return count;
             };
 
