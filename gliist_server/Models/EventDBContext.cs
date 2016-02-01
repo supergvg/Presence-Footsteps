@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Linq;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using gliist_server.Migrations;
 
@@ -37,5 +38,10 @@ namespace gliist_server.Models
 
         public DbSet<EventGuestStatus> EventGuests { get; set; }
 
+        public DbSet<Subscription> Subscriptions { get; set; }
+
+        public DbSet<CompanySubscription> CompanySubscriptions { get; set; }
+
+        
     }
 }

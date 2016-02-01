@@ -58,5 +58,7 @@ namespace gliist_server.Models
 
             return company.id == this.id;
         }
+
+        public Subscription subscription { get; set; }
     }
 }

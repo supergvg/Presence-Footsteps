@@ -254,6 +254,7 @@
     <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\SubscriptionsController.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
@@ -392,6 +393,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
+    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\CheckinModel.cs" />
     <Compile Include="Models\Company.cs" />
@@ -429,6 +431,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserLoginInfoViewModel.cs" />
+    <Compile Include="Models\CompanySubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
@@ -454,6 +457,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Subscriptions\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>
