@@ -13,14 +13,16 @@ namespace gliist_server.Models
         protected override bool ListShouldBePublished(GuestListInstance listInstance)
         {
             return base.ListShouldBePublished(listInstance) ||
-                   listInstance.InstanceType == GuestListInstanceType.Rsvp;
+                   listInstance.InstanceType == GuestListInstanceType.Rsvp ||
+                   listInstance.InstanceType == GuestListInstanceType.PublicRsvp;
         }
 
         protected override bool GuestAlreadyNotificated(EventGuestStatus guest,
             GuestListInstance listInstance)
         {
             return base.GuestAlreadyNotificated(guest, listInstance) ||
-                   (listInstance.InstanceType == GuestListInstanceType.Rsvp && guest.IsRsvpEmailSent);
+                   (listInstance.InstanceType == GuestListInstanceType.Rsvp && guest.IsRsvpEmailSent) ||
+                   listInstance.InstanceType == GuestListInstanceType.PublicRsvp;
         }
 
         protected override ISendGrid PrepareSpecificMessageToGuest(EventGuestStatus guest,

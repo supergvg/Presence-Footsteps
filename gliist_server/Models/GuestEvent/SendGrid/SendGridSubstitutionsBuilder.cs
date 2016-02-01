@@ -116,5 +116,16 @@ namespace gliist_server.Models
 
             Result.Add(":qr_code_url", blob.Uri.AbsoluteUri);
         }
+
+        public void CreateBuyTicketUrl(Event @event, Guest guest, string baseUrl)
+        {
+            if (Result.ContainsKey(":event_ticketUrl"))
+                return;
+
+            var landingPageUrlGenerator = new GjestsLinksGenerator(baseUrl);
+            var landingPageUrl = landingPageUrlGenerator.GenerateGuestTicketsLandingPageLink(@event.id, guest.id);
+
+            Result.Add(":event_ticketUrl", landingPageUrl ?? string.Empty);
+        }
     }
 }

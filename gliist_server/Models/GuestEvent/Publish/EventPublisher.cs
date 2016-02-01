@@ -96,7 +96,7 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Invitation. Event was updated", Event.title),
+                Subject = string.Format("{0} - Invitation. Event is updated", Event.title),
                 From = Administrator.company.name,
                 To = guest.Guest.email
             });
@@ -105,7 +105,6 @@ namespace gliist_server.Models
             substitutionBuilder.CreateGuestName(guest.Guest);
             substitutionBuilder.CreateEventDetails(Event, Event.description);
             substitutionBuilder.CreateOrganizer(Administrator);
-            substitutionBuilder.CreateSocialLinks(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
