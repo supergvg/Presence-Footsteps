@@ -33,7 +33,8 @@ angular.module('gliist')
             $scope.tickets = [];
             $scope.minDate = Date.now();
             $scope.gliOptions = {
-                showSummary: true
+                showSummary: true,
+                details: true
             };
 
             $scope.$watch('selectedIndex', function(newValue) {

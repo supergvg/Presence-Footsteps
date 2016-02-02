@@ -56,12 +56,12 @@
                 <p>{{getglistTotal(instance)}}</p>
             </div>
             <div flex ng-if="!options.stats">
-                <p>{{instance.capacity}}</p>
-                <!--<md-input-container>
+                <p ng-if="!options.details">{{instance.capacity}}</p>
+                <md-input-container ng-if="options.details">
                     <md-tooltip md-direction="top">Enter # of guests that can be checked in</md-tooltip>
                     <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
                            type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)" aria-label="capacity">
-                </md-input-container>-->
+                </md-input-container>
             </div>
             <div flex="10">
                 <p ng-if="instance.instanceType === 1">Guest</p>
