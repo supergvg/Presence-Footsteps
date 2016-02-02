@@ -414,7 +414,7 @@ namespace gliist_server.Controllers
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest);
             substitutionBuilder.CreateGuestDetails(eventGuestStatus.AdditionalGuestsRequested, guest, guestListInstance);
-            substitutionBuilder.CreateEventDetails(@event, @event.description);
+            substitutionBuilder.CreateEventDetails(@event, guestListInstance);
             substitutionBuilder.CreateOrganizer(user);
             substitutionBuilder.CreateSocialLinks(user);
             substitutionBuilder.CreateLogoAndEventImage(user, @event);

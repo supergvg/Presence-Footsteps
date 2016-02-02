@@ -38,7 +38,7 @@ namespace gliist_server.Models
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, Event.description);
+            substitutionBuilder.CreateEventDetails(Event, listInstance);
             substitutionBuilder.CreateOrganizer(Administrator);
             substitutionBuilder.CreateSocialLinks(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);

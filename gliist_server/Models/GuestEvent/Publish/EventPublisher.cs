@@ -81,7 +81,7 @@ namespace gliist_server.Models
                     continue;
 
                 var message = (!Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
-                    ? PrepareUpdatingEmailMessage(guest)
+                    ? PrepareUpdatingEmailMessage(guest, listInstance)
                     : PrepareSpecificMessageToGuest(guest, listInstance);
 
                 SendMessage(message);
@@ -92,7 +92,7 @@ namespace gliist_server.Models
             listInstance.published = true;
         }
 
-        private ISendGrid PrepareUpdatingEmailMessage(EventGuestStatus guest)
+        private ISendGrid PrepareUpdatingEmailMessage(EventGuestStatus guest, GuestListInstance listInstance)
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
@@ -103,7 +103,7 @@ namespace gliist_server.Models
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, Event.description);
+            substitutionBuilder.CreateEventDetails(Event, listInstance);
             substitutionBuilder.CreateOrganizer(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
 

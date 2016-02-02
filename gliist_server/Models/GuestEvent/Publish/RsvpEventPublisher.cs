@@ -30,7 +30,7 @@ namespace gliist_server.Models
         {
             return (IsListPrivate(listInstance))
                 ? base.PrepareSpecificMessageToGuest(guest, listInstance)
-                : PrepareRsvpMessage(guest);
+                : PrepareRsvpMessage(guest, listInstance);
         }
 
         protected override void MarkGuestAsNotificated(EventGuestStatus guest, 
@@ -53,7 +53,7 @@ namespace gliist_server.Models
                    listInstance.InstanceType == GuestListInstanceType.Confirmed;
         }
 
-        private ISendGrid PrepareRsvpMessage(EventGuestStatus guest)
+        private ISendGrid PrepareRsvpMessage(EventGuestStatus guest, GuestListInstance listInstance)
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
@@ -64,7 +64,7 @@ namespace gliist_server.Models
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, Event.AdditionalDetails);
+            substitutionBuilder.CreateEventDetails(Event, listInstance);
             substitutionBuilder.CreateOrganizer(Administrator);
             substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
             substitutionBuilder.CreateRsvpUrl(Event, guest.Guest, Config.AppBaseUrl);

@@ -36,7 +36,7 @@ namespace gliist_server.Models
                 Result.Add(":guest_type", guestType);
         }
 
-        public void CreateEventDetails(Event @event, string additionalDetails)
+        public void CreateEventDetails(Event @event, GuestListInstance listInstance)
         {
             if (!Result.ContainsKey(":event_name"))
                 Result.Add(":event_name", @event.title);
@@ -50,8 +50,13 @@ namespace gliist_server.Models
             if (!Result.ContainsKey(":event_location"))
                 Result.Add(":event_location", @event.location ?? string.Empty);
 
+            var details = ((listInstance.InstanceType == GuestListInstanceType.Default ||
+                            listInstance.InstanceType == GuestListInstanceType.Confirmed)
+                ? @event.description
+                : @event.AdditionalDetails) ?? string.Empty;
+
             if (!Result.ContainsKey(":event_details"))
-                Result.Add(":event_details", additionalDetails ?? string.Empty);
+                Result.Add(":event_details", details ?? string.Empty);
         }
 
         public void CreateLogoAndEventImage(UserModel user, Event @event)
