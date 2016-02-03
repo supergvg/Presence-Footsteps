@@ -1,5 +1,5 @@
 <div layout="column" layout-align="center stretch">
-    <div class="header" flex><img class="header-image" ng-src="{{getCompanyLogo()}}" height="130"/></div>
+    <div class="header" flex layout="row" layout-align="center center"><img ng-src="{{getCompanyLogo()}}" height="130"/></div>
     <div class="content" layout="column" layout-align="start center" flex>
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
