@@ -295,6 +295,34 @@ md-tooltip .md-content{
     color: #8e8e8e !important;
 }
 
+.spinner {
+    a {
+        display: block;
+    }
+    input {
+        width: 50px;
+        float: none;
+        border-radius: 4px;
+    }
+    &.spinner-h {
+        a {
+            display: inline-block;
+            padding: 10px;
+            font-size: 16px;
+            &:first-child {
+                float: right;
+            }
+            &:last-child {
+                float: left;
+            }
+        }
+        input {
+            display: inline-block;
+            
+        }
+    }
+}
+
 .spinner-plusminus-h {
     & > * {
         display: inline-block;

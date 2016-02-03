@@ -10,7 +10,8 @@ angular.module('gliist')
                 max: '@',
                 nullable: '@',
                 ngModel: '=',
-                change: '&'
+                change: '&',
+                view: '@' //h or v
             },
             replace: true,
             templateUrl: 'app/templates/spinner.tmpl.html',
@@ -19,6 +20,7 @@ angular.module('gliist')
                 var min = parseNumber($scope.min, 0);
                 var max = parseNumber($scope.max, 365);
 
+                $scope.view = !$scope.view ? 'v' : 'h';
                 $scope.ngModel = parseNumber($scope.ngModel, nullable ? null : 0);
 
                 $scope.validate = function() {
