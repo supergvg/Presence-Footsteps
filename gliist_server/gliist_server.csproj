@@ -253,6 +253,7 @@
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
+    <Compile Include="Models\Account\InviteCodeValidator.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
