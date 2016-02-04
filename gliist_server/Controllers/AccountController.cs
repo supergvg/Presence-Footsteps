@@ -720,37 +720,38 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var compnay = new Company()
+            if (!InviteCodeValidator.Run(model.inviteCode))
+                return BadRequest("Invite code is invalid.");
+
+            var company = new Company
             {
                 name = model.company
             };
 
-            _db.Companies.Add(compnay);
+            _db.Companies.Add(company);
 
-            UserModel user = new UserModel
+            var user = new UserModel
             {
                 UserName = model.UserName,
                 firstName = model.firstName,
                 lastName = model.lastName,
-                company = compnay,
+                company = company,
                 permissions = "admin"
             };
 
-            compnay.users.Add(user);
+            company.users.Add(user);
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            IHttpActionResult errorResult = GetErrorResult(result);
+            var result = await UserManager.CreateAsync(user, model.Password);
+            var errorResult = GetErrorResult(result);
 
             if (errorResult != null)
             {
                 return errorResult;
             }
 
-            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", compnay.name);
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", company.name);
             return Ok();
         }
 

@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Account\RegisterInviteCodeValidationTests.cs" />
     <Compile Include="GuestListInstances\GuestCheckinPlusUpdatingPatchTests.cs" />
     <Compile Include="GuestListInstances\GuestListInstancesPatchTests.cs" />
     <Compile Include="GuestListInstances\GuestTotalCountTests.cs" />
