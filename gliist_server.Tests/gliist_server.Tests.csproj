@@ -88,6 +88,7 @@
     <Compile Include="TicketingEvents\Stripe\ChargeTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\AddTicketTierTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\DeleteTycketTierTests.cs" />
+    <Compile Include="TicketingEvents\TicketTiers\EndByValidationTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\UpdateTicketTierTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\AddOrUpdateValidationTests.cs" />
   </ItemGroup>

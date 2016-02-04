@@ -8,25 +8,28 @@ namespace gliist_server.Areas.Ticketing.Models
     {
         public static string Run(TicketTierValidatorOptions options)
         {
-            if (options.Model.ExpirationDate < DateTime.Now)
-                return "Expiration Date is past.";
-
-            if (LessThan3HoursBeforeEvent(options.Model, options.DbContext))
-                return "Expiration Date is incorrect.";
-
-            var currentTier = (options.Model.Id > 0)
-                ? options.DbContext.TicketTiers.FirstOrDefault(x => x.Id == options.Model.Id)
-                : null;
-            var nextTier = GetNextTier(options.Model, options.DbContext, currentTier);
-
-            if (nextTier != null)
+            if (options.Model.ExpirationTime.HasValue)
             {
-                if (DateOverlapsNextTier(options.Model, options.SoldTicketsOfCurrentModel, nextTier))
-                    return string.Format("Sale expiration date cannot be greater than {0}.",
-                        nextTier.ExpirationDate.ToString("MMM dd, yyyy"));
+                if (options.Model.ExpirationTime < DateTime.Now)
+                    return "Expiration Date is past.";
 
-                if (NextTierIsStartedSelling(nextTier, options.SellingFacade))
-                    return "You cannot change expiration date because next tier is started to be sold.";
+                if (LessThan3HoursBeforeEvent(options.Model, options.DbContext))
+                    return "Expiration Date is incorrect.";
+
+                var currentTier = (options.Model.Id > 0)
+                    ? options.DbContext.TicketTiers.FirstOrDefault(x => x.Id == options.Model.Id)
+                    : null;
+                var nextTier = GetNextTier(options.Model, options.DbContext, currentTier);
+
+                if (nextTier != null)
+                {
+                    if (DateOverlapsNextTier(options.Model, options.SoldTicketsOfCurrentModel, nextTier))
+                        return string.Format("Sale expiration date cannot be greater than {0}.",
+                            nextTier.ExpirationTime.Value.ToString("MMM dd, yyyy"));
+
+                    if (NextTierIsStartedSelling(nextTier, options.SellingFacade))
+                        return "You cannot change expiration date because next tier is started to be sold.";
+                }
             }
             return null;
         }
@@ -40,7 +43,7 @@ namespace gliist_server.Areas.Ticketing.Models
         {
             if (soldTickets > 0)
             {
-                return model.ExpirationDate >= nextTier.ExpirationDate;
+                return model.ExpirationTime >= nextTier.ExpirationTime;
             }
 
             return false;
@@ -49,11 +52,11 @@ namespace gliist_server.Areas.Ticketing.Models
         private static TicketTier GetNextTier(TicketTier model, EventDBContext db, TicketTier currentTier)
         {
             var expirationDate = (currentTier != null) 
-                ? currentTier.ExpirationDate 
-                : model.ExpirationDate;
+                ? currentTier.ExpirationTime 
+                : model.ExpirationTime;
 
-            return db.TicketTiers.OrderBy(x => x.ExpirationDate)
-                .FirstOrDefault(x => x.Id != model.Id && x.ExpirationDate > expirationDate);
+            return db.TicketTiers.OrderBy(x => x.ExpirationTime)
+                .FirstOrDefault(x => x.Id != model.Id && x.ExpirationTime > expirationDate);
         }
 
         private static bool LessThan3HoursBeforeEvent(TicketTier tier, EventDBContext db)
@@ -62,7 +65,7 @@ namespace gliist_server.Areas.Ticketing.Models
             if (@event == null)
                 return true;
 
-            return (@event.time - tier.ExpirationDate).TotalHours < 3;
+            return (@event.time - tier.ExpirationTime.Value).TotalHours < 3;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace gliist_server.Areas.Ticketing.Models
 
         private static bool ExpiratioDateAlreadyExists(TicketTier model, EventDBContext db)
         {
-            var tier = db.TicketTiers.FirstOrDefault(x => x.Id != model.Id && x.ExpirationDate == model.ExpirationDate && x.EventId == model.EventId);
+            var tier = db.TicketTiers.FirstOrDefault(x => x.Id != model.Id && x.ExpirationTime == model.ExpirationTime && x.EventId == model.EventId);
 
             return tier != null;
         }

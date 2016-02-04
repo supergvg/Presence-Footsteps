@@ -82,7 +82,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "name",
                 Price = 5,
                 Quantity = 3,
-                ExpirationDate = DateTime.Today.AddDays(-1),
+                ExpirationTime = DateTime.Today.AddDays(-1),
                 EventId = 1
             };
 
@@ -121,7 +121,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "name",
                 Price = 5,
                 Quantity = 3,
-                ExpirationDate = DateTime.Today.AddDays(1).AddHours(16),
+                ExpirationTime = DateTime.Today.AddDays(1).AddHours(16),
                 EventId = 1
             };
 

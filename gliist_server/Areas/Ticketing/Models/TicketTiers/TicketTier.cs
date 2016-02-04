@@ -20,9 +20,11 @@ namespace gliist_server.Areas.Ticketing.Models
         [Range(1.0, int.MaxValue, ErrorMessage = "Price should be greater than ZERO.")]
         public decimal Price { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity should be greater than ZERO.")]
-        public int Quantity { get; set; }
+        public DateTime StartTime { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity should be greater than ZERO.")]
+        public int? Quantity { get; set; }
+
+        public DateTime? ExpirationTime { get; set; }
     }
 }

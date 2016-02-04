@@ -35,7 +35,8 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 Name = x.Name,
                 Price = x.Price,
                 Quantity = x.Quantity,
-                ExpirationDate = x.ExpirationDate
+                StartTime = x.StartTime,
+                ExpirationTime = x.ExpirationTime
             }).ToList();
 
             AddSoldTickets(ticketTiers);
@@ -50,8 +51,8 @@ namespace gliist_server.Areas.Ticketing.Controllers
             if (model == null)
                 return BadRequest("Ticket tier is NULL.");
 
-            var soldTickets = (model.Id > 0) 
-                ? sellingFacade.GetSoldTicketsNumber(model.Id) 
+            var soldTickets = (model.Id > 0)
+                ? sellingFacade.GetSoldTicketsNumber(model.Id)
                 : 0;
 
             var result = TicketTierValidator.Run(new TicketTierValidatorOptions
@@ -79,13 +80,12 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 Name = model.Name,
                 Price = model.Price,
                 Quantity = model.Quantity,
-                ExpirationDate = model.ExpirationDate,
+                ExpirationTime = model.ExpirationTime,
                 SoldTicketsCount = soldTickets
             });
         }
 
         // DELETE: api/TicketTiers/5
-
         [ResponseType(typeof(TicketTier))]
         public IHttpActionResult Delete(int id)
         {

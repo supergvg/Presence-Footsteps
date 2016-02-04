@@ -38,7 +38,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "BBB",
                 Price = 5,
                 Quantity = 3,
-                ExpirationDate = DateTime.Today.AddDays(1).AddHours(13),
+                ExpirationTime = DateTime.Today.AddDays(1).AddHours(13),
                 EventId = 1
             };
 
@@ -76,9 +76,9 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             };
             var tiers = new List<TicketTier>
             {
-                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationDate = new DateTime(2016, 01, 05, 5, 55, 0)},
-                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationDate = new DateTime(2016, 01, 15, 5, 55, 0)},
-                new TicketTier {Id = 3, Name = "AAA", EventId = 1, ExpirationDate = now}
+                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationTime = new DateTime(2016, 01, 05, 5, 55, 0)},
+                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationTime = new DateTime(2016, 01, 15, 5, 55, 0)},
+                new TicketTier {Id = 3, Name = "AAA", EventId = 1, ExpirationTime = now}
             };
 
             var ticket = new TicketTier
@@ -86,7 +86,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "CCC",
                 Price = 5,
                 Quantity = 3,
-                ExpirationDate = now,
+                ExpirationTime = now,
                 EventId = 1
             };
 
@@ -134,7 +134,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "CCC",
                 Price = 5,
                 Quantity = 3,
-                ExpirationDate = DateTime.Today.AddDays(1).AddHours(13),
+                ExpirationTime = DateTime.Today.AddDays(1).AddHours(13),
                 EventId = 1
             };
 
