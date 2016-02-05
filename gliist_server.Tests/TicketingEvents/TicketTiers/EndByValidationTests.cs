@@ -18,7 +18,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var result = controller.ExecuteAction(controller.Post, new TicketTier
             {
                 Name = "name",
-                Price = -5
+                Price = 5
             });
 
             var actual = result as BadRequestErrorMessageResult;
@@ -35,7 +35,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             var result = controller.ExecuteAction(controller.Post, new TicketTier
             {
                 Name = "name",
-                Price = -5,
+                Price = 5,
                 ExpirationTime = DateTime.Now.AddDays(1),
                 Quantity = 15
             });

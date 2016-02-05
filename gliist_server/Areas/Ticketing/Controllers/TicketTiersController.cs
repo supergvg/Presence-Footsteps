@@ -60,8 +60,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 Model = model,
                 DbContext = db,
                 ModelState = ModelState,
-                SoldTicketsOfCurrentModel = soldTickets,
-                SellingFacade = sellingFacade
+                SoldTickets = soldTickets
             });
 
             if (result != null)
@@ -80,6 +79,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 Name = model.Name,
                 Price = model.Price,
                 Quantity = model.Quantity,
+                StartTime = model.StartTime,
                 ExpirationTime = model.ExpirationTime,
                 SoldTicketsCount = soldTickets
             });

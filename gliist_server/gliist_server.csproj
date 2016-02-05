@@ -243,7 +243,7 @@
     <Compile Include="Areas\Ticketing\Models\Selling\ISellingFacade.cs" />
     <Compile Include="Areas\Ticketing\Controllers\TicketTiersController.cs" />
     <Compile Include="Areas\Ticketing\Models\Selling\SellingFacade.cs" />
-    <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TickerTierExpirationValidator.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\ParametersValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierViewModel.cs" />

@@ -38,7 +38,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Id = 2,
                 Name = "BBB",
                 Price = 5,
-                Quantity = 3,
+                StartTime = DateTime.Today.AddDays(1),
                 ExpirationTime = DateTime.Today.AddDays(1).AddHours(13),
                 EventId = 1
             };
@@ -86,8 +86,8 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Id = 2,
                 Name = "ZZZ",
                 Price = 5,
-                Quantity = 3,
-                ExpirationTime = DateTime.Today.AddDays(1).AddHours(13),
+                StartTime = DateTime.Today.AddDays(1),
+                Quantity = 5,
                 EventId = 1
             };
 
@@ -109,101 +109,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             mockContext.Verify(x => x.SetModified(ticket), Times.Never);
             mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
-
-        [TestMethod]
-        public void BadRequest_IfExpirationDatesOverlap()
-        {
-            var events = new List<Event>
-            {
-                new Event
-                {
-                    id = 1,
-                    time = DateTime.Today.AddDays(12).AddHours(17)
-                }
-            };
-
-            var tiers = new List<TicketTier>
-            {
-                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationTime = DateTime.Now.AddDays(5)},
-                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationTime = DateTime.Now.AddDays(7)}
-            };
-
-            var ticket = new TicketTier
-            {
-                Id = 1,
-                Name = "BBB",
-                Price = 5,
-                Quantity = 9,
-                ExpirationTime = DateTime.Now.AddDays(8),
-                EventId = 1
-            };
-
-            var mockContext = new Mock<EventDBContext>();
-            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
-            var eventsMockSet = MoqHelper.CreateDbSet(events);
-            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
-            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
-            var sellingFacade = new Mock<ISellingFacade>();
-            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns<int>(id => (id == 1) ? 6 : 0);
-
-            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
-            var result = controller.ExecuteAction(controller.Post, ticket);
-
-            var actual = result as BadRequestErrorMessageResult;
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(string.Format("Sale expiration date cannot be greater than {0}.", DateTime.Today.AddDays(7).ToString("MMM dd, yyyy")), actual.Message);
-            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
-            mockContext.Verify(x => x.SaveChanges(), Times.Never);
-        }
-
-        [TestMethod]
-        public void BadRequest_IfFirstTicketTypeIsExtendedButSecondTicketTypeIsStartedSelling()
-        {
-            var events = new List<Event>
-            {
-                new Event
-                {
-                    id = 1,
-                    time = DateTime.Today.AddDays(12).AddHours(17)
-                }
-            };
-
-            var tiers = new List<TicketTier>
-            {
-                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationTime = DateTime.Now.AddDays(5)},
-                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationTime = DateTime.Now.AddDays(7)}
-            };
-
-            var ticket = new TicketTier
-            {
-                Id = 1,
-                Name = "BBB",
-                Price = 5,
-                Quantity = 9,
-                ExpirationTime = DateTime.Now.AddDays(6),
-                EventId = 1
-            };
-
-            var mockContext = new Mock<EventDBContext>();
-            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
-            var eventsMockSet = MoqHelper.CreateDbSet(events);
-            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
-            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
-            var sellingFacade = new Mock<ISellingFacade>();
-            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns<int>(id => id);
-
-            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
-            var result = controller.ExecuteAction(controller.Post, ticket);
-
-            var actual = result as BadRequestErrorMessageResult;
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("You cannot change expiration date because next tier is started to be sold.", actual.Message);
-            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
-            mockContext.Verify(x => x.SaveChanges(), Times.Never);
-        }
-
+        
         [TestMethod]
         public void UpdatedTicketTypeIsReturned_IfSuccess()
         {
@@ -228,7 +134,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "BBB",
                 Price = 5,
                 Quantity = 9,
-                ExpirationTime = DateTime.Now.AddDays(6),
+                StartTime = DateTime.Today.AddDays(1),
                 EventId = 1
             };
 
@@ -273,7 +179,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Id = 1,
                 Name = "BBB",
                 Price = 5,
-                Quantity = 90,
+                StartTime = DateTime.Today.AddDays(1),
                 ExpirationTime = tiers[0].ExpirationTime,
                 EventId = 1
             };

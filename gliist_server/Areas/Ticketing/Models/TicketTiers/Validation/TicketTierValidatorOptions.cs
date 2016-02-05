@@ -8,7 +8,6 @@ namespace gliist_server.Areas.Ticketing.Models
         public TicketTier Model { get; set; }
         public EventDBContext DbContext { get; set; }
         public ModelStateDictionary ModelState { get; set; }
-        public int SoldTicketsOfCurrentModel { get; set; }
-        public ISellingFacade SellingFacade { get; set; }
+        public int SoldTickets { get; set; }
     }
 }

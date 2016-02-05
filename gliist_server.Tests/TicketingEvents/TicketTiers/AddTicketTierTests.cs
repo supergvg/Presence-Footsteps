@@ -37,7 +37,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             {
                 Name = "BBB",
                 Price = 5,
-                Quantity = 3,
+                StartTime = DateTime.Today.AddDays(1).AddHours(1),
                 ExpirationTime = DateTime.Today.AddDays(1).AddHours(13),
                 EventId = 1
             };
@@ -57,54 +57,6 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
 
             Assert.IsNotNull(actual);
             Assert.AreEqual("Ticket tier with the same name already exists. Please change tier NAME and try again.", actual.Message);
-            tiersMockSet.Verify(x => x.Add(ticket), Times.Never);
-            mockContext.Verify(x => x.SaveChanges(), Times.Never);
-        }
-
-        [TestMethod]
-        public void BadRequest_IfExpirationDatesAlreadyExists()
-        {
-            var now = DateTime.Today.AddDays(1).AddHours(5).AddMinutes(55);
-            var events = new List<Event>
-            {
-                new Event
-                {
-                    id = 1,
-                    time = DateTime.Today.AddDays(1).AddHours(17)
-                },
-                
-            };
-            var tiers = new List<TicketTier>
-            {
-                new TicketTier {Id = 1, Name = "BBB", EventId = 1, ExpirationTime = new DateTime(2016, 01, 05, 5, 55, 0)},
-                new TicketTier {Id = 2, Name = "ZZZ", EventId = 1, ExpirationTime = new DateTime(2016, 01, 15, 5, 55, 0)},
-                new TicketTier {Id = 3, Name = "AAA", EventId = 1, ExpirationTime = now}
-            };
-
-            var ticket = new TicketTier
-            {
-                Name = "CCC",
-                Price = 5,
-                Quantity = 3,
-                ExpirationTime = now,
-                EventId = 1
-            };
-
-            var mockContext = new Mock<EventDBContext>();
-            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
-            var eventsMockSet = MoqHelper.CreateDbSet(events);
-            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
-            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
-            var sellingFacade = new Mock<ISellingFacade>();
-            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
-
-            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
-            var result = controller.ExecuteAction(controller.Post, ticket);
-
-            var actual = result as BadRequestErrorMessageResult;
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("Ticket tier with the same expiration date already exists. Please change EXPIRATION DATE and try again.", actual.Message);
             tiersMockSet.Verify(x => x.Add(ticket), Times.Never);
             mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
@@ -134,7 +86,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "CCC",
                 Price = 5,
                 Quantity = 3,
-                ExpirationTime = DateTime.Today.AddDays(1).AddHours(13),
+                StartTime = DateTime.Today.AddDays(1).AddHours(1),
                 EventId = 1
             };
 

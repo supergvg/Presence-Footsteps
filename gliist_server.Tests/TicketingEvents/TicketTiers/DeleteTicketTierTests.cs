@@ -11,10 +11,10 @@ using Moq;
 namespace gliist_server.Tests.TicketingEvents.TicketTiers
 {
     [TestClass]
-    public class DeleteTycketTierTests
+    public class DeleteTicketTierTests
     {
         [TestMethod]
-        public void BadRequest_IfTycketTypeDoesNotExists()
+        public void BadRequest_IfTicketTypeDoesNotExists()
         {
             var tiers = new List<TicketTier>
             {
@@ -40,7 +40,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
         [TestMethod]
-        public void BadRequest_IfTycketTypeHasSoldTickets()
+        public void BadRequest_IfTicketTypeHasSoldTickets()
         {
             var tiers = new List<TicketTier>
             {
