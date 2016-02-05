@@ -67,7 +67,7 @@ namespace gliist_server.Controllers
 
             var gli = await db.GuestListInstances.FindAsync(model.id);
 
-            if (gli.linked_guest_list.company.id != user.company.id)
+            if (gli.linked_event.company.id != user.company.id)
             {
                 return BadRequest();
             }
@@ -97,6 +97,9 @@ namespace gliist_server.Controllers
                 guestEvent.GuestListInstanceId = -1;
                 guestEvent.EventId = null;
                 guestEvent.Event = null;
+
+                if (!string.IsNullOrEmpty(guestEvent.Guest.email))
+                    EmailHelper.SendGuestDeleted(guestEvent);
             }
         }
 

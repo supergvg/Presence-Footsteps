@@ -33,6 +33,7 @@ namespace gliist_server.Helpers
         private static readonly string inviteUserAccountEmailSendgridTemplateId = "105b490c-8585-4e17-b5e6-ee502c1fac85";
         private static readonly string rsvpEmailSendgridTemplateId = "50023ddc-4065-4940-bf46-4c1b340c3411";
         private static readonly string ticketingEmailSendgridTemplateId = "b5660521-f997-4a03-8cd1-821588cfb0bb";
+        private static readonly string PrivateEmailGuestDeleting = "35f627f9-9503-42a9-b736-a28fc53703f9";
 
         private static string UploadQRCode(int eventId, int guestId, int gliId)
         {
@@ -319,6 +320,34 @@ namespace gliist_server.Helpers
             email.EnableOpenTracking();
             email.EnableClickTracking();
             return email;
+        }
+
+        public static void SendGuestDeleted(EventGuestStatus guestEvent)
+        {
+            // Create the email object first, then add the properties.
+            SendGridMessage myMessage = new SendGridMessage();
+            myMessage.AddTo(guestEvent.Guest.email);
+            myMessage.From = new MailAddress("dont-replay@gjests.com", "gjests");
+
+            myMessage.SetCategories(new List<string> { "Guest deleted" });
+
+
+            myMessage.Subject = string.Format("Event is at capacity.");
+
+            myMessage.Html = "<p></p>";
+
+            myMessage.EnableTemplateEngine(PrivateEmailGuestDeleting);
+
+            myMessage.EnableOpenTracking();
+            myMessage.EnableClickTracking();
+
+            // Create credentials, specifying your user name and password.
+            var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
+
+            // Create an Web transport for sending email.
+            var transportWeb = new Web(credentials);
+
+            transportWeb.Deliver(myMessage);
         }
     }
 }

@@ -76,9 +76,12 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PostGuestListInstance(GuestListInstance guestListInstance)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
+
+            if (guestListInstance.InstanceType == GuestListInstanceType.PublicRsvp &&
+                guestListInstance.actual.Any(x => x.id == 0))
+                return BadRequest("Adding guests to public RSVP list manually is not allowed.");
+            
             var linkedEvent =
                 db.GuestListInstances.Where(x => x.id == guestListInstance.id).Select(x => x.linked_event).First();
 
