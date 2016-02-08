@@ -11,7 +11,6 @@ using System.Web.Http.Description;
 using gliist_server.Attributes;
 using gliist_server.Helpers;
 using gliist_server.Models;
-using gliist_server.Models.GuestEvent;
 using Microsoft.AspNet.Identity;
 
 namespace gliist_server.Controllers
@@ -92,16 +91,18 @@ namespace gliist_server.Controllers
 
         private void RemoveGuestEvents(UserModel user, int listInstanceId, int guestId)
         {
-            var guestEvent = db.EventGuests.FirstOrDefault(x => x.GuestListInstanceId == listInstanceId && x.GuestId == guestId);
+            var guestEvent = db.EventGuests
+                .FirstOrDefault(x => x.GuestListInstanceId == listInstanceId && x.GuestId == guestId);
+
             if (guestEvent != null)
             {
-                guestEvent.GuestListInstanceId = -1;
-                guestEvent.EventId = null;
-                guestEvent.Event = null;
-
                 if (!string.IsNullOrEmpty(guestEvent.Guest.email) &&
                     (guestEvent.IsInvitationEmailSent || guestEvent.IsRsvpEmailSent))
                     GuestDeletedEmailSender.Run(user, guestEvent);
+
+                guestEvent.GuestListInstanceId = -1;
+                guestEvent.EventId = null;
+                guestEvent.Event = null;
             }
         }
 

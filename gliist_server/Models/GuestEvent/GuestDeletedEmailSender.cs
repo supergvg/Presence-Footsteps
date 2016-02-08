@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mail;
 using SendGrid;
 
-namespace gliist_server.Models.GuestEvent
+namespace gliist_server.Models
 {
     static class GuestDeletedEmailSender
     {
@@ -13,7 +13,7 @@ namespace gliist_server.Models.GuestEvent
         {
             var message = CreateMessage();
 
-            SetHeaderAndBody(message);
+            SetHeaderAndBody(eventGuest, message);
             SetSubstitutions(user, eventGuest, message);
             SetCategories(message);
 
@@ -38,10 +38,11 @@ namespace gliist_server.Models.GuestEvent
             return message;
         }
 
-        private static void SetHeaderAndBody(ISendGrid message)
+        private static void SetHeaderAndBody(EventGuestStatus eventGuest, ISendGrid message)
         {
+            message.AddTo(eventGuest.Guest.email);
             message.From = new MailAddress("dont-replay@gjests.com", "gjests");
-            message.Subject = string.Format("Event is at capacity.");
+            message.Subject = string.Format("{0} - Uninvite", eventGuest.Event.title);
             message.Html = "<p></p>";
         }
 
