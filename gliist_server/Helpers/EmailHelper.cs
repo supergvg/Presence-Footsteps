@@ -321,33 +321,5 @@ namespace gliist_server.Helpers
             email.EnableClickTracking();
             return email;
         }
-
-        public static void SendGuestDeleted(EventGuestStatus guestEvent)
-        {
-            // Create the email object first, then add the properties.
-            SendGridMessage myMessage = new SendGridMessage();
-            myMessage.AddTo(guestEvent.Guest.email);
-            myMessage.From = new MailAddress("dont-replay@gjests.com", "gjests");
-
-            myMessage.SetCategories(new List<string> { "Guest deleted" });
-
-
-            myMessage.Subject = string.Format("Event is at capacity.");
-
-            myMessage.Html = "<p></p>";
-
-            myMessage.EnableTemplateEngine(PrivateEmailGuestDeleting);
-
-            myMessage.EnableOpenTracking();
-            myMessage.EnableClickTracking();
-
-            // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential(sendgridUsername, sendgridPassword);
-
-            // Create an Web transport for sending email.
-            var transportWeb = new Web(credentials);
-
-            transportWeb.Deliver(myMessage);
-        }
     }
 }
