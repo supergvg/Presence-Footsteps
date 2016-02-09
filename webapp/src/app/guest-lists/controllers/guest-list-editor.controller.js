@@ -28,18 +28,21 @@ angular.module('gliist')
                     '</div>',
                 columnDefs: columnDefs,
                 rowHeight: 45,
-                tabIndex: 0,
-                enableCellSelection: true,
                 enableCellEditOnFocus: true,
-                noTabInterference: true,
                 selectionRowHeaderWidth: 50,
                 enableColumnMenus: false
             };
+
 
             $scope.gridOptions.onRegisterApi = function (gridApi) {
                 //set gridApi on scope
                 $scope.gridApi = gridApi;
 
+                gridApi.cellNav.on.navigate($scope,function(newRowcol, oldRowCol){
+                    if (newRowcol.row.entity.$$hashKey === $scope.gridOptions.data[$scope.gridOptions.data.length - 1].$$hashKey && newRowcol.col.field === 'plus') {
+                        $scope.addMore();
+                    }
+                });
 
                 gridApi.selection.on.rowSelectionChanged($scope, function () {
                     var selectedRows = $scope.gridApi.selection.getSelectedRows();

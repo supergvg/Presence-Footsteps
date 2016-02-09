@@ -1,0 +1,100 @@
+<div layout="column" layout-align="center stretch">
+    <div class="header" flex layout="row" layout-align="space-between center">
+        <img ng-src="{{getCompanyLogo()}}" height="130"/>
+        <img src="assets/images/gliist_logo_landing.png" alt="logo"/>
+    </div>
+    <div class="content" layout="column" layout-align="start stretch" flex>
+
+
+        
+    </div>
+    <div class="footer" flex layout="row" layout-align="space-between center" layout-sm="column">
+        <div>
+            <p>Please note that all sales are final.<br><span>And please share with awesome friends - our community grows through amazing people like you spreading the word.</span></p>
+        </div>
+        <md-button class="raised-btn" ng-click="purchase()">
+            Get Tickets
+        </md-button>
+    </div>
+</div>
+
+
+
+
+<div layout="column" layout-align="center center" class="landing-ticketing-thank-you">
+    <div class="header"><img class="header-image" ng-src="{{getCompanyLogo()}}" height="60px"/><img class="header-logo" src="assets/images/landing-logo.png" alt="logo"/></div>
+    <div class="content">
+        <div layout="row" layout-align="space-between stretch">
+            <div class="event-header" flex>
+                <h2>Thank you <span>Jocelyn Loo</span> for purchasing your ticket.</h2>
+                <h4>Your ticket details have been emailed to <span>jocelynloo@gmail.com</span></h4>
+                Order #: 096409959711
+            </div>
+            <div class="event-tickets">
+                Ticket<br>
+                <span>1</span>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between stretch">
+            <div class="event-details" flex>
+                <img src="{{event.event.invitePicture}}" height="212px"/>
+                <div class="left">
+                    <h2>
+                        {{event.event.title}}
+                    </h2>
+                    <div class="event-date">
+                        <div class="month">
+                            {{event.event.time | date: 'MMM' | uppercase}}
+                        </div>
+                        <div class="day">
+                            {{event.event.time | date: 'd'}}
+                        </div>
+                        <div class="day-week">
+                            {{event.event.time | date: 'EEE' | uppercase}}
+                        </div>
+                        <div class="time">
+                            {{event.event.time | date: 'h:mm'}}
+                        </div>
+                        <div class="ampm">
+                            {{event.event.time | date: 'a'}}
+                        </div>
+                    </div>
+                    <div class="event-location">
+                        <div class="category">
+                            {{event.event.category}}
+                        </div>
+                        <div class="address">
+                            {{event.event.location}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="event-price">
+                <div>
+                    <h2>GA 2</h2>
+                    General Admission
+                </div>
+                <div>
+                    Early Bird Passes<br>
+                    <span class="price">$498</span>
+                </div>
+                <div>
+                    <span>* </span>Event is 21 and over Save paper + show us the digital ticket. No need for a print out.
+                </div>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between stretch">
+            <div class="event-descr" flex>
+                {{event.event.description}}
+            </div>  
+        </div>
+    </div>
+    <div class="footer" layout="row" layout-align="space-between center">
+        <div>
+        <p>Please note that we don't offer refunds.<br><span>And please share with awesome friends - our community grows through amazing people like you spreading the word.</span></p>
+        </div>
+        <div>
+        <md-button class="md-primary md-raised">View Event Details</md-button>
+        </div>
+    </div>
+</div>
