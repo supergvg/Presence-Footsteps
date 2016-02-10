@@ -188,6 +188,14 @@ namespace gliist_server.Controllers
                 }
             }
 
+            if (GuestAlreadyRsvpd(@event, eventGuestModel.Email))
+            {
+                responseStatus.Code = "guest_";
+                responseStatus.Message = "You have RSVP'd this event";
+
+                return BadRequest(responseStatus);
+            }
+
             var publicGuestListInstance =
                 db.GuestListInstances.FirstOrDefault(
                     x => x.linked_event.id == @event.id && x.InstanceType == GuestListInstanceType.PublicRsvp);
@@ -349,6 +357,7 @@ namespace gliist_server.Controllers
             return Ok("Your RSVP is confirmed");
         }
 
+        #region private methods
         private IHttpActionResult BadRequest<T>(T value)
         {
             var defaultNegotiator = Configuration.Services.GetContentNegotiator();
@@ -427,5 +436,19 @@ namespace gliist_server.Controllers
                 .FirstOrDefault(x => x.company.name.ToLower() == companyName.ToLower());
             return @event;
         }
+
+        private static bool GuestAlreadyRsvpd(Event @event, string email)
+        {
+            var publicInstance = @event.guestLists.FirstOrDefault(x => x.InstanceType == GuestListInstanceType.PublicRsvp);
+
+            if (publicInstance == null)
+                return false;
+
+
+            return @event.EventGuestStatuses.Count(x => x.GuestListInstanceId == publicInstance.id &&
+                x.Guest.email == email) > 0;
+        }
+
+        #endregion
     }
 }
