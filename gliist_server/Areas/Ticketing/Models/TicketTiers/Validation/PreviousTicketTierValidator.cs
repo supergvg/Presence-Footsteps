@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace gliist_server.Areas.Ticketing.Models
 {
-    internal class PreviousTicketTierValidator
+    class PreviousTicketTierValidator
     {
         public static string Run(TicketTierValidatorOptions options)
         {
