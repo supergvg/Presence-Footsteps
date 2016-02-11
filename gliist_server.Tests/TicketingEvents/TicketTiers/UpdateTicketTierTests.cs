@@ -109,7 +109,126 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             mockContext.Verify(x => x.SetModified(ticket), Times.Never);
             mockContext.Verify(x => x.SaveChanges(), Times.Never);
         }
-        
+
+        [TestMethod]
+        public void BadRequest_IfPreviousTicketTypeUsesUpdatedTicketTypeAsStartBy()
+        {
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(12).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier
+                {
+                    Id = 1, Name = "BBB", 
+                    EventId = 1, 
+                    ExpirationTime = DateTime.Today.AddDays(5)
+                },
+                new TicketTier
+                {
+                    Id = 2, 
+                    Name = "ZZZ", 
+                    EventId = 1, 
+                    ExpirationTime = DateTime.Now.AddDays(7),
+                    PreviousId = 1
+                }
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 1,
+                Name = "BBB",
+                Price = 5,
+                Quantity = 9,
+                PreviousId = 2,
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("Previous tier already uses current one as start time.", actual.Message);
+            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
+        }
+
+        [TestMethod]
+        public void BadRequest_IfUpdatedTicketTypeHasDependenciesAndStartsLaterThanDependent()
+        {
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(12).AddHours(17)
+                }
+            };
+
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier
+                {
+                    Id = 1, Name = "BBB", 
+                    EventId = 1, 
+                    ExpirationTime = DateTime.Today.AddDays(5),
+                    PreviousId = 2
+                },
+                new TicketTier
+                {
+                    Id = 2, 
+                    Name = "ZZZ", 
+                    EventId = 1, 
+                    ExpirationTime = DateTime.Now.AddDays(7),
+                    PreviousId = 1
+                }
+            };
+
+            var ticket = new TicketTier
+            {
+                Id = 1,
+                Name = "BBB",
+                Price = 5,
+                StartTime = DateTime.Now.AddDays(8),
+                ExpirationTime = DateTime.Now.AddDays(9),
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("Dependent tier expires earlier than current tier. Please correct it and try again.", actual.Message);
+            mockContext.Verify(x => x.SetModified(ticket), Times.Never);
+            mockContext.Verify(x => x.SaveChanges(), Times.Never);
+        }
+
         [TestMethod]
         public void UpdatedTicketTypeIsReturned_IfSuccess()
         {

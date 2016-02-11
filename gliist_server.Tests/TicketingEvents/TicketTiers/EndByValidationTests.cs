@@ -36,7 +36,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             {
                 Name = "name",
                 Price = 5,
-                ExpirationTime = DateTime.Now.AddDays(1),
+                ExpirationTime = DateTime.Today.AddDays(1),
                 Quantity = 15
             });
 

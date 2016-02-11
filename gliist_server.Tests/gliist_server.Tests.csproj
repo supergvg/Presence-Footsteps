@@ -90,6 +90,7 @@
     <Compile Include="TicketingEvents\TicketTiers\DeleteTicketTierTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\EndByValidationTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\TimeValidationTests.cs" />
+    <Compile Include="TicketingEvents\TicketTiers\StartByValidationTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\UpdateTicketTierTests.cs" />
     <Compile Include="TicketingEvents\TicketTiers\AddOrUpdateValidationTests.cs" />
   </ItemGroup>

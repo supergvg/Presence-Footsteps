@@ -11,8 +11,10 @@ namespace gliist_server.Areas.Ticketing.Models
         public string Name { get; set; }
         [JsonProperty("price")]
         public decimal Price { get; set; }
+        [JsonProperty("previousId")]
+        public int? PreviousId { get; set; }
         [JsonProperty("startTime")]
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         [JsonProperty("quantity")]
         public int? Quantity { get; set; }
         [JsonProperty("expirationTime")]

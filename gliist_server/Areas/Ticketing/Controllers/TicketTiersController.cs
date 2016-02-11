@@ -35,6 +35,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 Name = x.Name,
                 Price = x.Price,
                 Quantity = x.Quantity,
+                PreviousId = x.PreviousId,
                 StartTime = x.StartTime,
                 ExpirationTime = x.ExpirationTime
             }).ToList();
@@ -80,6 +81,7 @@ namespace gliist_server.Areas.Ticketing.Controllers
                 Price = model.Price,
                 Quantity = model.Quantity,
                 StartTime = model.StartTime,
+                PreviousId = model.PreviousId,
                 ExpirationTime = model.ExpirationTime,
                 SoldTicketsCount = soldTickets
             });
@@ -92,6 +94,9 @@ namespace gliist_server.Areas.Ticketing.Controllers
             var ticketTier = db.TicketTiers.Find(id);
             if (ticketTier == null)
                 return NotFound();
+
+            if(db.TicketTiers.Any(x => x.PreviousId == id))
+                return BadRequest("You cannot delete the ticket tier that is used as start time for another.");
 
             if (sellingFacade.GetSoldTicketsNumber(id) > 0)
                 return BadRequest("You cannot delete the ticket tier that has sold tickets.");

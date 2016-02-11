@@ -17,17 +17,36 @@ namespace gliist_server.Areas.Ticketing.Models
             if (EndByIsAmbiguous(options.Model))
                 return "End by is ambiguous.";
 
-            if (options.Model.StartTime < DateTime.Now)
-                return "Start Time is past.";
+            if (!StartByIsSpecified(options.Model))
+                return "Start by parameter should be specified.";
 
-            if (options.Model.ExpirationTime.HasValue && 
-                options.Model.ExpirationTime.Value < options.Model.StartTime)
+            if (StartByIsAmbiguous(options.Model))
+                return "Start by is ambiguous.";
+
+            if (options.Model.StartTime.HasValue)
+            {
+                if (options.Model.StartTime < DateTime.Now)
+                    return "Start Time is past.";
+
+                if (options.Model.ExpirationTime.HasValue &&
+                    options.Model.ExpirationTime.Value < options.Model.StartTime)
                     return "Expiration Time is less than Start Time.";
+            }
 
             if (options.Model.Id > 0 && options.Model.Quantity < options.SoldTickets)
                 return string.Format("There are already {0} tickets sold. Please specify this or greater value and try again.", options.SoldTickets);
-
+            
             return null;
+        }
+
+        private static bool StartByIsAmbiguous(TicketTier model)
+        {
+            return model.StartTime.HasValue && model.PreviousId.HasValue;
+        }
+
+        private static bool StartByIsSpecified(TicketTier model)
+        {
+            return model.StartTime.HasValue || model.PreviousId.HasValue;
         }
 
         #region private methods

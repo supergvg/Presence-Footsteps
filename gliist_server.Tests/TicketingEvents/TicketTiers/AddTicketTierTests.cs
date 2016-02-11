@@ -62,6 +62,55 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         }
 
         [TestMethod]
+        public void BadRequest_IfCurrentTicketTypeExpiresEarlierThanPreviuos()
+        {
+            var tiers = new List<TicketTier>
+            {
+                new TicketTier
+                {
+                    Id = 1,
+                    Name = "BBB",
+                    EventId = 1,
+                    ExpirationTime = DateTime.Today.AddDays(1).AddHours(12)
+                }
+            };
+
+            var events = new List<Event>
+            {
+                new Event
+                {
+                    id = 1,
+                    time = DateTime.Today.AddDays(1).AddHours(17)
+                }
+            };
+
+            var ticket = new TicketTier
+            {
+                Name = "CCC",
+                Price = 5,
+                ExpirationTime = DateTime.Today.AddDays(1).AddHours(10),
+                PreviousId = 1,
+                EventId = 1
+            };
+
+            var mockContext = new Mock<EventDBContext>();
+            var tiersMockSet = MoqHelper.CreateDbSet(tiers);
+            var eventsMockSet = MoqHelper.CreateDbSet(events);
+            mockContext.Setup(x => x.TicketTiers).Returns(tiersMockSet.Object);
+            mockContext.Setup(x => x.Events).Returns(eventsMockSet.Object);
+            var sellingFacade = new Mock<ISellingFacade>();
+            sellingFacade.Setup(x => x.GetSoldTicketsNumber(It.IsAny<int>())).Returns(0);
+
+            var controller = new TicketTiersController(mockContext.Object, sellingFacade.Object);
+            var result = controller.ExecuteAction(controller.Post, ticket);
+
+            var actual = result as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("Current tier expires earlier than previous tier. Please correct it and try again.", actual.Message);            
+        }
+
+        [TestMethod]
         public void CreatedTicketTypeIsReturned_IfSuccess()
         {
             var tiers = new List<TicketTier>
