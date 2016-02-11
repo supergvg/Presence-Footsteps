@@ -177,8 +177,9 @@ angular.module('gliist')
                             $scope.onSave(res);
                         }
 
-                    }, function () {
-                        dialogService.error('There was a problem saving your guest list, please try again');
+                    }, function(err) {
+                        var message = err.data.Message || 'There was a problem saving your guest list, please try again';
+                        dialogService.error(message);
                     }).finally(function () {
                         $scope.fetchingData = false;
                     });
