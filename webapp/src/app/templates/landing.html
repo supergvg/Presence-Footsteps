@@ -3,13 +3,11 @@
     <div class="content" layout="column" layout-align="start center" flex>
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
-        <h4 ng-if="event.event.isRsvpExpired">The link to RSVP has been already expired</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
         <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
         <div class="title">
             <h4>Event:</h4>
             <h3>{{event.event.title}}</h3>
-            <h4 ng-if="success" class="success">Thank you! You have been added to the event guest list!</h4>
         </div>
         <div layout="row" layout-sm="column" class="blocks event-details">
             <div layout="column">
@@ -28,6 +26,7 @@
             </div>
             <div layout="column">
                 <div class="item-label">RSVP:</div>
+                <h4 ng-if="success" class="success">Thank you! You have been added to the event guest list!</h4>
                 <form name="rsvpLandingForm">
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Name</label>
@@ -51,8 +50,8 @@
                             <div ng-if="rsvpLandingForm.plus.$error.max" ng-message="max">Numer of additional guests cannot exceed {{event.event.additionalGuests}} people</div>
                         </div>
                     </div>
-                    <div class="actions">
-                        <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)">RSVP</a>
+                    <div class="actions" ng-if="!success">
+                        <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
                     </div>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
                 </form>

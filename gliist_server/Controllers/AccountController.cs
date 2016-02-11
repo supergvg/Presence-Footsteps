@@ -65,7 +65,7 @@ namespace gliist_server.Controllers
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            return new UserInfoViewModel
+            var userInfo = new UserInfoViewModel
             {
                 userId = User.Identity.GetUserId(),
                 UserName = User.Identity.GetUserName(),
@@ -86,6 +86,8 @@ namespace gliist_server.Controllers
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+
+            return userInfo;
         }
 
         // GET api/Account/CompanyInfo
@@ -189,9 +191,6 @@ namespace gliist_server.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
-
-
 
         // GET api/Account/CompanyInfo
         [Route("CreateUserByAccount")]
@@ -312,28 +311,26 @@ namespace gliist_server.Controllers
         [CheckAccess(DeniedPermissions = "promoter")]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async Task<IHttpActionResult> PutUserInfo(UserModel userModel)
+        public async Task<IHttpActionResult> PutUserInfo(UserProfileViewModel userProfile)
         {
-            if (userModel == null || !ModelState.IsValid)
+            if (userProfile == null || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-
             if (user == null)
             {
                 return null;
             }
 
-            user.firstName = userModel.firstName;
-            user.lastName = userModel.lastName;
-            user.phoneNumber = userModel.phoneNumber;
-            user.city = userModel.city;
-            user.company = userModel.company;
-            user.bio = userModel.bio;
-            user.contactPhone = userModel.contactPhone;
-            user.contactEmail = userModel.contactEmail;
+            user.firstName = userProfile.FirstName;
+            user.lastName = userProfile.LastName;
+            user.phoneNumber = userProfile.PhoneNumber;
+            user.city = userProfile.City;
+            user.bio = userProfile.Bio;
+            user.contactPhone = userProfile.ContactPhone;
+            user.contactEmail = userProfile.ContactEmail;
 
             _db.Entry(user).State = EntityState.Modified;
 
@@ -394,7 +391,7 @@ namespace gliist_server.Controllers
             var container = BlobHelper.GetWebApiContainer("profiles");
             var blob = container.GetBlockBlobReference(user.company.name.ToString() + "_" + DateTime.Now.Millisecond + "_" + fileName);
             await blob.UploadFromByteArrayAsync(data, 0, data.Length);
-            
+
             user.profilePictureUrl = blob.Uri.AbsoluteUri;
             return blob.Uri.AbsoluteUri;
         }

@@ -256,6 +256,7 @@
     <Compile Include="Models\Account\InviteCodeValidator.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Models\GuestEvent\GuestDeletedEmailSender.cs" />
+    <Compile Include="Models\Account\UserProfileViewModel.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />

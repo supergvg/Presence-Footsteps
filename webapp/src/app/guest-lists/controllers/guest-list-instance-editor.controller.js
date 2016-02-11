@@ -37,6 +37,12 @@ angular.module('gliist')
                 //set gridApi on scope
                 $scope.gridApi = gridApi;
 
+                gridApi.cellNav.on.navigate($scope,function(newRowcol, oldRowCol){
+                    if (newRowcol.row.entity.$$hashKey === $scope.gridOptions.data[$scope.gridOptions.data.length - 1].$$hashKey && newRowcol.col.field === 'plus') {
+                        $scope.addMore();
+                    }
+                });
+
                 gridApi.selection.on.rowSelectionChanged($scope, function () {
                     var selectedRows = $scope.gridApi.selection.getSelectedRows();
 

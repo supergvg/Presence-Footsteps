@@ -735,11 +735,6 @@ md-dialog {
                 font-weight: bold;
                 margin: 0;
             }
-            h4.success {
-                color: #aaa;
-                background-color: #99ccff;
-                padding: 10px;
-            }
         }
         .item {
             text-align: left;
@@ -787,6 +782,14 @@ md-dialog {
         .event-details {
             margin-top: 30px;
             font-size: 12px;
+        }
+        h4.success {
+            color: #666;
+            background-color: #d4e5f9;
+            padding: 10px 5px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 11px;
         }
         form {
             .form-item {
@@ -1448,6 +1451,9 @@ md-dialog {
                     text-align: center !important;
                     margin-top: 15px;
                 }
+            }
+            h4.success {
+                margin: 10px -25px;
             }
         }
         &.ticketing {
