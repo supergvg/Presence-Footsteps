@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
@@ -22,11 +21,8 @@ using Microsoft.Owin.Security.OAuth;
 using gliist_server.Attributes;
 using gliist_server.Helpers;
 using gliist_server.Models;
-using gliist_server.Models.Patches;
 using gliist_server.Providers;
 using gliist_server.Results;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace gliist_server.Controllers
 {
@@ -315,7 +311,7 @@ namespace gliist_server.Controllers
         [CheckAccess(DeniedPermissions = "promoter")]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async Task<IHttpActionResult> PutUserInfo(UserProfile userProfile)
+        public async Task<IHttpActionResult> PutUserInfo(UserProfileViewModel userProfile)
         {
             if (userProfile == null || !ModelState.IsValid)
             {
@@ -327,9 +323,6 @@ namespace gliist_server.Controllers
             {
                 return null;
             }
-
-            // fix for incorrect param name (phoneNumbel) coming from previous ios app versions
-            UserProfileUpdateByPreviousIosVersionsPatch.Run(userProfile);
 
             user.firstName = userProfile.FirstName;
             user.lastName = userProfile.LastName;

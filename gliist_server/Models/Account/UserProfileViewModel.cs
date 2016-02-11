@@ -2,7 +2,7 @@
 
 namespace gliist_server.Models
 {
-    public class UserProfile
+    public class UserProfileViewModel
     {
         [Required]
         public string FirstName { get; set; }
@@ -11,9 +11,6 @@ namespace gliist_server.Models
         public string LastName { get; set; }
 
         public string PhoneNumber { get; set; }
-        
-        //incorrect param name (phoneNumbel) coming from previous ios app versions
-        public string PhoneNumbel { get; set; }
 
         public string City { get; set; }
 

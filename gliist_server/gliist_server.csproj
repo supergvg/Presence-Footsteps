@@ -255,7 +255,7 @@
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Models\Account\InviteCodeValidator.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
-    <Compile Include="Models\Account\UserProfile.cs" />
+    <Compile Include="Models\Account\UserProfileViewModel.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
@@ -394,7 +394,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\Patches\UserProfileUpdateByPreviousIosVersionsPatch.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\CheckinModel.cs" />
     <Compile Include="Models\Company.cs" />
