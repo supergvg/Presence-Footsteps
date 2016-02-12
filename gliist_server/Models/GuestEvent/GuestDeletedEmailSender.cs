@@ -61,21 +61,10 @@ namespace gliist_server.Models
 
             message.AddSubstitution(":event_location", new List<string> {eventGuest.Event.location ?? string.Empty});
             message.AddSubstitution(":organizer_email", new List<string> { user.UserName ?? string.Empty });
-            message.AddSubstitution(":event_details", new List<string> { GetEventDetails(eventGuest)});
 
             message.AddSubstitution(":company_facebookUrl", new List<string> { user.company.FacebookPageUrl ?? string.Empty });
             message.AddSubstitution(":company_twitterUrl", new List<string> { user.company.TwitterPageUrl ?? string.Empty });
             message.AddSubstitution(":company_instagrammUrl", new List<string> { user.company.InstagrammPageUrl ?? string.Empty });
-
-            message.AddSubstitution(":event_details", new List<string> { eventGuest.Event.description ?? string.Empty });
-        }
-
-        private static string GetEventDetails(EventGuestStatus eventGuest)
-        {
-            return ((eventGuest.GuestListInstanceType == GuestListInstanceType.Default ||
-                     eventGuest.GuestListInstanceType == GuestListInstanceType.Confirmed)
-                ? eventGuest.Event.description
-                : eventGuest.Event.AdditionalDetails) ?? string.Empty;
         }
     }
 }
