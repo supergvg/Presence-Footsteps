@@ -739,10 +739,16 @@ md-dialog {
         .item {
             text-align: left;
             margin-bottom: 9px;
+            .item-text {
+                font-size: 14px;
+            }
         }
         .item-label {
             color: #99ccff;
-            font-weight: bold;
+            font: {
+                weight: bold;
+                size: 16px;
+            }
             text-align: left;
         }
         ul.social {
@@ -801,10 +807,14 @@ md-dialog {
                     border: none;
                     padding: 5px;
                     line-height: 1;
+                    font-size: 14px;
                 }
                 label {
                     text-align: left;
-                    font-weight: normal;
+                    font: {
+                        weight: normal;
+                        size: 14px;
+                    }
                     width: 40px;
                 }
             }
