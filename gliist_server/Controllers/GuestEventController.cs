@@ -342,19 +342,17 @@ namespace gliist_server.Controllers
             }
             guest.company = user.company;
 
-            var onTheSpotGL = GuestHelper.AddGuestToEvent(guest, eventId, user.company, user, db);
+            var onTheSpotGl = GuestHelper.AddGuestToEvent(guest, eventId, user.company, user, db);
 
             db.Guests.Add(guest);
             await db.SaveChangesAsync();
 
-            await AddEventGuests(onTheSpotGL, new[] {guest}, eventId);
+            await AddEventGuests(onTheSpotGl, new[] {guest}, eventId);
 
 
             if (!string.IsNullOrEmpty(guest.email))
             {
-                var admin = (user.permissions == "admin")
-                    ? user
-                    : onTheSpotGL.linked_event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? user;
+                var @event = onTheSpotGl.linked_event;
 
                 if (@event != null)
                 {
@@ -364,19 +362,19 @@ namespace gliist_server.Controllers
 
                     var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
                     {
-                        Subject = string.Format("{0} - Invitation", onTheSpotGL.linked_event.title),
+                        Subject = string.Format("{0} - Invitation", onTheSpotGl.linked_event.title),
                         From = admin.company.name,
                         To = guest.email
                     });
 
                     var substitutionBuilder = new SendGridSubstitutionsBuilder();
                     substitutionBuilder.CreateGuestName(guest);
-                    substitutionBuilder.CreateGuestDetails(guest.plus, guest, onTheSpotGL);
-                    substitutionBuilder.CreateEventDetails(@event, onTheSpotGL);
+                    substitutionBuilder.CreateGuestDetails(guest.plus, guest, onTheSpotGl);
+                    substitutionBuilder.CreateEventDetails(@event, onTheSpotGl);
                     substitutionBuilder.CreateOrganizer(admin);
                     substitutionBuilder.CreateSocialLinks(admin);
                     substitutionBuilder.CreateLogoAndEventImage(admin, @event);
-                    substitutionBuilder.CreateQrCode(eventId, onTheSpotGL.id, guest.id);
+                    substitutionBuilder.CreateQrCode(eventId, onTheSpotGl.id, guest.id);
 
                     messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
@@ -385,8 +383,6 @@ namespace gliist_server.Controllers
 
                     SendGridSender.Run(messageBuilder.Result);
                 }
-
-                EmailHelper.SendInvite(admin, onTheSpotGL.linked_event, guest, onTheSpotGL, Request.RequestUri.Authority, substitutions);
             }
 
             return Ok(guest);
@@ -693,5 +689,6 @@ namespace gliist_server.Controllers
 
             await db.SaveChangesAsync();
         }
+        #endregion
     }
 }

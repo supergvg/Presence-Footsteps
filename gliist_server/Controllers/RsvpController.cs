@@ -395,10 +395,6 @@ namespace gliist_server.Controllers
                     .Include(x => x.EventGuestStatuses)
                     .FirstOrDefault(x => x.id == eventGuestStatus.EventId && !x.isDeleted);
 
-            var guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
-            var user = @event.company.users.FirstOrDefault(x => x.permissions == "admin")
-                       ?? @event.company.users.First();
-
             var guestListInstance = db.Set<GuestListInstance>()
                 .FirstOrDefault(x => x.id == eventGuestStatus.GuestListInstanceId);
             var guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
