@@ -26,26 +26,23 @@ namespace gliist_server.Models
 
         public GuestListInstanceType GuestListInstanceType { get; set; }
 
-        public Nullable<DateTime> RsvpEmailSentDate { get; set; }
+        public DateTime? RsvpEmailSentDate { get; set; }
 
-        public Nullable<DateTime> RsvpConfirmedDate { get; set; }
+        public DateTime? RsvpConfirmedDate { get; set; }
 
-        public Nullable<DateTime> InvitationEmailSentDate { get; set; }
+        public DateTime? InvitationEmailSentDate { get; set; }
 
-        public Nullable<DateTime> TicketsEmailSentDate { get; set; }
+        public DateTime? TicketsEmailSentDate { get; set; }
 
         public int AdditionalGuestsRequested { get; set; }
 
         [NotMapped]
-        public bool IsRsvpEmailSent { get { return this.RsvpEmailSentDate != null; } }
+        public bool IsRsvpEmailSent { get { return RsvpEmailSentDate != null; } }
 
         [NotMapped]
-        public bool IsRsvpConfirmed { get { return this.RsvpConfirmedDate != null; } }
+        public bool IsRsvpConfirmed { get { return RsvpConfirmedDate != null; } }
 
         [NotMapped]
-        public bool IsInvitationEmailSent { get { return this.InvitationEmailSentDate != null; } }
-
-        [NotMapped]
-        public bool IsTicketsEmailSent { get { return this.TicketsEmailSentDate != null; } }
+        public bool IsInvitationEmailSent { get { return InvitationEmailSentDate != null; } }
     }
 }

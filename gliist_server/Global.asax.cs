@@ -1,8 +1,7 @@
 ﻿using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
+using gliist_server.Logger;
 
 namespace gliist_server
 {
@@ -10,13 +9,11 @@ namespace gliist_server
     {
         protected void Application_Start()
         {
-            Logger.Log4NetLogger.Log("The application is started.");
+            Log4NetLogger.Log("The application is started.");
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
             
             GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
         }

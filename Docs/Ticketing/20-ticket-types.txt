@@ -1,0 +1,143 @@
+Требование:	
+	предоставить организатору мероприятия возможность устанавливать ценовую политику продажи билетов.
+
+Сценарии:
+	BACKGROUND:
+		GIVEN Пользователь находится на странице создания/редактирования мероприятия
+		  AND Вкладка Event активна.
+		  
+ОБЩИЕ:
+	1. GIVEN Нет созданных типов билетов.
+	    WHEN Пользователь кликает кнопку "NEXT".
+	    THEN Пользователь получает сообщение "Please specify at least one ticket type."		
+		
+ДОБАВЛЕНИЕ:
+	2.  WHEN Пользователь кликает "ADD TICKET".
+	    THEN Пользователь видит новый тип билетов с кнопками "OK" и "CANCEL"
+		 AND Тип заполнен след. значениями (все поля обязательные):
+			 - NAME                 - пусто,
+			 - PRICE                - 1$ (мин. значение = 1),
+			 - QUANTITY FOR SALE    - 01 (мин. значение = 1),
+			 - SALE EXPIRATION DATE - за 3 часа до начала мероприятия (мин. значение = NOW, макс. значение = 3 часа до начала мероприятия)
+         AND Кнопка "OK" не активна.
+		
+	3. GIVEN Пользователь нажал кнопку "ADD TICKET".
+	    WHEN Пользователь вводит значение в поле NAME.
+	    THEN Кнопка "OK" становится активной.
+		
+	4. GIVEN Существует тип билета с именем "Early Bird Passes"
+	     AND Пользователь добавил новый тип билета
+		 AND Ввел значение в поле NAME равное "Early Bird Passes".
+	    WHEN Нажимает кнопку "OK".
+	    THEN Пользователь получает сообщение об ошибке "Ticket type with the same name already exists. Please change NAME and try again".
+		
+	5. GIVEN Пользователь ввел корректные значения во все поля при добавлении типа билета.
+	    WHEN Пользователь нажимает кнопку "OK".
+	    THEN Тип билета сохраняется на сервере
+		 AND Кнопки "OK" и "CANCEL" исчезают
+		 AND Кнопка "DELETE" появляется.
+	
+	6. GIVEN Пользователь нажал кнопку "ADD TICKET" 
+	     AND Появился новый тип билета с кнопками "OK" и "CANCEL".
+	    WHEN Пользователь нажимает кнопку "CANCEL".
+	    THEN Добавленный тип исчезает.
+		
+	7. GIVEN Пользователь нажал кнопку "ADD TICKET" 3 раза
+	     AND Появились 3 новые типа билетов с кнопками "OK" и "CANCEL"
+		 AND Пользователь сохранил один из них нажатием на кнопку "OK".
+	    WHEN Пользователь нажимает кнопку "NEXT".		 
+	    THEN Пользователь переходит на след. секцию
+		 AND 2 не сохраненных типа удаляются.
+
+	8. GIVEN Существует тип билета с SALE EXPIRATION DATE равным 23-Aug-2015 08:35 PM
+	     AND Пользователь добавил новый тип билета
+		 AND Ввел значение в поле SALE EXPIRATION DATE равное 23-Aug-2015 08:35 PM.
+	    WHEN Нажимает кнопку "OK".
+	    THEN Пользователь получает сообщение об ошибке "Ticket type with the same expiration date already exists. Please change EXPIRATION DATE and try again".	
+		
+УДАЛЕНИЕ:
+	9. GIVEN Мероприятие не опубликовано	
+		 AND Проданных билетов нет.		 
+	    WHEN Пользователь выбирает один из сохраненных типов 
+		 AND Нажимает кнопку "DELETE"
+		 AND Подтверждает удаление.
+	    THEN Мероприятие удаляется на сервере
+		 AND Удаляется на клиенте.
+		 
+	10. GIVEN Мероприятие опубликовано
+		  AND Продано 2 билета "Early Bird Passes".
+	     WHEN Пользователь выбирает тип "Early Bird Passes" 
+		  AND Нажимает кнопку "DELETE"
+		  AND Подтверждает удаление.
+	     THEN Пользователь получает сообщение "You cannot delete the ticket type, there are bought tickets"
+		  AND Тип билета остается на клиенте.
+	
+РЕДАКТИРОВАНИЕ:
+	11. GIVEN Мероприятие не опубликовано	
+		  AND Проданных билетов нет.
+	     WHEN Пользователь изменяет одно из значений существующего типа билетов.
+	     THEN Появляются кнопки "OK" и "CANCEL"
+		  AND Исчезает кнопка "DELETE".
+		  
+	12. GIVEN Мероприятие не опубликовано	
+		  AND Проданных билетов нет
+		  AND Пользователь редактирует тип.
+	     WHEN Пользователь изменяет поле NAME на пустое значение.
+	     THEN Кнопка "OK" становится не активной.
+		  
+	12. GIVEN Мероприятие опубликовано	
+		  AND Продано 2 билета "Early Bird Passes".
+	     WHEN Пользователь выбирает тип "Early Bird Passes"
+		  AND Изменяет допустимое имя или цену
+		  AND Нажимает кнопку "OK".
+	     THEN Изменения сохраняются на сервере и клиенте.
+		 
+	13. GIVEN Мероприятие опубликовано	  
+		  AND Существует "Early Bird Passes" со значением QUANTITY равным 8
+		  AND Продано 2 билета "Early Bird Passes".
+	     WHEN Пользователь выбирает тип "Early Bird Passes"
+		  AND Изменяет QUANTITY на 3
+		  AND Нажимает кнопку "OK".
+	     THEN Изменения сохраняются на сервере и клиенте.
+		 
+	14. GIVEN Мероприятие опубликовано	  
+		  AND Существует "Early Bird Passes" со значением QUANTITY равным 8
+		  AND Продано 6 билетов "Early Bird Passes".
+	     WHEN Пользователь выбирает тип "Early Bird Passes"
+		  AND Изменяет QUANTITY на 3
+		  AND Нажимает кнопку "OK".
+	     THEN Пользователь получает сообщение об ошибке "There are already 6 selled tickets. Please specify correct value and try again".
+	
+	15. GIVEN Мероприятие опубликовано
+		  AND Существует "Early Bird Passes" со значением SALE EXPIRATION DATE равным 25-Dec-2015
+		  AND Существует "Last Chance" со значением SALE EXPIRATION DATE равным 25-Jan-2016
+		  AND Продано 6 билетов "Early Bird Passes".
+	     WHEN Пользователь выбирает тип "Early Bird Passes"
+		  AND Изменяет SALE EXPIRATION DATE на 26-Jan-2016
+		  AND Нажимает кнопку "OK".
+	     THEN Пользователь получает сообщение об ошибке "Invalid expiration date. Next plan starts from 25-Jan-2016".
+		 
+	16. GIVEN Мероприятие опубликовано
+		  AND Существует "Early Bird Passes" со значением SALE EXPIRATION DATE равным 25-Dec-2015
+		  AND Существует "Last Chance" со значением SALE EXPIRATION DATE равным 25-Jan-2016
+		  AND Продано 6 билетов "Early Bird Passes"
+		  AND Продан 1 билет "Last Chance"
+		  AND На дворе - 27-Dec-2015.
+	     WHEN Пользователь выбирает тип "Early Bird Passes"
+		  AND Изменяет SALE EXPIRATION DATE на 01-Jan-2016
+		  AND Нажимает кнопку "OK".
+	     THEN Пользователь получает сообщение об ошибке "Invalid expiration date. Next plan is already started.".
+
+Server side:
+	API:
+		1. GetTickets/EventId - GET
+		2. AddTicket          - POST
+		3. UpdateTicket       - POST  
+		4. DeleteTicket       - POST
+	
+Errors:
+	
+		 
+
+		 
+		 

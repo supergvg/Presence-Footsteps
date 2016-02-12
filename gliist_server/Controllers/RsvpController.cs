@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using gliist_server.Helpers;
 using gliist_server.Models;
 using gliist_server.Shared;
 
@@ -344,13 +343,14 @@ namespace gliist_server.Controllers
 
             if (!eventGuestStatus.IsInvitationEmailSent)
             {
-                SendInvitationEmail(eventGuestStatus);
                 eventGuestStatus.AdditionalGuestsRequested = eventGuestModel.AdditionalGuests;
                 eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
                 eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
                 //eventGuestStatus.CheckInDate = DateTime.UtcNow;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
+
+                SendInvitationEmail(eventGuestStatus);
                 CheckIn(eventGuestStatus);
             }
 
@@ -401,29 +401,36 @@ namespace gliist_server.Controllers
 
             var guestListInstance = db.Set<GuestListInstance>()
                 .FirstOrDefault(x => x.id == eventGuestStatus.GuestListInstanceId);
+            var guest = db.Set<Guest>().FirstOrDefault(x => x.id == eventGuestStatus.GuestId);
 
-            var substitutions = new Dictionary<string, string>();
-
-            var eventImageDimensions = ImageHelper.GetImageSizeByUrl(@event.invitePicture);
-            eventImageDimensions = ImageHelper.GetScaledDimensions(eventImageDimensions, ImageHelper.EventEmailImageMaxWidth,
-                ImageHelper.EventEmailImageMaxHeight);
-
-            if (eventImageDimensions != null)
+            if (@event == null || guestListInstance == null || guest == null)
+                return;
+            
+            var user = @event.company.users.FirstOrDefault(x => x.permissions == "admin")
+                       ?? @event.company.users.First();
+           
+            var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                substitutions.Add(":event_image_width", eventImageDimensions.Width.ToString());
-                substitutions.Add(":event_image_height", eventImageDimensions.Height.ToString());
-            }
-            var logoImageDimensions = ImageHelper.GetImageSizeByUrl(user.profilePictureUrl);
-            logoImageDimensions = ImageHelper.GetScaledDimensions(logoImageDimensions, ImageHelper.LogoEmailImageMaxWidth,
-                ImageHelper.LogoEmailImageMaxHeight);
+                Subject = string.Format("{0} - Invitation", @event.title),
+                From = user.company.name,
+                To = guest.email
+            });
 
-            if (logoImageDimensions != null)
-            {
-                substitutions.Add(":logo_image_width", logoImageDimensions.Width.ToString());
-                substitutions.Add(":logo_image_height", logoImageDimensions.Height.ToString());
-            }
+            var substitutionBuilder = new SendGridSubstitutionsBuilder();
+            substitutionBuilder.CreateGuestName(guest);
+            substitutionBuilder.CreateGuestDetails(eventGuestStatus.AdditionalGuestsRequested, guest, guestListInstance);
+            substitutionBuilder.CreateEventDetails(@event, guestListInstance);
+            substitutionBuilder.CreateOrganizer(user);
+            substitutionBuilder.CreateSocialLinks(user);
+            substitutionBuilder.CreateLogoAndEventImage(user, @event);
+            substitutionBuilder.CreateQrCode(@event.id, guestListInstance.id, guest.id);
 
-            EmailHelper.SendInvite(user, @event, guest, guestListInstance, Request.RequestUri.Authority, substitutions);
+            messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
+
+            messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateGuestConfirmation);
+            messageBuilder.SetCategories(new[] {"Event Invitation", user.company.name, @event.title});
+
+            SendGridSender.Run(messageBuilder.Result);
         }
 
         private Event FindEventByName(string companyName, string eventName)
@@ -432,7 +439,6 @@ namespace gliist_server.Controllers
                 .Where(x => x.title.ToLower() == eventName.ToLower() && !x.isDeleted)
                 .OrderByDescending(x => x.endTime)
                 .Include(x => x.company)
-                .Include(x => x.Tickets)
                 .FirstOrDefault(x => x.company.name.ToLower() == companyName.ToLower());
             return @event;
         }

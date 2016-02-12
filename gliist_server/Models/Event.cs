@@ -73,9 +73,6 @@ namespace gliist_server.Models
         [JsonProperty(PropertyName = "ticketingUrl")]
         public string TicketingUrl { get; set; }
 
-        [JsonProperty(PropertyName = "tickets")]
-        public virtual List<TicketType> Tickets { get; set; }
-
         [JsonIgnore]
         public virtual List<EventGuestStatus> EventGuestStatuses { get; set; }
 
@@ -119,7 +116,6 @@ namespace gliist_server.Models
         public Event()
         {
             invitePicture = defaultImageUrl;
-            this.Tickets = new List<TicketType>();
         }
 
     }
