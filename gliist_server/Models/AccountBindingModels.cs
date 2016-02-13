@@ -59,7 +59,8 @@ namespace gliist_server.Models
 
         public string token { get; set; }
 
-        [Required]
+        //-- [Sunil Rathi] -  To fix prod issue. this need to be uncommented and fix with right business logic.
+        //--[Required] 
         public string inviteCode { get; set; }
     }
 
