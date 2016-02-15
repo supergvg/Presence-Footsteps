@@ -32,7 +32,7 @@ namespace gliist_server.Models
 
     public class RegisterBindingModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your email address.")]
         [Display(Name = "User name")]
         [DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
@@ -48,19 +48,18 @@ namespace gliist_server.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your first name.")]
         public string firstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your last name.")]
         public string lastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your company's name.")]
         public string company { get; set; }
 
         public string token { get; set; }
 
-        //-- [Sunil Rathi] -  To fix prod issue. this need to be uncommented and fix with right business logic.
-        //--[Required] 
+        [Required(ErrorMessage = "Please enter invite code.")]
         public string inviteCode { get; set; }
     }
 
