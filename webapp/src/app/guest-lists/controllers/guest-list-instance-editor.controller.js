@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService', 'eventsService',
-        function ($scope, guestFactory, dialogService, $state, uploaderService, eventsService) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', '$interval',
+        function ($scope, guestFactory, dialogService, $state, eventsService, $interval) {
 
-            $scope.getglistTotal = function (glist) {
-                var total = 0;
-
-                angular.forEach(glist.actual,
-                    function (guest_info) {
-                        total += guest_info.plus + 1;
-                    });
-
-                return total;
-            };
-
+            $scope.guestListTypes = [
+                'GA',
+                'VIP',
+                'Super VIP',
+                'Guest',
+                'Artist',
+                'Production',
+                'Staff',
+                'Press',
+                'All Access'
+            ];
             $scope.gridOptions = {
                 rowTemplate: '<div>' +
                     '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
@@ -32,114 +32,85 @@ angular.module('gliist')
                 selectionRowHeaderWidth: 50,
                 enableColumnMenus: false
             };
-
-            $scope.gridOptions.onRegisterApi = function (gridApi) {
+            $scope.rowSelected = false;
+            $scope.isDirty = false;
+            
+            $scope.gridOptions.onRegisterApi = function(gridApi) {
                 //set gridApi on scope
                 $scope.gridApi = gridApi;
+                
+                var rowSelectionChanged = function() {
+                    $scope.rowSelected = $scope.gridApi.selection.getSelectedRows();
+                    if ($scope.rowSelected.length === 0) {
+                        $scope.rowSelected = false;
+                    }
+                };
 
-                gridApi.cellNav.on.navigate($scope,function(newRowcol, oldRowCol){
-                    if (newRowcol.row.entity.$$hashKey === $scope.gridOptions.data[$scope.gridOptions.data.length - 1].$$hashKey && newRowcol.col.field === 'plus') {
+                gridApi.cellNav.on.navigate($scope,function(newRowcol){
+                    if (newRowcol.row.entity.$$hashKey === $scope.gridOptions.data[$scope.gridOptions.data.length - 1].$$hashKey && newRowcol.col.field === $scope.gridOptions.columnDefs[$scope.gridOptions.columnDefs.length - 1].field) {
                         $scope.addMore();
                     }
                 });
 
-                gridApi.selection.on.rowSelectionChanged($scope, function () {
-                    var selectedRows = $scope.gridApi.selection.getSelectedRows();
-
-                    if (!selectedRows || selectedRows.length === 0) {
-                        return $scope.rowSelected = false;
+                gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
+                gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
+                
+                gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+                    if (newValue !== oldValue) {
+                        $scope.isDirty = true;
                     }
-
-                    $scope.rowSelected = true;
                 });
             };
-
-            $scope.guestListTypes = [
-                'GA',
-                'VIP',
-                'Super VIP',
-                'Guest',
-                'Artist',
-                'Production',
-                'Staff',
-                'Press',
-                'All Access'
-            ];
-
-            $scope.selected = $scope.selected || [];
-
-            $scope.deleteSelectedRows = function () {
-
-                var selectedRows = $scope.gridApi.selection.getSelectedRows();
-
-                if (!selectedRows || selectedRows.length === 0) {
+            
+            $scope.$watch('id', function(newValue) {
+                if (!newValue) {
                     return;
                 }
-
-                var guestsIds = _.map(selectedRows, function (row) {
-                    return row.guest.id;
-                });
-
-                $scope.isDirty = true;
-
-                $scope.fetchingData = true;
-
-                eventsService.removeGuestsFromGLInstance($scope.gli.id, guestsIds).then(
-                    function (gli) {
-                        $scope.gli = gli;
+                $scope.initializing = true;
+                guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function(data) {
+                    $scope.gli = data;
+                    if ($scope.gli.instanceType === 2) {
+                        $scope.gridOptions.columnDefs.splice(4);
                     }
-                ).finally(function () {
-                        $scope.fetchingData = false;
-                    });
-
-                $scope.rowSelected = false;
-            };
-
-            $scope.$watchCollection('gli', function (newVal, oldValue) {
+                }, function() {
+                    dialogService.error('There was a problem getting your events, please try again');
+                    $state.go('main.current_events');
+                }).finally(
+                    function() {
+                        $scope.initializing = false;
+                    }
+                );
+            });
+            
+            $scope.$watch('isDirty', function(newValue) {
+                if (newValue === true) {
+                    $scope.startAutoSave();
+                }
+            });
+            
+            $scope.$watchCollection('gli', function(newVal) {
                 if (!newVal) {
                     return;
                 }
-
-                if (!angular.equals(newVal, oldValue)) {
-                    $scope.isDirty = true;
-                }
                 $scope.gridOptions.data = $scope.gli.actual;
             });
-
-            $scope.onFileSelect = function (files) {
-                if (!files || files.length === 0) {
-                    return;
+            
+            $scope.startAutoSave = function() {
+                $scope.autoSave = $interval(function(){
+                    if (!$scope.guestsError()) {
+                        $scope.save(true);
+                    }
+                }, 10000);
+            };
+            $scope.cancelAutoSave = function() {
+                $scope.isDirty = false;
+                if ($scope.autoSave) {
+                    $interval.cancel($scope.autoSave);
+                    delete $scope.autoSave;
                 }
-                $scope.upload(files[0]);
             };
-
-            $scope.upload = function (files) {
-                $scope.fetchingData = true;
-                uploaderService.uploadGuestList(files).then(function (data) {
-                        _.extend($scope.gli, data.data);
-                    },
-                    function() {
-                        dialogService.error('There was a problem saving your image please try again');
-                    }
-                ).finally(
-                    function () {
-                        $scope.fetchingData = false;
-                    }
-                );
-            };
-
-            $scope.onLinkClicked = function() {
-                var scope = $scope.$new();
-                scope.currentGlist = $scope.event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-                scope.selected = [];
-                scope.options = {
-                    enableSelection: true
-                };
-            };
-
-            $scope.addMore = function () {
+            
+            $scope.addMore = function() {
                 if (!$scope.gli) {
                     $scope.gli = {};
                 }
@@ -159,52 +130,68 @@ angular.module('gliist')
                         plus: 0
                     }
                 });
+                $scope.isDirty = true;
             };
 
-            $scope.save = function () {
+            $scope.deleteSelectedRows = function() {
+                if (!$scope.rowSelected) {
+                    return;
+                }
+                $scope.cancelAutoSave();
                 $scope.fetchingData = true;
-
+                var guestIds = [];
+                angular.forEach($scope.rowSelected, function(row){
+                    guestIds.push(row.guest.id);
+                });
+                eventsService.removeGuestsFromGLInstance($scope.gli.id, guestIds).then(
+                    function(gli) {
+                        $scope.gli = gli;
+                    }
+                ).finally(function () {
+                    $scope.fetchingData = false;
+                });
+                $scope.rowSelected = false;
+            };
+            
+            $scope.save = function(autoSave) {
+                if ($scope.guestsError()) {
+                    dialogService.error('First Name must be not empty.');
+                    return;
+                }
+                $scope.cancelAutoSave();
+                $scope.fetchingData = true;
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
                 guestFactory.GuestListInstance.update($scope.gli).$promise.then(
-                    function (res) {
-                        _.extend($scope.gli, res);
-                        dialogService.success('Guest list saved');
-                        $scope.isDirty = false;
-
-                        if ($scope.onSave) {
-                            $scope.onSave(res);
+                    function(data) {
+                        $scope.gli = data;
+                        var message = 'Guest list saved';
+                        if (autoSave) {
+                            message = 'Guest list autosaved';
                         }
-
-                    }, function(err) {
-                        var message = err.data.Message || 'There was a problem saving your guest list, please try again';
+                        dialogService.success(message);
+                        if ($scope.onSave && !autoSave) {
+                            $scope.onSave(data);
+                        }
+                    }, function(error) {
+                        var message = error.data.Message || 'There was a problem saving your guest list, please try again';
                         dialogService.error(message);
-                    }).finally(function () {
-                        $scope.fetchingData = false;
-                    });
+                    }
+                ).finally(function() {
+                    $scope.fetchingData = false;
+                });
             };
-
-            $scope.$watch('id', function (newValue) {
-                if (!newValue) {
-                    return;
+            
+            $scope.guestsError = function() {
+                var result = false;
+                if (!$scope.gli) {
+                    return result;
                 }
-
-                $scope.initializing = true;
-
-                guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function (data) {
-                    $scope.gli = data;
-                    if ($scope.gli.instanceType === 2) {
-                        $scope.gridOptions.columnDefs.splice(4);
-                    }
-                }, function () {
-                    dialogService.error('There was a problem getting your events, please try again');
-                    $state.go('main.current_events');
-                }).finally(
-                    function () {
-                        $scope.initializing = false;
-                    }
-                );
-            });
-
-        }]);
+                angular.forEach($scope.gli.actual, function(actual) {
+                    result = result || (actual.guest.firstName === '');
+                });
+                return result;
+            };
+        }]
+    );

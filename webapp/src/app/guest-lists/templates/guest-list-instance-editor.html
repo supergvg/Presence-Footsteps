@@ -1,38 +1,46 @@
 <div>
-    <div class="block-field">
-        <h4>Guest List Title</h4>
-        <div layout layout-sm="column">
-            <md-input-container flex="75" md-no-float>
-                <input type="text" ng-model="gli.title" name="title" required placeholder="Enter Guest List Title">
-            </md-input-container>
-            <md-input-container flex="25" md-no-float>
-                <md-select placeholder="Select Type" required name="listType" ng-model="gli.listType" ng-disabled="'true'" flex>
-                    <md-select-label>{{gli.listType || 'Select Type'}}</md-select-label>
-                    <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
-                </md-select>
-            </md-input-container>
-        </div>
+    <div ng-show="initializing">
+        <h4>Loading Guest List...</h4>
+        <span>
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+        </span>
     </div>
-    <div class="block-field">
-        <h4>Guests</h4>
-        <md-list>
-            <md-list-item layout="row">
-                <div flex class="actions">
-                    <md-button class="raised-btn" ng-click="addMore()">
-                        Add Guest
-                    </md-button>
-                    <md-button class="raised-btn" ng-disabled="!rowSelected" ng-click="deleteSelectedRows()">
-                        Delete
-                    </md-button>
-                </div>
-                <div flex layout="row" layout-align="end center">
-                    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                    <md-button class="raised-btn" ng-disabled="!isDirty" ng-click="save()">
-                        Save
-                    </md-button>
-                </div>
-            </md-list-item>
-        </md-list>
-        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize class="margin-top"></div>
+    <div ng-show="!initializing">
+        <div class="block-field">
+            <h4>Guest List Title</h4>
+            <div layout layout-sm="column">
+                <md-input-container flex="75" md-no-float>
+                    <input type="text" ng-model="gli.title" name="title" required placeholder="Enter Guest List Title">
+                </md-input-container>
+                <md-input-container flex="25" md-no-float>
+                    <md-select placeholder="Select Type" required name="listType" ng-model="gli.listType" ng-disabled="'true'" flex>
+                        <md-select-label>{{gli.listType || 'Select Type'}}</md-select-label>
+                        <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div class="block-field">
+            <h4>Guests</h4>
+            <md-list>
+                <md-list-item layout="row">
+                    <div flex class="actions">
+                        <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData">
+                            Add Guest
+                        </md-button>
+                        <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">
+                            Delete
+                        </md-button>
+                    </div>
+                    <div flex layout="row" layout-align="end center">
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                        <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+                            Save
+                        </md-button>
+                    </div>
+                </md-list-item>
+            </md-list>
+            <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize class="margin-top"></div>
+        </div>
     </div>
 </div>
