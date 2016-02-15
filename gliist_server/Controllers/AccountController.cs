@@ -199,10 +199,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PostRegisterByInvite(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-
 
             var companies = _db.Companies.Where(c => c.name == model.company);
 
@@ -714,12 +711,12 @@ namespace gliist_server.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(ExternalRegisterBindingModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!InviteCodeValidator.Run(model.inviteCode))
+            if(!InviteCodeValidator.Run(model.inviteCode))
                 return BadRequest("Invite code is invalid.");
 
             var company = new Company

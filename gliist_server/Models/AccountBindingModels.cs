@@ -58,9 +58,11 @@ namespace gliist_server.Models
         public string company { get; set; }
 
         public string token { get; set; }
+    }
 
-        //-- [Sunil Rathi] -  To fix prod issue. this need to be uncommented and fix with right business logic.
-        //--[Required] 
+    public class ExternalRegisterBindingModel : RegisterBindingModel
+    {
+        [Required(ErrorMessage = "Invite code is required.")]
         public string inviteCode { get; set; }
     }
 

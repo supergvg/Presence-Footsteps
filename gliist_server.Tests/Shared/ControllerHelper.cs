@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace gliist_server.Tests.Shared
@@ -14,6 +15,14 @@ namespace gliist_server.Tests.Shared
                 BindModel(controller, model);
 
             return action(model);
+        }
+
+        public static async Task<IHttpActionResult> ExecuteActionAsync<T>(this ApiController controller, Func<T, Task<IHttpActionResult>> action, T model)
+        {
+            if (model != null)
+                BindModel(controller, model);
+
+            return await action(model);
         }
 
         private static void BindModel(ApiController controller, object model)
