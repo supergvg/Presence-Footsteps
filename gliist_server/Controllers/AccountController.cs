@@ -228,7 +228,7 @@ namespace gliist_server.Controllers
 
             _db.Entry(invite).State = EntityState.Modified;
 
-            invite.acceptedAt = DateTimeOffset.Now;
+            invite.acceptedAt = DateTime.Now;
 
             if (!string.Equals(model.UserName, invite.email))
             {
@@ -509,7 +509,7 @@ namespace gliist_server.Controllers
 
             _db.Entry(token).State = EntityState.Deleted;
 
-            if ((token.created_at - DateTimeOffset.Now).Hours > 24)
+            if ((token.created_at - DateTime.Now).Hours > 24)
             {
                 throw new ArgumentException("Reset password token expired");
             }

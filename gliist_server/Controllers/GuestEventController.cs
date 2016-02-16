@@ -493,7 +493,7 @@ namespace gliist_server.Controllers
             }
 
 
-            checkin.time = DateTimeOffset.Now;
+            checkin.time = DateTime.Now;
             checkin.plus = checkin.plus - checkinData.plus;
             checkin.status = "checked in";
 

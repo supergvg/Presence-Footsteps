@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using gliist_server.Models;
@@ -18,24 +20,25 @@ namespace gliist_server.Controllers
 
         // GET: api/Notifications
 
-        public IQueryable<NotificationViewModel> GetNotifications()
+        public IEnumerable<NotificationViewModel> GetNotifications()
         {
             var userId = User.Identity.GetUserId();
 
             var user = userManager.FindById(userId);
-
+            var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
             return db.Notifications.Where(n => n.company.id == user.company.id).OrderByDescending(n => n.time)
+                .Select(x => new {x.time, x.message, guestId = x.guest.id, gliId = x.gli.id}).ToList()
                 .Select(x => new NotificationViewModel
                 {
-                    time = x.time,
+                    time = new DateTimeOffset(x.time, offset),
                     message = x.message,
                     guest = new GuestViewModel
                     {
-                        id = x.guest.id
+                        id = x.guestId
                     },
                     gli = new GuestListInstanceViewModel
                     {
-                        id = x.gli.id
+                        id = x.gliId
                     }
                 });
         }
