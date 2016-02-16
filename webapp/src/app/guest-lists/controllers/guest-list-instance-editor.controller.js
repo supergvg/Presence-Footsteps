@@ -97,10 +97,10 @@ angular.module('gliist')
             
             $scope.startAutoSave = function() {
                 $scope.autoSave = $interval(function(){
-                    if (!$scope.guestsError()) {
+                    if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 10000);
+                }, 20000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -137,8 +137,8 @@ angular.module('gliist')
                 if (!$scope.rowSelected) {
                     return;
                 }
-                $scope.cancelAutoSave();
                 $scope.fetchingData = true;
+                $scope.cancelAutoSave();
                 var guestIds = [];
                 angular.forEach($scope.rowSelected, function(row){
                     guestIds.push(row.guest.id);
@@ -158,14 +158,16 @@ angular.module('gliist')
                     dialogService.error('First Name must be not empty.');
                     return;
                 }
-                $scope.cancelAutoSave();
                 $scope.fetchingData = true;
+                $scope.cancelAutoSave();
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
                 guestFactory.GuestListInstance.update($scope.gli).$promise.then(
                     function(data) {
-                        $scope.gli = data;
+                        if (!autoSave) {
+                            $scope.gli = data;
+                        }
                         var message = 'Guest list saved';
                         if (autoSave) {
                             message = 'Guest list autosaved';

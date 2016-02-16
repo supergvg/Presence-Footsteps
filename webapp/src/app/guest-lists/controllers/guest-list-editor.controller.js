@@ -100,10 +100,10 @@ angular.module('gliist')
 
             $scope.startAutoSave = function() {
                 $scope.autoSave = $interval(function(){
-                    if (!$scope.guestsError()) {
+                    if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 10000);
+                }, 20000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -136,19 +136,32 @@ angular.module('gliist')
                 if (!$scope.rowSelected) {
                     return;
                 }
-                $scope.cancelAutoSave();
                 $scope.fetchingData = true;
-                var guestIds = [];
+                $scope.cancelAutoSave();
+                var guestIds = [],
+                    rowsHash = [];
                 angular.forEach($scope.rowSelected, function(row){
                     guestIds.push(row.id);
+                    rowsHash.push(row.$$hashKey);
                 });
-                eventsService.removeGuestsFromGL($scope.list.id, guestIds).then(
-                    function(data) {
-                        $scope.list = data;
-                    }
-                ).finally(function () {
+                if ($scope.list.id) {
+                    eventsService.removeGuestsFromGL($scope.list.id, guestIds).then(
+                        function(data) {
+                            $scope.list = data;
+                        }
+                    ).finally(function () {
+                        $scope.fetchingData = false;
+                    });
+                } else {
+                    var guests = [];
+                    angular.forEach($scope.list.guests, function(guest){
+                        if (rowsHash.indexOf(guest.$$hashKey) < 0) {
+                            guests.push(guest);
+                        }
+                    });
+                    $scope.list.guests = guests;
                     $scope.fetchingData = false;
-                });
+                }
                 $scope.rowSelected = false;
             };
             
@@ -178,8 +191,8 @@ angular.module('gliist')
                     return;
                 }
                 
-                $scope.cancelAutoSave();
                 $scope.fetchingData = true;
+                $scope.cancelAutoSave();
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
@@ -189,7 +202,9 @@ angular.module('gliist')
                 }
                 guestFactory.GuestList.update($scope.list).$promise.then(
                     function(data) {
-                        $scope.list = data;
+                        if (!autoSave) {
+                            $scope.list = data;
+                        }
                         var message = 'Guest list saved';
                         if (autoSave) {
                             message = 'Guest list autosaved';
