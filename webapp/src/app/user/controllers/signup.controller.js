@@ -4,8 +4,8 @@ angular.module('gliist')
     .controller('SignupCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
         function ($scope, $mdDialog, userService, dialogService, $state) {
 
-            $scope.displayErrorMessage = function (field) {
-                return ($scope.showValidation) || field.$touched;
+            $scope.displayErrorMessage = function(field) {
+                return ($scope.showValidation) || (field && field.$touched);
             };
 
             $scope.hide = function () {
