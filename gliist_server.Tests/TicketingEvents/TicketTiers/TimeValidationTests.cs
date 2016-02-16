@@ -14,26 +14,6 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
     public class TimeValidationTests
     {
         [TestMethod]
-        public void BadRequest_IfStartTimeIsPast()
-        {
-            var ticket = new TicketTier
-            {
-                Name = "name",
-                Price = 5,
-                Quantity = 3,
-                StartTime = DateTime.Today.AddDays(-1)
-            };
-
-            var controller = new TicketTiersController();
-            var result = controller.ExecuteAction(controller.Post, ticket);
-
-            var actual = result as BadRequestErrorMessageResult;
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("Start Time is past.", actual.Message);
-        }
-
-        [TestMethod]
         public void BadRequest_IfExpirationTimeIsLessThanStartTime()
         {
             var ticket = new TicketTier
