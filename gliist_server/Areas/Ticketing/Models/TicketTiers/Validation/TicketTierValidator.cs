@@ -44,7 +44,7 @@ namespace gliist_server.Areas.Ticketing.Models
 
             return tier != null;
         }
-        private static bool LessThan3HoursBeforeEvent(int eventId, DateTime time, EventDBContext db)
+        private static bool LessThan3HoursBeforeEvent(int eventId, DateTimeOffset time, EventDBContext db)
         {
             var @event = db.Events.Select(x => new { x.time, x.id }).FirstOrDefault(x => x.id == eventId);
             if (@event == null)
