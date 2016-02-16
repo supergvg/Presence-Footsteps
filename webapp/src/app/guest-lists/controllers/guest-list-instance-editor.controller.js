@@ -18,7 +18,7 @@ angular.module('gliist')
             $scope.gridOptions = {
                 rowTemplate: '<div>' +
                     '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ui-grid-cell></div>' +
+                    'class="ui-grid-cell" ui-grid-cell ng-keydown="grid.appScope.gridCellTab($event, col)"></div>' +
                     '</div>',
                 columnDefs: [
                     {field: 'guest.firstName', name: 'First Name'},
@@ -35,6 +35,12 @@ angular.module('gliist')
             $scope.rowSelected = false;
             $scope.isDirty = false;
             
+            $scope.gridCellTab = function(event, col) {
+                if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
+                    $scope.addMore();
+                }
+            };
+            
             $scope.gridOptions.onRegisterApi = function(gridApi) {
                 //set gridApi on scope
                 $scope.gridApi = gridApi;
@@ -45,12 +51,6 @@ angular.module('gliist')
                         $scope.rowSelected = false;
                     }
                 };
-
-                gridApi.cellNav.on.navigate($scope,function(newRowcol){
-                    if (newRowcol.row.entity.$$hashKey === $scope.gridOptions.data[$scope.gridOptions.data.length - 1].$$hashKey && newRowcol.col.field === $scope.gridOptions.columnDefs[$scope.gridOptions.columnDefs.length - 1].field) {
-                        $scope.addMore();
-                    }
-                });
 
                 gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
                 gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);

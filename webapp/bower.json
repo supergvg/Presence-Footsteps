@@ -21,7 +21,7 @@
     "ng-file-upload": "~3.2.4",
     "ngAutocomplete": "~1.0.0",
     "underscore": "~1.8.3",
-    "angular-ui-grid": "~3.1.0",
+    "angular-ui-grid": "~3.1.1",
     "angular-google-analytics": "~1.1.5"
   },
   "devDependencies": {
