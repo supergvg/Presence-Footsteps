@@ -300,6 +300,7 @@ namespace gliist_server.Controllers
             _db.Entry(userToDelete).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
 
+            EmailHelper.SendAccountDeleted(userToDelete);
 
             return Ok();
         }
