@@ -256,7 +256,7 @@ angular.module('gliist', [
             });
 
 
-            $rootScope.$on("$stateChangeStart",
+            $rootScope.$on('$stateChangeStart',
                 function (event, next, toParams, from, fromParams) {
 
                     $state.previous = from;
