@@ -105,7 +105,7 @@ namespace gliist_server.Helpers
             SendEmail(message);
         }
 
-        public static void SendAccountDeleted(UserModel userToDelete)
+        public static void SendAccountDeleted(UserModel userToDelete, UserModel administrator)
         {
             // Create the email object first, then add the properties.
             var message = new SendGridMessage();
@@ -116,10 +116,18 @@ namespace gliist_server.Helpers
 
             message.Subject = string.Format("Account Deleted");
 
-            message.Html = "<p>Account " + userToDelete.UserName + " is deleted</p> ";
+            message.Html = "<p></p> ";
 
-            //message.EnableTemplateEngine("733fe7c2-df2d-46c7-a76a-8b476b7e0439");
-            //message.AddSubstitution(":reset_password_link", new List<string> { resetLink });
+            message.EnableTemplateEngine("a5c04d64-dd3a-4e7d-813e-a9239957e444");
+
+            message.AddSubstitution(":organizer_email", new List<string> {administrator.UserName});
+            message.AddSubstitution(":comapny_facebookUrl",
+                new List<string> {administrator.company.FacebookPageUrl ?? string.Empty});
+            message.AddSubstitution(":company_twitterUrl",
+                new List<string> {administrator.company.TwitterPageUrl ?? string.Empty});
+            message.AddSubstitution(":company_instagrammUrl",
+                new List<string> {administrator.company.InstagrammPageUrl ?? string.Empty});
+            message.AddSubstitution(":company_logo", new List<string> {administrator.profilePictureUrl});
 
             message.EnableOpenTracking();
             message.EnableClickTracking();
