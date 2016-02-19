@@ -86,24 +86,21 @@ angular.module('gliist', [
                     access: {
                         allowAnonymous: true
                     }
-                })
-                .state('signup', {
+                }).state('signup', {
                     url: '/signup',
                     templateUrl: 'app/user/templates/signup.html',
                     controller: 'SignupCtrl',
                     access: {
                         allowAnonymous: true
                     }
-                })
-                .state('recover_password', {
+                }).state('recover_password', {
                     url: '/recover_password',
                     templateUrl: 'app/user/templates/recover-password.html',
                     controller: 'RecoverPasswordCtrl',
                     access: {
                         allowAnonymous: true
                     }
-                })
-                .state('reset_password', {
+                }).state('reset_password', {
                     url: '/reset_password/:token',
                     templateUrl: 'app/user/templates/reset-password.html',
                     controller: 'ResetPasswordCtrl',
@@ -117,18 +114,15 @@ angular.module('gliist', [
                     access: {
                         allowAnonymous: true
                     }
-                })
-                .state('main', {
+                }).state('main', {
                     url: '/main',
                     templateUrl: 'app/templates/main.html',
                     controller: 'MainCtrl'
-                })
-                .state('main.user', {
+                }).state('main.user', {
                     url: '/user',
                     templateUrl: 'app/user/templates/profile.html',
                     controller: 'ProfileCtrl'
-                })
-                .state('main.create_event', {
+                }).state('main.create_event', {
                     url: '/create?view',
                     templateUrl: 'app/templates/create-event.html',
                     reloadOnSearch: false,
@@ -161,8 +155,7 @@ angular.module('gliist', [
                     url: '/event/stats/:eventId',
                     templateUrl: 'app/events/templates/event-stats.html',
                     controller: 'EventsStatsCtrl'
-                })
-                .state('main.current_events', {
+                }).state('main.current_events', {
                     url: '/current_events',
                     templateUrl: 'app/templates/current-events.html',
                     controller: 'EventsCtrl'

@@ -1388,6 +1388,9 @@ md-dialog {
         margin: 16px 0 0 0;
     }
     .chart {
+        & > div:first-child {
+            margin-right: 20px;
+        }
         md-list {
             md-list-item {
                 &:first-child {
@@ -1395,6 +1398,23 @@ md-dialog {
                 }
                 margin-bottom: 4px;
             }
+        }
+    }
+    &.event-type-2 {
+        h4.chart-title {
+            text-align: left;
+        }
+        .chart {
+            md-list {
+                md-list-item {
+                    &:first-child {
+                        background-color: #ececec;
+                    }
+                }
+            }
+        }
+        .md-button {
+            width: auto;
         }
     }
 }
