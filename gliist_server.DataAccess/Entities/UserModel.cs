@@ -2,8 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 
-
-namespace gliist_server.Models
+namespace gliist_server.DataAccess
 {
     public class UserModel : IdentityUser
     {

@@ -1,6 +1,6 @@
 namespace gliist_server.Models
 {
-    public class GuestListInstanceViewModel
+    public class GuestModel
     {
         public int id { get; set; }
     }

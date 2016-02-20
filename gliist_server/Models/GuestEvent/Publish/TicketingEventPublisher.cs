@@ -1,4 +1,5 @@
 ﻿using System;
+using gliist_server.DataAccess;
 using SendGrid;
 
 namespace gliist_server.Models

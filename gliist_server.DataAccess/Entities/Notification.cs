@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace gliist_server.Models
+namespace gliist_server.DataAccess
 {
-
     public class Notification
     {
         public int id { get; set; }

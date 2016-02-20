@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Http;
+using gliist_server.DataAccess;
 using Microsoft.AspNet.Identity;
 using gliist_server.Models;
 
@@ -18,22 +19,22 @@ namespace gliist_server.Controllers
 
         // GET: api/Notifications
 
-        public IQueryable<NotificationViewModel> GetNotifications()
+        public IQueryable<NotificationModel> GetNotifications()
         {
             var userId = User.Identity.GetUserId();
 
             var user = userManager.FindById(userId);
 
             return db.Notifications.Where(n => n.company.id == user.company.id).OrderByDescending(n => n.time)
-                .Select(x => new NotificationViewModel
+                .Select(x => new NotificationModel
                 {
                     time = x.time,
                     message = x.message,
-                    guest = new GuestViewModel
+                    guest = new GuestModel
                     {
                         id = x.guest.id
                     },
-                    gli = new GuestListInstanceViewModel
+                    gli = new GuestListInstanceModel
                     {
                         id = x.gli.id
                     }

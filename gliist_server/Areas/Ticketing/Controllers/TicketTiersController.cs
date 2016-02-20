@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Areas.Ticketing.Models;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Controllers

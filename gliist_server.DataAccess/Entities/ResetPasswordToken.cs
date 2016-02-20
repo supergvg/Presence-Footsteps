@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace gliist_server.Models
+namespace gliist_server.DataAccess
 {
     public class ResetPasswordToken
     {

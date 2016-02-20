@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace gliist_server.Models
+namespace gliist_server.DataAccess
 {
     [Table("EventsGuests")]
     public class EventGuestStatus

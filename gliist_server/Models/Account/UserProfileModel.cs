@@ -2,7 +2,7 @@
 
 namespace gliist_server.Models
 {
-    public class UserProfileViewModel
+    public class UserProfileModel
     {
         [Required]
         public string FirstName { get; set; }

@@ -1,8 +1,9 @@
 ﻿using System;
+using gliist_server.DataAccess;
 
 namespace gliist_server.Models
 {
-    public class GuestListViewModel
+    public class GuestListModel
     {
         public int id { get; set; }
 
@@ -16,7 +17,7 @@ namespace gliist_server.Models
 
         public virtual UserModel created_by { get; set; }
 
-        public GuestListViewModel(GuestList gl)
+        public GuestListModel(GuestList gl)
         {
             id = gl.id;
             listType = gl.listType;

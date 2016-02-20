@@ -1,6 +1,6 @@
 ﻿namespace gliist_server.Models
 {
-    public class ExternalLoginViewModel
+    public class ExternalLoginModel
     {
         public string Name { get; set; }
 

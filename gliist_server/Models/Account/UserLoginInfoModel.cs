@@ -1,6 +1,6 @@
 ﻿namespace gliist_server.Models
 {
-    public class UserLoginInfoViewModel
+    public class UserLoginInfoModel
     {
         public string LoginProvider { get; set; }
 

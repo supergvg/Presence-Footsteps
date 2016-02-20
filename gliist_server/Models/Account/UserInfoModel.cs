@@ -5,7 +5,7 @@ namespace gliist_server.Models
 {
     // Models returned by AccountController actions.
 
-    public class UserInfoViewModel
+    public class UserInfoModel
     {
         public string userId { get; set; }
 

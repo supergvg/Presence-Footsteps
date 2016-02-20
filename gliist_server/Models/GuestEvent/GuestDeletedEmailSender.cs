@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
+using gliist_server.DataAccess;
 using SendGrid;
 
 namespace gliist_server.Models

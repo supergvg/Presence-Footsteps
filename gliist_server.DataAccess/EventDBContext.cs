@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.Data.Entity;
-using gliist_server.Areas.Ticketing.Models;
+﻿using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace gliist_server.Models
+namespace gliist_server.DataAccess
 {
     public class EventDBContext : IdentityDbContext<UserModel>
     {

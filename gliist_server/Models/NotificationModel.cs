@@ -2,9 +2,9 @@ using System;
 
 namespace gliist_server.Models
 {
-    public class NotificationViewModel
+    public class NotificationModel
     {
-        public NotificationViewModel()
+        public NotificationModel()
         {
             time = DateTimeOffset.Now;
         }
@@ -13,8 +13,8 @@ namespace gliist_server.Models
 
         public DateTimeOffset time { get; set; }
 
-        public GuestViewModel guest { get; set; }
+        public GuestModel guest { get; set; }
 
-        public GuestListInstanceViewModel gli { get; set; }
+        public GuestListInstanceModel gli { get; set; }
     }
 }

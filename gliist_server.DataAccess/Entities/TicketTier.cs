@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using gliist_server.Models;
 using Newtonsoft.Json;
 
-namespace gliist_server.Areas.Ticketing.Models
+namespace gliist_server.DataAccess
 {
     public class TicketTier
     {
