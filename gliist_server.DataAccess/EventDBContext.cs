@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using gliist_server.Areas.Ticketing.Models;
-using gliist_server.Migrations;
 
 namespace gliist_server.Models
 {
@@ -17,7 +16,6 @@ namespace gliist_server.Models
         public EventDBContext()
             : base("name=EventDBContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EventDBContext, Configuration>());
         }
         
         public DbSet<Guest> Guests { get; set; }
