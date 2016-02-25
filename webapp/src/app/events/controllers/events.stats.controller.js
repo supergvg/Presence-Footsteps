@@ -47,16 +47,18 @@ angular.module('gliist')
                             $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
                         }
                     });
-                    $scope.stats[category].total = gl.guestsCount;
+                    $scope.stats[category].total += gl.guestsCount;
                     $scope.totalCheckedIn += $scope.stats[category].totalCheckedIn;
                     
                     //RSVP stats
                     if (gl.instanceType === 2 && gl.published) {
                         $scope.rsvp[0].total += gl.guestsCount;
+                        $scope.rsvp[1].total += gl.actual.length;
+                        $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                     }
                     if (gl.instanceType === 4) {
                         $scope.rsvp[1].total += gl.guestsCount;
-                        $scope.rsvp[2].total += $scope.stats[category].totalCheckedIn;
+                        $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                     }
                 });
                 $scope.updateChart();

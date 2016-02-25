@@ -81,6 +81,16 @@ angular.module('gliist')
                 }
                 return total;
             };
+            
+            $scope.getUnconfirmedGuests = function(glist) {
+                var total = 0;
+                if (glist.instanceType === 2) {
+                    total = glist.guestsCount - glist.actual.length;
+                } else {
+                    total = $scope.getTotalGuests(glist) - $scope.getActualGuests(glist);
+                }
+                return total;
+            };
 
             $scope.getGrandTotalCapacity = function() {
                 var total = 0;
