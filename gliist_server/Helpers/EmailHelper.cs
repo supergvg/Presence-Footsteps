@@ -112,7 +112,7 @@ namespace gliist_server.Helpers
             message.AddTo(userToDelete.UserName);
             message.From = new MailAddress("dont-replay@gjests.com", "gjests");
 
-            message.SetCategories(new List<string> {"Account Deleted", userToDelete.UserName});
+            message.SetCategories(new List<string> { "Account Deleted", administrator.company.name, userToDelete.UserName });
 
             message.Subject = string.Format("Account Deleted");
 
