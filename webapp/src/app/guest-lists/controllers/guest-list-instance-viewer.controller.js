@@ -85,7 +85,10 @@ angular.module('gliist')
             $scope.getUnconfirmedGuests = function(glist) {
                 var total = 0;
                 if (glist.instanceType === 2) {
-                    total = glist.guestsCount - glist.actual.length;
+                    total = glist.guestsCount;
+                    angular.forEach(glist.actual, function(guest) {
+                        total -= guest.plus + 1;
+                    });
                 } else {
                     total = $scope.getTotalGuests(glist) - $scope.getActualGuests(glist);
                 }

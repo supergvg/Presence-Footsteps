@@ -53,7 +53,9 @@ angular.module('gliist')
                     //RSVP stats
                     if (gl.instanceType === 2 && gl.published) {
                         $scope.rsvp[0].total += gl.guestsCount;
-                        $scope.rsvp[1].total += gl.actual.length;
+                        angular.forEach(gl.actual, function(guest) {
+                            $scope.rsvp[1].total += guest.plus + 1;
+                        });
                         $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                     }
                     if (gl.instanceType === 4) {
