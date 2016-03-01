@@ -17,7 +17,7 @@
                             <b>Starts:</b>&nbsp;{{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
                         </md-grid-tile>
                         <md-grid-tile>
-                            <b>Ends:</b>&nbsp;{{event.endTime | date : 'MMM dd, yyyy h:mma'}}
+                            <b>Ends:</b>&nbsp;{{event.endTime | ignoreTimeZone | date : 'MMM dd, yyyy h:mma'}}
                         </md-grid-tile>
                     </md-grid-list>
                 </div>

@@ -44,19 +44,19 @@
                     </h2>
                     <div class="event-date">
                         <div class="month">
-                            {{event.event.time | date: 'MMM' | uppercase}}
+                            {{event.event.time | ignoreTimeZone | date: 'MMM' | uppercase}}
                         </div>
                         <div class="day">
-                            {{event.event.time | date: 'd'}}
+                            {{event.event.time | ignoreTimeZone | date: 'd'}}
                         </div>
                         <div class="day-week">
-                            {{event.event.time | date: 'EEE' | uppercase}}
+                            {{event.event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
                         </div>
                         <div class="time">
-                            {{event.event.time | date: 'h:mm'}}
+                            {{event.event.time | ignoreTimeZone | date: 'h:mm'}}
                         </div>
                         <div class="ampm">
-                            {{event.event.time | date: 'a'}}
+                            {{event.event.time | ignoreTimeZone | date: 'a'}}
                         </div>
                     </div>
                     <div class="event-location">

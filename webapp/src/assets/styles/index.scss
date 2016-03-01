@@ -777,29 +777,6 @@ md-dialog {
             }
             text-align: left;
         }
-        ul.social {
-            display: inline-block;
-            list-style: none;
-            margin: 10px 0 0 0;
-            padding-left: 20px;
-            li {
-                float: left;
-                + li {
-                    margin-left: 5px;
-                }
-                a {
-                    width: auto;
-                    height: 30px;
-                    margin: 0;
-                }
-            }
-        }
-        ul.share {
-            padding-left: 0;
-            li + li {
-                margin-left: 20px;
-            }
-        }
         .blocks {
             & > * {
                 width: 280px;
@@ -851,8 +828,31 @@ md-dialog {
                 }
             }
         }
-        .socials > * {
-            text-align: left !important;
+    }
+    .socials > * {
+        text-align: left !important;
+    }
+    ul.social {
+        display: inline-block;
+        list-style: none;
+        margin: 10px 0 0 0;
+        padding-left: 20px;
+        li {
+            float: left;
+            + li {
+                margin-left: 5px;
+            }
+            a {
+                width: auto;
+                height: 30px;
+                margin: 0;
+            }
+        }
+    }
+    ul.share {
+        padding-left: 0;
+        li + li {
+            margin-left: 20px;
         }
     }
     .footer {
@@ -1250,9 +1250,9 @@ md-dialog {
                         padding: 0;
                         position: relative;
                         input {
-                            width: 50px;
+                            width: 65px;
                             text-align: center;
-                            padding: 0 10px;
+                            padding-left: 10px;
                         }
                     }
                     input {
@@ -1263,17 +1263,17 @@ md-dialog {
             }
             .bottom {
                 padding: 0 15px 15px 15px;
-                .date {
-                    &.block-field {
-                        padding-bottom: 0;
-                    }
-                }
                 md-content {
                     background-color: #ececec;
                     overflow: visible;
                 }
-                md-radio-button + md-radio-button {
-                    margin-top: 10px;
+                md-radio-button {
+                    &.md-checked .md-label h4 {
+                        font-weight: bold;
+                    }
+                    & + md-radio-button {
+                        margin-top: 10px;
+                    }
                 }
                 .spinner {
                     margin-left: 40px;
@@ -1550,6 +1550,79 @@ md-dialog {
         &.spinner-h {
             a {
                 float: none !important;
+            }
+        }
+        &.ticketing {
+            .content {
+                md-list {
+                    md-list-item {
+                        & > div {
+                            padding: 0 !important;
+                        }
+                    }
+                }
+                .promo {
+                    padding: 0;
+                    & > * {
+                        margin: 0 0 10px 0 !important;
+                    }
+                }
+            }
+            .footer {
+                padding: 10px;
+            }
+        }
+    }
+    .event-preview {
+        .event-descr {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+    }
+    .event-tab {
+        .ticket-blocks {
+            .ticket-block {
+                min-width: 260px;
+            }
+        }
+    }
+    .spinner {
+        &.spinner-h {
+            a {
+                float: none !important;
+            }
+        }
+    }
+    md-dialog {
+        &.landing-ticketing-purchase {
+            & > div {
+                &:last-child {
+                    .md-button {
+                        min-width: 150px;
+                    }
+                }
+            }
+            .credit-card {
+                & > div {
+                    & > div + div {
+                        margin-top: 5px;
+                        margin-left: 0;
+                    }
+                }
+            }
+            .ticket {
+                .ticket-info {
+                    .ticket-form {
+                        width: 100%;
+                        .form-item {
+                            & + .form-item {
+                                margin-left: 0;
+                                margin-top: 5px
+                            }
+                        }
+                    }
+                }
+                
             }
         }
     }
