@@ -121,7 +121,7 @@ namespace gliist_server.Helpers
             message.EnableTemplateEngine("a5c04d64-dd3a-4e7d-813e-a9239957e444");
 
             message.AddSubstitution(":organizer_email", new List<string> {administrator.UserName});
-            message.AddSubstitution(":comapny_facebookUrl",
+            message.AddSubstitution(":company_facebookUrl",
                 new List<string> {administrator.company.FacebookPageUrl ?? string.Empty});
             message.AddSubstitution(":company_twitterUrl",
                 new List<string> {administrator.company.TwitterPageUrl ?? string.Empty});
