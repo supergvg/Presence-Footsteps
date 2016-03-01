@@ -32,8 +32,6 @@ namespace gliist_server.Models
 
         public DateTime? InvitationEmailSentDate { get; set; }
 
-        public DateTime? TicketsEmailSentDate { get; set; }
-
         public int AdditionalGuestsRequested { get; set; }
 
         [NotMapped]

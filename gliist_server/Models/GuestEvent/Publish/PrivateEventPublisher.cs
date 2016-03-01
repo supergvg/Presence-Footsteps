@@ -52,7 +52,7 @@ namespace gliist_server.Models
         protected override void MarkGuestAsNotificated(EventGuestStatus guest, 
             GuestListInstance listInstance)
         {
-            guest.InvitationEmailSentDate = DateTime.UtcNow;
+            guest.InvitationEmailSentDate = DateTime.Now;
         }
     }
 }
