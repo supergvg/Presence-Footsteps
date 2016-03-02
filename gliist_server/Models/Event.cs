@@ -98,10 +98,11 @@ namespace gliist_server.Models
         [NotMapped]
         public bool NeedToUpdateEventsGuests { get; set; }
 
+        public int PublicVisitors { get; set; }
+
         public Event()
         {
             invitePicture = DefaultImageUrl;
         }
-
     }
 }
