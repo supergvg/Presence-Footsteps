@@ -12,7 +12,7 @@ using OfficeOpenXml.Style;
 
 namespace gliist_server.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/reports")]
     public class ReportsController : ApiController
     {
