@@ -16,7 +16,7 @@
         <div ng-if="event.guestLists.length > 0">
             <div layout="row" layout-sm="column" layout-align="space-between start" class="block-field chart">
                 <div layout="column" flex="50" flex-sm="100">
-                    <div ng-if="eventType === 2">
+                    <div ng-if="isRSVP()">
                         <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
                         <div google-chart chart="chartObject"></div>
                     </div>
@@ -52,11 +52,11 @@
                     </md-list>
                 </div>
                 <div layout="column" flex="50" flex-sm="100">
-                    <div ng-if="eventType === 1">
+                    <div ng-if="!isRSVP()">
                         <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
                         <div google-chart chart="chartObject"></div>
                     </div>
-                    <div layout="column" ng-if="eventType === 2">
+                    <div layout="column" ng-if="isRSVP()">
                         <div>
                             <h4 class="chart-title">Total RSVP: {{rsvp[1].total}}</h4>
                             <div google-chart chart="chartObjectRSVP"></div>
@@ -78,10 +78,8 @@
                                 </div>
                             </md-list-item>
                         </md-list>
-                        <!--<div layout="row" layout-align="end center" class="margin-top">
-                            <md-button class="raised-btn" ng-click="">
-                                Export Rsvp Report
-                            </md-button>
+                        <div layout="row" layout-align="end center" class="margin-top">
+                            <a href="{{getExportExcelUrl()}}" class="md-button raised-btn">Export Rsvp Report</a>
                         </div>
                         <md-list class="margin-top">
                             <md-list-item>
@@ -96,10 +94,10 @@
                                     Total Visitors
                                 </div>
                                 <div flex="10">
-                                    500
+                                    {{rsvpTotalVisitors}}
                                 </div>
                             </md-list-item>
-                        </md-list>-->
+                        </md-list>
                     </div>
                 </div>
             </div>
