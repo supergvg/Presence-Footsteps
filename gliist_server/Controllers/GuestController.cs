@@ -12,6 +12,7 @@ using gliist_server.Models;
 namespace gliist_server.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/guest")]
     public class GuestController : ApiController
     {
         private EventDBContext db = new EventDBContext();
@@ -94,8 +95,9 @@ namespace gliist_server.Controllers
             return CreatedAtRoute("DefaultApi", new { id = guest.id }, guest);
         }
 
-        // POST api/Guest
-        [ResponseType(typeof(Guest))]
+        // POST api/guest/updatenotes
+        [HttpPost]
+        [Route("updatenotes")]
         public IHttpActionResult UpdateNotes(GuestNotesModel guestNotesModel)
         {
             if (guestNotesModel == null)
@@ -105,7 +107,7 @@ namespace gliist_server.Controllers
             if (guest == null)
                 return BadRequest("Guest not found");
 
-            guest.phoneNumber = guestNotesModel.Notes ?? string.Empty;
+            guest.notes = guestNotesModel.Notes;
             db.SaveChanges();
             return Ok();
         }
