@@ -275,6 +275,7 @@
     <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIds.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSubstitutionsBuilder.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
+    <Compile Include="Models\GuestNotesModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Controllers\RsvpController.cs" />
