@@ -1551,6 +1551,8 @@ md-dialog {
     .event-list {
         md-list-item {
             display: block;
+            border-radius: 5px;
+            border: 1px solid #ccc;            
             & > * {
                 width: 100%;
             }
@@ -1560,6 +1562,9 @@ md-dialog {
             md-grid-list {
                 margin-top: 20px;
             }
+        }
+        .actions {
+            padding-right: 0;
         }
     }
     .event-tab {
