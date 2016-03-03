@@ -16,6 +16,12 @@ angular.module('gliist')
             replace: true,
             templateUrl: 'app/templates/spinner.tmpl.html',
             controller: ['$scope', function($scope) {
+                function parseNumber(value, defaultValue) {
+                    defaultValue = angular.isNumber(defaultValue) ? defaultValue : null;
+                    value = parseInt(value);
+                    return !isNaN(value) ? value : defaultValue;
+                }
+                    
                 var nullable = !!$scope.nullable;
                 var min = parseNumber($scope.min, 0);
                 var max = parseNumber($scope.max, 365);
@@ -55,12 +61,6 @@ angular.module('gliist')
                         $scope.ngModel++;
                     }
                 };
-                
-                function parseNumber(value, defaultValue) {
-                    defaultValue = angular.isNumber(defaultValue) ? defaultValue : null;
-                    value = parseInt(value);
-                    return !isNaN(value) ? value : defaultValue;
-                }
             }]
         };
     }]);
