@@ -681,11 +681,32 @@ md-radio-button {
 }
 
 .guest-checkin {
-    .content > div {
-        margin-top: 25px;
-    }
-    h3 {
-        margin: 0;
+    .content {
+        text-align: center;
+        & > div {
+            margin-top: 25px;
+        }
+        h3 {
+            margin: 0;
+        }
+        .notes {
+            textarea {
+                border-radius: 5px;
+                max-width: 340px;
+                height: 70px;
+                padding: 10px;
+            }
+            & > *:first-child {
+                width: 90px;
+                text-align: right;
+            }
+            .md-button {
+                width: 90px;
+            }
+            & > * + * {
+                margin-left: 20px;
+            }
+        }
     }
 }
 
@@ -1539,6 +1560,19 @@ md-dialog {
             }
             .footer {
                 padding: 10px;
+            }
+        }
+    }
+    .guest-checkin {
+        .content {
+            .notes {
+                & > *:first-child {
+                    text-align: center;
+                }
+                & > * + * {
+                    margin-left: 0;
+                    margin-top: 10px;
+                }
             }
         }
     }

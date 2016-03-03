@@ -101,6 +101,25 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
             
+            updateGuestNotes: function(guestId, notes) {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/guest/updatenotes',
+                    data: {
+                        GuestId: guestId,
+                        Notes: notes
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get guest information, please try again');
+                });
+
+                return d.promise;
+            },
+            
             createEvent: function (event) {
                 var d = $q.defer();
 

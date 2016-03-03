@@ -24,7 +24,7 @@ angular.module('gliist')
                     {field: 'guest.firstName', name: 'First Name'},
                     {field: 'guest.lastName', name: 'Last Name'},
                     {field: 'guest.email', name: 'Email', enableSorting: false},
-                    {field: 'guest.phoneNumber', name: 'Note', enableSorting: false},
+                    {field: 'guest.notes', name: 'Note', enableSorting: false},
                     {field: 'guest.plus', name: 'Plus', enableSorting: false}
                 ],
                 enableCellEditOnFocus: true,
@@ -126,7 +126,7 @@ angular.module('gliist')
                         firstName: '',
                         lastName: '',
                         email: '',
-                        phoneNumber: '',
+                        notes: '',
                         plus: 0
                     }
                 });

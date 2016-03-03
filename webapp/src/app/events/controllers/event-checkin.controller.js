@@ -101,7 +101,6 @@ angular.module('gliist')
                 });
             };
 
-
             $scope.pastEvent = function() {
                 var endTime = $filter('ignoreTimeZone')($scope.event.endTime);
                 if (Date.now() > endTime.getTime()) {
