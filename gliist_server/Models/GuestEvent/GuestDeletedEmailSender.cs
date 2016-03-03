@@ -15,7 +15,7 @@ namespace gliist_server.Models
 
             SetHeaderAndBody(eventGuest, message);
             SetSubstitutions(user, eventGuest, message);
-            SetCategories(message);
+            SetCategories(user, eventGuest, message);
 
             SendMessage(message);
         }
@@ -46,9 +46,9 @@ namespace gliist_server.Models
             message.Html = "<p></p>";
         }
 
-        private static void SetCategories(ISendGrid message)
+        private static void SetCategories(UserModel user, EventGuestStatus eventGuest, ISendGrid message)
         {
-            message.SetCategories(new List<string> { "Guest deleted" });
+            message.SetCategories(new List<string> { "Guest deleted", user.company.name, eventGuest.Event.title });
         }
 
         private static void SetSubstitutions(UserModel user, EventGuestStatus eventGuest, ISendGrid message)

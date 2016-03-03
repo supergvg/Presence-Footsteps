@@ -277,6 +277,11 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
             var userToDelete = _db.Users.SingleOrDefault(u => u.UserName == userName);
+            if (userToDelete == null)
+                return BadRequest("User not found.");
+
+
+            var admin = userToDelete.company.users.FirstOrDefault(x => x.permissions == "admin");
             userToDelete.company.users.Remove(userToDelete);
 
             var usersGuestLists = _db.GuestLists.Where(x => x.created_by.Id == userToDelete.Id).ToList();
@@ -300,6 +305,7 @@ namespace gliist_server.Controllers
             _db.Entry(userToDelete).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
 
+            EmailHelper.SendAccountDeleted(userToDelete, admin ?? userToDelete);
 
             return Ok();
         }
