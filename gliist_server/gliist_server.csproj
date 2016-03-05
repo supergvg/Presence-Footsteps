@@ -408,6 +408,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
+    <Compile Include="Models\Patches\EventGuestListsActualPlusesPatch.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\CheckinModel.cs" />
     <Compile Include="Models\Company.cs" />
