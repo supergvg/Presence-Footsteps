@@ -173,6 +173,8 @@ namespace gliist_server.Controllers
                 @event.GuestListsHaveAdditionalGuests = CheckGuestListsHaveAdditionalGuests(@event);
             }
 
+            EventGuestListsActualPlusesPatch.Run(@event);
+
             return Ok(@event);
         }
 
