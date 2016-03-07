@@ -1,32 +1,21 @@
 <div layout="column" layout-align="start center">
-    <img ng-src="assets/images/gjests_logo.png" class="header-image"/>
+    <img ng-src="assets/images/gliist_logo_blue.png" class="header-image"/>
     <div layout="row" layout-align="start center" class="stripe-account">
         <div class="info"><span>Select your plan!</span></div>
     </div>
     <div class="tariff-blocks">
-        <div class="tariff-block" ng-repeat="tariff in plans" ng-if="$index != 3" ng-class="$index === 2 ? 'popular' : ''">
-            <div class="popular-title" ng-if="$index === 2">Most popular plan</div>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+        <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
+<!--            <div class="popular-title" ng-if="$index === 2">Most popular plan</div> -->
             <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">{{tariff.title}}</div>
-                <div class="price">{{tariff.price}}</div>
+                <div class="title">{{tariff.name}}</div>
+                <div class="price">$ {{tariff.amount}}/{{tariff.subscriptionDuration}}</div>
             </div>
             <ul class="description">
-                <li ng-repeat="feature in tariff.features">+ {{feature}}</li>
+                <li ng-repeat="feature in tariff.feature" ng-if="feature.SubscriptionFeatureDetails.IsActive">+ {{feature.SubscriptionFeatureDetails.Name}}</li>
             </ul>
             <div class="status">
                 <md-button class="raised-btn" ng-click="">SELECT</md-button>
-            </div>
-            <div ng-if="$index === 2">
-                <div layout="row" class="tariff-title" layout-align="space-between center">
-                    <div class="title">{{plans[$index+1].title}}</div>
-                    <div class="price">{{plans[$index+1].price}}</div>
-                </div>
-                <ul class="description">
-                    <li ng-repeat="feature in plans[$index+1].features">+ {{feature}}</li>
-                </ul>
-                <div class="status">
-                    <md-button class="raised-btn" ng-click="">SELECT</md-button>
-                </div>
             </div>
         </div>
     </div>
