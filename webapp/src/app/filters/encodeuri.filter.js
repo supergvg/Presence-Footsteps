@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('gliist')
-    .filter('encodeURIComponent', [function() {
-        return window.encodeURIComponent;
+    .filter('encodeURIComponent', ['$window', function($window) {
+        return $window.encodeURIComponent;
     }]);

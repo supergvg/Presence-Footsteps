@@ -1,5 +1,4 @@
 <div ng-init="init()" class="event-details-page">
-
     <div layout="row" layout-align="space-between center" class="tabs margin-top">
         <div class="tab">
             <div class="line"></div>
@@ -71,10 +70,6 @@
                             <md-input-container flex="75" md-no-float>
                                 <h4>Event Title</h4>
                                 <input required name="title" ng-model="event.title" placeholder="Enter event title, e.g. Holiday Party">
-                                <div ng-messages="eventForm.title.$error" ng-if="displayErrorMessage(eventForm.title)">
-                                    <div ng-message="required">Please Enter Event Title</div>
-                                    <div ng-message="pattern">Event Title can only contain alphabets, digits and spaces</div>
-                                </div>
                             </md-input-container>
                             <md-input-container flex="25" md-no-float>
                                 <h4>Event Category</h4>
@@ -84,9 +79,6 @@
                                         <img ng-src="assets/images/category_icons/blue_{{t | lowercase | spaceless}}.png" width="24" height="24" style="margin-right: 10px"/>{{t}}
                                     </md-option>
                                 </md-select>
-                                <div ng-messages="eventForm.category.$error" ng-if="displayErrorMessage(eventForm.category)">
-                                    <div ng-message="required">Please Select Event Category</div>
-                                </div>
                             </md-input-container>
                         </div>
                         <div layout layout-sm="column">
@@ -94,41 +86,22 @@
                                 <h4>Event Location</h4>
                                 <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="location.value" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
-                                <div ng-messages="eventForm.location.$error" ng-if="displayErrorMessage(eventForm.location)">
-                                    <div ng-message="required">Please Enter Event Location</div>
-                                </div>
                             </md-input-container>
                             <md-input-container flex="25" md-no-float>
                                 <h4>Event Capacity</h4>
                                 <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1" placeholder="Enter event capacity">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
-                                <div ng-messages="eventForm.capacity.$error" ng-if="displayErrorMessage(eventForm.capacity)">
-                                    <div ng-message="required">Please Enter Event Capacity</div>
-                                </div>
                             </md-input-container>
                         </div>
                     </div>
                     <div layout layout-sm="column" class="block-field date">
                         <div flex md-no-float>
                             <h4>Starts</h4>
-                            <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="hourStep"
-                                            minute-step="minuteStep"
-                                            ng-model="event.time" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
-                                            name="time"
-                                            date-options="dateOptions"
-                                            date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
-                            <div ng-if="timeInvalid && displayErrorMessage(eventForm.time)">Event can't start in the past</div>
+                            <datetimepicker ng-model="dt.startEventDateTime" name="time" min-date="minDate" minue-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
                         </div>
                         <div flex md-no-float>
                             <h4>Ends</h4>
-                            <datetimepicker min-date="endMinDate()" show-weeks="showWeeks" hour-step="hourStep"
-                                            minute-step="minuteStep"
-                                            ng-model="event.endTime" show-meridian="showMeridian"
-                                            name="endTime"
-                                            date-format="dd-MMM-yyyy"
-                                            date-options="dateOptions"
-                                            date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
-                            <div ng-if="endTimeInvalid && displayErrorMessage(eventForm.endTime)">End time has to be after start time</div>
+                            <datetimepicker ng-model="dt.endEventDateTime" name="endTime" min-date="endMinDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
                         </div>
                     </div>
                     <div layout layout-sm="column" class="block-field">
@@ -147,8 +120,7 @@
                 <md-button class="raised-btn" ng-click="next(eventForm)">
                     Next
                 </md-button>
-                <md-progress-circular class="md-hue-2" md-mode="indeterminate"
-                                      ng-show="savingEvent"></md-progress-circular>
+                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
             </div>
         </div>
         <div role="tabpanel"
@@ -209,47 +181,111 @@
                             </md-content>-->
                         </md-radio-group>
                     </div>
-                    <div class="block-field" layout="column" ng-show="event.type != 1">
-                        <h4>Send RSVP Invite to:</h4>
+                    <div class="block-field" layout="column" ng-show="event.type !== 1">
+                        <h4>{{event.type === 3 ? 'Send ticket purchase invite to:' : 'Send RSVP Invite to:'}}</h4>
                         <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
                             <md-content layout="row" layout-align="left center" flex="20">
-                                <md-tooltip md-direction="top">Only these guests can rsvp the event. Invite is non transferable</md-tooltip>                                    
-                                <md-radio-button ng-value="2" aria-label="Private/Invited guests">Private/Invited guests</md-radio-button>
+                                <md-tooltip md-direction="top">{{event.type === 3 ? 'Only these guests can purchase tickets. Tickets & Invites are non transferable' : 'Only these guests can rsvp the event. Invite is non transferable'}}</md-tooltip>
+                                <md-radio-button ng-value="2" aria-label="{{event.type === 3 ? 'Private' : 'Private/Invited guests'}}">{{event.type === 3 ? 'Private' : 'Private/Invited guests'}}</md-radio-button>
                             </md-content>
                             <md-content layout="row" layout-align="left center" flex="20">
-                                <md-tooltip md-direction="top">Anyone can rsvp the event with the rsvp link</md-tooltip>                                    
-                                <md-radio-button ng-value="3" aria-label="Public Guests" ng-click="event.additionalGuests = 1">Public Guests</md-radio-button>
+                                <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>                                    
+                                <md-radio-button ng-value="3" aria-label="{{event.type === 3 ? 'Public' : 'Public Guests'}}" ng-click="event.additionalGuests = 1">{{event.type === 3 ? 'Public' : 'Public Guests'}}</md-radio-button>
                             </md-content>
                         </md-radio-group>
                     </div>
-                    <div class="block-field" layout="row" ng-show="event.type == 3">
+                    <div class="block-field" layout="column" ng-show="event.type === 3">
                         <h4>Ticket types:</h4>
-                    </div>
-                    <div layout="row" ng-show="event.type == 3" class="price-blocks">
-                        <div ng-repeat="ticket in event.tickets track by $index" class="price-block">
-                            <div layout="row" class="title-price">
-                                <md-input-container flex="75">
-                                    <input ng-model="event.tickets[$index].title" aria-label="Price title">
-                                </md-input-container>
-                                <md-input-container flex="25">
-                                    <input ng-model="event.tickets[$index].price" aria-label="Price" currency>
-                                </md-input-container>
-                            </div>
-                            <div layout="row" class="price-options" ng-init="tab[$index] = 0">
-                                <a flex="50" class="{{tab[$index] == 0 ? 'active' : ''}}" ng-click="tab[$index] = 0">Set Quantity</a>
-                                <a flex="50" class="{{tab[$index] == 1 ? 'active' : ''}}" ng-click="tab[$index] = 1">Set end Time</a>
-                            </div>
-                            <div layout="row" layout-align="center center">
-                                <spinner ng-model="event.tickets[$index].quantity" ng-show="tab[$index] == 0"></spinner>
-                                <datetimepicker ng-show="tab[$index] == 1" max-date="endMinDate()" show-weeks="showWeeks" hour-step="hourStep"
-                                                minute-step="minuteStep"
-                                                ng-model="event.tickets[$index].endTime" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
-                                                date-options="dateOptions"
-                                                date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
+                        <div layout="row" class="ticket-blocks">
+                            <div ng-repeat="ticket in tickets track by $index" class="ticket-block" ng-class="ticket.control.edit ? 'edit' : ''">
+                                <div layout="column" ng-if="ticket.control.edit">
+                                    <div layout="row" layout-align="space-between center" class="top">
+                                        <md-input-container md-no-float>
+                                            <input ng-model="ticket.data.name" aria-label="Ticket name" placeholder='Enter ticket name'>
+                                        </md-input-container>
+                                        <md-input-container md-no-float class="currency">
+                                            <input ng-model="ticket.data.price" aria-label="Ticket price" type="number" min="1">
+                                        </md-input-container>
+                                    </div>
+                                    <div layout="column" class="bottom">
+                                        <div md-no-float class="block-field start-date">
+                                            <h4>Set start when</h4>
+                                            <md-radio-group ng-model="ticket.data.previousId" layout="column">
+                                                <md-radio-button ng-repeat="t in tickets track by $index" ng-value="t.data.id" ng-if="$index !== $parent.$index && t.data.id" aria-label="{{t.data.name}} sale ends"><h4>{{t.data.name}} sale ends</h4></md-radio-button>
+                                                <md-radio-button ng-value="0" aria-label="Set start date and time"><h4>Set start date and time</h4></md-radio-button>
+                                                <md-content ng-if="ticket.data.previousId === 0">
+                                                    <md-tooltip md-direction="top">Set start date and time</md-tooltip>
+                                                    <datetimepicker ng-model="ticket.data.startTime" min-date="minDate" max-date="maxTicketDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
+                                                </md-content>
+                                            </md-radio-group>
+                                        </div>
+                                        <div class="block-field radio-height">
+                                            <md-radio-group ng-model="ticket.control.endBy" layout="column">
+                                                <md-radio-button ng-value="0" aria-label="Set end by date and time"><h4>Set end by date and time</h4></md-radio-button>
+                                                <md-content ng-if="ticket.control.endBy === 0">
+                                                    <md-tooltip md-direction="top">Set timer for ticket sales end</md-tooltip>
+                                                    <datetimepicker ng-model="ticket.data.expirationTime" min-date="ticket.data.startTime" max-date="maxTicketDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
+                                                </md-content>
+                                                <md-radio-button ng-value="1" aria-label="Set end by quantity"><h4>Set end by quantity</h4></md-radio-button>
+                                                <md-content ng-if="ticket.control.endBy === 1">
+                                                    <md-tooltip md-direction="top">Set quantity for ticket sales end</md-tooltip>
+                                                    <spinner ng-model="ticket.data.quantity" min="{{ticket.data.soldTicketsCount === 0 ? 1 : ticket.data.soldTicketsCount}}"></spinner>
+                                                </md-content>
+                                            </md-radio-group>
+                                        </div>
+                                        <div class="block-field actions" layout="row" layout-align="center center">
+                                            <md-button class="raised-btn" ng-click="updateTicket(ticket)" ng-disabled="!validateTicket(ticket) || ticket.control.waiting">
+                                                Save
+                                            </md-button>
+                                            <md-button class="raised-btn" ng-if="!ticket.data.id" ng-click="cancelTicket($index)" ng-disabled="ticket.control.waiting">
+                                                Cancel
+                                            </md-button>
+                                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="ticket.control.waiting"></md-progress-circular>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div layout="column" ng-if="!ticket.control.edit">
+                                    <div layout="row" layout-align="space-between center" class="top">
+                                        <h4>{{ticket.data.name}}</h4>
+                                        <h3 class="currency">{{ticket.data.price}}</h3>
+                                    </div>
+                                    <div layout="column" class="bottom">
+                                        <div class="block-field">
+                                            <div ng-if="ticket.data.previousId === 0">
+                                                <h4>Start date and time</h4>
+                                                <p>{{ticket.data.startTime | date : 'd MMM yyyy' | uppercase}} <strong>{{ticket.data.startTime | date : 'h:mm a'}}</strong></p>
+                                            </div>
+                                            <div ng-if="ticket.data.previousId > 0">
+                                                <h4>Start by {{getTicketById(ticket.data.previousId).data.name}} sale ends</h4>
+                                            </div>
+                                        </div>
+                                        <div class="block-field">
+                                            <div ng-if="ticket.control.endBy === 0">
+                                                <h4>End by date and time</h4>
+                                                <p>{{ticket.data.expirationTime | date : 'd MMM yyyy' | uppercase}} <strong>{{ticket.data.expirationTime | date : 'h:mm a'}}</strong></p>
+                                            </div>
+                                            <div ng-if="ticket.control.endBy === 1">
+                                                <h4>End by quantity</h4>
+                                                <p><strong>{{ticket.data.quantity}}</strong></p>
+                                            </div>
+                                        </div>
+                                        <div class="block-field actions" layout="row" layout-align="center center">
+                                            <md-button class="icon-btn" ng-click="ticket.control.edit = true" ng-disabled="ticket.control.waiting">
+                                                <md-tooltip md-direction="top">Edit ticket</md-tooltip>
+                                                <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+                                            </md-button>
+                                            <md-button class="icon-btn" ng-click="deleteTicket(ticket)" ng-disabled="ticket.control.waiting">
+                                                <md-tooltip md-direction="top">Delete ticket</md-tooltip>
+                                                <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                                            </md-button>
+                                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="ticket.control.waiting"></md-progress-circular>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>                    
-                    <div layout="column" ng-show="(event.type == 1 && event.rsvpType == 2) || (event.type == 2)">
+                    </div>
+                    <div layout="column" ng-show="(event.type === 1 && event.rsvpType === 2) || (event.type === 2)">
                         <div class="block-field">
                             <h4>Additional Guests:</h4>
                             <span layout="row" layout-align="start center">
@@ -262,17 +298,13 @@
                             </md-checkbox>-->
                         </div>
                         <div class="block-field date">
-                            <h4>RSVP timer expires on:</h4>
-                            <datetimepicker max-date="endMaxDate()" show-weeks="showWeeks" hour-step="hourStep"
-                                            minute-step="minuteStep"
-                                            ng-model="event.rsvpEndDate" show-meridian="showMeridian" date-format="dd-MMM-yyyy"
-                                            date-options="dateOptions"
-                                            date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
+                            <h4>RSVP expires on:</h4>
+                            <datetimepicker ng-model="dt.endEventRsvpDateTime" min-date="endMinDate()" max-date="endMaxDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
                         </div>
                     </div>                    
                 </form>
             </div>
-            <div layout="row" layout-align="end center" class="actions">
+            <div layout="row" layout-align="end center" layout-sm="column" class="actions">
                 <md-button class="raised-btn" ng-click="addNewTicket()" ng-show="event.type === 3">
                     Add Ticket
                 </md-button>
@@ -317,7 +349,7 @@
                     </md-list>
                 </div>
                 <div class="block-field" ng-if="event.type !== 1">
-                    <h4>Send RSVP to</h4>
+                    <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Send RSVP to'}}</h4>
                     <md-list>
                         <md-list-item layout="row">
                             <div flex>
@@ -334,7 +366,7 @@
                                 <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ui-sref="main.create_gl_event({eventId: event.id, instanceType: event.type === 3 ? 3 : 2})">
+                                <md-button class="raised-btn" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 2})">
                                     Create
                                 </md-button>
                             </div>

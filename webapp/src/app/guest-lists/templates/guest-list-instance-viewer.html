@@ -47,21 +47,21 @@
                 <p>{{getActualGuests(instance)}}</p>
             </div>
             <div flex ng-if="!options.stats">
-                <p>{{getglistTotal(instance)}}</p>
+                <p>{{getTotalGuests(instance)}}</p>
             </div>
             <div flex ng-if="options.stats">
-                <p>{{getglistTotal(instance) - getActualGuests(instance)}}</p>
+                <p>{{getUnconfirmedGuests(instance)}}</p>
             </div>
             <div flex ng-if="options.stats">
-                <p>{{getglistTotal(instance)}}</p>
+                <p>{{getTotalGuests(instance)}}</p>
             </div>
             <div flex ng-if="!options.stats">
-                <p>{{instance.capacity}}</p>
-                <!--<md-input-container>
+                <p ng-if="!options.details">{{instance.capacity}}</p>
+                <md-input-container ng-if="options.details">
                     <md-tooltip md-direction="top">Enter # of guests that can be checked in</md-tooltip>
                     <input name="capacity" ng-model="instance.capacity" ng-disabled="options.readOnly || isPromoter()"
                            type="number" min="0" step="1" ng-blur="onCapacityChanged(instance)" aria-label="capacity">
-                </md-input-container>-->
+                </md-input-container>
             </div>
             <div flex="10">
                 <p ng-if="instance.instanceType === 1">Guest</p>
@@ -91,8 +91,8 @@
         </md-list-item>
     </md-list>
     <div layout="row" layout-align="end center" ng-show="lists.length > 0 && options.showSummary" class="margin-top">
-        <h4>Total Guest: {{getTotalGuests()}}</h4>
-        <h4>Total Capacity: {{getTotalCapacity()}}</h4>
+        <h4>Total Guest: {{getGrandTotalGuests()}}</h4>
+        <h4>Total Capacity: {{getGrandTotalCapacity()}}</h4>
     </div>
     <div class="waiting">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>

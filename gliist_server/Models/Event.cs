@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using Newtonsoft.Json;
 
-
 namespace gliist_server.Models
 {
     public class Event
     {
-        private static string defaultImageUrl = ConfigurationManager.AppSettings["defaultEventImage"];
+        private static readonly string DefaultImageUrl = ConfigurationManager.AppSettings["defaultEventImage"];
 
         [JsonIgnore]
         public virtual Company company { get; set; }
@@ -59,11 +54,7 @@ namespace gliist_server.Models
         public DateTimeOffset endTime { get; set; }
 
         [JsonProperty(PropertyName = "rsvpEndDate")]
-        public Nullable<DateTimeOffset> RsvpEndDate { get; set; }
-
-        public int utcOffset { get; set; }
-
-        public int userOffset { get; set; }
+        public DateTimeOffset? RsvpEndDate { get; set; }
 
         [MaxLength(255)]
         [JsonProperty(PropertyName = "rsvpUrl")]
@@ -72,9 +63,6 @@ namespace gliist_server.Models
         [MaxLength(255)]
         [JsonProperty(PropertyName = "ticketingUrl")]
         public string TicketingUrl { get; set; }
-
-        [JsonProperty(PropertyName = "tickets")]
-        public virtual List<TicketType> Tickets { get; set; }
 
         [JsonIgnore]
         public virtual List<EventGuestStatus> EventGuestStatuses { get; set; }
@@ -97,17 +85,11 @@ namespace gliist_server.Models
         {
             get
             {
-                if (this.RsvpEndDate == null)
+                if (RsvpEndDate == null)
                     return false;
-                else
-                    return (DateTime.UtcNow > this.RsvpEndDate.Value.UtcDateTime);
-            }
-        }
 
-        [JsonIgnore]
-        public static string DefaultImageUrl
-        {
-            get { return defaultImageUrl; }
+                return (DateTime.UtcNow > RsvpEndDate.Value.UtcDateTime);
+            }
         }
 
         [NotMapped]
@@ -118,8 +100,7 @@ namespace gliist_server.Models
 
         public Event()
         {
-            invitePicture = defaultImageUrl;
-            this.Tickets = new List<TicketType>();
+            invitePicture = DefaultImageUrl;
         }
 
     }

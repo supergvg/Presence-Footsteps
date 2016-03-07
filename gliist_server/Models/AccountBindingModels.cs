@@ -60,6 +60,12 @@ namespace gliist_server.Models
         public string token { get; set; }
     }
 
+    public class ExternalRegisterBindingModel : RegisterBindingModel
+    {
+        [Required(ErrorMessage = "Invite code is required.")]
+        public string inviteCode { get; set; }
+    }
+
     public class RegisterExternalBindingModel
     {
         [Required]

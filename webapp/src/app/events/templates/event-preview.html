@@ -1,7 +1,7 @@
-<div class="event-preview margin-top" layout="row" layout-align="space-between stretch">
-    <div layout="row" layout-align="start center" flex="60">
+<div class="event-preview margin-top" layout="row" layout-align="space-between stretch" layout-sm="column" layout-align-sm="start center">
+    <div layout="row" layout-align="start center" layout-sm="column" flex="60" flex-sm="100">
         <div ng-style="getEventInvite('230px')" class="event-image"></div>
-        <div layout="column" layout-align="center start" class="event-descr">
+        <div layout="column" layout-align="center stretch" class="event-descr" flex>
             <h2>
                 {{event.title}}
             </h2>

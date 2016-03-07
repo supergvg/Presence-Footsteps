@@ -9,6 +9,18 @@ html {
     color: #666;
 }
 
+md-toast {
+    position: fixed;
+    &.md-center {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border-radius: 5px;
+    }
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -207,6 +219,15 @@ md-tooltip .md-content{
     min-height: 30px;
     font-weight: bold;
     color: #aaa;
+    img,
+    md-icon,
+    ng-md-icon {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%,-50%); 
+        height: 24px;
+        fill: white;
+    }
     span {
         line-height: 1;
     }
@@ -269,14 +290,6 @@ md-tooltip .md-content{
         &:hover {
             background: linear-gradient(to bottom, #65aef6, #98ccff);
         }
-        md-icon,
-        ng-md-icon {
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%,-50%); 
-            height: 24px;
-            fill: white;
-        }
     }
 }
 
@@ -293,6 +306,36 @@ md-tooltip .md-content{
     left: auto;
     margin: 0;
     color: #8e8e8e !important;
+}
+
+.spinner {
+    display: inline-block;
+    text-align: center;
+    a {
+        display: block;
+    }
+    input {
+        width: 50px;
+        float: none;
+        border-radius: 4px;
+    }
+    &.spinner-h {
+        a {
+            display: inline-block;
+            padding: 10px;
+            font-size: 16px;
+            &:first-child {
+                float: right;
+            }
+            &:last-child {
+                float: left;
+            }
+        }
+        input {
+            display: inline-block;
+            
+        }
+    }
 }
 
 .spinner-plusminus-h {
@@ -367,6 +410,9 @@ md-tooltip .md-content{
         margin: 0;
         padding: 12px;
     }
+    md-content {
+        padding: 15px;
+    }
 }
 
 input.form-control {
@@ -389,6 +435,20 @@ input.form-control {
     h4 {
         font-weight: bold;
         margin: 0;
+    }
+}
+
+.datetimepicker-wrapper:first-child {
+    position: relative;
+    &:before {
+        content: '';
+        background: url(/assets/images/icons/calendar.png) no-repeat 0 0;
+        width: 18px;
+        height: 21px;
+        display: block;
+        position: absolute;
+        right: 10px;
+        top: 10px;
     }
 }
 
@@ -510,7 +570,7 @@ md-list {
 md-radio-button {
     overflow-x: hidden;
     margin: 0;
-    color: #666;
+    color: #8e8e8e;
     .md-container {
         top: 0;
         vertical-align: middle;
@@ -816,15 +876,10 @@ md-dialog {
     .header {
         height: 170px;
         background: #000;
-        img.header-image {
-            display: block;
-            margin: 20px auto;
-        }
     }
     .content {
         text-align: center;
         margin-bottom: 90px;
-        font-size: 12px;
         h4 {
             margin: 35px 0;
             color: #fff;
@@ -853,43 +908,21 @@ md-dialog {
                 font-weight: bold;
                 margin: 0;
             }
-            h4.success {
-                color: #aaa;
-                background-color: #99ccff;
-                padding: 10px;
-            }
         }
         .item {
             text-align: left;
             margin-bottom: 9px;
+            .item-text {
+                font-size: 14px;
+            }
         }
         .item-label {
             color: #99ccff;
-            font-weight: bold;
+            font: {
+                weight: bold;
+                size: 16px;
+            }
             text-align: left;
-        }
-        ul.social {
-            display: inline-block;
-            list-style: none;
-            margin: 10px 0 0 0;
-            padding-left: 20px;
-            li {
-                float: left;
-                + li {
-                    margin-left: 5px;
-                }
-                a {
-                    width: auto;
-                    height: 30px;
-                    margin: 0;
-                }
-            }
-        }
-        ul.share {
-            padding-left: 0;
-            li + li {
-                margin-left: 20px;
-            }
         }
         .blocks {
             & > * {
@@ -904,6 +937,15 @@ md-dialog {
         }
         .event-details {
             margin-top: 30px;
+            font-size: 12px;
+        }
+        h4.success {
+            color: #666;
+            background-color: #d4e5f9;
+            padding: 15px 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 14px;
         }
         form {
             .form-item {
@@ -915,10 +957,14 @@ md-dialog {
                     border: none;
                     padding: 5px;
                     line-height: 1;
+                    font-size: 14px;
                 }
                 label {
                     text-align: left;
-                    font-weight: normal;
+                    font: {
+                        weight: normal;
+                        size: 14px;
+                    }
                     width: 40px;
                 }
             }
@@ -929,8 +975,31 @@ md-dialog {
                 }
             }
         }
-        .socials > * {
-            text-align: left !important;
+    }
+    .socials > * {
+        text-align: left !important;
+    }
+    ul.social {
+        display: inline-block;
+        list-style: none;
+        margin: 10px 0 0 0;
+        padding-left: 20px;
+        li {
+            float: left;
+            + li {
+                margin-left: 5px;
+            }
+            a {
+                width: auto;
+                height: 30px;
+                margin: 0;
+            }
+        }
+    }
+    ul.share {
+        padding-left: 0;
+        li + li {
+            margin-left: 20px;
         }
     }
     .footer {
@@ -951,159 +1020,71 @@ md-dialog {
     }
 
     &.ticketing {
-        background-color: #323232;
-        background-image: linear-gradient(#323232 380px, #ffffff 380px, #ffffff 100%);
+        background-color: #fff;
+        background-image: none;
         .header {
-            width: 100%;
-            height: 164px;
-            background-color: #000;
-            position: relative;
-            img {
-                position: absolute;
-                top: 51px;
-            }
-            .header-image {
-                left: 36px;
-            }
-            .header-logo {
-                right: 20px;
-            }
+            padding: 0 20px 20px 30px;
         }
         .content {
-            width: 100%;
-            margin-bottom: 125px;
-            .event-details {
-                width: 100%;
-                color: #fff;
-                text-align: left;
-                .image-info {
-                    .info {
-                        float: right;
-                        padding: 0 30px;
-                        h2 {
+            text-align: left;
+            margin-bottom: 120px;
+            .event-preview {
+                margin: 0;
+                background-color: #ececec;
+                .event-image {
+                    margin-left: 0;
+                }
+                .event-descr {
+                    color: #000;
+                }
+            }
+            md-list {
+                color: #8a8a8a;
+                md-list-item {
+                    background-color: #e6e6e6;
+                    &:first-child {
+                        background-color: #fff;
+                        & > div {
+                            padding: 20px;
                             font-weight: bold;
+                            &:last-child {
+                                padding-left: 50px;
+                            }
                         }
-                        p {
-                            font-size: 12px;
-                            padding: 35px 155px 0 0;
-                        }
                     }
-                }
-                .date-location {
-                    width: 200px;
-                }
-                .location {
-                    font-size: 12px;
-                    margin-right: 65px;
-                    .time {
-                        padding: 27px 10px 27px 0;
-                        font-size: 18px;
-                        font-weight: bold;
-                        border-bottom: 2px solid #fff;
-                        height: 75px;
+                    & > div {
+                        padding: 0 20px;
                     }
-                    .category {
-                        margin-top: 15px;
-                        padding: 10px 30px 10px 0;
-                    }
-                    .address {
-                        padding: 0 30px 0 0;
-                    }
-                }
-                .date {
-                    background-color: #99ccff;
-                    text-align: center;
-                    width: 65px;
-                    height: 212px;
-                    font-size: 18px;
-                    font-weight: bold;
-                    line-height: 1;
-                    float: right;
-                    .day-week {
-                        padding: 30px 0;
-                        border-bottom: 2px solid #fff;
-                        height: 75px;
-                    }
-                    .month {
-                        padding: 40px 0 0 0;
-                    }
-                    .day {
-                        font-size: 36px;
+                    & + md-list-item {
+                        border-top: 1px solid #fafafa;
                     }
                 }
             }
-            .tickets {
-                width: 100%;
-                font-weight: bold;
-                text-align: left;
-                .row-header {
-                    padding: 35px 0;
-                    color: #8a8a8a;
-                    font-size: 12px;
-                    >div:first-child {
-                        padding-left: 35px;
-                    }
+            .promo {
+                margin-top: 30px;
+                padding-left: 20px;
+                md-input-container {
+                    margin: 0 40px;
+                    min-width: 300px;
                 }
-                .row-ticket {
-                    background-color: #bebebe;
-                    padding: 6px 0;
-                    font-size: 18px;
-                    border-bottom: 2px solid #fff;
-                    >div:first-child {
-                        padding-left: 35px;
-                    }
-                    .spinner-plusminus {
-                        display: inline-block;
-                        margin-left: -34px;
-                        .minus, .plus {
-                            color: #99ccff;
-                            font-size: 24px;
-                            font-weight: bold;
-                            cursor: pointer;
-                            padding: 0 13px;
-                            text-decoration: none;
-                            display: inline-block;
-                            user-select: none;
-                            position: relative;
-                            top: 4px;
-                        }
-                        input {
-                            width: 45px;
-                            display: inline-block;
-                            padding: 5px;
-                        }
-                    }
-                }
-                .promo {
-                    padding: 45px 35px;
-                    font-size: 14px;
-                    color: #8a8a8a;
-                    text-align: left;
-                    input {
-                        font-size: 11px;
-                        color: #555;
-                        text-align: left;
-                        width: 280px;
-                    }
-                }
+
             }
         }
         .footer {
-            height: 125px;
-            background-color: #323232;
-            padding: 0 75px 0 35px;
+            height: 120px;
+            background-color: #000;
+            padding: 0 75px 0 20px;
+            .md-button {
+                min-width: 275px;
+            }
             p {
-                color:#939393;
+                text-align: left;
+                color: #fff;
                 font-size: 12px;
                 line-height: 1;
-                text-align: left;
                 span {
-                    color:#939393;
-                    font-size: 10px;
+                   font-size: 10px; 
                 }
-            }
-            button {
-                width: 280px;
             }
         }
     }
@@ -1450,59 +1431,93 @@ md-dialog {
 }
 
 .event-tab {
-    .price-block {
-        width: 290px;
-        float: left;
-    }
-    .price-block:nth-last-child(n+2) {
-        margin: 0 15px 15px 0;
-    }
-    .title-price,
-    .price-block {
-        border-bottom: 2px dashed #8e8e8e;
-    }
-    .title-price md-input-container {
-        padding: 0;
-
-        &:first-child input {
-            font-size: 14px !important;
-            text-align: left;
-            padding-left: 15px;
-        }
-        &:nth-child(2) {
-            position: relative;
-            font-size: 24px !important;
-
-            input {
-                text-align: right;
-                padding-right: 5px;
-                font-size: 24px !important;
-            }
-            &:before {
-                content: '$ ';
-                position: absolute;
-                left: 0;
-                top: 5px;
-                color: #99ccff;
-            }
-        }
-    }
-    .price-blocks {
-        margin-top: 15px;
+    .ticket-blocks {
         display: inline-block;
-    }
-    .price-options a {
-        display: block;
-        font-size: 11px;
-        line-height: 25px;
-        padding-left: 20px;
-        text-decoration: none;
-        cursor: pointer;
-
-        &.active {
-            background-color: #99ccff;
-            color: #fff;
-        }    
+        .ticket-block {
+            min-width: 316px;
+            background-color: #ececec;
+            color: #8e8e8e;
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            .block-field {
+                &.radio-height {
+                    min-height: 210px;
+                }
+                border-color: #ccc;
+                padding-bottom: 10px;
+                h4 {
+                    font-weight: normal;
+                    color: #8e8e8e;
+                }
+                p {
+                    margin-bottom: 5px;
+                    color: #7ab9f8;
+                    font-size: 18px;
+                }
+            }
+            .top {
+                background-color: #f0f6fb;
+                padding: 7px 13px;
+                border-bottom: 2px dashed #8e8e8e;
+                h3, h4 {
+                    font-weight: bold;
+                    color: #8e8e8e;
+                    position: relative;
+                    margin: 0;
+                }
+                .currency:before {
+                    content: '$';
+                    font-weight: bold;
+                    font-size: 24px;
+                    position: absolute;
+                    left: -20px;
+                    bottom: 0;
+                    color: #99ccff;
+                    line-height: 1.1;
+                }
+                md-input-container {
+                    &:first-child input {
+                        width: 180px;
+                    }
+                    &:last-child {
+                        padding: 0;
+                        position: relative;
+                        input {
+                            width: 65px;
+                            text-align: center;
+                            padding-left: 10px;
+                        }
+                    }
+                    input {
+                        height: 30px;
+                        line-height: 30px !important;
+                    }
+                }
+            }
+            .bottom {
+                padding: 0 15px 15px 15px;
+                md-content {
+                    background-color: #ececec;
+                    overflow: visible;
+                }
+                md-radio-button {
+                    &.md-checked .md-label h4 {
+                        font-weight: bold;
+                    }
+                    & + md-radio-button {
+                        margin-top: 10px;
+                    }
+                }
+                .spinner {
+                    margin-left: 40px;
+                }
+                .actions {
+                    margin: 0;
+                    padding: 15px 0 0 0;
+                }
+            }
+        }
     }
 }
 
@@ -1518,7 +1533,7 @@ md-dialog {
         background-position-x: 0 !important;
     }
     .event-descr {
-        padding-left: 10px;
+        padding: 0 20px;
         h2 {
             font-weight: bold;
             margin: 0 0 50px 0;
@@ -1534,8 +1549,9 @@ md-dialog {
         color: #fff;
         .dayOfWeek {
             width: 100%;
-            padding: 25px;
+            padding: 25px 0;
             border-bottom: 2px solid #fff;
+            text-align: center;
         }
         .month {
             padding-top: 45px;
@@ -1606,6 +1622,9 @@ md-dialog {
         margin: 16px 0 0 0;
     }
     .chart {
+        & > div:first-child {
+            margin-right: 20px;
+        }
         md-list {
             md-list-item {
                 &:first-child {
@@ -1613,6 +1632,23 @@ md-dialog {
                 }
                 margin-bottom: 4px;
             }
+        }
+    }
+    &.event-type-2 {
+        h4.chart-title {
+            text-align: left;
+        }
+        .chart {
+            md-list {
+                md-list-item {
+                    &:first-child {
+                        background-color: #ececec;
+                    }
+                }
+            }
+        }
+        .md-button {
+            width: auto;
         }
     }
 }
@@ -1624,6 +1660,11 @@ md-dialog {
 }
 
 @media screen and (max-width: 600px) {
+    md-toolbar {
+        & > div {
+            padding: 0 10px;
+        }
+    }
     .signup_invite,
     .signup {
         .signup-form {
@@ -1639,6 +1680,11 @@ md-dialog {
         md-input-container + md-input-container {
             padding-left: 0;
             padding-top: 20px;
+        }
+        md-radio-group {
+            md-content + md-content {
+                padding-top: 5px;
+            }
         }
     }
     .billet + .billet {
@@ -1700,6 +1746,141 @@ md-dialog {
                     text-align: center !important;
                     margin-top: 15px;
                 }
+            }
+            h4.success {
+                margin: 10px -25px;
+            }
+        }
+        &.ticketing {
+            .content {
+                md-list {
+                    md-list-item {
+                        & > div {
+                            padding: 0 !important;
+                        }
+                    }
+                }
+                .promo {
+                    padding: 0;
+                    & > * {
+                        margin: 0 0 10px 0 !important;
+                    }
+                }
+            }
+            .footer {
+                padding: 10px;
+            }
+        }
+    }
+    .event-preview {
+        .event-descr {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+    }
+    .event-list {
+        md-list-item {
+            display: block;
+            border-radius: 5px;
+            border: 1px solid #ccc;            
+            & > * {
+                width: 100%;
+            }
+            .event-image {
+                height: 215px !important;
+            }
+            md-grid-list {
+                margin-top: 20px;
+            }
+        }
+        .actions {
+            padding-right: 0;
+        }
+    }
+    .event-tab {
+        .ticket-blocks {
+            .ticket-block {
+                min-width: 260px;
+            }
+        }
+    }
+    .spinner {
+        &.spinner-h {
+            a {
+                float: none !important;
+            }
+        }
+        &.ticketing {
+            .content {
+                md-list {
+                    md-list-item {
+                        & > div {
+                            padding: 0 !important;
+                        }
+                    }
+                }
+                .promo {
+                    padding: 0;
+                    & > * {
+                        margin: 0 0 10px 0 !important;
+                    }
+                }
+            }
+            .footer {
+                padding: 10px;
+            }
+        }
+    }
+    .event-preview {
+        .event-descr {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+    }
+    .event-tab {
+        .ticket-blocks {
+            .ticket-block {
+                min-width: 260px;
+            }
+        }
+    }
+    .spinner {
+        &.spinner-h {
+            a {
+                float: none !important;
+            }
+        }
+    }
+    md-dialog {
+        &.landing-ticketing-purchase {
+            & > div {
+                &:last-child {
+                    .md-button {
+                        min-width: 150px;
+                    }
+                }
+            }
+            .credit-card {
+                & > div {
+                    & > div + div {
+                        margin-top: 5px;
+                        margin-left: 0;
+                    }
+                }
+            }
+            .ticket {
+                .ticket-info {
+                    .ticket-form {
+                        width: 100%;
+                        .form-item {
+                            & + .form-item {
+                                margin-left: 0;
+                                margin-top: 5px
+                            }
+                        }
+                    }
+                }
+                
             }
         }
     }

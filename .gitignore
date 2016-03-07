@@ -3,7 +3,7 @@
 ################################################################################
 
 /gliist_server/bin
-/gliist_server/obj/Debug
+/gliist_server/obj
 /gliist_server/main.webapp/build/vendor
 /gliist_server/main.webapp/build
 /gliist_server/main.webapp/build/index.html
@@ -12,14 +12,12 @@
 /packages
 /webapp/nbproject/private/
 /app
-/gliist_server/obj/Release
 /gliist_server/App_Data/Tmp/FileUploads
 /gliist_server/Logs
 /pass
 /*.suo
-/gliist_server.Tests/obj/Debug
-/gliist_server.Tests/bin/Debug
-/gliist_server.Tests/obj/Release
-/*.suo
-/*.suo
+/gliist_server.Tests/obj
+/gliist_server.Tests/bin
 /*.csproj.user
+/*.coverage
+/gliist_server.Selling.Tests/bin/

@@ -245,39 +245,18 @@ namespace gliist_server.Controllers
             {
                 @event.time = DateTimeOffset.Now;
             }
-
-            @event.time = new DateTimeOffset(@event.time.Year, @event.time.Month, @event.time.Day, @event.time.Hour, @event.time.Minute, @event.time.Second, new TimeSpan(0, 0, @event.utcOffset)).AddHours(-@event.userOffset);
-
-            @event.endTime = new DateTimeOffset(@event.endTime.Year, @event.endTime.Month, @event.endTime.Day, @event.endTime.Hour, @event.endTime.Minute, @event.endTime.Second, new TimeSpan(0, 0, @event.utcOffset)).AddHours(-@event.userOffset);
-
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (@event.Type == EventType.Ticketing && @event.Tickets.Count == 0)
-            {
-                return BadRequest("Tickets are required for this type of event");
-            }
-            else if (@event.Type == EventType.Rsvp && @event.RsvpEndDate == null)
+            if (@event.Type == EventType.Rsvp && @event.RsvpEndDate == null)
             {
                 return BadRequest("rsvpEndDate is required for this type of event");
             }
 
-            if (@event.Tickets != null && @event.Tickets.Count > 0)
-            {
-                if (@event.Type == EventType.Ticketing)
-                {
-                    @event.Tickets.ForEach(x => x.EventId = @event.id);
-                }
-                else
-                {
-                    @event.Tickets.Clear();
-                }
-
-            }
-
-            var generateRSVPLink = false;
+            var generateRsvpLink = false;
             if (@event.id > 0)
             {
                 var existingEvent = db.Events.FirstOrDefault(x => x.id == @event.id);
@@ -327,23 +306,18 @@ namespace gliist_server.Controllers
                     }
                 }
 
-                foreach (var ticketType in @event.Tickets)
-                {
-                    db.Entry(ticketType).State = (ticketType.Id > 0) ? EntityState.Modified : EntityState.Added;
-                }
-
                 db.Entry(existingEvent).CurrentValues.SetValues(@event);
             }
             else
             {
-                generateRSVPLink = true;
+                generateRsvpLink = true;
                 db.Events.Add(@event);
             }
             await db.SaveChangesAsync();
 
-            if (generateRSVPLink)
+            if (generateRsvpLink)
             {
-                var linkCreator = new GjestsLinksGenerator(ConfigurationManager.AppSettings["appBaseUrl"]);
+                var linkCreator = new GjestsLinksGenerator(Config.AppBaseUrl);
                 @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.id.ToString());
                 @event.TicketingUrl = linkCreator.GeneratePublicTicketsLandingPageLink(@event.company.name, @event.id.ToString());
             }

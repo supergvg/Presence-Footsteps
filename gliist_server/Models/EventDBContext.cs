@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using gliist_server.Areas.Ticketing.Models;
 using gliist_server.Migrations;
 
 namespace gliist_server.Models
@@ -19,9 +19,7 @@ namespace gliist_server.Models
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<EventDBContext, Configuration>());
         }
-
-        public DbSet<Event> Events { get; set; }
-
+        
         public DbSet<Guest> Guests { get; set; }
 
         public DbSet<GuestList> GuestLists { get; set; }
@@ -32,16 +30,29 @@ namespace gliist_server.Models
 
         public DbSet<Notification> Notifications { get; set; }
 
-        public DbSet<TicketType> TicketTypes { get; set; }
-
         public DbSet<ResetPasswordToken> PasswordTokens { get; set; }
 
         public DbSet<EventGuestStatus> EventGuests { get; set; }
 
-        public DbSet<Subscription> Subscriptions { get; set; }
+#if !DEBUG
 
-        public DbSet<CompanySubscription> CompanySubscriptions { get; set; }
+        public DbSet<Event> Events { get; set; }
 
-        
+        public DbSet<TicketTier> TicketTiers { get; set; }
+
+        public void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+#else
+        public virtual DbSet<Event> Events { get; set; }
+
+        public virtual DbSet<TicketTier> TicketTiers { get; set; }
+
+        public virtual void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+#endif
     }
 }

@@ -4,11 +4,6 @@ namespace gliist_server.Models
 {
     public class NotificationViewModel
     {
-        public NotificationViewModel()
-        {
-            time = DateTimeOffset.Now;
-        }
-
         public string message { get; set; }
 
         public DateTimeOffset time { get; set; }

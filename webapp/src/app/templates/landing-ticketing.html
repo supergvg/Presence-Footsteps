@@ -1,82 +1,38 @@
-<div layout="column" layout-align="center center" class="landing-ticketing">
-    <div class="header"><img class="header-image" src="{{event.company.logo}}" height="43"/><img class="header-logo" src="assets/images/landing-logo.png" alt="logo"/></div>
-    <div class="content" layout="column" layout-align="start start">
-        <div layout="row" layout-align="space-between start" class="event-details">
-            <div class="image-info">
-                <div class="info">
-                    <h2>
-                        {{event.event.title}}
-                    </h2>
-                    <p ng-bind-html="event.event.description | linky:'_blank'"></p>
-                </div>
-                <img src="{{event.event.invitePicture}}" height="212"/>
-            </div>
-            <div class="date-location">
-                <div class="date">
-                    <div class="day-week">
-                        {{event.event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
-                    </div>
-                    <div class="month">
-                        {{event.event.time | ignoreTimeZone | date: 'MMM' | uppercase}}
-                    </div>
-                    <div class="day">
-                        {{event.event.time | ignoreTimeZone | date: 'd'}}
-                    </div>
-                </div>
-                <div class="location">
-                    <div class="time">
-                        {{event.event.time | ignoreTimeZone | date: 'h:mm a'}}
-                    </div>
-                    <div class="category">
-                        {{event.event.category}}
-                    </div>
-                    <div class="address">
-                        {{event.event.location}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tickets">
-            <div layout="row" class="row-header">
-                <div flex="60">
-                    Ticket type
-                </div>
-                <div flex="20">
-                    Price
-                </div>
-                <div flex="20">
-                    Quantity
-                </div>
-            </div>
-            <div ng-repeat="ticket in event.event.tickets track by $index" layout="row" class="row-ticket" layout-align="start center">
-                <div flex="60">
-                    {{event.event.tickets[$index].title}}
-                </div>
-                <div flex="20">
-                    $ {{event.event.tickets[$index].price}}
-                </div>
-                <div flex="20">
-                    <div class="spinner-plusminus"><a class="minus">-</a><input type="text" class="form-control text-center" value="1"/><a class="plus">+</a></div>
-                </div>
-            </div>
-            <div layout="row" class="promo" layout-align="start center">
-                <div flex="60">
-                    Promo Code
-                </div>
-                <div flex="40">
-                    <input type="text" placeholder="Please Enter your promo code" class="form-control text-center"/>
-                </div>
-            </div>
+<div layout="column" layout-align="center stretch">
+    <div class="header" flex layout="row" layout-align="space-between center">
+        <img ng-src="{{getCompanyLogo()}}" height="130"/>
+        <img src="assets/images/gliist_logo_landing.png" alt="logo"/>
+    </div>
+    <div class="content" layout="column" layout-align="start stretch" flex>
+        <event-preview flex event="event.event"></event-preview>
+        <md-list class="margin-top">
+            <md-list-item>
+                <div flex>Ticket type</div>
+                <div flex="20">Price</div>
+                <div flex="20">Quantity</div>
+            </md-list-item>
+            <md-list-item ng-repeat="ticket in tickets track by $index">
+                <div flex>{{ticket.name}}</div>
+                <div flex="20">$ {{ticket.price}}</div>
+                <div flex="20"><spinner ng-model="ticket.quantity" view="h"></spinner></div>
+            </md-list-item>
+        </md-list>
+        <div layout="row" layout-align="start center" layout-sm="column" class="promo">
+            <div>Promo Code</div>
+            <md-input-container md-no-float>
+                <input type="text" placeholder="Please Enter your promo code">
+            </md-input-container>
+            <md-button class="raised-btn">
+                Apply Code
+            </md-button>
         </div>
     </div>
-    <div class="footer" layout="row" layout-align="space-between center">
+    <div class="footer" flex layout="row" layout-align="space-between center" layout-sm="column">
         <div>
-        <p>Please note that we don't offer refunds.<br><span>And please share with awesome friends - our community grows through amazing people like you spreading the word.</span></p>
+            <p>Please note that all sales are final.<br><span>And please share with awesome friends - our community grows through amazing people like you spreading the word.</span></p>
         </div>
-        <div>
-        <md-button class="raised-btn">
+        <md-button class="raised-btn" ng-click="purchase()">
             Get Tickets
         </md-button>
-        </div>
     </div>
 </div>

@@ -46,15 +46,13 @@ angular.module('gliist')
                     $scope.showValidation = true;
                     return;
                 }
-                userService.changePassword({OldPassword: $scope.user.password,
-                    NewPassword: $scope.user.new_password,
-                    ConfirmPassword: $scope.user.re_password}).then(
-                    function () {
+                userService.changePassword({OldPassword: $scope.user.password, NewPassword: $scope.user.new_password, ConfirmPassword: $scope.user.re_password}).then(
+                    function() {
                         dialogService.success('User password updated');
                         $scope.editMode = false;
-                    },
-                    function (err) {
-                        dialogService.error(err);
+                    }, function(error) {
+                        var message = error.Message || 'Oops there was an error, please try again';
+                        dialogService.error(message);
                     }
                 );
             };

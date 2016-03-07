@@ -237,11 +237,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Ticketing\Models\Selling\ISellingFacade.cs" />
+    <Compile Include="Areas\Ticketing\Controllers\TicketTiersController.cs" />
+    <Compile Include="Areas\Ticketing\Models\Selling\SellingFacade.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\ParametersValidator.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\PreviousTicketTierValidator.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidator.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierViewModel.cs" />
+    <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidatorOptions.cs" />
+    <Compile Include="Areas\Ticketing\TicketingAreaRegistration.cs" />
     <Compile Include="Attributes\PermissionsAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
@@ -253,8 +261,19 @@
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
+    <Compile Include="Models\Account\InviteCodeValidator.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
-    <Compile Include="Controllers\SubscriptionsController.cs" />
+    <Compile Include="Models\GuestEvent\GuestDeletedEmailSender.cs" />
+    <Compile Include="Models\Account\UserProfileViewModel.cs" />
+    <Compile Include="Models\GuestEvent\Publish\EventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\Publish\PrivateEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\Publish\RsvpEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\Publish\TicketingEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridHeader.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridMessageBuilder.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridSender.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIds.cs" />
+    <Compile Include="Models\GuestEvent\SendGrid\SendGridSubstitutionsBuilder.cs" />
     <Compile Include="Models\GuestListInstanceViewModel.cs" />
     <Compile Include="Models\GuestViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
@@ -343,10 +362,6 @@
     <Compile Include="Migrations\201509021403169_EventsGuests.Designer.cs">
       <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509221303395_TicketType.cs" />
-    <Compile Include="Migrations\201509221303395_TicketType.Designer.cs">
-      <DependentUpon>201509221303395_TicketType.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201509231131497_GuestListInstanceType.cs" />
     <Compile Include="Migrations\201509231131497_GuestListInstanceType.Designer.cs">
       <DependentUpon>201509231131497_GuestListInstanceType.cs</DependentUpon>
@@ -393,7 +408,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\CheckinModel.cs" />
     <Compile Include="Models\Company.cs" />
@@ -428,15 +442,14 @@
     <Compile Include="Models\PublicEventGuestSubmitModel.cs" />
     <Compile Include="Models\ResetPasswordToken.cs" />
     <Compile Include="Models\RsvpType.cs" />
-    <Compile Include="Models\TicketType.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserLoginInfoViewModel.cs" />
-    <Compile Include="Models\CompanySubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Shared\Common.cs" />
+    <Compile Include="Shared\Config.cs" />
     <Compile Include="Shared\DateFormatter.cs" />
     <Compile Include="Shared\GjestsLinksGenerator.cs" />
     <Compile Include="Shared\RijndaelManagedEncryption.cs" />
@@ -457,7 +470,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Subscriptions\" />
     <Folder Include="webapp\" />
   </ItemGroup>
   <ItemGroup>
@@ -518,9 +530,6 @@
     <EmbeddedResource Include="Migrations\201509021403169_EventsGuests.resx">
       <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509221303395_TicketType.resx">
-      <DependentUpon>201509221303395_TicketType.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509231131497_GuestListInstanceType.resx">
       <DependentUpon>201509231131497_GuestListInstanceType.cs</DependentUpon>
     </EmbeddedResource>
@@ -570,7 +579,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1746</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

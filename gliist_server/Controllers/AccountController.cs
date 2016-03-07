@@ -65,7 +65,7 @@ namespace gliist_server.Controllers
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            return new UserInfoViewModel
+            var userInfo = new UserInfoViewModel
             {
                 userId = User.Identity.GetUserId(),
                 UserName = User.Identity.GetUserName(),
@@ -86,6 +86,8 @@ namespace gliist_server.Controllers
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+
+            return userInfo;
         }
 
         // GET api/Account/CompanyInfo
@@ -190,9 +192,6 @@ namespace gliist_server.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
-
-
         // GET api/Account/CompanyInfo
         [Route("CreateUserByAccount")]
         [AllowAnonymous]
@@ -200,10 +199,7 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> PostRegisterByInvite(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-
 
             var companies = _db.Companies.Where(c => c.name == model.company);
 
@@ -232,7 +228,7 @@ namespace gliist_server.Controllers
 
             _db.Entry(invite).State = EntityState.Modified;
 
-            invite.acceptedAt = DateTimeOffset.Now;
+            invite.acceptedAt = DateTime.Now;
 
             if (!string.Equals(model.UserName, invite.email))
             {
@@ -281,6 +277,11 @@ namespace gliist_server.Controllers
                 return BadRequest(ModelState);
             }
             var userToDelete = _db.Users.SingleOrDefault(u => u.UserName == userName);
+            if (userToDelete == null)
+                return BadRequest("User not found.");
+
+
+            var admin = userToDelete.company.users.FirstOrDefault(x => x.permissions == "admin");
             userToDelete.company.users.Remove(userToDelete);
 
             var usersGuestLists = _db.GuestLists.Where(x => x.created_by.Id == userToDelete.Id).ToList();
@@ -304,6 +305,7 @@ namespace gliist_server.Controllers
             _db.Entry(userToDelete).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
 
+            EmailHelper.SendAccountDeleted(userToDelete, admin ?? userToDelete);
 
             return Ok();
         }
@@ -312,28 +314,26 @@ namespace gliist_server.Controllers
         [CheckAccess(DeniedPermissions = "promoter")]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async Task<IHttpActionResult> PutUserInfo(UserModel userModel)
+        public async Task<IHttpActionResult> PutUserInfo(UserProfileViewModel userProfile)
         {
-            if (userModel == null || !ModelState.IsValid)
+            if (userProfile == null || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-
             if (user == null)
             {
                 return null;
             }
 
-            user.firstName = userModel.firstName;
-            user.lastName = userModel.lastName;
-            user.phoneNumber = userModel.phoneNumber;
-            user.city = userModel.city;
-            user.company = userModel.company;
-            user.bio = userModel.bio;
-            user.contactPhone = userModel.contactPhone;
-            user.contactEmail = userModel.contactEmail;
+            user.firstName = userProfile.FirstName;
+            user.lastName = userProfile.LastName;
+            user.phoneNumber = userProfile.PhoneNumber;
+            user.city = userProfile.City;
+            user.bio = userProfile.Bio;
+            user.contactPhone = userProfile.ContactPhone;
+            user.contactEmail = userProfile.ContactEmail;
 
             _db.Entry(user).State = EntityState.Modified;
 
@@ -394,7 +394,7 @@ namespace gliist_server.Controllers
             var container = BlobHelper.GetWebApiContainer("profiles");
             var blob = container.GetBlockBlobReference(user.company.name.ToString() + "_" + DateTime.Now.Millisecond + "_" + fileName);
             await blob.UploadFromByteArrayAsync(data, 0, data.Length);
-            
+
             user.profilePictureUrl = blob.Uri.AbsoluteUri;
             return blob.Uri.AbsoluteUri;
         }
@@ -515,7 +515,7 @@ namespace gliist_server.Controllers
 
             _db.Entry(token).State = EntityState.Deleted;
 
-            if ((token.created_at - DateTimeOffset.Now).Hours > 24)
+            if ((token.created_at - DateTime.Now).Hours > 24)
             {
                 throw new ArgumentException("Reset password token expired");
             }
@@ -717,40 +717,41 @@ namespace gliist_server.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(ExternalRegisterBindingModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var compnay = new Company()
+            if(!InviteCodeValidator.Run(model.inviteCode))
+                return BadRequest("Invite code is invalid.");
+
+            var company = new Company
             {
                 name = model.company
             };
 
-            _db.Companies.Add(compnay);
+            _db.Companies.Add(company);
 
-            UserModel user = new UserModel
+            var user = new UserModel
             {
                 UserName = model.UserName,
                 firstName = model.firstName,
                 lastName = model.lastName,
-                company = compnay,
+                company = company,
                 permissions = "admin"
             };
 
-            compnay.users.Add(user);
+            company.users.Add(user);
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            IHttpActionResult errorResult = GetErrorResult(result);
+            var result = await UserManager.CreateAsync(user, model.Password);
+            var errorResult = GetErrorResult(result);
 
             if (errorResult != null)
             {
                 return errorResult;
             }
 
-            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", compnay.name);
+            EmailHelper.SendWelcomeEmail(model.UserName, "http://www.gliist.com", model.UserName, "http://www.gliist.com", company.name);
             return Ok();
         }
 

@@ -21,11 +21,11 @@ namespace gliist_server.Models
 
         public virtual UserModel originator { get; set; }
 
-        public DateTimeOffset time { get; private set; }
+        public DateTime time { get; private set; }
 
         public Notification()
         {
-            time = DateTimeOffset.Now;
+            time = DateTime.Now;
         }
     }
 }

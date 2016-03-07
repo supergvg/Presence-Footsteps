@@ -1,29 +1,42 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('LandingCtrl', ['$scope', '$stateParams', 'dialogService', 'eventsService', '$location',
-        function ($scope, $stateParams, dialogService, eventsService, $location) {
+    .controller('LandingCtrl', ['$scope', '$stateParams', 'dialogService', 'eventsService', '$location', '$mdDialog',
+        function ($scope, $stateParams, dialogService, eventsService, $location, $mdDialog) {
             var companyName = $stateParams.companyName,
                 eventName = $stateParams.eventName,
                 token = $stateParams.token;
 
             $scope.public = angular.isUndefined(token);
             $scope.event = {};
+            $scope.message = '';
+            
+            $scope.eventReceived = function(data) {
+                $scope.event = data;
+                $scope.rsvp.plus = 0;
+                if ($scope.event.event.isRsvpExpired) {
+                    $mdDialog.show({
+                        template: '<md-dialog><md-dialog-content style="padding: 50px;font-size:20px;"><b>Oops! RSVP for this event has expired.</b></md-dialog-content></md-dialog>'
+                    });
+                }
+            };
+            
             if ($scope.public) {
-                eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(function (data) {
-                    $scope.event = data;
-                    $scope.rsvp.plus = 0;
-                }, function (data) {
-                    dialogService.error(data.message);
-                });
+                eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(
+                    $scope.eventReceived,
+                    function (data) {
+                        dialogService.error(data.message);
+                    }
+                );
             } else {
-                eventsService.getPersonalEventDetails('rsvp', token).then(function (data) {
-                    $scope.event = data;
-                    $scope.rsvp.plus = 0;
-                }, function (data) {
-                    dialogService.error(data.message);
-                });
+                eventsService.getPersonalEventDetails('rsvp', token).then(
+                    $scope.eventReceived,
+                    function (data) {
+                        dialogService.error(data.message);
+                    }
+                );
             }
+            
             $scope.getCompanyLogo = function () {
                 if (!$scope.event || !$scope.event.company) {
                     return;
@@ -84,21 +97,27 @@ angular.module('gliist')
                     $scope.waiting = true;
                     $scope.success = false;
                     if ($scope.public) {
-                        eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(function () {
-                            dialogService.success('Thank you! You are added to the guest list');
-                            $scope.success = true;
-                        }, function (data) {
-                            dialogService.error(data.message || data.Message);
-                        }).finally(function(){
+                        eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(
+                            function() {
+                                $scope.message = 'Thank you! You have been added to the event guest list!';
+                                $scope.success = true;
+                            }, function(data) {
+                                $scope.message = data.message || data.Message;
+                                $scope.success = true;
+                            }
+                        ).finally(function(){
                             $scope.waiting = false;
                         });
                     } else {
-                        eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(function () {
-                            dialogService.success('Thank you! You are added to the guest list');
-                            $scope.success = true;
-                        }, function (data) {
-                            dialogService.error(data.message || data.Message);
-                        }).finally(function(){
+                        eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(
+                            function() {
+                                $scope.message = 'Thank you! You have been added to the event guest list!';
+                                $scope.success = true;
+                            }, function(data) {
+                                $scope.message = data.message || data.Message;
+                                $scope.success = true;
+                            }
+                        ).finally(function(){
                             $scope.waiting = false;
                         });
                     }

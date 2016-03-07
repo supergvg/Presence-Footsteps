@@ -1,5 +1,5 @@
-<div class="input-group">
-    <a ng-click="plus()" class="btn btn-link" style="display:block"><span class="glyphicon glyphicon-chevron-up"></span></a>
-    <input class="form-control spinner text-center" type="text" ng-model="ngModel" ng-change="validate(); change()" style="width: 50px;float: none;border-radius: 4px;">
-    <a ng-click="minus()" class="btn btn-link" style="display:block"><span class="glyphicon glyphicon-chevron-down"></span></a>
+<div class="spinner spinner-{{view}}">
+    <a ng-click="plus()" class="btn btn-link"><span class="glyphicon" ng-class="view === 'v' ? 'glyphicon-chevron-up' : 'glyphicon-plus'"></span></a>
+    <input class="form-control text-center" type="text" ng-model="ngModel" ng-change="validate(); change()">
+    <a ng-click="minus()" class="btn btn-link"><span class="glyphicon" ng-class="view === 'v' ? 'glyphicon-chevron-down' : 'glyphicon-minus'"></span></a>
 </div>
