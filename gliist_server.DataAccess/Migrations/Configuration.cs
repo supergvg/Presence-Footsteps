@@ -1,18 +1,15 @@
+using System.Data.Entity.Migrations;
+
 namespace gliist_server.DataAccess.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<gliist_server.DataAccess.EventDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<EventDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(gliist_server.DataAccess.EventDBContext context)
+        protected override void Seed(EventDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 

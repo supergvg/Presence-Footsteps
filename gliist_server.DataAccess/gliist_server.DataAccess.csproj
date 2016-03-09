@@ -79,11 +79,20 @@
     <Compile Include="Entities\TicketTier.cs" />
     <Compile Include="Entities\UserModel.cs" />
     <Compile Include="EventDBContext.cs" />
+    <Compile Include="Migrations\201603091408493_AutomaticMigrationOff.cs" />
+    <Compile Include="Migrations\201603091408493_AutomaticMigrationOff.Designer.cs">
+      <DependentUpon>201603091408493_AutomaticMigrationOff.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603091408493_AutomaticMigrationOff.resx">
+      <DependentUpon>201603091408493_AutomaticMigrationOff.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
