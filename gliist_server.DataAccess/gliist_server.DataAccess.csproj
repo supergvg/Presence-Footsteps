@@ -79,6 +79,7 @@
     <Compile Include="Entities\TicketTier.cs" />
     <Compile Include="Entities\UserModel.cs" />
     <Compile Include="EventDBContext.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
