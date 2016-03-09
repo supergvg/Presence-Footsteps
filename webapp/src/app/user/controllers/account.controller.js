@@ -47,19 +47,16 @@ angular.module('gliist')
                     .ok('Yes')
                     .cancel('No')
                     .targetEvent(ev);
-                $mdDialog.show(confirm).then(function () {
-
+                $mdDialog.show(confirm).then(function() {
                     userService.deleteUser({userName: $scope.user.UserName}).then(
-                        function () {
+                        function() {
+                            $rootScope.logout();
                         },
-                        function (err) {
+                        function(err) {
                             dialogService.error(err);
                         }
                     );
-
-                    $rootScope.logout();
-
-                }, function () {
+                }, function() {
                 });
             };
 
