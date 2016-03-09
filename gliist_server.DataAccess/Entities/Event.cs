@@ -9,7 +9,7 @@ namespace gliist_server.DataAccess
 {
     public class Event
     {
-        private static string defaultImageUrl = ConfigurationManager.AppSettings["defaultEventImage"];
+        private static readonly string DefaultImageUrl = ConfigurationManager.AppSettings["defaultEventImage"];
 
         [JsonIgnore]
         public virtual Company company { get; set; }
@@ -54,11 +54,7 @@ namespace gliist_server.DataAccess
         public DateTimeOffset endTime { get; set; }
 
         [JsonProperty(PropertyName = "rsvpEndDate")]
-        public Nullable<DateTimeOffset> RsvpEndDate { get; set; }
-
-        public int utcOffset { get; set; }
-
-        public int userOffset { get; set; }
+        public DateTimeOffset? RsvpEndDate { get; set; }
 
         [MaxLength(255)]
         [JsonProperty(PropertyName = "rsvpUrl")]
@@ -89,17 +85,11 @@ namespace gliist_server.DataAccess
         {
             get
             {
-                if (this.RsvpEndDate == null)
+                if (RsvpEndDate == null)
                     return false;
-                else
-                    return (DateTime.UtcNow > this.RsvpEndDate.Value.UtcDateTime);
-            }
-        }
 
-        [JsonIgnore]
-        public static string DefaultImageUrl
-        {
-            get { return defaultImageUrl; }
+                return (DateTime.UtcNow > RsvpEndDate.Value.UtcDateTime);
+            }
         }
 
         [NotMapped]
@@ -110,7 +100,7 @@ namespace gliist_server.DataAccess
 
         public Event()
         {
-            invitePicture = defaultImageUrl;
+            invitePicture = DefaultImageUrl;
         }
 
     }

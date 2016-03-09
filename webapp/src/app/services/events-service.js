@@ -103,11 +103,6 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
             
             createEvent: function (event) {
                 var d = $q.defer();
-                //    server = angular.copy(event);
-
-                //server.time = moment.tz(server.time, "Atlantic/Reykjavik").toString();
-                //server.endTime = moment.tz(server.endTime, "Atlantic/Reykjavik").toString();
-                event.userOffset = event.time.getTimezoneOffset() / 60;
 
                 $http({
                     method: 'POST',

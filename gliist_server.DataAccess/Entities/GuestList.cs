@@ -19,7 +19,7 @@ namespace gliist_server.DataAccess
         public virtual List<Guest> guests { get; set; }
         public string promoter_Id { get; set; }
 
-        public DateTimeOffset created_on { get; set; }
+        public DateTime created_on { get; set; }
 
         public virtual UserModel created_by { get; set; }
 
@@ -32,7 +32,7 @@ namespace gliist_server.DataAccess
         public GuestList()
         {
             guests = new List<Guest>();
-            created_on = DateTimeOffset.Now;
+            created_on = DateTime.Now;
         }
     }
 }

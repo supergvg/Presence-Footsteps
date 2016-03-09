@@ -65,6 +65,8 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         [TestMethod]
         public void BadRequest_IfCurrentTicketTypeExpiresEarlierThanPreviuos()
         {
+            var currentTime = DateTimeOffset.Now.AddDays(1);
+
             var tiers = new List<TicketTier>
             {
                 new TicketTier
@@ -72,7 +74,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                     Id = 1,
                     Name = "BBB",
                     EventId = 1,
-                    ExpirationTime = DateTime.Today.AddDays(1).AddHours(12)
+                    ExpirationTime = currentTime.AddHours(12)
                 }
             };
 
@@ -81,7 +83,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 new Event
                 {
                     id = 1,
-                    time = DateTime.Today.AddDays(1).AddHours(17)
+                    time = currentTime.AddHours(17)
                 }
             };
 
@@ -89,7 +91,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             {
                 Name = "CCC",
                 Price = 5,
-                ExpirationTime = DateTime.Today.AddDays(1).AddHours(10),
+                ExpirationTime = currentTime.AddHours(10),
                 PreviousId = 1,
                 EventId = 1
             };

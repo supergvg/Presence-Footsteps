@@ -260,9 +260,8 @@ namespace gliist_server.Controllers
             if (!eventGuestStatus.IsInvitationEmailSent)
             {
                 SendInvitationEmail(eventGuestStatus);
-                eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
-                eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
-                //eventGuestStatus.CheckInDate = DateTime.UtcNow;
+                eventGuestStatus.RsvpConfirmedDate = DateTime.Now;
+                eventGuestStatus.InvitationEmailSentDate = DateTime.Now;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 CheckIn(eventGuestStatus);
@@ -345,9 +344,8 @@ namespace gliist_server.Controllers
             if (!eventGuestStatus.IsInvitationEmailSent)
             {
                 eventGuestStatus.AdditionalGuestsRequested = eventGuestModel.AdditionalGuests;
-                eventGuestStatus.RsvpConfirmedDate = DateTime.UtcNow;
-                eventGuestStatus.InvitationEmailSentDate = DateTime.UtcNow;
-                //eventGuestStatus.CheckInDate = DateTime.UtcNow;
+                eventGuestStatus.RsvpConfirmedDate = DateTime.Now;
+                eventGuestStatus.InvitationEmailSentDate = DateTime.Now;
                 db.Entry(eventGuestStatus).State = EntityState.Modified;
                 db.SaveChanges();
 

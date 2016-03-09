@@ -204,7 +204,7 @@ namespace gliist_server.Helpers
                 pendingWorksheet.Cells[1, 2].Value = "Last Name";
                 pendingWorksheet.Cells[1, 3].Value = "Email";
                 pendingWorksheet.Cells[1, 4].Value = "Type";
-                pendingWorksheet.Cells[1, 5].Value = "Phone Number";
+                pendingWorksheet.Cells[1, 5].Value = "Note";
                 pendingWorksheet.Cells[1, 6].Value = "Plus";
 
                 var chackedWorksheet = excel.Workbook.Worksheets[2];
@@ -217,7 +217,7 @@ namespace gliist_server.Helpers
                 chackedWorksheet.Cells[1, 2].Value = "Last Name";
                 chackedWorksheet.Cells[1, 3].Value = "Email";
                 chackedWorksheet.Cells[1, 4].Value = "Type";
-                chackedWorksheet.Cells[1, 5].Value = "Phone Number";
+                chackedWorksheet.Cells[1, 5].Value = "Note";
                 chackedWorksheet.Cells[1, 6].Value = "Plus";
 
 

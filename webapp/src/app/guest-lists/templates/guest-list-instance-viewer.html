@@ -50,7 +50,7 @@
                 <p>{{getTotalGuests(instance)}}</p>
             </div>
             <div flex ng-if="options.stats">
-                <p>{{getTotalGuests(instance) - getActualGuests(instance)}}</p>
+                <p>{{getUnconfirmedGuests(instance)}}</p>
             </div>
             <div flex ng-if="options.stats">
                 <p>{{getTotalGuests(instance)}}</p>

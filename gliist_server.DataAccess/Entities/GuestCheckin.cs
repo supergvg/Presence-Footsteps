@@ -14,7 +14,7 @@ namespace gliist_server.DataAccess
 
         public virtual Guest guest { get; set; }
 
-        public DateTimeOffset? time { get; set; }
+        public DateTime? time { get; set; }
 
         public string status { get; set; }
 

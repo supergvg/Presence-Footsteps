@@ -43,7 +43,7 @@ namespace gliist_server.Models
                 return;
             }
 
-            guest.RsvpEmailSentDate = DateTime.UtcNow;
+            guest.RsvpEmailSentDate = DateTime.Now;
         }
 
         #region private

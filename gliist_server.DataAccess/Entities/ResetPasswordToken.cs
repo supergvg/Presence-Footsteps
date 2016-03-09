@@ -5,7 +5,7 @@ namespace gliist_server.DataAccess
     public class ResetPasswordToken
     {
         public int id { get; set; }
-        public DateTimeOffset created_at { get; set; }
+        public DateTime created_at { get; set; }
 
         public string user_email { get; set; }
 
@@ -13,7 +13,7 @@ namespace gliist_server.DataAccess
 
         public ResetPasswordToken()
         {
-            created_at = DateTimeOffset.Now;
+            created_at = DateTime.Now;
         }
     }
 }

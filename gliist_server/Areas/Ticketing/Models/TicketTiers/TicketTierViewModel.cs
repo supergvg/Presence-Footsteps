@@ -14,11 +14,11 @@ namespace gliist_server.Areas.Ticketing.Models
         [JsonProperty("previousId")]
         public int? PreviousId { get; set; }
         [JsonProperty("startTime")]
-        public DateTime? StartTime { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
         [JsonProperty("quantity")]
         public int? Quantity { get; set; }
         [JsonProperty("expirationTime")]
-        public DateTime? ExpirationTime { get; set; }
+        public DateTimeOffset? ExpirationTime { get; set; }
         [JsonProperty("soldTicketsCount")]
         public int SoldTicketsCount { get; set; }
     }

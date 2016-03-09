@@ -18,7 +18,7 @@ namespace gliist_server.DataAccess
 
         public string permissions { get; set; }
 
-        public DateTimeOffset? acceptedAt { get; set; }
+        public DateTime? acceptedAt { get; set; }
 
     }
 }
