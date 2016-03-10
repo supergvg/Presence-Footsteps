@@ -74,9 +74,6 @@ angular.module('gliist')
             $scope.getTotalGuests = function(glist) {
                 var total = 0;
                 if (glist) {
-                    if (glist.listType === 'On the spot') {
-                        return glist.actual.length;
-                    }
                     total = glist.guestsCount;
                 }
                 return total;

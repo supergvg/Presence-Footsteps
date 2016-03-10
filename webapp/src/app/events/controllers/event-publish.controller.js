@@ -6,30 +6,25 @@ angular.module('gliist')
 
             $scope.toPublish = [];
 
-            $scope.publishEvent = function (ev) {
+            $scope.publishEvent = function(ev) {
 
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
-                    .title('Are you sure you want to publish the guest list?')
-                    .content('Invitations will be sent to selected guest lists')
+                    .content('Are you sure you want to send<br><b>confirmation emails/RSVP invitations</b><br>to the selected guest lists?')
                     .ariaLabel('Lucky day')
                     .ok('Yes')
-                    .cancel('No')
+                    .cancel('Cancel')
                     .targetEvent(ev);
-                $mdDialog.show(confirm).then(function () {
-
+                confirm._options.template = '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}"><md-dialog-content role="document" tabIndex="-1"><h2 class="md-title">{{ dialog.title }}</h2><p ng-bind-html="dialog.content" style="font-size: 20px; text-align: center;"></p></md-dialog-content><div class="md-actions"><md-button ng-if="dialog.$type == \'confirm\'" ng-click="dialog.abort()" class="md-primary">{{ dialog.cancel }}</md-button><md-button ng-click="dialog.hide()" class="md-primary">{{ dialog.ok }}</md-button></div></md-dialog>';
+                $mdDialog.show(confirm).then(function() {
                     eventsService.publishEvent($scope.toPublish, $scope.event.id).then(
-                        function () {
-
+                        function() {
                             $state.go('main.email_stats', {eventId: $scope.event.id});
                         },
-                        function (err) {
+                        function(err) {
                             dialogService.error(err);
                         }
                     );
-
-                }, function () {
-                    dialogService.error('Please try again');
                 });
 
             };
