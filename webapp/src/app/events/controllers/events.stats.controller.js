@@ -68,6 +68,7 @@ angular.module('gliist')
                 });
                 eventsService.getRSVPVisitors($scope.event.id).then(
                     function(data) {
+                        $scope.rsvpTotalVisitors = data;
                     }
                 );
                 $scope.updateChart();
