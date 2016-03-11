@@ -119,7 +119,7 @@ angular.module('gliist', [
                     templateUrl: 'app/templates/main.html',
                     controller: 'MainCtrl'
                 }).state('main.user', {
-                    url: '/user',
+                    url: '/user?view',
                     templateUrl: 'app/user/templates/profile.html',
                     controller: 'ProfileCtrl'
                 }).state('main.create_event', {

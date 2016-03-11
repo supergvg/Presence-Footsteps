@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService',
-        function ($scope, $rootScope, userService, dialogService) {
+    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', '$stateParams',
+        function ($scope, $rootScope, userService, dialogService, $stateParams) {
 
 
             $rootScope.$watch('currentUser', function (newValue) {
                 $scope.currentUser = angular.copy(newValue);
             });
-
             $scope.data = {
                 selectedIndex: 0
             };
+            if ($stateParams.view) {
+                $scope.data.selectedIndex = parseInt($stateParams.view);
+            }
 
             $scope.displayErrorMessage = function (field) {
                 return ($scope.showValidation) || (field.$touched && field.$error.required);

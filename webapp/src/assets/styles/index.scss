@@ -412,6 +412,10 @@ md-tooltip .md-content{
     }
     md-content {
         padding: 15px;
+        p {
+            font-size: 18px;
+            color: #8e8e8e;
+        }
     }
 }
 
@@ -698,11 +702,10 @@ md-dialog {
     }
     .md-actions button {
         width: auto;
-        &:first-child {
+        &:first-child:not(:last-child) {
             background: none !important;
             color: #aaa !important;
             box-shadow: none !important;
-            
         }
     }
     .guest-list-viewer {

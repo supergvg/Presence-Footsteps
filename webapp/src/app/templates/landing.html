@@ -1,6 +1,10 @@
 <div layout="column" layout-align="center stretch">
     <div class="header" flex layout="row" layout-align="center center"><img ng-src="{{getCompanyLogo()}}" height="130"/></div>
-    <div class="content" layout="column" layout-align="start center" flex>
+    <div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
+        <h4>Loading ...</h4>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
         <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
@@ -31,24 +35,14 @@
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Name</label>
                         <input type="text" name="name" ng-model="rsvp.name" required/>
-                        <div ng-messages="rsvpLandingForm.name.$error" ng-if="displayErrorMessage(rsvpLandingForm.name)">
-                            <div ng-if="rsvpLandingForm.name.$error.required" ng-message="required">Name is required</div>
-                        </div>
                     </div>
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Email</label>
                         <input type="email" name="email" ng-model="rsvp.email" required/>
-                        <div ng-messages="rsvpLandingForm.email.$error" ng-if="displayErrorMessage(rsvpLandingForm.email)">
-                            <div ng-if="rsvpLandingForm.email.$error.required" ng-message="required">Email is required</div>
-                            <div ng-if="rsvpLandingForm.email.$error.email" ng-message="email">Not valid email</div>
-                        </div>
                     </div>
                     <div class="form-item">
                         <label>Plus</label>
                         <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}"/>
-                        <div ng-messages="rsvpLandingForm.plus.$error" ng-if="displayErrorMessage(rsvpLandingForm.plus)">
-                            <div ng-if="rsvpLandingForm.plus.$error.max" ng-message="max">Numer of additional guests cannot exceed {{event.event.additionalGuests}} people</div>
-                        </div>
                     </div>
                     <div class="actions" ng-if="!success">
                         <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>

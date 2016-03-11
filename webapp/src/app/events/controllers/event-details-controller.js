@@ -1,6 +1,6 @@
 angular.module('gliist')
-    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$rootScope', '$location', '$filter',
-        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $rootScope, $location, $filter) {
+    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$rootScope', '$location', '$filter', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $rootScope, $location, $filter, $state) {
             'use strict';
 
             $scope.eventCategories = [
@@ -274,6 +274,18 @@ angular.module('gliist')
 
             $scope.clearLocation = function() {
                 delete $scope.location.details;
+            };
+            
+            $scope.checkPermission = function(event) {
+                var confirm = $mdDialog.confirm({
+                    title: 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?',
+                    ok: 'Upgrade',
+                    cancel: 'Close',
+                    targetEvent: event
+                });
+                $mdDialog.show(confirm).then(function() {
+                    $state.go('main.user', {view: 2});
+                });
             };
 
             $scope.init = function() {

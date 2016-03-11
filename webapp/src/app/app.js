@@ -117,8 +117,9 @@ angular.module('gliist')
             };
             
             $scope.showUserBars = function(){
-                if ($state.current.name.match(/^landing_.+/) || $state.current.name === 'choose_plan')
+                if ($state.current.name.match(/^landing_.+/) || $state.current.name === 'choose_plan') {
                     return false;
+                }
                 return $rootScope.currentUser;
             };
 
