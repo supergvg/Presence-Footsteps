@@ -117,32 +117,22 @@ namespace gliist_server.Controllers
 
 
             var invite = user.company.invitations.FirstOrDefault(i => string.Equals(i.email, newUser.UserName));
-            if (invite == null)
+            if (invite != null)
+                throw new ArgumentException("This person has been invited by you");
+
+            invite = new Invite
             {
-                invite = new Invite()
-                {
-                    firstName = newUser.firstName,
-                    lastName = newUser.lastName,
-                    email = newUser.UserName,
-                    permissions = newUser.permissions.ToLower(),
-                    phoneNumber = newUser.phoneNumber,
+                firstName = newUser.firstName,
+                lastName = newUser.lastName,
+                email = newUser.UserName,
+                permissions = newUser.permissions.ToLower(),
+                phoneNumber = newUser.phoneNumber,
 
-                    token = Guid.NewGuid().ToString(),
+                token = Guid.NewGuid().ToString(),
 
-                };
+            };
 
-                user.company.invitations.Add(invite);
-            }
-            else
-            {
-                _db.Entry(invite).State = EntityState.Modified;
-                invite.firstName = newUser.firstName;
-                invite.lastName = newUser.lastName;
-                invite.email = newUser.UserName;
-                invite.permissions = newUser.permissions.ToLower();
-                invite.phoneNumber = newUser.phoneNumber;
-                invite.acceptedAt = null;
-            }
+            user.company.invitations.Add(invite);
 
             EmailHelper.SendJoinRequest(newUser, user, invite, Request);
 
