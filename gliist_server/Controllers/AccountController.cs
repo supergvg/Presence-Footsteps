@@ -118,7 +118,7 @@ namespace gliist_server.Controllers
 
             var invite = user.company.invitations.FirstOrDefault(i => string.Equals(i.email, newUser.UserName));
             if (invite != null)
-                throw new ArgumentException("This person has been invited by you");
+                throw new ArgumentException("This person has been already invited");
 
             invite = new Invite
             {
