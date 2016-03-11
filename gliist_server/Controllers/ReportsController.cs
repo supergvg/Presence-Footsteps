@@ -23,7 +23,8 @@ namespace gliist_server.Controllers
             this.db = new EventDBContext();
         }
 
-        // GET api/reports/exportrsvp/5
+        // GET api/reports/exportrsvp/5?authToken={token}
+        [HttpGet]
         [ResponseType(typeof(byte[]))]
         [Route("exportrsvp/{eventId}")]
         public HttpResponseMessage ExportRsvp(int eventId)
