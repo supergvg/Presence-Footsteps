@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using gliist_server.DataAccess;
 using gliist_server.Helpers;
 using gliist_server.Shared;
 using ZXing;

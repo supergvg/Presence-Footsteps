@@ -13,6 +13,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using gliist_server.Attributes;
+using gliist_server.DataAccess;
 using gliist_server.Helpers;
 using gliist_server.Models;
 using gliist_server.Shared;
