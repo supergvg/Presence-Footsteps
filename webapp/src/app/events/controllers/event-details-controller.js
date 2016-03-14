@@ -166,7 +166,7 @@ angular.module('gliist')
             };
 
             $scope.timeValid = function() {
-                if ($scope.dt.endEventRsvpDateTime.getTime() < $scope.dt.startEventDateTime.getTime() || $scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
+                if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.dt.endEventRsvpDateTime.setTime($scope.dt.endEventDateTime.getTime());
                 }
                 $scope.startEventTimeInvalid = false;
