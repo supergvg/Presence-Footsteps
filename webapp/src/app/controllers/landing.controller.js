@@ -10,14 +10,18 @@ angular.module('gliist')
             $scope.public = angular.isUndefined(token);
             $scope.event = {};
             $scope.message = '';
+            $scope.loading = true;
             
             $scope.eventReceived = function(data) {
+                $scope.loading = false;
                 $scope.event = data;
                 $scope.rsvp.plus = 0;
                 if ($scope.event.event.isRsvpExpired) {
                     $mdDialog.show({
                         template: '<md-dialog><md-dialog-content style="padding: 50px;font-size:20px;"><b>Oops! RSVP for this event has expired.</b></md-dialog-content></md-dialog>'
                     });
+                } else {
+                    eventsService.incRSVPVisitors($scope.event.event.id);
                 }
             };
             
@@ -41,26 +45,18 @@ angular.module('gliist')
                 if (!$scope.event || !$scope.event.company) {
                     return;
                 }
-
                 if (!$scope.event.company.users) {
                     return $scope.event.company.logo;
                 }
-
                 var retVal;
                 angular.forEach($scope.event.company.users, function (user) {
                     if (user.profilePictureUrl) {
                         retVal = user.profilePictureUrl;
                     }
                 });
-
                 return retVal;
             };
 
-            $scope.displayErrorMessage = function (field) {
-                return false;
-                //return ($scope.showValidation) || (field.$touched && field.$error.required);
-            };
-            
             $scope.getPageURL = function() {
                 return $location.absUrl();
             };
@@ -85,7 +81,7 @@ angular.module('gliist')
                         },
                         errorMessage = [];
                     angular.forEach(form.$error, function (value, key) {
-                        angular.forEach(value, function (value1, key1) {
+                        angular.forEach(value, function (value1) {
                             errorMessage.push(errors[key][value1.$name]);
                         });
                     });

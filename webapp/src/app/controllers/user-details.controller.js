@@ -14,7 +14,7 @@ angular.module('gliist')
             };
 
             $scope.displayErrorMessage = function (field) {
-                return ($scope.showValidation) || (field.$touched && field.$error.required);
+                return ($scope.showValidation) || (field && field.$touched && field.$error.required);
             };
 
             $scope.onFileSelect = function (files) {

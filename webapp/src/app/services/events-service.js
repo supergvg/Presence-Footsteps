@@ -376,6 +376,29 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 });
 
                 return d.promise;
+            },
+            
+            incRSVPVisitors: function(eventId) {
+                $http({
+                    method: 'POST',
+                    url: 'api/reports/rsvpvisitors/' + eventId
+                });
+            },
+            
+            getRSVPVisitors: function(eventId) {
+                var d = $q.defer();
+                
+                $http({
+                    method: 'GET',
+                    url: 'api/reports/rsvpvisitors/' + eventId
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+                
+                return d.promise;
             }
+            
         };
     }]);

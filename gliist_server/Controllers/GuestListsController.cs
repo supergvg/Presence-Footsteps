@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using gliist_server.DataAccess;
 using Microsoft.AspNet.Identity;
 using gliist_server.Models;
 
@@ -42,7 +43,7 @@ namespace gliist_server.Controllers
         }
 
         // GET: api/GuestLists
-        public IList<GuestListViewModel> GetGuestLists()
+        public IList<GuestListModel> GetGuestLists()
         {
             try
             {
@@ -56,10 +57,10 @@ namespace gliist_server.Controllers
                     .Include(x => x.guests)
                     .ToList();
 
-                var retval = new List<GuestListViewModel>();
+                var retval = new List<GuestListModel>();
                 foreach (var gl in gls)
                 {
-                    retval.Add(new GuestListViewModel(gl));
+                    retval.Add(new GuestListModel(gl));
                 };
 
                 return retval;

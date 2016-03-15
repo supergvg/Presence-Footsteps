@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 using SendGrid;
 
@@ -119,8 +120,7 @@ namespace gliist_server.Helpers
             message.Html = "<p></p> ";
 
             message.EnableTemplateEngine("a5c04d64-dd3a-4e7d-813e-a9239957e444");
-
-            message.AddSubstitution(":organizer_email", new List<string> {administrator.UserName});
+            
             message.AddSubstitution(":company_facebookUrl",
                 new List<string> {administrator.company.FacebookPageUrl ?? string.Empty});
             message.AddSubstitution(":company_twitterUrl",
