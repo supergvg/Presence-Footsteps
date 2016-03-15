@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -711,10 +712,15 @@ namespace gliist_server.Controllers
         public async Task<IHttpActionResult> Register(ExternalRegisterModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                string errorMessage = FirstModelStateErrorMessage(ModelState);
+                return BadRequest(errorMessage);
+            }
 
             if(!InviteCodeValidator.Run(model.inviteCode))
-                return BadRequest("Invite code is invalid.");
+            {
+                return BadRequest("Please enter a valid invite code.");
+            }
 
             var company = new Company
             {
@@ -900,6 +906,17 @@ namespace gliist_server.Controllers
             }
         }
 
+        private string FirstModelStateErrorMessage(ModelStateDictionary modelState)
+        {
+            string errorMessage = null;
+
+            var state = ModelState.First();
+            if (state.Value.Errors.Any())
+            {
+                errorMessage = state.Value.Errors.First().ErrorMessage;
+            }
+            return errorMessage;
+        }
         #endregion
     }
 }

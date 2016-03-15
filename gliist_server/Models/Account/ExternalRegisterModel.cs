@@ -4,7 +4,7 @@ namespace gliist_server.Models
 {
     public class ExternalRegisterModel : RegisterModel
     {
-        [Required(ErrorMessage = "Invite code is required.")]
+        [Required(ErrorMessage = "Please enter invite code.")]
         public string inviteCode { get; set; }
     }
 }

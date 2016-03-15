@@ -28,12 +28,10 @@ namespace gliist_server.Tests.Account
             });
 
         
-            var actual = result as InvalidModelStateResult;
+            var actual = result as BadRequestErrorMessageResult;
             Assert.IsNotNull(actual);
 
-            var error = actual.ModelState["inviteCode"];
-            Assert.IsNotNull(error);
-            Assert.AreEqual("Invite code is required.", error.Errors[0].ErrorMessage);
+            Assert.AreEqual("Please enter invite code.", actual.Message);
         }
 
         [TestMethod]
@@ -57,7 +55,7 @@ namespace gliist_server.Tests.Account
             var actual = result as BadRequestErrorMessageResult;
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual("Invite code is invalid.", actual.Message);
+            Assert.AreEqual("Please enter a valid invite code.", actual.Message);
         }
     }
 }
