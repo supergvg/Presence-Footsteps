@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using gliist_server.DataAccess;
 using Microsoft.AspNet.Identity;
 using gliist_server.Models;
 

@@ -1,4 +1,5 @@
 ﻿using System.Web.Http.ModelBinding;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 
 namespace gliist_server.Areas.Ticketing.Models

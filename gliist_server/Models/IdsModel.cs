@@ -1,4 +1,6 @@
-﻿namespace gliist_server.Models
+﻿using gliist_server.DataAccess;
+
+namespace gliist_server.Models
 {
     public class IdsModel
     {

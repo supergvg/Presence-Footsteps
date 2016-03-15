@@ -47,16 +47,20 @@ angular.module('gliist')
                             $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
                         }
                     });
-                    $scope.stats[category].total = gl.guestsCount;
+                    $scope.stats[category].total += gl.guestsCount;
                     $scope.totalCheckedIn += $scope.stats[category].totalCheckedIn;
                     
                     //RSVP stats
                     if (gl.instanceType === 2 && gl.published) {
                         $scope.rsvp[0].total += gl.guestsCount;
+                        angular.forEach(gl.actual, function(guest) {
+                            $scope.rsvp[1].total += guest.plus + 1;
+                        });
+                        $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                     }
                     if (gl.instanceType === 4) {
                         $scope.rsvp[1].total += gl.guestsCount;
-                        $scope.rsvp[2].total += $scope.stats[category].totalCheckedIn;
+                        $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                     }
                 });
                 $scope.updateChart();
@@ -93,18 +97,25 @@ angular.module('gliist')
                 });
                 
                 $scope.rsvp.sort(function(a, b){
-                    if (a.total > b.total) return 1;
-                    if (a.total < b.total) return -1;
-                });
-                var names = $scope.rsvp.map(function(item){ return item.name; });
-                names.unshift('');
-                var totals = $scope.rsvp.map(function(item){ return item.total; });
-                totals.forEach(function(item, i, arr){
-                    if (i > 0) {
-                        arr[i] -= arr[i - 1];
+                    if (a.total > b.total) {
+                        return 1;
+                    }
+                    if (a.total < b.total) {
+                        return -1;
                     }
                 });
-                totals.unshift('');
+                var names = [''],
+                    totals = [''];
+                $scope.rsvp.forEach(function(item, i, arr){
+                    names.push(item.name);
+                    names.push({role: 'tooltip'});
+                    if (i > 0) {
+                        totals.push(arr[i].total - arr[i - 1].total);
+                    } else {
+                        totals.push(item.total);
+                    }
+                    totals.push(item.name+': '+item.total);
+                });
                 $scope.chartObjectRSVP = {
                     type: 'ColumnChart',
                     options: {
@@ -113,8 +124,7 @@ angular.module('gliist')
                         chartArea: {left: '5%', top: '5%', width: '100%', height: '90%'},
                         bar: { groupWidth: '20%' },
                         isStacked: true,
-                        vAxis: {gridlines: {count: 3}}
-//                        vAxis: {ticks: [0, 100, 200]}
+                        vAxis: {gridlines: {count: 3}, viewWindow: {max: $scope.rsvp[$scope.rsvp.length - 1].total}}
                     },
                     data: [names, totals]
                 };
@@ -126,7 +136,7 @@ angular.module('gliist')
                 eventsService.getEvents(eventId).then(
                     function(data) {
                         $scope.event = data;
-                        //$scope.eventType = $scope.event.type;
+                        $scope.eventType = $scope.event.type;
                         $scope.calculateStats();
                     }, function() {
                         dialogService.error('There was a problem getting your events, please try again');
