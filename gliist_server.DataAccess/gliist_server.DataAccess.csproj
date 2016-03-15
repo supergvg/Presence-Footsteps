@@ -83,9 +83,9 @@
     <Compile Include="Migrations\201603091408493_AutomaticMigrationOff.Designer.cs">
       <DependentUpon>201603091408493_AutomaticMigrationOff.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201603150935407_PublicVisitors.cs" />
-    <Compile Include="Migrations\201603150935407_PublicVisitors.Designer.cs">
-      <DependentUpon>201603150935407_PublicVisitors.cs</DependentUpon>
+    <Compile Include="Migrations\201603151242252_PublicVisitors.cs" />
+    <Compile Include="Migrations\201603151242252_PublicVisitors.Designer.cs">
+      <DependentUpon>201603151242252_PublicVisitors.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,8 +97,8 @@
     <EmbeddedResource Include="Migrations\201603091408493_AutomaticMigrationOff.resx">
       <DependentUpon>201603091408493_AutomaticMigrationOff.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603150935407_PublicVisitors.resx">
-      <DependentUpon>201603150935407_PublicVisitors.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201603151242252_PublicVisitors.resx">
+      <DependentUpon>201603151242252_PublicVisitors.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

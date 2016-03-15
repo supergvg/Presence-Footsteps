@@ -344,7 +344,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="log4net.config" />
-    <None Include="Properties\PublishProfiles\gjests %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\local-iis-deployment.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -354,7 +353,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <None Include="Properties\PublishProfiles\gjests.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gliist_server.DataAccess\gliist_server.DataAccess.csproj">
