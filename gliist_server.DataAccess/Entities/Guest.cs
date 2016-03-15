@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace gliist_server.DataAccess
@@ -16,10 +17,17 @@ namespace gliist_server.DataAccess
 
         [Required]
         public string firstName { get; set; }
-        
+
         public string lastName { get; set; }
 
         public string phoneNumber { get; set; }
+
+        [NotMapped]
+        public string notes
+        {
+            get { return this.phoneNumber; }
+            set { this.phoneNumber = value; }
+        }
 
         public string email { get; set; }
 
@@ -34,6 +42,6 @@ namespace gliist_server.DataAccess
             linked_guest_lists = new List<GuestList>();
             type = "Others";
         }
-        
+
     }
 }

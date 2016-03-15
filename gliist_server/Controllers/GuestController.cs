@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -11,11 +12,10 @@ using gliist_server.Models;
 
 namespace gliist_server.Controllers
 {
-
     [Authorize]
+    [RoutePrefix("api/guest")]
     public class GuestController : ApiController
     {
-
         private EventDBContext db = new EventDBContext();
         private UserManager<UserModel> UserManager;
 
@@ -96,6 +96,23 @@ namespace gliist_server.Controllers
             return CreatedAtRoute("DefaultApi", new { id = guest.id }, guest);
         }
 
+        // POST api/guest/updatenotes
+        [HttpPost]
+        [Route("updatenotes")]
+        public IHttpActionResult UpdateNotes(GuestNotesModel guestNotesModel)
+        {
+            if (guestNotesModel == null)
+                throw new ArgumentNullException("guestNotesModel");
+
+            var guest = db.Guests.FirstOrDefault(x => x.id == guestNotesModel.GuestId);
+            if (guest == null)
+                return BadRequest("Guest not found");
+
+            guest.notes = guestNotesModel.Notes;
+            db.SaveChanges();
+            return Ok();
+        }
+
         // DELETE api/Guest/5
         [ResponseType(typeof(Guest))]
         public async Task<IHttpActionResult> DeleteGuest(int id)
@@ -125,7 +142,6 @@ namespace gliist_server.Controllers
         {
             return db.Guests.Count(e => e.id == id) > 0;
         }
-
 
         public GuestController()
         {
