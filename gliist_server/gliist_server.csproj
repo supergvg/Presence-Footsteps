@@ -246,7 +246,6 @@
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\ParametersValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\PreviousTicketTierValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidator.cs" />
-    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierViewModel.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidatorOptions.cs" />
     <Compile Include="Areas\Ticketing\TicketingAreaRegistration.cs" />
@@ -263,8 +262,10 @@
     <Compile Include="Controllers\GuestListsController.cs" />
     <Compile Include="Models\Account\InviteCodeValidator.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Models\Account\ChangePasswordModel.cs" />
+    <Compile Include="Models\Account\ExternalRegisterModel.cs" />
     <Compile Include="Models\GuestEvent\GuestDeletedEmailSender.cs" />
-    <Compile Include="Models\Account\UserProfileViewModel.cs" />
+    <Compile Include="Models\Account\UserProfileModel.cs" />
     <Compile Include="Models\GuestEvent\Publish\EventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\PrivateEventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\RsvpEventPublisher.cs" />
@@ -274,10 +275,11 @@
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSender.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIds.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSubstitutionsBuilder.cs" />
-    <Compile Include="Models\GuestListInstanceViewModel.cs" />
+    <Compile Include="Models\GuestListInstanceModel.cs" />
     <Compile Include="Models\GuestNotesModel.cs" />
-    <Compile Include="Models\GuestViewModel.cs" />
-    <Compile Include="Models\NotificationViewModel.cs" />
+    <Compile Include="Models\GuestsEventModel.cs" />
+    <Compile Include="Models\GuestModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Controllers\RsvpController.cs" />
     <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
@@ -290,7 +292,6 @@
     <Compile Include="Helpers\EventHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\PushNotificationHelper.cs" />
     <Compile Include="Logger\Log4NetLogger.cs" />
     <Compile Include="Logger\LogLevel.cs" />
@@ -408,43 +409,31 @@
       <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\UserInfoViewModel.cs" />
+    <Compile Include="Models\Account\AddExternalLoginModel.cs" />
+    <Compile Include="Models\Account\RegisterModel.cs" />
+    <Compile Include="Models\Account\RegisterExternalBindingModel.cs" />
+    <Compile Include="Models\Account\RemoveLoginModel.cs" />
+    <Compile Include="Models\Account\SetPasswordModel.cs" />
+    <Compile Include="Models\Account\UserInfoModel.cs" />
     <Compile Include="Models\CheckinModel.cs" />
-    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanySocialLinksModel.cs" />
-    <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\EventDBContext.cs" />
     <Compile Include="Models\EventGuestCompanyModel.cs" />
     <Compile Include="Models\EventGuestListLinkModel.cs" />
     <Compile Include="Models\EventGuestMailToken.cs" />
-    <Compile Include="Models\EventGuestStatus.cs" />
-    <Compile Include="Models\EventType.cs" />
     <Compile Include="Models\EventViewModel.cs" />
-    <Compile Include="Models\ExternalLoginViewModel.cs" />
-    <Compile Include="Models\Guest.cs" />
-    <Compile Include="Models\GuestCheckin.cs" />
+    <Compile Include="Models\Account\ExternalLoginModel.cs" />
     <Compile Include="Models\GuestEventModel.cs" />
     <Compile Include="Models\GuestGuestListInstanceModel.cs" />
-    <Compile Include="Models\GuestList.cs" />
-    <Compile Include="Models\GuestListInstance.cs" />
     <Compile Include="Models\Patches\GuestCheckinPlusUpdatingPatch.cs" />
     <Compile Include="Models\Patches\RsvpGuestListInstancePatch.cs" />
-    <Compile Include="Models\GuestListInstanceType.cs" />
-    <Compile Include="Models\GuestListViewModel.cs" />
+    <Compile Include="Models\GuestListModel.cs" />
     <Compile Include="Models\HttpResponseStatus.cs" />
     <Compile Include="Models\IdsEventModel.cs" />
     <Compile Include="Models\IdsModel.cs" />
-    <Compile Include="Models\ImageDimensions.cs" />
-    <Compile Include="Models\Invite.cs" />
-    <Compile Include="Models\ManageInfoViewModel.cs" />
-    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\ManageInfoModel.cs" />
     <Compile Include="Models\PersonalEventGuestSubmitModel.cs" />
     <Compile Include="Models\PublicEventGuestSubmitModel.cs" />
-    <Compile Include="Models\ResetPasswordToken.cs" />
-    <Compile Include="Models\RsvpType.cs" />
-    <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\UserLoginInfoViewModel.cs" />
+    <Compile Include="Models\Account\UserLoginInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
@@ -565,6 +554,12 @@
     <EmbeddedResource Include="Migrations\201512160746585_GuestList_PromoterId.resx">
       <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\gliist_server.DataAccess\gliist_server.DataAccess.csproj">
+      <Project>{7006f5d9-06f0-45b1-b4c6-82fd68924b5e}</Project>
+      <Name>gliist_server.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -219,6 +219,15 @@ md-tooltip .md-content{
     min-height: 30px;
     font-weight: bold;
     color: #aaa;
+    img,
+    md-icon,
+    ng-md-icon {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%,-50%); 
+        height: 24px;
+        fill: white;
+    }
     span {
         line-height: 1;
     }
@@ -280,14 +289,6 @@ md-tooltip .md-content{
         }
         &:hover {
             background: linear-gradient(to bottom, #65aef6, #98ccff);
-        }
-        md-icon,
-        ng-md-icon {
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%,-50%); 
-            height: 24px;
-            fill: white;
         }
     }
 }
@@ -408,6 +409,9 @@ md-tooltip .md-content{
         background-color: #f0f6fb;
         margin: 0;
         padding: 12px;
+    }
+    md-content {
+        padding: 15px;
     }
 }
 
@@ -1426,6 +1430,11 @@ md-dialog {
 }
 
 @media screen and (max-width: 600px) {
+    md-toolbar {
+        & > div {
+            padding: 0 10px;
+        }
+    }
     .signup_invite,
     .signup {
         .signup-form {
@@ -1537,6 +1546,25 @@ md-dialog {
         .event-descr {
             padding: 0 20px;
             margin-bottom: 20px;
+        }
+    }
+    .event-list {
+        md-list-item {
+            display: block;
+            border-radius: 5px;
+            border: 1px solid #ccc;            
+            & > * {
+                width: 100%;
+            }
+            .event-image {
+                height: 215px !important;
+            }
+            md-grid-list {
+                margin-top: 20px;
+            }
+        }
+        .actions {
+            padding-right: 0;
         }
     }
     .event-tab {

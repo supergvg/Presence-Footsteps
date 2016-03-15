@@ -1,4 +1,5 @@
 using System.Data.Entity.Migrations;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 
 namespace gliist_server.Migrations

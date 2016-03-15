@@ -1,4 +1,5 @@
 ﻿using System;
+using gliist_server.DataAccess;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;

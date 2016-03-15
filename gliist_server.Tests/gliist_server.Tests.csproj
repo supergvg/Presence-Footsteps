@@ -126,6 +126,10 @@
     <Compile Include="TicketingEvents\TicketTiers\AddOrUpdateValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\gliist_server.DataAccess\gliist_server.DataAccess.csproj">
+      <Project>{7006f5d9-06f0-45b1-b4c6-82fd68924b5e}</Project>
+      <Name>gliist_server.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\gliist_server\gliist_server.csproj">
       <Project>{fbb34faa-c829-4bd3-9ac0-2f79129cde18}</Project>
       <Name>gliist_server</Name>

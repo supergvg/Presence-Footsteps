@@ -42,14 +42,15 @@
         <div layout="column" layout-fill ng-show="appReady" ng-cloak>
             <md-toolbar ng-if="showUserBars()" ng-cloak>
                 <div layout="row" layout-align="space-between center">
-                    <div>
-                        <img src="assets/images/gliist_logo.png" ui-sref="main.welcome" class="logo">
-                        <md-button hide-gt-lg ng-click="toggleSidebar()" aria-label="Show User List">
-                            <ng-md-icon icon="menu" style="fill:white" size="24"></ng-md-icon>
-                        </md-button>
-                    </div>
-                    <md-button class="raised-btn white-btn" ng-click="logout()">
+                    <md-button hide-gt-lg ng-click="toggleSidebar()">
+                        <ng-md-icon icon="menu"></ng-md-icon>
+                    </md-button>
+                    <img src="assets/images/gliist_logo.png" ui-sref="main.welcome" class="logo" alt="logo">
+                    <md-button class="raised-btn white-btn" ng-click="logout()" hide-sm>
                         Log out
+                    </md-button>
+                    <md-button ng-click="logout()" hide-gt-sm>
+                        <img ng-src="assets/images/icons/logout.png" ng-click="logout()" hide-gt-sm/>
                     </md-button>
                 </div>
             </md-toolbar>
