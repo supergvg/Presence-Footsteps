@@ -3,16 +3,16 @@ namespace gliist_server.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class invite_per : DbMigration
+    public partial class PublicVisitors : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Invites", "permissions_internal", c => c.String());
+            AddColumn("dbo.Events", "PublicVisitors", c => c.Int(nullable: false, defaultValue: 0));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Invites", "permissions_internal");
+            DropColumn("dbo.Events", "PublicVisitors");
         }
     }
 }

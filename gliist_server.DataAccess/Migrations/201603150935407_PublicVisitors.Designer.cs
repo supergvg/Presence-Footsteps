@@ -6,19 +6,19 @@ namespace gliist_server.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class EventGuest_InstanceType_change : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
+    public sealed partial class PublicVisitors : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(EventGuest_InstanceType_change));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PublicVisitors));
         
         string IMigrationMetadata.Id
         {
-            get { return "201509241146530_EventGuest_InstanceType_change"; }
+            get { return "201603150935407_PublicVisitors"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target
