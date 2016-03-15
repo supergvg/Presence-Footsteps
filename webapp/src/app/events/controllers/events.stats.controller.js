@@ -17,7 +17,7 @@ angular.module('gliist')
             ];
             $scope.rsvp = [
                 {name: 'Invited', color: '#cef0f2', total: 0},
-                {name: 'RSVP', color: '#f7f9c3', total: 0},
+                {name: 'RSVP\'d', color: '#f7f9c3', total: 0},
                 {name: 'RSVP checked in', color: '#ffd8b4', total: 0}
             ];
             $scope.rsvpTotalVisitors = 0;
@@ -79,7 +79,7 @@ angular.module('gliist')
             };
             
             $scope.getExportExcelUrl = function() {
-                return $window.redirectUrl+'api/reports/exportrsvp/'+$scope.event.id;
+                return $window.redirectUrl+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
             
             $scope.getCategoryStats = function(category) {
@@ -113,7 +113,8 @@ angular.module('gliist')
                 });
                 
                 if ($scope.isRSVP()) {
-                    $scope.rsvp.sort(function(a, b){
+                    var rsvp = angular.copy($scope.rsvp);
+                    rsvp.sort(function(a, b){
                         if (a.total > b.total) {
                             return 1;
                         }
@@ -123,7 +124,7 @@ angular.module('gliist')
                     });
                     var names = [''],
                         totals = [''];
-                    $scope.rsvp.forEach(function(item, i, arr){
+                    rsvp.forEach(function(item, i, arr){
                         names.push(item.name);
                         names.push({role: 'tooltip'});
                         if (i > 0) {
@@ -137,11 +138,11 @@ angular.module('gliist')
                         type: 'ColumnChart',
                         options: {
                             legend: 'none',
-                            colors: $scope.rsvp.map(function(item){ return item.color; }),
+                            colors: rsvp.map(function(item){ return item.color; }),
                             chartArea: {left: '5%', top: '5%', width: '100%', height: '90%'},
                             bar: { groupWidth: '20%' },
                             isStacked: true,
-                            vAxis: {gridlines: {count: 3}, viewWindow: {max: $scope.rsvp[$scope.rsvp.length - 1].total}}
+                            vAxis: {gridlines: {count: 3}, viewWindow: {max: rsvp[$scope.rsvp.length - 1].total}}
                         },
                         data: [names, totals]
                     };

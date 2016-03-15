@@ -16,8 +16,6 @@
     "angular-ui-bootstrap-datetimepicker": "~0.11.2",
     "angular-ui-router": "~0.2.13",
     "jquery": "~2.1.1",
-    "moment": "~2.10.2",
-    "moment-timezone": "~0.4.0",
     "ng-file-upload": "~3.2.4",
     "ngAutocomplete": "~1.0.0",
     "underscore": "~1.8.3",
