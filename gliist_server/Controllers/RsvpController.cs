@@ -287,7 +287,7 @@ namespace gliist_server.Controllers
 
             if (eventGuestStatus.IsRsvpConfirmed)
             {
-                return Ok("RSVP is already confirmed");
+                return BadRequest("You have RSVP'd this event");
             }
 
             var @event = db.Set<Event>()
