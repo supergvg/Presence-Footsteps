@@ -379,7 +379,7 @@ namespace gliist_server.Controllers
             {
                 guest = guest,
                 guestList = guestListInstance,
-                plus = guest.plus
+                plus = eventGuestStatus.AdditionalGuestsRequested
             });
             db.Entry(guestListInstance).State = EntityState.Modified;
 
