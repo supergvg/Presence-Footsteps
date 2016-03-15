@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.Attributes;
+using gliist_server.DataAccess;
 using gliist_server.Helpers;
 using gliist_server.Models;
 using Microsoft.AspNet.Identity;
@@ -493,7 +494,7 @@ namespace gliist_server.Controllers
             }
 
 
-            checkin.time = DateTimeOffset.Now;
+            checkin.time = DateTime.Now;
             checkin.plus = checkin.plus - checkinData.plus;
             checkin.status = "checked in";
 

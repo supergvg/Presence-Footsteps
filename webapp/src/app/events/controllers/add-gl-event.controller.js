@@ -9,8 +9,7 @@ angular.module('gliist')
                     instanceType = $stateParams.instanceType;
 
                 eventsService.linkGuestList([glist], eventId, instanceType).then(
-                    function (guestListInstances) {
-                        //$scope.event.guestLists = guestListInstances;
+                    function() {
                         dialogService.success('Guest lists were linked');
                         $state.go('main.edit_event', {eventId: eventId, view: 3});
                     }, function () {

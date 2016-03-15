@@ -1,4 +1,5 @@
 ﻿using System;
+using gliist_server.DataAccess;
 using SendGrid;
 
 namespace gliist_server.Models
@@ -54,7 +55,7 @@ namespace gliist_server.Models
 
         protected override void MarkGuestAsNotificated(EventGuestStatus guest, GuestListInstance listInstance)
         {
-            guest.RsvpEmailSentDate = DateTime.UtcNow;
+            guest.RsvpEmailSentDate = DateTime.Now;
         }
     }
 }

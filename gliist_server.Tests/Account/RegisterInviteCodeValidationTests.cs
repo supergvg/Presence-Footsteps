@@ -16,7 +16,7 @@ namespace gliist_server.Tests.Account
         {
             var controller = new AccountController();
 
-            var result = await controller.ExecuteActionAsync(controller.Register, new ExternalRegisterBindingModel
+            var result = await controller.ExecuteActionAsync(controller.Register, new ExternalRegisterModel
             {
 
                 UserName = "username@email.com",
@@ -41,7 +41,7 @@ namespace gliist_server.Tests.Account
         {
             var controller = new AccountController();
 
-            var result = await controller.ExecuteActionAsync(controller.Register, new ExternalRegisterBindingModel
+            var result = await controller.ExecuteActionAsync(controller.Register, new ExternalRegisterModel
             {
 
                 UserName = "username@email.com",

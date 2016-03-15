@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Web.Http.ModelBinding;
+using gliist_server.DataAccess;
 
 namespace gliist_server.Areas.Ticketing.Models
 {
@@ -25,9 +26,6 @@ namespace gliist_server.Areas.Ticketing.Models
 
             if (options.Model.StartTime.HasValue)
             {
-                if (options.Model.StartTime < DateTime.Now)
-                    return "Start Time is past.";
-
                 if (options.Model.ExpirationTime.HasValue &&
                     options.Model.ExpirationTime.Value < options.Model.StartTime)
                     return "Expiration Time is less than Start Time.";

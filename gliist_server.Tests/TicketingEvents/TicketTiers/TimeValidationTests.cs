@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http.Results;
 using gliist_server.Areas.Ticketing.Controllers;
 using gliist_server.Areas.Ticketing.Models;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 using gliist_server.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,34 +15,15 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
     public class TimeValidationTests
     {
         [TestMethod]
-        public void BadRequest_IfStartTimeIsPast()
-        {
-            var ticket = new TicketTier
-            {
-                Name = "name",
-                Price = 5,
-                Quantity = 3,
-                StartTime = DateTime.Today.AddDays(-1)
-            };
-
-            var controller = new TicketTiersController();
-            var result = controller.ExecuteAction(controller.Post, ticket);
-
-            var actual = result as BadRequestErrorMessageResult;
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("Start Time is past.", actual.Message);
-        }
-
-        [TestMethod]
         public void BadRequest_IfExpirationTimeIsLessThanStartTime()
         {
+            var currentTime = DateTimeOffset.Now.AddDays(1);
             var ticket = new TicketTier
             {
                 Name = "name",
                 Price = 5,
-                StartTime = DateTime.Today.AddDays(10),
-                ExpirationTime = DateTime.Today.AddDays(1)
+                StartTime = currentTime.AddDays(10),
+                ExpirationTime = currentTime.AddDays(1)
             };
 
             var controller = new TicketTiersController();
@@ -56,12 +38,14 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         [TestMethod]
         public void BadRequest_IfStartTimeIsLaterThan3HoursBeforeEvent()
         {
+            var currentTime = DateTimeOffset.Now.AddDays(1);
+
             var data = new List<Event>
             {
                 new Event
                 {
                     id = 1,
-                    time = DateTime.Today.AddDays(1).AddHours(17)
+                    time = currentTime.AddHours(17)
                 }
             };
 
@@ -70,7 +54,7 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
                 Name = "name",
                 Price = 5,
                 Quantity = 3,
-                StartTime = DateTime.Today.AddDays(1).AddHours(16),
+                StartTime = currentTime.AddHours(16),
                 EventId = 1
             };
 
@@ -95,12 +79,14 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
         [TestMethod]
         public void BadRequest_IfExpirationDateIsLaterThan3HoursBeforeEvent()
         {
+            var currentTime = DateTimeOffset.Now.AddDays(1);
+
             var data = new List<Event>
             {
                 new Event
                 {
                     id = 1,
-                    time = DateTime.Today.AddDays(1).AddHours(17)
+                    time = currentTime.AddHours(17)
                 }
             };
 
@@ -108,8 +94,8 @@ namespace gliist_server.Tests.TicketingEvents.TicketTiers
             {
                 Name = "name",
                 Price = 5,
-                StartTime = DateTime.Today.AddDays(1),
-                ExpirationTime = DateTime.Today.AddDays(1).AddHours(16),
+                StartTime = currentTime,
+                ExpirationTime = currentTime.AddHours(16),
                 EventId = 1
             };
 
