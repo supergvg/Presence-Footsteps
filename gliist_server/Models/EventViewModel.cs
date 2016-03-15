@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using gliist_server.DataAccess;
 using Newtonsoft.Json;
 
 namespace gliist_server.Models
@@ -27,9 +28,11 @@ namespace gliist_server.Models
 
         public RsvpType rsvpType { get; set; }
 
-        public int utcOffset { get; set; }
+        public int utcOffset
+        {
+            get { return (int) (time.Offset.TotalHours*3600); }
 
-        public int userOffset { get; set; }
+        }
 
         public string invitePicture { get; set; }
 
@@ -48,11 +51,6 @@ namespace gliist_server.Models
         [JsonProperty(PropertyName = "ticketingUrl")]
         public string TicketingUrl { get; set; }
 
-        public EventViewModel()
-        {
-
-        }
-
         public EventViewModel(Event @event)
         {
             id = @event.id;
@@ -63,8 +61,6 @@ namespace gliist_server.Models
             capacity = @event.capacity;
             time = @event.time;
             endTime = @event.endTime;
-            utcOffset = @event.utcOffset;
-            userOffset = @event.userOffset;
             invitePicture = @event.invitePicture;
             type = @event.Type;
             rsvpType = @event.RsvpType;

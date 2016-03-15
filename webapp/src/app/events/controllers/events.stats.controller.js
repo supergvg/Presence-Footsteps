@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state',
-        function ($scope, eventsService, dialogService, $stateParams, $state) {
-
+    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window',
+        function ($scope, eventsService, dialogService, $stateParams, $state, $window) {
             $scope.categories = [
                 {name: 'GA', color: '#d4e4f9'},
                 {name: 'VIP', color: '#cef0f2'},
@@ -16,58 +15,71 @@ angular.module('gliist')
                 {name: 'Press', color: '#e0e0e0'},
                 {name: 'RSVP', color: '#eae3da'}
             ];
+            $scope.rsvp = [
+                {name: 'Invited', color: '#cef0f2', total: 0},
+                {name: 'RSVP', color: '#f7f9c3', total: 0},
+                {name: 'RSVP checked in', color: '#ffd8b4', total: 0}
+            ];
+            $scope.Math = $window.Math;
+            $scope.gliOptions = {
+                readOnly: true,
+                stats: true
+            };
+            $scope.stats = {};
+            $scope.totalCheckedIn = 0;
+            $scope.eventType = 1;
 
-            $scope.getCategoryStatus = function (category) {
-                var count = 0;
-                if ($scope.event) {
-                    angular.forEach($scope.event.guestLists, function(gl) {
-                        if (gl.listType.toLowerCase() === category.name.toLowerCase()) {
-                            angular.forEach(gl.actual, function(chkn) {
-                                if (chkn.status !== 'checked in') {
-                                  return;
-                                }
-                                count += chkn.guest.plus + 1 - chkn.plus;
-                            });
+            $scope.calculateStats = function() {
+                if (!$scope.event) {
+                    return;
+                }
+                var category = '';
+                angular.forEach($scope.event.guestLists, function(gl) {
+                    category = gl.listType.toLowerCase();
+                    if (!$scope.stats[category]) {
+                        $scope.stats[category] = {
+                            totalCheckedIn: 0,
+                            total: 0
+                        };
+                    }
+                    angular.forEach(gl.actual, function(guest) {
+                        if (guest.status === 'checked in') {
+                            $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
                         }
                     });
-                }
-
-                return count;
+                    $scope.stats[category].total += gl.guestsCount;
+                    $scope.totalCheckedIn += $scope.stats[category].totalCheckedIn;
+                    
+                    //RSVP stats
+                    if (gl.instanceType === 2 && gl.published) {
+                        $scope.rsvp[0].total += gl.guestsCount;
+                        angular.forEach(gl.actual, function(guest) {
+                            $scope.rsvp[1].total += guest.plus + 1;
+                        });
+                        $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
+                    }
+                    if (gl.instanceType === 4) {
+                        $scope.rsvp[1].total += gl.guestsCount;
+                        $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
+                    }
+                });
+                $scope.updateChart();
             };
-
-            $scope.Math = window.Math;
-
-            $scope.getCategoryTotal = function (category) {
-                var count = 0;
-                if ($scope.event) {
-                    angular.forEach($scope.event.guestLists, function(gl) {
-                        if (gl.listType.toLowerCase() === category.name.toLowerCase()) {
-                            count += gl.guestsCount;
-                        }
-                    });
-                }
-                return count;
+            
+            $scope.getCategoryStats = function(category) {
+                return $scope.stats[category.toLowerCase()] || {totalCheckedIn: 0, total: 0};
             };
-
+            
             $scope.updateChart = function() {
-                var totalGuests = 0;
                 $scope.chartObject = {
                     type: 'PieChart',
                     options: {
                         titlePosition: 'none',
                         legend: 'none',
-                        colors: [
-                            '#d4e4f9',
-                            '#cef0f2',
-                            '#cfefdc',
-                            '#f7f9c3',
-                            '#ffd8b4',
-                            '#ead5e1',
-                            '#f3d4f9',
-                            '#c9badb',
-                            '#e0e0e0',
-                            '#eae3da'],
-                        chartArea: {left: 0, top: '10%', width: '100%', height: '75%'},
+                        colors: $scope.categories.map(function(category){
+                            return category.color;
+                        }),
+                        chartArea: {left: 0, top: '5%', width: '100%', height: '90%'},
                         pieSliceText: 'label'
                     },
                     data: {
@@ -78,50 +90,60 @@ angular.module('gliist')
                         rows: []
                     }
                 };
-
                 angular.forEach($scope.categories, function(category) {
-                    var categoryCount = $scope.getCategoryStatus(category);
-                    totalGuests += categoryCount;
                     $scope.chartObject.data.rows.push({
-                        c: [
-                            {
-                                v: category.name
-                            },
-                            {
-                                v: categoryCount
-                            }
-                        ]
+                        c: [{v: category.name}, {v: $scope.getCategoryStats(category.name).totalCheckedIn}]
                     });
                 });
                 
-                $scope.totalGuests = totalGuests;
+                $scope.rsvp.sort(function(a, b){
+                    if (a.total > b.total) {
+                        return 1;
+                    }
+                    if (a.total < b.total) {
+                        return -1;
+                    }
+                });
+                var names = [''],
+                    totals = [''];
+                $scope.rsvp.forEach(function(item, i, arr){
+                    names.push(item.name);
+                    names.push({role: 'tooltip'});
+                    if (i > 0) {
+                        totals.push(arr[i].total - arr[i - 1].total);
+                    } else {
+                        totals.push(item.total);
+                    }
+                    totals.push(item.name+': '+item.total);
+                });
+                $scope.chartObjectRSVP = {
+                    type: 'ColumnChart',
+                    options: {
+                        legend: 'none',
+                        colors: $scope.rsvp.map(function(item){ return item.color; }),
+                        chartArea: {left: '5%', top: '5%', width: '100%', height: '90%'},
+                        bar: { groupWidth: '20%' },
+                        isStacked: true,
+                        vAxis: {gridlines: {count: 3}, viewWindow: {max: $scope.rsvp[$scope.rsvp.length - 1].total}}
+                    },
+                    data: [names, totals]
+                };
             };
 
-            $scope.$watch('event', function (newValue) {
-                if (!newValue) {
-                    return;
-                }
-                $scope.updateChart(newValue);
-            });
-
-            $scope.gliOptions = {
-                readOnly: true,
-                stats: true
-            };
-
-            $scope.event = {id: 0};
-            $scope.init = function () {
+            $scope.init = function() {
                 var eventId = $stateParams.eventId;
                 $scope.initializing = true;
-                eventsService.getEvents(eventId).then(function (data) {
-                    $scope.event = data;
-                }, function () {
-                    dialogService.error('There was a problem getting your events, please try again');
-                    $state.go('main.current_events');
-                }).finally(
-                    function () {
-                        $scope.initializing = false;
+                eventsService.getEvents(eventId).then(
+                    function(data) {
+                        $scope.event = data;
+                        $scope.eventType = $scope.event.type;
+                        $scope.calculateStats();
+                    }, function() {
+                        dialogService.error('There was a problem getting your events, please try again');
+                        $state.go('main.current_events');
                     }
-                );
+                ).finally(function() {
+                    $scope.initializing = false;
+                });
             };
         }]);

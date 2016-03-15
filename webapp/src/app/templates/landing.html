@@ -26,7 +26,7 @@
             </div>
             <div layout="column">
                 <div class="item-label">RSVP:</div>
-                <h4 ng-if="success" class="success">Thank you! You have been added to the event guest list!</h4>
+                <h4 ng-if="success" class="success">{{message}}</h4>
                 <form name="rsvpLandingForm">
                     <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                         <label>Name</label>

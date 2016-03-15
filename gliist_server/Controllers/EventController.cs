@@ -13,6 +13,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using gliist_server.Attributes;
+using gliist_server.DataAccess;
 using gliist_server.Helpers;
 using gliist_server.Models;
 using gliist_server.Shared;
@@ -245,11 +246,7 @@ namespace gliist_server.Controllers
             {
                 @event.time = DateTimeOffset.Now;
             }
-
-            @event.time = new DateTimeOffset(@event.time.Year, @event.time.Month, @event.time.Day, @event.time.Hour, @event.time.Minute, @event.time.Second, new TimeSpan(0, 0, @event.utcOffset)).AddHours(-@event.userOffset);
-
-            @event.endTime = new DateTimeOffset(@event.endTime.Year, @event.endTime.Month, @event.endTime.Day, @event.endTime.Hour, @event.endTime.Minute, @event.endTime.Second, new TimeSpan(0, 0, @event.utcOffset)).AddHours(-@event.userOffset);
-
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -260,7 +257,7 @@ namespace gliist_server.Controllers
                 return BadRequest("rsvpEndDate is required for this type of event");
             }
 
-            var generateRSVPLink = false;
+            var generateRsvpLink = false;
             if (@event.id > 0)
             {
                 var existingEvent = db.Events.FirstOrDefault(x => x.id == @event.id);
@@ -314,12 +311,12 @@ namespace gliist_server.Controllers
             }
             else
             {
-                generateRSVPLink = true;
+                generateRsvpLink = true;
                 db.Events.Add(@event);
             }
             await db.SaveChangesAsync();
 
-            if (generateRSVPLink)
+            if (generateRsvpLink)
             {
                 var linkCreator = new GjestsLinksGenerator(Config.AppBaseUrl);
                 @event.RsvpUrl = linkCreator.GeneratePublicRsvpLandingPageLink(@event.company.name, @event.id.ToString());

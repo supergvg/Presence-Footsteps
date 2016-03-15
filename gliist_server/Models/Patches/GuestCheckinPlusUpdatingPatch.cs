@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using gliist_server.DataAccess;
 
 namespace gliist_server.Models
 {

@@ -19,7 +19,6 @@ angular.module('gliist')
             };
 
             $scope.init = function() {
-
                 if (userService.getLogged()) {
                     $state.go('main.welcome');
                     return;
@@ -31,14 +30,12 @@ angular.module('gliist')
 
                 $scope.loading = true;
                 var company = $stateParams.company,
-                        token = $stateParams.token;
+                    token = $stateParams.token;
                 userService.getInviteInfo(company, token).then(function(userInfo) {
-
                     if (!userInfo) { //token is invalid
                         $state.go('main.welcome');
                         return;
                     }
-
                     $scope.user = userInfo;
                     $scope.user.username = userInfo.email;
                     $scope.user.company = company;
