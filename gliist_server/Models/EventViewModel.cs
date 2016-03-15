@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using gliist_server.DataAccess;
 using Newtonsoft.Json;
 
 namespace gliist_server.Models

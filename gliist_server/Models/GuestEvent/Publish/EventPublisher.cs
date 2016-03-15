@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using gliist_server.DataAccess;
 using SendGrid;
 
 namespace gliist_server.Models
