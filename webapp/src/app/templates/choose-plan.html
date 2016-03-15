@@ -1,20 +1,27 @@
 <div layout="column" layout-align="start center">
     <img ng-src="assets/images/gliist_logo_blue.png" class="header-image"/>
-    <div layout="row" layout-align="start center" class="stripe-account">
-        <div class="info"><span>Select your plan!</span></div>
-    </div>
+    <h4>Select your plan!</h4>
     <div class="tariff-blocks">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
         <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
 <!--            <div class="popular-title" ng-if="$index === 2">Most popular plan</div> -->
-            <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">{{tariff.name}}</div>
-                <div class="price">$ {{tariff.amount}}/{{tariff.subscriptionDuration}}</div>
+            <div layout="column" class="tariff-header" layout-align="space-between center">
+                <div>
+                    <img ng-src="assets/images/plan_icons/{{tariff.keyForUI | spaceless}}.png"/>
+                    <div class="title">{{tariff.name}}</div>
+                </div>
+                <div class="price-details">{{tariff.priceDetails}}</div>
+                <div>
+                    {{tariff.descriptionLine1}}<br>
+                    {{tariff.descriptionLine2}}
+                </div>
             </div>
-            <ul class="description">
-                <li ng-repeat="feature in tariff.feature" ng-if="feature.SubscriptionFeatureDetails.IsActive">+ {{feature.SubscriptionFeatureDetails.Name}}</li>
-            </ul>
-            <div class="status">
+            <div layout="column" class="tariff-content" layout-align="start center">
+                <ul>
+                    <li ng-repeat="feature in tariff.feature">{{feature.SubscriptionFeature.name}}</li>
+                </ul>
+            </div>
+            <div layout="column" class="tariff-footer" layout-align="center center">
                 <md-button class="raised-btn" ng-click="">SELECT</md-button>
             </div>
         </div>

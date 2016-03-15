@@ -1170,7 +1170,6 @@ md-dialog {
     }
 }
 
-.choose_plan,
 .profile .billing {
     .tariff-blocks {
         display: inline-block;
@@ -1232,27 +1231,58 @@ md-dialog {
     padding: 0 !important;
     background-color: #fff !important;
     .header-image {
-        margin: 50px 0 80px 0;
+        margin: 50px 0 15px 0;
         height: 90px;
     }
+    h4 {
+        font-weight: bold;
+        color: #aaa;
+    }
     .tariff-blocks {
-        margin: 60px 0;
+        margin: 20px 0;
         .tariff-block {
-            &.popular {
-                background-color: #aaa;
-                margin-top: -27px;
-                .description {
-                    color: #fff;
+            width: 230px;
+            float: left;
+            display: inline-block;
+            margin: 10px;
+            font-size: 14px;
+            background-color: #ececec;
+            .tariff-header {
+                background-color: #99ccff;
+                height: 210px;
+                color: #f0f6fb;
+                font-weight: bold;
+                text-align: center;
+                padding: 10px 10px 20px 10px;
+                img {
+                    height: 38px;
                 }
-                .popular-title {
-                    font-size: 12px;
-                    padding: 5px;
-                    text-align: center;
-                    color: #fff;
+                .title {
+                    padding-top: 15px;
+                    font-size: 20px;
+                }
+                .price-details {
+                    font-size: 18px;
                 }
             }
-            .tariff-title {
-                background-color: #ececec;
+            .tariff-content {
+                border-top: 2px dashed #8e8e8e;
+                min-height: 300px;
+                padding: 20px;
+                ul {
+                    font-size: 13px;
+                    list-style: none;
+                    color: #8e8e8e;
+                    padding: 0;
+                    text-align: center;
+                    li {
+                        padding: 2px 0;
+                    }
+                }
+            }
+            .tariff-footer {
+                border-top: 2px dashed #8e8e8e;
+                padding: 15px;
             }
         }
     }
