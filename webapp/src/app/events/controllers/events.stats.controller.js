@@ -43,13 +43,15 @@ angular.module('gliist')
                             total: 0
                         };
                     }
-                    angular.forEach(gl.actual, function(guest) {
-                        if (guest.status === 'checked in') {
-                            $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
-                        }
-                    });
-                    $scope.stats[category].total += gl.guestsCount;
-                    $scope.totalCheckedIn += $scope.stats[category].totalCheckedIn;
+                    if (!(category === 'rsvp' && gl.instanceType !== 4)) {
+                        angular.forEach(gl.actual, function(guest) {
+                            if (guest.status === 'checked in') {
+                                $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
+                            }
+                        });
+                        $scope.stats[category].total += gl.guestsCount;
+                        $scope.totalCheckedIn += $scope.stats[category].totalCheckedIn;
+                    }                        
                     
                     if ($scope.isRSVP()) {
                         //RSVP stats
