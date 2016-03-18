@@ -9,12 +9,12 @@
         </span>
     </div>
     <div ng-hide="fetchingData">
-        <div layout="column" layout-align="start center" class="content">
+        <div layout="column" layout-align="start stretch" class="content">
             <div flex>
                 <img src="assets/images/guest-checkin.png">
             </div>
             <div flex>
-                <h3>{{guestListInstance.title}}</h3>
+                <h3><u>{{guestListInstance.title}}</u></h3>
             </div>
             <div flex>
                 <h3><b>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</b></h3>
@@ -25,8 +25,12 @@
             <div flex>
                 <b>{{checkInGuests}}/{{maxGuests}} Checked</b>
             </div>
-            <div flex>
-                <b>Note: </b>{{guestCheckin.guest.phoneNumber}}
+            <div flex class="notes" layout="row" layout-align="center center" layout-sm="column">
+                <b>Note</b>
+                <textarea ng-model="guestCheckin.guest.notes" columns="1" flex></textarea>
+                <md-button class="raised-btn" ng-click="updateNotes()" aria-label="UpdateNote">
+                    <md-icon md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>
+                </md-button>
             </div>
             <div flex class="spinner-plusminus-h" ng-show="notCheckInGuests > 0">
                 <md-button class="raised-btn" ng-click="subtractGuestCount()" ng-disabled="checkingGuest">

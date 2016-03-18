@@ -21,8 +21,8 @@ angular.module('gliist', [
     'ui.grid.selection',
     'ui.grid.autoResize',
     'angular-google-analytics'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', '$windowProvider',
+        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, $windowProvider) {
 //            $locationProvider.html5Mode(true);
 
             AnalyticsProvider
@@ -53,14 +53,15 @@ angular.module('gliist', [
                 //.accentPalette('grey')
                 .warnPalette('red')
                 .backgroundPalette('grey');
-
-            window.redirectUrl = 'http://gjests.azurewebsites.net/';
-	    window.redirectUrl = 'http://gjests-api.ideas-implemented.com/';
-            $provide.factory('myHttpInterceptor', function () {
+                
+            var $window = $windowProvider.$get();
+            $window.redirectUrl = 'http://gjests.azurewebsites.net/';
+	    $window.redirectUrl = 'http://gjests-api.ideas-implemented.com/';
+            $provide.factory('myHttpInterceptor', function() {
                 return {
                     'request': function (config) {
 
-                        var redirectUrl = window.redirectUrl;
+                        var redirectUrl = $window.redirectUrl;
                         if (config.url.indexOf('api') > -1) {
                             config.url = redirectUrl + config.url;
                         } else if (config.url.indexOf('Token') > -1) {

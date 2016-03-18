@@ -52,6 +52,14 @@ angular.module('gliist')
                     });
             };
             
+            $scope.updateNotes = function() {
+                $scope.checkingGuest = true;
+                eventsService.updateGuestNotes($scope.guestCheckin.guest.id, $scope.guestCheckin.guest.notes).then(function(){}, error)
+                    .finally(function () {
+                        $scope.checkingGuest = false;
+                    });
+            };
+            
             $scope.initVars = function() {
                 $scope.maxGuests = $scope.guestCheckin.guest.plus + 1;
                 $scope.guestChecked = $scope.guestCheckin.status === 'checked in';

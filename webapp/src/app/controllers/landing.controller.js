@@ -20,6 +20,8 @@ angular.module('gliist')
                     $mdDialog.show({
                         template: '<md-dialog><md-dialog-content style="padding: 50px;font-size:20px;"><b>Oops! RSVP for this event has expired.</b></md-dialog-content></md-dialog>'
                     });
+                } else {
+                    eventsService.incRSVPVisitors($scope.event.event.id);
                 }
             };
             

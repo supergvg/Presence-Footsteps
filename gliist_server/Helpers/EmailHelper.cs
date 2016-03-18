@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 using SendGrid;
 

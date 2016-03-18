@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using gliist_server.DataAccess;
 using Microsoft.AspNet.Identity;
 using gliist_server.Models;
 
@@ -32,11 +33,11 @@ namespace gliist_server.Controllers
                 {
                     time = new DateTimeOffset(x.time, offset),
                     message = x.message,
-                    guest = new GuestViewModel
+                    guest = new GuestModel
                     {
                         id = x.guestId
                     },
-                    gli = new GuestListInstanceViewModel
+                    gli = new GuestListInstanceModel
                     {
                         id = x.gliId
                     }

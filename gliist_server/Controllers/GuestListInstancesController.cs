@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 
 namespace gliist_server.Controllers
@@ -110,7 +111,11 @@ namespace gliist_server.Controllers
                     if (checkin.guest.id > 0)
                     {
                         db.Entry(checkin.guest).State = EntityState.Modified;
-                        UpdateEventsGuest(checkin, linkedEvent);
+                        if (guestListInstance.InstanceType != GuestListInstanceType.Rsvp &&
+                            guestListInstance.InstanceType != GuestListInstanceType.PublicRsvp)
+                        {
+                            UpdateEventsGuestPlus(checkin, linkedEvent);
+                        }
                     }
                     else
                     {
@@ -161,7 +166,7 @@ namespace gliist_server.Controllers
 
         #region private methods
 
-        private void UpdateEventsGuest(GuestCheckin checkin, Event linkedEvent)
+        private void UpdateEventsGuestPlus(GuestCheckin checkin, Event linkedEvent)
         {
             var guestEvent =
                 db.EventGuests.FirstOrDefault(x => x.EventId == linkedEvent.id && x.GuestId == checkin.guest.id);

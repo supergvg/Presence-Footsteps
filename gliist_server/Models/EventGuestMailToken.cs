@@ -2,10 +2,6 @@
 {
     public class EventGuestMailToken
     {
-        public EventGuestMailToken()
-        {
-        }
-
         public string Token { get; set; }
         public string UrlSafeToken { get; set; }
         public int GuestId { get; set; }

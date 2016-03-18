@@ -246,7 +246,6 @@
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\ParametersValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\PreviousTicketTierValidator.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidator.cs" />
-    <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTier.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\TicketTierViewModel.cs" />
     <Compile Include="Areas\Ticketing\Models\TicketTiers\Validation\TicketTierValidatorOptions.cs" />
     <Compile Include="Areas\Ticketing\TicketingAreaRegistration.cs" />
@@ -261,10 +260,13 @@
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\GuestListInstancesController.cs" />
     <Compile Include="Controllers\GuestListsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Models\Account\InviteCodeValidator.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Models\Account\ChangePasswordModel.cs" />
+    <Compile Include="Models\Account\ExternalRegisterModel.cs" />
     <Compile Include="Models\GuestEvent\GuestDeletedEmailSender.cs" />
-    <Compile Include="Models\Account\UserProfileViewModel.cs" />
+    <Compile Include="Models\Account\UserProfileModel.cs" />
     <Compile Include="Models\GuestEvent\Publish\EventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\PrivateEventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\RsvpEventPublisher.cs" />
@@ -274,9 +276,11 @@
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSender.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridTemplateIds.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridSubstitutionsBuilder.cs" />
-    <Compile Include="Models\GuestListInstanceViewModel.cs" />
-    <Compile Include="Models\GuestViewModel.cs" />
-    <Compile Include="Models\NotificationViewModel.cs" />
+    <Compile Include="Models\GuestListInstanceModel.cs" />
+    <Compile Include="Models\GuestNotesModel.cs" />
+    <Compile Include="Models\GuestsEventModel.cs" />
+    <Compile Include="Models\GuestModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Controllers\RsvpController.cs" />
     <Compile Include="Controllers\ShareController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
@@ -289,161 +293,36 @@
     <Compile Include="Helpers\EventHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\GuestHelper.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\PushNotificationHelper.cs" />
     <Compile Include="Logger\Log4NetLogger.cs" />
     <Compile Include="Logger\LogLevel.cs" />
     <Compile Include="Logger\TraceExceptionLogger.cs" />
-    <Compile Include="Migrations\201506040634259_Initial.cs" />
-    <Compile Include="Migrations\201506040634259_Initial.Designer.cs">
-      <DependentUpon>201506040634259_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506072138397_Update_GL.cs" />
-    <Compile Include="Migrations\201506072138397_Update_GL.Designer.cs">
-      <DependentUpon>201506072138397_Update_GL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506170721045_user_per.cs" />
-    <Compile Include="Migrations\201506170721045_user_per.Designer.cs">
-      <DependentUpon>201506170721045_user_per.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506170728068_invite_per.cs" />
-    <Compile Include="Migrations\201506170728068_invite_per.Designer.cs">
-      <DependentUpon>201506170728068_invite_per.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506170744041_update_per.cs" />
-    <Compile Include="Migrations\201506170744041_update_per.Designer.cs">
-      <DependentUpon>201506170744041_update_per.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506241855359_add_reset_password_tokens.cs" />
-    <Compile Include="Migrations\201506241855359_add_reset_password_tokens.Designer.cs">
-      <DependentUpon>201506241855359_add_reset_password_tokens.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506250333210_add_event_time_zone.cs" />
-    <Compile Include="Migrations\201506250333210_add_event_time_zone.Designer.cs">
-      <DependentUpon>201506250333210_add_event_time_zone.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507091721572_gli_published.cs" />
-    <Compile Include="Migrations\201507091721572_gli_published.Designer.cs">
-      <DependentUpon>201507091721572_gli_published.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508070101011_profilePicUrl.cs" />
-    <Compile Include="Migrations\201508070101011_profilePicUrl.Designer.cs">
-      <DependentUpon>201508070101011_profilePicUrl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508271222529_Event_Type_Column.cs" />
-    <Compile Include="Migrations\201508271222529_Event_Type_Column.Designer.cs">
-      <DependentUpon>201508271222529_Event_Type_Column.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508271236165_TicketTypes_Table_Added.cs" />
-    <Compile Include="Migrations\201508271236165_TicketTypes_Table_Added.Designer.cs">
-      <DependentUpon>201508271236165_TicketTypes_Table_Added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508271359416_Event_RSVP_Columns.cs" />
-    <Compile Include="Migrations\201508271359416_Event_RSVP_Columns.Designer.cs">
-      <DependentUpon>201508271359416_Event_RSVP_Columns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508271403463_Event_RsvpEndDate.cs" />
-    <Compile Include="Migrations\201508271403463_Event_RsvpEndDate.Designer.cs">
-      <DependentUpon>201508271403463_Event_RsvpEndDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508271406135_Event_RsvpEndDate_Nullable.cs" />
-    <Compile Include="Migrations\201508271406135_Event_RsvpEndDate_Nullable.Designer.cs">
-      <DependentUpon>201508271406135_Event_RsvpEndDate_Nullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508271610286_Event_RsvpEndDateColumn.cs" />
-    <Compile Include="Migrations\201508271610286_Event_RsvpEndDateColumn.Designer.cs">
-      <DependentUpon>201508271610286_Event_RsvpEndDateColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509021226251_GuestRegistrationType.cs" />
-    <Compile Include="Migrations\201509021226251_GuestRegistrationType.Designer.cs">
-      <DependentUpon>201509021226251_GuestRegistrationType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509021403169_EventsGuests.cs" />
-    <Compile Include="Migrations\201509021403169_EventsGuests.Designer.cs">
-      <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509231131497_GuestListInstanceType.cs" />
-    <Compile Include="Migrations\201509231131497_GuestListInstanceType.Designer.cs">
-      <DependentUpon>201509231131497_GuestListInstanceType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509231359460_FacebookInstagrammTwitter_Fields.cs" />
-    <Compile Include="Migrations\201509231359460_FacebookInstagrammTwitter_Fields.Designer.cs">
-      <DependentUpon>201509231359460_FacebookInstagrammTwitter_Fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509241134124_EventGuest_AutoCheckIn.cs" />
-    <Compile Include="Migrations\201509241134124_EventGuest_AutoCheckIn.Designer.cs">
-      <DependentUpon>201509241134124_EventGuest_AutoCheckIn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509241144586_EventGuest_InstanceType.cs" />
-    <Compile Include="Migrations\201509241144586_EventGuest_InstanceType.Designer.cs">
-      <DependentUpon>201509241144586_EventGuest_InstanceType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509241146530_EventGuest_InstanceType_change.cs" />
-    <Compile Include="Migrations\201509241146530_EventGuest_InstanceType_change.Designer.cs">
-      <DependentUpon>201509241146530_EventGuest_InstanceType_change.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509241332419_Event_RsvpAndTicketingUrlAdded.cs" />
-    <Compile Include="Migrations\201509241332419_Event_RsvpAndTicketingUrlAdded.Designer.cs">
-      <DependentUpon>201509241332419_Event_RsvpAndTicketingUrlAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510060654416_Event_AdditionalDetails.cs" />
-    <Compile Include="Migrations\201510060654416_Event_AdditionalDetails.Designer.cs">
-      <DependentUpon>201510060654416_Event_AdditionalDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510060709336_Event_IsRsvpCapacityLimited.cs" />
-    <Compile Include="Migrations\201510060709336_Event_IsRsvpCapacityLimited.Designer.cs">
-      <DependentUpon>201510060709336_Event_IsRsvpCapacityLimited.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511261252167_Event_IsPublished.cs" />
-    <Compile Include="Migrations\201511261252167_Event_IsPublished.Designer.cs">
-      <DependentUpon>201511261252167_Event_IsPublished.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.cs" />
-    <Compile Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.Designer.cs">
-      <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512160746585_GuestList_PromoterId.cs" />
-    <Compile Include="Migrations\201512160746585_GuestList_PromoterId.Designer.cs">
-      <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\UserInfoViewModel.cs" />
+    <Compile Include="Models\Account\AddExternalLoginModel.cs" />
+    <Compile Include="Models\Account\RegisterModel.cs" />
+    <Compile Include="Models\Account\RegisterExternalBindingModel.cs" />
+    <Compile Include="Models\Account\RemoveLoginModel.cs" />
+    <Compile Include="Models\Account\SetPasswordModel.cs" />
+    <Compile Include="Models\Account\UserInfoModel.cs" />
+    <Compile Include="Models\Patches\EventGuestListsActualPlusesPatch.cs" />
     <Compile Include="Models\CheckinModel.cs" />
-    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanySocialLinksModel.cs" />
-    <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\EventDBContext.cs" />
     <Compile Include="Models\EventGuestCompanyModel.cs" />
     <Compile Include="Models\EventGuestListLinkModel.cs" />
     <Compile Include="Models\EventGuestMailToken.cs" />
-    <Compile Include="Models\EventGuestStatus.cs" />
-    <Compile Include="Models\EventType.cs" />
     <Compile Include="Models\EventViewModel.cs" />
-    <Compile Include="Models\ExternalLoginViewModel.cs" />
-    <Compile Include="Models\Guest.cs" />
-    <Compile Include="Models\GuestCheckin.cs" />
+    <Compile Include="Models\Account\ExternalLoginModel.cs" />
     <Compile Include="Models\GuestEventModel.cs" />
     <Compile Include="Models\GuestGuestListInstanceModel.cs" />
-    <Compile Include="Models\GuestList.cs" />
-    <Compile Include="Models\GuestListInstance.cs" />
     <Compile Include="Models\Patches\GuestCheckinPlusUpdatingPatch.cs" />
     <Compile Include="Models\Patches\RsvpGuestListInstancePatch.cs" />
-    <Compile Include="Models\GuestListInstanceType.cs" />
-    <Compile Include="Models\GuestListViewModel.cs" />
+    <Compile Include="Models\GuestListModel.cs" />
     <Compile Include="Models\HttpResponseStatus.cs" />
     <Compile Include="Models\IdsEventModel.cs" />
     <Compile Include="Models\IdsModel.cs" />
-    <Compile Include="Models\ImageDimensions.cs" />
-    <Compile Include="Models\Invite.cs" />
-    <Compile Include="Models\ManageInfoViewModel.cs" />
-    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\ManageInfoModel.cs" />
     <Compile Include="Models\PersonalEventGuestSubmitModel.cs" />
     <Compile Include="Models\PublicEventGuestSubmitModel.cs" />
-    <Compile Include="Models\ResetPasswordToken.cs" />
-    <Compile Include="Models\RsvpType.cs" />
-    <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\UserLoginInfoViewModel.cs" />
+    <Compile Include="Models\Account\UserLoginInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
@@ -465,7 +344,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="log4net.config" />
-    <None Include="Properties\PublishProfiles\gjests %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\local-iis-deployment.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -475,95 +353,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <None Include="Properties\PublishProfiles\gjests.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506040634259_Initial.resx">
-      <DependentUpon>201506040634259_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506072138397_Update_GL.resx">
-      <DependentUpon>201506072138397_Update_GL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506170721045_user_per.resx">
-      <DependentUpon>201506170721045_user_per.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506170728068_invite_per.resx">
-      <DependentUpon>201506170728068_invite_per.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506170744041_update_per.resx">
-      <DependentUpon>201506170744041_update_per.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506241855359_add_reset_password_tokens.resx">
-      <DependentUpon>201506241855359_add_reset_password_tokens.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506250333210_add_event_time_zone.resx">
-      <DependentUpon>201506250333210_add_event_time_zone.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507091721572_gli_published.resx">
-      <DependentUpon>201507091721572_gli_published.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508070101011_profilePicUrl.resx">
-      <DependentUpon>201508070101011_profilePicUrl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508271222529_Event_Type_Column.resx">
-      <DependentUpon>201508271222529_Event_Type_Column.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508271236165_TicketTypes_Table_Added.resx">
-      <DependentUpon>201508271236165_TicketTypes_Table_Added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508271359416_Event_RSVP_Columns.resx">
-      <DependentUpon>201508271359416_Event_RSVP_Columns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508271403463_Event_RsvpEndDate.resx">
-      <DependentUpon>201508271403463_Event_RsvpEndDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508271406135_Event_RsvpEndDate_Nullable.resx">
-      <DependentUpon>201508271406135_Event_RsvpEndDate_Nullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508271610286_Event_RsvpEndDateColumn.resx">
-      <DependentUpon>201508271610286_Event_RsvpEndDateColumn.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509021226251_GuestRegistrationType.resx">
-      <DependentUpon>201509021226251_GuestRegistrationType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509021403169_EventsGuests.resx">
-      <DependentUpon>201509021403169_EventsGuests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509231131497_GuestListInstanceType.resx">
-      <DependentUpon>201509231131497_GuestListInstanceType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509231359460_FacebookInstagrammTwitter_Fields.resx">
-      <DependentUpon>201509231359460_FacebookInstagrammTwitter_Fields.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509241134124_EventGuest_AutoCheckIn.resx">
-      <DependentUpon>201509241134124_EventGuest_AutoCheckIn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509241144586_EventGuest_InstanceType.resx">
-      <DependentUpon>201509241144586_EventGuest_InstanceType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509241146530_EventGuest_InstanceType_change.resx">
-      <DependentUpon>201509241146530_EventGuest_InstanceType_change.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509241332419_Event_RsvpAndTicketingUrlAdded.resx">
-      <DependentUpon>201509241332419_Event_RsvpAndTicketingUrlAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510060654416_Event_AdditionalDetails.resx">
-      <DependentUpon>201510060654416_Event_AdditionalDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510060709336_Event_IsRsvpCapacityLimited.resx">
-      <DependentUpon>201510060709336_Event_IsRsvpCapacityLimited.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511261252167_Event_IsPublished.resx">
-      <DependentUpon>201511261252167_Event_IsPublished.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512080823090_Guest_LastName_RemoveRequired.resx">
-      <DependentUpon>201512080823090_Guest_LastName_RemoveRequired.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512160746585_GuestList_PromoterId.resx">
-      <DependentUpon>201512160746585_GuestList_PromoterId.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\gliist_server.DataAccess\gliist_server.DataAccess.csproj">
+      <Project>{7006f5d9-06f0-45b1-b4c6-82fd68924b5e}</Project>
+      <Name>gliist_server.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

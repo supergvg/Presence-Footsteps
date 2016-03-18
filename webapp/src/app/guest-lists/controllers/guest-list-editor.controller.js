@@ -25,7 +25,7 @@ angular.module('gliist')
                     {field: 'firstName', name: 'First Name'},
                     {field: 'lastName', name: 'Last Name'},
                     {field: 'email', name: 'Email', enableSorting: false},
-                    {field: 'phoneNumber', name: 'Note', enableSorting: false}
+                    {field: 'notes', name: 'Note', enableSorting: false}
                 ],
                 rowHeight: 45,
                 enableCellEditOnFocus: true,
@@ -126,7 +126,7 @@ angular.module('gliist')
                     firstName: '',
                     lastName: '',
                     email: '',
-                    phoneNumber: '',
+                    notes: '',
                     plus: 0
                 });
                 $scope.isDirty = true;

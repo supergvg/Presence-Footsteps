@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using gliist_server.DataAccess;
 using gliist_server.Models;
 using gliist_server.Shared;
 
@@ -286,7 +287,7 @@ namespace gliist_server.Controllers
 
             if (eventGuestStatus.IsRsvpConfirmed)
             {
-                return Ok("RSVP is already confirmed");
+                return BadRequest("You have RSVP'd this event");
             }
 
             var @event = db.Set<Event>()
@@ -378,7 +379,7 @@ namespace gliist_server.Controllers
             {
                 guest = guest,
                 guestList = guestListInstance,
-                plus = guest.plus
+                plus = eventGuestStatus.AdditionalGuestsRequested
             });
             db.Entry(guestListInstance).State = EntityState.Modified;
 

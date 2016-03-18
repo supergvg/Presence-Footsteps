@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout', '$filter',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, $filter) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout', '$filter', '$window',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, $filter, $window) {
             
             $scope.getExportExcelUrl = function() {
-                return window.redirectUrl+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+window.localStorage['access_token'];
+                return $window.redirectUrl+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
             
             $scope.checkinGuest = function (checkin) {
@@ -101,7 +101,6 @@ angular.module('gliist')
                 });
             };
 
-
             $scope.pastEvent = function() {
                 var endTime = $filter('ignoreTimeZone')($scope.event.endTime);
                 if (Date.now() > endTime.getTime()) {
@@ -118,10 +117,6 @@ angular.module('gliist')
                 $scope.guestFilter = {status: 'pending'};
 
                 $scope.initializing = true;
-
-                $timeout(function () {
-                    $(window).resize();
-                }, 1000);
 
                 eventsService.getEvents(eventId).then(function (data) {
                     $scope.event = data;

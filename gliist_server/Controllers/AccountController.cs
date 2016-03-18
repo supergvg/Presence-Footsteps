@@ -13,12 +13,14 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using gliist_server.Attributes;
+using gliist_server.DataAccess;
 using gliist_server.Helpers;
 using gliist_server.Models;
 using gliist_server.Providers;
@@ -59,13 +61,13 @@ namespace gliist_server.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async Task<UserInfoViewModel> GetUserInfo()
+        public async Task<UserInfoModel> GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            var userInfo = new UserInfoViewModel
+            var userInfo = new UserInfoModel
             {
                 userId = User.Identity.GetUserId(),
                 UserName = User.Identity.GetUserName(),
@@ -186,7 +188,7 @@ namespace gliist_server.Controllers
         [Route("CreateUserByAccount")]
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IHttpActionResult> PostRegisterByInvite(RegisterBindingModel model)
+        public async Task<IHttpActionResult> PostRegisterByInvite(RegisterModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -304,7 +306,7 @@ namespace gliist_server.Controllers
         [CheckAccess(DeniedPermissions = "promoter")]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async Task<IHttpActionResult> PutUserInfo(UserProfileViewModel userProfile)
+        public async Task<IHttpActionResult> PutUserInfo(UserProfileModel userProfile)
         {
             if (userProfile == null || !ModelState.IsValid)
             {
@@ -427,7 +429,7 @@ namespace gliist_server.Controllers
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
-        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
+        public async Task<ManageInfoModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             UserModel user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
@@ -436,11 +438,11 @@ namespace gliist_server.Controllers
                 return null;
             }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+            List<UserLoginInfoModel> logins = new List<UserLoginInfoModel>();
 
             foreach (IdentityUserLogin linkedAccount in user.Logins)
             {
-                logins.Add(new UserLoginInfoViewModel
+                logins.Add(new UserLoginInfoModel
                 {
                     LoginProvider = linkedAccount.LoginProvider,
                     ProviderKey = linkedAccount.ProviderKey
@@ -449,14 +451,14 @@ namespace gliist_server.Controllers
 
             if (user.PasswordHash != null)
             {
-                logins.Add(new UserLoginInfoViewModel
+                logins.Add(new UserLoginInfoModel
                 {
                     LoginProvider = LocalLoginProvider,
                     ProviderKey = user.UserName,
                 });
             }
 
-            return new ManageInfoViewModel
+            return new ManageInfoModel
             {
                 LocalLoginProvider = LocalLoginProvider,
                 UserName = user.UserName,
@@ -468,7 +470,7 @@ namespace gliist_server.Controllers
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
         [CheckAccess(DeniedPermissions = "promoter")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -489,7 +491,7 @@ namespace gliist_server.Controllers
         // POST api/Account/SetPassword
         [Route("ResetPassword")]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> PostResetPassword(SetPasswordBindingModel model)
+        public async Task<IHttpActionResult> PostResetPassword(SetPasswordModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -538,7 +540,7 @@ namespace gliist_server.Controllers
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         [CheckAccess(DeniedPermissions = "promoter")]
-        public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
+        public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -579,7 +581,7 @@ namespace gliist_server.Controllers
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
         [CheckAccess(DeniedPermissions = "promoter")]
-        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
+        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -666,10 +668,10 @@ namespace gliist_server.Controllers
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("ExternalLogins")]
-        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
+        public IEnumerable<ExternalLoginModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
             IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-            List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
+            List<ExternalLoginModel> logins = new List<ExternalLoginModel>();
 
             string state;
 
@@ -685,7 +687,7 @@ namespace gliist_server.Controllers
 
             foreach (AuthenticationDescription description in descriptions)
             {
-                ExternalLoginViewModel login = new ExternalLoginViewModel
+                ExternalLoginModel login = new ExternalLoginModel
                 {
                     Name = description.Caption,
                     Url = Url.Route("ExternalLogin", new
@@ -707,13 +709,18 @@ namespace gliist_server.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(ExternalRegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(ExternalRegisterModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                string errorMessage = FirstModelStateErrorMessage(ModelState);
+                return BadRequest(errorMessage);
+            }
 
             if(!InviteCodeValidator.Run(model.inviteCode))
-                return BadRequest("Invite code is invalid.");
+            {
+                return BadRequest("Please enter a valid invite code.");
+            }
 
             var company = new Company
             {
@@ -899,6 +906,17 @@ namespace gliist_server.Controllers
             }
         }
 
+        private string FirstModelStateErrorMessage(ModelStateDictionary modelState)
+        {
+            string errorMessage = null;
+
+            var state = ModelState.First();
+            if (state.Value.Errors.Any())
+            {
+                errorMessage = state.Value.Errors.First().ErrorMessage;
+            }
+            return errorMessage;
+        }
         #endregion
     }
 }
