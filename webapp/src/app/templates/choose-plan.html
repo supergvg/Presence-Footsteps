@@ -3,9 +3,8 @@
     <h4>Select your plan!</h4>
     <div class="tariff-blocks">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-        <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
-<!--            <div class="popular-title" ng-if="$index === 2">Most popular plan</div> -->
-            <div layout="column" class="tariff-header" layout-align="space-between center">
+        <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans" ng-if="!tariff.combinedThisPlanWith">
+            <div layout="column" class="tariff-header{{tariff.isPopular ? ' popular' : ''}}{{tariff.comingSoon ? ' disabled' : ''}}" layout-align="space-between center">
                 <div>
                     <img ng-src="assets/images/plan_icons/{{tariff.keyForUI | spaceless}}.png"/>
                     <div class="title">{{tariff.name}}</div>
@@ -16,14 +15,28 @@
                     {{tariff.descriptionLine2}}
                 </div>
             </div>
-            <div layout="column" class="tariff-content" layout-align="start center">
+            <div layout="column" class="tariff-content" layout-align="space-between center">
                 <ul>
                     <li ng-repeat="feature in tariff.feature">{{feature.SubscriptionFeature.name}}</li>
                 </ul>
+                <md-radio-group ng-model="combinedPlanWith[tariff.keyForUI].model" ng-if="combinedPlanWith[tariff.keyForUI]">
+                    <md-radio-button ng-value="tariff.keyForUI" aria-label="tariff.keyForUI">{{tariff.priceDetails}}</md-radio-button>
+                    <md-radio-button ng-value="option.keyForUI" aria-label="option.keyForUI" ng-repeat="option in combinedPlanWith[tariff.keyForUI].options">{{option.priceDetails}}</md-radio-button>
+                </md-radio-group>
             </div>
             <div layout="column" class="tariff-footer" layout-align="center center">
-                <md-button class="raised-btn" ng-click="">SELECT</md-button>
+                <h4 ng-if="tariff.comingSoon">Coming soon</h4>
+                <md-button class="raised-btn" ng-click="" ng-if="!tariff.comingSoon">SELECT</md-button>
             </div>
+        </div>
+        <div layout="row" layout-align="end center" layout-sm="column" class="promo" ng-show="!loading && plans.length > 0">
+            <h4>Enter your promo code</h4>
+            <md-input-container md-no-float>
+                <input type="text" placeholder="Enter your promo code">
+            </md-input-container>
+            <md-button class="raised-btn">
+                Enter
+            </md-button>
         </div>
     </div>
 </div>

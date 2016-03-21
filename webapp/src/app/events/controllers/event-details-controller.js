@@ -184,7 +184,7 @@ angular.module('gliist')
             };
 
             $scope.next = function(form) {
-                if ([0, 2, 3].indexOf($scope.selectedIndex) !== -1) {
+                if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
                     var errorMessage = [];
                     if (form && form.$invalid) {
                         if (form) {

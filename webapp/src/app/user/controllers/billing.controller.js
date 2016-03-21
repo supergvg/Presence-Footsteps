@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('BillingCtrl', ['$scope', '$mdDialog',
-        function($scope, $mdDialog) {
+    .controller('BillingCtrl', ['$scope', '$mdDialog', 'subscriptionsService',
+        function($scope, $mdDialog, subscriptionsService) {
+            $scope.loading = true;
             $scope.invoices = [
                 {
                     date: '01/26/2016',
@@ -13,8 +14,20 @@ angular.module('gliist')
                     amount: '12$'
                 }
             ];
+            $scope.loading = true;
+            $scope.plans = [];
+            $scope.combinedPlanWith = {};
             
-            $scope.squareDialog = function() {
+            subscriptionsService.getAllSubscriptions().then(
+                function(data){
+                    $scope.plans = data.plans;
+                    $scope.combinedPlanWith = data.combinedPlanWith;
+                }
+            ).finally(function(){
+               $scope.loading = false; 
+            });
+            
+            $scope.editPaymentInfo = function() {
                 var scope = $scope.$new();
                 scope.close = function() {
                     $mdDialog.hide();

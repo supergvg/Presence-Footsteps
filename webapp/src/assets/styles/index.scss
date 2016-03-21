@@ -1189,64 +1189,66 @@ md-dialog {
             }
         }
     }
-}
-
-.profile .billing {
-    .tariff-blocks {
-        display: inline-block;
-        .tariff-block {
-            width: 255px;
-            margin-right: 10px;
-            padding-bottom: 15px;
-            float: left;
-            .tariff-title { 
-                height: 45px;
-                background-color: #fff;
-                border-bottom: 2px dashed #8e8e8e;
-                padding: 0 15px;
-                .title {
-                    color: #99ccff;
-                    font-weight: bold;
-                }
-                .price {
-                    font-size: 22px;
-                }
+    .billing {
+        .payment-info {
+            .card-number {
+                background: url(/assets/images/icons/card.png) no-repeat 0 0;
+                padding: 0 110px 0 50px;
+                height: 22px;
+                font-size: 16px;
+                color: #8e8e8e;
             }
-            .description {
-                font-size: 12px;
-                list-style: none;
-                padding: 10px 0 20px 15px;
-                border-bottom: 2px dashed #8e8e8e;
-                height: 160px;
-            }
-            .status {
-                text-align: center;
-                line-height: 45px;
-                padding-bottom: 10px;
+        }
+        .tariff-blocks {
+            text-align: left;
+            .tariff-block {
+                width: 320px;
+                display: inline-block;
+                margin: 10px;
+                background-color: #ececec;
+                color: #8e8e8e;
+                .tariff-header {
+                    background-color: #f0f6fb;
+                    height: 75px;
+                    padding: 8px 10px;
+                    & > div {
+                        width: 100%;
+                    }
+                    img {
+                        height: 30px;
+                    }
+                    .title {
+                        font-size: 24px;
+                        color: #99ccff;
+                    }
+                    .price-details {
+                        font-size: 17px;
+                        font-weight: bold;
+                        text-align: left;
+                    }
+                }
+                .tariff-content {
+                    border-top: 2px dashed #8e8e8e;
+                    min-height: 250px;
+                    padding: 10px;
+                    ul {
+                        padding-left: 16px;
+                        text-align: left;
+                        list-style: disc;
+                    }
+                }
+                .tariff-footer {
+                    padding: 15px;
+                    height: 70px;
+                    h4,b {
+                        font-size: 16px;
+                        color: #8e8e8e;
+                    }
+                }
             }
         }
     }
-    .stripe-account {
-        .stripe-logo {
-            color: #5ea5d8;
-            font-size: 30px;
-            font-weight: bold;
-            letter-spacing: -1px;
-        }
-        .info {
-            display: inline;
-            padding: 0 10px;
-            color: #aaa;
-            span {
-                font-size: 18px;
-                font-weight: bold;
-            }
-        }
-        ng-md-icon {
-            padding-left: 10px;
-        }
-    }    
-}    
+}
 
 .choose_plan {
     padding: 0 !important;
@@ -1261,9 +1263,9 @@ md-dialog {
     }
     .tariff-blocks {
         margin: 20px 0;
+        text-align: center;
         .tariff-block {
             width: 230px;
-            float: left;
             display: inline-block;
             margin: 10px;
             font-size: 14px;
@@ -1275,6 +1277,14 @@ md-dialog {
                 font-weight: bold;
                 text-align: center;
                 padding: 10px 10px 20px 10px;
+                &.disabled {
+                    background-color: #c1ddf9;
+                }
+                &.popular {
+                    background-image: url(/assets/images/popular.png);
+                    background-position:  100% 0;
+                    background-repeat: no-repeat;
+                }
                 img {
                     height: 38px;
                 }
@@ -1289,21 +1299,51 @@ md-dialog {
             .tariff-content {
                 border-top: 2px dashed #8e8e8e;
                 min-height: 300px;
-                padding: 20px;
                 ul {
                     font-size: 13px;
                     list-style: none;
                     color: #8e8e8e;
-                    padding: 0;
+                    padding: 20px;
                     text-align: center;
                     li {
                         padding: 2px 0;
+                    }
+                }
+                md-radio-group {
+                    border-top: 2px dashed #8e8e8e;
+                    padding: 20px;
+                    font-weight: bold;
+                    text-align: left;
+                    md-radio-button {
+                        .md-off {
+                            background-color: #fff;
+                            border: none;
+                        }
+                        & + md-radio-button {
+                            margin-top: 10px;
+                        }
                     }
                 }
             }
             .tariff-footer {
                 border-top: 2px dashed #8e8e8e;
                 padding: 15px;
+                height: 70px;
+                h4 {
+                    font-size: 20px;
+                    color: #8f8f8f;
+                }
+            }
+        }
+        .promo {
+            clear: both;
+            margin-right: 10px;
+            padding-top: 20px;
+            h4 {
+                color: #8f8f8f;
+            }
+            md-input-container {
+                margin: 0 30px;
             }
         }
     }
@@ -1950,6 +1990,19 @@ md-dialog {
                 }
                 
             }
+        }
+    }
+    .choose_plan {
+        .tariff-blocks {
+            .promo {
+                margin: 0;
+                md-input-container {
+                    margin: 0;
+                }
+                .md-button {
+                    margin-top: 10px;
+                }
+            }            
         }
     }
 }

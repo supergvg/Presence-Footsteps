@@ -33,6 +33,7 @@ namespace gliist_server.Controllers
             var @event = db.Events.Find(eventId);
             var excelFile = CreateRsvpReportFile(
                 @event.guestLists.Where(x => x.InstanceType == GuestListInstanceType.Rsvp || x.InstanceType == GuestListInstanceType.PublicRsvp),
+                @event.EventGuestStatuses,
                 (@event.company != null) ? @event.company.name: "unknown");
 
             MediaTypeHeaderValue mimeType = new MediaTypeHeaderValue("application/vnd.ms-excel");
@@ -81,7 +82,7 @@ namespace gliist_server.Controllers
             base.Dispose(disposing);
         }
 
-        public static byte[] CreateRsvpReportFile(IEnumerable<GuestListInstance> guestLists, string companyName)
+        public static byte[] CreateRsvpReportFile(IEnumerable<GuestListInstance> guestLists, List<EventGuestStatus> eventGuestStatuses, string companyName)
         {
             byte[] bytes = null;
 
@@ -106,14 +107,18 @@ namespace gliist_server.Controllers
                     int i = 2;
                     foreach (var inst in guestListInstances)
                     {
+                        var eventGuests = eventGuestStatuses.Where(x => x.GuestListInstanceId == inst.id).ToArray();
+
                         var guests = inst.actual;
 
                         foreach (var g in guests)
                         {
+                            var eventGuest = eventGuests.FirstOrDefault(x => x.GuestId == g.guest.id);
+
                             pendingWorksheet.Cells[i, 1].Value = string.Concat(g.guest.firstName, " ", g.guest.lastName);
                             pendingWorksheet.Cells[i, 2].Value = g.guest.email ?? string.Empty;
                             pendingWorksheet.Cells[i, 3].Value = companyName;
-                            pendingWorksheet.Cells[i, 4].Value = g.plus;
+                            pendingWorksheet.Cells[i, 4].Value = eventGuest != null ? eventGuest.AdditionalGuestsRequested : 0;
                             i++;
                         }
                     }

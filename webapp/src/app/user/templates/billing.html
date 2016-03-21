@@ -1,56 +1,56 @@
 <div class="billing margin-top">
-    <div class="stripe-account">
-        <h4>Payment Information :</h4>
-        <div layout="row" layout-align="start center">
+    <div class="block-field">
+        <h4>Payment Information</h4>
+        <div layout="row" layout-align="start center" class="payment-info">
             <div class="card-number">XXXX XXXX XXXX 2378</div>
-            <ng-md-icon icon="mode_edit" style="fill: #8e8e8e" size="24" ng-click=""></ng-md-icon>
-            <ng-md-icon icon="delete" style="fill: #8e8e8e" size="24" ng-click=""></ng-md-icon>
-        </div>
-        <div layout="row" layout-align="start center">
-            <div class="stripe-logo">stripe</div>
-            <div class="info">Add your stripe account</div>
-            <md-button class="raised-btn" ng-click="squareDialog()">Link</md-button>
+            <md-button class="raised-btn" ng-click="editPaymentInfo()">Edit</md-button>
         </div>
     </div>
-    <div class="tariff-blocks">
-        <h4>Subscriptions :</h4>
-        <div class="tariff-block" ng-repeat="tariff in plans">
-            <div layout="row" class="tariff-title" layout-align="space-between center">
-                <div class="title">{{tariff.title}}</div>
-                <div class="price">{{tariff.price}}</div>
+    <div class="block-field">
+        <h4>Subscriptions</h4>
+        <div class="tariff-blocks">
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+            <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans" ng-if="!tariff.combinedThisPlanWith">
+                <div layout="column" class="tariff-header" layout-align="space-between start">
+                    <div layout="row" layout-align="space-between start">
+                        <div class="title">{{tariff.name}}</div>
+                        <img ng-src="assets/images/plan_icons/{{tariff.keyForUI | spaceless}}_blue.png"/>
+                    </div>
+                    <div class="price-details">{{tariff.priceDetails}}</div>
+                </div>
+                <div layout="column" class="tariff-content" layout-align="start start">
+                    <ul>
+                        <li ng-repeat="feature in tariff.feature">{{feature.SubscriptionFeature.name}}</li>
+                    </ul>
+                </div>
+                <div layout="column" class="tariff-footer" layout-align="center center">
+                    <h4 ng-if="tariff.comingSoon">Coming soon</h4>
+                    <md-button class="raised-btn" ng-click="" ng-if="!tariff.comingSoon && !tariff.isActive">Upgrade</md-button>
+                    <h4 ng-if="tariff.isActive"><b>ACTIVE</b> Expires on 03/01/2016</h4>
+                </div>
             </div>
-            <ul class="description">
-                <li ng-repeat="feature in tariff.features">+ {{feature}}</li>
-            </ul>
-            <div class="status" ng-if="tariff.active">
-                <b>ACTIVE</b> Expires on {{tariff.expires}}
-            </div>
-            <div class="status" ng-if="!tariff.active">
-                <md-button class="raised-btn" ng-click="">UPGRADE</md-button>
-            </div>
-        </div>
-    </div>
-    <div class="invoices">
-        <h4>Invoices :</h4>
-        <div layout="row">
-            <md-list flex="50">
-                <md-list-item>
-                    <div flex="60">
-                        Date
-                    </div>
-                    <div flex="40">
-                        Amount
-                    </div>
-                </md-list-item>
-                <md-list-item ng-repeat="invoice in invoices" ng-click="invoiceDetails()">
-                    <div flex="60">
-                        {{invoice.date}}
-                    </div>
-                    <div flex="40">
-                        {{invoice.amount}}
-                    </div>
-                </md-list-item>
-            </md-list>
-        </div>
+        </div>        
+    </div>    
+    <div class="block-field">
+        <h4>Invoice</h4>
+        <md-list class="invoices">
+            <md-list-item>
+                <div flex="60">
+                    Date
+                </div>
+                <div flex="40">
+                    Amount
+                </div>
+            </md-list-item>
+            <md-list-item ng-repeat="invoice in invoices" ng-click="invoiceDetails()">
+                <div flex="60">
+                    {{invoice.date}}
+                </div>
+                <div flex="40">
+                    {{invoice.amount}}
+                </div>
+            </md-list-item>
+        </md-list>
+        
     </div>
 </div>
