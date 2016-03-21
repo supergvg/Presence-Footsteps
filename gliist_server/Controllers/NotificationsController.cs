@@ -32,6 +32,7 @@ namespace gliist_server.Controllers
                 .Where(n => n.company.id == user.company.id)
                 .OrderByDescending(n => n.time)
                 .Select(x => new { x.time, x.message, guestId = x.guest.id, gliId = x.gli.id, eventEndTime = x.@event.endTime })
+                .ToList()
                 .Select(x => new NotificationViewModel
                 {
                     time = new DateTimeOffset(x.time, offset),
@@ -40,7 +41,6 @@ namespace gliist_server.Controllers
                     guest = new GuestModel { id = x.guestId },
                     gli = new GuestListInstanceModel { id = x.gliId }
                 });
-
 
             return notifications;
         }
