@@ -237,11 +237,11 @@
                                             </div>
                                         </div>
                                         <div class="block-field actions" layout="row" layout-align="center center">
-                                            <md-button class="icon-btn" ng-click="ticket.control.edit = true" ng-disabled="ticket.control.waiting">
+                                            <md-button class="icon-btn" ng-click="ticket.control.edit = true" ng-disabled="ticket.control.waiting" aria-label="Edit ticket">
                                                 <md-tooltip md-direction="top">Edit ticket</md-tooltip>
                                                 <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                                             </md-button>
-                                            <md-button class="icon-btn" ng-click="deleteTicket(ticket)" ng-disabled="ticket.control.waiting">
+                                            <md-button class="icon-btn" ng-click="deleteTicket(ticket)" ng-disabled="ticket.control.waiting" aria-label="Delete ticket">
                                                 <md-tooltip md-direction="top">Delete ticket</md-tooltip>
                                                 <ng-md-icon icon="delete" size="24"></ng-md-icon>
                                             </md-button>

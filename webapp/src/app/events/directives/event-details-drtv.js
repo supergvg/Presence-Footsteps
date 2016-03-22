@@ -12,6 +12,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/events/event-details.tmpl.html'
+            templateUrl: 'app/events/templates/event-details.tmpl.html'
         };
     }]);

@@ -170,13 +170,12 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
 
             linkGuestList: function (guestLists, eventId, instanceType) {
                 var d = $q.defer(),
-                    ids = _.map(guestLists, function (gl) {
+                    ids = guestLists.map(function(gl) {
                         if (!gl) {
                             return;
                         }
                         return gl.id;
                     });
-
 
                 $http({
                     method: 'POST',
@@ -194,13 +193,12 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
 
             importGuestList: function (masterGLId, guestLists, gl) {
                 var d = $q.defer(),
-                    ids = _.map(guestLists, function (gl) {
+                    ids = guestLists.map(function(gl) {
                         if (!gl) {
                             return;
                         }
                         return gl.id;
                     });
-
 
                 $http({
                     method: 'POST',

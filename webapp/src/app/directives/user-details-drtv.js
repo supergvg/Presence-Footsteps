@@ -12,6 +12,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/user-profile/user-details.tmpl.html'
+            templateUrl: 'app/user/templates/user-details.tmpl.html'
         };
     }]);
