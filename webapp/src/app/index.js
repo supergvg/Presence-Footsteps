@@ -20,6 +20,7 @@ angular.module('gliist', [
     'ui.grid.cellNav',
     'ui.grid.selection',
     'ui.grid.autoResize',
+    'ui.select',
     'angular-google-analytics'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', '$windowProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, $windowProvider) {
