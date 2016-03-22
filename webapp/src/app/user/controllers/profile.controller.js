@@ -3,7 +3,6 @@
 angular.module('gliist')
     .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', '$stateParams',
         function ($scope, $rootScope, userService, dialogService, $stateParams) {
-
             $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = angular.copy(newValue);
             });

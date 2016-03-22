@@ -51,10 +51,10 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <md-button class="icon-btn" ng-click="deleteUser($event, user)" ng-hide="options.readOnly" ng-cloak>
+                        <md-button class="icon-btn" ng-click="deleteUser($event, user)" ng-hide="options.readOnly" ng-cloak aria-label="Delete">
                             <ng-md-icon icon="delete" size="24"></ng-md-icon>
                         </md-button>
-                        <md-button class="icon-btn" ng-click="editUser($event, user)" ng-hide="options.readOnly" ng-cloak>
+                        <md-button class="icon-btn" ng-click="editUser($event, user)" ng-hide="options.readOnly" ng-cloak aria-label="Edit">
                             <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                         </md-button>
                     </div>

@@ -164,7 +164,7 @@ p {
 }
 
 img.logo {
-    height: 37.8px;
+    height: 50px;
     cursor: pointer;
 }
 
@@ -1176,7 +1176,7 @@ md-dialog {
                 }
             }
         }
-        form[name="userForm"] {
+        form {
             md-input-container {
                 &[md-no-float] {
                     & > h4 {
@@ -1823,7 +1823,7 @@ md-dialog {
                     margin-bottom: 20px;
                 }
             }
-            form[name="userForm"] {
+            form {
                 .bio {
                     margin-left: 0;
                 }

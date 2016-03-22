@@ -77,12 +77,12 @@
             </div>
             <div flex="10" layout="row" layout-align="end center" ng-cloak ng-if="!options.readOnly" class="actions">
                 <div>
-                    <md-button class="icon-btn" ng-click="editInstance($event,instance)">
+                    <md-button class="icon-btn" ng-click="editInstance($event,instance)" aria-label="Edit">
                         <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                     </md-button>
                 </div>
                 <div>
-                    <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="deleteInstance"> 
+                    <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="Delete"> 
                         <ng-md-icon icon="delete" size="24"></ng-md-icon>
                     </md-button>
                 </div>

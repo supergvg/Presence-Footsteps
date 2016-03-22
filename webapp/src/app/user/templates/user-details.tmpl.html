@@ -98,6 +98,8 @@
                         </md-button>
                     </div>
                 </div>
+            </form>
+            <form name="userPasswordForm">
                 <div class="block-field">
                     <h4>Change your password</h4>
                     <div layout layout-sm="column">
@@ -123,7 +125,7 @@
                         <md-button class="raised-btn" ng-click="editMode=!editMode">
                             Cancel
                         </md-button>
-                        <md-button class="raised-btn" ng-click="updatePassword(userForm)">
+                        <md-button class="raised-btn" ng-click="updatePassword(userPasswordForm)">
                             Update
                         </md-button>
                     </div>

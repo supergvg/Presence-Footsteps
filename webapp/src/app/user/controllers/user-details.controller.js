@@ -3,13 +3,7 @@
 angular.module('gliist')
     .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService',
         function ($scope, $rootScope, userService, dialogService, uploaderService) {
-
-
-            $scope.data = {
-                selectedIndex: 0
-            };
-
-            $scope.getUserPhoto = function (height) {
+            $scope.getUserPhoto = function(height) {
                 return userService.getUserPhoto(height, $scope.user, $scope.suffix);
             };
 
@@ -41,7 +35,7 @@ angular.module('gliist')
                 );
             };
 
-            $scope.updatePassword = function (form) {
+            $scope.updatePassword = function(form) {
                 if (form && form.$invalid) {
                     $scope.showValidation = true;
                     return;
@@ -57,7 +51,7 @@ angular.module('gliist')
                 );
             };
 
-            $scope.saveChanges = function (form) {
+            $scope.saveChanges = function(form) {
                 if (form && form.$invalid) {
                     $scope.showValidation = true;
                     return;

@@ -127,7 +127,6 @@ namespace gliist_server.Helpers
                 new List<string> {administrator.company.TwitterPageUrl ?? string.Empty});
             message.AddSubstitution(":company_instagrammUrl",
                 new List<string> {administrator.company.InstagrammPageUrl ?? string.Empty});
-            message.AddSubstitution(":company_logo", new List<string> {administrator.profilePictureUrl ?? string.Empty});
 
             message.EnableOpenTracking();
             message.EnableClickTracking();

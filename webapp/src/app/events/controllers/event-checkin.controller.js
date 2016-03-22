@@ -31,7 +31,7 @@ angular.module('gliist')
                     {
                         name: 'Check in', field: 'guest.id', enableSorting: false, enableHiding: false, width: 90,
                         cellTemplate: '<div class="actions" title="Checkin">' +
-                            '<md-button class="icon-btn" md-no-ink="\'true\'" ng-click="grid.appScope.checkinGuest(row.entity)">' +
+                            '<md-button class="icon-btn" md-no-ink="\'true\'" ng-click="grid.appScope.checkinGuest(row.entity)" aria-label="CheckIn">' +
                             '<md-icon ng-show="row.entity.status == \'checked in\'" md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>' +
                             '<md-icon ng-show="grid.appScope.guestPending(row.entity)" md-svg-src="assets/images/SVG/checklist.svg"></md-icon>' +
                             '</md-button>' +

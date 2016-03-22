@@ -7,7 +7,6 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using gliist_server.DataAccess;
-using gliist_server.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -21,7 +20,7 @@ namespace gliist_server.Controllers
 
         public ReportsController()
         {
-            this.db = new EventDBContext();
+            db = new EventDBContext();
         }
 
         // GET api/reports/exportrsvp/5?authToken={token}
@@ -84,7 +83,7 @@ namespace gliist_server.Controllers
 
         public static byte[] CreateRsvpReportFile(IEnumerable<GuestListInstance> guestLists, List<EventGuestStatus> eventGuestStatuses, string companyName)
         {
-            byte[] bytes = null;
+            byte[] bytes;
 
             using (var excel = new ExcelPackage())
             {
