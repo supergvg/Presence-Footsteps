@@ -13,23 +13,23 @@
         <div flex class="line"></div>
         <div class="tab">
             <div class="line"></div>
-            <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Invite</h4>
+            <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Event</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(1) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
                        ng-click="selectedIndex = 1"
-                       aria-label="Invite">
+                       aria-label="Event">
             </md-button>
         </div>
         <div flex class="line"></div>
         <div class="tab">
             <div class="line"></div>
-            <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Event</h4>
+            <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Invite</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(2) ? 'logo-bg' : ''"
                        ng-disabled="!event.id || isPromoter()"
                        ng-click="selectedIndex = 2"
-                       aria-label="RSVP">
+                       aria-label="Invite">
             </md-button>
         </div>
         <div flex class="line"></div>
@@ -127,39 +127,6 @@
              id="tab2-content"
              aria-labelledby="tab2"
              ng-switch-when="1"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
-            <div>
-                <md-list>
-                    <md-list-item layout="row">
-                        <div flex="70">
-                            <p>Upload your invite (jpg,gif, file formats supported)</p>
-                        </div>
-                        <div flex="30" layout="row" layout-align="end center">
-                            <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
-                                UPLOAD
-                            </md-button>
-                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                        </div>
-                    </md-list-item>
-                </md-list>
-                <div layout="row">
-                    <div flex ng-style="getEventInvite('300px')"></div>
-                </div>
-            </div>
-            <div layout="row" layout-align="end center" class="actions">
-                <md-button class="raised-btn" ng-click="previous()">
-                    Back
-                </md-button>
-                <md-button class="raised-btn" ng-click="next()">
-                    Next
-                </md-button>
-            </div>
-        </div>
-        <div role="tabpanel"
-             id="tab3-content"
-             aria-labelledby="tab3"
-             ng-switch-when="2"
              md-swipe-left="next()"
              md-swipe-right="previous()"
              class="event-tab">
@@ -312,6 +279,39 @@
                     Back
                 </md-button>
                 <md-button class="raised-btn" ng-click="next(rsvpForm)">
+                    Next
+                </md-button>
+            </div>
+        </div>
+        <div role="tabpanel"
+             id="tab3-content"
+             aria-labelledby="tab3"
+             ng-switch-when="2"
+             md-swipe-left="next()"
+             md-swipe-right="previous()">
+            <div>
+                <md-list>
+                    <md-list-item layout="row">
+                        <div flex="70">
+                            <p>Upload your invite (jpg,gif, file formats supported)</p>
+                        </div>
+                        <div flex="30" layout="row" layout-align="end center">
+                            <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
+                                UPLOAD
+                            </md-button>
+                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <div layout="row">
+                    <div flex ng-style="getEventInvite('300px')"></div>
+                </div>
+            </div>
+            <div layout="row" layout-align="end center" class="actions">
+                <md-button class="raised-btn" ng-click="previous()">
+                    Back
+                </md-button>
+                <md-button class="raised-btn" ng-click="next()">
                     Next
                 </md-button>
             </div>
