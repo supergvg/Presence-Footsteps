@@ -1,7 +1,7 @@
 <div class="billing margin-top">
     <div class="block-field">
         <h4>Payment Information</h4>
-        <div layout="row" layout-align="start center" class="payment-info">
+        <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center" class="payment-info">
             <div class="card-number">XXXX XXXX XXXX 2378</div>
             <md-button class="raised-btn" ng-click="editPaymentInfo()">Edit</md-button>
         </div>
@@ -33,24 +33,30 @@
     </div>    
     <div class="block-field">
         <h4>Invoice</h4>
-        <md-list class="invoices">
+        <md-list class="zebra">
             <md-list-item>
-                <div flex="60">
+                <div flex="30">
                     Date
                 </div>
-                <div flex="40">
+                <div flex="30">
                     Amount
                 </div>
+                <div flex>
+                </div>
             </md-list-item>
-            <md-list-item ng-repeat="invoice in invoices" ng-click="invoiceDetails()">
-                <div flex="60">
+            <md-list-item ng-repeat="invoice in invoices">
+                <div flex="30">
                     {{invoice.date}}
                 </div>
-                <div flex="40">
+                <div flex="30">
                     {{invoice.amount}}
+                </div>
+                <div flex class="actions" layout="row" layout-align="end center">
+                    <md-button ng-click="invoiceDetails()" class="icon-btn">
+                        <img ng-src="assets/images/icons/download.png"/>
+                    </md-button>
                 </div>
             </md-list-item>
         </md-list>
-        
     </div>
 </div>

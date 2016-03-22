@@ -1194,7 +1194,6 @@ md-dialog {
             .card-number {
                 background: url(/assets/images/icons/card.png) no-repeat 0 0;
                 padding: 0 110px 0 50px;
-                height: 22px;
                 font-size: 16px;
                 color: #8e8e8e;
             }
@@ -1243,6 +1242,28 @@ md-dialog {
                     h4,b {
                         font-size: 16px;
                         color: #8e8e8e;
+                    }
+                }
+            }
+        }
+        md-list {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            md-list-item {
+                color: #666;
+                &:first-child {
+                    font-weight: bold;
+                    background-color: #e6e6e6;
+                    padding: 0;
+                }
+                & > div {
+                    padding: 0 0 0 10px;
+                }
+                .actions {
+                    padding: 5px 15px 5px 5px;
+                    margin: 0;
+                    .md-button {
+                        margin: 0;
                     }
                 }
             }
@@ -1805,6 +1826,22 @@ md-dialog {
             form[name="userForm"] {
                 .bio {
                     margin-left: 0;
+                }
+            }
+        }
+        .billing {
+            .payment-info {
+                .card-number {
+                    padding: 0 0 0 50px;
+                }
+            }
+            .tariff-blocks {
+                text-align: center;
+                .tariff-block {
+                    width: 195px;            
+                    .tariff-header {
+                        height: auto;
+                    }
                 }
             }
         }
