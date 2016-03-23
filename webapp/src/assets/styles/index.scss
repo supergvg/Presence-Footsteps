@@ -520,6 +520,62 @@ md-input-container {
             }
         }
     }
+    .ui-select-container {
+        &.open {
+            .btn {
+                border-radius: 4px 4px 0 0;
+            }
+            .ui-select-choices {
+                border-radius: 0 0 4px 4px;
+            }
+        }
+        .ui-select-match {
+            &.ng-hide {
+                display: block !important;
+            }
+            &.btn-default-focus {
+                border-color: #99ccff;
+                background-color: #fff;
+                box-shadow: none;
+                outline: 0;
+            }
+            .btn {
+                height: 44px;
+                padding: 12px;
+                background-color: #fff;
+                border-color: #ccc;
+                &:hover {
+                    background-color: #fff;
+                    border-color: #ccc;
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    right: 43px;
+                    top: 0;
+                    bottom: 0;
+                    border-left: 1px solid #ccc;
+                }
+                &.form-control:focus {
+                    box-shadow: none;
+                }
+                .caret {
+                    right: 17px;
+                }
+            }
+        }
+        .ui-select-choices {
+            max-height: inherit;
+            .active a {
+                background-color: #99ccff;
+            }
+            a {
+                color: #717171;
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+    }
     &[md-no-float] {
         md-select,
         .md-input {
