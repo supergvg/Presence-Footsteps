@@ -17,7 +17,7 @@
         </div>
         <div ng-show="editMode">
             <div class="block-field">
-                <h4>Upload company logo</h4>
+                <h4>Upload Company Logo</h4>
                 <div layout="row" layout-sm="column" layout-align="space-between center">
                     <md-input-container>
                         Support jpg, gif file. (To be included in all communication to guests)
@@ -30,11 +30,11 @@
                     </md-input-container>
                 </div>
             </div>
-            <form name="userForm">
-                <div class="block-field">
-                    <h4>Edit Personal Details</h4>
-                    <div layout="row" layout-sm="column" layout-align="start stretch">
-                        <div layout="column" layout-align="start stretch">
+            <div class="block-field">
+                <h4>Edit Personal Details</h4>
+                <form name="userForm">
+                    <div layout="row" layout-sm="column" layout-md="column" layout-align="space-between stretch">
+                        <div layout="column" layout-align="start stretch" flex>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch">
                                 <md-input-container flex md-no-float>
                                     <h4>First Name</h4>
@@ -51,21 +51,13 @@
                                     </div>
                                 </md-input-container>
                             </div>
-                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
+                            <div>
                                 <md-input-container flex md-no-float>
                                     <h4>Email</h4>
                                     <input ng-model="user.email" type="email" disabled placeholder="Email">
                                 </md-input-container>
-                                <md-input-container flex md-no-float>
-                                    <h4>Phone Number</h4>
-                                    <input ng-model="user.phoneNumber" type="tel" placeholder="Phone Number">
-                                </md-input-container>
                             </div>
-                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
-                                <md-input-container flex md-no-float>
-                                    <h4>City</h4>
-                                    <input ng-model="user.city" placeholder="City">
-                                </md-input-container>                        
+                            <div>
                                 <md-input-container flex md-no-float>
                                     <h4>Company</h4>
                                     <input ng-model="user.company" placehoder="Company" ng-disabled="true" aria-label="Company">
@@ -73,18 +65,28 @@
                             </div>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
                                 <md-input-container flex md-no-float>
-                                    <h4>Contact Email for guests</h4>
+                                    <h4>Phone Number</h4>
+                                    <input ng-model="user.phoneNumber" type="tel" placeholder="Phone Number">
+                                </md-input-container>
+                                <md-input-container flex md-no-float>
+                                    <h4>City</h4>
+                                    <input ng-model="user.city" placeholder="City">
+                                </md-input-container>                        
+                            </div>
+                            <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
+                                <md-input-container flex md-no-float>
+                                    <h4>Contact Email for Guests</h4>
                                     <input ng-model="user.contactEmail" placeholder="Contact Email for guests">
                                 </md-input-container>                        
                             </div>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
                                 <md-input-container flex md-no-float>
-                                    <h4>Contact Phone Number for guests</h4>
+                                    <h4>Contact Phone Number for Guests</h4>
                                     <input ng-model="user.contactPhone" placeholder="Contact Phone Number for guests">
                                 </md-input-container>
                             </div>
                         </div>
-                        <md-input-container class='bio' md-no-float flex="40">
+                        <md-input-container class='bio' md-no-float flex>
                             <h4>Company's info for guest</h4>
                             <textarea ng-model="user.bio" placeholder="Company's info for guest"></textarea>
                         </md-input-container>
@@ -97,11 +99,11 @@
                             Save
                         </md-button>
                     </div>
-                </div>
-            </form>
-            <form name="userPasswordForm">
-                <div class="block-field">
-                    <h4>Change your password</h4>
+                </form>
+            </div>
+            <div class="block-field">
+                <h4>Change your password</h4>
+                <form name="userPasswordForm">
                     <div layout layout-sm="column">
                         <md-input-container md-no-float>
                             <h4>Enter old password</h4>
@@ -126,11 +128,11 @@
                             Cancel
                         </md-button>
                         <md-button class="raised-btn" ng-click="updatePassword(userPasswordForm)">
-                            Update
+                            Save
                         </md-button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </md-whiteframe>
 </div>
