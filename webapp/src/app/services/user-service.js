@@ -20,7 +20,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             },
             setAuthToken = function(token) {
                 access_token = token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+                $http.defaults.headers.common.Authorization = 'Bearer ' + token;
             },
             getAuthToken = function() {
                 if (!access_token) {

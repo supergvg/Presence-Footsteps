@@ -30,11 +30,11 @@ angular.module('gliist')
                 $scope.gridOptions.columnDefs.push({
                     name: '', field: 'id', enableSorting: false,
                     cellTemplate: '<div class="actions" title="Actions">' +
-                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{row.entity.id}}})" ng-hide="grid.appScope.options.readOnly">' +
+                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{row.entity.id}}})" ng-hide="grid.appScope.options.readOnly" aria-label="Edit guest list">' +
                         '<md-tooltip md-direction="top">edit guest list</md-tooltip>' +
                         '<ng-md-icon icon="mode_edit"></ng-md-icon>' +
                         '</md-button>' +
-                        '<md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.readOnly">' +
+                        '<md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.readOnly" aria-label="Delete guest list">' +
                         '<md-tooltip md-direction="top">delete guest list</md-tooltip>' +
                         '<ng-md-icon icon="delete"></ng-md-icon>' +
                         '</md-button>' +
@@ -44,7 +44,7 @@ angular.module('gliist')
 
             $scope.getTableHeight = function() {
                 return {
-                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + "px"
+                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + 'px'
                 };
             };
 
@@ -70,11 +70,13 @@ angular.module('gliist')
             };
 
             $scope.glistSelected = function (glist) {
-
-                var found = _.find($scope.selected, function (item) {
-                    return glist.id === item.id;
+                var found;
+                $scope.selected.forEach(function(item) {
+                    if (glist.id === item.id) {
+                        found = item;
+                        return;
+                    }
                 });
-
                 if (found) {
                     return true;
                 }
@@ -107,9 +109,8 @@ angular.module('gliist')
                 $mdDialog.show(confirm).then(function () {
 
                     if ($scope.local) {
-
-                        $scope.guestLists = _.reject($scope.guestLists, function (item) {
-                            return angular.equals(glist, item);
+                        $scope.guestLists = $scope.guestLists.filter(function(item) {
+                            return !angular.equals(glist, item);
                         });
 
                         return;

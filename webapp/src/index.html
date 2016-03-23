@@ -50,7 +50,7 @@
                         Log out
                     </md-button>
                     <md-button ng-click="logout()" hide-gt-sm aria-label="LogOut">
-                        <img ng-src="assets/images/icons/logout.png" ng-click="logout()" hide-gt-sm/>
+                        <img ng-src="assets/images/icons/logout.png" hide-gt-sm/>
                     </md-button>
                 </div>
             </md-toolbar>
@@ -61,7 +61,8 @@
                         <div ng-repeat="it in getMenuItems()" ui-sref="{{it.ui_sref}}" ng-click="setSelected(it)" ng-class="getItemClass(it)" class="sidenav-item">
                             <div>
                                 {{it.title}}
-                                <ng-md-icon icon="{{it.icon.name}}" style="{{it.icon.style}}" size="{{it.icon.size}}"></ng-md-icon>
+                                <ng-md-icon ng-if="!it.icon.src" icon="{{it.icon.name}}" style="{{it.icon.style}}" size="{{it.icon.size}}"></ng-md-icon>
+                                <md-icon ng-if="it.icon.src" md-svg-src="{{it.icon.src}}"></md-icon>
                             </div>
                         </div>
                     </div>

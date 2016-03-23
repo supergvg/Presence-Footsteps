@@ -20,6 +20,7 @@ angular.module('gliist', [
     'ui.grid.cellNav',
     'ui.grid.selection',
     'ui.grid.autoResize',
+    'ui.select',
     'angular-google-analytics'])
     .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', '$windowProvider',
         function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, $windowProvider) {
@@ -166,7 +167,7 @@ angular.module('gliist', [
                     controller: 'EventsCtrl'
                 }).state('main.list_management', {
                     url: '/list_management',
-                    templateUrl: 'app/guest-lists/templates/list-management.html',
+                    templateUrl: 'app/templates/list-management.html',
                     controller: 'GuestListCtrl'
                 }).state('main.edit_glist', {
                     url: '/edit_list_management/:listId',
@@ -178,7 +179,7 @@ angular.module('gliist', [
                     controller: 'GuestListCtrl'
                 }).state('main.stats', {
                     url: '/stats',
-                    templateUrl: 'app/templates/stats/stats.html',
+                    templateUrl: 'app/templates/stats.html',
                     controller: 'StatsCtrl'
                 }).state('main.email_stats', {
                     url: '/email_stats/:eventId',

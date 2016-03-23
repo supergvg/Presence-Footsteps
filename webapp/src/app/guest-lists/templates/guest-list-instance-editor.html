@@ -13,10 +13,14 @@
                     <input type="text" ng-model="gli.title" name="title" required placeholder="Enter Guest List Title">
                 </md-input-container>
                 <md-input-container flex="25" md-no-float>
-                    <md-select placeholder="Select Type" required name="listType" ng-model="gli.listType" ng-disabled="'true'" flex>
-                        <md-select-label>{{gli.listType || 'Select Type'}}</md-select-label>
-                        <md-option value="{{t}}" ng-repeat="t in guestListTypes">{{t}}</md-option>
-                    </md-select>
+                    <ui-select required name="listType" ng-model="gli.listType" ng-disabled="'true'" search-enabled="false" flex>
+                        <ui-select-match placeholder="Select Type">
+                            {{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="t in guestListTypes">
+                            {{t}}
+                        </ui-select-choices>
+                    </ui-select>                   
                 </md-input-container>
             </div>
         </div>

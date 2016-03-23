@@ -8,6 +8,8 @@ namespace gliist_server.Models
 
         public DateTimeOffset time { get; set; }
 
+        public DateTimeOffset eventEndTime { get; set; }
+
         public GuestModel guest { get; set; }
 
         public GuestListInstanceModel gli { get; set; }

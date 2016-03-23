@@ -164,7 +164,7 @@ p {
 }
 
 img.logo {
-    height: 37.8px;
+    height: 50px;
     cursor: pointer;
 }
 
@@ -198,13 +198,22 @@ md-sidenav {
         font-size:15px;
         padding: 25px 10px;
         text-transform: uppercase;
-        webkit-focus-ring-color:none;
+        webkit-focus-ring-color: none;
         & > div {
             color: #fff; 
             padding-left: 35px;
+            md-icon,
             ng-md-icon {
                 position: absolute;
                 left: 15px;
+            }
+            md-icon svg {
+                rect {
+                    fill: white;
+                }
+                path {
+                    stroke: white;
+                }
             }
         }
     }
@@ -517,6 +526,62 @@ md-input-container {
                     top: 10px;
                     width: 100%;
                 }
+            }
+        }
+    }
+    .ui-select-container {
+        &.open {
+            .btn {
+                border-radius: 4px 4px 0 0;
+            }
+            .ui-select-choices {
+                border-radius: 0 0 4px 4px;
+            }
+        }
+        .ui-select-match {
+            &.ng-hide {
+                display: block !important;
+            }
+            &.btn-default-focus {
+                border-color: #99ccff;
+                background-color: #fff;
+                box-shadow: none;
+                outline: 0;
+            }
+            .btn {
+                height: 44px;
+                padding: 12px;
+                background-color: #fff;
+                border-color: #ccc;
+                &:hover {
+                    background-color: #fff;
+                    border-color: #ccc;
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    right: 43px;
+                    top: 0;
+                    bottom: 0;
+                    border-left: 1px solid #ccc;
+                }
+                &.form-control:focus {
+                    box-shadow: none;
+                }
+                .caret {
+                    right: 17px;
+                }
+            }
+        }
+        .ui-select-choices {
+            max-height: inherit;
+            .active a {
+                background-color: #99ccff;
+            }
+            a {
+                color: #717171;
+                font-size: 16px;
+                font-weight: bold;
             }
         }
     }
@@ -1034,17 +1099,17 @@ md-dialog {
                 }
             }
         }
-        form[name="userForm"] {
-            md-input-container {
-                &[md-no-float] {
-                    & > h4 {
-                        font-size: 13px;
-                    }            
-                }
-            }
+        form {
             .bio {
-                margin-left: 20px;
+                padding-left: 20px;
             }
+            .margin-top {
+                margin-top: 10px;
+            }
+        }
+        md-input-container,
+        md-input-container h4 {
+            color: #8e8e8e;
         }
     }
 }
@@ -1502,9 +1567,9 @@ md-dialog {
                     margin-bottom: 20px;
                 }
             }
-            form[name="userForm"] {
+            form {
                 .bio {
-                    margin-left: 0;
+                    padding-left: 0;
                 }
             }
         }

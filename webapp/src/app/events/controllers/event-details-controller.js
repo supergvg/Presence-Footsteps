@@ -13,6 +13,8 @@ angular.module('gliist')
                 'Sports',
                 'Food and wine',
                 'Films',
+                'Celebration',
+                'School',
                 'Others'
             ];
             $scope.selectedIndex = parseInt($location.search().view) || 0;

@@ -27,21 +27,22 @@ namespace gliist_server.Controllers
 
             var user = userManager.FindById(userId);
             var offset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
-            return db.Notifications.Where(n => n.company.id == user.company.id).OrderByDescending(n => n.time)
-                .Select(x => new {x.time, x.message, guestId = x.guest.id, gliId = x.gli.id}).ToList()
+
+            var notifications = db.Notifications
+                .Where(n => n.company.id == user.company.id)
+                .OrderByDescending(n => n.time)
+                .Select(x => new { x.time, x.message, guestId = x.guest.id, gliId = x.gli.id, eventEndTime = x.@event.endTime })
+                .ToList()
                 .Select(x => new NotificationViewModel
                 {
                     time = new DateTimeOffset(x.time, offset),
+                    eventEndTime = x.eventEndTime,
                     message = x.message,
-                    guest = new GuestModel
-                    {
-                        id = x.guestId
-                    },
-                    gli = new GuestListInstanceModel
-                    {
-                        id = x.gliId
-                    }
+                    guest = new GuestModel { id = x.guestId },
+                    gli = new GuestListInstanceModel { id = x.gliId }
                 });
+
+            return notifications;
         }
 
         protected override void Dispose(bool disposing)

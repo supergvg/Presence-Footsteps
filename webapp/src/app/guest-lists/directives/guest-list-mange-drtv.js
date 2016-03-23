@@ -14,6 +14,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/list/guest-list-management.html'
+            templateUrl: 'app/guest-lists/templates/guest-list-management.html'
         };
     }]);
