@@ -198,13 +198,22 @@ md-sidenav {
         font-size:15px;
         padding: 25px 10px;
         text-transform: uppercase;
-        webkit-focus-ring-color:none;
+        webkit-focus-ring-color: none;
         & > div {
             color: #fff; 
             padding-left: 35px;
+            md-icon,
             ng-md-icon {
                 position: absolute;
                 left: 15px;
+            }
+            md-icon svg {
+                rect {
+                    fill: white;
+                }
+                path {
+                    stroke: white;
+                }
             }
         }
     }
