@@ -9,7 +9,7 @@ angular.module('gliist')
                 {
                     title: 'Guest List Management',
                     ui_sref: 'main.list_management',
-                    icon: {name: 'content_paste', style: 'fill: white', size: 24}
+                    icon: {src: 'assets/images/SVG/list.svg'}
                 },
                 {
                     title: 'Create Event',

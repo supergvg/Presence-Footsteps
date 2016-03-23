@@ -198,13 +198,22 @@ md-sidenav {
         font-size:15px;
         padding: 25px 10px;
         text-transform: uppercase;
-        webkit-focus-ring-color:none;
+        webkit-focus-ring-color: none;
         & > div {
             color: #fff; 
             padding-left: 35px;
+            md-icon,
             ng-md-icon {
                 position: absolute;
                 left: 15px;
+            }
+            md-icon svg {
+                rect {
+                    fill: white;
+                }
+                path {
+                    stroke: white;
+                }
             }
         }
     }
@@ -1233,16 +1242,16 @@ md-dialog {
             }
         }
         form {
-            md-input-container {
-                &[md-no-float] {
-                    & > h4 {
-                        font-size: 13px;
-                    }            
-                }
-            }
             .bio {
-                margin-left: 20px;
+                padding-left: 20px;
             }
+            .margin-top {
+                margin-top: 10px;
+            }
+        }
+        md-input-container,
+        md-input-container h4 {
+            color: #8e8e8e;
         }
     }
     .billing {
@@ -1881,7 +1890,7 @@ md-dialog {
             }
             form {
                 .bio {
-                    margin-left: 0;
+                    padding-left: 0;
                 }
             }
         }
