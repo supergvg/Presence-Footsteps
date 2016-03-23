@@ -272,8 +272,8 @@ namespace gliist_server.Controllers
             if (userToDelete == null)
                 return BadRequest("User not found.");
 
+            var userInfo = GenerateDeletedUserInfo(userToDelete);
 
-            var admin = userToDelete.company.users.FirstOrDefault(x => x.permissions == "admin");
             userToDelete.company.users.Remove(userToDelete);
 
             var usersGuestLists = _db.GuestLists.Where(x => x.created_by.Id == userToDelete.Id).ToList();
@@ -281,6 +281,13 @@ namespace gliist_server.Controllers
             foreach (var usersGuestList in usersGuestLists)
             {
                 usersGuestList.created_by = null;
+            }
+
+            var notifications = _db.Notifications.Where(x => x.originator.Id == userToDelete.Id).ToList();
+
+            foreach (var notification in notifications)
+            {
+                notification.originator = null;
             }
 
             if (userToDelete.permissions.Contains("promoter"))
@@ -297,7 +304,7 @@ namespace gliist_server.Controllers
             _db.Entry(userToDelete).State = EntityState.Deleted;
             await _db.SaveChangesAsync();
 
-            EmailHelper.SendAccountDeleted(userToDelete, admin ?? userToDelete);
+            EmailHelper.SendAccountDeleted(userInfo);
 
             return Ok();
         }
@@ -802,6 +809,20 @@ namespace gliist_server.Controllers
         }
 
         #region Helpers
+
+        private EmailHelper.DeletedAccountInfo GenerateDeletedUserInfo(UserModel user)
+        {
+            var admin = user.company.users.FirstOrDefault(x => x.permissions == "admin") ?? user;
+
+            return new EmailHelper.DeletedAccountInfo
+            {
+                UserEmail = user.UserName,
+                CompanyName = admin.company.name,
+                FbUrl = admin.company.FacebookPageUrl,
+                InstagramUrl = admin.company.InstagrammPageUrl,
+                TwitterUrl = admin.company.TwitterPageUrl
+            };
+        }
 
         private IAuthenticationManager Authentication
         {

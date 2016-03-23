@@ -3,12 +3,11 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using gliist_server.DataAccess;
-using gliist_server.Models;
 using SendGrid;
 
 namespace gliist_server.Helpers
 {
-    public static class EmailHelper
+    static class EmailHelper
     {
         // http://www.dotnetthoughts.net/how-to-generate-and-read-qr-code-in-asp-net/
         //to store images http://azure.microsoft.com/en-us/documentation/articles/cdn-serve-content-from-cdn-in-your-web-application/
@@ -106,27 +105,24 @@ namespace gliist_server.Helpers
             SendEmail(message);
         }
 
-        public static void SendAccountDeleted(UserModel userToDelete, UserModel administrator)
+        public static void SendAccountDeleted(DeletedAccountInfo info)
         {
             // Create the email object first, then add the properties.
             var message = new SendGridMessage();
-            message.AddTo(userToDelete.UserName);
+            message.AddTo(info.UserEmail);
             message.From = new MailAddress("dont-replay@gjests.com", "gjests");
 
-            message.SetCategories(new List<string> { "Account Deleted", administrator.company.name, userToDelete.UserName });
+            message.SetCategories(new List<string> {"Account Deleted", info.CompanyName, info.UserEmail});
 
             message.Subject = string.Format("Account Deleted");
 
             message.Html = "<p></p> ";
 
             message.EnableTemplateEngine("a5c04d64-dd3a-4e7d-813e-a9239957e444");
-            
-            message.AddSubstitution(":company_facebookUrl",
-                new List<string> {administrator.company.FacebookPageUrl ?? string.Empty});
-            message.AddSubstitution(":company_twitterUrl",
-                new List<string> {administrator.company.TwitterPageUrl ?? string.Empty});
-            message.AddSubstitution(":company_instagrammUrl",
-                new List<string> {administrator.company.InstagrammPageUrl ?? string.Empty});
+
+            message.AddSubstitution(":company_facebookUrl", new List<string> {info.FbUrl ?? string.Empty});
+            message.AddSubstitution(":company_twitterUrl", new List<string> {info.TwitterUrl ?? string.Empty});
+            message.AddSubstitution(":company_instagrammUrl", new List<string> {info.InstagramUrl ?? string.Empty});
 
             message.EnableOpenTracking();
             message.EnableClickTracking();
@@ -145,6 +141,15 @@ namespace gliist_server.Helpers
             // Send the email.
             // You can also use the **DeliverAsync** method, which returns an awaitable task.
             transportWeb.Deliver(message);
+        }
+
+        internal class DeletedAccountInfo
+        {
+            public string UserEmail { get; set; }
+            public string CompanyName { get; set; }
+            public string FbUrl { get; set; }
+            public string TwitterUrl { get; set; }
+            public string InstagramUrl { get; set; }
         }
     }
 }
