@@ -14,22 +14,22 @@ angular.module('gliist')
                 {
                     title: 'Create Event',
                     ui_sref: 'main.create_event',
-                    icon: {name: 'add_circle', style: 'fill: white', size: 24}
+                    icon: {name: 'add_circle', style: 'fill: white', size: 25}
                 },
                 {
                     title: 'Upcoming Events',
                     ui_sref: 'main.current_events',
-                    icon: {name: 'today', style: 'fill: white', size: 24}
+                    icon: {name: 'today', style: 'fill: white', size: 25}
                 },
                 {
                     title: 'Events Stats',
                     ui_sref: 'main.stats',
-                    icon: {name: 'insert_chart', style: 'fill: white', size: 24}
+                    icon: {name: 'insert_chart', style: 'fill: white', size: 25}
                 },
                 {
                     title: 'User Profile',
                     ui_sref: 'main.user',
-                    icon: {name: 'assignment_ind', style: 'fill: white', size: 24}
+                    icon: {name: 'assignment_ind', style: 'fill: white', size: 25}
                 }
             ];
 
