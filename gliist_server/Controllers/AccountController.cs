@@ -810,17 +810,14 @@ namespace gliist_server.Controllers
 
         #region Helpers
 
-        private EmailHelper.DeletedAccountInfo GenerateDeletedUserInfo(UserModel user)
+        private static EmailHelper.DeletedAccountInfo GenerateDeletedUserInfo(UserModel user)
         {
             var admin = user.company.users.FirstOrDefault(x => x.permissions == "admin") ?? user;
 
             return new EmailHelper.DeletedAccountInfo
             {
                 UserEmail = user.UserName,
-                CompanyName = admin.company.name,
-                FbUrl = admin.company.FacebookPageUrl,
-                InstagramUrl = admin.company.InstagrammPageUrl,
-                TwitterUrl = admin.company.TwitterPageUrl
+                CompanyName = admin.company.name
             };
         }
 

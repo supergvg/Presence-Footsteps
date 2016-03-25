@@ -120,10 +120,6 @@ namespace gliist_server.Helpers
 
             message.EnableTemplateEngine("a5c04d64-dd3a-4e7d-813e-a9239957e444");
 
-            message.AddSubstitution(":company_facebookUrl", new List<string> {info.FbUrl ?? string.Empty});
-            message.AddSubstitution(":company_twitterUrl", new List<string> {info.TwitterUrl ?? string.Empty});
-            message.AddSubstitution(":company_instagrammUrl", new List<string> {info.InstagramUrl ?? string.Empty});
-
             message.EnableOpenTracking();
             message.EnableClickTracking();
 
@@ -147,9 +143,6 @@ namespace gliist_server.Helpers
         {
             public string UserEmail { get; set; }
             public string CompanyName { get; set; }
-            public string FbUrl { get; set; }
-            public string TwitterUrl { get; set; }
-            public string InstagramUrl { get; set; }
         }
     }
 }
