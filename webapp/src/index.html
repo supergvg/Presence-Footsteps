@@ -60,9 +60,8 @@
                     <div>
                         <div ng-repeat="it in getMenuItems()" ui-sref="{{it.ui_sref}}" ng-click="setSelected(it)" ng-class="getItemClass(it)" class="sidenav-item">
                             <div>
+                                <img ng-src="{{it.icon.src}}"/>
                                 {{it.title}}
-                                <ng-md-icon ng-if="!it.icon.src" icon="{{it.icon.name}}" style="{{it.icon.style}}" size="{{it.icon.size}}"></ng-md-icon>
-                                <md-icon ng-if="it.icon.src" md-svg-src="{{it.icon.src}}"></md-icon>
                             </div>
                         </div>
                     </div>

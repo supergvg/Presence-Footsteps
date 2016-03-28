@@ -9,27 +9,27 @@ angular.module('gliist')
                 {
                     title: 'Guest List Management',
                     ui_sref: 'main.list_management',
-                    icon: {src: 'assets/images/SVG/list.svg'}
+                    icon: {src: 'assets/images/icons/guest_list_management.png'}
                 },
                 {
                     title: 'Create Event',
                     ui_sref: 'main.create_event',
-                    icon: {name: 'add_circle', style: 'fill: white', size: 25}
+                    icon: {src: 'assets/images/icons/create_event.png'}
                 },
                 {
                     title: 'Upcoming Events',
                     ui_sref: 'main.current_events',
-                    icon: {name: 'today', style: 'fill: white', size: 25}
+                    icon: {src: 'assets/images/icons/upcoming_events.png'}
                 },
                 {
                     title: 'Events Stats',
                     ui_sref: 'main.stats',
-                    icon: {name: 'insert_chart', style: 'fill: white', size: 25}
+                    icon: {src: 'assets/images/icons/event_stats.png'}
                 },
                 {
                     title: 'User Profile',
                     ui_sref: 'main.user',
-                    icon: {name: 'assignment_ind', style: 'fill: white', size: 25}
+                    icon: {src: 'assets/images/icons/user_profile.png'}
                 }
             ];
 

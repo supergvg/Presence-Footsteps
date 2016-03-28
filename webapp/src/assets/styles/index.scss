@@ -196,24 +196,15 @@ md-sidenav {
         border-style: solid;
         border-width: 2px;
         font-size:15px;
-        padding: 25px 10px;
+        padding: 25px 10px 25px 55px;
         text-transform: uppercase;
         webkit-focus-ring-color: none;
         & > div {
             color: #fff; 
-            padding-left: 35px;
-            md-icon,
-            ng-md-icon {
+            line-height: 25px;
+            img {
                 position: absolute;
                 left: 15px;
-            }
-            md-icon svg {
-                rect {
-                    fill: white;
-                }
-                path {
-                    stroke: white;
-                }
             }
         }
     }
@@ -410,9 +401,6 @@ md-tooltip .md-content{
 .billet {
     border-radius: 5px;
     border: 1px solid #ccc;
-    & + & {
-        margin-left: 15px;
-    }
     h4 {
         font-weight: bold;
         background-color: #f0f6fb;
@@ -421,11 +409,31 @@ md-tooltip .md-content{
     }
     md-content {
         padding: 15px;
-        p {
-            font-size: 18px;
-            color: #8e8e8e;
+        font-size: 18px;
+        color: #8e8e8e;
+        & > a {
+            margin: 10px;
+            display: inline-block;
+        }
+        ul {
+            padding-left: 20px;
+            li {
+                padding: 10px 0;
+                &:first-child {
+                    padding-top: 0;
+                }
+                &:last-child {
+                    padding-bottom: 0;
+                }
+            }
         }
     }
+}
+div[layout="column"] > .billet + .billet {
+    margin-top: 15px;
+}
+div[layout="row"] > div + .billet {
+    margin-left: 15px;
 }
 
 input.form-control {
@@ -1547,7 +1555,7 @@ md-dialog {
             }
         }
     }
-    .billet + .billet {
+    div[layout="row"] > div + .billet {
         margin-left: 0;
         margin-top: 15px;
     }
