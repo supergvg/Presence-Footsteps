@@ -22,7 +22,7 @@ angular.module('gliist')
                 ],
                 rowHeight: 45,
                 enableColumnMenus: false,
-                enableVerticalScrollbar: 0,
+                enableVerticalScrollbar: 2,
                 enableHorizontalScrollbar: 0,
                 data: []
             };
@@ -44,7 +44,8 @@ angular.module('gliist')
 
             $scope.getTableHeight = function() {
                 return {
-                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + 'px'
+                    height: (11 * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + 'px'
+//                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + 'px'
                 };
             };
 
@@ -182,7 +183,7 @@ angular.module('gliist')
                         total: gl.total,
                         listType: gl.listType,
                         created_on: $filter('date')(gl.created_on, 'MMM dd, yy'),
-                        created_by: gl.created_by.firstName +' '+ gl.created_by.lastName,
+                        created_by: gl.created_by ? gl.created_by.firstName +' '+ gl.created_by.lastName : '',
                         glist: gl
                     });
                 });

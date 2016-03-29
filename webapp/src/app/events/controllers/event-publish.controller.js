@@ -34,7 +34,7 @@ angular.module('gliist')
             $scope.checkGuestsEmail = function() {
                 var error = false;
                 angular.forEach($scope.event.guestLists, function(gl) {
-                    if ($scope.toPublish.indexOf(gl.id) >= 0) {
+                    if ($scope.toPublish.indexOf(gl.id) >= 0 && gl.instanceType === 2) {
                         angular.forEach(gl.actual, function(guest){
                             if (!guest.guest.email) {
                                 error = true;
