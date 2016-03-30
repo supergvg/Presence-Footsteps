@@ -36,7 +36,7 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function() {
-                    userService.deleteUser({userName: $scope.user.UserName}).then(
+                    userService.deleteUser({userId: $scope.user.userId}).then(
                         function() {
                             $rootScope.logout();
                         },
@@ -59,7 +59,7 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
-                    userService.deleteUser({userName: user.UserName}).then(
+                    userService.deleteUser({userId: user.userId}).then(
                         function () {
                             $scope.refresh();
                         },

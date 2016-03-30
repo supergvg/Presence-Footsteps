@@ -125,14 +125,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 return deferred.promise;
             },
             
-            deleteUser: function(userName) {
+            deleteUser: function(params) {
                 var deferred = $q.defer(),
                     url = 'api/Account/DeleteRegisterByInvite';
             
                 $http({
                     method: 'DELETE',
                     url: url,
-                    params: userName
+                    params: params
                 }).success(function (data) {
                     deferred.resolve(data);
                 }).error(function (data) {

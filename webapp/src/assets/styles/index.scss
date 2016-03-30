@@ -1455,6 +1455,7 @@ md-dialog {
             }
             md-input-container {
                 margin: 0 30px;
+                min-width: 300px;
             }
         }
     }
@@ -1802,7 +1803,7 @@ md-dialog {
                 margin: 8px 0;
             }
             md-icon {
-                margin-right: 10px;
+                margin: 0 10px 0 0;
                 & + p {
                     margin: 0;
                 }
