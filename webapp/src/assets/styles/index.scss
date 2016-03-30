@@ -196,24 +196,15 @@ md-sidenav {
         border-style: solid;
         border-width: 2px;
         font-size:15px;
-        padding: 25px 10px;
+        padding: 25px 10px 25px 55px;
         text-transform: uppercase;
         webkit-focus-ring-color: none;
         & > div {
             color: #fff; 
-            padding-left: 35px;
-            md-icon,
-            ng-md-icon {
+            line-height: 25px;
+            img {
                 position: absolute;
                 left: 15px;
-            }
-            md-icon svg {
-                rect {
-                    fill: white;
-                }
-                path {
-                    stroke: white;
-                }
             }
         }
     }
@@ -410,9 +401,6 @@ md-tooltip .md-content{
 .billet {
     border-radius: 5px;
     border: 1px solid #ccc;
-    & + & {
-        margin-left: 15px;
-    }
     h4 {
         font-weight: bold;
         background-color: #f0f6fb;
@@ -421,11 +409,48 @@ md-tooltip .md-content{
     }
     md-content {
         padding: 15px;
-        p {
-            font-size: 18px;
-            color: #8e8e8e;
+        font-size: 18px;
+        color: #8e8e8e;
+        & > a {
+            margin: 5px 0 5px 40px;
+            display: inline-block;
+        }
+        ul {
+            font-size: 16px;
+            padding-left: 15px;
+            list-style: none;
+            li {
+                padding: 3px 0;
+                position: relative;
+                &:before {
+                    content: '';
+                    width: 4px;
+                    height: 4px;
+                    display: block;
+                    background: #8e8e8e;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 8px;
+                    left: -10px;
+                }
+                &:first-child {
+                    padding-top: 0;
+                }
+                &:last-child {
+                    padding-bottom: 0;
+                }
+                a {
+                    color: #5082b8;
+                }
+            }
         }
     }
+}
+div[layout="column"] > .billet + .billet {
+    margin-top: 15px;
+}
+div[layout="row"] > div + .billet {
+    margin-left: 15px;
 }
 
 input.form-control {
@@ -1763,29 +1788,37 @@ md-dialog {
 
 .event-list {
     color: #666;
-    md-grid-list {
-        text-align: left;
-        margin: 0 20px;
-        h3 {
-            font-weight: bold;
-            margin: 0;
-            font-size: 23px;
-        }
-        md-grid-tile figure {
-            md-icon {
-                margin: 0 10px 0 0;
-            }
-            justify-content: flex-start;
-        }
-    }
     md-list-item {
         border: 1px solid #ebebeb;
-    }
-    md-list-item + md-list-item {
-        margin-top: 15px;
-    }
-    .actions {
-        padding-right: 10px;
+        h3 {
+            font-weight: bold;
+            border-bottom: 1px solid #8f8f8f;
+            margin: 0;
+            padding-bottom: 10px;
+        }
+        .event-details {
+            padding: 0 20px 0 65px;
+            p {
+                margin: 8px 0;
+            }
+            md-icon {
+                margin-right: 10px;
+                & + p {
+                    margin: 0;
+                }
+            }
+        }
+        .actions {
+            .md-button {
+                margin: 5px 0;
+                & + .md-button {
+                    margin-left: 15px;
+                }
+            }
+        }
+        & + md-list-item {
+            margin-top: 15px;
+        }
     }
 }
 
@@ -1868,7 +1901,7 @@ md-dialog {
             }
         }
     }
-    .billet + .billet {
+    div[layout="row"] > div + .billet {
         margin-left: 0;
         margin-top: 15px;
     }
@@ -1990,21 +2023,18 @@ md-dialog {
     }
     .event-list {
         md-list-item {
-            display: block;
-            border-radius: 5px;
-            border: 1px solid #ccc;            
             & > * {
                 width: 100%;
             }
             .event-image {
                 height: 215px !important;
             }
-            md-grid-list {
-                margin-top: 20px;
+            .event-details {
+                padding: 20px 20px 5px 20px;
+                .actions {
+                    width: 100%;
+                }
             }
-        }
-        .actions {
-            padding-right: 0;
         }
     }
     .event-tab {

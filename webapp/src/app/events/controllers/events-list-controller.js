@@ -16,7 +16,8 @@ angular.module('gliist')
                 return {
                     'background-image': 'url(' + event.invitePicture + ')',
                     'background-position': 'center center',
-                    'height': '120px',
+                    'min-width': '200px',
+                    'height': '185px',
                     'background-size': 'cover'
                 };
             };
@@ -41,7 +42,6 @@ angular.module('gliist')
                     $scope.alert = 'You decided to keep your debt.';
                 });
             };
-
 
             $scope.refreshEvents = function () {
 

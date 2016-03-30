@@ -65,7 +65,7 @@ namespace gliist_server.Controllers
         {
             var userId = User.Identity.GetUserId();
             var user = userManager.FindById(userId);
-            
+
             var gli = await db.GuestListInstances.FindAsync(model.id);
 
             if (gli.linked_event.company.id != user.company.id)
@@ -106,7 +106,7 @@ namespace gliist_server.Controllers
             }
         }
 
-        [ResponseType(typeof (Guest))]
+        [ResponseType(typeof(Guest))]
         [Route("GetGuestCheckin")]
         [HttpGet]
         public async Task<IHttpActionResult> GetGuestCheckin(int gliId, int guestId)
@@ -130,7 +130,7 @@ namespace gliist_server.Controllers
             return Ok(res);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("LinkGuestList")]
         [CheckAccess(DeniedPermissions = "promoter")]
@@ -224,7 +224,7 @@ namespace gliist_server.Controllers
             return Ok(@event.guestLists);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("ImportGuestList")]
         [CheckAccess(DeniedPermissions = "promoter")]
@@ -291,7 +291,7 @@ namespace gliist_server.Controllers
             return Ok(masterGl);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("DeleteGuestList")]
         [CheckAccess(DeniedPermissions = "promoter")]
@@ -325,7 +325,7 @@ namespace gliist_server.Controllers
             return Ok(@event.guestLists);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("AddGuest")]
         [CheckAccess(DeniedPermissions = "promoter")]
@@ -348,7 +348,7 @@ namespace gliist_server.Controllers
             db.Guests.Add(guest);
             await db.SaveChangesAsync();
 
-            await AddEventGuests(onTheSpotGl, new[] {guest}, eventId);
+            await AddEventGuests(onTheSpotGl, new[] { guest }, eventId);
 
 
             if (!string.IsNullOrEmpty(guest.email))
@@ -380,7 +380,7 @@ namespace gliist_server.Controllers
                     messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
                     messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateGuestConfirmation);
-                    messageBuilder.SetCategories(new[] {"Event Invitation", admin.company.name, @event.title});
+                    messageBuilder.SetCategories(new[] { "Event Invitation", admin.company.name, @event.title });
 
                     SendGridSender.Run(messageBuilder.Result);
                 }
@@ -389,7 +389,7 @@ namespace gliist_server.Controllers
             return Ok(guest);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("AddGuests")]
         [CheckAccess(DeniedPermissions = "promoter")]
@@ -427,7 +427,7 @@ namespace gliist_server.Controllers
                 string firstName = s.Length > 0 ? s[0] : "",
                     lastName = s.Length > 1 ? s[1] : "Guest";
 
-                var g = new Guest() {firstName = firstName, lastName = lastName, type = type, company = user.company};
+                var g = new Guest() { firstName = firstName, lastName = lastName, type = type, company = user.company };
                 addedGuests.Add(g);
 
                 var onTheSpotGL = GuestHelper.AddGuestToEvent(g, eventId, user.company, user, db);
@@ -443,7 +443,7 @@ namespace gliist_server.Controllers
             return Ok();
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("CheckinGuest")]
         [CheckAccess(DeniedPermissions = "promoter")]
@@ -455,14 +455,20 @@ namespace gliist_server.Controllers
             var gliId = checkinData.gliId;
             var guestId = checkinData.guestId;
 
-            if (gliId <= 0 || guestId <= 0)
-            {
-                return BadRequest();
-            }
-
             var guest = await db.Guests.FindAsync(guestId);
+
+            if (guest == null)
+                return BadRequest("Guest not found.");
+
             var gli = await db.GuestListInstances.FindAsync(gliId);
+
+            if (gli == null)
+                return BadRequest("Guest list not found.");
+
             var checkin = gli.actual.Single(chkn => chkn.guest.id == guest.id);
+
+            if (checkin == null)
+                return BadRequest("Guest was not confirmed.");
 
             db.Entry(checkin).State = EntityState.Modified;
 
@@ -473,15 +479,20 @@ namespace gliist_server.Controllers
             }
 
             //Guest Capacity
-            if (checkin.plus < checkinData.plus || (checkin.status == "checked in" && checkin.plus == 0))
+            if (checkin.status == "checked in" && (checkin.plus == 0 || totalChk == 0))
             {
-                throw new ArgumentException("guest exceeded capacity");
+                return BadRequest("Guest is already checked in.");
+            }
+
+            if (checkin.plus < checkinData.plus)
+            {
+                return BadRequest("Additional guests amount exceeded.");
             }
 
             //GL max capacity 
             if (gli.capacity > 0 && GuestHelper.GetGuestListTotalCheckedin(gli) + totalChk > gli.capacity)
             {
-                throw new ArgumentException("guest list exceeded capacity");
+                return BadRequest(string.Format(@"Guest list ""{0}"" exceeded it's capacity ({1}).", gli.title, gli.capacity));
             }
 
 
@@ -490,9 +501,8 @@ namespace gliist_server.Controllers
                 GuestHelper.GetEventTotalCheckedin(gli.linked_event) + totalChk > gli.linked_event.capacity)
             {
                 //Jocelyn wants to enable checkin even if event passed its capacity 
-                //throw new ArgumentException("event exceeded capacity");
+                //return BadRequest("Event exceeded it's capacity.");
             }
-
 
             checkin.time = DateTime.Now;
             checkin.plus = checkin.plus - checkinData.plus;
@@ -583,7 +593,7 @@ namespace gliist_server.Controllers
             return Ok(checkin);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         [HttpPost]
         [Route("UndoCheckinGuest")]
         [CheckAccess(DeniedPermissions = "promoter")]
