@@ -25,7 +25,7 @@ namespace gliist_server.Models
                 PublishList(listInstance);
             }
 
-            DataService.GetEvent().IsPublished = true;
+            DataService.Event.IsPublished = true;
             DataService.CommitChanges();
         }
 
@@ -58,10 +58,10 @@ namespace gliist_server.Models
 
             foreach (var guest in guests)
             {
-                if (!IsValidEmail(guest.Guest.email) || (DataService.GetEvent().IsPublished && GuestAlreadyNotificated(guest, listInstance)))
+                if (!IsValidEmail(guest.Guest.email) || (DataService.Event.IsPublished && GuestAlreadyNotificated(guest, listInstance)))
                     continue;
 
-                var message = (!DataService.GetEvent().IsPublished && GuestAlreadyNotificated(guest, listInstance))
+                var message = (!DataService.Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
                     ? PrepareUpdatingEmailMessage(guest, listInstance)
                     : PrepareSpecificMessageToGuest(guest, listInstance);
 
@@ -77,21 +77,21 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Event is updated", DataService.GetEvent().title),
+                Subject = string.Format("{0} - Event is updated", DataService.Event.title),
                 From = DataService.GetAdministrator().company.name,
                 To = guest.Guest.email
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(DataService.GetEvent(), listInstance);
+            substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
             substitutionBuilder.CreateOrganizer(DataService.GetAdministrator());
-            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.GetEvent());
+            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.Event);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
             messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateEventDetailsUpdating);
-            messageBuilder.SetCategories(new[] { "Event Updated", DataService.GetAdministrator().company.name, DataService.GetEvent().title });
+            messageBuilder.SetCategories(new[] { "Event Updated", DataService.GetAdministrator().company.name, DataService.Event.title });
 
             return messageBuilder.Result;
         }

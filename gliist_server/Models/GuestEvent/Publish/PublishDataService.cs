@@ -11,7 +11,6 @@ namespace gliist_server.Models
         private IEnumerable<CompanySettings> companySettings;
 
         private readonly Dictionary<int, IEnumerable<EventGuestStatus>> listInstanceGuests = new Dictionary<int, IEnumerable<EventGuestStatus>>();
-        private readonly Event @event;
         private readonly UserModel currentUser;
         private readonly EventDBContext dbContext;
 
@@ -26,21 +25,18 @@ namespace gliist_server.Models
 
             this.dbContext = dbContext;
             currentUser = user;
-            this.@event = @event;
+            Event = @event;
         }
         
         public IEnumerable<GuestListInstance> GetGuestListInstances(int[] ids)
         {
             return dbContext.GuestListInstances
-                .Where(x => x.linked_event.id == GetEvent().id && ids.Contains(x.id))
+                .Where(x => x.linked_event.id == Event.id && ids.Contains(x.id))
                 .ToList();
         }
 
-        public Event GetEvent()
-        {
-            return @event;
-        }
-        
+        public Event Event { get; private set; }
+
         public UserModel GetAdministrator()
         {
             if (administrator != null)
@@ -48,7 +44,7 @@ namespace gliist_server.Models
             
             administrator = currentUser.permissions == "admin"
                 ? currentUser
-                : GetEvent().company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
+                : Event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
             
             return administrator;
         }
@@ -56,7 +52,7 @@ namespace gliist_server.Models
         public IEnumerable<EventGuestStatus> GetGuestsByList(int listId)
         {
             if (!listInstanceGuests.ContainsKey(listId))
-                listInstanceGuests[listId] = GetEvent().EventGuestStatuses.Where(x => x.GuestListInstanceId == listId);
+                listInstanceGuests[listId] = Event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listId);
 
             return listInstanceGuests[listId];
         }

@@ -30,7 +30,7 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Invitation", DataService.GetEvent().title),
+                Subject = string.Format("{0} - Invitation", DataService.Event.title),
                 From = DataService.GetAdministrator().company.name,
                 To = guest.Guest.email
             });
@@ -38,16 +38,16 @@ namespace gliist_server.Models
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
             substitutionBuilder.CreateGuestDetails(guest.AdditionalGuestsRequested, guest.Guest, listInstance);
-            substitutionBuilder.CreateEventDetails(DataService.GetEvent(), listInstance);
+            substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
             substitutionBuilder.CreateOrganizer(DataService.GetAdministrator());
             substitutionBuilder.CreateSocialLinks(DataService.GetAdministrator());
-            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.GetEvent());
-            substitutionBuilder.CreateQrCode(DataService.GetEvent().id, listInstance.id, guest.GuestId);
+            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.Event);
+            substitutionBuilder.CreateQrCode(DataService.Event.id, listInstance.id, guest.GuestId);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
             messageBuilder.ApplyTemplate(GetTemplate());
-            messageBuilder.SetCategories(new[] { "Event Invitation", DataService.GetAdministrator().company.name, DataService.GetEvent().title });
+            messageBuilder.SetCategories(new[] { "Event Invitation", DataService.GetAdministrator().company.name, DataService.Event.title });
 
             return messageBuilder.Result;
         }

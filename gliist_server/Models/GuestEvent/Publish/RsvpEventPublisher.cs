@@ -67,22 +67,22 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Please RSVP for this Event", DataService.GetEvent().title),
+                Subject = string.Format("{0} - Please RSVP for this Event", DataService.Event.title),
                 From = DataService.GetAdministrator().company.name,
                 To = guest.Guest.email
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(DataService.GetEvent(), listInstance);
+            substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
             substitutionBuilder.CreateOrganizer(DataService.GetAdministrator());
-            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.GetEvent());
-            substitutionBuilder.CreateRsvpUrl(DataService.GetEvent(), guest.Guest, Config.AppBaseUrl);
+            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.Event);
+            substitutionBuilder.CreateRsvpUrl(DataService.Event, guest.Guest, Config.AppBaseUrl);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
             messageBuilder.ApplyTemplate(GetTemplate());
-            messageBuilder.SetCategories(new[] { "Event RSVP", DataService.GetAdministrator().company.name, DataService.GetEvent().title });
+            messageBuilder.SetCategories(new[] { "Event RSVP", DataService.GetAdministrator().company.name, DataService.Event.title });
 
             return messageBuilder.Result;
         }
