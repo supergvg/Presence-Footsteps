@@ -7,7 +7,6 @@ namespace gliist_server.Models
 {
     class PublishDataService
     {
-        private UserModel administrator;
         private IEnumerable<CompanySettings> companySettings;
 
         private readonly Dictionary<int, IEnumerable<EventGuestStatus>> listInstanceGuests = new Dictionary<int, IEnumerable<EventGuestStatus>>();
@@ -26,8 +25,11 @@ namespace gliist_server.Models
             this.dbContext = dbContext;
             currentUser = user;
             Event = @event;
+            Administrator = currentUser.permissions == "admin"
+                ? currentUser
+                : Event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
         }
-        
+
         public IEnumerable<GuestListInstance> GetGuestListInstances(int[] ids)
         {
             return dbContext.GuestListInstances
@@ -37,17 +39,7 @@ namespace gliist_server.Models
 
         public Event Event { get; private set; }
 
-        public UserModel GetAdministrator()
-        {
-            if (administrator != null)
-                return administrator;
-            
-            administrator = currentUser.permissions == "admin"
-                ? currentUser
-                : Event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
-            
-            return administrator;
-        }
+        public UserModel Administrator { get; private set; }
 
         public IEnumerable<EventGuestStatus> GetGuestsByList(int listId)
         {
@@ -62,7 +54,7 @@ namespace gliist_server.Models
             if (companySettings != null)
                 return companySettings;
 
-            companySettings = dbContext.CompanySettings.Where(x => x.CompanyId == GetAdministrator().company.id).ToArray();
+            companySettings = dbContext.CompanySettings.Where(x => x.CompanyId == Administrator.company.id).ToArray();
 
             return companySettings;
         }
