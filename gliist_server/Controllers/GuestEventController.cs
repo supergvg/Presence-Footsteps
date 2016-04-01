@@ -620,6 +620,42 @@ namespace gliist_server.Controllers
         }
 
         [HttpPost]
+        [Route("CheckGuestsEmailBeforePublishing")]
+        [CheckAccess(DeniedPermissions = "promoter")]
+        public IHttpActionResult CheckGuestsEmailBeforePublishing(IdsEventModel eventPublishModel)
+        {
+            var warnings = new List<string>();
+            var userId = User.Identity.GetUserId();
+            var user = userManager.FindById(userId);
+
+            if (user.permissions.Contains("promoter"))
+                return BadRequest("Invalid permissions");
+
+            var @event = db.Events.FirstOrDefault(x => x.id == eventPublishModel.eventId);
+            if (@event == null)
+                return BadRequest("Event not found");
+
+            var guestListInstances = db.GuestListInstances
+               .Where(x => x.linked_event.id == eventPublishModel.eventId && eventPublishModel.ids.Contains(x.id))
+               .ToList();
+
+            foreach (var listInstance in guestListInstances)
+            {
+                if (listInstance.InstanceType == GuestListInstanceType.Rsvp ||
+                    GuestListInstanceType.PublicRsvp == listInstance.InstanceType)
+                {
+                    var instance = listInstance;
+                    var eventGuestStatuses = @event.EventGuestStatuses.Where(x => x.GuestListInstanceId == instance.id);
+                    bool allGuestsHaveEmail = eventGuestStatuses.All(x => IsValidEmail(x.Guest.email));
+                    if (!allGuestsHaveEmail)
+                        warnings.Add(string.Format(@"Guest list ""{0}"" has guests without email address. The list will not be published.", listInstance.title));
+                }
+            }
+
+            return Ok(new { Warnings = warnings });
+        }
+
+        [HttpPost]
         [Route("PublishEvent")]
         [CheckAccess(DeniedPermissions = "promoter")]
         public async Task<IHttpActionResult> PublishEvent(IdsEventModel eventPublishModel)
@@ -699,6 +735,10 @@ namespace gliist_server.Controllers
             }));
 
             await db.SaveChangesAsync();
+        }
+        private static bool IsValidEmail(string email)
+        {
+            return (!string.IsNullOrEmpty(email) && email.Contains("@"));
         }
         #endregion
     }

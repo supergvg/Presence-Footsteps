@@ -12,6 +12,7 @@ namespace gliist_server.Models
         private readonly UserModel currentUser;
         private readonly EventDBContext dbContext;
         private readonly IdsEventModel publishDetails;
+        private readonly Dictionary<int, IEnumerable<EventGuestStatus>> listInstanceGuests = new Dictionary<int, IEnumerable<EventGuestStatus>>();
 
         protected readonly Event Event;
         protected UserModel Administrator;
@@ -49,6 +50,11 @@ namespace gliist_server.Models
         protected abstract bool GuestAlreadyNotificated(EventGuestStatus guest, GuestListInstance listInstance);
         protected abstract void MarkGuestAsNotificated(EventGuestStatus guest, GuestListInstance listInstance);
 
+        protected static bool IsValidEmail(string email)
+        {
+            return (!string.IsNullOrEmpty(email) && email.Contains("@"));
+        }
+
         #region private
 
         [SuppressMessage("ReSharper", "NotResolvedInText")]
@@ -59,9 +65,11 @@ namespace gliist_server.Models
                 : Event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
         }
 
-        private IEnumerable<EventGuestStatus> GetGuestsByList(int listId)
+        protected IEnumerable<EventGuestStatus> GetGuestsByList(int listId)
         {
-            return Event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listId);
+            if (!listInstanceGuests.ContainsKey(listId))
+                listInstanceGuests[listId] = Event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listId);
+            return listInstanceGuests[listId];
         }
 
         private static void SendMessage(ISendGrid message)
@@ -78,7 +86,7 @@ namespace gliist_server.Models
 
             foreach (var guest in guests)
             {
-                if (Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
+                if (!IsValidEmail(guest.Guest.email) || (Event.IsPublished && GuestAlreadyNotificated(guest, listInstance)))
                     continue;
 
                 var message = (!Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
@@ -111,7 +119,7 @@ namespace gliist_server.Models
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
             messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateEventDetailsUpdating);
-            messageBuilder.SetCategories(new[] {"Event Updated", Administrator.company.name, Event.title});
+            messageBuilder.SetCategories(new[] { "Event Updated", Administrator.company.name, Event.title });
 
             return messageBuilder.Result;
         }
