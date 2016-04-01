@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using gliist_server.DataAccess;
 using SendGrid;
 
@@ -13,9 +14,17 @@ namespace gliist_server.Models
 
         protected override bool ListShouldBePublished(GuestListInstance listInstance)
         {
-            return base.ListShouldBePublished(listInstance) ||
+            bool shouldBePublished = base.ListShouldBePublished(listInstance) ||
                    listInstance.InstanceType == GuestListInstanceType.Rsvp ||
                    listInstance.InstanceType == GuestListInstanceType.PublicRsvp;
+
+            if (!shouldBePublished)
+                return false;
+
+            var guests = GetGuestsByList(listInstance.id);
+            shouldBePublished = guests.All(x => IsValidEmail(x.Guest.email));
+            
+            return shouldBePublished;
         }
 
         protected override bool GuestAlreadyNotificated(EventGuestStatus guest,
@@ -34,7 +43,7 @@ namespace gliist_server.Models
                 : PrepareRsvpMessage(guest, listInstance);
         }
 
-        protected override void MarkGuestAsNotificated(EventGuestStatus guest, 
+        protected override void MarkGuestAsNotificated(EventGuestStatus guest,
             GuestListInstance listInstance)
         {
             if (IsListPrivate(listInstance))
