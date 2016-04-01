@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using gliist_server.DataAccess;
 using SendGrid;
 
@@ -9,37 +6,27 @@ namespace gliist_server.Models
 {
     abstract class EventPublisher
     {
-        private readonly UserModel currentUser;
-        private readonly EventDBContext dbContext;
         private readonly IdsEventModel publishDetails;
-        private readonly Dictionary<int, IEnumerable<EventGuestStatus>> listInstanceGuests = new Dictionary<int, IEnumerable<EventGuestStatus>>();
 
-        protected readonly Event Event;
-        protected UserModel Administrator;
+        protected readonly PublishDataService DataService;
 
         protected EventPublisher(EventDBContext dbContext, IdsEventModel publishDetails, UserModel user, Event @event)
         {
-            this.dbContext = dbContext;
             this.publishDetails = publishDetails;
-            currentUser = user;
-            Event = @event;
+            DataService = new PublishDataService(dbContext, user, @event);
         }
 
         public void Run()
         {
-            Initialize();
-
-            var guestListInstances = dbContext.GuestListInstances
-                .Where(x => x.linked_event.id == Event.id && publishDetails.ids.Contains(x.id))
-                .ToList();
+            var guestListInstances = DataService.GetGuestListInstances(publishDetails.ids);
 
             foreach (var listInstance in guestListInstances)
             {
                 PublishList(listInstance);
             }
 
-            Event.IsPublished = true;
-            dbContext.SaveChanges();
+            DataService.GetEvent().IsPublished = true;
+            DataService.CommitChanges();
         }
 
         protected abstract bool ListShouldBePublished(GuestListInstance listInstance);
@@ -57,21 +44,6 @@ namespace gliist_server.Models
 
         #region private
 
-        [SuppressMessage("ReSharper", "NotResolvedInText")]
-        private void Initialize()
-        {
-            Administrator = currentUser.permissions == "admin"
-                ? currentUser
-                : Event.company.users.FirstOrDefault(x => x.permissions == "admin") ?? currentUser;
-        }
-
-        protected IEnumerable<EventGuestStatus> GetGuestsByList(int listId)
-        {
-            if (!listInstanceGuests.ContainsKey(listId))
-                listInstanceGuests[listId] = Event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listId);
-            return listInstanceGuests[listId];
-        }
-
         private static void SendMessage(ISendGrid message)
         {
             SendGridSender.Run(message);
@@ -82,14 +54,14 @@ namespace gliist_server.Models
             if (!ListShouldBePublished(listInstance))
                 return;
 
-            var guests = GetGuestsByList(listInstance.id);
+            var guests = DataService.GetGuestsByList(listInstance.id);
 
             foreach (var guest in guests)
             {
-                if (!IsValidEmail(guest.Guest.email) || (Event.IsPublished && GuestAlreadyNotificated(guest, listInstance)))
+                if (!IsValidEmail(guest.Guest.email) || (DataService.GetEvent().IsPublished && GuestAlreadyNotificated(guest, listInstance)))
                     continue;
 
-                var message = (!Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
+                var message = (!DataService.GetEvent().IsPublished && GuestAlreadyNotificated(guest, listInstance))
                     ? PrepareUpdatingEmailMessage(guest, listInstance)
                     : PrepareSpecificMessageToGuest(guest, listInstance);
 
@@ -105,21 +77,21 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Event is updated", Event.title),
-                From = Administrator.company.name,
+                Subject = string.Format("{0} - Event is updated", DataService.GetEvent().title),
+                From = DataService.GetAdministrator().company.name,
                 To = guest.Guest.email
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, listInstance);
-            substitutionBuilder.CreateOrganizer(Administrator);
-            substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
+            substitutionBuilder.CreateEventDetails(DataService.GetEvent(), listInstance);
+            substitutionBuilder.CreateOrganizer(DataService.GetAdministrator());
+            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.GetEvent());
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
             messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateEventDetailsUpdating);
-            messageBuilder.SetCategories(new[] { "Event Updated", Administrator.company.name, Event.title });
+            messageBuilder.SetCategories(new[] { "Event Updated", DataService.GetAdministrator().company.name, DataService.GetEvent().title });
 
             return messageBuilder.Result;
         }

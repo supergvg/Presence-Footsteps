@@ -269,6 +269,7 @@
     <Compile Include="Models\Account\UserProfileModel.cs" />
     <Compile Include="Models\GuestEvent\Publish\EventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\PrivateEventPublisher.cs" />
+    <Compile Include="Models\GuestEvent\Publish\PublishDataService.cs" />
     <Compile Include="Models\GuestEvent\Publish\RsvpEventPublisher.cs" />
     <Compile Include="Models\GuestEvent\Publish\TicketingEventPublisher.cs" />
     <Compile Include="Models\GuestEvent\SendGrid\SendGridHeader.cs" />

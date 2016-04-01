@@ -21,7 +21,7 @@ namespace gliist_server.Models
             if (!shouldBePublished)
                 return false;
 
-            var guests = GetGuestsByList(listInstance.id);
+            var guests = DataService.GetGuestsByList(listInstance.id);
             shouldBePublished = guests.All(x => IsValidEmail(x.Guest.email));
             
             return shouldBePublished;
@@ -67,24 +67,33 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Please RSVP for this Event", Event.title),
-                From = Administrator.company.name,
+                Subject = string.Format("{0} - Please RSVP for this Event", DataService.GetEvent().title),
+                From = DataService.GetAdministrator().company.name,
                 To = guest.Guest.email
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, listInstance);
-            substitutionBuilder.CreateOrganizer(Administrator);
-            substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
-            substitutionBuilder.CreateRsvpUrl(Event, guest.Guest, Config.AppBaseUrl);
+            substitutionBuilder.CreateEventDetails(DataService.GetEvent(), listInstance);
+            substitutionBuilder.CreateOrganizer(DataService.GetAdministrator());
+            substitutionBuilder.CreateLogoAndEventImage(DataService.GetAdministrator(), DataService.GetEvent());
+            substitutionBuilder.CreateRsvpUrl(DataService.GetEvent(), guest.Guest, Config.AppBaseUrl);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
-            messageBuilder.ApplyTemplate(SendGridTemplateIds.EventRsvpGuestInvitation);
-            messageBuilder.SetCategories(new[] { "Event RSVP", Administrator.company.name, Event.title });
+            messageBuilder.ApplyTemplate(GetTemplate());
+            messageBuilder.SetCategories(new[] { "Event RSVP", DataService.GetAdministrator().company.name, DataService.GetEvent().title });
 
             return messageBuilder.Result;
+        }
+
+        private string GetTemplate()
+        {
+            var settings = DataService.GetCompanySettings().FirstOrDefault(x => x.Key == "RsvpEmailTemplateId");
+
+            return (settings != null)
+                ? settings.Value
+                : SendGridTemplateIds.EventRsvpGuestInvitation;
         }
 
         #endregion
