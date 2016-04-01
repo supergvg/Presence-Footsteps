@@ -167,6 +167,32 @@ angular.module('gliist')
                     function(data) {
                         if (!autoSave) {
                             $scope.gli = data;
+                        } else {
+                            $scope.gli.id = data.id;
+                            var savedGuestsId = [],
+                                newSavedGuests = [];
+                            angular.forEach($scope.gli.actual, function(guest) {
+                                if (guest.guest.id) {
+                                    savedGuestsId.push(guest.guest.id);
+                                }
+                            });
+                            angular.forEach(data.actual, function(guest) {
+                                if (savedGuestsId.indexOf(guest.guest.id) === -1) {
+                                    newSavedGuests.push(guest);
+                                }
+                            });
+                            angular.forEach($scope.gli.actual, function(guest, key) {
+                                if (!guest.guest.id) {
+                                    angular.forEach(newSavedGuests, function(newGuest, newKey){
+                                        if (guest.guest.firstName === newGuest.guest.firstName && guest.guest.lastName === newGuest.guest.lastName && guest.guest.email === newGuest.guest.email) {
+                                            $scope.gli.actual[key].id = newGuest.id;
+                                            $scope.gli.actual[key].guest.id = newGuest.guest.id;
+                                            delete newSavedGuests[newKey];
+                                            return;
+                                        }
+                                    });
+                                }
+                            });
                         }
                         var message = 'Guest list saved';
                         if (autoSave) {

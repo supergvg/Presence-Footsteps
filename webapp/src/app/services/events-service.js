@@ -396,6 +396,22 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 });
                 
                 return d.promise;
+            },
+            
+            checkGuestsEmailBeforePublishing: function(data) {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/GuestEventController/CheckGuestsEmailBeforePublishing',
+                    data: data
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
             }
             
         };
