@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace gliist_server.Models
@@ -46,5 +47,7 @@ namespace gliist_server.Models
 
         [JsonProperty(PropertyName = "twitterPageUrl")]
         public string TwitterPageUrl { get; set; }
+
+        public DateTime? Registered { get; set; }
     }
 }

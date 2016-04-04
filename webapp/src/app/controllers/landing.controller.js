@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('LandingCtrl', ['$scope', '$stateParams', 'dialogService', 'eventsService', '$location', '$mdDialog',
-        function ($scope, $stateParams, dialogService, eventsService, $location, $mdDialog) {
+    .controller('LandingCtrl', ['$scope', '$state', '$stateParams', 'dialogService', 'eventsService', '$location', '$mdDialog',
+        function ($scope, $state, $stateParams, dialogService, eventsService, $location, $mdDialog) {
             var companyName = $stateParams.companyName,
                 eventName = $stateParams.eventName,
                 token = $stateParams.token;
@@ -13,6 +13,12 @@ angular.module('gliist')
             $scope.loading = true;
             
             $scope.eventReceived = function(data) {
+                if (data.company.name.toLowerCase() === 'popsugar') {
+                    if (!$scope.public && $state.current.name !== 'landing_personal_custom') {
+                        $state.go('landing_personal_custom', {token: token});
+                        return;
+                    }
+                }
                 $scope.loading = false;
                 $scope.event = data;
                 $scope.rsvp.plus = 0;
@@ -40,6 +46,15 @@ angular.module('gliist')
                     }
                 );
             }
+            
+            $scope.getCustomLocation = function() {
+                if ($scope.event.event) {
+                    var venueName = $scope.event.event.location.match(/venue-name">([^,]+)/),
+                        street = $scope.event.event.location.match(/street-address">([^<]+)/);
+                    return (venueName ? venueName[1] : '') + (street ? ' | '+street[1] : '');
+                }
+                return '';
+            };
             
             $scope.getCompanyLogo = function () {
                 if (!$scope.event || !$scope.event.company) {

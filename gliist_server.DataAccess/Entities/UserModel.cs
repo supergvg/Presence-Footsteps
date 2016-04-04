@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 
@@ -33,5 +34,7 @@ namespace gliist_server.DataAccess
         public string contactEmail { get; set; }
 
         public string permissions { get; set; }
+
+        public DateTime? Registered { get; set; }
     }
 }

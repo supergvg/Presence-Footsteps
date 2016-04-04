@@ -1202,6 +1202,56 @@ md-dialog {
             }
         }
     }
+    .custom {
+        background-color: #38d1f0;
+        background-image: none;
+        .landing-bg {
+            background: url(/assets/images/landing/landing-image-custom.png) no-repeat 100% 100%;
+            background-size: 100% auto;
+            min-height: calc(100vh - 55px);
+            padding: 80px 30px 30px 30px;
+        }
+        .content {
+            margin-bottom: 55px;
+            .event-details {
+                height: 485px;
+                margin: 0;
+                p {
+                    font-size: 20px;
+                    margin: 5px 0;
+                    color: #fff;
+                }
+            }
+            .landing-form {
+                padding: 20px;
+                background-color: #fff;
+                .form-item {
+                    margin-left: -40px;
+                    input {
+                        background-color: #d7d7d7;
+                        border-radius: 3px;
+                    }
+                }
+                .actions a {
+                    margin: 12px 0 0 0;
+                    background: none;
+                    background-color: #ffd801;
+                    border: none;
+                    box-shadow: none;
+                    text-shadow: none;
+                    &:before {
+                        border: none;
+                    }
+                }
+            }
+        }
+        .footer {
+            background-color: #38d1f0;
+            p {
+                color: #000;
+            }
+        }
+    }
 }
 
 .profile {
@@ -2000,6 +2050,17 @@ md-dialog {
             }
             .footer {
                 padding: 10px;
+            }
+        }
+        &.custom {
+            .landing-bg {
+                min-height: auto;
+            }
+            .content {
+                .event-details {
+                    height: auto;
+                    padding: 30px 10px;
+                }
             }
         }
     }

@@ -86,7 +86,8 @@ namespace gliist_server.Controllers
                 FacebookPageUrl = user.company.FacebookPageUrl ?? string.Empty,
                 InstagrammPageUrl = user.company.InstagrammPageUrl ?? string.Empty,
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
+                Registered = user.Registered
             };
 
             return userInfo;
@@ -233,8 +234,8 @@ namespace gliist_server.Controllers
                 firstName = model.firstName,
                 lastName = model.lastName,
                 company = company,
-
-                permissions = invite.permissions
+                permissions = invite.permissions,
+                Registered = DateTime.Now
             };
 
             company.users.Add(user);
@@ -724,7 +725,7 @@ namespace gliist_server.Controllers
                 return BadRequest(errorMessage);
             }
 
-            if(!InviteCodeValidator.Run(model.inviteCode))
+            if (!InviteCodeValidator.Run(model.inviteCode))
             {
                 return BadRequest("Please enter a valid invite code.");
             }
@@ -742,7 +743,8 @@ namespace gliist_server.Controllers
                 firstName = model.firstName,
                 lastName = model.lastName,
                 company = company,
-                permissions = "admin"
+                permissions = "admin",
+                Registered = DateTime.Now
             };
 
             company.users.Add(user);
@@ -780,7 +782,8 @@ namespace gliist_server.Controllers
 
             UserModel user = new UserModel
             {
-                UserName = model.UserName
+                UserName = model.UserName,
+                Registered = DateTime.Now
             };
             user.Logins.Add(new IdentityUserLogin
             {

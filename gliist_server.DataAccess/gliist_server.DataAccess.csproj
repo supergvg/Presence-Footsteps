@@ -87,6 +87,10 @@
     <Compile Include="Migrations\201603151242252_PublicVisitors.Designer.cs">
       <DependentUpon>201603151242252_PublicVisitors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604040959248_UserRegistrationDate.cs" />
+    <Compile Include="Migrations\201604040959248_UserRegistrationDate.Designer.cs">
+      <DependentUpon>201604040959248_UserRegistrationDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603151242252_PublicVisitors.resx">
       <DependentUpon>201603151242252_PublicVisitors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604040959248_UserRegistrationDate.resx">
+      <DependentUpon>201604040959248_UserRegistrationDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
