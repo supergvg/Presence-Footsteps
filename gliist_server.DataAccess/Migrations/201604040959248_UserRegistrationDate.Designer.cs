@@ -13,7 +13,7 @@ namespace gliist_server.DataAccess.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201604011348507_UserRegistrationDate"; }
+            get { return "201604040959248_UserRegistrationDate"; }
         }
         
         string IMigrationMetadata.Source
