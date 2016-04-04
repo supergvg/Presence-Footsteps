@@ -38,27 +38,24 @@ namespace gliist_server.Models
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
             substitutionBuilder.CreateGuestDetails(guest.AdditionalGuestsRequested, guest.Guest, listInstance);
-            substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
+
+            if (!HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company))
+            {
+                substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
+                substitutionBuilder.CreateSocialLinks(DataService.Administrator);
+                substitutionBuilder.CreateLogoAndEventImage(DataService.Administrator, DataService.Event);
+            }
             substitutionBuilder.CreateOrganizer(DataService.Administrator);
-            substitutionBuilder.CreateSocialLinks(DataService.Administrator);
-            substitutionBuilder.CreateLogoAndEventImage(DataService.Administrator, DataService.Event);
             substitutionBuilder.CreateQrCode(DataService.Event.id, listInstance.id, guest.GuestId);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
-
-            messageBuilder.ApplyTemplate(GetTemplate());
+            
+            messageBuilder.ApplyTemplate(HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company)
+                ? SendGridTemplateIds.PopsugarEventPrivateGuestConfirmation
+                : SendGridTemplateIds.EventPrivateGuestConfirmation);
             messageBuilder.SetCategories(new[] { "Event Invitation", DataService.Administrator.company.name, DataService.Event.title });
 
             return messageBuilder.Result;
-        }
-
-        private string GetTemplate()
-        {
-            var settings = DataService.GetCompanySettings().FirstOrDefault(x => x.Key == "ConfirmationEmailTemplateId");
-
-            return (settings != null) 
-                ? settings.Value 
-                : SendGridTemplateIds.EventPrivateGuestConfirmation;
         }
 
         protected override void MarkGuestAsNotificated(EventGuestStatus guest, 

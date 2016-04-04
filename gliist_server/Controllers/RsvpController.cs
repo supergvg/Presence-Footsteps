@@ -414,15 +414,21 @@ namespace gliist_server.Controllers
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest);
             substitutionBuilder.CreateGuestDetails(eventGuestStatus.AdditionalGuestsRequested, guest, guestListInstance);
-            substitutionBuilder.CreateEventDetails(@event, guestListInstance);
+            if (!HardcodedConditions.IsCompanyPopsugar(user.company))
+            {
+                substitutionBuilder.CreateEventDetails(@event, guestListInstance);
+                substitutionBuilder.CreateSocialLinks(user);
+                substitutionBuilder.CreateLogoAndEventImage(user, @event);
+            }
             substitutionBuilder.CreateOrganizer(user);
-            substitutionBuilder.CreateSocialLinks(user);
-            substitutionBuilder.CreateLogoAndEventImage(user, @event);
             substitutionBuilder.CreateQrCode(@event.id, guestListInstance.id, guest.id);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
+            
+            messageBuilder.ApplyTemplate(HardcodedConditions.IsCompanyPopsugar(user.company)
+                ? SendGridTemplateIds.PopsugarEventPrivateGuestConfirmation
+                : SendGridTemplateIds.EventPrivateGuestConfirmation);
 
-            messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateGuestConfirmation);
             messageBuilder.SetCategories(new[] {"Event Invitation", user.company.name, @event.title});
 
             SendGridSender.Run(messageBuilder.Result);

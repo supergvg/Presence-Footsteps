@@ -25,8 +25,6 @@ namespace gliist_server.DataAccess
 
         public DbSet<Company> Companies { get; set; }
 
-        public DbSet<CompanySettings> CompanySettings { get; set; }
-
         public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<ResetPasswordToken> PasswordTokens { get; set; }

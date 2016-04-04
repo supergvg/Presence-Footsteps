@@ -58,9 +58,12 @@ namespace gliist_server.Models
 
             foreach (var guest in guests)
             {
-                if (!IsValidEmail(guest.Guest.email) || (DataService.Event.IsPublished && GuestAlreadyNotificated(guest, listInstance)))
+                if (!IsValidEmail(guest.Guest.email)
+                    || (DataService.Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
+                    || (!DataService.Event.IsPublished && GuestAlreadyNotificated(guest, listInstance)
+                        && HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company)))
                     continue;
-
+                
                 var message = (!DataService.Event.IsPublished && GuestAlreadyNotificated(guest, listInstance))
                     ? PrepareUpdatingEmailMessage(guest, listInstance)
                     : PrepareSpecificMessageToGuest(guest, listInstance);

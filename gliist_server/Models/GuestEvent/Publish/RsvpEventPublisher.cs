@@ -73,27 +73,25 @@ namespace gliist_server.Models
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
-            substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
-            substitutionBuilder.CreateOrganizer(DataService.Administrator);
-            substitutionBuilder.CreateLogoAndEventImage(DataService.Administrator, DataService.Event);
+
+            if (!HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company))
+            {
+                substitutionBuilder.CreateGuestName(guest.Guest);
+                substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
+                substitutionBuilder.CreateOrganizer(DataService.Administrator);
+                substitutionBuilder.CreateLogoAndEventImage(DataService.Administrator, DataService.Event);
+            }
             substitutionBuilder.CreateRsvpUrl(DataService.Event, guest.Guest, Config.AppBaseUrl);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
-            messageBuilder.ApplyTemplate(GetTemplate());
+            messageBuilder.ApplyTemplate(HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company)
+                ? SendGridTemplateIds.PopsugarEventRsvpGuestInvitation
+                : SendGridTemplateIds.EventRsvpGuestInvitation);
+
             messageBuilder.SetCategories(new[] { "Event RSVP", DataService.Administrator.company.name, DataService.Event.title });
 
             return messageBuilder.Result;
-        }
-
-        private string GetTemplate()
-        {
-            var settings = DataService.GetCompanySettings().FirstOrDefault(x => x.Key == "RsvpEmailTemplateId");
-
-            return (settings != null)
-                ? settings.Value
-                : SendGridTemplateIds.EventRsvpGuestInvitation;
         }
 
         #endregion

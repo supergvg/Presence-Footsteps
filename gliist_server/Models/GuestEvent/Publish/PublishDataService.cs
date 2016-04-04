@@ -7,8 +7,6 @@ namespace gliist_server.Models
 {
     class PublishDataService
     {
-        private IEnumerable<CompanySettings> companySettings;
-
         private readonly Dictionary<int, IEnumerable<EventGuestStatus>> listInstanceGuests = new Dictionary<int, IEnumerable<EventGuestStatus>>();
         private readonly UserModel currentUser;
         private readonly EventDBContext dbContext;
@@ -47,16 +45,6 @@ namespace gliist_server.Models
                 listInstanceGuests[listId] = Event.EventGuestStatuses.Where(x => x.GuestListInstanceId == listId);
 
             return listInstanceGuests[listId];
-        }
-
-        public IEnumerable<CompanySettings> GetCompanySettings()
-        {
-            if (companySettings != null)
-                return companySettings;
-
-            companySettings = dbContext.CompanySettings.Where(x => x.CompanyId == Administrator.company.id).ToArray();
-
-            return companySettings;
         }
 
         public void CommitChanges()
