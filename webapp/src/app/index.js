@@ -192,7 +192,7 @@ angular.module('gliist', [
                 }).state('landing_public', {
                     url: '/rsvp/:companyName/:eventName',
                     templateUrl: function ($stateParams){
-                        return 'app/templates/landing'+($stateParams.companyName.toLowerCase() === 'popsugar' ? '-custom' : '')+'.html';
+                        return 'app/landing/templates/landing'+($stateParams.companyName.toLowerCase() === 'popsugar' ? '-custom' : '')+'.html';
                     },
                     controller: 'LandingCtrl',
                     access: {
@@ -200,28 +200,28 @@ angular.module('gliist', [
                     }
                 }).state('landing_personal', {
                     url: '/rsvp/:token',
-                    templateUrl: 'app/templates/landing.html',
+                    templateUrl: 'app/landing/templates/landing.html',
                     controller: 'LandingCtrl',
                     access: {
                         allowAnonymous: true
                     }
                 }).state('landing_personal_custom', {
                     url: '/rsvp-custom/:token',
-                    templateUrl: 'app/templates/landing-custom.html',
+                    templateUrl: 'app/landing/templates/landing-custom.html',
                     controller: 'LandingCtrl',
                     access: {
                         allowAnonymous: true
                     }
                 }).state('landing_ticketing_public', {
                     url: '/tickets/:companyName/:eventName',
-                    templateUrl: 'app/templates/landing-ticketing.html',
+                    templateUrl: 'app/landing/templates/landing-ticketing.html',
                     controller: 'LandingTicketCtrl',
                     access: {
                         allowAnonymous: true
                     }
                 }).state('landing_ticketing_personal', {
                     url: '/tickets/:token',
-                    templateUrl: 'app/templates/landing-ticketing.html',
+                    templateUrl: 'app/landing/templates/landing-ticketing.html',
                     controller: 'LandingTicketCtrl',
                     access: {
                         allowAnonymous: true
