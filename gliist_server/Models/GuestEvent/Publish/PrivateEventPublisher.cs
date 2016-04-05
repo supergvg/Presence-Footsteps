@@ -30,7 +30,7 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Invitation", DataService.Event.title),
+                Subject = string.Format("{0} - Confirmation", DataService.Event.title),
                 From = DataService.Administrator.company.name,
                 To = guest.Guest.email
             });
