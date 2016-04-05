@@ -32,23 +32,23 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Invitation", Event.title),
-                From = Administrator.company.name,
+                Subject = string.Format("{0} - Invitation", DataService.Event.title),
+                From = DataService.Administrator.company.name,
                 To = guest.Guest.email
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
             substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, listInstance);
-            substitutionBuilder.CreateOrganizer(Administrator);
-            substitutionBuilder.CreateSocialLinks(Administrator);
-            substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
-            substitutionBuilder.CreateBuyTicketUrl(Event, guest.Guest, Config.AppBaseUrl);
+            substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
+            substitutionBuilder.CreateOrganizer(DataService.Administrator);
+            substitutionBuilder.CreateSocialLinks(DataService.Administrator);
+            substitutionBuilder.CreateLogoAndEventImage(DataService.Administrator, DataService.Event);
+            substitutionBuilder.CreateBuyTicketUrl(DataService.Event, guest.Guest, Config.AppBaseUrl);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
             messageBuilder.ApplyTemplate(SendGridTemplateIds.EventTicketingGuestInvitation);
-            messageBuilder.SetCategories(new[] { "Event RSVP", "Ticketing", Administrator.company.name, Event.title });
+            messageBuilder.SetCategories(new[] { "Event RSVP", "Ticketing", DataService.Administrator.company.name, DataService.Event.title });
 
             return messageBuilder.Result;
         }
