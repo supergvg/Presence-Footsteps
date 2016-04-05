@@ -363,7 +363,7 @@ namespace gliist_server.Controllers
 
                     var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
                     {
-                        Subject = string.Format("{0} - Invitation", onTheSpotGl.linked_event.title),
+                        Subject = string.Format("{0} - Confirmation", onTheSpotGl.linked_event.title),
                         From = admin.company.name,
                         To = guest.email
                     });

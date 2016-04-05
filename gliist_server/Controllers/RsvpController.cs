@@ -406,7 +406,7 @@ namespace gliist_server.Controllers
            
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Invitation", @event.title),
+                Subject = string.Format("{0} - Confirmation", @event.title),
                 From = user.company.name,
                 To = guest.email
             });
