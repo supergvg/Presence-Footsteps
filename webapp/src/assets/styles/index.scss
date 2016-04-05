@@ -1210,6 +1210,11 @@ md-dialog {
             background-size: 100% auto;
             min-height: calc(100vh - 55px);
             padding: 80px 30px 30px 30px;
+            span {
+                font-size: 18px;
+                color: #fff;
+                margin-top: 15px;
+            }
         }
         .content {
             margin-bottom: 55px;
