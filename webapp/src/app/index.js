@@ -263,79 +263,35 @@ angular.module('gliist', [
                 }
             });
 
-
-            $rootScope.$on('$stateChangeStart',
-                function (event, next, toParams, from, fromParams) {
-
-                    $state.previous = from;
-                    $state.previousParams = fromParams;
-
-                    if (userService.getLogged() && !$rootScope.currentUser) {
+            $rootScope.$on('$stateChangeStart', function(event, next, toParams, from, fromParams) {
+                $state.previous = from;
+                $state.previousParams = fromParams;
+                if (!$rootScope.appReady) {
+                    angular.element('#loading').remove();
+                    $timeout(function () {
+                        $rootScope.appReady = true;
+                    });
+                }
+                if (next.access && next.access.allowAnonymous) {
+                    return;
+                }
+                if (!$rootScope.currentUser) {
+                    if (!userService.getLogged()) {
+                        $state.go('home');
+                        event.preventDefault();
+                    } else {
                         //user has login data in cookie,
-                        userService.getCurrentUser().then(function (user) {
+                        userService.getCurrentUser().then(function(user) {
                             $rootScope.currentUser = user;
                             if (next.name === 'home') {
-                                $state.go('main.welcome', {}, {notify: true}); //when logged in always go by default to home
+                                $state.go('main.welcome'); //when logged in always go by default to home
                                 event.preventDefault();
                             }
-                        }, function () {
-                            if (next.access && next.access.allowAnonymous) {
-                                return;
-                            }
-                            return $state.go('home', {}, {
-                                notify: true
-                            });
-                        }).finally(function () {
-                            angular.element('#loading').remove();
-                            $timeout(function () {
-                                $rootScope.appReady = true;
-                            });
-                        });
-
-                        return; //user is logged in, do nothing
-                    }
-
-                    if (!$rootScope.appReady) {
-                        angular.element('#loading').remove();
-
-                        $timeout(function () {
-                            $rootScope.appReady = true;
+                        }, function() {
+                            $state.go('home');
+                            event.preventDefault();
                         });
                     }
-
-                    if (next.access && next.access.allowAnonymous) {
-                        return;
-                    }
-
-                    if (!$rootScope.currentUser) {
-                        userService.getCurrentUser().then(function (data) {
-                            $rootScope.currentUser = data;
-                            if (next.access && next.access.isAdmin) {
-                                if (!$rootScope.currentUser.is_admin) {
-                                    $state.go('home', {}, {
-                                        notify: true
-                                    });
-                                    return;
-                                }
-                            }
-                            $state.go(next, toParams, {
-                                notify: true
-                            });
-                        }, function () {
-                            $rootScope.currentUser = null;
-                            return $state.go('home', {}, {
-                                notify: true
-                            });
-                        });
-                        return event.preventDefault();
-                    }
-                    if (!(next.access && next.access.isAdmin)) {
-                        return;
-                    }
-                    if (!$rootScope.currentUser.is_admin) {
-                        return $state.go('home', {}, {
-                            notify: true
-                        });
-                    }
-                });
+                }
+            });
         }]);

@@ -40,6 +40,20 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                     d.reject();
                 });
                 return d.promise;                
+            },
+            
+            getUserSubscription: function() {
+                var d = $q.defer();
+                $http({
+                    method: 'GET',
+                    url: 'api/users/usersubscription'
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function() {
+                    dialogService.error('Oops there was an error trying to get guest information, please try again');
+                    d.reject();
+                });
+                return d.promise;                
             }
         };
     }]);

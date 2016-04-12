@@ -28,7 +28,7 @@
                 <ng-switch on="tariff.paymentType">
                     <h4 ng-switch-when="comingsoon">Coming soon</h4>
                     <div ng-switch-when="select">
-                        <md-button class="raised-btn">SELECT</md-button>
+                        <md-button class="raised-btn" ng-click="selectPlan($index)">SELECT</md-button>
                     </div>
                     <div ng-switch-when="contactus">
                         <md-button class="raised-btn">CONTACT US</md-button>
