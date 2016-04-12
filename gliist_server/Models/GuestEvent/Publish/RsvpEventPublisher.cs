@@ -21,7 +21,7 @@ namespace gliist_server.Models
             if (!shouldBePublished)
                 return false;
 
-            var guests = GetGuestsByList(listInstance.id);
+            var guests = DataService.GetGuestsByList(listInstance.id);
             shouldBePublished = guests.All(x => IsValidEmail(x.Guest.email));
             
             return shouldBePublished;
@@ -67,22 +67,29 @@ namespace gliist_server.Models
         {
             var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
             {
-                Subject = string.Format("{0} - Please RSVP for this Event", Event.title),
-                From = Administrator.company.name,
+                Subject = string.Format("{0} - Please RSVP for this Event", DataService.Event.title),
+                From = DataService.Administrator.company.name,
                 To = guest.Guest.email
             });
 
             var substitutionBuilder = new SendGridSubstitutionsBuilder();
-            substitutionBuilder.CreateGuestName(guest.Guest);
-            substitutionBuilder.CreateEventDetails(Event, listInstance);
-            substitutionBuilder.CreateOrganizer(Administrator);
-            substitutionBuilder.CreateLogoAndEventImage(Administrator, Event);
-            substitutionBuilder.CreateRsvpUrl(Event, guest.Guest, Config.AppBaseUrl);
+
+            if (!HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company))
+            {
+                substitutionBuilder.CreateGuestName(guest.Guest);
+                substitutionBuilder.CreateEventDetails(DataService.Event, listInstance);
+                substitutionBuilder.CreateOrganizer(DataService.Administrator);
+                substitutionBuilder.CreateLogoAndEventImage(DataService.Administrator, DataService.Event);
+            }
+            substitutionBuilder.CreateRsvpUrl(DataService.Event, guest.Guest, Config.AppBaseUrl);
 
             messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
-            messageBuilder.ApplyTemplate(SendGridTemplateIds.EventRsvpGuestInvitation);
-            messageBuilder.SetCategories(new[] { "Event RSVP", Administrator.company.name, Event.title });
+            messageBuilder.ApplyTemplate(HardcodedConditions.IsCompanyPopsugar(DataService.Administrator.company)
+                ? SendGridTemplateIds.PopsugarEventRsvpGuestInvitation
+                : SendGridTemplateIds.EventRsvpGuestInvitation);
+
+            messageBuilder.SetCategories(new[] { "Event RSVP", DataService.Administrator.company.name, DataService.Event.title });
 
             return messageBuilder.Result;
         }

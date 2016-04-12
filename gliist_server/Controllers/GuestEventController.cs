@@ -363,7 +363,7 @@ namespace gliist_server.Controllers
 
                     var messageBuilder = new SendGridMessageBuilder(new SendGridHeader
                     {
-                        Subject = string.Format("{0} - Invitation", onTheSpotGl.linked_event.title),
+                        Subject = string.Format("{0} - Confirmation", onTheSpotGl.linked_event.title),
                         From = admin.company.name,
                         To = guest.email
                     });
@@ -371,15 +371,21 @@ namespace gliist_server.Controllers
                     var substitutionBuilder = new SendGridSubstitutionsBuilder();
                     substitutionBuilder.CreateGuestName(guest);
                     substitutionBuilder.CreateGuestDetails(guest.plus, guest, onTheSpotGl);
-                    substitutionBuilder.CreateEventDetails(@event, onTheSpotGl);
-                    substitutionBuilder.CreateOrganizer(admin);
-                    substitutionBuilder.CreateSocialLinks(admin);
-                    substitutionBuilder.CreateLogoAndEventImage(admin, @event);
+                    if (!HardcodedConditions.IsCompanyPopsugar(admin.company))
+                    {
+                        substitutionBuilder.CreateEventDetails(@event, onTheSpotGl);
+                        substitutionBuilder.CreateSocialLinks(admin);
+                        substitutionBuilder.CreateLogoAndEventImage(admin, @event);
+                    }
                     substitutionBuilder.CreateQrCode(eventId, onTheSpotGl.id, guest.id);
+                    substitutionBuilder.CreateOrganizer(admin);
 
                     messageBuilder.ApplySubstitutions(substitutionBuilder.Result);
 
-                    messageBuilder.ApplyTemplate(SendGridTemplateIds.EventPrivateGuestConfirmation);
+                    messageBuilder.ApplyTemplate(HardcodedConditions.IsCompanyPopsugar(admin.company)
+                        ? SendGridTemplateIds.PopsugarEventPrivateGuestConfirmation
+                        : SendGridTemplateIds.EventPrivateGuestConfirmation);
+
                     messageBuilder.SetCategories(new[] { "Event Invitation", admin.company.name, @event.title });
 
                     SendGridSender.Run(messageBuilder.Result);

@@ -23,8 +23,8 @@ namespace gliist_server.DataAccess
         public string InstagrammPageUrl { get; set; }
 
         [JsonProperty(PropertyName = "twitterPageUrl")]
-        public string TwitterPageUrl { get; set; } 
-
+        public string TwitterPageUrl { get; set; }
+        
         public virtual List<UserModel> users { get; set; }
 
         public virtual List<Invite> invitations { get; set; }
