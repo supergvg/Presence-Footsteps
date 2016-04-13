@@ -2,11 +2,11 @@
     <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
     <md-list>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-        <md-list-item ng-repeat="event in events | limitTo:(options.limit || events.length)" layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="start start" flex>
+        <md-list-item ng-repeat="event in events | limitTo:(options.limit || events.length)" layout="row" layout-align="space-between stretch" layout-sm="column" layout-align-sm="start start" flex>
             <div ng-style="getEventInvite(event)" class="event-image"></div>
-            <div layout="column" layout-align="start stretch" flex class="event-details">
+            <div flex>
                 <h3>{{event.title}}</h3>
-                <div layout="row" layout-align="space-between start" layout-sm="column">
+                <div layout="row" layout-align="space-between center" layout-sm="column" class="event-details">
                     <div>
                         <p>
                             <b>Starts:</b>&nbsp;{{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
