@@ -47,6 +47,7 @@ namespace gliist_server.Helpers
 
             if (onTheSpotGl == null)
             {
+                string guestListTitle = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title);
                 onTheSpotGl = new GuestListInstance
                 {
                     linked_event = @event,
@@ -63,14 +64,14 @@ namespace gliist_server.Helpers
                     {
                         created_by = user,
                         company = comapny,
-                       title = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title),
+                       title = guestListTitle,
                        listType = OnTheSpotGuestListLabel,
                         guests = new List<Guest>()
                         {
                             guest
                         }
                     },
-                   title = string.Format("{0} - {1}", OnTheSpotGuestListLabel, @event.title),
+                   title = guestListTitle,
                    listType = OnTheSpotGuestListLabel
                 };
 
