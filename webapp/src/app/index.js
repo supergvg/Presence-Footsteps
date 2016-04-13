@@ -240,7 +240,6 @@ angular.module('gliist', [
         }])
     .run(['$rootScope', '$state', 'userService', 'subscriptionsService', '$document', 'Analytics',
         function ($rootScope, $state, userService, subscriptionsService, $document, Analytics) {
-
             $document.on('keydown', function (event) {
                 var doPrevent = false;
                 if (event.keyCode === 8) {
