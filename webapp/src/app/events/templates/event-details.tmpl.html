@@ -95,10 +95,10 @@
                         </div>
                     </div>
                     <div layout layout-sm="column" class="block-field date">
-                        <div flex md-no-float>
+                        <fieldset flex md-no-float ng-disabled="eventStarted">
                             <h4>Starts</h4>
                             <datetimepicker ng-model="dt.startEventDateTime" name="time" min-date="minDate" minue-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
-                        </div>
+                        </fieldset>
                         <div flex md-no-float>
                             <h4>Ends</h4>
                             <datetimepicker ng-model="dt.endEventDateTime" name="endTime" min-date="endMinDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
