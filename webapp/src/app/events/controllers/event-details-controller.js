@@ -29,6 +29,8 @@ angular.module('gliist')
                 endEventDateTime: new Date(Date.now() + 12 * 60 * 60 * 1000),
                 endEventRsvpDateTime: new Date(Date.now() + 12 * 60 * 60 * 1000)
             };
+            $scope.eventStarted = false;
+            $scope.eventFinished = false;
             $scope.minDate = Date.now();
             $scope.endMinDate = function() {
                 return $scope.dt.startEventDateTime.getTime();
@@ -216,7 +218,10 @@ angular.module('gliist')
                         }
                     }
                     if (!$scope.timeValid()) {
-                        if ($scope.startEventTimeInvalid) {
+                        if ($scope.eventFinished) {
+                            errorMessage.push('Cant Update Event. Event has been finished');
+                        }
+                        if ($scope.startEventTimeInvalid && !$scope.eventStarted) {
                             errorMessage.push('Cant Create Event in the Past');
                         }
                         if ($scope.endEventTimeInvalid) {
@@ -304,7 +309,12 @@ angular.module('gliist')
                     $scope.dt.startEventDateTime = $filter('ignoreTimeZone')($scope.event.time);
                     $scope.dt.endEventDateTime = $filter('ignoreTimeZone')($scope.event.endTime);
                     $scope.dt.endEventRsvpDateTime = $filter('ignoreTimeZone')($scope.event.rsvpEndDate);
-                    
+                    if ($scope.dt.startEventDateTime < Date.now()) {
+                        $scope.eventStarted = true;
+                    }
+                    if ($scope.dt.endEventDateTime < Date.now()) {
+                        $scope.eventFinished = true;
+                    }
                     if ($scope.event.type === 3) {
                         $scope.getTickets($scope.event.id);
                     }
