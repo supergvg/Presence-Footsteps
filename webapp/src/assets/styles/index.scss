@@ -1336,6 +1336,37 @@ md-dialog {
     }
 }
 
+.reset_password {
+    padding: 0 !important;
+    .reset-password {
+        min-height: 100vh;
+        .header {
+            height: 235px;
+        }
+        .content {
+            padding: 30px;
+            background-color: #fff;
+            h3 {
+                color: #99ccff;
+                margin: 10px 0;
+                font-weight: bold;
+            }
+            md-input-container {
+                margin: 30px 0;
+                width: 300px;
+            }
+            form {
+                text-align: center;
+            }
+        }
+        .footer {
+            height: 205px;
+            color: #fff;
+            font-size: 24px;
+        }
+    }
+}
+
 .event-details-page {
     .tabs {
         .line {

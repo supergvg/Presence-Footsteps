@@ -86,35 +86,40 @@ angular.module('gliist', [
                     url: '/',
                     templateUrl: 'app/templates/home.html',
                     access: {
-                        allowAnonymous: true
+                        allowAnonymous: true,
+                        denyLogged: true
                     }
                 }).state('signup', {
                     url: '/signup',
                     templateUrl: 'app/user/templates/signup.html',
                     controller: 'SignupCtrl',
                     access: {
-                        allowAnonymous: true
+                        allowAnonymous: true,
+                        denyLogged: true
                     }
                 }).state('recover_password', {
                     url: '/recover_password',
                     templateUrl: 'app/user/templates/recover-password.html',
                     controller: 'RecoverPasswordCtrl',
                     access: {
-                        allowAnonymous: true
+                        allowAnonymous: true,
+                        denyLogged: true
                     }
                 }).state('reset_password', {
                     url: '/reset_password/:token',
                     templateUrl: 'app/user/templates/reset-password.html',
                     controller: 'ResetPasswordCtrl',
                     access: {
-                        allowAnonymous: true
+                        allowAnonymous: true,
+                        denyLogged: true
                     }
                 }).state('signup_invite', {
                     url: '/signup/invite/:company/:token',
                     templateUrl: 'app/user/templates/signup-invite.html',
                     controller: 'SignupInviteCtrl',
                     access: {
-                        allowAnonymous: true
+                        allowAnonymous: true,
+                        denyLogged: true
                     }
                 }).state('main', {
                     url: '/main',
@@ -229,8 +234,8 @@ angular.module('gliist', [
                 });
             $urlRouterProvider.otherwise('/main/welcome');
         }])
-    .run(['$rootScope', '$state', 'userService', '$timeout', '$document', 'Analytics',
-        function ($rootScope, $state, userService, $timeout, $document, Analytics) {
+    .run(['$rootScope', '$state', 'userService', '$document', 'Analytics', 
+        function ($rootScope, $state, userService, $document, Analytics) {
 
             $document.on('keydown', function (event) {
                 var doPrevent = false;
@@ -259,79 +264,31 @@ angular.module('gliist', [
                 }
             });
 
-
-            $rootScope.$on('$stateChangeStart',
-                function (event, next, toParams, from, fromParams) {
-
-                    $state.previous = from;
-                    $state.previousParams = fromParams;
-
-                    if (userService.getLogged() && !$rootScope.currentUser) {
-                        //user has login data in cookie,
-                        userService.getCurrentUser().then(function (user) {
-                            $rootScope.currentUser = user;
-                            if (next.name === 'home') {
-                                $state.go('main.welcome', {}, {notify: true}); //when logged in always go by default to home
-                                event.preventDefault();
-                            }
-                        }, function () {
-                            if (next.access && next.access.allowAnonymous) {
-                                return;
-                            }
-                            return $state.go('home', {}, {
-                                notify: true
-                            });
-                        }).finally(function () {
-                            angular.element('#loading').remove();
-                            $timeout(function () {
-                                $rootScope.appReady = true;
-                            });
-                        });
-
-                        return; //user is logged in, do nothing
-                    }
-
-                    if (!$rootScope.appReady) {
-                        angular.element('#loading').remove();
-
-                        $timeout(function () {
-                            $rootScope.appReady = true;
-                        });
-                    }
-
-                    if (next.access && next.access.allowAnonymous) {
-                        return;
-                    }
-
+            $rootScope.$on('$stateChangeStart', function(event, next, toParams, from, fromParams) {
+                $state.previous = from;
+                $state.previousParams = fromParams;
+                if (next.access && next.access.denyLogged && userService.getLogged()) {
+                    $state.go('main.welcome');
+                    event.preventDefault();
+                }
+                if (!(next.access && next.access.allowAnonymous)) {
                     if (!$rootScope.currentUser) {
-                        userService.getCurrentUser().then(function (data) {
-                            $rootScope.currentUser = data;
-                            if (next.access && next.access.isAdmin) {
-                                if (!$rootScope.currentUser.is_admin) {
-                                    $state.go('home', {}, {
-                                        notify: true
-                                    });
-                                    return;
-                                }
-                            }
-                            $state.go(next, toParams, {
-                                notify: true
+                        if (!userService.getLogged()) {
+                            $state.go('home');
+                            event.preventDefault();
+                        } else {
+                            userService.getCurrentUser().then(function(user) {
+                                $rootScope.currentUser = user;
+                            }, function() {
+                                $state.go('home');
+                                event.preventDefault();
                             });
-                        }, function () {
-                            $rootScope.currentUser = null;
-                            return $state.go('home', {}, {
-                                notify: true
-                            });
-                        });
-                        return event.preventDefault();
+                        }
                     }
-                    if (!(next.access && next.access.isAdmin)) {
-                        return;
-                    }
-                    if (!$rootScope.currentUser.is_admin) {
-                        return $state.go('home', {}, {
-                            notify: true
-                        });
-                    }
-                });
+                }
+                if (!$rootScope.appReady) {
+                    angular.element('#loading').remove();
+                    $rootScope.appReady = true;
+                }
+            });
         }]);
