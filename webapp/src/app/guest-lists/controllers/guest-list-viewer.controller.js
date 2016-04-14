@@ -9,6 +9,11 @@ angular.module('gliist')
             };
 
             $scope.gridOptions = {
+                enableFiltering: false,
+                onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
+                    $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+                },
                 rowTemplate: '<div>' +
                     '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
                     'class="ui-grid-cell" ui-grid-cell></div>' +
@@ -41,6 +46,29 @@ angular.module('gliist')
                         '<md-checkbox ng-checked="grid.appScope.glistSelected(row.entity.glist)" ng-click="grid.appScope.toggleSelected(row.entity.glist)" aria-label="Import" ng-show="grid.appScope.options.enableSelection"></md-checkbox>'
                 });
             }
+            
+            $scope.filter = {
+                refresh: function() {
+                    $scope.gridApi.grid.refresh();
+                },
+                value: ''
+            };
+            
+            $scope.singleFilter = function(renderableRows) {
+                var matcher = new RegExp($scope.filter.value, 'i');
+                renderableRows.forEach(function(row) {
+                    var match = false;
+                    ['title', 'created_by'].forEach(function(field) {
+                        if (row.entity[field].match(matcher)){
+                            match = true;
+                        }
+                    });
+                    if (!match) {
+                        row.visible = false;
+                    }
+                });
+                return renderableRows;
+            };
 
             $scope.getTableHeight = function() {
                 return {
@@ -56,18 +84,6 @@ angular.module('gliist')
                     return false;
                 }
                 return glist.created_by.UserName !== $rootScope.currentUser.UserName;
-            };
-
-            $scope.getTotalGuests = function (glist) {
-                var total = 0;
-
-                angular.forEach(glist.guests,
-                        function (guest_info) {
-                            total += guest_info.plus + 1;
-                        });
-
-                return total;
-
             };
 
             $scope.glistSelected = function (glist) {
@@ -91,10 +107,6 @@ angular.module('gliist')
                 } else {
                     $scope.selected.push(item);
                 }
-            };
-
-            $scope.addMore = function () {
-                $scope.list.guests.push({});
             };
 
             $scope.deleteGlist = function (ev, glist) {
@@ -126,26 +138,6 @@ angular.module('gliist')
 
                 }, function () {
                     $scope.alert = 'You decided to keep your debt.';
-                });
-            };
-
-            $scope.showGlistDialog = function (ev, event) {
-
-                var scope = $scope.$new();
-                scope.currentGlist = event;
-                scope.cancel = function () {
-                    $mdDialog.cancel();
-                };
-
-                scope.save = function () {
-                    $mdDialog.toggle();
-                };
-
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
-                    targetEvent: ev
                 });
             };
 

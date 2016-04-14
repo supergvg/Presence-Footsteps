@@ -136,7 +136,7 @@ namespace gliist_server.Helpers
 
             // Send the email.
             // You can also use the **DeliverAsync** method, which returns an awaitable task.
-            transportWeb.Deliver(message);
+            transportWeb.DeliverAsync(message);
         }
 
         internal class DeletedAccountInfo

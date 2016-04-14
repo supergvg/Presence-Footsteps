@@ -270,7 +270,7 @@ angular.module('gliist', [
             $rootScope.$on('$stateChangeStart', function(event, next, toParams, from, fromParams) {
                 $state.previous = from;
                 $state.previousParams = fromParams;
-                if (next.access && next.access.denyLogged && userService.getLogged()) {
+                if (next.access && next.access.denyLogged && $rootScope.currentUser) {
                     $state.go('main.welcome');
                     event.preventDefault();
                 }

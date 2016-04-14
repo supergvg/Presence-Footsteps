@@ -90,22 +90,6 @@ namespace gliist_server.Controllers
             return Ok(gli);
         }
 
-        private void RemoveGuestEvents(UserModel user, int listInstanceId, int guestId)
-        {
-            var guestEvent =
-                db.EventGuests.FirstOrDefault(x => x.GuestListInstanceId == listInstanceId && x.GuestId == guestId);
-            if (guestEvent != null)
-            {
-                if (!string.IsNullOrEmpty(guestEvent.Guest.email) &&
-                    (guestEvent.IsInvitationEmailSent || guestEvent.IsRsvpEmailSent))
-                    GuestDeletedEmailSender.Run(user, guestEvent);
-
-                guestEvent.GuestListInstanceId = -1;
-                guestEvent.EventId = null;
-                guestEvent.Event = null;
-            }
-        }
-
         [ResponseType(typeof(Guest))]
         [Route("GetGuestCheckin")]
         [HttpGet]
@@ -728,6 +712,21 @@ namespace gliist_server.Controllers
         }
 
         #region private methods
+        private void RemoveGuestEvents(UserModel user, int listInstanceId, int guestId)
+        {
+            var guestEvent =
+                db.EventGuests.FirstOrDefault(x => x.GuestListInstanceId == listInstanceId && x.GuestId == guestId);
+            if (guestEvent != null)
+            {
+                if (!string.IsNullOrEmpty(guestEvent.Guest.email) &&
+                    (guestEvent.IsInvitationEmailSent || guestEvent.IsRsvpEmailSent))
+                    GuestDeletedEmailSender.Run(user, guestEvent);
+
+                guestEvent.GuestListInstanceId = -1;
+                guestEvent.EventId = null;
+                guestEvent.Event = null;
+            }
+        }
         private async Task AddEventGuests(GuestListInstance onTheSpotGl, Guest[] guests, int eventId)
         {
             db.EventGuests.AddRange(guests.Select(x => new EventGuestStatus
