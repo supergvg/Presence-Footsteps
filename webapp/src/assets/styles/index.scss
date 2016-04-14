@@ -445,6 +445,12 @@ md-tooltip .md-content{
             }
         }
     }
+    .event-list {
+        md-list-item {
+            border: 1px solid #ebebeb;
+            border-radius: none;
+        }
+    }
 }
 div[layout="column"] > .billet + .billet {
     margin-top: 15px;
@@ -1330,6 +1336,37 @@ md-dialog {
     }
 }
 
+.reset_password {
+    padding: 0 !important;
+    .reset-password {
+        min-height: 100vh;
+        .header {
+            height: 235px;
+        }
+        .content {
+            padding: 30px;
+            background-color: #fff;
+            h3 {
+                color: #99ccff;
+                margin: 10px 0;
+                font-weight: bold;
+            }
+            md-input-container {
+                margin: 30px 0;
+                width: 300px;
+            }
+            form {
+                text-align: center;
+            }
+        }
+        .footer {
+            height: 205px;
+            color: #fff;
+            font-size: 24px;
+        }
+    }
+}
+
 .event-details-page {
     .tabs {
         .line {
@@ -1523,14 +1560,18 @@ md-dialog {
 .event-list {
     color: #666;
     md-list-item {
-        border: 1px solid #ebebeb;
+        border: 2px solid #c2c2c2;
+        border-radius: 3px;
         h3 {
             font-weight: bold;
-            border-bottom: 1px solid #8f8f8f;
             margin: 0;
-            padding-bottom: 10px;
+            height: 55px;
+            line-height: 55px;
+            background-color: #f0f6fb;
+            padding: 0 20px 0 65px;
         }
         .event-details {
+            min-height: 130px;
             padding: 0 20px 0 65px;
             p {
                 margin: 8px 0;
@@ -1754,6 +1795,10 @@ md-dialog {
         md-list-item {
             & > * {
                 width: 100%;
+            }
+            h3 {
+                padding: 0;
+                text-align: center;
             }
             .event-image {
                 height: 215px !important;
