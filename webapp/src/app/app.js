@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav', '$mdMedia',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav, $mdMedia) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdSidenav', '$mdMedia',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdSidenav, $mdMedia) {
             $scope.credentials = {};
             $scope.hidePhoto = false;
             $scope.menuItems = [
