@@ -25,7 +25,7 @@ namespace gliist_server.Models
         {
             var credentials = new NetworkCredential("gliist", "gliist925$");
             var transportWeb = new Web(credentials);
-            transportWeb.Deliver(message);
+            transportWeb.DeliverAsync(message);
         }
 
         private static SendGridMessage CreateMessage()
