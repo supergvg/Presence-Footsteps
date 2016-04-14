@@ -12,7 +12,7 @@ namespace gliist_server.Models
         {
             var credentials = new NetworkCredential(Username, Password);
             var transportWeb = new Web(credentials);
-            transportWeb.Deliver(message);
+            transportWeb.DeliverAsync(message);
         }
     }
 }
