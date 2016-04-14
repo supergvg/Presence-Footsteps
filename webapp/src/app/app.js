@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdDialog', '$mdSidenav', '$mdMedia',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdDialog, $mdSidenav, $mdMedia) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdSidenav', '$mdMedia',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdSidenav, $mdMedia) {
             $scope.credentials = {};
             $scope.hidePhoto = false;
             $scope.menuItems = [
@@ -95,13 +95,6 @@ angular.module('gliist')
                 }
             };
 
-            $scope.showUserBars = function(){
-                if ($state.current.name.match(/^landing_.+/)) {
-                    return false;
-                }
-                return $rootScope.currentUser;
-            };
-
             $scope.getBg = function () {
                 if ($state.current.abstract || $state.includes('home') ||
                     $state.includes('signup') || $state.includes('signup_invite') ||
@@ -131,6 +124,7 @@ angular.module('gliist')
                 userService.login($scope.credentials).then(
                     function() {
                         $state.go('main.welcome');
+                        $rootScope.firstLogin = true;
                     }, function(error) {
                         var message = error.error_description || 'Oops there was an error, please try again';
                         dialogService.error(message);
