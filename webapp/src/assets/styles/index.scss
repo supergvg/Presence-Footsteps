@@ -501,6 +501,9 @@ md-input-container {
         transform: translate3d(0, -5px, 0) scale(0.75);
         color: #99ccff;
     }
+    &:not(.md-input-has-value) input:not(:focus) {
+        color: inherit;
+    }
     &:not(.md-input-invalid).md-input-focused .md-input {
         border-color: #99ccff;
     }
@@ -1689,16 +1692,19 @@ md-dialog {
     padding: 0 !important;
     .recover-password,
     .reset-password {
-        min-height: 100vh;
-        .header {
-            height: 235px;
+        height: 100vh;
+        .header,
+        .footer {
+            max-height: 230px;
+            min-height: 100px;
         }
         .content {
+            min-height: 350px;
             padding: 30px;
             background-color: #fff;
             h3 {
                 color: #99ccff;
-                margin-bottom: 30px;
+                margin: 0 0 30px 0;
                 font-weight: bold;
             }
             md-input-container {
@@ -1720,7 +1726,6 @@ md-dialog {
             }
         }
         .footer {
-            height: 205px;
             color: #fff;
             font-size: 24px;
         }
