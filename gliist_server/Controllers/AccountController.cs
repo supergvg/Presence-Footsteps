@@ -94,7 +94,7 @@ namespace gliist_server.Controllers
             return userInfo;
         }
 
-        // POST api/Account/Logout
+        // POST api/Account/MarkCurrentUserAsLoggedInAtLeastOnce
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("MarkCurrentUserAsLoggedInAtLeastOnce")]
         public async Task<IHttpActionResult> MarkCurrentUserAsLoggedInAtLeastOnce()

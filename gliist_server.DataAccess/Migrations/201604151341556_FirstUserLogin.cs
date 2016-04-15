@@ -6,7 +6,7 @@ namespace gliist_server.DataAccess.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "IsFirstLogin", c => c.Boolean(defaultValue: false));
+            AddColumn("dbo.AspNetUsers", "IsFirstLogin", c => c.Boolean(nullable: false, defaultValue: false));
         }
 
         public override void Down()
