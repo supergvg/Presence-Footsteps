@@ -853,6 +853,11 @@ md-dialog {
                     margin-top: -5px;
                 }
             }
+            .close {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+            }
         }
         
     }
@@ -892,33 +897,44 @@ md-dialog {
     &.invoice-details {
         color: #000;
         .header {
-            height: 180px;
             background-color: #99ccff;
+            height: 120px;
         }
         .content {
             overflow-y: auto;
             & > div {
-                padding: 50px;
+                padding: 45px;
             }
-            .payment-details,
-            .payment-address {
-                background-color: #c6c6c6;
-                & > div:not(:first-child) {
-                    text-align: right;
-                }
+            .right {
+                text-align: right;
             }
             .payment-details {
+                background-color: #e6e6e6;
+                dl {
+                    margin: 0;
+                }
+            }
+            .payment-confirm {
+                background-color: #fff;
+                h3 {
+                    color: #7ab9f8;
+                    margin: 0 0 35px 0;
+                    font-weight: bold;
+                }
+                .cnumber {
+                    font-weight: normal;
+                    margin-top: 2px;
+                    span {
+                        position: relative;
+                        top: -2px;
+                    }
+                }
                 .card {
                     &:before {
                         content: "";
                         display: inline-block;
-                        position: relative;
-                        left: 0;
-                        top: 0;
                         width: 68px;
                         height: 42px;
-                        vertical-align: middle;
-                        margin-right: 10px;
                     }
                     &.visa:before {
                         background: url('/assets/images/cards.png') 0 0 no-repeat;
@@ -933,53 +949,39 @@ md-dialog {
                         background: url('/assets/images/cards.png') -204px 0 no-repeat;
                     }
                 }
-                .cnumber {
-                    margin-top: 2px;
-                    span {
-                        position: relative;
-                        top: -2px;
-                    }
-                }
                 dl {
-                    display: inline-block;
-                    vertical-align: middle;
-                    margin: 0;
+                    margin-bottom: 10px;
                 }
-            }
-            .payment-confirm {
-                background-color: #fff;
-                h3 {
-                    color: #99ccff;
-                    margin: 0;
-                }
-            }
-            .payment-items {
-                background-color: #fff;
-                md-list, md-list-item {
-                    padding: 0;
-                }
-                md-list-item {
-                    min-height: 40px;
-                    & > div:nth-child(2) {
-                        text-align: right;
-                    }
-                    &:first-child {
-                        border-bottom: 2px solid #c6c6c6;
-                    }    
-                    &:last-child {
-                        border-top: 2px solid #c6c6c6
-                    }
-                    &:first-child,
-                    &:last-child {
-                        font-weight: bold;
+                md-list {
+                    margin-top: 20px;
+                    md-list-item {
+                        padding: 15px 0;
+                        min-height: 40px;
+                        & > div:nth-child(2) {
+                            text-align: right;
+                        }
+                        & + md-list-item {
+                            border-top: 2px solid #c6c6c6
+                        }
+                        &:first-child,
+                        &:last-child {
+                            font-weight: bold;
+                        }
                     }
                 }
             }
         }
+        .payment-message {
+            background-color: #e6e6e6;
+            padding: 20px;
+            p {
+                color: #000;
+            }
+        }
         .footer {
+            padding: 20px;
             background-color: #99ccff;
-            height: 80px;
-            span {
+            p, a {
                 color: #fff;
             }
         }
