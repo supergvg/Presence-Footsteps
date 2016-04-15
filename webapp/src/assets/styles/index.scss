@@ -1336,8 +1336,10 @@ md-dialog {
     }
 }
 
+.recover_password,
 .reset_password {
     padding: 0 !important;
+    .recover-password,
     .reset-password {
         min-height: 100vh;
         .header {
@@ -1348,15 +1350,25 @@ md-dialog {
             background-color: #fff;
             h3 {
                 color: #99ccff;
-                margin: 10px 0;
+                margin-bottom: 30px;
                 font-weight: bold;
             }
             md-input-container {
-                margin: 30px 0;
-                width: 300px;
+                min-width: 300px;
+                width: 30%;
+            }
+            md-input-container + md-input-container,
+            .md-button {
+                margin-top: 30px;
             }
             form {
                 text-align: center;
+            }
+            p {
+                text-align: center;
+                font-size: 16px;
+                color: #717171;
+                margin-top: 0;
             }
         }
         .footer {
