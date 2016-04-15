@@ -445,12 +445,6 @@ md-tooltip .md-content{
             }
         }
     }
-    .event-list {
-        md-list-item {
-            border: 1px solid #ebebeb;
-            border-radius: none;
-        }
-    }
 }
 div[layout="column"] > .billet + .billet {
     margin-top: 15px;
@@ -1572,19 +1566,15 @@ md-dialog {
 .event-list {
     color: #666;
     md-list-item {
-        border: 2px solid #c2c2c2;
-        border-radius: 3px;
+        border: 1px solid #ebebeb;
         h3 {
             font-weight: bold;
+            border-bottom: 1px solid #8f8f8f;
             margin: 0;
-            height: 55px;
-            line-height: 55px;
-            background-color: #f0f6fb;
-            padding: 0 20px 0 65px;
+            padding-bottom: 10px;
         }
         .event-details {
-            min-height: 130px;
-            padding: 0 20px 0 65px;
+            padding: 5px 20px 5px 65px;
             p {
                 margin: 8px 0;
             }
@@ -1808,10 +1798,6 @@ md-dialog {
             & > * {
                 width: 100%;
             }
-            h3 {
-                padding: 0;
-                text-align: center;
-            }
             .event-image {
                 height: 215px !important;
             }
@@ -1822,7 +1808,7 @@ md-dialog {
                 }
             }
         }
-    }
+    }    
     .event-tab {
         .ticket-blocks {
             .ticket-block {
