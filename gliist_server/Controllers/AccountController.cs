@@ -87,10 +87,26 @@ namespace gliist_server.Controllers
                 InstagrammPageUrl = user.company.InstagrammPageUrl ?? string.Empty,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
-                Registered = user.Registered
+                Registered = user.Registered,
+                IsFirstLogin = user.IsFirstLogin
             };
 
             return userInfo;
+        }
+
+        // POST api/Account/Logout
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        [Route("MarkCurrentUserAsLoggedInAtLeastOnce")]
+        public async Task<IHttpActionResult> MarkCurrentUserAsLoggedInAtLeastOnce()
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null)
+                return BadRequest("User not found");
+
+            if (user.IsFirstLogin)
+                MarkUserAsLoggedInAtLeastOnce(user);
+
+            return Ok();
         }
 
         // GET api/Account/CompanyInfo
@@ -235,7 +251,8 @@ namespace gliist_server.Controllers
                 lastName = model.lastName,
                 company = company,
                 permissions = invite.permissions,
-                Registered = DateTime.Now
+                Registered = DateTime.Now,
+                IsFirstLogin = true
             };
 
             company.users.Add(user);
@@ -744,7 +761,8 @@ namespace gliist_server.Controllers
                 lastName = model.lastName,
                 company = company,
                 permissions = "admin",
-                Registered = DateTime.Now
+                Registered = DateTime.Now,
+                IsFirstLogin = true
             };
 
             company.users.Add(user);
@@ -783,7 +801,8 @@ namespace gliist_server.Controllers
             UserModel user = new UserModel
             {
                 UserName = model.UserName,
-                Registered = DateTime.Now
+                Registered = DateTime.Now,
+                IsFirstLogin = true
             };
             user.Logins.Add(new IdentityUserLogin
             {
@@ -925,6 +944,12 @@ namespace gliist_server.Controllers
                 _random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
+        }
+
+        private async void MarkUserAsLoggedInAtLeastOnce(UserModel user)
+        {
+            user.IsFirstLogin = false;
+            await UserManager.UpdateAsync(user);
         }
 
         private string FirstModelStateErrorMessage(ModelStateDictionary modelState)

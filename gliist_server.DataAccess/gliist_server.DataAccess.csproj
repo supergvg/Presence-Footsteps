@@ -91,6 +91,10 @@
     <Compile Include="Migrations\201604040959248_UserRegistrationDate.Designer.cs">
       <DependentUpon>201604040959248_UserRegistrationDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604151341556_FirstUserLogin.cs" />
+    <Compile Include="Migrations\201604151341556_FirstUserLogin.Designer.cs">
+      <DependentUpon>201604151341556_FirstUserLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604040959248_UserRegistrationDate.resx">
       <DependentUpon>201604040959248_UserRegistrationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604151341556_FirstUserLogin.resx">
+      <DependentUpon>201604151341556_FirstUserLogin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
