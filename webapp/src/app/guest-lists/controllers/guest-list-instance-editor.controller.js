@@ -163,7 +163,12 @@ angular.module('gliist')
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
-                guestFactory.GuestListInstance.update($scope.gli).$promise.then(
+                var gli = {};
+                angular.copy($scope.gli, gli);
+                if (autoSave) {
+                    gli.actual.splice(gli.actual.length - 1, 1);
+                }
+                guestFactory.GuestListInstance.update(gli).$promise.then(
                     function(data) {
                         if (!autoSave) {
                             $scope.gli = data;
