@@ -124,7 +124,6 @@ angular.module('gliist')
                 userService.login($scope.credentials).then(
                     function() {
                         $state.go('main.welcome');
-                        $rootScope.firstLogin = true;
                     }, function(error) {
                         var message = error.error_description || 'Oops there was an error, please try again';
                         dialogService.error(message);

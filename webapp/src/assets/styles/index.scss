@@ -1000,6 +1000,7 @@ md-dialog {
                 color: #99ccff;
                 font-weight: bold;
                 margin: 0;
+                text-align: center;
             }
             p {
                 font-size: 20px;
@@ -1016,7 +1017,6 @@ md-dialog {
 .welcome-select {
     position: absolute;
     left: 3px;
-    top: 549px;
     z-index: 0;
 }
 
