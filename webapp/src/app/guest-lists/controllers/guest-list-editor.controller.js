@@ -200,7 +200,12 @@ angular.module('gliist')
                     $scope.list.id = null;
                     $scope.list.title += ' ' + $scope.list.listType;
                 }
-                guestFactory.GuestList.update($scope.list).$promise.then(
+                var list = {};
+                angular.copy($scope.list, list);
+                if (autoSave) {
+                    list.guests.splice(list.guests.length - 1, 1);
+                }
+                guestFactory.GuestList.update(list).$promise.then(
                     function(data) {
                         if (!autoSave) {
                             $scope.list = data;
