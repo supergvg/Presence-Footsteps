@@ -255,7 +255,7 @@
                     <div layout="column" ng-show="(event.type === 1 && event.rsvpType === 2) || (event.type === 2)">
                         <div class="block-field">
                             <h4>Additional Guests:</h4>
-                            <span layout="row" layout-align="start center">
+                            <span layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
                                 <span>Guests are allowed to bring&nbsp;</span>
                                 <spinner ng-model="event.additionalGuests"></spinner>
                                 <span>&nbsp;additional people to the event.</span>
@@ -291,11 +291,11 @@
              md-swipe-right="previous()">
             <div>
                 <md-list>
-                    <md-list-item layout="row">
-                        <div flex="70">
+                    <md-list-item layout="row" layout-sm="column">
+                        <div flex="70" flex-sm="100">
                             <p>Upload your invite (jpg,gif, file formats supported)</p>
                         </div>
-                        <div flex="30" layout="row" layout-align="end center">
+                        <div flex="30" layout="row" layout-align="end center" flex-sm="100">
                             <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
                                 UPLOAD
                             </md-button>
@@ -304,7 +304,7 @@
                     </md-list-item>
                 </md-list>
                 <div layout="row">
-                    <div flex ng-style="getEventInvite('300px')"></div>
+                    <div flex ng-style="getEventInvite('300px')" class="event-image"></div>
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="actions">

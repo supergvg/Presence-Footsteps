@@ -734,15 +734,21 @@ md-radio-button {
                     padding: 10px;
                 }
             }
-            p {
-                margin: 0;
-                padding: 10px;
-            }
             .actions {
                 margin: 0;
+                padding: 0;
             }
             md-input-container {
                 width: 90px;
+            }
+            dl {
+                margin: 0;
+                dt, dd {
+                    padding: 10px;
+                }
+                dd.no-padding {
+                    padding: 2px;
+                }
             }
         }
     }
@@ -1656,6 +1662,9 @@ md-dialog {
 }
 
 @media screen and (max-width: 600px) {
+    md-list-item.md-no-proxy, md-list-item .md-no-style {
+        padding: 0;
+    }
     md-toolbar {
         & > div {
             padding: 0 10px;
@@ -1779,6 +1788,49 @@ md-dialog {
             }
         }
     }
+    .guest-list-instance-viewer {
+        md-list {
+            border: none;
+            md-list-item {
+                background: none !important;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                dl {
+                    display: table;
+                    dt, dd {
+                        display: table-cell;
+                        vertical-align: middle;
+                        padding: 10px 15px;
+                    }
+                    dt {
+                        width: 120px;
+                        background-color: #e6e6e6;
+                    }
+                    dd {
+                        word-break: break-all;
+                        md-input-container {
+                            margin-left: 3px;
+                            .md-input {
+                                padding-left: 10px;
+                                background-color: #f0f6fb;
+                                border: none;
+                            }
+                        }
+                    }
+                }
+                & + md-list-item {
+                    margin-top: 20px;
+                }
+            }
+        }
+        .totals {
+            justify-content: space-between;
+            h4 {
+                font-size: 16px;
+                margin: 0;
+            }
+        }
+    }
     .guest-checkin {
         .content {
             .notes {
@@ -1790,6 +1842,29 @@ md-dialog {
                     margin-top: 10px;
                 }
             }
+        }
+    }
+    .event-details-page {
+        .tabs {
+            .tab {
+                h4 {
+                    font-size: 12px;
+                }
+                .line {
+                    top: 32px;
+                }
+            }
+        }
+        .block-field {
+            md-input-container + md-input-container {
+                padding: 0;
+            }
+            md-radio-group md-content + md-content {
+                padding-top: 15px;
+            }
+        }        
+        .event-image {
+            height: 190px !important;
         }
     }
     .event-preview {
@@ -1845,26 +1920,6 @@ md-dialog {
             }
             .footer {
                 padding: 10px;
-            }
-        }
-    }
-    .event-preview {
-        .event-descr {
-            padding: 0 20px;
-            margin-bottom: 20px;
-        }
-    }
-    .event-tab {
-        .ticket-blocks {
-            .ticket-block {
-                min-width: 260px;
-            }
-        }
-    }
-    .spinner {
-        &.spinner-h {
-            a {
-                float: none !important;
             }
         }
     }

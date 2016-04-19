@@ -76,7 +76,7 @@ module.exports = function(options) {
         .pipe(gulp.dest(options.dist));
     gulp.src([options.src + '/.htaccess'])
         .pipe(gulp.dest(options.dist));
-    return gulp.src([options.src + '/assets/{fonts,images}/**'])
+    return gulp.src([options.src + '/assets/{fonts,images,docs}/**'])
         .pipe(gulp.dest(options.dist + '/assets'));
   });
 
