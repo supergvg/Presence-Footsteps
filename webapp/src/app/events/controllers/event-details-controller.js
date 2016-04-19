@@ -170,20 +170,21 @@ angular.module('gliist')
             };
 
             $scope.timeValid = function() {
+                $scope.startEventTimeInvalid = false;
+                $scope.endEventTimeInvalid = false;
                 if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.dt.endEventRsvpDateTime.setTime($scope.dt.endEventDateTime.getTime());
                 }
                 $scope.startEventTimeInvalid = false;
                 if ($scope.dt.startEventDateTime.getTime() < Date.now()) {
                     $scope.startEventTimeInvalid = true;
-                    return false;
                 }
                 if ($scope.dt.startEventDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.endEventTimeInvalid = true;
+                }
+                if ($scope.startEventTimeInvalid || $scope.endEventTimeInvalid) {
                     return false;
                 }
-                $scope.startEventTimeInvalid = false;
-                $scope.endEventTimeInvalid = false;
                 return true;
             };
 
