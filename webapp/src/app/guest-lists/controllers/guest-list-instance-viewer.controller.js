@@ -4,6 +4,10 @@ angular.module('gliist')
     .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory', '$rootScope',
         function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
             $scope.published = [];
+            $scope.flexWidth = ['30', '20', 'none', '10', 'none', '10', 'none', '10', '10', '5'];
+            if ($scope.options.stats || $scope.options.publish) {
+                $scope.flexWidth = ['20', '15', 'none', '10', 'none', '10', 'none', '10', '10', '5'];
+            }
             
             $scope.isPromoter = function() {
                 return $rootScope.isPromoter();

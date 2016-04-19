@@ -59,7 +59,7 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
-                    userService.deleteUser({userId: user.userId}).then(
+                    userService.deleteUser({userId: user.Id}).then(
                         function () {
                             $scope.refresh();
                         },
