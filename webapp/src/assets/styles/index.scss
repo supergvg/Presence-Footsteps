@@ -836,7 +836,6 @@ md-dialog {
             background: none !important;
             color: #aaa !important;
             box-shadow: none !important;
-            
         }
     }
     .guest-list-viewer {
@@ -858,6 +857,38 @@ md-dialog {
             }
         }
     }
+    &.welcome-popup {
+        z-index: 1;
+        .header {
+            height: 40px;
+            padding-right: 15px;
+        }
+        .content {
+            margin: 0 40px 40px 40px;
+            padding: 25px;
+            border: 5px solid #99ccff;
+            h2 {
+                color: #99ccff;
+                font-weight: bold;
+                margin: 0;
+                text-align: center;
+            }
+            p {
+                font-size: 20px;
+                color: #8e8e8e;
+                line-height: 30px;
+                b {
+                    color: #8e8e8e;
+                }
+            }
+        }
+    }
+}
+
+.welcome-select {
+    position: absolute;
+    left: 3px;
+    z-index: 0;
 }
 
 .landing {
