@@ -359,6 +359,21 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 });
 
                 return deferred.promise;
+            },
+            
+            markCurrentUserAsLoggedInAtLeastOnce: function() {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/Account/MarkCurrentUserAsLoggedInAtLeastOnce'
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
             }
         };
     }
