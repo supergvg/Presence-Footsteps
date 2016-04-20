@@ -36,5 +36,7 @@ namespace gliist_server.DataAccess
         public string permissions { get; set; }
 
         public DateTime? Registered { get; set; }
+
+        public bool IsFirstLogin { get; set; }
     }
 }
