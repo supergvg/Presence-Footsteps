@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter',
-        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter) {
+    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter', '$mdMedia',
+        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter, $mdMedia) {
 
             $scope.isStaff = function () {
                 return $rootScope.isStaff();
@@ -35,7 +35,7 @@ angular.module('gliist')
                 $scope.gridOptions.columnDefs.push({
                     name: '', field: 'id', enableSorting: false,
                     cellTemplate: '<div class="actions" title="Actions">' +
-                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{row.entity.id}}})" ng-hide="grid.appScope.options.readOnly" aria-label="Edit guest list">' +
+                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:row.entity.id})" ng-hide="grid.appScope.options.readOnly" aria-label="Edit guest list">' +
                         '<md-tooltip md-direction="top">edit guest list</md-tooltip>' +
                         '<ng-md-icon icon="mode_edit"></ng-md-icon>' +
                         '</md-button>' +
@@ -161,6 +161,10 @@ angular.module('gliist')
                 ).finally(function() {
                     $scope.fetchingData = false;
                 });
+            };
+            
+            $scope.isMobile = function() {
+                return !$mdMedia('gt-sm');
             };
             
             $scope.initGridData = function(data) {

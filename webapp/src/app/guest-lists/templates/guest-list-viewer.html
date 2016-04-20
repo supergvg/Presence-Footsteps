@@ -65,7 +65,7 @@
                             <md-checkbox ng-checked="glistSelected(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ></md-checkbox>
                         </div>
                     </div>
-                    <div class="check" hide-gt-sm layout="row" layout-align="center center">
+                    <div class="check" layout="row" layout-align="center center" ng-if="isMobile()">
                         <md-checkbox ng-checked="glistSelected(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ></md-checkbox>
                     </div>
                 </div>

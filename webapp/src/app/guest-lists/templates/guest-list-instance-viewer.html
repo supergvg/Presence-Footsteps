@@ -80,7 +80,7 @@
                 </dl>
                 <dl flex="{{flexWidth[8]}}" flex-sm="100" ng-if="options.publish" class="center">
                     <dt hide-gt-sm>Send Invites</dt>
-                    <dd>                    
+                    <dd class="no-padding">                    
                         <md-checkbox ng-checked="isPublished(instance)" ng-click="togglePublished(instance)" aria-label="Import" ng-show="true">
                             <md-tooltip md-direction="top">select list to send invites</md-tooltip>
                         </md-checkbox>
@@ -88,7 +88,7 @@
                 </dl>
                 <dl flex="{{flexWidth[9]}}" flex-sm="100" ng-if="options.publish && isShowColumn('published')" class="center">
                     <dt hide-gt-sm>Sent</dt>
-                    <dd>
+                    <dd class="no-padding">
                         <md-icon class="single-icon" md-svg-src="assets/images/SVG/sent.svg" ng-if="instance.published"></md-icon>
                     </dd>
                 </dl>
