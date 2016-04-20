@@ -745,6 +745,7 @@ md-radio-button {
                 margin: 0;
                 dt, dd {
                     padding: 10px;
+                    word-break: break-all;
                 }
                 dd.no-padding {
                     padding: 2px;
@@ -777,6 +778,12 @@ md-radio-button {
                 margin: 0;
                 .md-icon {
                     border-color: #aaa;
+                }
+            }
+            dl {
+                margin: 0;
+                dt, dd {
+                    padding: 12px 0;
                 }
             }
         }
@@ -816,6 +823,9 @@ md-radio-button {
 md-dialog {
     overflow-x: hidden;
     color: #666;
+    .actions-sm {
+        min-height: 60px;
+    }
     .actions,
     md-content {
         padding: 10px 20px;
@@ -2175,11 +2185,11 @@ md-dialog {
                         padding: 10px 15px;
                     }
                     dt {
-                        width: 120px;
+                        width: 130px;
                         background-color: #e6e6e6;
+                        text-align: left;
                     }
                     dd {
-                        word-break: break-all;
                         md-input-container {
                             margin-left: 3px;
                             .md-input {
@@ -2187,6 +2197,13 @@ md-dialog {
                                 background-color: #f0f6fb;
                                 border: none;
                             }
+                        }
+                        &.actions {
+                            padding: 10px;
+                        }
+                        md-icon,
+                        md-checkbox {
+                            margin-left: 0 !important;
                         }
                     }
                 }
@@ -2296,6 +2313,7 @@ md-dialog {
         }
     }
     md-dialog {
+        max-width: 100%;
         &.landing-ticketing-purchase {
             & > div {
                 &:last-child {
@@ -2325,6 +2343,38 @@ md-dialog {
                     }
                 }
                 
+            }
+        }
+        .guest-list-viewer {
+            md-list {
+                md-list-item {
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                    dl {
+                        display: table;
+                        dt, dd {
+                            word-break: break-all;
+                            display: table-cell;
+                            vertical-align: middle;
+                            padding: 5px 10px;
+                        }
+                        dt {
+                            width: 110px;
+                            background-color: #e6e6e6;
+                            text-align: left;
+                        }
+                    }
+                    .check {
+                        border-left: 1px solid #ccc;
+                        padding: 0 5px;
+                    }
+                    & + md-list-item + md-list-item {
+                        margin-top: 20px;
+                    }
+                    .actions {
+                        display: none;
+                    }
+                }
             }
         }
     }
