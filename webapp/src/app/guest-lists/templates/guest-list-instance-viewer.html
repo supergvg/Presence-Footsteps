@@ -94,18 +94,20 @@
                 </dl>
                 <dl flex ng-cloak ng-if="!options.readOnly">
                     <dt hide-gt-sm>Edit/Delete</dt>
-                    <dd layout="row" layout-align="end center" class="actions">
-                        <div>
-                            <md-button class="icon-btn" ng-click="editInstance($event,instance)" aria-label="Edit">
-                                <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
-                            </md-button>
+                    <dd class="actions">
+                        <div layout="row" layout-align="end center">
+                            <div>
+                                <md-button class="icon-btn" ng-click="editInstance($event,instance)" aria-label="Edit">
+                                    <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+                                </md-button>
+                            </div>
+                            <div>
+                                <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="Delete"> 
+                                    <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                                </md-button>
+                            </div>
+                            <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ng-show="options.enableSelection"></md-checkbox>
                         </div>
-                        <div>
-                            <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="Delete"> 
-                                <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                            </md-button>
-                        </div>
-                        <md-checkbox ng-checked="glistSelected1(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ng-show="options.enableSelection"></md-checkbox>
                     </dd>
                 </dl>
             </div>
