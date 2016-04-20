@@ -49,5 +49,6 @@ namespace gliist_server.Models
         public string TwitterPageUrl { get; set; }
 
         public DateTime? Registered { get; set; }
+        public bool IsFirstLogin { get; set; }
     }
 }
