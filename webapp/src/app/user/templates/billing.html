@@ -30,11 +30,20 @@
                             <md-button class="raised-btn" ng-click="selectPlan($index)">Upgrade</md-button>
                         </div>
                         <div ng-switch-when="contactus">
-                            <md-button class="raised-btn">CONTACT US</md-button>
+                            <a class="md-button raised-btn" href="mailto:info@gjests.com?subject=Entreprise%20Account">CONTACT US</a>
                         </div>
                     </ng-switch>
                     <h4 ng-if="tariff.isActive"><b>ACTIVE</b> Expires on 03/01/2016</h4>
                 </div>
+            </div>
+            <div layout="row" layout-align="end center" layout-sm="column" class="promo" ng-show="!loading && plans.length > 0">
+                <h4>Enter your promo code</h4>
+                <md-input-container md-no-float>
+                    <input type="text" aria-label="Promo Code">
+                </md-input-container>
+                <md-button class="raised-btn">
+                    Enter
+                </md-button>
             </div>
         </div>        
     </div>    
