@@ -87,7 +87,7 @@ div[ui-grid] {
         padding: 12px;
         position: relative;
         .actions {
-           margin: 0 10px;
+           margin: 0 20px;
            position: absolute;
            top: 0;
            right: 0;
@@ -1859,10 +1859,6 @@ md-dialog {
                         }
                         &.actions {
                             padding: 10px;
-                        }
-                        md-icon,
-                        md-checkbox {
-                            margin-left: 0 !important;
                         }
                     }
                 }

@@ -5,8 +5,15 @@ angular.module('gliist')
         function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
             $scope.published = [];
             $scope.flexWidth = ['30', '20', 'none', '10', 'none', '10', 'none', '10', '10', '5'];
-            if ($scope.options.stats || $scope.options.publish) {
-                $scope.flexWidth = ['20', '15', 'none', '10', 'none', '10', 'none', '10', '10', '5'];
+            if (($scope.options.stats || $scope.options.publish) && !$scope.options.readOnly) {
+                $scope.flexWidth[0] = '20';
+                $scope.flexWidth[1] = '15';
+            }
+            if (!$scope.options.details) {
+                $scope.flexWidth[6] = '10';
+            }
+            if ($scope.options.readOnly) {
+                $scope.flexWidth[9] = '';
             }
             
             $scope.isPromoter = function() {

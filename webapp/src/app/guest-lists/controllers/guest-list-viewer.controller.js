@@ -33,7 +33,7 @@ angular.module('gliist')
             };
             if (!$scope.isStaff()) {
                 $scope.gridOptions.columnDefs.push({
-                    name: '', field: 'id', enableSorting: false,
+                    name: '', field: 'id', enableSorting: false, maxWidth: 140,
                     cellTemplate: '<div class="actions" title="Actions">' +
                         '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:row.entity.id})" ng-hide="grid.appScope.options.readOnly" aria-label="Edit guest list">' +
                         '<md-tooltip md-direction="top">edit guest list</md-tooltip>' +
