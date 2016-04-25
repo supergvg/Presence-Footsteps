@@ -27,7 +27,7 @@ angular.module('gliist')
                         $scope.user.confirmPassword = null;
                         $state.go('main.welcome');
                     }, function(error) {
-                        var message = error.Message || 'There was a problem signing up, please try again';
+                        var message = (error && error.Message) || 'There was a problem signing up, please try again';
                         dialogService.error(message);
                     }
                 ).finally(function() {

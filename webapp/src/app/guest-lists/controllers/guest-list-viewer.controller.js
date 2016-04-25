@@ -20,9 +20,10 @@ angular.module('gliist')
                     '</div>',
                 columnDefs: [
                     {field: 'title', name: 'Guest List'},
-                    {field: 'total', name: 'Total', enableSorting: false},
+                    {field: 'total', name: 'Total', maxWidth: 100},
                     {field: 'listType', name: 'Category'},
                     {field: 'created_on', name: 'Date'},
+                    {field: 'UpdatedOn', name: 'Update Date'},
                     {field: 'created_by', name: 'Created By', enableSorting: false}
                 ],
                 rowHeight: 45,
@@ -179,6 +180,7 @@ angular.module('gliist')
                         total: gl.total,
                         listType: gl.listType,
                         created_on: $filter('date')(gl.created_on, 'MMM dd, yy'),
+                        UpdatedOn: $filter('date')(gl.UpdatedOn, 'MMM dd, yy'),
                         created_by: gl.created_by ? gl.created_by.firstName +' '+ gl.created_by.lastName : '',
                         glist: gl
                     });

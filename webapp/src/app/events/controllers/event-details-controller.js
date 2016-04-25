@@ -1,8 +1,8 @@
+'use strict';
+
 angular.module('gliist')
     .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$rootScope', '$location', '$filter',
         function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $rootScope, $location, $filter) {
-            'use strict';
-
             $scope.eventCategories = [
                 'Art',
                 'Fashion',

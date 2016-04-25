@@ -56,7 +56,7 @@ angular.module('gliist', [
                 .backgroundPalette('grey');
                 
             var $window = $windowProvider.$get();
-            $window.redirectUrl = 'http://gjests.azurewebsites.net/';
+            $window.redirectUrl = 'http://gjests-staging.azurewebsites.net/';
 //	    $window.redirectUrl = 'http://gjests-api.ideas-implemented.com/';
             $provide.factory('myHttpInterceptor', function() {
                 return {

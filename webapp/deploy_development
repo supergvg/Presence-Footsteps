@@ -4,6 +4,7 @@ ssh_address=gjests@s.s.ideas-implemented.com
 
 echo "============="
 echo "Start build"
+gulp clean
 gulp build --force
 echo "Build done"
 echo "Deploy to server"

@@ -1,7 +1,7 @@
+'use strict';
+
 angular.module('gliist')
     .directive('eventPublish', [function () {
-        'use strict';
-
         return {
             restrict: 'EA',
 

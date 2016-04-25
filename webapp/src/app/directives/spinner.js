@@ -1,7 +1,7 @@
+'use strict';
+
 angular.module('gliist')
     .directive('spinner', [function () {
-        'use strict';
-
         return {
             restrict: 'E',
             require: 'ngModel',
