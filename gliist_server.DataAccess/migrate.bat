@@ -1,1 +1,0 @@
-migrate.exe gliist_server.DataAccess.dll /startUpConfigurationFile:..\web.config"
