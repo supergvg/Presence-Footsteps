@@ -1,27 +1,30 @@
 <div ng-init="init()">
 
-    <div ng-show="initializing">
-        <h4>Loading Event...</h4>
+  <div ng-show="initializing">
+    <h4>Loading Event...</h4>
         <span>
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-        </span>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+            </span>
+  </div>
+  <div ng-show="!initializing">
+    <div layout="row" layout-wrap style="margin-bottom: 30px">
+      <div flex class="section-title">
+        <h3>Event Published + Email Delivery Status</h3>
+      </div>
     </div>
-    <div ng-show="!initializing">
-        <div layout="row" layout-wrap style="margin-bottom: 30px">
-            <div flex class="section-title">
-                <h3>Event Published + Email Delivery Status</h3>
-            </div>
-        </div>
 
-        <event-preview event="event"></event-preview>
+    <event-preview event="event"></event-preview>
 
-        <div class="section-subtitle">
-            <h4>Email Status</h4>
-        </div>
-        <div>
-            <h3>This feature is under development - stay tuned!</h3>
 
-        </div>
+    <div class="section-subtitle">
+      <h4>Email Status</h4>
     </div>
+    <div>
+      <h3>This feature is under development - stay tuned!</h3>
+
+    </div>
+
+  </div>
+
 
 </div>

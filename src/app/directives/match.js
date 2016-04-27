@@ -1,6 +1,7 @@
+'use strict';
+
 angular.module('gliist')
     .directive('ngMatch', [function () {
-        'use strict';
         return {
             require: 'ngModel',
             link: function(scope, element, attrs, ctrl) {

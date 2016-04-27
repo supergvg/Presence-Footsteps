@@ -1,7 +1,7 @@
+'use strict';
+
 angular.module('gliist')
     .directive('guestListMange', [function () {
-        'use strict';
-
         return {
             restrict: 'EA',
 

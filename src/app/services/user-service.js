@@ -6,6 +6,16 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             isLogged,
             access_token,
             userData,
+            setAuthToken = function(token) {
+                access_token = token;
+                $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+            },
+            getAuthToken = function() {
+                if (!access_token) {
+                    setAuthToken($window.localStorage.getItem('access_token'));
+                }
+                return access_token;
+            },
             onLoginSuccessful = function(data) {
                 if (!data.access_token) {
                     throw 'Trying to save empty access token';
@@ -17,16 +27,6 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
 
                 $window.localStorage.setItem('userEmail', userEmail);
                 $window.localStorage.setItem('access_token', data.access_token);
-            },
-            setAuthToken = function(token) {
-                access_token = token;
-                $http.defaults.headers.common.Authorization = 'Bearer ' + token;
-            },
-            getAuthToken = function() {
-                if (!access_token) {
-                    setAuthToken($window.localStorage.getItem('access_token'));
-                }
-                return access_token;
             };
 
         return {

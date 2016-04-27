@@ -1,14 +1,14 @@
 <div>
-    <div ng-show="initializing">
-        <h4 style="color:#aaaaaa">Loading Event...</h4>
-        <span>
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-        </span>
+  <div ng-show="initializing">
+    <h4 style="color:#aaaaaa">Loading Event...</h4>
+    <span>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+    </span>
+  </div>
+  <div ng-if="!initializing">
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>Edit {{event.title}}</h3>
     </div>
-    <div ng-if="!initializing">
-        <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
-            <h3>Edit {{event.title}}</h3>
-        </div>
-        <event-details event="event"></event-details>
-    </div>
+    <event-details event="event"></event-details>
+  </div>
 </div>

@@ -1,13 +1,14 @@
 #!/bin/sh
 HOST='waws-prod-bay-029.ftp.azurewebsites.windows.net'
-USER="gjests"
-PASSWD="vZp4a7RtDMvqdo5nMzJzc4bFk9qybTeQWT6M1Hgs2mNY2gHXNfDkj5eG5KsG"
+USER="gjests__staging"
+PASSWD="GaBGwCYEjsbnfD8rjzJapJ5j988W0kkmY8wEd9GkaF1QkqnnwKwzN7qBl6En"
 REMOTEPATH='site/wwwroot'
 
 echo "============="
-#echo "Start build"
-#gulp build --force
-#echo "Build done"
+echo "Start build"
+gulp clean
+gulp build --force
+echo "Build done"
 echo "Deploy to server"
 cd ./dist
 ncftpput -R -v -u "$USER" -p "$PASSWD" $HOST $REMOTEPATH .
