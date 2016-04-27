@@ -9,7 +9,7 @@ angular.module('gliist').factory('dialogService', [ '$mdToast',
                     $mdToast.simple()
                         .content(err)
                         .position('center center')
-                        .hideDelay(10000)
+                        .hideDelay(3000)
                 );
             },
 
