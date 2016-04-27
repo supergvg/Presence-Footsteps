@@ -125,7 +125,7 @@ angular.module('gliist')
                     function() {
                         $state.go('main.welcome');
                     }, function(error) {
-                        var message = (error && error.error_description) || 'Oops there was an error, please try again';
+                        var message = (error && error.status !== 500 && error.error_description) || 'Something went wrong. Try again later please.';
                         dialogService.error(message);
                     }
                 ).finally(function() {

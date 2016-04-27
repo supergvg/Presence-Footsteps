@@ -1004,6 +1004,7 @@ md-dialog {
     }
     &.welcome-popup {
         z-index: 1;
+        top: -110px;
         .header {
             height: 40px;
             padding-right: 15px;
@@ -1595,6 +1596,7 @@ md-dialog {
         height: 200px;
         position: absolute;
         bottom: 0;
+        left: 0;
         & > div {
             height: 100%;
         }

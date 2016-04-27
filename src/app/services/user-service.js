@@ -183,7 +183,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 var bgImg;
                 
                 if (currentUser) {
-                    bgImg = $window.redirectUrl + '/api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
+                    bgImg = $window.redirectUrl + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
                     bgImg = 'url(' + bgImg + ')';
                 } else {
                     bgImg = 'url("assets/images/blank_user_icon.png")';
@@ -254,15 +254,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             
             login: function(credentials) {
                 var d = $q.defer();
-                var body = 'grant_type=password&username=' + credentials.username + '&password=' + credentials.password;
+                var body = 'grant_type=password&username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password);
 
                 $http({
                     method: 'POST',
-                    url: '/Token',
+                    url: 'Token',
                     data: body,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data, status) {
-
+                }).success(function(data, status) {
                     if (status === 200) {
                         onLoginSuccessful(data);
 
@@ -272,9 +271,9 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                         userEmail = '';
                         d.resolve(data);
                     }
-
                     d.resolve(data);
-                }).error(function (data) {
+                }).error(function(data, status) {
+                    data.status = status;
                     d.reject(data);
                 });
 
