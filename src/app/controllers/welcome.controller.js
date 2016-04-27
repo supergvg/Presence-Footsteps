@@ -9,7 +9,7 @@ angular.module('gliist')
             };
             $scope.hideArrow = false;
             $timeout(function(){
-                if ($rootScope.currentUser && $rootScope.currentUser.IsFirstLogin) {
+                if ($rootScope.currentUser && $rootScope.currentUser.IsFirstLogin && !$rootScope.isPromoter()) {
                     var scope = $scope.$new();
                     scope.close = function() {
                         $scope.hideArrow = true;
@@ -22,8 +22,12 @@ angular.module('gliist')
                         });
                     };
                     scope.getStyles = function() {
+                        var top = 549;
+                        if ($rootScope.isStaff()) {
+                            top = 469;
+                        }
                         return {
-                            top: 549 - $window.scrollY +'px',
+                            top: top - $window.scrollY +'px',
                             display: $mdMedia('gt-lg') && !$scope.hideArrow ? 'block' : 'none'
                         };
                     };
