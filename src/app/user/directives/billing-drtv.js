@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('gliist')
     .directive('billing', [function () {
         'use strict';
