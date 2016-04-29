@@ -40,8 +40,9 @@ angular.module('gliist')
                         function() {
                             $rootScope.logout();
                         },
-                        function(err) {
-                            dialogService.error(err);
+                        function(error) {
+                            var message = error.Message || 'Oops there was a problem loading account info, please try again';
+                            dialogService.error(message);
                         }
                     );
                 }, function() {

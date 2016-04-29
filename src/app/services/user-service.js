@@ -133,9 +133,9 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                     method: 'DELETE',
                     url: url,
                     params: params
-                }).success(function (data) {
+                }).success(function(data) {
                     deferred.resolve(data);
-                }).error(function (data) {
+                }).error(function(data) {
                     deferred.reject(data);
                 });
 
