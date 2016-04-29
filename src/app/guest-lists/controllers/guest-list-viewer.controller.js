@@ -23,7 +23,7 @@ angular.module('gliist')
                     {field: 'total', name: 'Total', maxWidth: 100},
                     {field: 'listType', name: 'Category'},
                     {field: 'created_on', name: 'Date'},
-                    {field: 'UpdatedOn', name: 'Update Date'},
+                    {field: 'UpdatedOn', name: 'Update'},
                     {field: 'created_by', name: 'Created By', enableSorting: false}
                 ],
                 rowHeight: 45,
