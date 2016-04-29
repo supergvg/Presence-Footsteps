@@ -64,7 +64,7 @@ angular.module('gliist')
                     }
                     var match = false;
                     ['firstName', 'lastName'].forEach(function(field) {
-                        if (row.entity.guest[field].match(matcher)){
+                        if (row.entity.guest[field] && row.entity.guest[field].match(matcher)){
                             match = true;
                         }
                     });
