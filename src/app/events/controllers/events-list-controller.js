@@ -12,9 +12,9 @@ angular.module('gliist')
                 return $rootScope.isStaff();
             };
 
-            $scope.getEventInvite = function (event) {
+            $scope.getEventInvite = function(event) {
                 return {
-                    'background-image': 'url(' + event.invitePicture + ')',
+                    'background-image': 'url("' + event.invitePicture + '")',
                     'background-position': 'center center',
                     'min-width': '200px',
                     'height': '185px',
