@@ -184,7 +184,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 
                 if (currentUser) {
                     bgImg = $window.redirectUrl + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
-                    bgImg = 'url(' + bgImg + ')';
+                    bgImg = 'url("' + bgImg + '")';
                 } else {
                     bgImg = 'url("assets/images/blank_user_icon.png")';
                 }

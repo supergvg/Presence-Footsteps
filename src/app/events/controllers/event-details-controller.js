@@ -100,7 +100,7 @@ angular.module('gliist')
 
             $scope.getEventInvite = function(height) {
                 return {
-                    'background-image': 'url(' + $scope.event.invitePicture + ')',
+                    'background-image': 'url("' + $scope.event.invitePicture + '")',
                     'background-position': 'center center',
                     'height': height || '250px',
                     'background-repeat': 'no-repeat',
