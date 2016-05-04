@@ -1914,10 +1914,45 @@ md-dialog {
         }
     }
     .event-preview {
-        .event-descr {
-            padding: 0 20px;
-            margin-bottom: 20px;
+        margin-bottom: 20px;
+        & > div:first-child {
+            align-items: stretch;
         }
+        & > div:nth-child(2) {
+            margin: 0 20px;
+        }
+        .event-image {
+            background-size: cover !important;
+            width: 100%;
+        }
+        .event-descr {
+            padding: 0;
+            margin: 20px;
+            h2 {
+                margin: 0;
+            }
+            .links {
+                word-break: break-all;
+            }
+        }
+        .date {
+            background: none !important;
+            color: #7ab9f8;
+            .dayOfWeek, .month, .day {
+                padding: 0;
+                width: auto;
+                font-size: 18px;
+                border: none;
+                line-height: 1;
+            }
+            .month, .day {
+                padding-left: 5px;
+            }
+        }
+        .time {
+            padding: 15px 0;
+            border: none;
+        }        
     }
     .event-list {
         md-list-item {
