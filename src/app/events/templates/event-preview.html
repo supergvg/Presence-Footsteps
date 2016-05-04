@@ -1,5 +1,5 @@
-<div class="event-preview margin-top" layout="row" layout-align="space-between stretch" layout-sm="column" layout-align-sm="start center">
-    <div layout="row" layout-align="start center" layout-sm="column" flex="60" flex-sm="100">
+<div class="event-preview margin-top" layout="row" layout-align="space-between stretch" layout-sm="column" layout-align-sm="start stretch">
+    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center stretch" flex="60" flex-sm="100">
         <div ng-style="getEventInvite('230px')" class="event-image"></div>
         <div layout="column" layout-align="center stretch" class="event-descr" flex>
             <h2>
@@ -16,8 +16,8 @@
             </div>
         </div>
     </div>
-    <div layout="row" layout-align="end stretch" flex>
-        <div layout="column" layout-align="center start" flex>
+    <div layout="row" layout-align="end stretch" layout-sm="column" flex>
+        <div layout="column" layout-align="center start" flex flex-order-sm="2">
             <div class="time">
                 {{event.time | ignoreTimeZone | date: 'h:mm a'}}
             </div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="date logo-bg" layout="column" layout-align="start center">
+        <div class="date logo-bg" layout="column" layout-align="start center" layout-sm="row" flex-order-sm="1">
             <div class="dayOfWeek">
                 {{event.time | ignoreTimeZone | date: 'EEE' | uppercase}}
             </div>
