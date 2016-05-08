@@ -78,7 +78,8 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 	private boolean debugState; 
 	private long pressedOptionsTime;
 	private boolean enabled = true;
-	
+	private boolean enableMP = true;
+ 	
 	// System
 	private PFResourcePackDealer dealer = new PFResourcePackDealer();
 	private PFIsolator isolator;
@@ -203,7 +204,8 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 		config.setProperty("custom.stance", 0);
 		config.setProperty("key.code", keyBindDefaultCode);
 		config.setProperty("user.enabled", true);
-		config.commit();
+		config.setProperty("user.multiplayer", true);
+ 		config.commit();
 		
 		boolean fileExisted = new File(presenceDir, "userconfig.cfg").exists();
 		
@@ -218,6 +220,9 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 		if (!fileExisted) {
 			config.save();
 		}
+		
+		enabled = config.getBoolean("user.enabled");
+		enableMP = config.getBoolean("user.multiplayer");
 		
 		updateNotifier.loadConfig(config);
 	}
@@ -317,6 +322,10 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 		return MineLittlePonyCommunicator.instance.ponyModInstalled();
 	}
 	
+	public boolean getEnabledMP() {
+		return enableMP;
+	}
+	
 	public boolean getEnabled() {
 		return enabled;
 	}
@@ -329,7 +338,13 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 	}
 	
 	public void setVolume(int volume) {
-		getConfig().setProperty("user.volume", volume);
+		config.setProperty("user.volume", volume);
+	}
+	
+	public boolean toggleMP() {
+		config.setProperty("user.multiplayer", enableMP = !enableMP);
+		saveConfig();
+		return enableMP;
 	}
 	
 	public boolean toggle() {
@@ -371,8 +386,8 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 	
 	@Override
 	public void onFrame(EntityPlayer ply, float semi) {
-		if (enabled && hasResourcePacks && !util().isGamePaused()) {
-			isolator.onFrame(ply);
+		if (enableMP && enabled && hasResourcePacks && !util().isGamePaused()) {
+	 		isolator.onFrame(ply);
 			setPlayerStepDistance(ply, Integer.MAX_VALUE);
 		}
 	}
@@ -390,7 +405,8 @@ public class PFHaddon extends HaddonImpl implements SupportsFrameEvents, Support
 		}
 		
 		if (enabled && hasResourcePacks && !util().isGamePaused()) {
-			setPlayerStepDistance(ply, Integer.MAX_VALUE);
+			if (!enableMP) isolator.onFrame(ply);
+ 			setPlayerStepDistance(ply, Integer.MAX_VALUE);
 		}
 		
 		if (!firstTickPassed) {
