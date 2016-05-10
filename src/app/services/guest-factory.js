@@ -3,7 +3,7 @@
 angular.module('gliist').factory('guestFactory', [
     '$resource', function ($resource) {
         return {
-            Guest: $resource('/api/guest/:id', {
+            Guest: $resource('api/guest/:id', {
                 id: '@id'
             }, {
                 update: {
@@ -11,11 +11,11 @@ angular.module('gliist').factory('guestFactory', [
                     params: {
                         id: '@id'
                     },
-                    url: '/api/guest/:id'
+                    url: 'api/guest/:id'
                 }
             }),
 
-            GuestLists: $resource('/api/guestlists', {
+            GuestLists: $resource('api/guestlists', {
             }, {
                 'get': {
                     method: 'GET',
@@ -23,37 +23,37 @@ angular.module('gliist').factory('guestFactory', [
                 }
             }),
 
-            GuestList: $resource('/api/guestlists/:id', {
+            GuestList: $resource('api/guestlists/:id', {
                 id: '@id'
             }, {
                 update: {
                     method: 'POST',
                     params: {
                     },
-                    url: '/api/guestlists'
+                    url: 'api/guestlists'
                 },
                 delete: {
                     method: 'DELETE',
                     params: {
                     },
-                    url: '/api/guestlists/:id'
+                    url: 'api/guestlists/:id'
                 }
             }),
 
-            GuestListInstance: $resource('/api/GuestListInstances/:id', {
+            GuestListInstance: $resource('api/GuestListInstances/:id', {
                 id: '@id'
             }, {
                 update: {
                     method: 'POST',
                     params: {
                     },
-                    url: '/api/GuestListInstances'
+                    url: 'api/GuestListInstances'
                 },
                 delete: {
                     method: 'DELETE',
                     params: {
                     },
-                    url: '/api/GuestListInstances/:id'
+                    url: 'api/GuestListInstances/:id'
                 }
             })
         };
