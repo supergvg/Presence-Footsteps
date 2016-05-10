@@ -1,9 +1,14 @@
 <div>
     <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
         <h3>Guest List Management</h3>
+        <md-button class="raised-btn" ui-sref="main.create_list_management" ng-hide="isStaff() || isPromoter()" ng-cloak hide-sm>
+            Create
+        </md-button>
+    </div>
+    <div layout="row" layout-align="end center" hide-gt-sm class="margin-top">
         <md-button class="raised-btn" ui-sref="main.create_list_management" ng-hide="isStaff() || isPromoter()" ng-cloak>
             Create
         </md-button>
     </div>
-    <guest-list-view options="{sorting: true}"></guest-list-view>
+    <guest-list-view options="options"></guest-list-view>
 </div>

@@ -142,7 +142,8 @@ angular.module('gliist')
 
                 scope.options = {
                     enableSelection: true,
-                    readOnly: true
+                    readOnly: true,
+                    verticalScroll: false
                 };
 
                 scope.cancel = function () {

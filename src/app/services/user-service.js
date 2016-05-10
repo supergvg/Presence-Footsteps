@@ -292,10 +292,10 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             
             registerEmail: function(user, inviteMode) {
                 var deferred = $q.defer();
-                var url = '/api/Account/Register';
+                var url = 'api/Account/Register';
 
                 if (inviteMode) {
-                    url = '/api/Account/CreateUserByAccount';
+                    url = 'api/Account/CreateUserByAccount';
                 }
                 var that = this;
                 $http({

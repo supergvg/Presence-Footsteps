@@ -1,75 +1,21 @@
-<div ng-init="getGuestLists()" class="guest-list-viewer">
+<div ng-init="getGuestLists()">
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     <h3 class="md-title" ng-show="guestLists.length === 0">No guest lists found</h3>
-    <div layout="row" layout-align="end center" class="margin-top" ng-if="options.sorting" ng-show="guestLists.length > 0">
-        <md-input-container flex="40" md-no-float>
-            <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="Search Guest List or Creator">
-            <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
-        </md-input-container>
-    </div>
     <div ng-show="guestLists.length > 0">
-        <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top" ng-if="options.sorting" ng-style="getTableHeight()"></div>
-        
-        <md-list class="zebra" ng-if="!options.sorting">
-            <md-list-item hide-sm>
-                <div flex="25">
-                    <h4>Guest List</h4>
-                </div>
-                <div flex="15">
-                    <h4>Total</h4>
-                </div>
-                <div flex="15">
-                    <h4>Category</h4>
-                </div>
-                <div flex="15">
-                    <h4>Date</h4>
-                </div>
-                <div flex="15">
-                    <h4>Created By</h4>
-                </div>
-                <div flex ng-if="!isStaff()">
-                </div>
-            </md-list-item>
-            <md-list-item ng-repeat="glist in guestLists">
-                <div layout="row" layout-align="space-between stretch" flex>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start" flex>
-                        <dl flex="25" flex-sm="100">
-                            <dt hide-gt-sm>Guest List</dt>
-                            <dd>{{glist.title}}</dd>
-                        </dl>
-                        <dl flex="15" flex-sm="100">
-                            <dt hide-gt-sm>Total</dt>
-                            <dd>{{glist.total}}</dd>
-                        </dl>
-                        <dl flex="15" flex-sm="100">
-                            <dt hide-gt-sm>Category</dt>
-                            <dd>{{glist.listType}}</dd>
-                        </dl>
-                        <dl flex="15" flex-sm="100">
-                            <dt hide-gt-sm>Date</dt>
-                            <dd>{{glist.created_on |date:'MMM dd, yy'}}</dd>
-                        </dl>
-                        <dl flex="15" flex-sm="100">
-                            <dt hide-gt-sm>Created By</dt>
-                            <dd class="capitalize">{{glist.created_by.firstName}} {{glist.created_by.lastName}}</dd>
-                        </dl>
-                        <div flex ng-if="!isStaff()" layout="row" layout-align="end center" class="actions">
-                            <md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{glist.id}}})" ng-hide="options.readOnly" aria-label="Edit guest list">
-                                <md-tooltip md-direction="top">edit guest list</md-tooltip>
-                                <ng-md-icon icon="mode_edit"></ng-md-icon>
-                            </md-button>
-                            <md-button class="icon-btn" ng-click="deleteGlist($event,glist)" ng-disabled="isRemoval(glist)" ng-hide="options.readOnly" aria-label="Delete guest list">
-                                <md-tooltip md-direction="top">delete guest list</md-tooltip>
-                                <ng-md-icon icon="delete"></ng-md-icon>
-                            </md-button>
-                            <md-checkbox ng-checked="glistSelected(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ></md-checkbox>
-                        </div>
-                    </div>
-                    <div class="check" layout="row" layout-align="center center" ng-if="isMobile()">
-                        <md-checkbox ng-checked="glistSelected(glist)" ng-click="toggleSelected(glist)" aria-label="Import" ></md-checkbox>
-                    </div>
-                </div>
-            </md-list-item>
-        </md-list>
+        <div layout="row" layout-align="end center" class="margin-top" ng-if="options.search">
+            <md-input-container flex="40" flex-sm="100" md-no-float>
+                <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="Search Guest List or Creator">
+                <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="space-between center" class="margin-top" hide-gt-sm ng-if="options.sorting">
+            <md-input-container flex md-no-float>
+                <md-select ng-model="sort.sortField" ng-change="setSortField()">
+                    <md-select-label>{{sort.sortField || 'Sort by Guest List'}}</md-select-label>
+                    <md-option value="{{sf.name}}" ng-repeat="sf in sort.sortingFields">{{sf.name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
     </div>
 </div>

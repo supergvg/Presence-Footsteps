@@ -311,7 +311,8 @@ angular.module('gliist')
                 scope.selected = [];
                 scope.options = {
                     enableSelection: true,
-                    readOnly: true
+                    readOnly: true,
+                    verticalScroll: false
                 };
                 scope.importGLists = function(selected) {
                     $scope.list = $scope.list || {title: 'New Guest List'};

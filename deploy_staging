@@ -1,7 +1,7 @@
 #!/bin/sh
 HOST='waws-prod-bay-029.ftp.azurewebsites.windows.net'
 USER="gjests__staging"
-PASSWD="GaBGwCYEjsbnfD8rjzJapJ5j988W0kkmY8wEd9GkaF1QkqnnwKwzN7qBl6En"
+PASSWD="4uL7HB6TCL2tdY8buPZK4rXR1xG9v4zzeQwsgo8BqYC8hHAFD6w3Q30ZwsEf"
 REMOTEPATH='site/wwwroot'
 
 echo "============="
