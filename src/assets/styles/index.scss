@@ -123,14 +123,14 @@ div[ui-grid] {
                 padding: 12px;
                 position: relative;
                 .actions {
-                   margin: 0 20px;
-                   position: absolute;
-                   top: 0;
-                   right: 0;
-                   & > * {
-                       display: inline-block;
-                       vertical-align: top;
-                   }
+                    margin: 0 20px;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    & > * {
+                        display: inline-block;
+                        vertical-align: top;
+                    }
                 }
             }
         }
@@ -711,6 +711,10 @@ md-radio-button {
     }
 }
 
+md-checkbox .md-icon {
+    border-color: #aaa;
+}
+
 .waiting {
     position: absolute; 
     top: 50%;
@@ -811,9 +815,6 @@ md-radio-button {
                     background: none;
                     .actions {
                         padding: 0;
-                        md-checkbox .md-icon {
-                            border-color: #aaa;
-                        }
                     }
                 }
             }
@@ -1010,6 +1011,17 @@ md-dialog {
                 }
             }
         }
+    }
+    &.link-account-dialog {
+        p {
+            padding: 10px 16px 0 16px;
+            margin: 0;
+        }
+        md-list-item > div {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        
     }
 }
 

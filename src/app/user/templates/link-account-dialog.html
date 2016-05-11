@@ -1,84 +1,56 @@
-<md-dialog>
-  <md-dialog-content>
-    <div>
-      <div layout="row" layout-wrap style="margin-bottom: 8px">
-        <div flex class="section-title">
-          <h3>Invite Information</h3>
-        </div>
-      </div>
-      <div>
+<md-dialog flex="50" flex-sm="90" class="link-account-dialog">
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>Invite Information</h3>
+    </div>
+    <md-content>
         <form name="userForm">
-
-          <div layout layout-sm="column">
-            <md-input-container flex>
-              <label>First Name</label>
-              <input ng-model="linked_account_in_edit.firstName">
-            </md-input-container>
-            <md-input-container flex>
-              <label>Last Name</label>
-              <input ng-model="linked_account_in_edit.lastName">
-            </md-input-container>
-          </div>
-
-          <div layout layout-sm="column">
-            <md-input-container flex>
-              <label>Email</label>
-              <input ng-model="linked_account_in_edit.UserName" ng-disabled="linked_account_in_edit.Id">
-            </md-input-container>
-            <md-input-container flex>
-              <label>Phone Number</label>
-              <input ng-model="linked_account_in_edit.phoneNumber" type="tel">
-            </md-input-container>
-          </div>
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label>First Name</label>
+                    <input ng-model="linkedAccountInEdit.firstName" required name="firstName">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Last Name</label>
+                    <input ng-model="linkedAccountInEdit.lastName" required name="lastName">
+                </md-input-container>
+            </div>
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label>Email</label>
+                    <input ng-model="linkedAccountInEdit.UserName" ng-disabled="linkedAccountInEdit.Id" required name="userName">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Phone Number</label>
+                    <input ng-model="linkedAccountInEdit.phoneNumber" type="tel" name="phone">
+                </md-input-container>
+            </div>
         </form>
-
-        <div>
-          Permissions (Control what this contributos can do on the dashboard and app)
-          <md-list>
-            <md-item ng-repeat="p in permissions" flex>
-              <div flex layout="row">
-                <div flexlayout="column" class="md-tile-content">
-                  <div>
-                    {{p.label}}
-                  </div>
-                  <div>
-                    {{p.desc}}
-                  </div>
+        
+        <p>Permissions (assign contributor's role for the account)</p>
+        <md-list>
+            <md-list-item ng-repeat="p in permissions" flex>
+                <div flex layout="row">
+                    <div flex layout="column">
+                        <b>{{p.label}}</b>
+                        <div>{{p.desc}}</div>
+                    </div>
+                    <div layout="row" layout-align="end center">
+                        <md-checkbox ng-checked="isSelected(p.role)" ng-click="toggleSelected(p.role)" aria-label="Invite"></md-checkbox>
+                    </div>
                 </div>
-                <div flex layout="row" layout-align="end center">
-                  <md-checkbox ng-checked="isSelected(p)" ng-click="toggleSelected(p)"
-                               aria-label="Import">
-                  </md-checkbox>
-                </div>
-              </div>
-              <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-          </md-list>
-
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+        </md-list>
+    </md-content>
+    <div class="actions" layout="row" layout-align="end center">
+        <md-button ng-click="cancel()">
+            Cancel
+        </md-button>
+        <md-button class="raised-btn" ng-click="save(userForm)">
+            {{linkedAccountInEdit.Id ? 'Update' : 'Invite'}}
+        </md-button>
+        <div ng-if="fetchingData">
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
         </div>
-      </div>
     </div>
-
-    <div class="row" style="color:red">
-      <div class="col">
-        {{errorMessage}}
-      </div>
-    </div>
-    <div class="md-actions" layout="row">
-      <md-button ng-click="cancel()">
-        Cancel
-      </md-button>
-      <md-button ng-click="invite()" class="md-primary" ng-if="!linked_account_in_edit.Id">
-        Invite
-      </md-button>
-      <md-button ng-click="update()" class="md-primary" ng-if="linked_account_in_edit.Id">
-        Update
-      </md-button>
-      <div ng-if="fetchingData">
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-      </div>
-    </div>
-
-
-  </md-dialog-content>
 </md-dialog>
