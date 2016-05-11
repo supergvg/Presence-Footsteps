@@ -3,136 +3,90 @@
 angular.module('gliist')
     .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService',
         function ($scope, $mdDialog, userService, dialogService) {
-
-
+            
             $scope.permissions = [
                 {
+                    role: 'manager',
                     label: 'Manager',
-                    desc: 'Complete access to all aspects of the dashboard and app'
+                    desc: 'Same access as Admin but cant add contributor'
                 },
                 {
+                    role: 'staff',
                     label: 'Staff',
-                    desc: 'Restricted access'
+                    desc: 'Allow to check guests in and check on event stats'
                 },
                 {
+                    role: 'promoter',
                     label: 'Promoter',
-                    desc: 'Limited Access'
+                    desc: 'Allow to add guests to the list he is assigned to'
                 }
             ];
 
-            $scope.init = function () {
-                $scope.linked_account_in_edit = $scope.linked_account || {};
-
-                $scope.selected = [];
-
-                if ($scope.linked_account_in_edit.permissions) {
-
-                    if ($scope.linked_account_in_edit.permissions.indexOf('manager') > -1) {
-                        $scope.selected.push($scope.permissions[0]);
-                    }
-                    if ($scope.linked_account_in_edit.permissions.indexOf('staff') > -1) {
-                        $scope.selected.push($scope.permissions[1]);
-                    }
-                    if ($scope.linked_account_in_edit.permissions.indexOf('promoter') > -1) {
-                        $scope.selected.push($scope.permissions[2]);
-                    }
-
-                }
-
+            $scope.init = function() {
+                $scope.linkedAccountInEdit = $scope.linked_account || {};
+                $scope.selected = $scope.linkedAccountInEdit.permissions ? $scope.linkedAccountInEdit.permissions : '';
             };
             $scope.init();
 
-
-            $scope.toggleSelected = function (item) {
-                $scope.selected = [item];
-                return;
-
-                /*        var idx = $scope.selected.indexOf(item);
-                 if (idx > -1) {
-                 $scope.selected.splice(idx, 1);
-                 } else {
-                 $scope.selected.push(item);
-                 }*/
+            $scope.toggleSelected = function(role) {
+                $scope.selected = role;
             };
 
-
-            $scope.isSelected = function (item) {
-                return $scope.selected.indexOf(item) > -1;
+            $scope.isSelected = function(role) {
+                return role === $scope.selected;
             };
 
-            $scope.hide = function () {
-                $scope.linked_account_in_edit = {};
-                $mdDialog.hide();
-            };
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $mdDialog.cancel();
             };
 
-            $scope.update = function () {
-
-                if (!$scope.linked_account_in_edit.UserName || !$scope.linked_account_in_edit.firstName || !$scope.linked_account_in_edit.lastName) {
-                    $scope.errorMessage = 'Please Fill All Fields';
+            $scope.save = function(form) {
+                if (form && form.$invalid) {
+                    var errors = {
+                            required: {
+                                firstName: 'First Name is required',
+                                lastName: 'Last Name is required',
+                                userName: 'Email is required'
+                            }
+                        },
+                        errorMessage = [];
+                    angular.forEach(form.$error, function(value, key) {
+                        angular.forEach(value, function(value1) {
+                            errorMessage.push(errors[key][value1.$name]);
+                        });
+                    });
+                    dialogService.error(errorMessage.join(', '));
                     return;
                 }
-
-                $scope.errorMessage = null;
-                $scope.linked_account_in_edit.permissions = [];
-                angular.forEach($scope.selected, function (item) {
-                    $scope.linked_account_in_edit.permissions.push(item.label);
-                });
-
-                $scope.linked_account_in_edit.permissions = $scope.linked_account_in_edit.permissions.join();
-
+                $scope.linkedAccountInEdit.permissions = $scope.selected;
                 $scope.fetchingData = true;
-
-                userService.updateCompanyUser($scope.linked_account_in_edit).then(
-                        function () {
-                            $scope.linked_account = $scope.linked_account_in_edit;
-                            $scope.refresh();
+                if ($scope.linkedAccountInEdit.Id) {
+                    userService.updateCompanyUser($scope.linkedAccountInEdit).then(
+                        function() {
+                            $scope.linked_account = $scope.linkedAccountInEdit;
                             $mdDialog.hide();
                         },
-                        function () {
+                        function() {
                             dialogService.error('Oops there was a problem updating user, please try again');
                         }
-                ).finally(
-                        function () {
-                            $scope.fetchingData = false;
-                        }
-                );
-            };
-
-            $scope.invite = function () {
-
-                if (!$scope.linked_account_in_edit.UserName || !$scope.linked_account_in_edit.firstName || !$scope.linked_account_in_edit.lastName) {
-                    $scope.errorMessage = 'Please Fill All Fields';
-                    return;
-                }
-
-                $scope.errorMessage = null;
-                $scope.linked_account_in_edit.permissions = [];
-                angular.forEach($scope.selected, function (item) {
-                    $scope.linked_account_in_edit.permissions.push(item.label);
-                });
-                $scope.linked_account_in_edit.permissions = $scope.linked_account_in_edit.permissions.join();
-
-                $scope.fetchingData = true;
-
-                userService.sendJoinRequest($scope.linked_account_in_edit).then(
-                        function () {
+                    ).finally(function() {
+                        $scope.fetchingData = false;
+                    });
+                } else {
+                    userService.sendJoinRequest($scope.linkedAccountInEdit).then(
+                        function() {
                             $mdDialog.hide();
                         },
-                        function (err) {
-                            if (err) {
-                                dialogService.error(err.ExceptionMessage);
+                        function(error) {
+                            if (error) {
+                                dialogService.error(error.ExceptionMessage);
                             } else {
                                 dialogService.error('Oops there was a problem sending invite please try again');
                             }
                         }
-                ).finally(
-                        function () {
-                            $scope.fetchingData = false;
-                        }
-                );
+                    ).finally(function() {
+                        $scope.fetchingData = false;
+                    });
+                }
             };
-
         }]);
