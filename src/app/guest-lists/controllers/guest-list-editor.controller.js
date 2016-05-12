@@ -97,7 +97,7 @@ angular.module('gliist')
                 $scope.gridOptions.enableSorting = $scope.options.sorting;
             }
             
-            angular.forEach($scope.gridOptions.columnDefs, function(value, key){
+            angular.forEach($scope.gridOptions.columnDefs, function(value){
                 if (value.enableSorting === undefined || value.enableSorting) {
                     $scope.sort.sortingFields.push(value);
                 }
