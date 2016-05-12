@@ -1,9 +1,14 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval',
-        function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$mdMedia',
+        function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $mdMedia) {
 
+            $scope.options = $scope.options || {sorting: true};
+            $scope.sort = {
+                sortingFields: [],
+                sortField: ''
+            };
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -16,38 +21,93 @@ angular.module('gliist')
                 'All Access',
                 'Reduced'
             ];
+            $scope.defaultFields = {
+                firstName: '',
+                lastName: '',
+                email: '',
+                notes: '',
+                plus: 0
+            };
+            $scope.rowSelected = false;
+            $scope.isDirty = false;
+            
+            $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
+                $scope.isMobile = status;
+                var numberFields = $scope.gridOptions.columnDefs.length;
+                $scope.gridOptions.rowHeight = $scope.isMobile ? 40 * numberFields + 22 : 45; // 40 - height field, 22 - row margin + border
+                if ($scope.list) {
+                    var data = [];
+                    angular.copy($scope.gridOptions.data, data);
+                    angular.copy(data, $scope.list.guests);
+                }
+            });
+
+            $scope.$watch('isDirty', function(newValue) {
+                if (newValue === true) {
+                    $scope.startAutoSave();
+                }
+            });
+
+            $scope.$watch('list.listType', function(newVal, oldVal) {
+                if (!$scope.list || !$scope.list.id) {
+                    return;
+                }
+                if (newVal && oldVal && newVal !== oldVal) {
+                    $scope.glTypeChanged = true;
+                }
+            });
+            
+            $scope.$watchCollection('list', function(newVal) {
+                if (!newVal) {
+                    return;
+                }
+                $scope.gridOptions.data = $scope.list.guests;
+            });
+
             $scope.gridOptions = {
-                rowTemplate: '<div>' +
-                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ui-grid-cell ng-keydown="grid.appScope.gridCellTab($event, col)"></div>' +
-                    '</div>',
+                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
                     {field: 'firstName', name: 'First Name'},
                     {field: 'lastName', name: 'Last Name'},
                     {field: 'email', name: 'Email', enableSorting: false},
                     {field: 'notes', name: 'Note', enableSorting: false}
                 ],
-                rowHeight: 45,
                 enableCellEditOnFocus: true,
                 selectionRowHeaderWidth: 50,
-                enableColumnMenus: false
+                enableColumnMenus: false,
+                data: []
             };
+            
             var instanceType = parseInt($stateParams.instanceType);
             if (instanceType !== 2){
                 $scope.gridOptions.columnDefs.push({
                     field: 'plus',
                     name: 'Plus',
                     width: '90',
-                    enableHiding: false,
                     enableSorting: false
                 });
             }
+            
             if (instanceType !== 1 && instanceType > 0) {
                 $scope.guestListTypes = ['RSVP'];
                 $scope.list = $scope.list || {listType: 'RSVP'};
             }
-            $scope.rowSelected = false;
-            $scope.isDirty = false;
+
+            if ($scope.options.sorting !== undefined) {
+                $scope.gridOptions.enableSorting = $scope.options.sorting;
+            }
+            
+            angular.forEach($scope.gridOptions.columnDefs, function(value, key){
+                if (value.enableSorting === undefined || value.enableSorting) {
+                    $scope.sort.sortingFields.push(value);
+                }
+            });
+            
+            $scope.setSortField = function() {
+                var column = $scope.gridApi.grid.getColumn($scope.sort.sortField);
+                $scope.gridApi.grid.sortColumn(column);
+                $scope.gridApi.grid.refresh();
+            };
 
             $scope.gridCellTab = function(event, col) {
                 if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
@@ -75,28 +135,27 @@ angular.module('gliist')
                     }
                 });
             };
-
-            $scope.$watch('isDirty', function(newValue) {
-                if (newValue === true) {
-                    $scope.startAutoSave();
-                }
-            });
-
-            $scope.$watch('list.listType', function(newVal, oldVal) {
-                if (!$scope.list || !$scope.list.id) {
-                    return;
-                }
-                if (newVal && oldVal && newVal !== oldVal) {
-                    $scope.glTypeChanged = true;
-                }
-            });
             
-            $scope.$watchCollection('list', function(newVal) {
-                if (!newVal) {
-                    return;
+            $scope.getTableHeight = function() {
+                var numberItems = $scope.isMobile ? 2 : 7;
+                if ($scope.options.verticalScroll === false) {
+                    numberItems = $scope.gridOptions.data.length;
                 }
-                $scope.gridOptions.data = $scope.list.guests;
-            });
+                if (!$scope.isMobile) {
+                    numberItems++;
+                }
+                return {
+                    height: (numberItems * $scope.gridOptions.rowHeight + 5) + 'px'
+                };
+            };
+            
+            $scope.getClass = function() {
+                var classes = ['margin-top'];
+                if ($scope.options.verticalScroll === false) {
+                    classes.push('no-vertical-scroll');
+                }
+                return classes;
+            };
 
             $scope.startAutoSave = function() {
                 $scope.autoSave = $interval(function(){
@@ -122,13 +181,7 @@ angular.module('gliist')
                     $scope.list.guests = [];
                 }
 
-                $scope.list.guests.push({
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    notes: '',
-                    plus: 0
-                });
+                $scope.list.guests.push(angular.extend({}, $scope.defaultFields));
                 $scope.isDirty = true;
             };
 

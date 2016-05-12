@@ -1,4 +1,4 @@
-<div>
+<div class="guest-list-editor">
     <div>
         <form name="createGuestListForm">
             <div class="block-field">
@@ -38,21 +38,17 @@
     <div class="block-field">
         <h4>Import Guests</h4>
         <md-list>
-            <md-list-item layout="row">
-                <div flex>
-                    <p>Link previous guest list</p>
-                </div>
-                <div flex layout="row" layout-align="end center">
+            <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
+                <p flex>Link previous guest list</p>
+                <div>
                     <md-button class="raised-btn" ng-click="onLinkClicked($event)">
                         Link
                     </md-button>
                 </div>
             </md-list-item>
-            <md-list-item layout="row">
-                <div flex>
-                    <p>Upload new guest list (csv, xlsx) Upload: <a href="assets/docs/Guest List Upload format 1.xlsx">format 1</a>, <a href="assets/docs/Guest List Upload format 2.xlsx">format 2</a></p>
-                </div>
-                <div flex layout="row" layout-align="end center">
+            <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
+                <p flex>Upload new guest list (csv, xlsx) Upload: <a href="assets/docs/Guest List Upload format 1.xlsx">format 1</a>, <a href="assets/docs/Guest List Upload format 2.xlsx">format 2</a></p>
+                <div>
                     <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv,.xlsx,.xls">
                         Upload
                     </md-button>
@@ -72,7 +68,7 @@
                         Delete
                     </md-button>
                 </div>
-                <div flex layout="row" layout-align="end center">
+                <div layout="row" layout-align="end center" hide-sm>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
                     <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
                         Save
@@ -80,6 +76,20 @@
                 </div>
             </md-list-item>
         </md-list>
-        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize class="margin-top"></div>
+        <div layout="row" layout-align="space-between center" class="margin-top" hide-gt-sm ng-if="options.sorting">
+            <md-input-container flex md-no-float>
+                <md-select ng-model="sort.sortField" ng-change="setSortField()">
+                    <md-select-label>{{sort.sortField || 'Sort by Guest List'}}</md-select-label>
+                    <md-option value="{{sf.name}}" ng-repeat="sf in sort.sortingFields">{{sf.name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
+        <div flex layout="row" layout-align="end center" hide-gt-sm>
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+            <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+                Save
+            </md-button>
+        </div>
     </div>
 </div>

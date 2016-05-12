@@ -21,16 +21,13 @@ angular.module('gliist')
                 $scope.initGridData($scope.guestLists);
             });
 
-            function cellTemplate(data) {
-                return '<div class="ui-grid-cell-contents" title="TOOLTIP"><dl><dt hide-gt-sm>'+data.name+'</dt><dd>{{COL_FIELD CUSTOM_FILTERS}}</dd></dl></div>';
-            }
-
             $scope.gridOptions = {
                 enableFiltering: false,
                 onRegisterApi: function(gridApi){
                     $scope.gridApi = gridApi;
                     $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
                 },
+                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
                     {field: 'title', name: 'Guest List'},
                     {field: 'total', name: 'Total', maxWidth: 100},
@@ -50,11 +47,10 @@ angular.module('gliist')
             }
             
             angular.forEach($scope.gridOptions.columnDefs, function(value, key){
-                this[key].cellTemplate = cellTemplate(this[key]);
                 if (value.enableSorting === undefined || value.enableSorting) {
                     $scope.sort.sortingFields.push(value);
                 }
-            }, $scope.gridOptions.columnDefs);
+            });
             
             if (!$rootScope.isStaff()) {
                 $scope.gridOptions.columnDefs.push({
