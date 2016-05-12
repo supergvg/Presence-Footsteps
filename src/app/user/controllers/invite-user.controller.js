@@ -1,27 +1,9 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService',
-        function ($scope, $mdDialog, userService, dialogService) {
-            
-            $scope.permissions = [
-                {
-                    role: 'manager',
-                    label: 'Manager',
-                    desc: 'Same access as Admin but cant add contributor'
-                },
-                {
-                    role: 'staff',
-                    label: 'Staff',
-                    desc: 'Allow to check guests in and check on event stats'
-                },
-                {
-                    role: 'promoter',
-                    label: 'Promoter',
-                    desc: 'Allow to add guests to the list he is assigned to'
-                }
-            ];
-
+    .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope',
+        function ($scope, $mdDialog, userService, dialogService, $rootScope) {
+            $scope.permissions = $rootScope.permissions;
             $scope.init = function() {
                 $scope.linkedAccountInEdit = $scope.linked_account || {};
                 $scope.selected = $scope.linkedAccountInEdit.permissions ? $scope.linkedAccountInEdit.permissions : '';

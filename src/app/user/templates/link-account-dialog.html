@@ -28,14 +28,14 @@
         
         <p>Permissions (assign contributor's role for the account)</p>
         <md-list>
-            <md-list-item ng-repeat="p in permissions" flex>
+            <md-list-item ng-repeat="(role, p) in permissions" flex>
                 <div flex layout="row">
                     <div flex layout="column">
                         <b>{{p.label}}</b>
                         <div>{{p.desc}}</div>
                     </div>
                     <div layout="row" layout-align="end center">
-                        <md-checkbox ng-checked="isSelected(p.role)" ng-click="toggleSelected(p.role)" aria-label="Invite"></md-checkbox>
+                        <md-checkbox ng-checked="isSelected(role)" ng-click="toggleSelected(role)" aria-label="Invite"></md-checkbox>
                     </div>
                 </div>
                 <md-divider ng-if="!$last"></md-divider>

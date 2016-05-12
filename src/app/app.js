@@ -32,6 +32,23 @@ angular.module('gliist')
                     icon: {src: 'assets/images/icons/user_profile.png'}
                 }
             ];
+            $rootScope.permissions = {
+                manager: {
+                    label: 'Manager',
+                    desc: 'Same access as Admin but cant add contributor',
+                    denyAccess: []
+                },
+                staff: {
+                    label: 'Staff',
+                    desc: 'Allow to check guests in and check on event stats',
+                    denyAccess: ['main.create_event']
+                },
+                promoter: {
+                    label: 'Promoter',
+                    desc: 'Allow to add guests to the list he is assigned to',
+                    denyAccess: ['main.create_event', 'main.user']
+                }
+            };
 
             $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = newValue;
@@ -53,21 +70,21 @@ angular.module('gliist')
                 return $scope.menuItems;
             };
             
-            $rootScope.isPromoter = function () {
+            $rootScope.isPromoter = function() {
                 if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
                     return;
                 }
                 return $rootScope.currentUser.permissions.indexOf('promoter') > -1;
             };
 
-            $rootScope.isAdmin = function () {
+            $rootScope.isAdmin = function() {
                 if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
                     return;
                 }
                 return $rootScope.currentUser.permissions.indexOf('admin') > -1;
             };
 
-            $rootScope.isStaff = function () {
+            $rootScope.isStaff = function() {
                 if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
                     return;
                 }
