@@ -280,6 +280,12 @@ angular.module('gliist', [
                         } else {
                             userService.getCurrentUser().then(function(user) {
                                 $rootScope.currentUser = user;
+                                if ($rootScope.currentUser.permissions !== 'admin') {
+                                    if ($rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf($state.current.name) > -1) {
+                                        $state.go('home');
+                                        event.preventDefault();
+                                    }
+                                }
                             }, function() {
                                 $state.go('home');
                                 event.preventDefault();
@@ -292,4 +298,5 @@ angular.module('gliist', [
                     $rootScope.appReady = true;
                 }
             });
-        }]);
+        }
+    ]);
