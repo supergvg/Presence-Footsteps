@@ -14,13 +14,16 @@
         </div>
         <h3 ng-if="event.guestLists.length === 0" class="block-field">Event has no guests</h3>
         <div ng-if="event.guestLists.length > 0">
-            <div layout="row" layout-sm="column" layout-align="space-between start" class="block-field chart">
+            <div layout="row" layout-align="space-between start" layout-sm="column" layout-align-sm="start stretch" class="block-field chart">
                 <div layout="column" flex="50" flex-sm="100">
-                    <div ng-if="isRSVP()">
+                    <div ng-if="isRSVP() || (!isRSVP() && isMobile)">
                         <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
                         <div google-chart chart="chartObject"></div>
                     </div>
-                    <md-list>
+                    <div layout="row" layout-align="center center">
+                        <div class="details" ng-class="table1Visible ? 'up' : 'down'" hide-gt-sm ng-click="table1Visible = !table1Visible">See details</div>
+                    </div>
+                    <md-list ng-show="table1Visible">
                         <md-list-item>
                             <div flex="25">
                                 Categories
@@ -51,8 +54,8 @@
                         </md-list-item>
                     </md-list>
                 </div>
-                <div layout="column" flex="50" flex-sm="100">
-                    <div ng-if="!isRSVP()">
+                <div layout="column" flex ng-if="eventType !== 1 || (eventType === 1 && !isMobile)">
+                    <div ng-if="!isRSVP() && !isMobile">
                         <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
                         <div google-chart chart="chartObject"></div>
                     </div>
@@ -61,7 +64,10 @@
                             <h4 class="chart-title">Total RSVP: {{rsvp[1].total}}</h4>
                             <div google-chart chart="chartObjectRSVP"></div>
                         </div>
-                        <md-list>
+                        <div layout="row" layout-align="center center">
+                            <div class="details" ng-class="table2Visible ? 'up' : 'down'" hide-gt-sm ng-click="table2Visible = !table2Visible">See details</div>
+                        </div>
+                        <md-list ng-show="table2Visible">
                             <md-list-item>
                                 <div flex>
                                     RSVP Data
@@ -78,10 +84,10 @@
                                 </div>
                             </md-list-item>
                         </md-list>
-                        <div layout="row" layout-align="end center" class="margin-top">
+                        <div layout="row" layout-align="end center" layout-align-sm="center center" class="margin-top" ng-show="table2Visible">
                             <a href="{{getExportExcelUrl()}}" class="md-button raised-btn">Export Rsvp Report</a>
                         </div>
-                        <md-list class="margin-top">
+                        <md-list class="margin-top" ng-show="table2Visible">
                             <md-list-item>
                                 <div flex>
                                     RSVP Page
