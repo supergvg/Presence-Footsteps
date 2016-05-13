@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window',
-        function ($scope, eventsService, dialogService, $stateParams, $state, $window) {
+    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window', '$mdMedia',
+        function ($scope, eventsService, dialogService, $stateParams, $state, $window, $mdMedia) {
             $scope.categories = [
                 {name: 'GA', color: '#d4e4f9'},
                 {name: 'VIP', color: '#cef0f2'},
@@ -31,6 +31,12 @@ angular.module('gliist')
             $scope.stats = {};
             $scope.totalCheckedIn = 0;
             $scope.eventType = 1;
+            $scope.table1Visible = $mdMedia('gt-sm');
+            $scope.table2Visible = $mdMedia('gt-sm');
+
+            $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
+                $scope.isMobile = status;
+            });
 
             $scope.calculateStats = function() {
                 if (!$scope.event) {
