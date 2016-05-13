@@ -25,9 +25,9 @@ angular.module('gliist')
             $scope.minuteStep = 15;
             $scope.utcOffset = 0;
             $scope.dt = {
-                startEventDateTime: new Date(Date.now() + 6 * 60 * 60 * 1000),
-                endEventDateTime: new Date(Date.now() + 12 * 60 * 60 * 1000),
-                endEventRsvpDateTime: new Date(Date.now() + 12 * 60 * 60 * 1000)
+                startEventDateTime: new Date(Date.now()),
+                endEventDateTime: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                endEventRsvpDateTime: new Date(Date.now() + 24 * 60 * 60 * 1000)
             };
             $scope.eventStarted = false;
             $scope.eventFinished = false;

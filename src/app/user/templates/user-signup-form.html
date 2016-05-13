@@ -48,6 +48,10 @@
             <md-input-container>
                 <label>Password</label>
                 <input class="rounded-lr" name="password" type="password" ng-model="user.password" ng-minlength="6" required>
+                <div ng-messages="userForm.password.$error" ng-if="displayErrorMessage(userForm.password)">
+                    <div ng-message="required">Password is required</div>
+                    <div ng-message="minlength">Minimum password length 6 symbols</div>
+                </div>
             </md-input-container>
             <md-input-container ng-class="userForm.password.$valid && userForm.re_password.$valid ? 'checked' : ''">
                 <label>Re-enter Password</label>

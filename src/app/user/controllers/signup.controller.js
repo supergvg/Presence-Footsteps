@@ -34,4 +34,5 @@ angular.module('gliist')
                     $scope.fetchingData = false;
                 });
             };
-        }]);
+        }
+    ]);

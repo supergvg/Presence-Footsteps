@@ -1709,6 +1709,10 @@ md-dialog {
         .md-button {
             background-color: #7ab9f8 !important;
         }
+        md-progress-circular {
+            margin: 0 10px;
+            position: absolute;
+        }
     }    
 }
 
@@ -2223,6 +2227,11 @@ md-dialog {
                 input, input.rounded-l, input.rounded-r, input.rounded-lr {
                     border-radius: 25px !important;
                     border: 1px solid #99ccff;
+                }
+            }
+            form {
+                & > div.passwords > md-input-container:first-child {
+                    margin-right: 0;
                 }
             }
         }
