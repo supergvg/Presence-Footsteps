@@ -23,7 +23,7 @@
                     <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
                 </md-input-container>
             </div>
-            <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top"></div>
+            <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
         </div>
     </div>
 </div>

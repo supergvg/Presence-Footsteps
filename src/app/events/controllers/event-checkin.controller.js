@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout', '$filter', '$window',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, $filter, $window) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout', '$filter', '$window', '$mdMedia',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, $filter, $window, $mdMedia) {
+            
+            $scope.options = $scope.options || {};
             $scope.event = {id: 0};
             
             $scope.getExportExcelUrl = function() {
@@ -22,7 +24,7 @@ angular.module('gliist')
                     $scope.gridApi = gridApi;
                     $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
                 },
-                rowTemplate: '<div><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ui-grid-cell></div></div>',
+                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
                     {field: 'guest.firstName', name: 'First Name', enableHiding: false},
                     {field: 'guest.lastName', name: 'Last Name', enableHiding: false},
@@ -81,6 +83,27 @@ angular.module('gliist')
                 }
                 $scope.gridApi.grid.refresh();
             });
+            
+            $scope.getTableHeight = function() {
+                var numberItems = $scope.isMobile ? 2 : 7;
+                if ($scope.options.verticalScroll === false) {
+                    numberItems = $scope.gridOptions.data.length;
+                }
+                if (!$scope.isMobile) {
+                    numberItems++;
+                }
+                return {
+                    height: (numberItems * $scope.gridOptions.rowHeight + 5) + 'px'
+                };
+            };
+            
+            $scope.getClass = function() {
+                var classes = ['margin-top'];
+                if ($scope.options.verticalScroll === false) {
+                    classes.push('no-vertical-scroll');
+                }
+                return classes;
+            };
 
             $scope.guestPending = function(checkin) {
                 return (checkin.status === 'no show');
