@@ -18,18 +18,19 @@
         <div class='tab-content'>
             <ng-switch on="selectedIndex">
                 <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0">
-                    <div layout="row" layout-align="end center">
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                    <div layout="row" layout-align="end center" ng-if="!fetchingData">
                         <md-input-container flex="40" flex-sm="100" md-no-float>
                             <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="Search Guest">
                             <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
                         </md-input-container>
                     </div>
-                    <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
-                    <div flex layout="row" layout-align="end center" class="margin-top">
-                        <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+                    <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()" ng-if="!fetchingData"></div>
+                    <div flex layout="row" layout-align="end center" class="margin-top" ng-if="!fetchingData">
+                        <md-button class="raised-btn" ng-click="resend()" ng-disabled="sendingData || selected.length === 0">
                             Resend
                         </md-button>
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="sendingData"></md-progress-circular>
                     </div>
                 </div>
             </ng-switch>

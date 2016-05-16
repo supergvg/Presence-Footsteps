@@ -126,21 +126,10 @@ angular.module('gliist')
                 return glist.created_by.UserName !== $rootScope.currentUser.UserName;
             };
 
-            $scope.glistSelected = function (glist) {
-                var found;
-                $scope.selected.forEach(function(item) {
-                    if (glist.id === item.id) {
-                        found = item;
-                        return;
-                    }
-                });
-                if (found) {
-                    return true;
-                }
-
-                return false;
+            $scope.glistSelected = function(item) {
+                return $scope.selected.indexOf(item) > -1;
             };
-            $scope.toggleSelected = function (item) {
+            $scope.toggleSelected = function(item) {
                 var idx = $scope.selected.indexOf(item);
                 if (idx > -1) {
                     $scope.selected.splice(idx, 1);
@@ -149,7 +138,7 @@ angular.module('gliist')
                 }
             };
 
-            $scope.deleteGlist = function (ev, glist) {
+            $scope.deleteGlist = function(ev, glist) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
                         //.parent(angular.element(document.body))
@@ -176,7 +165,7 @@ angular.module('gliist')
                 });
             };
 
-            $scope.getGuestLists = function () {
+            $scope.getGuestLists = function() {
                 if ($scope.lists) {
                     $scope.guestLists = $scope.lists;
                     $scope.local = true;
