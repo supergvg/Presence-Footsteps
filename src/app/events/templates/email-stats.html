@@ -1,4 +1,4 @@
-<div ng-init="init()">
+<div ng-init="init()" class="email-stats">
     <div ng-show="initializing">
         <h4>Loading Event...</h4>
         <span>
@@ -10,73 +10,29 @@
             <h3>Email Status</h3>
         </div>
         <event-preview event="event"></event-preview>
-        <div layout="row" layout-align="space-between center" class="tabs margin-top">
+        <div layout="row" layout-align="space-between center" class="tabs">
             <md-button ng-class="getSelected(0)" ng-click="selectedIndex = 0" flex>
                 Email Status
             </md-button>
         </div>
         <div class='tab-content'>
             <ng-switch on="selectedIndex">
-                <div role="tabpanel"
-                     id="tab1-content"
-                     aria-labelledby="tab1"
-                     ng-switch-when="0">
-
-                    
-                    
+                <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0">
+                    <div layout="row" layout-align="end center">
+                        <md-input-container flex="40" flex-sm="100" md-no-float>
+                            <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="Search Guest">
+                            <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
+                        </md-input-container>
+                    </div>
+                    <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
+                    <div flex layout="row" layout-align="end center" class="margin-top">
+                        <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+                            Resend
+                        </md-button>
+                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+                    </div>
                 </div>
             </ng-switch>
         </div>
-        
-        
-        
-        <div layout="row" layout-align="space-between center">
-            <h5>Email Status</h5>
-            <md-input-container class="search">
-                <label>Search Guest</label>
-                <input type="text" ng-model="searchText">
-                <button><img src="assets/images/icons/search.png" /></button>
-            </md-input-container>
-        </div>
-        
-        <md-list ng-show="guests.length > 0">
-            <md-list-item>
-                <div class="md-list-item-inner" layout="row" flex>
-                    <div flex="15" ng-class="sort.field === 'status' ? sort.dir : ''" ng-click="changeSort('status')">
-                        Status
-                    </div>
-                    <div flex="35" ng-class="sort.field === 'firstName' ? sort.dir : ''" ng-click="changeSort('firstName')">
-                        Name
-                    </div>
-                    <div flex="35" ng-class="sort.field === 'email' ? sort.dir : ''" ng-click="changeSort('email')">
-                        Email
-                    </div>
-                    <div flex class="last">
-                        Select
-                    </div>
-                </div>
-            </md-list-item>
-            <md-list-item ng-repeat="guest in guests | orderBy : sort.field : sort.dir === 'desc' | filter : searchText">
-                <div layout="row" flex>
-                    <div flex="15">
-                    </div>
-                    <div flex="35">
-                        <p>{{guest.firstName}} {{guest.lastName}}</p>
-                    </div>
-                    <div flex="35">
-                        <p ng-if="!isChecked(guest)">{{guest.email}}</p>
-                        <p ng-if="isChecked(guest)" class="checked" contenteditable="true" ng-model="guest.email"></p>
-                    </div>
-                    <div flex>
-                        <md-checkbox ng-model="selectedForInvite[guest.id]" aria-label="re-invite" ng-if="true"></md-checkbox>
-                    </div>
-                </div>
-            </md-list-item>
-        </md-list>        
-        
-        <div layout="row" layout-align="end center" class="actions">
-            <md-button class="md-primary md-raised" ng-hide="" ng-click="">RE-INVITE</md-button>
-            <md-button class="md-primary md-raised" ng-click="done()">DONE</md-button>
-        </div>        
     </div>
 </div>

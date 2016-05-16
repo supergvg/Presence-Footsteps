@@ -1786,6 +1786,12 @@ md-dialog {
     }
 }
 
+.email-stats {
+    .event-preview {
+        margin-bottom: 15px;
+    }
+}
+
 @media screen and (max-width: 600px) {
     div[ui-grid] {
         border: none;

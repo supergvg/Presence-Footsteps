@@ -412,6 +412,21 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 });
 
                 return d.promise;
+            },
+            
+            getEmailDeliveryReport: function(eventId) {
+                var d = $q.defer();
+                
+                $http({
+                    method: 'GET',
+                    url: 'api/GuestEventController/GetEmailDeliveryReport/' + eventId
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+                
+                return d.promise;
             }
             
         };

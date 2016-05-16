@@ -188,7 +188,7 @@ angular.module('gliist', [
                     templateUrl: 'app/templates/stats.html',
                     controller: 'StatsCtrl'
                 }).state('main.email_stats', {
-                    url: '/email_stats/:eventId',
+                    url: '/email_stats/:eventId?view',
                     templateUrl: 'app/events/templates/email-stats.html',
                     controller: 'EmailStatsController'
                 }).state('main.welcome', {
