@@ -101,13 +101,27 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
             
+            updateGuestNotes: function(guestId, notes) {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/guest/updatenotes',
+                    data: {
+                        GuestId: guestId,
+                        Notes: notes
+                    }
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get guest information, please try again');
+                });
+
+                return d.promise;
+            },
+            
             createEvent: function (event) {
                 var d = $q.defer();
-                //    server = angular.copy(event);
-
-                //server.time = moment.tz(server.time, "Atlantic/Reykjavik").toString();
-                //server.endTime = moment.tz(server.endTime, "Atlantic/Reykjavik").toString();
-                event.userOffset = event.time.getTimezoneOffset() / 60;
 
                 $http({
                     method: 'POST',
@@ -156,13 +170,12 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
 
             linkGuestList: function (guestLists, eventId, instanceType) {
                 var d = $q.defer(),
-                    ids = _.map(guestLists, function (gl) {
+                    ids = guestLists.map(function(gl) {
                         if (!gl) {
                             return;
                         }
                         return gl.id;
                     });
-
 
                 $http({
                     method: 'POST',
@@ -180,13 +193,12 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
 
             importGuestList: function (masterGLId, guestLists, gl) {
                 var d = $q.defer(),
-                    ids = _.map(guestLists, function (gl) {
+                    ids = guestLists.map(function(gl) {
                         if (!gl) {
                             return;
                         }
                         return gl.id;
                     });
-
 
                 $http({
                     method: 'POST',
@@ -362,6 +374,45 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 });
 
                 return d.promise;
+            },
+            
+            incRSVPVisitors: function(eventId) {
+                $http({
+                    method: 'POST',
+                    url: 'api/reports/rsvpvisitors/' + eventId
+                });
+            },
+            
+            getRSVPVisitors: function(eventId) {
+                var d = $q.defer();
+                
+                $http({
+                    method: 'GET',
+                    url: 'api/reports/rsvpvisitors/' + eventId
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+                
+                return d.promise;
+            },
+            
+            checkGuestsEmailBeforePublishing: function(data) {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/GuestEventController/CheckGuestsEmailBeforePublishing',
+                    data: data
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
             }
+            
         };
     }]);

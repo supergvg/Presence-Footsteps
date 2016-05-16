@@ -3,15 +3,15 @@
         <h3>User Profile</h3>
     </div>
     <div layout="row" layout-align="space-between center" class="tabs margin-top">
-        <md-button ng-class="getSelected(0) ? 'active' : ''" ng-click="data.selectedIndex = 0" flex>
+        <md-button ng-class="getSelected(0)" ng-click="selectedIndex = 0" flex>
             Profile
         </md-button>
-        <md-button ng-class="getSelected(1) ? 'active' : ''" ng-disabled="!isAdmin()" ng-click="data.selectedIndex = 1" flex>
+        <md-button ng-class="getSelected(1)" ng-hide="!isAdmin()" ng-click="selectedIndex = 1" flex>
             Account
         </md-button>
     </div>
     <div class='tab-content'>
-        <ng-switch on="data.selectedIndex">
+        <ng-switch on="selectedIndex">
             <div role="tabpanel"
                  id="tab1-content"
                  aria-labelledby="tab1"

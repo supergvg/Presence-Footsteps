@@ -10,7 +10,7 @@
     </div>
     <div ng-show="!initializing">
         <div layout="row" layout-align="space-between center" class="block-field">
-            <md-radio-group ng-model="guestFilter.status">
+            <md-radio-group ng-model="filter.status">
                 <md-radio-button value="pending" class="radio-icon"><img ng-src="assets/images/icons/pending.png"/>Pending</md-radio-button>
                 <md-radio-button value="checked" class="radio-icon"><img ng-src="assets/images/icons/checked-in.png"/>Checked</md-radio-button>
             </md-radio-group>
@@ -19,11 +19,11 @@
         <div class="block-field">
             <div layout="row" layout-align="end center">
                 <md-input-container md-no-float flex="30">
-                    <input ng-model="guestFilter.name" placeholder="Search Guest">
+                    <input ng-model="filter.value" placeholder="Search Guest">
                     <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
                 </md-input-container>
             </div>
-            <div ui-grid="gridOptions" ui-grid-auto-resize class="margin-top"></div>
+            <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
+'use strict';
+
 angular.module('gliist')
     .directive('eventDetails', [function () {
-        'use strict';
-
         return {
             restrict: 'EA',
 
@@ -12,6 +12,6 @@ angular.module('gliist')
 
             replace: true,
 
-            templateUrl: 'app/templates/events/event-details.tmpl.html'
+            templateUrl: 'app/events/templates/event-details.tmpl.html'
         };
     }]);

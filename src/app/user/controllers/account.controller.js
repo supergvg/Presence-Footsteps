@@ -3,18 +3,7 @@
 angular.module('gliist')
     .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state', '$rootScope',
         function ($scope, $mdDialog, userService, dialogService, $state, $rootScope) {
-
-
-            $scope.isStaff = function () {
-                return $rootScope.isStaff();
-            };
-
-            $scope.isPromoter = function () {
-                return $rootScope.isPromoter();
-            };
-
-
-            $scope.linkNewAccount = function (ev) {
+            $scope.linkNewAccount = function(ev) {
                 var scope = $scope.$new();
 
                 $mdDialog.show({
@@ -25,7 +14,7 @@ angular.module('gliist')
                 });
             };
 
-            $scope.editUser = function (ev, linked_account) {
+            $scope.editUser = function(ev, linked_account) {
                 var scope = $scope.$new();
                 scope.linked_account = linked_account;
 
@@ -35,10 +24,9 @@ angular.module('gliist')
                     templateUrl: 'app/user/templates/link-account-dialog.html',
                     targetEvent: ev
                 });
-
             };
 
-            $scope.deleteAccount = function (ev) {
+            $scope.deleteAccount = function(ev) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete your account?')
@@ -47,24 +35,22 @@ angular.module('gliist')
                     .ok('Yes')
                     .cancel('No')
                     .targetEvent(ev);
-                $mdDialog.show(confirm).then(function () {
-
+                $mdDialog.show(confirm).then(function() {
                     userService.deleteUser({userName: $scope.user.UserName}).then(
-                        function () {
+                        function() {
+                            $rootScope.logout();
                         },
-                        function (err) {
-                            dialogService.error(err);
+                        function(error) {
+                            var message = error.Message || 'Oops there was a problem loading account info, please try again';
+                            dialogService.error(message);
                         }
                     );
-
-                    $rootScope.logout();
-
-                }, function () {
+                }, function() {
                 });
             };
 
 
-            $scope.deleteUser = function (ev, user) {
+            $scope.deleteUser = function(ev, user) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete the user?')
@@ -74,7 +60,6 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
-
                     userService.deleteUser({userName: user.UserName}).then(
                         function () {
                             $scope.refresh();
@@ -84,36 +69,30 @@ angular.module('gliist')
                             dialogService.error(err);
                         }
                     );
-
                 }, function () {
-
                 });
             };
 
-
-            $scope.getLinkedUsers = function () {
-
+            $scope.getLinkedUsers = function() {
                 if (!$scope.company) {
                     return [];
                 }
-
-                return _.reject($scope.company.users, function (user) {
-                    return user.permissions && user.permissions.indexOf('admin') > -1;
+                return $scope.company.users.filter(function(user){
+                    return user.permissions && user.permissions.indexOf('admin') === -1;
                 });
             };
 
             $scope.refresh = function () {
-
                 $scope.refreshing = true;
                 userService.getCompanyInfo().then(
-                    function (data) {
+                    function(data) {
                         $scope.company = data;
                     },
-                    function () {
+                    function() {
                         dialogService.error('Oops there was a problem loading account info, please try again');
                     }
                 ).finally(
-                    function () {
+                    function() {
                         $scope.refreshing = false;
                     }
                 );
@@ -134,5 +113,4 @@ angular.module('gliist')
                     }
                 );
             };
-
         }]);

@@ -1,45 +1,39 @@
 'use strict';
 
-angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
-    function ($rootScope, $http, $q) {
-
+angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$window',
+    function ($rootScope, $http, $q, $window) {
         var userEmail,
-                isLogged,
-                access_token,
-                userData,
-                onLoginSuccessful = function (data) {
+            isLogged,
+            access_token,
+            userData,
+            setAuthToken = function(token) {
+                access_token = token;
+                $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+            },
+            getAuthToken = function() {
+                if (!access_token) {
+                    setAuthToken($window.localStorage.getItem('access_token'));
+                }
+                return access_token;
+            },
+            onLoginSuccessful = function(data) {
+                if (!data.access_token) {
+                    throw 'Trying to save empty access token';
+                }
+                // successful login
+                isLogged = true;
+                userEmail = data.userName;
+                setAuthToken(data.access_token);
 
-                    if (!data.access_token) {
-                        throw new Exception('Trying to save empty access token');
-                    }
-
-                    // successful login
-                    isLogged = true;
-                    userEmail = data.userName;
-                    setAuthToken(data.access_token);
-
-                    window.localStorage['userEmail'] = userEmail;
-                    window.localStorage['access_token'] = data.access_token;
-                },
-                setAuthToken = function (token) {
-                    access_token = token;
-                    $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                },
-                getAuthToken = function () {
-
-                    if (!access_token) {
-                        setAuthToken(window.localStorage['access_token']);
-                    }
-
-                    return access_token;
-                };
+                $window.localStorage.setItem('userEmail', userEmail);
+                $window.localStorage.setItem('access_token', data.access_token);
+            };
 
         return {
-            resetPassword: function (resetPassword) {
-
+            resetPassword: function(resetPassword) {
                 var deferred = $q.defer(),
-                        url = 'api/Account/ResetPassword';
-
+                    url = 'api/Account/ResetPassword';
+            
                 $http({
                     method: 'POST',
                     url: url,
@@ -49,10 +43,11 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 }).error(function (data) {
                     deferred.reject(data);
                 });
-
+                
                 return deferred.promise;
             },
-            changePassword: function (changePassword) {
+            
+            changePassword: function(changePassword) {
                 var deferred = $q.defer(),
                     url = 'api/Account/ChangePassword';
 
@@ -68,10 +63,10 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
-            sendPasswordRecover: function (userEmail) {
-
+            
+            sendPasswordRecover: function(userEmail) {
                 var deferred = $q.defer(),
-                        url = 'api/EmailController/SendRecoverPasswordEmail';
+                    url = 'api/EmailController/SendRecoverPasswordEmail';
 
                 $http({
                     method: 'POST',
@@ -87,15 +82,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
-            getInviteInfo: function (company, token) {
-
+            
+            getInviteInfo: function(company, token) {
                 var deferred = $q.defer(),
-                        url = 'api/companies/GetInviteInfo';
+                    url = 'api/companies/GetInviteInfo';
 
                 if (userData) {
                     deferred.resolve(userData);
                 }
-
                 $http({
                     method: 'GET',
                     url: url,
@@ -111,16 +105,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
-            getCompanyInfo: function () {
-
+            
+            getCompanyInfo: function() {
                 var deferred = $q.defer(),
-                        url = 'api/Account/CompanyInfo',
-                        self = this;
+                    url = 'api/Account/CompanyInfo';
 
                 if (userData) {
                     deferred.resolve(userData);
                 }
-
                 $http({
                     method: 'GET',
                     url: url
@@ -132,31 +124,31 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
-            deleteUser: function (userName) {
+            
+            deleteUser: function(userName) {
                 var deferred = $q.defer(),
-                        url = 'api/Account/DeleteRegisterByInvite';
+                    url = 'api/Account/DeleteRegisterByInvite';
+            
                 $http({
                     method: 'DELETE',
                     url: url,
                     params: userName
-                }).success(function (data) {
+                }).success(function(data) {
                     deferred.resolve(data);
-                }).error(function (data) {
+                }).error(function(data) {
                     deferred.reject(data);
                 });
 
                 return deferred.promise;
             },
-            sendJoinRequest: function (user) {
-
+            
+            sendJoinRequest: function(user) {
                 var deferred = $q.defer(),
-                        url = 'api/Account/InviteUser',
-                        self = this;
+                    url = 'api/Account/InviteUser';
 
                 if (userData) {
                     deferred.resolve(userData);
                 }
-
                 $http({
                     method: 'POST',
                     url: url,
@@ -169,10 +161,10 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
 
                 return deferred.promise;
             },
-            updateCompanyUser: function (user) {
-
+            
+            updateCompanyUser: function(user) {
                 var deferred = $q.defer(),
-                        url = 'api/Account/UpdateCompanyUser';
+                    url = 'api/Account/UpdateCompanyUser';
 
                 $http({
                     method: 'PUT',
@@ -185,15 +177,16 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 });
 
                 return deferred.promise;
-
             },
-            getUserPhoto: function (height, currentUser, suffix) {
+            
+            getUserPhoto: function(height, currentUser, suffix) {
                 var bgImg;
+                
                 if (currentUser) {
-                    bgImg = window.redirectUrl + '/api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
-                    bgImg = "url(" + bgImg + ")";
+                    bgImg = $window.redirectUrl + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
+                    bgImg = 'url("' + bgImg + '")';
                 } else {
-                    bgImg = "url('assets/images/blank_user_icon.png')";
+                    bgImg = 'url("assets/images/blank_user_icon.png")';
                 }
 
                 return {
@@ -204,10 +197,10 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                     'background-repeat': 'no-repeat'
                 };
             },
-            updateUserProfile: function (user) {
-
+            
+            updateUserProfile: function(user) {
                 var deferred = $q.defer(),
-                        url = 'api/Account/UserInfo';
+                    url = 'api/Account/UserInfo';
 
                 $http({
                     method: 'PUT',
@@ -223,16 +216,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 return deferred.promise;
             },
 
-            getCurrentUser: function () {
-
+            getCurrentUser: function() {
                 var deferred = $q.defer(),
-                        url = 'api/Account/UserInfo',
-                        self = this;
+                    url = 'api/Account/UserInfo',
+                    self = this;
 
                 if (userData) {
                     deferred.resolve(userData);
                 }
-
                 $http({
                     method: 'GET',
                     url: url,
@@ -251,31 +242,26 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 return deferred.promise;
             },
             
-            getLogged: function () {
-
+            getLogged: function() {
                 if (isLogged) {
                     return true;
                 }
-
-                if (window.localStorage['userEmail'] && getAuthToken()) {
+                if ($window.localStorage.getItem('userEmail') && getAuthToken()) {
                     return true;
                 }
-
                 return isLogged;
             },
             
-            login: function (credentials) {
-
+            login: function(credentials) {
                 var d = $q.defer();
-                var body = 'grant_type=password&username=' + credentials.username + '&password=' + credentials.password;
+                var body = 'grant_type=password&username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password);
 
                 $http({
-                    method: "POST",
-                    url: "/Token",
+                    method: 'POST',
+                    url: 'Token',
                     data: body,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (data, status) {
-
+                }).success(function(data, status) {
                     if (status === 200) {
                         onLoginSuccessful(data);
 
@@ -285,63 +271,55 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                         userEmail = '';
                         d.resolve(data);
                     }
-
                     d.resolve(data);
-                }).error(function (data) {
+                }).error(function(data, status) {
+                    data.status = status;
                     d.reject(data);
                 });
-
 
                 return d.promise;
             },
             
-            logout: function () {
-
+            logout: function() {
                 isLogged = false;
                 userEmail = '';
                 setAuthToken('');
                 $rootScope.currentUser = null;
 
-                delete window.localStorage['userEmail'];
-                delete window.localStorage['access_token'];
+                $window.localStorage.removeItem('userEmail');
+                $window.localStorage.removeItem('access_token');
             },
             
-            registerEmail: function (user, inviteMode) {
+            registerEmail: function(user, inviteMode) {
                 var deferred = $q.defer();
-
-
-                var url = '/api/Account/Register';
+                var url = 'api/Account/Register';
 
                 if (inviteMode) {
-                    var url = '/api/Account/CreateUserByAccount';
+                    url = 'api/Account/CreateUserByAccount';
                 }
-
                 var that = this;
                 $http({
                     method: 'POST',
                     url: url,
                     data: user,
                     headers: {'Content-Type': 'application/json'}
-                })
-                        .success(function (data, status) {
-                            if (status === 200) {
-                                that.login(user, deferred).then(function (data) {
-                                    deferred.resolve(data);
-                                }, function (error) {
-                                    deferred.reject(error);
-                                });
-                            } else {
-                                isLogged = false;
-                                userEmail = '';
-                                deferred.reject(data.ModelState);
-                            }
-                        })
-                        .error(function (data) {
-                            isLogged = false;
-                            userEmail = '';
-
-                            deferred.reject(data.ModelState);
+                }).success(function(data, status) {
+                    if (status === 200) {
+                        that.login(user, deferred).then(function(data) {
+                            deferred.resolve(data);
+                        }, function(error) {
+                            deferred.reject(error);
                         });
+                    } else {
+                        isLogged = false;
+                        userEmail = '';
+                        deferred.reject(data.ModelState);
+                    }
+                }).error(function(data) {
+                    isLogged = false;
+                    userEmail = '';
+                    deferred.reject(data);
+                });
 
                 return deferred.promise;
             },
@@ -350,9 +328,9 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http({
-                    method: "POST",
-                    url: "api/Companies/UpdateSocialLinks",
-                    data: {id: ~~currentUser.company_id, facebookPageUrl: currentUser.facebookPageUrl, instagrammPageUrl: currentUser.instagrammPageUrl, twitterPageUrl: currentUser.twitterPageUrl}
+                    method: 'POST',
+                    url: 'api/Companies/UpdateSocialLinks',
+                    data: {id: parseInt(currentUser.company_id), facebookPageUrl: currentUser.facebookPageUrl, instagrammPageUrl: currentUser.instagrammPageUrl, twitterPageUrl: currentUser.twitterPageUrl}
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function(data) {
@@ -380,6 +358,21 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q',
                 });
 
                 return deferred.promise;
+            },
+            
+            markCurrentUserAsLoggedInAtLeastOnce: function() {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/Account/MarkCurrentUserAsLoggedInAtLeastOnce'
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
             }
         };
     }

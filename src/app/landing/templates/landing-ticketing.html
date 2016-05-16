@@ -1,0 +1,38 @@
+<div layout="column" layout-align="center stretch">
+    <div class="header" flex layout="row" layout-align="space-between center">
+        <img ng-src="{{getCompanyLogo()}}" height="130"/>
+        <img src="assets/images/gliist_logo_landing.png" alt="logo"/>
+    </div>
+    <div class="content" layout="column" layout-align="start stretch" flex>
+        <event-preview flex event="event.event"></event-preview>
+        <md-list class="margin-top">
+            <md-list-item>
+                <div flex>Ticket type</div>
+                <div flex="20">Price</div>
+                <div flex="20">Quantity</div>
+            </md-list-item>
+            <md-list-item ng-repeat="ticket in tickets track by $index">
+                <div flex>{{ticket.name}}</div>
+                <div flex="20">$ {{ticket.price}}</div>
+                <div flex="20"><spinner ng-model="ticket.quantity" view="h"></spinner></div>
+            </md-list-item>
+        </md-list>
+        <div layout="row" layout-align="start center" layout-sm="column" class="promo">
+            <div>Promo Code</div>
+            <md-input-container md-no-float>
+                <input type="text" placeholder="Please Enter your promo code">
+            </md-input-container>
+            <md-button class="raised-btn">
+                Apply Code
+            </md-button>
+        </div>
+    </div>
+    <div class="footer" flex layout="row" layout-align="space-between center" layout-sm="column">
+        <div>
+            <p>Please note that all sales are final.<br><span>And please share with awesome friends - our community grows through amazing people like you spreading the word.</span></p>
+        </div>
+        <md-button class="raised-btn" ng-click="purchase()">
+            Get Tickets
+        </md-button>
+    </div>
+</div>

@@ -1,23 +1,20 @@
-<div class="signin" layout="column" layout-align="space-between center" layout-fill ng-init="init()">
+<div class="signin" layout="column" layout-align="space-between center" layout-fill>
     <div layout="column" layout-align="center center" class="content">
         <div>
-            <img src="assets/images/gliist_logo.png" style="height:80px"/>
+            <img src="assets/images/gliist_logo.png" style="height:90px"/>
         </div>
         <div>
             <md-input-container>
                 <label>Email</label>
-                <input class="rounded-lr" type="text" ng-model="credentials.username">
+                <input class="rounded-lr" type="text" ng-model="credentials.username" ng-keypress="onEnterPress($event)" required>
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <input class="rounded-lr" type="password" ng-model="credentials.password" ng-keypress="onKeyPress($event)">
+                <input class="rounded-lr" type="password" ng-model="credentials.password" ng-keypress="onEnterPress($event)" required>
             </md-input-container>
         </div>
-        <div layout-align="center center">
-            {{errorMessage}}
-        </div>
         <div class="action">
-            <md-button class="raised-btn" ng-click="login()">
+            <md-button class="raised-btn" ng-click="login()" ng-disabled="!credentials.username || !credentials.password">
                 login
             </md-button>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>

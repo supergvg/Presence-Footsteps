@@ -1,7 +1,7 @@
+'use strict';
+
 angular.module('gliist')
     .directive('currency', ['$filter', function ($filter) {
-        'use strict';
-
         return {
             restrict: 'A',
             require: '^ngModel',

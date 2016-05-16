@@ -1,0 +1,48 @@
+<div>
+    <md-list style="background-color: white">
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Browse and edit previous guests lists</h3>
+                </div>
+                <md-button class="raised-btn" ui-sref="main.edit_list_management">
+                    Edit
+                </md-button>
+            </md-item-content>
+            <md-divider></md-divider>
+        </md-item>
+        <md-item>
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Upload new guest list (csv)</h3>
+                </div>
+                <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv">
+                    Upload
+                </md-button>
+                <md-progress-circular class="md-hue-2" md-mode="indeterminate"
+                                      ng-show="fetchingData"></md-progress-circular>
+            </md-item-content>
+            <md-divider ng-if="!options.hideManualImport"></md-divider>
+
+        </md-item>
+        <md-item ng-hide="options.hideManualImport">
+            <md-item-content>
+                <div class="md-tile-left">
+                    <img ng-src="{{event.photo}}" class="face" style="height: 60px">
+                </div>
+                <div class="md-tile-content">
+                    <h3>Manually enter your guest list</h3>
+                </div>
+                <md-button class="raised-btn" ui-sref="main.create_list_management">
+                    Enter
+                </md-button>
+            </md-item-content>
+        </md-item>
+    </md-list>
+</div>

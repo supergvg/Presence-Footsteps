@@ -1,0 +1,50 @@
+<div layout="column" layout-align="center stretch" class="custom">
+    <div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
+        <h4>Loading ...</h4>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div layout="row" layout-align="space-between stretch" layout-sm="column" ng-show="!loading" class="content">
+        <div flex="50" flex-sm="100" class="landing-bg" layout="column" layout-align="space-around center">
+            <img src="assets/images/landing/landing-logo-custom-top.png"/>
+            <div layout="column" layout-align="center center">
+                <img src="assets/images/landing/landing-logo-custom-middle.png"/>
+                <span>DJ Chelsea Leyland | DJ MAAD*MOISELLE</span>
+            </div>
+            <img src="assets/images/landing/landing-logo-custom-bottom.png"/>
+        </div>
+        <div layout="column" layout-align="space-between stretch" flex="50" flex-sm="100">
+            <div layout="column" layout-align="center center" flex="50" class="event-details">
+                <p>Join Us Poolside</p>
+                <br>
+                <p><strong>{{event.event.time | ignoreTimeZone | date:'EEEE, MMM d | ha'}} - {{event.event.endTime | ignoreTimeZone | date:'ha'}}</strong></p>
+                <p><strong>{{getCustomLocation()}}</strong></p>
+                <br>
+                <p><strong>#POPSUGARcc</strong></p>
+            </div>
+            <div layout="column" layout-align="center center" flex class="landing-form">
+                <h4 ng-if="success" class="success">{{message}}</h4>
+                <form name="rsvpLandingForm">
+                    <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+                        <label>Name</label>
+                        <input type="text" name="name" ng-model="rsvp.name" required/>
+                    </div>
+                    <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+                        <label>Email</label>
+                        <input type="email" name="email" ng-model="rsvp.email" required/>
+                    </div>
+                    <div class="form-item">
+                        <label>Plus</label>
+                        <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}"/>
+                    </div>
+                    <div class="actions" ng-if="!success">
+                        <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
+                    </div>
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
+    </div>    
+</div>

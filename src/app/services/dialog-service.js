@@ -4,20 +4,20 @@ angular.module('gliist').factory('dialogService', [ '$mdToast',
 
     function ($mdToast) {
         return  {
-            error: function (err) {
+            error: function(err) {
                 $mdToast.show(
                     $mdToast.simple()
                         .content(err)
-                        .position('right')
-                        .hideDelay(10000)
+                        .position('center center')
+                        .hideDelay(3000)
                 );
             },
 
-            success: function (message) {
+            success: function(message) {
                 $mdToast.show(
                     $mdToast.simple()
                         .content(message)
-                        .position('right')
+                        .position('center center')
                         .hideDelay(3000)
                 );
             }

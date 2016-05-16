@@ -1,0 +1,21 @@
+<div ng-init="getGuestLists()">
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+    <h3 class="md-title" ng-show="guestLists.length === 0">No guest lists found</h3>
+    <div ng-show="guestLists.length > 0">
+        <div layout="row" layout-align="end center" class="margin-top" ng-if="options.search">
+            <md-input-container flex="40" flex-sm="100" md-no-float>
+                <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="Search Guest List or Creator">
+                <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="space-between center" class="margin-top" hide-gt-sm ng-if="options.sorting">
+            <md-input-container flex md-no-float>
+                <md-select ng-model="sort.sortField" ng-change="setSortField()">
+                    <md-select-label>{{sort.sortField || 'Sort by Guest List'}}</md-select-label>
+                    <md-option value="{{sf.name}}" ng-repeat="sf in sort.sortingFields">{{sf.name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
+    </div>
+</div>
