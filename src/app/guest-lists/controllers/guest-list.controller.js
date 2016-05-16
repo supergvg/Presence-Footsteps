@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('GuestListCtrl', [
-    function () {
-
-
+  .controller('GuestListCtrl', ['$scope',
+    function($scope) {
+        $scope.options = {
+            'search': true,
+            'sorting': true
+        };
     }]);

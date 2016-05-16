@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state',
-        function ($scope, eventsService, dialogService, $stateParams, $state) {
-
+    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window', '$mdMedia',
+        function ($scope, eventsService, dialogService, $stateParams, $state, $window, $mdMedia) {
             $scope.categories = [
                 {name: 'GA', color: '#d4e4f9'},
                 {name: 'VIP', color: '#cef0f2'},
@@ -14,69 +13,99 @@ angular.module('gliist')
                 {name: 'Comp', color: '#f3d4f9'},
                 {name: 'All Access', color: '#c9badb'},
                 {name: 'Press', color: '#e0e0e0'},
-                {name: 'RSVP', color: '#eae3da'}
+                {name: 'RSVP', color: '#eae3da'},
+                {name: 'Reduced', color: '#f9e6e2'},
+                {name: 'Walk up', color: '#bbe4f9'}
             ];
+            $scope.rsvp = [
+                {name: 'Invited', color: '#cef0f2', total: 0},
+                {name: 'RSVP\'d', color: '#f7f9c3', total: 0},
+                {name: 'RSVP checked in', color: '#ffd8b4', total: 0}
+            ];
+            $scope.rsvpTotalVisitors = 0;
+            $scope.Math = $window.Math;
+            $scope.gliOptions = {
+                readOnly: true,
+                stats: true
+            };
+            $scope.stats = {};
+            $scope.totalCheckedIn = 0;
+            $scope.eventType = 1;
+            $scope.table1Visible = $mdMedia('gt-sm');
+            $scope.table2Visible = $mdMedia('gt-sm');
 
-            $scope.getCategoryStatus = function (category) {
-                var count = 0;
+            $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
+                $scope.isMobile = status;
+            });
+
+            $scope.calculateStats = function() {
                 if (!$scope.event) {
                     return;
                 }
+                var category = '';
                 angular.forEach($scope.event.guestLists, function(gl) {
-                    angular.forEach(gl.actual, function(chkn) {
-                        if (chkn.status !== 'checked in') {
-                          return;
+                    category = gl.listType.toLowerCase();
+                    if (!$scope.stats[category]) {
+                        $scope.stats[category] = {
+                            totalCheckedIn: 0,
+                            total: 0
+                        };
+                    }
+                    if (!(category === 'rsvp' && gl.instanceType !== 4)) {
+                        angular.forEach(gl.actual, function(guest) {
+                            if (guest.status === 'checked in') {
+                                $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
+                            }
+                        });
+                        $scope.stats[category].total += gl.guestsCount;
+                        $scope.totalCheckedIn += $scope.stats[category].totalCheckedIn;
+                    }                        
+                    
+                    if ($scope.isRSVP()) {
+                        //RSVP stats
+                        if (gl.instanceType === 2 && gl.published) {
+                            $scope.rsvp[0].total += gl.guestsCount;
+                            angular.forEach(gl.actual, function(guest) {
+                                $scope.rsvp[1].total += guest.plus + 1;
+                            });
+                            $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                         }
-                        if (chkn.guest.type === category.name) {
-                            count += chkn.guest.plus + 1 - chkn.plus;
-                        } else if (gl.listType === category.name) {
-                            count += chkn.guest.plus + 1 - chkn.plus;
+                        if (gl.instanceType === 4) {
+                            $scope.rsvp[1].total += gl.guestsCount;
+                            $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                         }
-                    });
+                    }
                 });
-
-                return count;
+                eventsService.getRSVPVisitors($scope.event.id).then(
+                    function(data) {
+                        $scope.rsvpTotalVisitors = data;
+                    }
+                );
+                $scope.updateChart();
             };
-
-            $scope.Math = window.Math;
-
-            $scope.getCategoryTotal = function (category) {
-                var count = 0;
-                if (!$scope.event) {
-                    return;
-                }
-                angular.forEach($scope.event.guestLists, function(gl) {
-                    angular.forEach(gl.actual, function(guest_info) {
-                        if (gl.listType === 'On the spot' && guest_info.guest.type === category.name) {
-                            count += guest_info.guest.plus + 1;
-                        } else if (gl.listType === category.name) {
-                            count += guest_info.guest.plus + 1;
-                        }
-                    });
-                });
-
-                return count;
+            
+            $scope.isRSVP = function() {
+                return $scope.eventType === 2;
             };
-
+            
+            $scope.getExportExcelUrl = function() {
+                return $window.redirectUrl+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
+            };
+            
+            $scope.getCategoryStats = function(category) {
+                return $scope.stats[category.toLowerCase()] || {totalCheckedIn: 0, total: 0};
+            };
+            
             $scope.updateChart = function() {
-                var totalGuests = 0;
                 $scope.chartObject = {
                     type: 'PieChart',
                     options: {
                         titlePosition: 'none',
                         legend: 'none',
-                        colors: [
-                            '#d4e4f9',
-                            '#cef0f2',
-                            '#cfefdc',
-                            '#f7f9c3',
-                            '#ffd8b4',
-                            '#ead5e1',
-                            '#f3d4f9',
-                            '#c9badb',
-                            '#e0e0e0',
-                            '#eae3da'],
-                        chartArea: {left: 0, top: '10%', width: '100%', height: '75%'},
+                        colors: $scope.categories.map(function(category){
+                            return category.color;
+                        }),
+                        chartArea: {left: 0, top: '5%', width: '100%', height: '90%'},
                         pieSliceText: 'label'
                     },
                     data: {
@@ -87,50 +116,63 @@ angular.module('gliist')
                         rows: []
                     }
                 };
-
                 angular.forEach($scope.categories, function(category) {
-                    var categoryCount = $scope.getCategoryStatus(category);
-                    totalGuests += categoryCount;
                     $scope.chartObject.data.rows.push({
-                        c: [
-                            {
-                                v: category.name
-                            },
-                            {
-                                v: categoryCount
-                            }
-                        ]
+                        c: [{v: category.name}, {v: $scope.getCategoryStats(category.name).totalCheckedIn}]
                     });
                 });
                 
-                $scope.totalGuests = totalGuests;
-            };
-
-            $scope.$watch('event', function (newValue) {
-                if (!newValue) {
-                    return;
+                if ($scope.isRSVP()) {
+                    var rsvp = angular.copy($scope.rsvp);
+                    rsvp.sort(function(a, b){
+                        if (a.total > b.total) {
+                            return 1;
+                        }
+                        if (a.total < b.total) {
+                            return -1;
+                        }
+                    });
+                    var names = [''],
+                        totals = [''];
+                    rsvp.forEach(function(item, i, arr){
+                        names.push(item.name);
+                        names.push({role: 'tooltip'});
+                        if (i > 0) {
+                            totals.push(arr[i].total - arr[i - 1].total);
+                        } else {
+                            totals.push(item.total);
+                        }
+                        totals.push(item.name+': '+item.total);
+                    });
+                    $scope.chartObjectRSVP = {
+                        type: 'ColumnChart',
+                        options: {
+                            legend: 'none',
+                            colors: rsvp.map(function(item){ return item.color; }),
+                            chartArea: {left: '5%', top: '5%', width: '100%', height: '90%'},
+                            bar: { groupWidth: '20%' },
+                            isStacked: true,
+                            vAxis: {gridlines: {count: 3}, viewWindow: {max: rsvp[$scope.rsvp.length - 1].total}}
+                        },
+                        data: [names, totals]
+                    };
                 }
-                $scope.updateChart(newValue);
-            });
-
-            $scope.gliOptions = {
-                readOnly: true,
-                stats: true
             };
 
-            $scope.event = {id: 0};
-            $scope.init = function () {
+            $scope.init = function() {
                 var eventId = $stateParams.eventId;
                 $scope.initializing = true;
-                eventsService.getEvents(eventId).then(function (data) {
-                    $scope.event = data;
-                }, function () {
-                    dialogService.error('There was a problem getting your events, please try again');
-                    $state.go('main.current_events');
-                }).finally(
-                    function () {
-                        $scope.initializing = false;
+                eventsService.getEvents(eventId).then(
+                    function(data) {
+                        $scope.event = data;
+                        $scope.eventType = $scope.event.type;
+                        $scope.calculateStats();
+                    }, function() {
+                        dialogService.error('There was a problem getting your events, please try again');
+                        $state.go('main.current_events');
                     }
-                );
+                ).finally(function() {
+                    $scope.initializing = false;
+                });
             };
         }]);

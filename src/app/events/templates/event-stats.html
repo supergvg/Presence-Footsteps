@@ -1,4 +1,4 @@
-<div ng-init="init()" class="event-stats">
+<div ng-init="init()" class="event-stats event-type-{{eventType}}">
     <div ng-if="initializing">
         <h4>Loading Event...</h4>
         <span>
@@ -12,12 +12,19 @@
         <div layout="row" class="block-field">
             <event-preview flex event="event"></event-preview>
         </div>
-        <h3 ng-if="event.guestLists.length == 0" class="block-field">Event has no guests</h3>
+        <h3 ng-if="event.guestLists.length === 0" class="block-field">Event has no guests</h3>
         <div ng-if="event.guestLists.length > 0">
-            <div layout="row" class="block-field chart">
-                <div flex="50">
-                    <md-list>
-                        <md-list-item layout="row">
+            <div layout="row" layout-align="space-between start" layout-sm="column" layout-align-sm="start stretch" class="block-field chart">
+                <div layout="column" flex="50" flex-sm="100">
+                    <div ng-if="isRSVP() || (!isRSVP() && isMobile)">
+                        <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
+                        <div google-chart chart="chartObject"></div>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <div class="details" ng-class="table1Visible ? 'up' : 'down'" hide-gt-sm ng-click="table1Visible = !table1Visible">See details</div>
+                    </div>
+                    <md-list ng-show="table1Visible">
+                        <md-list-item>
                             <div flex="25">
                                 Categories
                             </div>
@@ -31,34 +38,77 @@
                                 Percentage
                             </div>
                         </md-list-item>
-                        <md-list-item ng-repeat="category in categories" layout="row" style="background-color : {{category.color}};">
+                        <md-list-item ng-repeat="category in categories" style="background-color: {{category.color}};">
                             <div flex>
                                 {{category.name}}
                             </div>
                             <div flex>
-                                {{getCategoryStatus(category)}}
+                                {{getCategoryStats(category.name).totalCheckedIn}}
                             </div>
                             <div flex>
-                                {{getCategoryTotal(category)}}
+                                {{getCategoryStats(category.name).total}}
                             </div>
-                            <div flex ng-if="getCategoryTotal(category)">
-                                {{ Math.round(getCategoryStatus(category) / getCategoryTotal(category) * 100) }}%
-                            </div>
-                            <div flex ng-if="!getCategoryTotal(category)">
-                                N/A
+                            <div flex>
+                                {{getCategoryStats(category.name).total > 0 ? Math.round(getCategoryStats(category.name).totalCheckedIn / getCategoryStats(category.name).total * 100) + '%' : 'N/A'}}
                             </div>
                         </md-list-item>
                     </md-list>
                 </div>
-                <div flex="50">
-                    <h4 class="chart-title">Total Checked in Guests {{totalGuests}}</h4>
-                    <div google-chart chart="chartObject"></div>
+                <div layout="column" flex ng-if="eventType !== 1 || (eventType === 1 && !isMobile)">
+                    <div ng-if="!isRSVP() && !isMobile">
+                        <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
+                        <div google-chart chart="chartObject"></div>
+                    </div>
+                    <div layout="column" ng-if="isRSVP()">
+                        <div>
+                            <h4 class="chart-title">Total RSVP: {{rsvp[1].total}}</h4>
+                            <div google-chart chart="chartObjectRSVP"></div>
+                        </div>
+                        <div layout="row" layout-align="center center">
+                            <div class="details" ng-class="table2Visible ? 'up' : 'down'" hide-gt-sm ng-click="table2Visible = !table2Visible">See details</div>
+                        </div>
+                        <md-list ng-show="table2Visible">
+                            <md-list-item>
+                                <div flex>
+                                    RSVP Data
+                                </div>
+                                <div flex="10">
+                                </div>
+                            </md-list-item>
+                            <md-list-item ng-repeat="item in rsvp" style="background-color: {{item.color}};">
+                                <div flex>
+                                    {{item.name}}
+                                </div>
+                                <div flex="10">
+                                    {{item.total}}
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                        <div layout="row" layout-align="end center" layout-align-sm="center center" class="margin-top" ng-show="table2Visible">
+                            <a href="{{getExportExcelUrl()}}" class="md-button raised-btn">Export Rsvp Report</a>
+                        </div>
+                        <md-list class="margin-top" ng-show="table2Visible">
+                            <md-list-item>
+                                <div flex>
+                                    RSVP Page
+                                </div>
+                                <div flex="10">
+                                </div>
+                            </md-list-item>
+                            <md-list-item style="background-color: #f0f6fb;">
+                                <div flex>
+                                    Total Visitors
+                                </div>
+                                <div flex="10">
+                                    {{rsvpTotalVisitors}}
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                    </div>
                 </div>
             </div>
-            <div layout="row" class="block-field">
-                <div flex>
-                    <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
-                </div>
+            <div class="block-field">
+                <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
             </div>
         </div>
     </div>

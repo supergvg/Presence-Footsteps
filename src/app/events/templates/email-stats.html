@@ -6,15 +6,30 @@
         </span>
     </div>
     <div ng-show="!initializing" class="email-stats">
-        <div layout="row" layout-wrap class="header">
-            <div flex>
-                <h3>Email Status</h3>
-            </div>
+        <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+            <h3>Email Status</h3>
         </div>
-        <!--<h4>Thank you! Your Event has been Published + Email Delivery Status</h4>-->
-
         <event-preview event="event"></event-preview>
+        <div layout="row" layout-align="space-between center" class="tabs margin-top">
+            <md-button ng-class="getSelected(0)" ng-click="selectedIndex = 0" flex>
+                Email Status
+            </md-button>
+        </div>
+        <div class='tab-content'>
+            <ng-switch on="selectedIndex">
+                <div role="tabpanel"
+                     id="tab1-content"
+                     aria-labelledby="tab1"
+                     ng-switch-when="0">
 
+                    
+                    
+                </div>
+            </ng-switch>
+        </div>
+        
+        
+        
         <div layout="row" layout-align="space-between center">
             <h5>Email Status</h5>
             <md-input-container class="search">

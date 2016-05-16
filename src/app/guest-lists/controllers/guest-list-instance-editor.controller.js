@@ -1,52 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'uploaderService', 'eventsService',
-        function ($scope, guestFactory, dialogService, $state, uploaderService, eventsService) {
-
-            $scope.getglistTotal = function (glist) {
-                var total = 0;
-
-                angular.forEach(glist.actual,
-                    function (guest_info) {
-                        total += guest_info.plus + 1;
-                    });
-
-                return total;
-            };
-
-            $scope.gridOptions = {
-                rowTemplate: '<div>' +
-                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ui-grid-cell></div>' +
-                    '</div>',
-                columnDefs: [
-                    {field: 'guest.firstName', name: 'First Name'},
-                    {field: 'guest.lastName', name: 'Last Name'},
-                    {field: 'guest.email', name: 'Email', enableSorting: false},
-                    {field: 'guest.phoneNumber', name: 'Note', enableSorting: false},
-                    {field: 'guest.plus', name: 'Plus', enableSorting: false}
-                ],
-                enableCellEditOnFocus: true,
-                rowHeight: 45,
-                selectionRowHeaderWidth: 50,
-                enableColumnMenus: false
-            };
-
-            $scope.gridOptions.onRegisterApi = function (gridApi) {
-                //set gridApi on scope
-                $scope.gridApi = gridApi;
-
-                gridApi.selection.on.rowSelectionChanged($scope, function () {
-                    var selectedRows = $scope.gridApi.selection.getSelectedRows();
-
-                    if (!selectedRows || selectedRows.length === 0) {
-                        return $scope.rowSelected = false;
-                    }
-
-                    $scope.rowSelected = true;
-                });
-            };
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', '$interval',
+        function ($scope, guestFactory, dialogService, $state, eventsService, $interval) {
 
             $scope.guestListTypes = [
                 'GA',
@@ -59,81 +15,102 @@ angular.module('gliist')
                 'Press',
                 'All Access'
             ];
+            $scope.gridOptions = {
+                rowTemplate: '<div>' +
+                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
+                    'class="ui-grid-cell" ui-grid-cell ng-keydown="grid.appScope.gridCellTab($event, col)"></div>' +
+                    '</div>',
+                columnDefs: [
+                    {field: 'guest.firstName', name: 'First Name'},
+                    {field: 'guest.lastName', name: 'Last Name'},
+                    {field: 'guest.email', name: 'Email', enableSorting: false},
+                    {field: 'guest.notes', name: 'Note', enableSorting: false},
+                    {field: 'guest.plus', name: 'Plus', enableSorting: false}
+                ],
+                enableCellEditOnFocus: true,
+                rowHeight: 45,
+                selectionRowHeaderWidth: 50,
+                enableColumnMenus: false
+            };
+            $scope.rowSelected = false;
+            $scope.isDirty = false;
+            
+            $scope.gridCellTab = function(event, col) {
+                if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
+                    $scope.addMore();
+                }
+            };
+            
+            $scope.gridOptions.onRegisterApi = function(gridApi) {
+                //set gridApi on scope
+                $scope.gridApi = gridApi;
+                
+                var rowSelectionChanged = function() {
+                    $scope.rowSelected = $scope.gridApi.selection.getSelectedRows();
+                    if ($scope.rowSelected.length === 0) {
+                        $scope.rowSelected = false;
+                    }
+                };
 
-            $scope.selected = $scope.selected || [];
-
-            $scope.deleteSelectedRows = function () {
-
-                var selectedRows = $scope.gridApi.selection.getSelectedRows();
-
-                if (!selectedRows || selectedRows.length === 0) {
+                gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
+                gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
+                
+                gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+                    if (newValue !== oldValue) {
+                        $scope.isDirty = true;
+                    }
+                });
+            };
+            
+            $scope.$watch('id', function(newValue) {
+                if (!newValue) {
                     return;
                 }
-
-                var guestsIds = _.map(selectedRows, function (row) {
-                    return row.guest.id;
-                });
-
-                $scope.isDirty = true;
-
-                $scope.fetchingData = true;
-
-                eventsService.removeGuestsFromGLInstance($scope.gli.id, guestsIds).then(
-                    function (gli) {
-                        $scope.gli = gli;
+                $scope.initializing = true;
+                guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function(data) {
+                    $scope.gli = data;
+                    if ($scope.gli.instanceType === 2) {
+                        $scope.gridOptions.columnDefs.splice(4);
                     }
-                ).finally(function () {
-                        $scope.fetchingData = false;
-                    });
-
-                $scope.rowSelected = false;
-            };
-
-            $scope.$watchCollection('gli', function (newVal, oldValue) {
+                }, function() {
+                    dialogService.error('There was a problem getting your events, please try again');
+                    $state.go('main.current_events');
+                }).finally(
+                    function() {
+                        $scope.initializing = false;
+                    }
+                );
+            });
+            
+            $scope.$watch('isDirty', function(newValue) {
+                if (newValue === true) {
+                    $scope.startAutoSave();
+                }
+            });
+            
+            $scope.$watchCollection('gli', function(newVal) {
                 if (!newVal) {
                     return;
                 }
-
-                if (!angular.equals(newVal, oldValue)) {
-                    $scope.isDirty = true;
-                }
                 $scope.gridOptions.data = $scope.gli.actual;
             });
-
-            $scope.onFileSelect = function (files) {
-                if (!files || files.length === 0) {
-                    return;
+            
+            $scope.startAutoSave = function() {
+                $scope.autoSave = $interval(function(){
+                    if (!$scope.guestsError() && !$scope.fetchingData) {
+                        $scope.save(true);
+                    }
+                }, 20000);
+            };
+            $scope.cancelAutoSave = function() {
+                $scope.isDirty = false;
+                if ($scope.autoSave) {
+                    $interval.cancel($scope.autoSave);
+                    delete $scope.autoSave;
                 }
-                $scope.upload(files[0]);
             };
-
-            $scope.upload = function (files) {
-                $scope.fetchingData = true;
-                uploaderService.uploadGuestList(files).then(function (data) {
-                        _.extend($scope.gli, data.data);
-                    },
-                    function() {
-                        dialogService.error('There was a problem saving your image please try again');
-                    }
-                ).finally(
-                    function () {
-                        $scope.fetchingData = false;
-                    }
-                );
-            };
-
-            $scope.onLinkClicked = function() {
-                var scope = $scope.$new();
-                scope.currentGlist = $scope.event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-                scope.selected = [];
-                scope.options = {
-                    enableSelection: true
-                };
-            };
-
-            $scope.addMore = function () {
+            
+            $scope.addMore = function() {
                 if (!$scope.gli) {
                     $scope.gli = {};
                 }
@@ -149,55 +126,105 @@ angular.module('gliist')
                         firstName: '',
                         lastName: '',
                         email: '',
-                        phoneNumber: '',
+                        notes: '',
                         plus: 0
                     }
                 });
+                $scope.isDirty = true;
             };
 
-            $scope.save = function () {
+            $scope.deleteSelectedRows = function() {
+                if (!$scope.rowSelected) {
+                    return;
+                }
                 $scope.fetchingData = true;
-
+                $scope.cancelAutoSave();
+                var guestIds = [];
+                angular.forEach($scope.rowSelected, function(row){
+                    guestIds.push(row.guest.id);
+                });
+                eventsService.removeGuestsFromGLInstance($scope.gli.id, guestIds).then(
+                    function(gli) {
+                        $scope.gli = gli;
+                    }
+                ).finally(function () {
+                    $scope.fetchingData = false;
+                });
+                $scope.rowSelected = false;
+            };
+            
+            $scope.save = function(autoSave) {
+                if ($scope.guestsError()) {
+                    dialogService.error('First Name must be not empty.');
+                    return;
+                }
+                $scope.fetchingData = true;
+                $scope.cancelAutoSave();
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
-                guestFactory.GuestListInstance.update($scope.gli).$promise.then(
-                    function (res) {
-                        _.extend($scope.gli, res);
-                        dialogService.success('Guest list saved');
-                        $scope.isDirty = false;
-
-                        if ($scope.onSave) {
-                            $scope.onSave(res);
-                        }
-
-                    }, function () {
-                        dialogService.error('There was a problem saving your guest list, please try again');
-                    }).finally(function () {
-                        $scope.fetchingData = false;
-                    });
-            };
-
-            $scope.$watch('id', function (newValue) {
-                if (!newValue) {
-                    return;
+                var gli = {};
+                angular.copy($scope.gli, gli);
+                if (autoSave) {
+                    gli.actual.splice(gli.actual.length - 1, 1);
                 }
-
-                $scope.initializing = true;
-
-                guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function (data) {
-                    $scope.gli = data;
-                    if ($scope.gli.instanceType === 2) {
-                        $scope.gridOptions.columnDefs.splice(4);
+                guestFactory.GuestListInstance.update(gli).$promise.then(
+                    function(data) {
+                        if (!autoSave) {
+                            $scope.gli = data;
+                        } else {
+                            $scope.gli.id = data.id;
+                            var savedGuestsId = [],
+                                newSavedGuests = [];
+                            angular.forEach($scope.gli.actual, function(guest) {
+                                if (guest.guest.id) {
+                                    savedGuestsId.push(guest.guest.id);
+                                }
+                            });
+                            angular.forEach(data.actual, function(guest) {
+                                if (savedGuestsId.indexOf(guest.guest.id) === -1) {
+                                    newSavedGuests.push(guest);
+                                }
+                            });
+                            angular.forEach($scope.gli.actual, function(guest, key) {
+                                if (!guest.guest.id) {
+                                    angular.forEach(newSavedGuests, function(newGuest, newKey){
+                                        if (guest.guest.firstName === newGuest.guest.firstName && guest.guest.lastName === newGuest.guest.lastName && guest.guest.email === newGuest.guest.email) {
+                                            $scope.gli.actual[key].id = newGuest.id;
+                                            $scope.gli.actual[key].guest.id = newGuest.guest.id;
+                                            delete newSavedGuests[newKey];
+                                            return;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        var message = 'Guest list saved';
+                        if (autoSave) {
+                            message = 'Guest list autosaved';
+                        }
+                        dialogService.success(message);
+                        if ($scope.onSave && !autoSave) {
+                            $scope.onSave(data);
+                        }
+                    }, function(error) {
+                        var message = error.data.Message || 'There was a problem saving your guest list, please try again';
+                        dialogService.error(message);
                     }
-                }, function () {
-                    dialogService.error('There was a problem getting your events, please try again');
-                    $state.go('main.current_events');
-                }).finally(
-                    function () {
-                        $scope.initializing = false;
-                    }
-                );
-            });
-
-        }]);
+                ).finally(function() {
+                    $scope.fetchingData = false;
+                });
+            };
+            
+            $scope.guestsError = function() {
+                var result = false;
+                if (!$scope.gli) {
+                    return result;
+                }
+                angular.forEach($scope.gli.actual, function(actual) {
+                    result = result || (actual.guest.firstName === '');
+                });
+                return result;
+            };
+        }]
+    );

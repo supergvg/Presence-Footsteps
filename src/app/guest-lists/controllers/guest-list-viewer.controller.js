@@ -1,54 +1,123 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter',
-        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter) {
-
-            $scope.isStaff = function () {
-                return $rootScope.isStaff();
+    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter', '$mdMedia',
+        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter, $mdMedia) {
+            
+            $scope.selected = $scope.selected || [];
+            $scope.options = $scope.options || {};
+            $scope.sort = {
+                sortingFields: [],
+                sortField: ''
             };
+            
+            $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
+                $scope.isMobile = status;
+                var numberFields = $scope.gridOptions.columnDefs.length;
+                if ($scope.gridOptions.columnDefs[$scope.gridOptions.columnDefs.length - 1].name === '') {
+                    numberFields--;
+                }
+                $scope.gridOptions.rowHeight = $scope.isMobile ? 40 * numberFields + 22 : 45; // 40 - height field, 22 - row margin + border
+                $scope.initGridData($scope.guestLists);
+            });
 
             $scope.gridOptions = {
-                rowTemplate: '<div>' +
-                    '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" ' +
-                    'class="ui-grid-cell" ui-grid-cell></div>' +
-                    '</div>',
+                enableFiltering: false,
+                onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
+                    $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+                },
+                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
-                    {field: 'title', name: 'Guest List'},
-                    {field: 'total', name: 'Total', enableSorting: false},
-                    {field: 'listType', name: 'Category'},
-                    {field: 'created_on', name: 'Date'},
-                    {field: 'created_by', name: 'Created By', enableSorting: false}
+                    {field: 'title', name: 'Guest List', minWidth: 200},
+                    {field: 'total', name: 'Total', maxWidth: 100},
+                    {field: 'listType', name: 'Category', maxWidth: 150},
+                    {field: 'created_on', name: 'Date', maxWidth: 150},
+                    {field: 'UpdatedOn', name: 'Update', maxWidth: 150},
+                    {field: 'created_by', name: 'Created By', enableSorting: false, maxWidth: 150}
                 ],
-                rowHeight: 45,
                 enableColumnMenus: false,
-                enableVerticalScrollbar: 0,
+                enableVerticalScrollbar: $scope.options.verticalScroll === false ? 0 : 2,
                 enableHorizontalScrollbar: 0,
+                enableSorting: false,
                 data: []
             };
-            if (!$scope.isStaff()) {
+            if ($scope.options.sorting !== undefined) {
+                $scope.gridOptions.enableSorting = $scope.options.sorting;
+            }
+            
+            angular.forEach($scope.gridOptions.columnDefs, function(value){
+                if (value.enableSorting === undefined || value.enableSorting) {
+                    $scope.sort.sortingFields.push(value);
+                }
+            });
+            
+            if (!$rootScope.isStaff()) {
                 $scope.gridOptions.columnDefs.push({
-                    name: '', field: 'id', enableSorting: false,
-                    cellTemplate: '<div class="actions" title="Actions">' +
-                        '<md-button class="icon-btn" ui-sref="main.edit_glist({listId:{{row.entity.id}}})" ng-hide="grid.appScope.options.readOnly">' +
-                        '<md-tooltip md-direction="top">edit guest list</md-tooltip>' +
-                        '<ng-md-icon icon="mode_edit"></ng-md-icon>' +
-                        '</md-button>' +
-                        '<md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.readOnly">' +
-                        '<md-tooltip md-direction="top">delete guest list</md-tooltip>' +
-                        '<ng-md-icon icon="delete"></ng-md-icon>' +
-                        '</md-button>' +
-                        '<md-checkbox ng-checked="grid.appScope.glistSelected(row.entity.glist)" ng-click="grid.appScope.toggleSelected(row.entity.glist)" aria-label="Import" ng-show="grid.appScope.options.enableSelection"></md-checkbox>'
+                    name: '', field: 'id', enableSorting: false, width: 140, cellClass: 'actions-col',
+                    cellTemplate: '<div class="actions">' +
+                                  '     <md-button class="icon-btn" ui-sref="main.edit_glist({listId:row.entity.id})" ng-hide="grid.appScope.options.readOnly" aria-label="Edit guest list">' +
+                                  '         <md-tooltip md-direction="top">edit guest list</md-tooltip>' +
+                                  '         <ng-md-icon icon="mode_edit"></ng-md-icon>' +
+                                  '     </md-button>' +
+                                  '     <md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.readOnly" aria-label="Delete guest list">' +
+                                  '         <md-tooltip md-direction="top">delete guest list</md-tooltip>' +
+                                  '         <ng-md-icon icon="delete"></ng-md-icon>' +
+                                  '     </md-button>' +
+                                  '     <md-checkbox ng-checked="grid.appScope.glistSelected(row.entity.glist)" ng-click="grid.appScope.toggleSelected(row.entity.glist)" aria-label="Import" ng-show="grid.appScope.options.enableSelection"></md-checkbox>' +
+                                  '</div>'
                 });
             }
-
-            $scope.getTableHeight = function() {
-                return {
-                    height: ($scope.gridOptions.data.length * $scope.gridOptions.rowHeight + $scope.gridOptions.rowHeight + 5) + "px"
-                };
+            
+            $scope.setSortField = function() {
+                var column = $scope.gridApi.grid.getColumn($scope.sort.sortField);
+                $scope.gridApi.grid.sortColumn(column);
+                $scope.gridApi.grid.refresh();
+            };
+            
+            $scope.filter = {
+                refresh: function() {
+                    $scope.gridApi.grid.refresh();
+                },
+                value: ''
+            };
+            
+            $scope.singleFilter = function(renderableRows) {
+                var matcher = new RegExp($scope.filter.value, 'i');
+                renderableRows.forEach(function(row) {
+                    var match = false;
+                    ['title', 'created_by'].forEach(function(field) {
+                        if (row.entity[field].match(matcher)){
+                            match = true;
+                        }
+                    });
+                    if (!match) {
+                        row.visible = false;
+                    }
+                });
+                return renderableRows;
             };
 
-            $scope.selected = $scope.selected || [];
+            $scope.getTableHeight = function() {
+                var numberItems = $scope.isMobile ? 2 : 11;
+                if ($scope.options.verticalScroll === false) {
+                    numberItems = $scope.gridOptions.data.length;
+                }
+                if (!$scope.isMobile) {
+                    numberItems++;
+                }
+                return {
+                    height: (numberItems * $scope.gridOptions.rowHeight + 5) + 'px'
+                };
+            };
+            
+            $scope.getClass = function() {
+                var classes = ['margin-top'];
+                if ($scope.options.verticalScroll === false) {
+                    classes.push('no-vertical-scroll');
+                }
+                return classes;
+            };
 
             $scope.isRemoval = function(glist) {
                 if (!$rootScope.isPromoter() || !glist.created_by) {
@@ -57,24 +126,14 @@ angular.module('gliist')
                 return glist.created_by.UserName !== $rootScope.currentUser.UserName;
             };
 
-            $scope.getTotalGuests = function (glist) {
-                var total = 0;
-
-                angular.forEach(glist.guests,
-                        function (guest_info) {
-                            total += guest_info.plus + 1;
-                        });
-
-                return total;
-
-            };
-
             $scope.glistSelected = function (glist) {
-
-                var found = _.find($scope.selected, function (item) {
-                    return glist.id === item.id;
+                var found;
+                $scope.selected.forEach(function(item) {
+                    if (glist.id === item.id) {
+                        found = item;
+                        return;
+                    }
                 });
-
                 if (found) {
                     return true;
                 }
@@ -90,10 +149,6 @@ angular.module('gliist')
                 }
             };
 
-            $scope.addMore = function () {
-                $scope.list.guests.push({});
-            };
-
             $scope.deleteGlist = function (ev, glist) {
                 // Appending dialog to document.body to cover sidenav in docs app
                 var confirm = $mdDialog.confirm()
@@ -104,51 +159,24 @@ angular.module('gliist')
                         .ok('Yes')
                         .cancel('No')
                         .targetEvent(ev);
-                $mdDialog.show(confirm).then(function () {
-
+                $mdDialog.show(confirm).then(function() {
                     if ($scope.local) {
-
-                        $scope.guestLists = _.reject($scope.guestLists, function (item) {
-                            return angular.equals(glist, item);
+                        $scope.guestLists = $scope.guestLists.filter(function(item) {
+                            return !angular.equals(glist, item);
                         });
-
                         return;
                     }
-
                     guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
                         $scope.getGuestLists();
                     }, function () {
                         dialogService.error('There was a problem please try again');
                     });
-
-
-                }, function () {
+                }, function() {
                     $scope.alert = 'You decided to keep your debt.';
                 });
             };
 
-            $scope.showGlistDialog = function (ev, event) {
-
-                var scope = $scope.$new();
-                scope.currentGlist = event;
-                scope.cancel = function () {
-                    $mdDialog.cancel();
-                };
-
-                scope.save = function () {
-                    $mdDialog.toggle();
-                };
-
-                $mdDialog.show({
-                    //controller: DialogController,
-                    scope: scope,
-                    templateUrl: 'app/guest-lists/templates/glist-edit-dialog.tmpl.html',
-                    targetEvent: ev
-                });
-            };
-
             $scope.getGuestLists = function () {
-
                 if ($scope.lists) {
                     $scope.guestLists = $scope.lists;
                     $scope.local = true;
@@ -181,17 +209,10 @@ angular.module('gliist')
                         total: gl.total,
                         listType: gl.listType,
                         created_on: $filter('date')(gl.created_on, 'MMM dd, yy'),
-                        created_by: gl.created_by.firstName +' '+ gl.created_by.lastName,
+                        UpdatedOn: $filter('date')(gl.UpdatedOn, 'MMM dd, yy'),
+                        created_by: gl.created_by ? gl.created_by.firstName +' '+ gl.created_by.lastName : '',
                         glist: gl
                     });
                 });
             };
-
-            $scope.init = function () {
-                if (!$scope.options) {
-                    $scope.options = {};
-                }
-            };
-
-            $scope.init();
         }]);

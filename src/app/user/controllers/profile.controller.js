@@ -3,49 +3,19 @@
 angular.module('gliist')
     .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService',
         function ($scope, $rootScope, userService, dialogService) {
-
-
-            $rootScope.$watch('currentUser', function (newValue) {
+            $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = angular.copy(newValue);
             });
-
-            $scope.data = {
-                selectedIndex: 0
+            $scope.selectedIndex = 0;
+            $scope.getSelected = function(idx) {
+                return ($scope.selectedIndex === idx ? 'active' : '');
             };
 
-            $scope.displayErrorMessage = function (field) {
-                return ($scope.showValidation) || (field.$touched && field.$error.required);
+            $scope.next = function() {
+                $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 1);
             };
-
-            $scope.getSelected = function (idx) {
-                if ($scope.data.selectedIndex === idx) {
-                    return 'logo-bg';
-                }
-
-            };
-
-
-            $scope.saveChanges = function (form) {
-                if (form && form.$invalid) {
-                    $scope.showValidation = true;
-                    return;
-                }
-
-                userService.updateUserProfile($scope.currentUser).then(
-                        function () {
-                            dialogService.success('Changes Saved');
-                        },
-                        function (err) {
-                            dialogService.error(err);
-                        }
-                );
-            };
-
-            $scope.next = function () {
-                $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 1);
-            };
-            $scope.previous = function () {
-                $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+            $scope.previous = function() {
+                $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
             };
 
             $scope.link = function () {
