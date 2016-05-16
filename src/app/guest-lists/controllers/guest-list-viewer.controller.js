@@ -29,12 +29,12 @@ angular.module('gliist')
                 },
                 rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
-                    {field: 'title', name: 'Guest List'},
+                    {field: 'title', name: 'Guest List', minWidth: 200},
                     {field: 'total', name: 'Total', maxWidth: 100},
-                    {field: 'listType', name: 'Category'},
-                    {field: 'created_on', name: 'Date'},
-                    {field: 'UpdatedOn', name: 'Update'},
-                    {field: 'created_by', name: 'Created By', enableSorting: false}
+                    {field: 'listType', name: 'Category', maxWidth: 150},
+                    {field: 'created_on', name: 'Date', maxWidth: 150},
+                    {field: 'UpdatedOn', name: 'Update', maxWidth: 150},
+                    {field: 'created_by', name: 'Created By', enableSorting: false, maxWidth: 150}
                 ],
                 enableColumnMenus: false,
                 enableVerticalScrollbar: $scope.options.verticalScroll === false ? 0 : 2,
