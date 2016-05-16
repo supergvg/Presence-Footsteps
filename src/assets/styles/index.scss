@@ -803,6 +803,36 @@ md-checkbox .md-icon {
     top: 50%;
     left: 50%;
 }
+
+.tabs {
+    & > * {
+        text-align: center;
+        text-transform: none;
+        font-size: 16px;
+        color: #8e8e8e;
+        border-radius: 3px 3px 0 0;
+        border: 1px solid #b3b3b3;
+        margin: 0;
+        background-color: #e6e6e6;
+        text-shadow: -1px 0 0 #cbcbcb;
+        height: 50px;
+        &.active {
+            color: #7ab9f8;
+            text-shadow: -1px 0 0 #d0e5fc;
+            background: none;
+            border-bottom-color: transparent;
+        }
+        + * {
+            margin-left: -1px;
+        }
+    }
+}
+.tab-content {
+    border-left: 1px solid #b3b3b3;
+    border-right: 1px solid #b3b3b3;
+    border-bottom: 1px solid #b3b3b3;
+    padding: 20px;
+}
         
 .guest-list-instance-viewer {
     md-list {
@@ -1247,35 +1277,6 @@ md-dialog {
 
 .profile {
     color: #8e8e8e;
-    .tabs {
-        & > * {
-            text-align: center;
-            text-transform: none;
-            font-size: 16px;
-            color: #8e8e8e;
-            border-radius: 3px 3px 0 0;
-            border: 1px solid #b3b3b3;
-            margin: 0;
-            background-color: #e6e6e6;
-            text-shadow: -1px 0 0 #cbcbcb;
-            height: 50px;
-            &.active {
-                color: #7ab9f8;
-                text-shadow: -1px 0 0 #d0e5fc;
-                background: none;
-                border-bottom-color: transparent;
-            }
-            + * {
-                margin-left: -1px;
-            }
-        }
-    }
-    .tab-content {
-        border-left: 1px solid #b3b3b3;
-        border-right: 1px solid #b3b3b3;
-        border-bottom: 1px solid #b3b3b3;
-        padding: 20px;
-    }
     .social-links-edit {
         border-top: 1px solid #b3b3b3;
         h4 {
@@ -1509,13 +1510,13 @@ md-dialog {
 }
 
 .event-details-page {
-    .tabs {
+    .steps {
         .line {
             background-color: #e6e6e6;
             height: 10px;
             margin-top: 18px;
         }
-        .tab {
+        .step {
             position: relative;
             text-align: center;
             &:first-child .line {
@@ -1548,7 +1549,7 @@ md-dialog {
     }
 }
 
-.event-tab {
+.event-step {
     .ticket-blocks {
         display: inline-block;
         .ticket-block {
@@ -2135,8 +2136,8 @@ md-dialog {
         }
     }
     .event-details-page {
-        .tabs {
-            .tab {
+        .steps {
+            .step {
                 h4 {
                     font-size: 12px;
                 }
@@ -2214,7 +2215,7 @@ md-dialog {
             }
         }
     }    
-    .event-tab {
+    .event-step {
         .ticket-blocks {
             .ticket-block {
                 min-width: 260px;
