@@ -1,6 +1,6 @@
 <div ng-init="init()" class="event-details-page">
-    <div layout="row" layout-align="space-between center" class="tabs margin-top">
-        <div class="tab">
+    <div layout="row" layout-align="space-between center" class="steps margin-top">
+        <div class="step">
             <div class="line"></div>
             <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
             <md-button class="md-fab"
@@ -11,7 +11,7 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div class="tab">
+        <div class="step">
             <div class="line"></div>
             <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Event</h4>
             <md-button class="md-fab"
@@ -22,7 +22,7 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div class="tab">
+        <div class="step">
             <div class="line"></div>
             <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Invite</h4>
             <md-button class="md-fab"
@@ -33,7 +33,7 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div class="tab">
+        <div class="step">
             <div class="line"></div>
             <h4 ng-class="getSelected(3) ? 'text-bg' : ''">Guests</h4>
             <md-button class="md-fab"
@@ -44,7 +44,7 @@
             </md-button>
         </div>
         <div flex class="line"></div>
-        <div class="tab">
+        <div class="step">
             <div class="line"></div>
             <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
             <md-button class="md-fab"
@@ -129,7 +129,7 @@
              ng-switch-when="1"
              md-swipe-left="next()"
              md-swipe-right="previous()"
-             class="event-tab">
+             class="event-step">
             <div>
                 <form name="rsvpForm">
                     <div class="block-field" layout="column">
