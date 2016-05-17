@@ -1728,7 +1728,7 @@ md-dialog {
             .md-button {
                 margin: 5px 0;
                 & + .md-button {
-                    margin-left: 15px;
+                    margin-left: 10px;
                 }
             }
         }
@@ -1794,15 +1794,42 @@ md-dialog {
         margin-bottom: 15px;
     }
     div[ui-grid] {
-        md-checkbox {
-            margin: 0;
-            line-height: 1;
-        }
-        .status-1 {
-            color: #72cb96;
-        }
-        .status-2 {
-            color: #eb212e;
+        .ui-grid-canvas {
+            .ui-grid-row {
+                & > div {
+                    dl {
+                        dt {
+                            min-width: 65px;
+                            width: 65px;
+                        }
+                        dd.ui-grid-cell {
+                            .ui-grid-cell-contents {
+                                &.edited {
+                                    color: #99ccff;
+                                }
+                                &.ui-grid-cell-focus {
+                                    background: none;
+                                }
+                            }
+                            .status-1 {
+                                color: #72cb96;
+                            }
+                            .status-2 {
+                                color: #eb212e;
+                            }
+                            &.actions-col {
+                                padding: 0;
+                                .actions {
+                                    margin: 0;
+                                    left: 0;
+                                    right: auto;
+                                    position: static;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -1917,6 +1944,7 @@ md-dialog {
                                 border-left: 1px solid #ccc !important;
                                 text-align: center;
                                 .actions {
+                                    position: absolute !important;
                                     top: 50%;
                                     transform: translateY(-50%);
                                     margin: 0;

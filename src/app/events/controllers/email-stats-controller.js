@@ -6,6 +6,7 @@ angular.module('gliist')
             $scope.selectedIndex = parseInt($location.search().view) || 0;
             $scope.options = $scope.options || {};
             $scope.selected = $scope.selected || [];            
+            $scope.edited = [];
             
             $scope.getSelected = function(idx) {
                 return ($scope.selectedIndex === idx ? 'active' : '');
@@ -30,13 +31,20 @@ angular.module('gliist')
                 onRegisterApi: function(gridApi){
                     $scope.gridApi = gridApi;
                     $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+                    gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+                        if (newValue !== oldValue) {
+                            if ($scope.edited.indexOf(rowEntity.id) < 0) {
+                                $scope.edited.push(rowEntity.id);
+                            }
+                        }
+                    });
                 },
-                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
+                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.cellClass === \'actions-col\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
                     {field: 'status', name: 'Status', cellTemplate: '<div class="ui-grid-cell-contents status-{{row.entity.deliveryStatus}}" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>'},
                     {field: 'name', name: 'Name'},
-                    {field: 'email', name: 'Email', enableCellEditOnFocus: true},
-                    {field: 'id', name: 'Select', cellTemplate: '<md-checkbox ng-checked="grid.appScope.isGuestSelected(row.entity)" ng-click="grid.appScope.toggleGuestSelected(row.entity)" aria-label="Select"></md-checkbox>', maxWidth: 100}
+                    {field: 'email', name: 'Email', enableCellEditOnFocus: true, cellTemplate: '<div class="ui-grid-cell-contents" ng-class="grid.appScope.isEdited(row.entity.id)" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>'},
+                    {field: 'id', name: 'Select', cellClass: 'actions-col', cellTemplate: '<div class="actions"><md-checkbox ng-checked="grid.appScope.isGuestSelected(row.entity)" ng-click="grid.appScope.toggleGuestSelected(row.entity)" aria-label="Select"></md-checkbox></div>', maxWidth: 100}
                 ],
                 enableColumnMenus: false,
                 enableVerticalScrollbar: $scope.options.verticalScroll === false ? 0 : 2,
@@ -89,6 +97,10 @@ angular.module('gliist')
                 return classes;
             };
             
+            $scope.isEdited = function(id) {
+                return $scope.edited.indexOf(id) > -1 ? 'edited' : '';
+            };
+            
             $scope.isGuestSelected = function(item) {
                 return $scope.selected.indexOf(item) > -1;
             };
@@ -114,9 +126,16 @@ angular.module('gliist')
                             MessageType: item.messageType
                         });
                     });
-                    eventsService.resendGuestEmails(data).then(function(data) {
-                        dialogService.success('Guest emails resended');
-                        
+                    eventsService.resendGuestEmails(data).then(function() {
+                        $scope.edited = [];
+                        angular.forEach($scope.selected, function(item){
+                            var index = $scope.gridOptions.data.indexOf(item);
+                            if (index > -1) {
+                                $scope.gridOptions.data[index].status = $scope.getTextStatus(3);
+                                $scope.gridOptions.data[index].deliveryStatus = 3;
+                            }
+                        });
+                        $scope.selected = [];
                     }, function() {
                         dialogService.error('There was a problem resending guest emails, please try again');
                     }).finally(function() {
@@ -150,6 +169,8 @@ angular.module('gliist')
                     return 'Delivered';
                 } else if (status === 2) {
                     return 'DeliveryFailed';
+                } else if (status === 3) {
+                    return 'Successful';
                 }
                 return '';
             };
