@@ -427,7 +427,22 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 });
                 
                 return d.promise;
-            }
+            },
             
+            resendGuestEmails: function(data) {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/GuestEventController/ResendGuestEmail',
+                    data: data
+                }).success(function(data) {
+                    d.resolve(data);
+                }).error(function(data) {
+                    d.reject(data);
+                });
+
+                return d.promise;
+            }
         };
     }]);

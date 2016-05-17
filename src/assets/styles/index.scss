@@ -11,6 +11,9 @@ html {
 
 md-progress-circular {
     margin: 0 auto;
+    &.near {
+        margin: 0;
+    }
 }
 
 @keyframes rotator {
@@ -1789,6 +1792,18 @@ md-dialog {
 .email-stats {
     .event-preview {
         margin-bottom: 15px;
+    }
+    div[ui-grid] {
+        md-checkbox {
+            margin: 0;
+            line-height: 1;
+        }
+        .status-1 {
+            color: #72cb96;
+        }
+        .status-2 {
+            color: #eb212e;
+        }
     }
 }
 

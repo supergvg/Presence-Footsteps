@@ -25,12 +25,12 @@
                             <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
                         </md-input-container>
                     </div>
-                    <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()" ng-if="!fetchingData"></div>
+                    <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()" ng-if="!fetchingData"></div>
                     <div flex layout="row" layout-align="end center" class="margin-top" ng-if="!fetchingData">
+                        <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="sendingData"></md-progress-circular>
                         <md-button class="raised-btn" ng-click="resend()" ng-disabled="sendingData || selected.length === 0">
                             Resend
                         </md-button>
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="sendingData"></md-progress-circular>
                     </div>
                 </div>
             </ng-switch>

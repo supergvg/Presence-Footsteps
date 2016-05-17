@@ -33,10 +33,10 @@ angular.module('gliist')
                 },
                 rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
                 columnDefs: [
-                    {field: 'status', name: 'Status'},
+                    {field: 'status', name: 'Status', cellTemplate: '<div class="ui-grid-cell-contents status-{{row.entity.deliveryStatus}}" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>'},
                     {field: 'name', name: 'Name'},
-                    {field: 'email', name: 'Email'},
-                    {field: 'id', name: 'Select', cellTemplate: '<md-checkbox ng-checked="grid.appScope.isGuestSelected(row.entity)" ng-click="grid.appScope.toggleGuestSelected(row.entity)" aria-label="Select"></md-checkbox>'}
+                    {field: 'email', name: 'Email', enableCellEditOnFocus: true},
+                    {field: 'id', name: 'Select', cellTemplate: '<md-checkbox ng-checked="grid.appScope.isGuestSelected(row.entity)" ng-click="grid.appScope.toggleGuestSelected(row.entity)" aria-label="Select"></md-checkbox>', maxWidth: 100}
                 ],
                 enableColumnMenus: false,
                 enableVerticalScrollbar: $scope.options.verticalScroll === false ? 0 : 2,
@@ -102,8 +102,27 @@ angular.module('gliist')
             };            
             
             $scope.resend = function() {
-                
-                
+                if ($scope.selected.length > 0) {
+                    $scope.sendingData = true;
+                    var data = {
+                        EventId: $scope.event.id,
+                        EmailRequests: []
+                    };
+                    angular.forEach($scope.selected, function(item){
+                        data.EmailRequests.push({
+                            GuestId: item.id, 
+                            MessageType: item.messageType
+                        });
+                    });
+                    eventsService.resendGuestEmails(data).then(function(data) {
+                        dialogService.success('Guest emails resended');
+                        
+                    }, function() {
+                        dialogService.error('There was a problem resending guest emails, please try again');
+                    }).finally(function() {
+                        $scope.sendingData = false;
+                    });
+                }
             };
             
             $scope.initGridData = function(data) {
@@ -117,7 +136,8 @@ angular.module('gliist')
                         name: guest.FirstName +' '+ guest.LastName,
                         email: guest.Email,
                         status: $scope.getTextStatus(guest.DeliveryStatus),
-                        messageType: guest.MessageType
+                        messageType: guest.MessageType,
+                        deliveryStatus: guest.DeliveryStatus
                     });
                 });
             };
