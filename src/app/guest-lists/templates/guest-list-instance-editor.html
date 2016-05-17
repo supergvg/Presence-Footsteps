@@ -44,7 +44,15 @@
                     </div>
                 </md-list-item>
             </md-list>
-            <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize class="margin-top"></div>
+            <div layout="row" layout-align="space-between center" class="margin-top" hide-gt-sm ng-if="options.sorting">
+                <md-input-container flex md-no-float>
+                    <md-select ng-model="sort.sortField" ng-change="setSortField()">
+                        <md-select-label>{{sort.sortField || 'Sort by Guest List'}}</md-select-label>
+                        <md-option value="{{sf.name}}" ng-repeat="sf in sort.sortingFields">{{sf.name}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
         </div>
     </div>
 </div>
