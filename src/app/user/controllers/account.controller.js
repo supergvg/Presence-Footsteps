@@ -36,12 +36,12 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function() {
-                    userService.deleteUser({userName: $scope.user.UserName}).then(
+                    userService.deleteUser({userId: $scope.user.userId}).then(
                         function() {
                             $rootScope.logout();
                         },
                         function(error) {
-                            var message = error.Message || 'Oops there was a problem loading account info, please try again';
+                            var message = error.MessageDetail || 'Oops there was a problem loading account info, please try again';
                             dialogService.error(message);
                         }
                     );
@@ -60,13 +60,14 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function () {
-                    userService.deleteUser({userName: user.UserName}).then(
+                    userService.deleteUser({userId: user.Id}).then(
                         function () {
                             $scope.refresh();
                         },
-                        function (err) {
+                        function(error) {
                             $scope.refresh();
-                            dialogService.error(err);
+                            var message = error.MessageDetail || 'Oops there was a problem deleting user, please try again';
+                            dialogService.error(message);
                         }
                     );
                 }, function () {
