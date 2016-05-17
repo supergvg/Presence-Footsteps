@@ -1927,6 +1927,7 @@ md-dialog {
                 padding: 4px;
                 input {
                     line-height: 1;
+                    width: calc(100% - 10px);
                 }
             }
         }
