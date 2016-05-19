@@ -19,11 +19,6 @@ angular.module('gliist')
             };
 
             $scope.init = function() {
-                if (userService.getLogged()) {
-                    $state.go('main.welcome');
-                    return;
-                }
-
                 $scope.options = {
                     inviteMode: true
                 };

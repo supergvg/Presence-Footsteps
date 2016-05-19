@@ -316,7 +316,8 @@ angular.module('gliist', [
             $rootScope.$on('$stateChangeStart', function(event, next, toParams, from, fromParams) {
                 $state.previous = from;
                 $state.previousParams = fromParams;
-                if (next.access && next.access.denyLogged && $rootScope.currentUser) {
+                
+                if (next.access && next.access.denyLogged && userService.getLogged()) {
                     $state.go('main.welcome');
                     event.preventDefault();
                 }
@@ -330,7 +331,7 @@ angular.module('gliist', [
                                 $rootScope.currentUser = user;
                                 if ($rootScope.currentUser.permissions !== 'admin') {
                                     if ($rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf($state.current.name) > -1) {
-                                        $state.go('home');
+                                        $state.go('main.welcome');
                                         event.preventDefault();
                                     }
                                 }
