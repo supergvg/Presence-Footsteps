@@ -10,12 +10,6 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 access_token = token;
                 $http.defaults.headers.common.Authorization = 'Bearer ' + token;
             },
-            getAuthToken = function() {
-                if (!access_token) {
-                    setAuthToken($window.localStorage.getItem('access_token'));
-                }
-                return access_token;
-            },
             onLoginSuccessful = function(data) {
                 if (!data.access_token) {
                     throw 'Trying to save empty access token';
@@ -25,7 +19,6 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 userEmail = data.userName;
                 setAuthToken(data.access_token);
 
-                $window.localStorage.setItem('userEmail', userEmail);
                 $window.localStorage.setItem('access_token', data.access_token);
             };
 
@@ -243,13 +236,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             },
             
             getLogged: function() {
-                if (isLogged) {
+                if (isLogged || access_token) {
                     return true;
                 }
-                if ($window.localStorage.getItem('userEmail') && getAuthToken()) {
+                if ($window.localStorage.getItem('access_token') && !access_token) {
+                    setAuthToken($window.localStorage.getItem('access_token'));
                     return true;
                 }
-                return isLogged;
+                return false;
             },
             
             login: function(credentials) {
@@ -286,7 +280,6 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 setAuthToken('');
                 $rootScope.currentUser = null;
 
-                $window.localStorage.removeItem('userEmail');
                 $window.localStorage.removeItem('access_token');
             },
             
