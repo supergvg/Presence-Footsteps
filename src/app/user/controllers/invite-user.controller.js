@@ -3,6 +3,7 @@
 angular.module('gliist')
     .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope',
         function ($scope, $mdDialog, userService, dialogService, $rootScope) {
+            $scope.permissionsOrder = ['manager', 'staff', 'promoter'];
             $scope.permissions = $rootScope.permissions;
             $scope.init = function() {
                 $scope.linkedAccountInEdit = $scope.linked_account || {};

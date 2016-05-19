@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$timeout', '$filter', '$window', '$mdMedia',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $timeout, $filter, $window, $mdMedia) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$filter', '$window',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $filter, $window) {
             
             $scope.options = $scope.options || {};
             $scope.event = {id: 0};

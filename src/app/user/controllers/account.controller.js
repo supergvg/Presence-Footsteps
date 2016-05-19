@@ -41,7 +41,7 @@ angular.module('gliist')
                             $rootScope.logout();
                         },
                         function(error) {
-                            var message = error.Message || 'Oops there was a problem loading account info, please try again';
+                            var message = error.MessageDetail || 'Oops there was a problem loading account info, please try again';
                             dialogService.error(message);
                         }
                     );
@@ -64,9 +64,10 @@ angular.module('gliist')
                         function () {
                             $scope.refresh();
                         },
-                        function (err) {
+                        function(error) {
                             $scope.refresh();
-                            dialogService.error(err);
+                            var message = error.MessageDetail || 'Oops there was a problem deleting user, please try again';
+                            dialogService.error(message);
                         }
                     );
                 }, function () {

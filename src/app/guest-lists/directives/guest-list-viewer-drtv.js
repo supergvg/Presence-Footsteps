@@ -6,7 +6,6 @@ angular.module('gliist')
             restrict: 'EA',
             controller: 'GuestListViewerCtrl',
             scope: {
-                lists: '=?',
                 options: '=?',
                 selected: '=?'
             },
