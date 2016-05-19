@@ -1,218 +1,108 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter', '$mdMedia',
-        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter, $mdMedia) {
-            
+    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter',
+        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter) {
             $scope.selected = $scope.selected || [];
             $scope.options = $scope.options || {};
-            $scope.sort = {
-                sortingFields: [],
-                sortField: ''
-            };
-            
-            $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
-                $scope.isMobile = status;
-                var numberFields = $scope.gridOptions.columnDefs.length;
-                if ($scope.gridOptions.columnDefs[$scope.gridOptions.columnDefs.length - 1].name === '') {
-                    numberFields--;
-                }
-                $scope.gridOptions.rowHeight = $scope.isMobile ? 40 * numberFields + 22 : 45; // 40 - height field, 22 - row margin + border
-                $scope.initGridData($scope.guestLists);
-            });
-
-            $scope.gridOptions = {
-                enableFiltering: false,
-                onRegisterApi: function(gridApi){
-                    $scope.gridApi = gridApi;
-                    $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
-                },
-                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
+            $scope.options.gridOptions = {
                 columnDefs: [
-                    {field: 'title', name: 'Guest List', minWidth: 200},
-                    {field: 'total', name: 'Total', maxWidth: 100},
-                    {field: 'listType', name: 'Category', maxWidth: 150},
-                    {field: 'created_on', name: 'Date', maxWidth: 150},
-                    {field: 'UpdatedOn', name: 'Update', maxWidth: 150},
-                    {field: 'created_by', name: 'Created By', enableSorting: false, maxWidth: 150}
-                ],
-                enableColumnMenus: false,
-                enableVerticalScrollbar: $scope.options.verticalScroll === false ? 0 : 2,
-                enableHorizontalScrollbar: 0,
-                enableSorting: false,
-                data: []
+                    {field: 'title', name: 'Guest List', minWidth: 200, allowCellFocus: false},
+                    {field: 'total', name: 'Total', maxWidth: 100, allowCellFocus: false},
+                    {field: 'listType', name: 'Category', maxWidth: 150, allowCellFocus: false},
+                    {field: 'created_on', name: 'Date', maxWidth: 150, allowCellFocus: false},
+                    {field: 'UpdatedOn', name: 'Update', maxWidth: 150, allowCellFocus: false},
+                    {field: 'created_by', name: 'Created By', enableSorting: false, maxWidth: 150, allowCellFocus: false}
+                ]
             };
-            if ($scope.options.sorting !== undefined) {
-                $scope.gridOptions.enableSorting = $scope.options.sorting;
-            }
-            
-            angular.forEach($scope.gridOptions.columnDefs, function(value){
-                if (value.enableSorting === undefined || value.enableSorting) {
-                    $scope.sort.sortingFields.push(value);
-                }
-            });
-            
             if (!$rootScope.isStaff()) {
-                $scope.gridOptions.columnDefs.push({
-                    name: '', field: 'id', enableSorting: false, width: 140, cellClass: 'actions-col',
+                $scope.options.gridOptions.columnDefs.push({
+                    name: '', field: 'id', enableSorting: false, width: 140, cellClass: 'actions-col', allowCellFocus: false,
                     cellTemplate: '<div class="actions">' +
-                                  '     <md-button class="icon-btn" ui-sref="main.edit_glist({listId:row.entity.id})" ng-hide="grid.appScope.options.readOnly" aria-label="Edit guest list">' +
+                                  '     <md-button class="icon-btn" ui-sref="main.edit_glist({listId:row.entity.id})" ng-hide="grid.appScope.options.display.readOnly" aria-label="Edit guest list">' +
                                   '         <md-tooltip md-direction="top">edit guest list</md-tooltip>' +
                                   '         <ng-md-icon icon="mode_edit"></ng-md-icon>' +
                                   '     </md-button>' +
-                                  '     <md-button class="icon-btn" ng-click="grid.appScope.deleteGlist($event, row.entity.glist)" ng-disabled="grid.appScope.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.readOnly" aria-label="Delete guest list">' +
+                                  '     <md-button class="icon-btn" ng-click="grid.appScope.options.methods.deleteGuest($event, row.entity.glist)" ng-disabled="grid.appScope.options.methods.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.display.readOnly" aria-label="Delete guest list">' +
                                   '         <md-tooltip md-direction="top">delete guest list</md-tooltip>' +
                                   '         <ng-md-icon icon="delete"></ng-md-icon>' +
                                   '     </md-button>' +
-                                  '     <md-checkbox ng-checked="grid.appScope.glistSelected(row.entity.glist)" ng-click="grid.appScope.toggleSelected(row.entity.glist)" aria-label="Import" ng-show="grid.appScope.options.enableSelection"></md-checkbox>' +
+                                  '     <md-checkbox ng-checked="grid.appScope.options.methods.guestSelected(row.entity.glist)" ng-click="grid.appScope.options.methods.toggleSelected(row.entity.glist)" aria-label="Import" ng-show="grid.appScope.options.display.enableSelection"></md-checkbox>' +
                                   '</div>'
                 });
             }
-            
-            $scope.setSortField = function() {
-                var column = $scope.gridApi.grid.getColumn($scope.sort.sortField);
-                $scope.gridApi.grid.sortColumn(column);
-                $scope.gridApi.grid.refresh();
-            };
-            
-            $scope.filter = {
-                refresh: function() {
-                    $scope.gridApi.grid.refresh();
-                },
-                value: ''
-            };
-            
-            $scope.singleFilter = function(renderableRows) {
-                var matcher = new RegExp($scope.filter.value, 'i');
-                renderableRows.forEach(function(row) {
-                    var match = false;
-                    ['title', 'created_by'].forEach(function(field) {
-                        if (row.entity[field].match(matcher)){
-                            match = true;
-                        }
-                    });
-                    if (!match) {
-                        row.visible = false;
-                    }
-                });
-                return renderableRows;
-            };
 
-            $scope.getTableHeight = function() {
-                var numberItems = $scope.isMobile ? 2 : 11;
-                if ($scope.options.verticalScroll === false) {
-                    numberItems = $scope.gridOptions.data.length;
-                }
-                if (!$scope.isMobile) {
-                    numberItems++;
-                }
-                return {
-                    height: (numberItems * $scope.gridOptions.rowHeight + 5) + 'px'
-                };
-            };
-            
-            $scope.getClass = function() {
-                var classes = ['margin-top'];
-                if ($scope.options.verticalScroll === false) {
-                    classes.push('no-vertical-scroll');
-                }
-                return classes;
-            };
-
-            $scope.isRemoval = function(glist) {
-                if (!$rootScope.isPromoter() || !glist.created_by) {
-                    return false;
-                }
-                return glist.created_by.UserName !== $rootScope.currentUser.UserName;
-            };
-
-            $scope.glistSelected = function (glist) {
-                var found;
-                $scope.selected.forEach(function(item) {
-                    if (glist.id === item.id) {
-                        found = item;
+            $scope.options.methods = {
+                updateGridData: function() {
+                    var data = $scope.guestLists;
+                    $scope.options.gridOptions.data = [];
+                    if (!data) {
                         return;
                     }
-                });
-                if (found) {
-                    return true;
-                }
-
-                return false;
-            };
-            $scope.toggleSelected = function (item) {
-                var idx = $scope.selected.indexOf(item);
-                if (idx > -1) {
-                    $scope.selected.splice(idx, 1);
-                } else {
-                    $scope.selected.push(item);
-                }
-            };
-
-            $scope.deleteGlist = function (ev, glist) {
-                // Appending dialog to document.body to cover sidenav in docs app
-                var confirm = $mdDialog.confirm()
-                        //.parent(angular.element(document.body))
-                        .title('Are you sure you want to delete guest list?')
-                        //.content('Confirm ')
-                        .ariaLabel('Lucky day')
-                        .ok('Yes')
-                        .cancel('No')
-                        .targetEvent(ev);
-                $mdDialog.show(confirm).then(function() {
-                    if ($scope.local) {
-                        $scope.guestLists = $scope.guestLists.filter(function(item) {
-                            return !angular.equals(glist, item);
+                    angular.forEach(data, function(guest) {
+                        $scope.options.gridOptions.data.push({
+                            id: guest.id,
+                            title: guest.title,
+                            total: guest.total,
+                            listType: guest.listType,
+                            created_on: $filter('date')(guest.created_on, 'MMM dd, yy'),
+                            UpdatedOn: $filter('date')(guest.UpdatedOn, 'MMM dd, yy'),
+                            created_by: guest.created_by ? guest.created_by.firstName +' '+ guest.created_by.lastName : '',
+                            glist: guest
                         });
-                        return;
-                    }
-                    guestFactory.GuestList.delete({id: glist.id}).$promise.then(function () {
-                        $scope.getGuestLists();
-                    }, function () {
-                        dialogService.error('There was a problem please try again');
                     });
-                }, function() {
-                    $scope.alert = 'You decided to keep your debt.';
-                });
+                },
+                isRemoval: function(guest) {
+                    if (!$rootScope.isPromoter() || !guest.created_by) {
+                        return false;
+                    }
+                    return guest.created_by.UserName !== $rootScope.currentUser.UserName;
+                },
+                guestSelected: function(guest) {
+                    return $scope.selected.indexOf(guest) > -1;
+                },
+                toggleSelected: function(guest) {
+                    var idx = $scope.selected.indexOf(guest);
+                    if (idx > -1) {
+                        $scope.selected.splice(idx, 1);
+                    } else {
+                        $scope.selected.push(guest);
+                    }
+                },
+                deleteGuest: function(ev, guest) {
+                    // Appending dialog to document.body to cover sidenav in docs app
+                    var confirm = $mdDialog.confirm()
+                            //.parent(angular.element(document.body))
+                            .title('Are you sure you want to delete guest list?')
+                            //.content('Confirm ')
+                            .ariaLabel('Lucky day')
+                            .ok('Yes')
+                            .cancel('No')
+                            .targetEvent(ev);
+                    $mdDialog.show(confirm).then(function() {
+                        guestFactory.GuestList.delete({id: guest.id}).$promise.then(function () {
+                            $scope.getGuestLists();
+                        }, function () {
+                            dialogService.error('There was a problem please try again');
+                        });
+                    }, function() {
+                        $scope.alert = 'You decided to keep your debt.';
+                    });
+                }
             };
 
             $scope.getGuestLists = function () {
-                if ($scope.lists) {
-                    $scope.guestLists = $scope.lists;
-                    $scope.local = true;
-                    return;
-                }
-
                 $scope.fetchingData = true;
                 guestFactory.GuestLists.get().$promise.then(
                     function(data) {
                         $scope.guestLists = data;
-                        $scope.initGridData(data);
+                        $scope.options.methods.updateGridData();
                     }, 
                     function() {
                         dialogService.error('There was a problem getting lists, please try again');
                     }
                 ).finally(function() {
                     $scope.fetchingData = false;
-                });
-            };
-            
-            $scope.initGridData = function(data) {
-                $scope.gridOptions.data = [];
-                if (!data) {
-                    return;
-                }
-                angular.forEach(data, function(gl) {
-                    $scope.gridOptions.data.push({
-                        id: gl.id,
-                        title: gl.title,
-                        total: gl.total,
-                        listType: gl.listType,
-                        created_on: $filter('date')(gl.created_on, 'MMM dd, yy'),
-                        UpdatedOn: $filter('date')(gl.UpdatedOn, 'MMM dd, yy'),
-                        created_by: gl.created_by ? gl.created_by.firstName +' '+ gl.created_by.lastName : '',
-                        glist: gl
-                    });
                 });
             };
         }]);
