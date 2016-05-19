@@ -76,15 +76,7 @@
                 </div>
             </md-list-item>
         </md-list>
-        <div layout="row" layout-align="space-between center" class="margin-top" hide-gt-sm ng-if="options.sorting">
-            <md-input-container flex md-no-float>
-                <md-select ng-model="sort.sortField" ng-change="setSortField()">
-                    <md-select-label>{{sort.sortField || 'Sort by Guest List'}}</md-select-label>
-                    <md-option value="{{sf.name}}" ng-repeat="sf in sort.sortingFields">{{sf.name}}</md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-selection ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
+        <ui-grid-responsive options="options"></ui-grid-responsive>
         <div flex layout="row" layout-align="end center" hide-gt-sm>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
             <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">

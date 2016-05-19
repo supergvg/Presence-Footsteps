@@ -1966,7 +1966,7 @@ md-dialog {
                 }
             }
         }
-        &[ui-grid-edit] {
+        &.grid-editable {
             dd.ui-grid-cell form,
             dd.ui-grid-cell form input,
             dd.ui-grid-cell .ui-grid-cell-contents {

@@ -141,9 +141,11 @@ angular.module('gliist')
                 scope.selected = angular.copy($scope.event.guestLists);
 
                 scope.options = {
-                    enableSelection: true,
-                    readOnly: true,
-                    verticalScroll: false
+                    display: {
+                        enableSelection: true,
+                        readOnly: true,
+                        verticalScroll: false
+                    }
                 };
 
                 scope.cancel = function () {
