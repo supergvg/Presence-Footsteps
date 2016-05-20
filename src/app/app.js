@@ -147,11 +147,6 @@ angular.module('gliist')
                 });
             };
 
-            $rootScope.logout = function() {
-                userService.logout();
-                $state.go('home');
-            };
-
             $scope.onEnterPress = function(event) {
                 if (event.which === 13 && $scope.credentials.username && $scope.credentials.password) {
                     $scope.login();
