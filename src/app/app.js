@@ -7,11 +7,6 @@ angular.module('gliist')
             $scope.hidePhoto = false;
             $scope.menuItems = [
                 {
-                    title: 'Guest List Management',
-                    ui_sref: 'main.list_management',
-                    icon: {src: 'assets/images/icons/guest_list_management.png'}
-                },
-                {
                     title: 'Create Event',
                     ui_sref: 'main.create_event',
                     icon: {src: 'assets/images/icons/create_event.png'}
@@ -20,6 +15,11 @@ angular.module('gliist')
                     title: 'Upcoming Events',
                     ui_sref: 'main.current_events',
                     icon: {src: 'assets/images/icons/upcoming_events.png'}
+                },
+                {
+                    title: 'Guest List Management',
+                    ui_sref: 'main.list_management',
+                    icon: {src: 'assets/images/icons/guest_list_management.png'}
                 },
                 {
                     title: 'Events Stats',
@@ -63,9 +63,9 @@ angular.module('gliist')
 
             $scope.getMenuItems = function() {
                 if ($rootScope.isPromoter()) {
-                    return [$scope.menuItems[0], $scope.menuItems[2], $scope.menuItems[3]];
+                    return [$scope.menuItems[2], $scope.menuItems[1], $scope.menuItems[3]];
                 } else if ($rootScope.isStaff()) {
-                    return [$scope.menuItems[0], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4]];
+                    return [$scope.menuItems[2], $scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
                 }
                 return $scope.menuItems;
             };

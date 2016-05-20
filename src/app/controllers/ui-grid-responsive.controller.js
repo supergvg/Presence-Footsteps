@@ -20,7 +20,8 @@ angular.module('gliist')
                     readOnly: false,
                     enableSelection: false,
                     enableGridSelection: false,
-                    enableEditCells: false
+                    enableEditCells: false,
+                    tip: ''
                 },
                 gridOptions: {
                     enableFiltering: false,
