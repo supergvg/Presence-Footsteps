@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state',
-        function ($scope, $mdDialog, userService, dialogService, $state) {
+    .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope',
+        function ($scope, $mdDialog, userService, dialogService, $rootScope) {
             $scope.linkNewAccount = function(ev) {
                 var scope = $scope.$new();
 
@@ -38,8 +38,7 @@ angular.module('gliist')
                 $mdDialog.show(confirm).then(function() {
                     userService.deleteCompany({companyId: $scope.user.company_id, userId: $scope.user.userId}).then(
                         function() {
-                            userService.logout();
-                            $state.go('home');
+                            $rootScope.logout();
                         },
                         function(error) {
                             var message = error.MessageDetail || 'Oops there was a problem loading account info, please try again';
