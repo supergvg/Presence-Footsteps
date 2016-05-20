@@ -3,10 +3,18 @@
 angular.module('gliist')
     .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$rootScope',
         function ($scope, $mdDialog, eventsService, dialogService, $rootScope) {
-
             $scope.options = $scope.options || {};
+            var defaultOptions = {
+                filter: {
+                    active: false
+                }
+            };
+            $scope.options = angular.merge(defaultOptions, $scope.options);
             $scope.orderField = $scope.options.stats ? '-time' : '';
-
+            $scope.filter = {
+                value: ''
+            };
+            
             $scope.isPromoter = function() {
                 return $rootScope.isPromoter();
             };
