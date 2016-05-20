@@ -228,6 +228,18 @@ div[ui-grid] {
     }
 }
 
+.ui-grid-responsive {
+    p.info {
+        padding-right: 10px;
+        margin: 0;
+        color: #8e8e8e;
+        font-size: 16px;
+        span {
+            color: #d13d3d;
+        }
+    }
+}
+
 .capitalize {
     text-transform: capitalize;
 }
@@ -282,6 +294,9 @@ md-sidenav {
         padding: 25px 10px 25px 55px;
         text-transform: uppercase;
         webkit-focus-ring-color: none;
+        &:first-child {
+            border-top: 2px solid white;
+        }
         & > div {
             color: #fff; 
             line-height: 25px;
@@ -1547,6 +1562,17 @@ md-dialog {
             background-color: #d0d0d0;
         }
     }
+    p.info {
+        margin: 0 0 0 5px;
+        color: #8e8e8e;
+        font: {
+            size: 18px;
+            style: italic;
+        }
+        span {
+            color: #d13d3d;
+        }
+    }
 }
 
 .event-step {
@@ -1932,6 +1958,15 @@ md-dialog {
             }
         }
     }
+    .ui-grid-responsive {
+        p.info {
+            margin-top: 10px;
+            padding: 0;
+        }
+        .search {
+            width: 100%;
+        }
+    }
     md-list-item.md-no-proxy, md-list-item .md-no-style {
         padding: 0;
     }
@@ -2157,6 +2192,9 @@ md-dialog {
         }        
         .event-image {
             height: 190px !important;
+        }
+        p.info {
+            margin: 0;
         }
     }
     .event-preview {
