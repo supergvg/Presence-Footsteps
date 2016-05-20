@@ -5,6 +5,9 @@ angular.module('gliist')
         $scope.options = {
             past: true,
             readyOnly: true,
-            stats: true
+            stats: true,
+            filter: {
+                active: true
+            }
         };
   }]);

@@ -56,11 +56,11 @@ angular.module('gliist')
             }
             $scope.options.methods = {
                 updateGridData: function() {
-/*                    if ($scope.list) {
+                    if ($scope.list) {
                         var data = [];
                         angular.copy($scope.options.gridOptions.data, data);
                         angular.copy(data, $scope.list.guests);
-                    }*/
+                    }
                 },                
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {

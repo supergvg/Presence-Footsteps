@@ -1,8 +1,14 @@
 <div class="event-list">
     <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
-    <md-list>
+    <div layout="row" layout-align="end center" class="margin-top" ng-if="options.filter.active">
+        <md-input-container flex="40" flex-sm="100" md-no-float>
+            <input type="text" name="search" ng-model="filter.value" placeholder="Search Event">
+            <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
+        </md-input-container>
+    </div>
+    <md-list class="margin-top">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-        <md-list-item ng-repeat="event in events | limitTo:(options.limit || events.length) | orderBy: orderField" layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="start start" flex>
+        <md-list-item ng-repeat="event in events | filter:{title: filter.value} | limitTo:(options.limit || events.length) | orderBy: orderField" layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="start start" flex>
             <div ng-style="getEventInvite(event)" class="event-image"></div>
             <div layout="column" layout-align="start stretch" flex class="event-details">
                 <h3>{{event.title}}</h3>
