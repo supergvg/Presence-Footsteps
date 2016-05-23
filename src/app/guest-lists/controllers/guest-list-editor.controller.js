@@ -142,13 +142,18 @@ angular.module('gliist')
                 }
                 $scope.fetchingData = true;
                 $scope.cancelAutoSave();
-                var guestIds = [],
-                    rowsHash = [];
+                var guestIds = [];
                 angular.forEach($scope.rowSelected, function(row){
-                    guestIds.push(row.id);
-                    rowsHash.push(row.$$hashKey);
+                    if (row.id) {
+                        guestIds.push(row.id);
+                    } else {
+                        var index = $scope.list.guests.indexOf(row);
+                        if (index > -1) {
+                            delete $scope.list.guests[index];
+                        }
+                    }
                 });
-                if ($scope.list.id) {
+                if (guestIds.length > 0) {
                     eventsService.removeGuestsFromGL($scope.list.id, guestIds).then(
                         function(data) {
                             $scope.list = data;
@@ -157,13 +162,6 @@ angular.module('gliist')
                         $scope.fetchingData = false;
                     });
                 } else {
-                    var guests = [];
-                    angular.forEach($scope.list.guests, function(guest){
-                        if (rowsHash.indexOf(guest.$$hashKey) < 0) {
-                            guests.push(guest);
-                        }
-                    });
-                    $scope.list.guests = guests;
                     $scope.fetchingData = false;
                 }
                 $scope.rowSelected = false;
@@ -347,11 +345,13 @@ angular.module('gliist')
                 });
             };
 
-            $scope.init = function () {
+            $scope.init = function() {
+                $scope.loading = true;
                 userService.getUsersByRole('promoter').then(
                     function(users){
                         $scope.promoters = [{Id: 0, firstName: 'None', lastName: ''}];
                         $scope.promoters = $scope.promoters.concat(users);
+                        $scope.loading = false;
                     },
                     function() {
                         dialogService.error('Oops there was a problem loading promoter users, please try again');

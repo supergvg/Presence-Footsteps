@@ -1903,14 +1903,23 @@ md-dialog {
                             background-color: #e6e6e6;
                             text-align: left;
                         }
-                        dd.ui-grid-cell {
+                        .ui-grid-cell {
                             height: auto;
                             min-width: 100%;
+                            max-width: 0;
                             padding: 0;
                             margin: 5px 10px;
                             .ui-grid-cell-contents {
                                 padding: 5px;
                                 min-height: 30px;
+                            }
+                            .actions {
+                                position: static;
+                                margin: 0;
+                                button {
+                                    margin-top: 0;
+                                    margin-bottom: 0;
+                                }
                             }
                             &.actions-col {
                                 position: absolute;
@@ -1918,10 +1927,12 @@ md-dialog {
                                 top: 0;
                                 bottom: 0;
                                 min-width: 0;
+                                max-width: none;
                                 width: 50px;
                                 border-left: 1px solid #ccc !important;
                                 text-align: center;
                                 .actions {
+                                    position: absolute;
                                     top: 50%;
                                     transform: translateY(-50%);
                                     margin: 0;
