@@ -14,11 +14,8 @@ angular.module('gliist')
                     $scope.initVars();
                 },
                 error = function(error) {
-                    if (error) {
-                        dialogService.error(error.ExceptionMessage);
-                    } else {
-                        dialogService.error('Oops there was a problem getting guest, please try again');
-                    }
+                    var message = error.Message || 'Oops there was a problem getting guest, please try again';
+                    dialogService.error(message);
                 };
 
             $scope.subtractGuestCount = function () {

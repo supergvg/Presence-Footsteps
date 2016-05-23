@@ -134,7 +134,24 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
 
                 return deferred.promise;
             },
+
+            deleteCompany: function(data) {
+                var deferred = $q.defer(),
+                    url = 'api/Account/BlockCompany';
             
+                $http({
+                    method: 'POST',
+                    url: url,
+                    data: data
+                }).success(function(data) {
+                    deferred.resolve(data);
+                }).error(function(data) {
+                    deferred.reject(data);
+                });
+
+                return deferred.promise;
+            },
+                
             sendJoinRequest: function(user) {
                 var deferred = $q.defer(),
                     url = 'api/Account/InviteUser';

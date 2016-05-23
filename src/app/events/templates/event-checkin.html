@@ -17,13 +17,7 @@
             <a href="{{getExportExcelUrl()}}" class="md-button raised-btn">EXPORT</a>
         </div>
         <div class="block-field">
-            <div layout="row" layout-align="end center">
-                <md-input-container md-no-float flex="30">
-                    <input ng-model="filter.value" placeholder="Search Guest">
-                    <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
-                </md-input-container>
-            </div>
-            <div ui-grid="gridOptions" ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()"></div>
+            <ui-grid-responsive options="options"></ui-grid-responsive>
         </div>
     </div>
 </div>

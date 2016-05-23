@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$state', '$rootScope',
-        function ($scope, $mdDialog, userService, dialogService, $state, $rootScope) {
+    .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope',
+        function ($scope, $mdDialog, userService, dialogService, $rootScope) {
             $scope.linkNewAccount = function(ev) {
                 var scope = $scope.$new();
 
@@ -36,7 +36,7 @@ angular.module('gliist')
                     .cancel('No')
                     .targetEvent(ev);
                 $mdDialog.show(confirm).then(function() {
-                    userService.deleteUser({userId: $scope.user.userId}).then(
+                    userService.deleteCompany({companyId: $scope.user.company_id, userId: $scope.user.userId}).then(
                         function() {
                             $rootScope.logout();
                         },
