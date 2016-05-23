@@ -1,14 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', '$interval', '$mdMedia',
-        function ($scope, guestFactory, dialogService, $state, eventsService, $interval, $mdMedia) {
-
-            $scope.options = $scope.options || {sorting: true};
-            $scope.sort = {
-                sortingFields: [],
-                sortField: ''
-            };
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -16,9 +10,10 @@ angular.module('gliist')
                 'Guest',
                 'Artist',
                 'Production',
-                'Staff',
+                'Comp',
                 'Press',
-                'All Access'
+                'All Access',
+                'Reduced'
             ];
             $scope.defaultFields = {
                 firstName: '',
@@ -27,129 +22,100 @@ angular.module('gliist')
                 notes: '',
                 plus: 0
             };
+            $scope.options = {
+                sorting: {
+                    active: true
+                },
+                display: {
+                    totalMobileViewportItems: 2,
+                    totalViewportItems: 7,
+                    enableGridSelection: true,
+                    enableEditCells: true
+                },
+                gridOptions: {
+                    columnDefs: [
+                        {field: 'guest.firstName', name: 'First Name'},
+                        {field: 'guest.lastName', name: 'Last Name'},
+                        {field: 'guest.email', name: 'Email', enableSorting: false},
+                        {field: 'guest.notes', name: 'Note', enableSorting: false},
+                        {field: 'guest.plus', name: 'Plus', enableSorting: false}
+                    ]
+                }
+            };
+            $scope.options.methods = {
+                updateGridData: function() {
+                    if ($scope.gli) {
+                        var data = [];
+                        angular.copy($scope.options.gridOptions.data, data);
+                        angular.copy(data, $scope.gli.actual);
+                    }
+                },                
+                gridCellTab: function(event, col) {
+                    if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
+                        $scope.addMore();
+                    }
+                },
+                onRegisterApi: function(gridApi){
+                    var rowSelectionChanged = function() {
+                        $scope.rowSelected = gridApi.selection.getSelectedRows();
+                        if ($scope.rowSelected.length === 0) {
+                            $scope.rowSelected = false;
+                        }
+                    };
+
+                    gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
+                    gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
+
+                    gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+                        if (newValue !== oldValue) {
+                            $scope.isDirty = true;
+                        }
+                    });
+                }
+            };
             $scope.rowSelected = false;
             $scope.isDirty = false;
-            
-            $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
-                $scope.isMobile = status;
-                var numberFields = $scope.gridOptions.columnDefs.length;
-                $scope.gridOptions.rowHeight = $scope.isMobile ? 40 * numberFields + 22 : 45; // 40 - height field, 22 - row margin + border
-                if ($scope.list) {
-                    var data = [];
-                    angular.copy($scope.gridOptions.data, data);
-                    angular.copy(data, $scope.gli.actual);
+
+            $scope.$watchCollection('gli', function(newVal) {
+                if (!newVal) {
+                    return;
                 }
+                $scope.options.gridOptions.data = $scope.gli.actual;
             });
-            
+
             $scope.$watch('isDirty', function(newValue) {
                 if (newValue === true) {
                     $scope.startAutoSave();
                 }
             });
-            
-            $scope.$watchCollection('gli', function(newVal) {
-                if (!newVal) {
-                    return;
-                }
-                $scope.gridOptions.data = $scope.gli.actual;
-            });
-            
-            $scope.gridOptions = {
-                rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
-                columnDefs: [
-                    {field: 'guest.firstName', name: 'First Name'},
-                    {field: 'guest.lastName', name: 'Last Name'},
-                    {field: 'guest.email', name: 'Email'},
-                    {field: 'guest.notes', name: 'Note', enableSorting: false},
-                    {field: 'guest.plus', name: 'Plus', enableSorting: false}
-                ],
-                enableCellEditOnFocus: true,
-                selectionRowHeaderWidth: 50,
-                enableColumnMenus: false,
-                data: []
-            };
-            
+
             $scope.$watch('id', function(newValue) {
                 if (!newValue) {
                     return;
                 }
-                $scope.initializing = true;
+                $scope.loading = true;
                 guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function(data) {
                     $scope.gli = data;
                     if ($scope.gli.instanceType === 2) {
-                        $scope.gridOptions.columnDefs.splice(4);
+                        $scope.options.gridOptions.columnDefs.splice(4);
                     }
+                    userService.getUsersByRole('promoter').then(
+                        function(users){
+                            $scope.promoters = [{Id: 0, firstName: 'None', lastName: ''}];
+                            $scope.promoters = $scope.promoters.concat(users);
+                            $scope.loading = false;
+                        },
+                        function() {
+                            dialogService.error('Oops there was a problem loading promoter users, please try again');
+                        }
+                    );
                 }, function() {
                     dialogService.error('There was a problem getting your events, please try again');
                     $state.go('main.current_events');
                 }).finally(function() {
-                    $scope.initializing = false;
+                    $scope.loading = false;
                 });
             });
-            
-            if ($scope.options.sorting !== undefined) {
-                $scope.gridOptions.enableSorting = $scope.options.sorting;
-            }
-            
-            angular.forEach($scope.gridOptions.columnDefs, function(value){
-                if (value.enableSorting === undefined || value.enableSorting) {
-                    $scope.sort.sortingFields.push(value);
-                }
-            });
-            
-            $scope.setSortField = function() {
-                var column = $scope.gridApi.grid.getColumn($scope.sort.sortField);
-                $scope.gridApi.grid.sortColumn(column);
-                $scope.gridApi.grid.refresh();
-            };
-
-            $scope.gridCellTab = function(event, col) {
-                if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
-                    $scope.addMore();
-                }
-            };
-            
-            $scope.gridOptions.onRegisterApi = function(gridApi) {
-                //set gridApi on scope
-                $scope.gridApi = gridApi;
-                
-                var rowSelectionChanged = function() {
-                    $scope.rowSelected = $scope.gridApi.selection.getSelectedRows();
-                    if ($scope.rowSelected.length === 0) {
-                        $scope.rowSelected = false;
-                    }
-                };
-
-                gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
-                gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
-                
-                gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-                    if (newValue !== oldValue) {
-                        $scope.isDirty = true;
-                    }
-                });
-            };
-            
-            $scope.getTableHeight = function() {
-                var numberItems = $scope.isMobile ? 2 : 7;
-                if ($scope.options.verticalScroll === false) {
-                    numberItems = $scope.gridOptions.data.length;
-                }
-                if (!$scope.isMobile) {
-                    numberItems++;
-                }
-                return {
-                    height: (numberItems * $scope.gridOptions.rowHeight + 5) + 'px'
-                };
-            };
-            
-            $scope.getClass = function() {
-                var classes = ['margin-top'];
-                if ($scope.options.verticalScroll === false) {
-                    classes.push('no-vertical-scroll');
-                }
-                return classes;
-            };
             
             $scope.startAutoSave = function() {
                 $scope.autoSave = $interval(function(){
@@ -170,11 +136,9 @@ angular.module('gliist')
                 if (!$scope.gli) {
                     $scope.gli = {};
                 }
-
                 if (!$scope.gli.actual) {
                     $scope.gli.actual = [];
                 }
-
                 $scope.gli.actual.push({
                     gl_id: $scope.gli.id,
                     status: 'no show',
@@ -191,15 +155,26 @@ angular.module('gliist')
                 $scope.cancelAutoSave();
                 var guestIds = [];
                 angular.forEach($scope.rowSelected, function(row){
-                    guestIds.push(row.guest.id);
-                });
-                eventsService.removeGuestsFromGLInstance($scope.gli.id, guestIds).then(
-                    function(gli) {
-                        $scope.gli = gli;
+                    if (row.id) {
+                        guestIds.push(row.id);
+                    } else {
+                        var index = $scope.gli.actual.indexOf(row);
+                        if (index > -1) {
+                            delete $scope.gli.actual[index];
+                        }
                     }
-                ).finally(function () {
-                    $scope.fetchingData = false;
                 });
+                if (guestIds.length > 0) {
+                    eventsService.removeGuestsFromGLInstance($scope.gli.id, guestIds).then(
+                        function(data) {
+                            $scope.gli = data;
+                        }
+                    ).finally(function () {
+                        $scope.fetchingData = false;
+                    });
+                } else {
+                    $scope.fetchingData = false;
+                }
                 $scope.rowSelected = false;
             };
             
