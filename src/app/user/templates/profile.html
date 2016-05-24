@@ -10,7 +10,7 @@
             Account
         </md-button>
     </div>
-    <div class='tab-content'>
+    <div class="tab-content">
         <ng-switch on="selectedIndex">
             <div role="tabpanel"
                  id="tab1-content"
@@ -21,21 +21,21 @@
                 <user-details user="currentUser"></user-details>
                 <div layout="column" layout-align="start stretch" class="social-links-edit">
                     <h4>Enter company's social media account link (to be included in all communications to guests)</h4>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
+                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
                         <img src="assets/images/instagram.png"/>
-                        <md-input-container md-no-float flex="60">
+                        <md-input-container md-no-float flex="60" flex-sm="100">
                             <input type="text" ng-model="currentUser.instagrammPageUrl" placeholder="Enter instagram link">
                         </md-input-container>
                     </div>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
+                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
                         <img src="assets/images/facebook.png"/>
-                        <md-input-container md-no-float flex="60">
+                        <md-input-container md-no-float flex="60" flex-sm="100">
                             <input type="text" ng-model="currentUser.facebookPageUrl" placeholder="Enter facebook link">
                         </md-input-container>
                     </div>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center">
+                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
                         <img src="assets/images/twitter.png"/>
-                        <md-input-container md-no-float flex="60">
+                        <md-input-container md-no-float flex="60" flex-sm="100">
                             <input type="text" ng-model="currentUser.twitterPageUrl" placeholder="Enter twitter link">
                         </md-input-container>
                     </div>
