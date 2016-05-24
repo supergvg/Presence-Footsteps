@@ -1677,7 +1677,6 @@ md-dialog {
     }
     .event-image {
         width:220px;
-        background-position-x: 0 !important;
     }
     .event-descr {
         padding: 0 20px;
@@ -2070,18 +2069,38 @@ md-dialog {
                     margin-bottom: 5px;
                     margin-right: 0;
                 }
+                md-input-container {
+                    width: 100%;
+                    margin-top: 10px;
+                }
             }
         }
         .user-details {
             .user-details-teaser {
                 .description {
                     padding-left: 0;
-                    margin-bottom: 20px;
+                    margin-bottom: 10px;
+                    & > * {
+                        margin-top: 10px !important;
+                    }
                 }
             }
             form {
                 .bio {
                     padding-left: 0;
+                }
+            }
+        }
+        .account-details {
+            md-list-item {
+                p {
+                    margin: 0;
+                }
+                & > * {
+                    width: 100%;
+                }
+                .actions {
+                    width: auto;
                 }
             }
         }

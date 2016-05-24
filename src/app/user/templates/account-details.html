@@ -1,4 +1,4 @@
-<div ng-init="init()">
+<div ng-init="init()" class="account-details">
     <div ng-show="initializing">
         <h4>Loading...</h4>
         <span>
@@ -9,21 +9,21 @@
         <div class="block-field">
             <h4>Manage Accounts</h4>
             <md-list>
-                <md-list-item layout="row">
-                    <div flex="75">
+                <md-list-item layout="row" layout-sm="column">
+                    <div flex="75" flex-sm="100">
                         <p>Create new Account (Enter details for the users you would like to invite)</p>
                     </div>
-                    <div flex="25" layout="row" layout-align="end center">
+                    <div flex="25" flex-sm="100" layout="row" layout-align="end center" layout-align-sm="center center">
                         <md-button class="raised-btn" ng-click="linkNewAccount($event)">
                             Invite
                         </md-button>
                     </div>
                 </md-list-item>
-                <md-list-item layout="row">
-                    <div flex="75">
+                <md-list-item layout="row" layout-sm="column">
+                    <div flex="75" flex-sm="100">
                         <p>Delete Account</p>
                     </div>
-                    <div flex="25" layout="row" layout-align="end center">
+                    <div flex="25" flex-sm="100" layout="row" layout-align="end center" layout-align-sm="center center">
                         <md-button class="raised-btn" ng-click="deleteAccount($event)">
                             Delete
                         </md-button>
@@ -35,18 +35,18 @@
             <h4>Edit previously added Accounts</h4>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-if="refreshing"></md-progress-circular>
             <md-list ng-if="!refreshing">
-                <md-list-item ng-repeat="user in getLinkedUsers()">
-                    <div flex layout="row">
-                        <div flex="40">
+                <md-list-item ng-repeat="user in getLinkedUsers()" layout="row" layout-sm="column">
+                    <div flex layout="row" layout-sm="column">
+                        <div flex="40" flex-sm="100">
                             <p>{{user.firstName}} {{user.lastName}}</p>
                         </div>
-                        <div flex="15">
+                        <div flex="15" flex-sm="100" ng-if="user.permission">
                             <p>{{user.permission}}</p>
                         </div>
-                        <div flex="20">
+                        <div flex="20" flex-sm="100" ng-if="user.UserName">
                             <p>{{user.UserName}}</p>
                         </div>
-                        <div flex="10" style="padding: 0">
+                        <div flex="10" flex-sm="100" ng-if="user.phoneNumber" style="padding: 0">
                             <p>{{user.phoneNumber}}</p>
                         </div>
                     </div>

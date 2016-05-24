@@ -1,8 +1,8 @@
 <div layout="column">
     <md-whiteframe flex class="user-details">
         <div ng-show="!editMode" layout layout-align="center stretch" layout-sm="column" layout-align-sm="space-between stretch" class="user-details-teaser">
-            <div flex="30" ng-style="getUserPhoto('150px')"></div>
-            <div flex="40" layout="column" layout-align="space-around start" class="description">
+            <div flex="30" flex-sm="100" ng-style="getUserPhoto('150px')"></div>
+            <div flex="40" flex-sm="100" layout="column" layout-align="space-around start" layout-align-sm="space-around center" class="description">
                 <h3>{{user.firstName}} {{user.lastName}}</h3>
                 <div ng-if="user.email">{{user.email}}</div>
                 <div ng-if="user.phoneNumber">{{user.phoneNumber}}</div>
