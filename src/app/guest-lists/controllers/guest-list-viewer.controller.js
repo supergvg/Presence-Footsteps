@@ -5,6 +5,13 @@ angular.module('gliist')
         function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter) {
             $scope.selected = $scope.selected || [];
             $scope.options = $scope.options || {};
+            $scope.options = angular.merge($scope.options, {
+                filter: {
+                    active: true,
+                    placeholder: 'Search Guest List or Creator',
+                    fields: ['title', 'created_by']
+                }
+            });
             $scope.options.gridOptions = {
                 columnDefs: [
                     {field: 'title', name: 'Guest List', minWidth: 200, allowCellFocus: false},
