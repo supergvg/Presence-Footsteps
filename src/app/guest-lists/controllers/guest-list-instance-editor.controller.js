@@ -23,6 +23,11 @@ angular.module('gliist')
                 plus: 0
             };
             $scope.options = {
+                filter: {
+                    active: true,
+                    placeholder: 'Search Guest',
+                    fields: ['guest.firstName', 'guest.lastName']
+                },
                 sorting: {
                     active: true
                 },
