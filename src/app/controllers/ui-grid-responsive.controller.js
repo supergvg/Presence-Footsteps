@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('UIGridResponsiveCtrl', ['$scope', '$mdMedia',
-        function($scope, $mdMedia) {
+    .controller('UIGridResponsiveCtrl', ['$scope', '$mdMedia', '$parse',
+        function($scope, $mdMedia, $parse) {
             var defaultOptions = {
                 filter: {
                     active: false,
@@ -80,7 +80,8 @@ angular.module('gliist')
                 renderableRows.forEach(function(row) {
                     var match = false;
                     $scope.options.filter.fields.forEach(function(field) {
-                        if (row.entity[field].match(matcher)){
+                        var getter = $parse('entity.'+field);
+                        if (getter(row).match(matcher)){
                             match = true;
                         }
                     });
