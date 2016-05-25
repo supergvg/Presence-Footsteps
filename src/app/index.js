@@ -22,8 +22,8 @@ angular.module('gliist', [
     'ui.grid.autoResize',
     'ui.select',
     'angular-google-analytics'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', '$windowProvider',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, $windowProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', '$windowProvider', 'EnvironmentConfig',
+        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, $windowProvider, EnvironmentConfig) {
 //            $locationProvider.html5Mode(true);
 
             AnalyticsProvider
@@ -56,31 +56,23 @@ angular.module('gliist', [
                 .backgroundPalette('grey');
                 
             var $window = $windowProvider.$get();
-//            $window.redirectUrl = 'http://gjests.azurewebsites.net/';         // Production
-//            $window.redirectUrl = 'http://gjests-staging.azurewebsites.net/';   // Staging
-            $window.redirectUrl = 'http://gjests-api.ideas-implemented.com/';   // Development
+            $window.redirectUrl = EnvironmentConfig.api;
             $provide.factory('myHttpInterceptor', function() {
                 return {
                     'request': function (config) {
-
                         var redirectUrl = $window.redirectUrl;
-                        if (config.url.indexOf('api') > -1) {
-                            config.url = redirectUrl + config.url;
-                        } else if (config.url.indexOf('Token') > -1) {
+                        if (config.url.indexOf('api') > -1 || config.url.indexOf('Token') > -1) {
                             config.url = redirectUrl + config.url;
                         }
-
                         return config;
                     }
                 };
             });
+            $httpProvider.interceptors.push('myHttpInterceptor');
 
             $mdIconProvider
                 .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
                 .defaultIconSet('img/icons/sets/core-icons.svg', 24);
-
-
-            $httpProvider.interceptors.push('myHttpInterceptor');
 
             $stateProvider
                 .state('home', {
