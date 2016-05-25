@@ -1,0 +1,22 @@
+{
+    "production": {
+        "EnvironmentConfig": {
+            "api": "http://gjests.azurewebsites.net/"
+        }
+    },
+    "development": {
+        "EnvironmentConfig": {
+            "api": "http://gjests-api.ideas-implemented.com/"
+        }
+    },
+    "staging": {
+        "EnvironmentConfig": {
+            "api": "http://gjests-staging.azurewebsites.net/"
+        }
+    },
+    "test": {
+        "EnvironmentConfig": {
+            "api": ""
+        }
+    }
+}
