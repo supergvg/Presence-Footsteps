@@ -239,6 +239,7 @@ div[ui-grid] {
         font-size: 16px;
         span {
             color: #d13d3d;
+            font-weight: bold;
         }
     }
 }
@@ -1563,6 +1564,9 @@ md-dialog {
         .md-button.md-fab {
             background-color: #d0d0d0;
         }
+    }
+    .block-field > div > h4 {
+        font-weight: bold;
     }
     p.info {
         margin: 0 0 0 5px;
