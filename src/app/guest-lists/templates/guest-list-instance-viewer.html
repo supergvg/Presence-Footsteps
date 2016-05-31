@@ -33,7 +33,7 @@
                 Sent
             </div>
             <div flex ng-if="!options.readOnly" style="text-align: right">
-                Edit/Delete
+                {{isPromoter() ? 'Edit' : 'Edit/Delete'}}
             </div>
         </md-list-item>
         <md-list-item ng-repeat="instance in lists">
@@ -93,7 +93,7 @@
                     </dd>
                 </dl>
                 <dl flex ng-cloak ng-if="!options.readOnly">
-                    <dt hide-gt-sm>Edit/Delete</dt>
+                    <dt hide-gt-sm>{{isPromoter() ? 'Edit' : 'Edit/Delete'}}</dt>
                     <dd class="actions">
                         <div layout="row" layout-align="end center">
                             <div>
@@ -102,7 +102,7 @@
                                 </md-button>
                             </div>
                             <div>
-                                <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="Delete"> 
+                                <md-button class="icon-btn" ng-click="deleteInstance($event,instance)" aria-label="Delete" ng-hide="isPromoter()"> 
                                     <ng-md-icon icon="delete" size="24"></ng-md-icon>
                                 </md-button>
                             </div>

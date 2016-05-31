@@ -80,8 +80,9 @@ angular.module('gliist')
                 renderableRows.forEach(function(row) {
                     var match = false;
                     $scope.options.filter.fields.forEach(function(field) {
-                        var getter = $parse('entity.'+field);
-                        if (getter(row).match(matcher)){
+                        var getter = $parse('entity.'+field),
+                            fieldValue = getter(row) || '';
+                        if (fieldValue.match(matcher)){
                             match = true;
                         }
                     });

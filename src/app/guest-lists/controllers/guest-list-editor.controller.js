@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval',
-        function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval) {
+    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval',
+        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -92,6 +92,10 @@ angular.module('gliist')
             };
             $scope.rowSelected = false;
             $scope.isDirty = false;
+
+            $scope.isPromoter = function() {
+                return $rootScope.isPromoter();
+            };
 
             $scope.$watch('list.listType', function(newVal, oldVal) {
                 if (!$scope.list || !$scope.list.id) {

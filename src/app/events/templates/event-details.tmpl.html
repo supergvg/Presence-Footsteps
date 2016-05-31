@@ -382,7 +382,7 @@
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="actions">
-                <md-button class="raised-btn" ng-click="previous()">
+                <md-button class="raised-btn" ng-click="previous()" ng-hide="isPromoter()">
                     Back
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
