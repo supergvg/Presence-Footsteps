@@ -153,12 +153,12 @@ angular.module('gliist')
                 $scope.cancelAutoSave();
                 var guestIds = [];
                 angular.forEach($scope.rowSelected, function(row){
-                    if (row.id) {
+                    if (row.id && $scope.list.id) {
                         guestIds.push(row.id);
                     } else {
                         var index = $scope.list.guests.indexOf(row);
                         if (index > -1) {
-                            delete $scope.list.guests[index];
+                            $scope.list.guests.splice(index, 1);
                         }
                     }
                 });

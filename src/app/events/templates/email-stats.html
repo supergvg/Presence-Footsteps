@@ -7,7 +7,7 @@
     </div>
     <div ng-show="!initializing" class="email-stats">
         <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
-            <h3>Email Status</h3>
+            <h3>Email Management</h3>
         </div>
         <event-preview event="event"></event-preview>
         <div layout="row" layout-align="space-between center" class="tabs">
@@ -19,13 +19,7 @@
             <ng-switch on="selectedIndex">
                 <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0">
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                    <div layout="row" layout-align="end center" ng-if="!fetchingData">
-                        <md-input-container flex="40" flex-sm="100" md-no-float>
-                            <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="Search Guest">
-                            <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
-                        </md-input-container>
-                    </div>
-                    <div ui-grid="gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-auto-resize ng-class="getClass()" ng-style="getTableHeight()" ng-if="!fetchingData"></div>
+                    <ui-grid-responsive options="options"></ui-grid-responsive>
                     <div flex layout="row" layout-align="end center" class="margin-top" ng-if="!fetchingData">
                         <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="sendingData"></md-progress-circular>
                         <md-button class="raised-btn" ng-click="resend()" ng-disabled="sendingData || selected.length === 0">

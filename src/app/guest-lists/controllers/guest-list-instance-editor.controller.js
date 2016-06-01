@@ -165,7 +165,7 @@ angular.module('gliist')
                     } else {
                         var index = $scope.gli.actual.indexOf(row);
                         if (index > -1) {
-                            delete $scope.gli.actual[index];
+                            $scope.gli.actual.splice(index, 1);
                         }
                     }
                 });
