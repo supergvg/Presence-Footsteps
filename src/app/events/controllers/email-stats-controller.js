@@ -5,7 +5,6 @@ angular.module('gliist')
         function ($scope, eventsService, dialogService, $state, $stateParams, $location) {
             $scope.selectedIndex = parseInt($location.search().view) || 0;
             $scope.selected = [];
-            $scope.edited = [];
             $scope.options = $scope.options || {};
             $scope.options = {
                 filter: {
@@ -24,7 +23,7 @@ angular.module('gliist')
                     columnDefs: [
                         {field: 'status', name: 'Status', cellTemplate: '<div class="ui-grid-cell-contents status-{{row.entity.deliveryStatus}}" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>'},
                         {field: 'name', name: 'Name'},
-                        {field: 'email', name: 'Email', cellTemplate: '<div class="ui-grid-cell-contents" ng-class="grid.appScope.options.methods.isEdited(row.entity.id)" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>'},
+                        {field: 'email', name: 'Email', cellTemplate: '<div class="ui-grid-cell-contents" ng-class="row.entity.isEdited ? \'edited\' : \'\'" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>'},
                         {
                             field: 'id', name: 'Select', enableSorting: false, allowCellFocus: false, maxWidth: 80, cellClass: 'actions-col',
                             cellTemplate: '<div class="actions"><md-checkbox ng-checked="grid.appScope.options.methods.isGuestSelected(row.entity)" ng-click="grid.appScope.options.methods.toggleGuestSelected(row.entity)" aria-label="Select"></md-checkbox></div>'
@@ -35,18 +34,6 @@ angular.module('gliist')
             };
             
             $scope.options.methods = {
-                onRegisterApi: function(gridApi){
-                    $scope.gridApi = gridApi;
-                    gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-                        if (newValue !== oldValue) {
-                            rowEntity.deliveryStatus = 2;
-                            rowEntity.status = $scope.getTextStatus(rowEntity.deliveryStatus);
-                            if ($scope.edited.indexOf(rowEntity.id) < 0) {
-                                $scope.edited.push(rowEntity.id);
-                            }
-                        }
-                    });
-                },
                 isGuestSelected: function(item) {
                     return $scope.selected.indexOf(item) > -1;
                 },
@@ -57,9 +44,6 @@ angular.module('gliist')
                     } else {
                         $scope.selected.push(item);
                     }
-                },
-                isEdited: function(id) {
-                    return $scope.edited.indexOf(id) > -1 ? 'edited' : '';
                 }
             };
             
@@ -85,7 +69,6 @@ angular.module('gliist')
                         });
                     });
                     eventsService.resendGuestEmails(data).then(function() {
-                        $scope.edited = [];
                         angular.forEach($scope.selected, function(item){
                             var index = $scope.options.gridData.indexOf(item);
                             if (index > -1) {
@@ -108,6 +91,8 @@ angular.module('gliist')
                 } else if (status === 1) {
                     return 'Successful';
                 } else if (status === 2) {
+                    return 'Delivery Failed';
+                } else if (status === 3) {
                     return 'Not Delivered';
                 }
                 return '';
@@ -136,7 +121,8 @@ angular.module('gliist')
                             email: guest.Email,
                             status: $scope.getTextStatus(guest.DeliveryStatus),
                             messageType: guest.MessageType,
-                            deliveryStatus: guest.DeliveryStatus
+                            deliveryStatus: guest.DeliveryStatus,
+                            isEdited: guest.Edited
                         });
                     });
                 }, function() {
