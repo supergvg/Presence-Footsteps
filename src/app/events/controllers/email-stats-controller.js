@@ -91,12 +91,13 @@ angular.module('gliist')
                 } else if (status === 1) {
                     return 'Successful';
                 } else if (status === 2) {
-                    return 'Delivery Failed';
+                    return 'Not Delivered';
                 } else if (status === 3) {
                     return 'Not Delivered';
                 }
                 return '';
             };
+            //EmailDeliveryStatus Sending = 0 Delivered = 1 DeliveryFailed = 2
             
             $scope.init = function() {
                 var eventId = $stateParams.eventId;
