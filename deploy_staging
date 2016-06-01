@@ -1,17 +1,17 @@
 #!/bin/sh
-HOST='waws-prod-bay-029.ftp.azurewebsites.windows.net'
-USER="gjests__staging"
-PASSWD="4uL7HB6TCL2tdY8buPZK4rXR1xG9v4zzeQwsgo8BqYC8hHAFD6w3Q30ZwsEf"
-REMOTEPATH='site/wwwroot'
+HOST='ftps://staging-app.gjests.com'
+USER="StagingDeploy"
+REMOTEPATH='./'
 
 echo "============="
 echo "Start build"
-gulp clean
-gulp build --force --env=staging
+//gulp clean
+//gulp build --force --env=staging
 echo "Build done"
 echo "Deploy to server"
 cd ./dist
-ncftpput -R -v -u "$USER" -p "$PASSWD" $HOST $REMOTEPATH .
+lftp -c "open -u $USER $HOST; set ssl:verify-certificate no; mirror -R ./ $REMOTEPATH"
+#ncftpput -R -v -u "$USER" $HOST $REMOTEPATH .
 echo "=============="
 echo "Deploy finish"
 exit 0
