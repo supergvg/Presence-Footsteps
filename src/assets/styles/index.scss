@@ -11,6 +11,9 @@ html {
 
 md-progress-circular {
     margin: 0 auto;
+    &.near {
+        margin: 0;
+    }
 }
 
 @keyframes rotator {
@@ -236,6 +239,7 @@ div[ui-grid] {
         font-size: 16px;
         span {
             color: #d13d3d;
+            font-weight: bold;
         }
     }
 }
@@ -1561,6 +1565,9 @@ md-dialog {
             background-color: #d0d0d0;
         }
     }
+    .block-field > div > h4 {
+        font-weight: bold;
+    }
     p.info {
         margin: 0 0 0 5px;
         color: #8e8e8e;
@@ -1749,7 +1756,7 @@ md-dialog {
             .md-button {
                 margin: 5px 0;
                 & + .md-button {
-                    margin-left: 15px;
+                    margin-left: 10px;
                 }
             }
         }
@@ -1810,6 +1817,51 @@ md-dialog {
     }
 }
 
+.email-stats {
+    .event-preview {
+        margin-bottom: 15px;
+    }
+    div[ui-grid] {
+        .ui-grid-canvas {
+            .ui-grid-row {
+                & > div {
+                    dl {
+                        dt {
+                            min-width: 65px;
+                            width: 65px;
+                        }
+                        .ui-grid-cell {
+                            .ui-grid-cell-contents {
+                                &.edited {
+                                    color: #99ccff;
+                                }
+                                &.ui-grid-cell-focus {
+                                    background: none;
+                                }
+                            }
+                            .status-1 {
+                                color: #72cb96;
+                            }
+                            .status-2,
+                            .status-3 {
+                                color: #eb212e;
+                            }
+                            &.actions-col {
+                                padding: 0;
+                                .actions {
+                                    margin: 0;
+                                    left: 0;
+                                    right: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 600px) {
     div[ui-grid] {
         border: none;
@@ -1845,7 +1897,7 @@ md-dialog {
                         dt {
                             display: none !important;
                         }
-                        dd.ui-grid-cell {
+                        .ui-grid-cell {
                             margin: 0 !important;
                             width: 48px;
                             background: none !important;

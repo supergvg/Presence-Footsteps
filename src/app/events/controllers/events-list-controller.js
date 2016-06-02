@@ -9,7 +9,9 @@ angular.module('gliist')
                     active: false
                 }
             };
-            $scope.options = angular.merge(defaultOptions, $scope.options);
+            angular.forEach(defaultOptions, function(value, key){
+               $scope.options[key] = angular.merge(value, $scope.options[key]);
+            });
             $scope.orderField = $scope.options.stats ? '-time' : '';
             $scope.filter = {
                 value: ''

@@ -63,9 +63,9 @@ angular.module('gliist')
 
             $scope.getMenuItems = function() {
                 if ($rootScope.isPromoter()) {
-                    return [$scope.menuItems[2], $scope.menuItems[1], $scope.menuItems[3]];
+                    return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3]];
                 } else if ($rootScope.isStaff()) {
-                    return [$scope.menuItems[2], $scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
+                    return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4]];
                 }
                 return $scope.menuItems;
             };

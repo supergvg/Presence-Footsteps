@@ -30,13 +30,17 @@
                             <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
                             <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
                         </md-button>
-                        <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ui-sref="main.edit_event({eventId:{{event.id}}})" aria-label="Edit event">
+                        <md-button class="icon-btn" ng-if="!(options.readyOnly || isStaff())" ui-sref="main.edit_event({eventId:{{event.id}}})" aria-label="Edit event">
                             <md-tooltip md-direction="top">Edit event</md-tooltip>
                             <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                         </md-button>
                         <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
                             <md-tooltip md-direction="top">Preview event</md-tooltip>
                             <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
+                        </md-button>
+                        <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ui-sref="main.email_stats({eventId:{{event.id}}})" aria-label="Email Management">
+                            <md-tooltip md-direction="top">Email Management</md-tooltip>
+                            <md-icon md-svg-src="assets/images/SVG/email.svg" size="24"></md-icon>
                         </md-button>
                         <md-button class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" aria-label="Event stats">
                             <md-tooltip md-direction="top">Event stats</md-tooltip>

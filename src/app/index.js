@@ -180,7 +180,7 @@ angular.module('gliist', [
                     templateUrl: 'app/templates/stats.html',
                     controller: 'StatsCtrl'
                 }).state('main.email_stats', {
-                    url: '/email_stats/:eventId',
+                    url: '/email_stats/:eventId?view',
                     templateUrl: 'app/events/templates/email-stats.html',
                     controller: 'EmailStatsController'
                 }).state('main.welcome', {
@@ -274,7 +274,11 @@ angular.module('gliist', [
                             userService.getCurrentUser().then(function(user) {
                                 $rootScope.currentUser = user;
                                 if ($rootScope.currentUser.permissions !== 'admin') {
-                                    if ($rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf($state.current.name) > -1) {
+                                    if (angular.isUndefined($rootScope.permissions[$rootScope.currentUser.permissions])) {
+                                        userService.logout();
+                                        $state.go('home');
+                                        event.preventDefault();
+                                    } else if ($rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf($state.current.name) > -1) {
                                         $state.go('main.welcome');
                                         event.preventDefault();
                                     }

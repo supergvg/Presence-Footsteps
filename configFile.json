@@ -1,7 +1,7 @@
 {
     "production": {
         "EnvironmentConfig": {
-            "api": "http://gjests.azurewebsites.net/"
+            "api": "http://app.gjests.com/"
         }
     },
     "development": {
@@ -11,7 +11,7 @@
     },
     "staging": {
         "EnvironmentConfig": {
-            "api": "http://gjests-staging.azurewebsites.net/"
+            "api": "http://staging-app.gjests.com/"
         }
     },
     "test": {
