@@ -160,8 +160,8 @@ angular.module('gliist')
                 $scope.cancelAutoSave();
                 var guestIds = [];
                 angular.forEach($scope.rowSelected, function(row){
-                    if (row.id) {
-                        guestIds.push(row.id);
+                    if (row.guest.id) {
+                        guestIds.push(row.guest.id);
                     } else {
                         var index = $scope.gli.actual.indexOf(row);
                         if (index > -1) {
