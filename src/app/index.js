@@ -257,6 +257,13 @@ angular.module('gliist', [
                 }
             });
 
+            var checkPermission = function(event, nextStateName) {
+                if ($rootScope.currentUser.permissions !== 'admin' && $rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf(nextStateName) > -1) {
+                    $state.go('main.welcome');
+                    event.preventDefault();
+                }
+            };
+
             $rootScope.$on('$stateChangeStart', function(event, next, toParams, from, fromParams) {
                 $state.previous = from;
                 $state.previousParams = fromParams;
@@ -278,9 +285,8 @@ angular.module('gliist', [
                                         userService.logout();
                                         $state.go('home');
                                         event.preventDefault();
-                                    } else if ($rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf($state.current.name) > -1) {
-                                        $state.go('main.welcome');
-                                        event.preventDefault();
+                                    } else {
+                                        checkPermission(event, next.name);
                                     }
                                 }
                             }, function() {
@@ -289,6 +295,8 @@ angular.module('gliist', [
                                 event.preventDefault();
                             });
                         }
+                    } else {
+                        checkPermission(event, next.name);
                     }
                 }
                 if (!$rootScope.appReady) {
