@@ -5,8 +5,8 @@ REMOTEPATH='./'
 
 echo "============="
 echo "Start build"
-//gulp clean
-//gulp build --force --env=staging
+gulp clean
+gulp build --force --env=staging
 echo "Build done"
 echo "Deploy to server"
 cd ./dist

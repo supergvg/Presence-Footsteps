@@ -87,6 +87,7 @@ angular.module('gliist')
                 guestFactory.GuestLists.get().$promise.then(
                     function(data) {
                         $scope.guestLists = data;
+                        $scope.options.gridData.splice(0, $scope.options.gridData.length);
                         angular.forEach($scope.guestLists, function(guest) {
                             $scope.options.gridData.push({
                                 id: guest.id,
