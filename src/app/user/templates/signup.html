@@ -1,9 +1,89 @@
-<div flex layout="column" layout-align="space-between center" layout-fill>
+<div flex layout="column" layout-align="space-between center" layout-fill ng-init="init()">
     <div layout="column" layout-align="center center" class="content">
         <div>
             <img src="assets/images/gliist_logo_blue.png" style="height:90px"/>
         </div>
-        <user-signup user="createUser"></user-signup>
+        <md-progress-circular ng-show="loading" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+        <div class="signup-form" ng-if="!loading">
+            <form name="userForm">
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>First Name</label>
+                        <input name="firstName" ng-model="user.firstName" required class="rounded-l">
+                        <div ng-messages="userForm.firstName.$error" ng-if="displayErrorMessage(userForm.firstName)">
+                            <div ng-message="required">First name is required</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Last Name</label>
+                        <input name="lastName" ng-model="user.lastName" required>
+                        <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)">
+                            <div ng-message="required">Last name is required</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex ng-class="userForm.firstName.$valid && userForm.lastName.$valid && userForm.email.$valid ? 'checked' : ''">
+                        <label>Email</label>
+                        <input type="email" name="email" ng-model="user.username" ng-disabled="options.inviteMode" ng-required="!options.inviteMode" class="rounded-r">
+                        <div ng-messages="userForm.email.$error" ng-if="displayErrorMessage(userForm.email)">
+                            <div ng-message="required">Email is required</div>
+                            <div ng-message="email">Email is incorrect</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>Phone Number</label>
+                        <input name="phoneNumber" ng-model="user.phoneNumber" class="rounded-l" type="text" ng-pattern="/^[0-9+-. ()]*$/">
+                        <div ng-messages="userForm.phoneNumber.$error" ng-if="displayErrorMessage(userForm.phoneNumber)">
+                            <div ng-message="pattern">Correct phone number</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Organization</label>
+                        <input name="company" ng-model="user.company" ng-disabled="options.inviteMode" ng-required="!options.inviteMode">
+                        <div ng-messages="userForm.company.$error" ng-if="displayErrorMessage(userForm.company)">
+                            <div ng-message="required">Company is required</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex ng-class="userForm.company.$valid ? 'checked' : ''">
+                        <label>Industry</label>
+                        <input name="industry" ng-model="user.industry" class="rounded-r">
+                    </md-input-container>
+                </div>
+                <div layout layout-align="center center" layout-sm="column" class="passwords">
+                    <md-input-container>
+                        <label>Password</label>
+                        <input class="rounded-lr" name="password" type="password" ng-model="user.password" ng-minlength="6" required>
+                        <div ng-messages="userForm.password.$error" ng-if="displayErrorMessage(userForm.password)">
+                            <div ng-message="required">Password is required</div>
+                            <div ng-message="minlength">Minimum password length 6 symbols</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container ng-class="userForm.password.$valid && userForm.re_password.$valid ? 'checked' : ''">
+                        <label>Re-enter Password</label>
+                        <input class="rounded-lr" type="password" name="re_password" ng-model="user.confirmPassword" ng-minlength="6" required ng-match="user.password">
+                        <div ng-messages="userForm.re_password.$error" ng-if="displayErrorMessage(userForm.re_password)">
+                            <div ng-message="match">Passwords don't match.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout layout-sm="column" layout-align="center center" ng-if="!options.freeRegister">
+                    <md-input-container ng-if="!options.inviteMode">
+                        <label>Invite Code</label>
+                        <input name="inviteCode" class="rounded-lr" type="text" ng-model="user.inviteCode" required>
+                        <div ng-messages="userForm.inviteCode.$error" ng-if="displayErrorMessage(userForm.inviteCode)">
+                            <div ng-message="required">Invite is required</div>
+                        </div>
+                    </md-input-container>
+                </div>        
+            </form>
+            <div class="md-actions" layout="row" layout-align="center center">
+                <md-button class="raised-btn" ng-click="register(userForm)" ng-disabled="sendingData">
+                    Get Started
+                </md-button>
+                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="sendingData"></md-progress-circular>
+            </div>
+        </div>
     </div>
     <div class="footer">
         <div layout="column" layout-align="center center">

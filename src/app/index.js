@@ -90,6 +90,14 @@ angular.module('gliist', [
                         allowAnonymous: true,
                         denyLogged: true
                     }
+                }).state('signup_invite', {
+                    url: '/signup/invite/:company/:token',
+                    templateUrl: 'app/user/templates/signup.html',
+                    controller: 'SignupCtrl',
+                    access: {
+                        allowAnonymous: true,
+                        denyLogged: true
+                    }
                 }).state('recover_password', {
                     url: '/recover_password',
                     templateUrl: 'app/user/templates/recover-password.html',
@@ -102,14 +110,6 @@ angular.module('gliist', [
                     url: '/reset_password/:token',
                     templateUrl: 'app/user/templates/reset-password.html',
                     controller: 'ResetPasswordCtrl',
-                    access: {
-                        allowAnonymous: true,
-                        denyLogged: true
-                    }
-                }).state('signup_invite', {
-                    url: '/signup/invite/:company/:token',
-                    templateUrl: 'app/user/templates/signup-invite.html',
-                    controller: 'SignupInviteCtrl',
                     access: {
                         allowAnonymous: true,
                         denyLogged: true
