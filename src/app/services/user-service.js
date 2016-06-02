@@ -163,9 +163,9 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                     method: 'POST',
                     url: url,
                     data: user
-                }).success(function (data) {
+                }).success(function(data) {
                     deferred.resolve(data);
-                }).error(function (data) {
+                }).error(function(data) {
                     deferred.reject(data);
                 });
 

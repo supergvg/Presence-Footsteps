@@ -24,20 +24,28 @@ angular.module('gliist')
             };
 
             $scope.save = function(form) {
+                var errorMessage = [];
                 if (form && form.$invalid) {
                     var errors = {
                             required: {
                                 firstName: 'First Name is required',
                                 lastName: 'Last Name is required',
                                 userName: 'Email is required'
+                            },
+                            email: {
+                                userName: 'Email is incorrect'
                             }
-                        },
-                        errorMessage = [];
+                        };
                     angular.forEach(form.$error, function(value, key) {
                         angular.forEach(value, function(value1) {
                             errorMessage.push(errors[key][value1.$name]);
                         });
                     });
+                }
+                if ($scope.selected === '') {
+                    errorMessage.push('Select role');
+                }
+                if (errorMessage.length > 0) {
                     dialogService.error(errorMessage.join(', '));
                     return;
                 }
@@ -49,8 +57,9 @@ angular.module('gliist')
                             $scope.linked_account = $scope.linkedAccountInEdit;
                             $mdDialog.hide();
                         },
-                        function() {
-                            dialogService.error('Oops there was a problem updating user, please try again');
+                        function(error) {
+                            var message = error.ExceptionMessage || error.Message || 'Oops there was a problem sending invite please try again';
+                            dialogService.error(message);
                         }
                     ).finally(function() {
                         $scope.fetchingData = false;
@@ -61,11 +70,8 @@ angular.module('gliist')
                             $mdDialog.hide();
                         },
                         function(error) {
-                            if (error) {
-                                dialogService.error(error.ExceptionMessage);
-                            } else {
-                                dialogService.error('Oops there was a problem sending invite please try again');
-                            }
+                            var message = error.ExceptionMessage || error.Message || 'Oops there was a problem sending invite please try again';
+                            dialogService.error(message);
                         }
                     ).finally(function() {
                         $scope.fetchingData = false;
