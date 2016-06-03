@@ -1156,6 +1156,107 @@ md-dialog {
         }
         
     }
+    &.payment-popup {
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        padding: 50px 100px;
+        font-size: 18px;
+        color: #8e8e8e;
+        .content {
+            margin-top: 60px;
+            h3 {
+                font-size: 22px;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #99ccff;
+                margin: 0;
+            }
+            h4 {
+                margin: 20px 0;
+            }
+            a {
+                color: #8e8e8e;
+                border-bottom: 1px solid #8e8e8e;
+            }
+            .order {
+                padding-right: 60px;
+                .summary {
+                    margin-top: 22px;
+                    border-bottom: 1px solid #e6e6e6;
+                    md-list {
+                        md-list-item {
+                            min-height: 40px;
+                            padding: 0;
+                            &:first-child {
+                                color: #666;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                    p {
+                        font-size: 18px;
+                        color: #8e8e8e;
+                        margin: 10px 0 20px 0;
+                    }
+                }
+                .promo {
+                    h4 {
+                        font-weight: bold;
+                    }
+                    md-input-container {
+                        margin-right: 20px;
+                        .promo-apply {
+                            order: 3;
+                            font: {
+                                style: italic;
+                                size: 16px;
+                                weight: bold;
+                            }
+                            text-align: right;
+                            padding-top: 10px;
+                            color: #666;
+                        }
+                    }
+                    .promo-status {
+                        font: {
+                            style: italic;
+                            size: 16px;
+                        }
+                        color: #c03131;
+                        padding-top: 10px;
+                    }
+                }
+            }
+            .payment {
+                padding-left: 30px;
+                md-input-container {
+                    h4 {
+                        font-weight: normal;
+                    }
+                }
+                .block-field > div {
+                    & > div:nth-child(1) {
+                        md-input-container {
+                            padding: 0;
+                            &:first-child {
+                                margin-right: 20px;
+                            }
+                        }
+                    }
+                    & > div:nth-child(2) {
+                        padding-left: 20px;
+                    }
+                }
+            }
+            .payment-actions {
+                .md-button:nth-child(2) {
+                    width: auto;
+                }
+            }
+        }
+    }
 }
 
 .welcome-select {
@@ -2820,6 +2921,16 @@ md-dialog {
                     }
                 }
                 
+            }
+        }
+        &.payment-popup {
+            .content {
+                .order {
+                    padding-right: 0;
+                }
+                .payment {
+                    padding-left: 0;
+                }
             }
         }
     }

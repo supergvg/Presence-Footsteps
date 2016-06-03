@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', 'stripe',
-        function($scope, subscriptionsService, stripe) {
+    .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', 'stripe', '$mdDialog',
+        function($scope, subscriptionsService, stripe, $mdDialog) {
             $scope.loading = true;
             $scope.plans = [];
             $scope.combinedPlanWith = {};
-            
             subscriptionsService.getAllSubscriptions().then(
                 function(data){
                     $scope.plans = data.plans;
@@ -23,6 +22,16 @@ angular.module('gliist')
                 }
                 if (selectedPlan.paymentType === 'select') {
                     if (selectedPlan.amount > 0) {
+                        
+                        var scope = $scope.$new();
+                        scope.close = function() {
+                            $mdDialog.hide();
+                        };
+                        $mdDialog.show({
+                            scope: scope,
+                            templateUrl: 'app/templates/payment-popup.html'
+                        });            
+                        
                         stripe.openCheckout({description: selectedPlan.name + ' plan', amount: selectedPlan.amount});
                     } else {
                         

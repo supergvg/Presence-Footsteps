@@ -1,0 +1,87 @@
+<md-dialog class="payment-popup">
+    <div class="header" layout="row" layout-align="center center">
+        <img src="assets/images/gliist_logo_blue.png" style="height:90px"/>
+    </div>
+    <div class="content">
+        <div layout="row" layout-align="space-between stretch" layout-sm="column">
+            <div flex="50" flex-sm="100" class="order">
+                <h3>YOUR ORDER SUMMARY</h3>
+                <div class="summary">
+                    <md-list>
+                        <md-list-item>
+                            <div flex="85">
+                                Plan
+                            </div>
+                            <div flex="15">
+                                Total
+                            </div>
+                        </md-list-item>
+                        <md-list-item>
+                            <div flex="85">
+                                Monthly - billed month
+                            </div>
+                            <div flex="15">
+                                $260
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                    <p>*monthly payment will be proceed on __th of each month</p>
+                </div>
+                <div class="promo">
+                    <h4>Promo Code</h4>
+                    <div layout="row" layout-align="space-between start" layout-sm="column">
+                        <md-input-container md-no-float flex="70">
+                            <input type="text" aria-label="Promo Code" placeholder="Enter your promo code">
+                            <div class="promo-apply">Applied X</div>
+                        </md-input-container>
+                        <div>
+                            <md-button class="raised-btn">Enter</md-button>
+                        </div>
+                    </div>
+                    <div class="promo-status">This promo code is invalid. Please use a different promo code, thank you.</div>
+                </div>
+            </div>
+            <div flex="50" flex-sm="100" class="payment">
+                <h3>ENTER PAYMENT DETAIL</h3>
+                <form>
+                    <div class="block-field">
+                        <div layout="row" layout-align="space-between stretch">
+                            <md-input-container flex="60" md-no-float>
+                                <h4>Card Number Number</h4>
+                                <input type="text" size="20" data-stripe="number" placeholder="Enter Credit Card Number">
+                            </md-input-container>
+                            <md-input-container flex="40" md-no-float>
+                                <h4>Security Code</h4>
+                                <input type="text" size="4" data-stripe="cvc" placeholder="Enter Security Code">
+                            </md-input-container>
+                        </div>
+                        <div layout="row" layout-align="space-between stretch">
+                            <div flex="60">
+                                <h4>Expire Date</h4>
+                                <div layout="row" layout-align="start center">
+                                    <md-input-container md-no-float flex="30">
+                                        <input type="number" size="2" data-stripe="exp_month" placeholder="Month">
+                                    </md-input-container>
+                                    <md-input-container md-no-float flex="30">
+                                        <input type="number" size="2" data-stripe="exp_year" placeholder="Year">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div flex="40">
+                                <md-input-container md-no-float>
+                                    <h4>Billing Zip Code</h4>
+                                    <input type="text" data-stripe="data-zip-code" placeholder="Enter Zip Code">
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </div>
+                    <md-checkbox aria-label="Terms">I agree to the <a href="http://www.gjests.com/terms-conditions/" target="_blank">Terms and Conditions</a></md-checkbox>                
+                </form>        
+            </div>
+        </div>
+        <div class="payment-actions margin-top" layout="row" layout-align="space-between center">
+            <md-button class="raised-btn">BACK</md-button>
+            <md-button class="raised-btn">PROCESS PAYMENT</md-button>
+        </div>
+    </div>
+</md-dialog>
