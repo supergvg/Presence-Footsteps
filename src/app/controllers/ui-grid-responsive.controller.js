@@ -28,17 +28,24 @@ angular.module('gliist')
                     enableColumnMenus: false,
                     enableHorizontalScrollbar: 0,
                     selectionRowHeaderWidth: 50,
-                    rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.options.methods.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.name === \'\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
-                    columnDefs: [],
-                    data: []
+                    rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ng-keydown="grid.appScope.options.methods.gridCellTab($event, col)"><dl><dt hide-gt-sm ng-hide="col.cellClass === \'actions-col\'">{{col.name}}</dt><dd ui-grid-cell class="ui-grid-cell"></dd></dl></div>',
+                    columnDefs: []
                 },
+                gridData: [],
                 methods: {
-                    updateGridData: function(){},
+                    updateGridData: function(){
+                        var data = [];
+                        angular.copy($scope.options.gridOptions.data, data);
+                        angular.copy(data, $scope.options.gridData);
+                    },
                     gridCellTab: function() {},
                     onRegisterApi: function(){}
                 }
             };
-            $scope.options = angular.merge(defaultOptions, $scope.options);
+            angular.forEach(defaultOptions, function(value, key){
+                $scope.options[key] = angular.merge(value, $scope.options[key]);
+            });
+            $scope.options.gridOptions.data = $scope.options.gridData;
             $scope.options.gridOptions.enableVerticalScrollbar = $scope.options.display.verticalScroll === false ? 0 : 2;
             $scope.options.gridOptions.enableSorting = $scope.options.sorting.active;
             $scope.options.gridOptions.enableRowHeaderSelection = $scope.options.display.enableGridSelection;
@@ -80,8 +87,9 @@ angular.module('gliist')
                 renderableRows.forEach(function(row) {
                     var match = false;
                     $scope.options.filter.fields.forEach(function(field) {
-                        var getter = $parse('entity.'+field);
-                        if (getter(row).match(matcher)){
+                        var getter = $parse('entity.'+field),
+                            fieldValue = getter(row) || '';
+                        if (fieldValue.match(matcher)){
                             match = true;
                         }
                     });

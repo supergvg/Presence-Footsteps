@@ -34,37 +34,10 @@ angular.module('gliist')
                                 '</div>'
                         }
                     ]
-                }
+                },
+                gridData: []
             };
             $scope.options.methods = {
-                updateGridData: function() {
-                    var data = $scope.event;
-                    $scope.options.gridOptions.data = [];
-                    if (!data) {
-                        return;
-                    }
-                    angular.forEach($scope.event.guestLists, function(gl) {
-                        angular.forEach(gl.actual, function(checkin) {
-                            if (!checkin.guest.type) {
-                                checkin.guest.type = gl.listType;
-                            }
-                            if (!checkin.guest.title) {
-                                checkin.guest.title = gl.title;
-                            }
-                            $scope.options.gridOptions.data.push({
-                                firstName: checkin.guest.firstName,
-                                lastName: checkin.guest.lastName,
-                                title: checkin.guest.title,
-                                type: checkin.guest.type,
-                                email: checkin.guest.email,
-                                plus: checkin.guest.plus,
-                                id: checkin.guest.id,
-                                status: checkin.status,
-                                gliId: checkin.gl_id
-                            });
-                        });
-                    });
-                },
                 onRegisterApi: function(gridApi){
                     $scope.gridApi = gridApi;
                     gridApi.grid.registerRowsProcessor($scope.customFilter, 150);
@@ -126,7 +99,27 @@ angular.module('gliist')
                     if ($scope.pastEvent()) {
                         $scope.options.gridOptions.columnDefs.pop();
                     }
-                    $scope.options.methods.updateGridData();
+                    angular.forEach($scope.event.guestLists, function(gl) {
+                        angular.forEach(gl.actual, function(checkin) {
+                            if (!checkin.guest.type) {
+                                checkin.guest.type = gl.listType;
+                            }
+                            if (!checkin.guest.title) {
+                                checkin.guest.title = gl.title;
+                            }
+                            $scope.options.gridData.push({
+                                firstName: checkin.guest.firstName,
+                                lastName: checkin.guest.lastName,
+                                title: checkin.guest.title,
+                                type: checkin.guest.type,
+                                email: checkin.guest.email,
+                                plus: checkin.guest.plus,
+                                id: checkin.guest.id,
+                                status: checkin.status,
+                                gliId: checkin.gl_id
+                            });
+                        });
+                    });
                 }, function() {
                     dialogService.error('There was a problem getting your events, please try again');
                     $state.go('main.current_events');

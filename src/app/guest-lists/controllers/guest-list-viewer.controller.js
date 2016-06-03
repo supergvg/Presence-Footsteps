@@ -5,12 +5,15 @@ angular.module('gliist')
         function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter) {
             $scope.selected = $scope.selected || [];
             $scope.options = $scope.options || {};
-            $scope.options = angular.merge($scope.options, {
+            var defaultOptions = {
                 filter: {
                     active: true,
                     placeholder: 'Search Guest List or Creator',
                     fields: ['title', 'created_by']
                 }
+            };            
+            angular.forEach(defaultOptions, function(value, key){
+               $scope.options[key] = angular.merge(value, $scope.options[key]);
             });
             $scope.options.gridOptions = {
                 columnDefs: [
@@ -40,25 +43,6 @@ angular.module('gliist')
             }
 
             $scope.options.methods = {
-                updateGridData: function() {
-                    var data = $scope.guestLists;
-                    $scope.options.gridOptions.data = [];
-                    if (!data) {
-                        return;
-                    }
-                    angular.forEach(data, function(guest) {
-                        $scope.options.gridOptions.data.push({
-                            id: guest.id,
-                            title: guest.title,
-                            total: guest.total,
-                            listType: guest.listType,
-                            created_on: $filter('date')(guest.created_on, 'MMM dd, yy'),
-                            UpdatedOn: $filter('date')(guest.UpdatedOn, 'MMM dd, yy'),
-                            created_by: guest.created_by ? guest.created_by.firstName +' '+ guest.created_by.lastName : '',
-                            glist: guest
-                        });
-                    });
-                },
                 isRemoval: function(guest) {
                     if (!$rootScope.isPromoter() || !guest.created_by) {
                         return false;
@@ -103,7 +87,19 @@ angular.module('gliist')
                 guestFactory.GuestLists.get().$promise.then(
                     function(data) {
                         $scope.guestLists = data;
-                        $scope.options.methods.updateGridData();
+                        $scope.options.gridData.splice(0, $scope.options.gridData.length);
+                        angular.forEach($scope.guestLists, function(guest) {
+                            $scope.options.gridData.push({
+                                id: guest.id,
+                                title: guest.title,
+                                total: guest.total,
+                                listType: guest.listType,
+                                created_on: $filter('date')(guest.created_on, 'MMM dd, yy'),
+                                UpdatedOn: $filter('date')(guest.UpdatedOn, 'MMM dd, yy'),
+                                created_by: guest.created_by ? guest.created_by.firstName +' '+ guest.created_by.lastName : '',
+                                glist: guest
+                            });
+                        });
                     }, 
                     function() {
                         dialogService.error('There was a problem getting lists, please try again');
