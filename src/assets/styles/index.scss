@@ -321,6 +321,7 @@ md-tooltip .md-content{
     min-height: 30px;
     font-weight: bold;
     color: #aaa;
+    flex-shrink: 0;
     img,
     md-icon,
     ng-md-icon {
@@ -593,6 +594,7 @@ input.form-control {
 }
 
 md-input-container {
+    flex-shrink: 0;
     padding: 0;
     label {
         padding-left: 20px !important; 
@@ -1518,6 +1520,13 @@ md-dialog {
                 font-size: 16px;
                 color: #717171;
                 margin-top: 0;
+            }
+            a {
+                margin-top: 20px;
+                font-size: 16px;
+                color: #717171;
+                border-bottom: 1px solid #717171;
+                text-decoration: none;
             }
         }
         .footer {

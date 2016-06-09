@@ -213,6 +213,28 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
 
+            importGuestsToGLInstance: function (glId, guestLists) {
+                var d = $q.defer();
+                var ids = guestLists.map(function (gl) {
+                    if (!gl) {
+                        return;
+                    }
+                    return gl.id;
+                });
+
+                $http({
+                    method: 'POST',
+                    url: 'api/GuestListInstances/:id/Import/GuestLists'.replace(':id', glId),
+                    data: ids
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function () {
+                    d.reject('Oops there was an error trying to get events, please try again');
+                });
+
+                return d.promise;
+            },
+
             deleteGuestList: function (gli, eventId) {
                 var d = $q.defer(),
                     ids = [gli.id];

@@ -40,8 +40,9 @@ angular.module('gliist').factory('guestFactory', [
                 }
             }),
 
-            GuestListInstance: $resource('api/GuestListInstances/:id', {
-                id: '@id'
+            GuestListInstance: $resource('api/GuestListInstances/:id/:promoter_Id', {
+                id: '@id',
+                promoter_Id: '@promoter_Id'
             }, {
                 update: {
                     method: 'POST',

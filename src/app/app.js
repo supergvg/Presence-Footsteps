@@ -41,7 +41,7 @@ angular.module('gliist')
                 staff: {
                     label: 'Staff',
                     desc: 'Allow to check guests in and check on event stats',
-                    denyAccess: ['main.create_event']
+                    denyAccess: ['main.create_event', 'main.list_management', 'main.edit_glist', 'main.create_list_management']
                 },
                 promoter: {
                     label: 'Promoter',
@@ -65,7 +65,7 @@ angular.module('gliist')
                 if ($rootScope.isPromoter()) {
                     return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3]];
                 } else if ($rootScope.isStaff()) {
-                    return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4]];
+                    return [$scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
                 }
                 return $scope.menuItems;
             };
