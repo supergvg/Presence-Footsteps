@@ -21,26 +21,26 @@
                                 <ui-select-choices repeat="t in guestListTypes">
                                     {{t}}
                                 </ui-select-choices>
-                            </ui-select>                   
+                            </ui-select>
                         </md-input-container>
                     </div>
                 </div>
-<!--                <div class="block-field">
+                <div class="block-field">
                     <h4>Promoter</h4>
                     <md-input-container flex md-no-float>
-                        <ui-select name="promoter" ng-model="gli.promoter_Id" search-enabled="false">
+                        <ui-select name="promoter" ng-model="gli.promoter_Id" search-enabled="false" ng-disabled="isPromoter()">
                             <ui-select-match placeholder="Select Promoter to Manage List">
                                 {{$select.selected.firstName}} {{$select.selected.lastName}}
                             </ui-select-match>
                             <ui-select-choices repeat="promoter.Id as promoter in promoters">
                                 {{promoter.firstName}} {{promoter.lastName}}
                             </ui-select-choices>
-                        </ui-select>                   
+                        </ui-select>
                     </md-input-container>
-                </div>-->
+                </div>
             </form>
         </div>
-    <!--    <div class="block-field">
+        <div class="block-field">
             <h4>Import Guests</h4>
             <md-list>
                 <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
@@ -60,7 +60,7 @@
                     </div>
                 </md-list-item>
             </md-list>
-        </div>-->
+        </div>
         <div class="block-field">
             <h4>Guests</h4>
             <md-list>

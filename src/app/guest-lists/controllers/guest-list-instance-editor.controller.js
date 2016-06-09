@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -255,6 +255,87 @@ angular.module('gliist')
                     result = result || (actual.guest.firstName === '');
                 });
                 return result;
+            };
+
+            $scope.isPromoter = function () {
+                return $rootScope.isPromoter();
+            };
+
+            $scope.onLinkClicked = function (ev) {
+                var scope = $scope.$new();
+                scope.cancel = function () {
+                    $mdDialog.hide();
+                };
+                scope.selected = [];
+                scope.options = {
+                    display: {
+                        enableSelection: true,
+                        readOnly: true,
+                        verticalScroll: false
+                    }
+                };
+                scope.importGLists = function (selected) {
+                    $scope.gli = $scope.gli || {title: 'New Guest List'};
+                    $scope.gli.guests = $scope.gli.guests || [];
+
+                    eventsService.importGuestsToGLInstance($scope.gli.id, selected, $scope.gli).then(
+                        function (result) {
+                            if (!result) {
+                                return dialogService.error('There was a problem linking your guest list, please try again');
+                            }
+                            $scope.gli.actual = result.actual;
+                        },
+                        function () {
+                            dialogService.error('There was a problem linking your guest list, please try again');
+                        }
+                    ).finally(function () {
+                        $mdDialog.hide();
+                    });
+                };
+
+                $mdDialog.show({
+                    //controller: DialogController,
+                    scope: scope,
+                    templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
+                    targetEvent: ev
+                });
+            };
+            
+            $scope.onFileSelect = function (files) {
+                if (!files || files.length === 0) {
+                    return;
+                }
+                if ($scope.gli) {
+                    var gli = angular.copy($scope.gli, {});
+                    $scope.cancelAutoSave();
+                    $scope.fetchingData = true;
+                    guestFactory.GuestListInstance.update(gli).$promise.then(
+                        function (data) {
+                            $scope.gli = data;
+                            $scope.upload(files[0], $scope.gli.id);
+                        },
+                        function () {
+                            $scope.fetchingData = false;
+                            dialogService.error('There was a problem saving your guest list, please try again');
+                        }
+                    );
+                    return;
+                }
+                $scope.upload(files[0]);
+            };
+
+            $scope.upload = function (files, glId) {
+                $scope.fetchingData = true;
+                uploaderService.uploadGuestListInstance(files, glId).then(
+                    function (data) {
+                        $scope.gli = data;
+                    },
+                    function () {
+                        dialogService.error('There was a problem saving your guest list please try again');
+                    }
+                ).finally(function () {
+                    $scope.fetchingData = false;
+                });
             };
         }]
     );
