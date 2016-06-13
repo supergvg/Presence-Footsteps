@@ -22,7 +22,6 @@ angular.module('gliist')
                 }
                 if (selectedPlan.paymentType === 'select') {
                     if (selectedPlan.amount > 0) {
-                        
                         var scope = $scope.$new();
                         scope.close = function() {
                             $mdDialog.hide();
@@ -31,7 +30,6 @@ angular.module('gliist')
                             scope: scope,
                             templateUrl: 'app/templates/payment-popup.html'
                         });            
-                        
                         stripe.openCheckout({description: selectedPlan.name + ' plan', amount: selectedPlan.amount});
                     } else {
                         

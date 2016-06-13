@@ -1,0 +1,19 @@
+#!/bin/sh
+remote_dir=/home/gjests-test/htdocs # remote directory
+ssh_address=gjests-test@s.s.ideas-implemented.com
+
+echo "============="
+echo "Start build"
+gulp clean
+gulp build --force --env=test
+echo "Build done"
+echo "Deploy to server"
+echo "Pack source"
+tar czvf ./source.tgz -C dist .
+scp -r ./source.tgz $ssh_address:$remote_dir
+echo "Unpack on server"
+ssh $ssh_address "cd htdocs; find . -not -name 'source.tgz' -print0 |xargs -0 rm -rdf; tar xzvf ./source.tgz; unlink ./source.tgz"
+unlink ./source.tgz
+echo "=============="
+echo "Deploy finish"
+echo

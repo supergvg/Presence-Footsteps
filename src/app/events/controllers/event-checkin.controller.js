@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$filter', '$window',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $filter, $window) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$filter', '$window', 'EnvironmentConfig',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $filter, $window, EnvironmentConfig) {
             $scope.event = {id: 0};
             $scope.options = {
                 filter: {
@@ -54,7 +54,7 @@ angular.module('gliist')
             };
             
             $scope.getExportExcelUrl = function() {
-                return $window.redirectUrl+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
+                return EnvironmentConfig.gjests_api+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
             
             $scope.filter = {

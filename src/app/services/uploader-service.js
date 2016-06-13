@@ -22,6 +22,24 @@ angular.module('gliist').factory('uploaderService',
 
                     return d.promise;
                 },
+                
+                uploadGuestListInstance: function (file, guestListInstanceId) {
+                    var d = $q.defer();
+                    
+                    if (!file) {
+                        d.reject('Please select a file');
+                    }
+                    $upload.upload({
+                        url: 'api/GuestListInstances/' + guestListInstanceId + '/Import/File',
+                        file: file
+                    }).success(function (data) {
+                        d.resolve(data);
+                    }).error(function (err) {
+                        d.reject(err);
+                    });
+
+                    return d.promise;
+                },
 
                 upload: function (file) {
                     var d = $q.defer();

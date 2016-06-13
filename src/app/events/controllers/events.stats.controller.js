@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window', '$mdMedia',
-        function ($scope, eventsService, dialogService, $stateParams, $state, $window, $mdMedia) {
+    .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window', '$mdMedia', 'EnvironmentConfig',
+        function ($scope, eventsService, dialogService, $stateParams, $state, $window, $mdMedia, EnvironmentConfig) {
             $scope.categories = [
                 {name: 'GA', color: '#d4e4f9'},
                 {name: 'VIP', color: '#cef0f2'},
@@ -89,7 +89,7 @@ angular.module('gliist')
             };
             
             $scope.getExportExcelUrl = function() {
-                return $window.redirectUrl+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
+                return EnvironmentConfig.gjests_api+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
             
             $scope.getCategoryStats = function(category) {

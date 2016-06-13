@@ -1,22 +1,30 @@
 {
     "production": {
         "EnvironmentConfig": {
-            "api": "http://app.gjests.com/"
+            "gjests_api": "http://app.gjests.com/",
+            "subscriptions_api": "http://subscriptions.gjests.com/",
+            "payments_api": "http://payments.gjests.com/"
         }
     },
     "development": {
         "EnvironmentConfig": {
-            "api": "http://gjests-api.ideas-implemented.com/"
+            "gjests_api": "http://gjests-api.ideas-implemented.com/",
+            "subscriptions_api": "http://54.228.219.224:8005/",
+            "payments_api": "http://54.228.219.224:8006/"
         }
     },
     "staging": {
         "EnvironmentConfig": {
-            "api": "http://staging-app.gjests.com/"
+            "gjests_api": "http://staging-app.gjests.com/",
+            "subscriptions_api": "http://staging-subscriptions.gjests.com/",
+            "payments_api": "http://staging-payments.gjests.com/"
         }
     },
     "test": {
         "EnvironmentConfig": {
-            "api": ""
+            "gjests_api": "http://gjests-api.ideas-implemented.com/",
+            "subscriptions_api": "http://54.228.219.224:8005/",
+            "payments_api": "http://54.228.219.224:8006/"
         }
     }
 }

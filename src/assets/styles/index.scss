@@ -1157,6 +1157,7 @@ md-dialog {
         
     }
     &.payment-popup {
+        overflow-y: scroll;
         max-width: 100%;
         max-height: 100%;
         width: 100%;
@@ -1463,7 +1464,6 @@ md-dialog {
                     margin: 0 40px;
                     min-width: 300px;
                 }
-
             }
         }
         .footer {
@@ -2924,12 +2924,18 @@ md-dialog {
             }
         }
         &.payment-popup {
+            padding: 50px 20px;
             .content {
                 .order {
                     padding-right: 0;
                 }
                 .payment {
                     padding-left: 0;
+                    .block-field > div {
+                        & > div:nth-child(2) {
+                            padding-left: 0;
+                        }
+                    }                    
                 }
             }
         }

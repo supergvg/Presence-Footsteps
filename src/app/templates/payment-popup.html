@@ -29,14 +29,12 @@
                 </div>
                 <div class="promo">
                     <h4>Promo Code</h4>
-                    <div layout="row" layout-align="space-between start" layout-sm="column">
-                        <md-input-container md-no-float flex="70">
+                    <div layout="row" layout-align="space-between start">
+                        <md-input-container md-no-float flex="50">
                             <input type="text" aria-label="Promo Code" placeholder="Enter your promo code">
                             <div class="promo-apply">Applied X</div>
                         </md-input-container>
-                        <div>
-                            <md-button class="raised-btn">Enter</md-button>
-                        </div>
+                        <md-button class="raised-btn">Enter</md-button>
                     </div>
                     <div class="promo-status">This promo code is invalid. Please use a different promo code, thank you.</div>
                 </div>
@@ -45,18 +43,18 @@
                 <h3>ENTER PAYMENT DETAIL</h3>
                 <form>
                     <div class="block-field">
-                        <div layout="row" layout-align="space-between stretch">
-                            <md-input-container flex="60" md-no-float>
+                        <div layout="row" layout-align="space-between stretch" layout-sm="column">
+                            <md-input-container flex="60" md-no-float flex-sm="100">
                                 <h4>Card Number Number</h4>
                                 <input type="text" size="20" data-stripe="number" placeholder="Enter Credit Card Number">
                             </md-input-container>
-                            <md-input-container flex="40" md-no-float>
+                            <md-input-container flex="40" md-no-float flex-sm="100">
                                 <h4>Security Code</h4>
                                 <input type="text" size="4" data-stripe="cvc" placeholder="Enter Security Code">
                             </md-input-container>
                         </div>
-                        <div layout="row" layout-align="space-between stretch">
-                            <div flex="60">
+                        <div layout="row" layout-align="space-between stretch" layout-sm="column">
+                            <div flex="60" flex-sm="100">
                                 <h4>Expire Date</h4>
                                 <div layout="row" layout-align="start center">
                                     <md-input-container md-no-float flex="30">
@@ -67,7 +65,7 @@
                                     </md-input-container>
                                 </div>
                             </div>
-                            <div flex="40">
+                            <div flex="40" flex-sm="100">
                                 <md-input-container md-no-float>
                                     <h4>Billing Zip Code</h4>
                                     <input type="text" data-stripe="data-zip-code" placeholder="Enter Zip Code">

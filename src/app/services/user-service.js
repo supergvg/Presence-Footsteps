@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$window',
-    function ($rootScope, $http, $q, $window) {
+angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$window', 'EnvironmentConfig',
+    function ($rootScope, $http, $q, $window, EnvironmentConfig) {
         var userEmail,
             isLogged,
             access_token,
@@ -193,7 +193,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 var bgImg;
                 
                 if (currentUser) {
-                    bgImg = $window.redirectUrl + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
+                    bgImg = EnvironmentConfig.gjests_api + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
                     bgImg = 'url("' + bgImg + '")';
                 } else {
                     bgImg = 'url("assets/images/blank_user_icon.png")';

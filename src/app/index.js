@@ -22,8 +22,8 @@ angular.module('gliist', [
     'ui.grid.autoResize',
     'ui.select',
     'angular-google-analytics'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', '$windowProvider', 'EnvironmentConfig',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, $windowProvider, EnvironmentConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', 'EnvironmentConfig',
+        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, EnvironmentConfig) {
 //            $locationProvider.html5Mode(true);
 
             AnalyticsProvider
@@ -55,14 +55,11 @@ angular.module('gliist', [
                 .warnPalette('red')
                 .backgroundPalette('grey');
                 
-            var $window = $windowProvider.$get();
-            $window.redirectUrl = EnvironmentConfig.api;
             $provide.factory('myHttpInterceptor', function() {
                 return {
-                    'request': function (config) {
-                        var redirectUrl = $window.redirectUrl;
+                    'request': function(config) {
                         if (config.url.indexOf('api') > -1 || config.url.indexOf('Token') > -1) {
-                            config.url = redirectUrl + config.url;
+                            config.url = EnvironmentConfig.gjests_api + config.url;
                         }
                         return config;
                     }
