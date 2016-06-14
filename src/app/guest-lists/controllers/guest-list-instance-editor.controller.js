@@ -127,7 +127,7 @@ angular.module('gliist')
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 20000);
+                }, 7000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -195,9 +195,7 @@ angular.module('gliist')
                 }
                 var gli = {};
                 angular.copy($scope.gli, gli);
-                if (autoSave) {
-                    gli.actual.splice(gli.actual.length - 1, 1);
-                }
+                
                 guestFactory.GuestListInstance.update(gli).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -284,6 +282,7 @@ angular.module('gliist')
                                 return dialogService.error('There was a problem linking your guest list, please try again');
                             }
                             $scope.gli.actual = result.actual;
+                            $scope.onDataChange();
                         },
                         function () {
                             dialogService.error('There was a problem linking your guest list, please try again');
@@ -386,6 +385,7 @@ angular.module('gliist')
                 $scope.isDirty = true;
                 
                 dialogService.success('Guests were added successfully');
+                $scope.onDataChange();
             };
             
             $scope.onFileSelect = function (files) {
@@ -409,6 +409,10 @@ angular.module('gliist')
                     return;
                 }
                 $scope.upload(files[0]);
+            };
+            
+            $scope.onDataChange = function () {
+                $scope.isDirty = true;
             };
 
             $scope.upload = function (files, glId) {
