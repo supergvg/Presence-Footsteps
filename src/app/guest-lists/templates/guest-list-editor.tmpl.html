@@ -5,16 +5,16 @@
     </div>
     <div ng-show="!loading">
         <div>
-            <form name="createGuestListForm">
+            <form name="form.createGuestListForm">
                 <div class="block-field">
                     <div layout layout-sm="column">
                         <md-input-container flex="75" md-no-float>
                             <h4>Guest List Title</h4>
-                            <input type="text" ng-model="list.title" name="title" required placeholder="Enter Guest List Title">
+                            <input type="text" ng-model="list.title" name="title" required placeholder="Enter Guest List Title" ng-change="onDataChange()">
                         </md-input-container>
                         <md-input-container flex="25" md-no-float>
                             <h4>Guest Type</h4>
-                            <ui-select required name="listType" ng-model="list.listType" search-enabled="false" ng-disabled="isPromoter()" flex>
+                            <ui-select required name="listType" ng-model="list.listType" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()" flex>
                                 <ui-select-match placeholder="Select Type">
                                     {{$select.selected}}
                                 </ui-select-match>
@@ -28,7 +28,7 @@
                 <div class="block-field">
                     <h4>Promoter</h4>
                     <md-input-container flex md-no-float>
-                        <ui-select name="promoter" ng-model="list.promoter_Id" search-enabled="false" ng-disabled="isPromoter()">
+                        <ui-select name="promoter" ng-model="list.promoter_Id" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()">
                             <ui-select-match placeholder="Select Promoter to Manage List">
                                 {{$select.selected.firstName}} {{$select.selected.lastName}}
                             </ui-select-match>
