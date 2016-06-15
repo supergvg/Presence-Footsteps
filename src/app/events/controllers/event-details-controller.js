@@ -194,6 +194,9 @@ angular.module('gliist')
             };
 
             $scope.next = function(ev, form) {
+                if (ev && ev.pointer.type === 'm') {
+                    return;
+                }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
                     var errorMessage = [];
                     if (form && form.$invalid) {
@@ -271,9 +274,7 @@ angular.module('gliist')
                     return;
                 }
 
-                if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
-                    $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
-                }
+                $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
             };
             
             $scope.previous = function(ev) {
