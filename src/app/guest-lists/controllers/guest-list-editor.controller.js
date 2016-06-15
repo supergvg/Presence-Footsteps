@@ -355,21 +355,23 @@ angular.module('gliist')
             };
             
             $scope.onAddGuestsClicked = function(ev) {
-                if (!$scope.textGuestList)
+                if (!$scope.textGuestList) {
                     return;
+                }
                 
                 var lines = $scope.textGuestList.split('\n');
                 var guestCount = lines.length;
                 
-                if (!guestCount)
+                if (!guestCount) {
                     return;
+                }
                 
                 var guests = [];
                 
                 var validateEmail = function(email) {
                     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                     return re.test(email);
-                }
+                };
                 
                 if ($scope.textGuestList.indexOf('\t') !== -1) {//it's Excel format if there are any tabs
                     for (var i = 0; i < guestCount; i ++) {
@@ -397,8 +399,9 @@ angular.module('gliist')
                     for (var i = 0; i < guestCount; i ++) {
                         var l = lines[i].split(','); //(Full) Name, Email, Note, Plus
                         
-                        for (var j = 0; j < 4; j++)
+                        for (var j = 0; j < 4; j++) {
                             l[j] = l[j].trim();
+                        }
                         
                         var name = l[0].split(' ', 2);
                         var plus = parseInt(l[3], 10);
@@ -430,8 +433,9 @@ angular.module('gliist')
                     $scope.list.guests = [];
                 }
                 
-                for (var i = 0; i < guestCount; i ++)
+                for (var i = 0; i < guestCount; i ++) {
                     $scope.list.guests.push(guests[i]);
+                }
                 
                 dialogService.success('Guests were added successfully');
             };
