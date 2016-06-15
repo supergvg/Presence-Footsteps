@@ -61,8 +61,8 @@
              id="tab1-content"
              aria-labelledby="tab1"
              ng-switch-when="0"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <div>
                 <form name="eventForm">
                     <div class="block-field">
@@ -118,7 +118,7 @@
             </div>
             <div layout="row" layout-align="end center">
                 <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(eventForm)">
+                <md-button class="raised-btn" ng-click="next(null, eventForm)">
                     Next
                 </md-button>
             </div>
@@ -127,8 +127,8 @@
              id="tab2-content"
              aria-labelledby="tab2"
              ng-switch-when="1"
-             md-swipe-left="next()"
-             md-swipe-right="previous()"
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)"
              class="event-step">
             <div>
                 <form name="rsvpForm">
@@ -278,7 +278,7 @@
                 <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
-                <md-button class="raised-btn" ng-click="next(rsvpForm)">
+                <md-button class="raised-btn" ng-click="next(null, rsvpForm)">
                     Next
                 </md-button>
             </div>
@@ -287,8 +287,8 @@
              id="tab3-content"
              aria-labelledby="tab3"
              ng-switch-when="2"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <div>
                 <md-list>
                     <md-list-item layout="row" layout-sm="column">
@@ -320,8 +320,8 @@
              id="tab4-content"
              aria-labelledby="tab4"
              ng-switch-when="3"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <div>
                 <div class="block-field" ng-hide="isPromoter()">
                     <h4>Send event confirmation invite to</h4>
@@ -386,7 +386,7 @@
                     Back
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
+                <md-button class="raised-btn" ng-click="next(null, eventForm)" ng-hide="isPromoter()" ng-cloak>
                     Next
                 </md-button>
             </div>
@@ -396,8 +396,8 @@
              id="tab5-content"
              aria-labelledby="tab5"
              ng-switch-when="4"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <event-publish event-id="event.id" options="previewOptions"></event-publish>
         </div>
     </ng-switch>

@@ -16,8 +16,8 @@
                  id="tab1-content"
                  aria-labelledby="tab1"
                  ng-switch-when="0"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()">
+                 md-swipe-left="next($event)"
+                 md-swipe-right="previous($event)">
                 <user-details user="currentUser"></user-details>
                 <div layout="column" layout-align="start stretch" class="social-links-edit">
                     <h4>Enter company's social media account link (to be included in all communications to guests)</h4>
@@ -48,8 +48,8 @@
                  id="tab2-content"
                  aria-labelledby="tab2"
                  ng-switch-when="1"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()">
+                 md-swipe-left="next($event)"
+                 md-swipe-right="previous($event)">
                 <account-details user="currentUser"></account-details>
             </div>
         </ng-switch>

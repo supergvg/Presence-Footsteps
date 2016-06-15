@@ -193,7 +193,7 @@ angular.module('gliist')
                 return true;
             };
 
-            $scope.next = function(form) {
+            $scope.next = function(ev, form) {
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
                     var errorMessage = [];
                     if (form && form.$invalid) {
@@ -271,7 +271,15 @@ angular.module('gliist')
                     return;
                 }
 
-                $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
+                if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
+                    $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
+                }
+            };
+            
+            $scope.previous = function(ev) {
+                if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
+                    $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+                }
             };
             
             $scope.convertDateTime = function(date) {
@@ -281,10 +289,6 @@ angular.module('gliist')
                 return dateStr+($scope.utcOffset < 0 ? '-' : '+')+('0'+offset.getUTCHours()).slice(-2)+':'+('0'+offset.getUTCMinutes()).slice(-2);
             };
             
-            $scope.previous = function() {
-                $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
-            };
-
             $scope.clearLocation = function() {
                 delete $scope.location.details;
             };
