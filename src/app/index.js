@@ -22,8 +22,8 @@ angular.module('gliist', [
     'ui.grid.autoResize',
     'ui.select',
     'angular-google-analytics'])
-    .config(['$stateProvider', '$urlRouterProvider', '$provide', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', 'EnvironmentConfig',
-        function ($stateProvider, $urlRouterProvider, $provide, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, EnvironmentConfig) {
+    .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', 'EnvironmentConfig',
+        function ($stateProvider, $urlRouterProvider, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, EnvironmentConfig) {
 //            $locationProvider.html5Mode(true);
 
             AnalyticsProvider
@@ -55,17 +55,20 @@ angular.module('gliist', [
                 .warnPalette('red')
                 .backgroundPalette('grey');
                 
-            $provide.factory('myHttpInterceptor', function() {
+            $httpProvider.interceptors.push(function(){
                 return {
                     'request': function(config) {
-                        if (config.url.indexOf('api') > -1 || config.url.indexOf('Token') > -1) {
-                            config.url = EnvironmentConfig.gjests_api + config.url;
+                        if (config.api && angular.isDefined(EnvironmentConfig[config.api])) {
+                            config.url = EnvironmentConfig[config.api] + config.url;
+                        } else {
+                            if (config.url.indexOf('api') > -1 || config.url.indexOf('Token') > -1) {
+                                config.url = EnvironmentConfig.gjests_api + config.url;
+                            }
                         }
                         return config;
                     }
                 };
             });
-            $httpProvider.interceptors.push('myHttpInterceptor');
 
             $mdIconProvider
                 .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
@@ -228,8 +231,8 @@ angular.module('gliist', [
                 });
             $urlRouterProvider.otherwise('/main/welcome');
         }])
-    .run(['$rootScope', '$state', 'userService', 'subscriptionsService', '$document', 'Analytics',
-        function ($rootScope, $state, userService, subscriptionsService, $document, Analytics) {
+    .run(['$rootScope', '$state', 'userService', 'subscriptionsService', '$document', 'Analytics', 'dialogService',
+        function ($rootScope, $state, userService, subscriptionsService, $document, Analytics, dialogService) {
             $document.on('keydown', function (event) {
                 var doPrevent = false;
                 if (event.keyCode === 8) {
@@ -257,49 +260,62 @@ angular.module('gliist', [
                 }
             });
 
-            var checkPermission = function(event, nextStateName) {
-                if ($rootScope.currentUser.permissions !== 'admin' && $rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf(nextStateName) > -1) {
-                    $state.go('main.welcome');
+            var toLoginPage = function(event) {
                     event.preventDefault();
-                }
-            };
+                    userService.logout();
+                    $state.go('home');
+                },
+                checkSubscription = function(event, nextStateName, user) {
+                    subscriptionsService.getUserSubscription().then(
+                        function(data){
+                            if (data.dataTotalCount === 0) {
+                                if (user.permissions === 'admin') {
+                                    $rootScope.currentUser = user;
+                                    event.preventDefault();
+                                    $state.go('choose_plan');
+                                } else {
+                                    toLoginPage();
+                                    dialogService.error('Your company doesn\'t have plan selected. Please contact to your administrator.');
+                                }
+                            } else {
+                                $rootScope.currentUser = user;
+                                if (user.permissions !== 'admin' && $rootScope.permissions[user.permissions].denyAccess.indexOf(nextStateName) > -1) {
+                                    event.preventDefault();
+                                    $state.go('main.welcome');
+                                }
+                            }
+                        },
+                        function(){
+                            toLoginPage(event);
+                        }
+                    );
+                };
 
-            $rootScope.$on('$stateChangeStart', function(event, next, toParams, from, fromParams) {
-                $state.previous = from;
-                $state.previousParams = fromParams;
-                
+            $rootScope.$on('$stateChangeStart', function(event, next) {
                 if (next.access && next.access.denyLogged && userService.getLogged()) {
-                    $state.go('main.welcome');
                     event.preventDefault();
+                    $state.go('main.welcome');
                 }
                 if (!(next.access && next.access.allowAnonymous)) {
                     if (!$rootScope.currentUser) {
                         if (!userService.getLogged()) {
-                            $state.go('home');
-                            event.preventDefault();
+                            toLoginPage(event);
                         } else {
+                            event.preventDefault();
                             userService.getCurrentUser().then(function(user) {
-                                $rootScope.currentUser = user;
-                                if ($rootScope.currentUser.permissions !== 'admin') {
-                                    if (angular.isUndefined($rootScope.permissions[$rootScope.currentUser.permissions])) {
-                                        userService.logout();
-                                        $state.go('home');
-                                        event.preventDefault();
-                                    } else {
-                                        checkPermission(event, next.name);
-                                    }
+                                if (user.permissions !== 'admin' && angular.isUndefined($rootScope.permissions[user.permissions])) {
+                                    toLoginPage(event);
+                                } else {
+                                    checkSubscription(event, next.name, user);
                                 }
                             }, function() {
-                                userService.logout();
-                                $state.go('home');
-                                event.preventDefault();
+                                toLoginPage(event);
                             });
                         }
                     } else {
-                        checkPermission(event, next.name);
+                        checkSubscription(event, next.name, $rootScope.currentUser);
                     }
-                }
-                if (!$rootScope.appReady) {
+                } else {
                     angular.element('#loading').remove();
                     $rootScope.appReady = true;
                 }

@@ -3,28 +3,29 @@
     <h4>Select your plan!</h4>
     <div class="tariff-blocks">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-        <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans" ng-if="!tariff.combinedThisPlanWith">
-            <div layout="column" class="tariff-header{{tariff.isPopular ? ' popular' : ''}}{{tariff.paymentType === 'comingsoon' ? ' disabled' : ''}}" layout-align="space-between center">
+        <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
+            <div layout="column" class="tariff-header{{tariff.isPopular ? ' popular' : ''}}" layout-align="space-between center">
                 <div>
-                    <img ng-src="assets/images/plan_icons/{{tariff.keyForUI | spaceless}}.png"/>
+                    <img ng-src="assets/images/plan_icons/{{tariff.name | spaceless | lowercase}}.png"/>
                     <div class="title">{{tariff.name}}</div>
                 </div>
-                <div class="price-details">{{tariff.priceDetails}}</div>
+                <div class="price-details">{{   }}</div>
                 <div>
-                    {{tariff.descriptionLine1}}<br>
-                    {{tariff.descriptionLine2}}
+                    {{tariff.description}}
                 </div>
             </div>
             <div layout="column" class="tariff-content" layout-align="space-between center">
                 <ul>
-                    <li ng-repeat="feature in tariff.feature">{{feature.SubscriptionFeature.name}}</li>
+                    <li ng-repeat="policy in tariff.policies">{{policy.description}} {{policy.value > 0 ? policy.value : ''}}</li>
                 </ul>
-                <md-radio-group ng-model="combinedPlanWith[tariff.keyForUI].model" ng-if="combinedPlanWith[tariff.keyForUI]">
-                    <md-radio-button ng-value="tariff.keyForUI" aria-label="tariff.keyForUI">Pay {{tariff.keyForUI}} - {{tariff.priceDetails}}</md-radio-button>
-                    <md-radio-button ng-value="option.keyForUI" aria-label="option.keyForUI" ng-repeat="option in combinedPlanWith[tariff.keyForUI].options">Pay {{option.keyForUI}} - {{option.priceDetails}}</md-radio-button>
+                <ul>
+                    <li ng-repeat="pricePolicy in tariff.pricePolicies">{{pricePolicy.description}}</li>
+                </ul>
+                <md-radio-group>
+                    <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="" aria-label="pricePolicy.prices[0].type">{{pricePolicy.prices[0].description}}</md-radio-button>
                 </md-radio-group>
             </div>
-            <div layout="column" class="tariff-footer" layout-align="center center">
+<!--            <div layout="column" class="tariff-footer" layout-align="center center">
                 <ng-switch on="tariff.paymentType">
                     <h4 ng-switch-when="comingsoon">Coming soon</h4>
                     <div ng-switch-when="select">
@@ -34,7 +35,7 @@
                         <a class="md-button raised-btn" href="mailto:info@gjests.com?subject=Entreprise%20Account">CONTACT US</a>
                     </div>
                 </ng-switch>
-            </div>
+            </div>-->
         </div>
         <div layout="row" layout-align="end center" layout-sm="column" class="promo" ng-show="!loading && plans.length > 0">
             <h4>Enter your promo code</h4>

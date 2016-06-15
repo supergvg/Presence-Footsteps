@@ -5,16 +5,13 @@ angular.module('gliist')
         function($scope, subscriptionsService, stripe, $mdDialog) {
             $scope.loading = true;
             $scope.plans = [];
-            $scope.combinedPlanWith = {};
-            subscriptionsService.getAllSubscriptions().then(
-                function(data){
-                    $scope.plans = data.plans;
-                    $scope.combinedPlanWith = data.combinedPlanWith;
+            subscriptionsService.getSubscriptions().then(
+                function(data) {
+                    $scope.plans = data.data;
                 }
             ).finally(function(){
-               $scope.loading = false; 
+                $scope.loading = false; 
             });
-            
             $scope.selectPlan = function(index) {
                 var selectedPlan = $scope.plans[index];
                 if ($scope.combinedPlanWith[selectedPlan.keyForUI] && $scope.combinedPlanWith[selectedPlan.keyForUI].model !== selectedPlan.keyForUI) {
