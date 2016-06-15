@@ -84,8 +84,9 @@ angular.module('gliist')
             });
 
             $scope.pastEvent = function() {
-                var endTime = $filter('ignoreTimeZone')($scope.event.endTime);
-                if (Date.now() > endTime.getTime()) {
+                var eventEndTime = $filter('ignoreTimeZone')($scope.event.endTime).getTime() + 24 * 60 * 60 * 1000;
+                
+                if (Date.now() > eventEndTime) {
                     return true;
                 }
                 return false;
