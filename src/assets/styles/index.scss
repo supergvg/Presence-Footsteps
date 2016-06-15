@@ -975,12 +975,13 @@ md-dialog {
     }
     &.welcome-popup {
         z-index: 1;
-        top: -110px;
         .header {
             height: 40px;
             padding-right: 15px;
+            flex-shrink: 0;
         }
         .content {
+            overflow-y: auto;
             margin: 0 40px 40px 40px;
             padding: 25px;
             border: 5px solid #99ccff;
