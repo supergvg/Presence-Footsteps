@@ -34,7 +34,7 @@
                             <md-tooltip md-direction="top">Edit event</md-tooltip>
                             <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
                         </md-button>
-                        <md-button class="icon-btn" ng-if="!(options.readyOnly || isPromoter() || isStaff())" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
+                        <md-button class="icon-btn" ng-if="!(options.readyOnly || isStaff())" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
                             <md-tooltip md-direction="top">Preview event</md-tooltip>
                             <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
                         </md-button>

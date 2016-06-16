@@ -18,7 +18,7 @@ angular.module('gliist')
                 $mdDialog.show(confirm).then(function() {
                     eventsService.publishEvent($scope.toPublish, $scope.event.id).then(
                         function() {
-                            $state.go('main.email_stats', {eventId: $scope.event.id});
+                            dialogService.success('Guest list has been published');
                         },
                         function(err) {
                             dialogService.error(err);
