@@ -193,35 +193,36 @@ angular.module('gliist')
                 return true;
             };
 
-            $scope.next = function(form) {
+            $scope.next = function(ev, form) {
+                if (ev && ev.pointer.type === 'm') {
+                    return;
+                }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
                     var errorMessage = [];
                     if (form && form.$invalid) {
-                        if (form) {
-                            var errors = {
-                                required: {
-                                    title: 'Please Enter Event Title',
-                                    category: 'Please Select Event Category',
-                                    /*location: 'Please Enter Event Location',*/
-                                    capacity: 'Please Enter Event Capacity'
-                                },
-                                pattern: {
-                                    title: 'Event Title can only contain alphabets, digits and spaces'
-                                },
-                                number: {
-                                    capacity: 'Please enter numbers only'
-                                }
-                            };
-                            angular.forEach(form.$error, function(value, key){
-                                if (errors[key]) {
-                                    angular.forEach(value, function(value1){
-                                        if (errors[key][value1.$name]) {
-                                            errorMessage.push(errors[key][value1.$name]);
-                                        }
-                                    });
-                                }
-                            });
-                        }
+                        var errors = {
+                            required: {
+                                title: 'Please Enter Event Title',
+                                category: 'Please Select Event Category',
+                                /*location: 'Please Enter Event Location',*/
+                                capacity: 'Please Enter Event Capacity'
+                            },
+                            pattern: {
+                                title: 'Event Title can only contain alphabets, digits and spaces'
+                            },
+                            number: {
+                                capacity: 'Please enter numbers only'
+                            }
+                        };
+                        angular.forEach(form.$error, function(value, key){
+                            if (errors[key]) {
+                                angular.forEach(value, function(value1){
+                                    if (errors[key][value1.$name]) {
+                                        errorMessage.push(errors[key][value1.$name]);
+                                    }
+                                });
+                            }
+                        });
                     }
                     if (!$scope.timeValid()) {
                         if ($scope.eventFinished) {
@@ -274,6 +275,12 @@ angular.module('gliist')
                 $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
             };
             
+            $scope.previous = function(ev) {
+                if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
+                    $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+                }
+            };
+            
             $scope.convertDateTime = function(date) {
                 var convertDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000),
                     dateStr = convertDate.toISOString().replace(/\..+$/, ''),
@@ -281,10 +288,6 @@ angular.module('gliist')
                 return dateStr+($scope.utcOffset < 0 ? '-' : '+')+('0'+offset.getUTCHours()).slice(-2)+':'+('0'+offset.getUTCMinutes()).slice(-2);
             };
             
-            $scope.previous = function() {
-                $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
-            };
-
             $scope.clearLocation = function() {
                 delete $scope.location.details;
             };

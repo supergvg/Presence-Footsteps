@@ -127,7 +127,7 @@ angular.module('gliist')
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 20000);
+                }, 7000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -195,9 +195,7 @@ angular.module('gliist')
                 }
                 var gli = {};
                 angular.copy($scope.gli, gli);
-                if (autoSave) {
-                    gli.actual.splice(gli.actual.length - 1, 1);
-                }
+                
                 guestFactory.GuestListInstance.update(gli).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -284,6 +282,7 @@ angular.module('gliist')
                                 return dialogService.error('There was a problem linking your guest list, please try again');
                             }
                             $scope.gli.actual = result.actual;
+                            $scope.onDataChange();
                         },
                         function () {
                             dialogService.error('There was a problem linking your guest list, please try again');
@@ -299,6 +298,98 @@ angular.module('gliist')
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
+            };
+            
+            $scope.onAddGuestsClicked = function(ev) {
+                if (!$scope.textGuestList) {
+                    return;
+                }
+                
+                var lines = $scope.textGuestList.split('\n');
+                var guestCount = lines.length;
+                
+                if (!guestCount) {
+                    return;
+                }
+                
+                var guests = [];
+                
+                var validateEmail = function(email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                };
+                
+                if ($scope.textGuestList.indexOf('\t') !== -1) {//it's Excel format if there are any tabs
+                    for (var i = 0; i < guestCount; i ++) {
+                        var l = lines[i].split('\t'); //First Name, Last Name, Email, Note, Plus
+                        var plus = parseInt(l[4], 10);
+                        
+                        if (isNaN(plus)) {
+                            dialogService.error('Invalid "Plus" value on line ' + (i + 1));
+                            return;
+                        }
+                        if (!validateEmail(l[2])) {
+                            dialogService.error('Invalid Email on line ' + (i + 1));
+                            return;
+                        }
+                        
+                        guests.push({
+                            firstName: l[0],
+                            lastName: l[1],
+                            email: l[2],
+                            notes: l[3],
+                            plus: plus
+                        });
+                    }
+                } else {
+                    for (var i = 0; i < guestCount; i ++) {
+                        var l = lines[i].split(','); //(Full) Name, Email, Note, Plus
+                        
+                        for (var j = 0; j < 4; j++) {
+                            l[j] = l[j].trim();
+                        }
+                        
+                        var name = l[0].split(' ', 2);
+                        var plus = parseInt(l[3], 10);
+                        
+                        if (isNaN(plus)) {
+                            dialogService.error('Invalid "Plus" value on line ' + (i + 1));
+                            return;
+                        }
+                        if (!validateEmail(l[1])) {
+                            dialogService.error('Invalid Email on line ' + (i + 1));
+                            return;
+                        }
+                        
+                        guests.push({
+                            firstName: name[0],
+                            lastName: name[1] ? name[1] : '',
+                            email: l[1],
+                            notes: l[2],
+                            plus: plus
+                        });
+                    }
+                }
+                
+                //import
+                if (!$scope.gli) {
+                    $scope.gli = {};
+                }
+                if (!$scope.gli.actual) {
+                    $scope.gli.actual = [];
+                }
+                
+                for (var i = 0; i < guestCount; i ++) {
+                    $scope.gli.actual.push({
+                        gl_id: $scope.gli.id,
+                        status: 'no show',
+                        guest: guests[i]
+                    });
+                }
+                $scope.isDirty = true;
+                
+                dialogService.success('Guests were added successfully');
+                $scope.onDataChange();
             };
             
             $scope.onFileSelect = function (files) {
@@ -322,6 +413,10 @@ angular.module('gliist')
                     return;
                 }
                 $scope.upload(files[0]);
+            };
+            
+            $scope.onDataChange = function () {
+                $scope.isDirty = true;
             };
 
             $scope.upload = function (files, glId) {

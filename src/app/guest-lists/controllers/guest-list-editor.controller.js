@@ -46,6 +46,8 @@ angular.module('gliist')
                     ]
                 }
             };
+            $scope.form = {};
+            
             var instanceType = parseInt($stateParams.instanceType);
             if (instanceType !== 2){
                 $scope.options.gridOptions.columnDefs.push({
@@ -124,7 +126,7 @@ angular.module('gliist')
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 20000);
+                }, 7000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -178,14 +180,14 @@ angular.module('gliist')
             
             $scope.save = function(autoSave) {
                 var errorMessage = [];
-                if (!$scope.createGuestListForm.$valid) {
+                if (!$scope.form.createGuestListForm.$valid) {
                     var errors = {
                         required: {
                             title: 'Please Enter Guest List Title',
                             listType: 'Please Select Guest Type'
                         }
                     };
-                    angular.forEach($scope.createGuestListForm.$error.required, function(value){
+                    angular.forEach($scope.form.createGuestListForm.$error.required, function(value){
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }
@@ -207,15 +209,10 @@ angular.module('gliist')
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
-                if ($scope.glTypeChanged) {
-                    $scope.list.id = null;
-                    $scope.list.title += ' ' + $scope.list.listType;
-                }
+                
                 var list = {};
                 angular.copy($scope.list, list);
-                if (autoSave) {
-                    list.guests.splice(list.guests.length - 1, 1);
-                }
+                
                 guestFactory.GuestList.update(list).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -337,6 +334,7 @@ angular.module('gliist')
                                 return dialogService.error('There was a problem linking your guest list, please try again');
                             }
                             $scope.list.guests = result.guests;
+                            $scope.onDataChange();
                         }, 
                         function() {
                             dialogService.error('There was a problem linking your guest list, please try again');
@@ -352,6 +350,97 @@ angular.module('gliist')
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
+            };
+            
+            $scope.onAddGuestsClicked = function(ev) {
+                if (!$scope.textGuestList) {
+                    return;
+                }
+                
+                var lines = $scope.textGuestList.split('\n');
+                var guestCount = lines.length;
+                
+                if (!guestCount) {
+                    return;
+                }
+                
+                var guests = [];
+                
+                var validateEmail = function(email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                };
+                
+                if ($scope.textGuestList.indexOf('\t') !== -1) {//it's Excel format if there are any tabs
+                    for (var i = 0; i < guestCount; i ++) {
+                        var l = lines[i].split('\t'); //First Name, Last Name, Email, Note, Plus
+                        var plus = parseInt(l[4], 10);
+                        
+                        if (isNaN(plus)) {
+                            dialogService.error('Invalid "Plus" value on line ' + (i + 1));
+                            return;
+                        }
+                        if (!validateEmail(l[2])) {
+                            dialogService.error('Invalid Email on line ' + (i + 1));
+                            return;
+                        }
+                        
+                        guests.push({
+                            firstName: l[0],
+                            lastName: l[1],
+                            email: l[2],
+                            notes: l[3],
+                            plus: plus
+                        });
+                    }
+                } else {
+                    for (var i = 0; i < guestCount; i ++) {
+                        var l = lines[i].split(','); //(Full) Name, Email, Note, Plus
+                        
+                        for (var j = 0; j < 4; j++) {
+                            l[j] = l[j].trim();
+                        }
+                        
+                        var name = l[0].split(' ', 2);
+                        var plus = parseInt(l[3], 10);
+                        
+                        if (isNaN(plus)) {
+                            dialogService.error('Invalid "Plus" value on line ' + (i + 1));
+                            return;
+                        }
+                        if (!validateEmail(l[1])) {
+                            dialogService.error('Invalid Email on line ' + (i + 1));
+                            return;
+                        }
+                        
+                        guests.push({
+                            firstName: name[0],
+                            lastName: name[1] ? name[1] : '',
+                            email: l[1],
+                            notes: l[2],
+                            plus: plus
+                        });
+                    }
+                }
+                
+                //import
+                if (!$scope.list) {
+                    $scope.list = {};
+                }
+                if (!$scope.list.guests) {
+                    $scope.list.guests = [];
+                }
+                
+                for (var i = 0; i < guestCount; i ++) {
+                    $scope.list.guests.push(guests[i]);
+                }
+                
+                dialogService.success('Guests were added successfully');
+                $scope.onDataChange();
+            };
+            
+            $scope.onDataChange = function () {
+                $scope.isDirty = true;
             };
 
             $scope.init = function() {

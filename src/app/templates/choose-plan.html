@@ -9,33 +9,23 @@
                     <img ng-src="assets/images/plan_icons/{{tariff.name | spaceless | lowercase}}.png"/>
                     <div class="title">{{tariff.name}}</div>
                 </div>
-                <div class="price-details">{{   }}</div>
+                <div class="price-details">{{tariff.pricePolicies[0].prices[0].title}}</div>
                 <div>
                     {{tariff.description}}
                 </div>
             </div>
             <div layout="column" class="tariff-content" layout-align="space-between center">
                 <ul>
-                    <li ng-repeat="policy in tariff.policies">{{policy.description}} {{policy.value > 0 ? policy.value : ''}}</li>
+                    <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
                 </ul>
-                <ul>
-                    <li ng-repeat="pricePolicy in tariff.pricePolicies">{{pricePolicy.description}}</li>
-                </ul>
-                <md-radio-group>
+                <!--<md-radio-group ng-if="tariff.pricePolicies[0].prices.length > 1">
                     <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="" aria-label="pricePolicy.prices[0].type">{{pricePolicy.prices[0].description}}</md-radio-button>
-                </md-radio-group>
+                </md-radio-group>-->
             </div>
-<!--            <div layout="column" class="tariff-footer" layout-align="center center">
-                <ng-switch on="tariff.paymentType">
-                    <h4 ng-switch-when="comingsoon">Coming soon</h4>
-                    <div ng-switch-when="select">
-                        <md-button class="raised-btn" ng-click="selectPlan($index)">SELECT</md-button>
-                    </div>
-                    <div ng-switch-when="contactus">
-                        <a class="md-button raised-btn" href="mailto:info@gjests.com?subject=Entreprise%20Account">CONTACT US</a>
-                    </div>
-                </ng-switch>
-            </div>-->
+            <div layout="column" class="tariff-footer" layout-align="center center">
+                <md-button class="raised-btn" ng-click="selectPlan($index)" ng-if="allowToSelect($index)">SELECT</md-button>
+                <a class="md-button raised-btn" href="mailto:info@gjests.com?subject={{tariff.name}}" ng-if="!allowToSelect($index)">CONTACT US</a>
+            </div>
         </div>
         <div layout="row" layout-align="end center" layout-sm="column" class="promo" ng-show="!loading && plans.length > 0">
             <h4>Enter your promo code</h4>

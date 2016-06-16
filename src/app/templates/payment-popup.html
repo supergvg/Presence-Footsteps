@@ -18,10 +18,10 @@
                         </md-list-item>
                         <md-list-item>
                             <div flex="85">
-                                Monthly - billed month
+                                {{selectedPlan.name}}
                             </div>
                             <div flex="15">
-                                $260
+                                {{selectedPlan.total}}
                             </div>
                         </md-list-item>
                     </md-list>
@@ -41,7 +41,7 @@
             </div>
             <div flex="50" flex-sm="100" class="payment">
                 <h3>ENTER PAYMENT DETAIL</h3>
-                <form>
+                <form name="card">
                     <div class="block-field">
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
                             <md-input-container flex="60" md-no-float flex-sm="100">
@@ -73,13 +73,16 @@
                             </div>
                         </div>
                     </div>
-                    <md-checkbox aria-label="Terms">I agree to the <a href="http://www.gjests.com/terms-conditions/" target="_blank">Terms and Conditions</a></md-checkbox>                
+                    <div layout="row" layout-align="start center">
+                        <md-checkbox aria-label="Terms">I agree to the </md-checkbox>
+                        <a href="http://www.gjests.com/terms-conditions/" target="_blank">Terms and Conditions</a>
+                    </div>
                 </form>        
             </div>
         </div>
         <div class="payment-actions margin-top" layout="row" layout-align="space-between center">
-            <md-button class="raised-btn">BACK</md-button>
-            <md-button class="raised-btn">PROCESS PAYMENT</md-button>
+            <md-button class="raised-btn" ng-click="close()">BACK</md-button>
+            <md-button class="raised-btn" ng-click="process(card)">PROCESS PAYMENT</md-button>
         </div>
     </div>
 </md-dialog>

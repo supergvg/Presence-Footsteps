@@ -15,11 +15,15 @@ angular.module('gliist')
                 return $scope.selectedIndex === idx ? 'active' : '';
             };
 
-            $scope.next = function() {
-                $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 1);
+            $scope.next = function(ev) {
+                if (ev.pointer.type === 't') {
+                    $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 1);
+                }
             };
-            $scope.previous = function() {
-                $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+            $scope.previous = function(ev) {
+                if (ev.pointer.type === 't') {
+                    $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+                }
             };
 
             $scope.link = function() {

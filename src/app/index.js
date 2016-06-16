@@ -260,35 +260,49 @@ angular.module('gliist', [
                 }
             });
 
-            var toLoginPage = function(event) {
-                    event.preventDefault();
+            var toLoginPage = function() {
                     userService.logout();
                     $state.go('home');
                 },
-                checkSubscription = function(event, nextStateName, user) {
-                    subscriptionsService.getUserSubscription().then(
-                        function(data){
-                            if (data.dataTotalCount === 0) {
-                                if (user.permissions === 'admin') {
-                                    $rootScope.currentUser = user;
-                                    event.preventDefault();
-                                    $state.go('choose_plan');
-                                } else {
-                                    toLoginPage();
-                                    dialogService.error('Your company doesn\'t have plan selected. Please contact to your administrator.');
-                                }
-                            } else {
-                                $rootScope.currentUser = user;
-                                if (user.permissions !== 'admin' && $rootScope.permissions[user.permissions].denyAccess.indexOf(nextStateName) > -1) {
-                                    event.preventDefault();
-                                    $state.go('main.welcome');
-                                }
+                checkSubscription = function(event, nextStateName) {
+                    if ($rootScope.currentPlan === 'undefined') {
+                        if ($rootScope.currentUser.permissions === 'admin') {
+                            if (nextStateName !== 'choose_plan' || event.defaultPrevented) {
+                                event.preventDefault();
+                                $state.go('choose_plan');
                             }
-                        },
-                        function(){
-                            toLoginPage(event);
+                        } else {
+                            dialogService.error('Your company doesn\'t have plan selected. Please contact to your administrator.');
+                            event.preventDefault();
+                            toLoginPage();
                         }
-                    );
+                    } else {
+                        if ($rootScope.currentUser.permissions !== 'admin' && $rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf(nextStateName) > -1) {
+                            event.preventDefault();
+                            $state.go('main.welcome');
+                        }
+                    }
+                },
+                getSubscription = function(event, nextStateName) {
+                    if (!$rootScope.currentPlan) {
+                        event.preventDefault();
+                        $rootScope.waitingPlan = true;
+                        subscriptionsService.getUserSubscription().then(
+                            function(data){
+                                $rootScope.waitingPlan = false;
+                                $rootScope.currentPlan = 'undefined';
+                                if (data.data && data.dataTotalCount > 0) {
+                                    $rootScope.currentPlan = data.data;
+                                }
+                                checkSubscription(event, nextStateName);
+                            },
+                            function(){
+                                toLoginPage();
+                            }
+                        );
+                    } else {
+                        checkSubscription(event, nextStateName);
+                    }
                 };
 
             $rootScope.$on('$stateChangeStart', function(event, next) {
@@ -297,25 +311,36 @@ angular.module('gliist', [
                     $state.go('main.welcome');
                 }
                 if (!(next.access && next.access.allowAnonymous)) {
+                    if ($rootScope.waitingUserInfo || $rootScope.waitingPlan) {
+                        event.preventDefault();
+                        return;
+                    }
                     if (!$rootScope.currentUser) {
+                        event.preventDefault();
                         if (!userService.getLogged()) {
-                            toLoginPage(event);
+                            toLoginPage();
                         } else {
-                            event.preventDefault();
+                            $rootScope.waitingUserInfo = true;
                             userService.getCurrentUser().then(function(user) {
-                                if (user.permissions !== 'admin' && angular.isUndefined($rootScope.permissions[user.permissions])) {
-                                    toLoginPage(event);
+                                $rootScope.currentUser = user;
+                                if ($rootScope.currentUser.permissions !== 'admin' && angular.isUndefined($rootScope.permissions[$rootScope.currentUser.permissions])) {
+                                    toLoginPage();
                                 } else {
-                                    checkSubscription(event, next.name, user);
+                                    getSubscription(event, next.name);
                                 }
+                                $rootScope.waitingUserInfo = false;
                             }, function() {
-                                toLoginPage(event);
+                                toLoginPage();
                             });
                         }
                     } else {
-                        checkSubscription(event, next.name, $rootScope.currentUser);
+                        getSubscription(event, next.name);
                     }
-                } else {
+                }
+            });
+            
+            $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+                if (((toState.access && toState.access.allowAnonymous) || ($rootScope.currentPlan && $rootScope.currentUser)) && !$rootScope.appReady) {
                     angular.element('#loading').remove();
                     $rootScope.appReady = true;
                 }

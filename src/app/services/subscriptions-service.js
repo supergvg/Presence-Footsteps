@@ -7,10 +7,10 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 d.reject();
             },
             response = function(d, response) {
-                if (response.success) {
-                    d.resolve({data: response.data, dataTotalCount: response.dataTotalCount});
+                if (response.data.success) {
+                    d.resolve({data: response.data.data, dataTotalCount: response.data.dataTotalCount});
                 } else {
-                    dialogService.error(response.message);
+                    dialogService.error(response.data.message);
                     d.reject();
                 }
             };
@@ -18,8 +18,8 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
             getUserSubscription: function() {
                 var d = $q.defer();
                 $http.get('user/subscription', {api: 'subscriptions_api'}).then(
-                    function(response) {
-                        response(d, response);
+                    function(answer) {
+                        response(d, answer);
                     },
                     function(response) {
                         responseError(d, response);
@@ -30,8 +30,8 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
             getSubscriptions: function() {
                 var d = $q.defer();
                 $http.get('subscriptions', {api: 'subscriptions_api'}).then(
-                    function(response) {
-                        response(d, response);
+                    function(answer) {
+                        response(d, answer);
                     },
                     function(response) {
                         responseError(d, response);

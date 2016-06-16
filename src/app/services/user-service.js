@@ -296,6 +296,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 userEmail = '';
                 setAuthToken('');
                 $rootScope.currentUser = null;
+                $rootScope.currentPlan = null;
 
                 $window.localStorage.removeItem('access_token');
             },
