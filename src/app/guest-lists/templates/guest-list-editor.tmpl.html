@@ -62,10 +62,10 @@
                 <md-list-item layout="column" layout-align="space-between stretch" layout-sm="column" layout-align-sm="space-between stretch">
                     <div layout-fill>
                         <p>Add Multiple Guests by Copying and Pasting</p>
-                        <p>Paste your guest list here in this format: "Name, Email, Note, Plus", and separate each guest with line break.<br/>Email optional, leave it blank but make sure to use the comma.</p>
+                        <p><i>Paste your guest list here in these formats: <b>Name</b> OR <b>Name +1</b> OR <b>Name, Note, Pluses</b>.<br/>Use line break for each guest.</i></p>
                     </div>
                     <md-input-container layout="row" layout-align="start center" layout-fill md-no-float>
-                        <textarea ng-model="textGuestList" placeholder="Example: Jane Smith, jane@gmail.com, note, 2"></textarea>
+                        <textarea ng-model="textGuestList" placeholder="Example: Amy White +1"></textarea>
                     </md-input-container>
                     <md-input-container layout="row" layout-align="end center" layout-fill>
                         <div layout-margin><md-button class="raised-btn" ng-click="onAddGuestsClicked($event)">Add</md-button></div>
