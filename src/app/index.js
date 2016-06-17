@@ -280,12 +280,16 @@ angular.module('gliist', [
                         if ($rootScope.currentUser.permissions !== 'admin' && $rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf(nextStateName) > -1) {
                             event.preventDefault();
                             $state.go('main.welcome');
+                        } else if (event.defaultPrevented) {
+                            $state.go(nextStateName);
                         }
                     }
                 },
                 getSubscription = function(event, nextStateName) {
                     if (!$rootScope.currentPlan) {
                         event.preventDefault();
+                        angular.element('#loading').show();
+                        $rootScope.appReady = false;
                         $rootScope.waitingPlan = true;
                         subscriptionsService.getUserSubscription().then(
                             function(data){
@@ -320,6 +324,8 @@ angular.module('gliist', [
                         if (!userService.getLogged()) {
                             toLoginPage();
                         } else {
+                            angular.element('#loading').show();
+                            $rootScope.appReady = false;
                             $rootScope.waitingUserInfo = true;
                             userService.getCurrentUser().then(function(user) {
                                 $rootScope.currentUser = user;
@@ -341,7 +347,7 @@ angular.module('gliist', [
             
             $rootScope.$on('$stateChangeSuccess', function(event, toState) {
                 if (((toState.access && toState.access.allowAnonymous) || ($rootScope.currentPlan && $rootScope.currentUser)) && !$rootScope.appReady) {
-                    angular.element('#loading').remove();
+                    angular.element('#loading').hide();
                     $rootScope.appReady = true;
                 }
             });

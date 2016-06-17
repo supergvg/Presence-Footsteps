@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', 'stripe', '$mdDialog', 'dialogService',
-        function($scope, subscriptionsService, stripe, $mdDialog, dialogService) {
+    .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', '$mdDialog', 'dialogService', '$rootScope', '$state',
+        function($scope, subscriptionsService, $mdDialog, dialogService, $rootScope, $state) {
             $scope.loading = true;
             $scope.plans = [];
             
@@ -28,24 +28,74 @@ angular.module('gliist')
                             $mdDialog.hide();
                         };
                         scope.selectedPlan = {
+                            id: selectedPlan.id,
+                            pricePolicyId: selectedPlan.pricePolicies[0].id,
                             name: selectedPlan.name,
-                            total: '$'+selectedPlan.pricePolicies[0].prices[0].amount / 100
+                            total: '$'+selectedPlan.pricePolicies[0].prices[0].amount / 100,
+                            promo: {
+                                applied: false,
+                                invalid: false
+                            },
+                            hasPromo: selectedPlan.hasPromo
+                        };
+                        scope.applyPromo = function() {
+                            var code = scope.selectedPlan.promo.code ? scope.selectedPlan.promo.code.trim() : '';
+                            if (code !== '') {
+                                scope.selectedPlan.promo.invalid = false;
+                                $scope.waiting = true;
+                                subscriptionsService.applyPromo(code).then(
+                                    function(response) {
+                                        if (response.dataTotalCount === 0) {
+                                            scope.selectedPlan.promo.invalid = true;
+                                        } else {
+                                            scope.selectedPlan.promo.code = code;
+                                            scope.selectedPlan.promo.applied = true;
+                                            scope.selectedPlan.totalBeforePromo = scope.selectedPlan.total;
+                                            scope.selectedPlan.total = '$'+response.pricePolicies[0].prices[0].amount / 100;
+                                        }
+                                    }
+                                ).finally(function(){
+                                    $scope.waiting = false;
+                                });
+                            }
+                        };
+                        scope.undoPromo = function() {
+                            $scope.waiting = true;
+                            subscriptionsService.applyPromo(scope.selectedPlan.promo.code).then(
+                                function(response) {
+                                    if (response.dataTotalCount === 0) {
+                                        scope.selectedPlan.promo.invalid = true;
+                                    } else {
+                                        scope.selectedPlan.promo.applied = false;
+                                        scope.selectedPlan.totalBeforePromo = scope.selectedPlan.total;
+                                        scope.selectedPlan.total = '$'+response.pricePolicies[0].prices[0].amount / 100;
+                                    }
+                                }
+                            ).finally(function(){
+                                $scope.waiting = false;
+                            });
                         };
                         scope.process = function(form){
                             var errorMessage = [];
                             if (form && form.$invalid) {
                                 var errors = {
                                     required: {
-                                        title: 'Please Enter Event Title',
-                                        category: 'Please Select Event Category',
-                                        /*location: 'Please Enter Event Location',*/
-                                        capacity: 'Please Enter Event Capacity'
+                                        number: 'Please Enter Card Number Title',
+                                        cvc: 'Please Enter Card CVC Code',
+                                        exp_month: 'Please Enter Card Expiration Month',
+                                        exp_year: 'Please Enter Card Expiration Year'
                                     },
                                     pattern: {
-                                        title: 'Event Title can only contain alphabets, digits and spaces'
+                                        number: 'Please Enter Correct Card Number',
+                                        cvc: 'Please Enter Correct Card CVC Code',
+                                        exp_month: 'Please Enter Correct Card Expiration Month',
+                                        exp_year: 'Please Enter Correct Card Expiration Year'
                                     },
-                                    number: {
-                                        capacity: 'Please enter numbers only'
+                                    max: {
+                                        exp_month: 'Please Enter Correct Card Expiration Month'
+                                    },
+                                    min: {
+                                        exp_year: 'Please Enter Correct Card Expiration Year'
                                     }
                                 };
                                 angular.forEach(form.$error, function(value, key){
@@ -58,21 +108,44 @@ angular.module('gliist')
                                     }
                                 });
                             }
+                            if (!scope.terms) {
+                                errorMessage.push('You must accept terms and conditions');
+                            }
                             if (errorMessage.length > 0) {
                                 dialogService.error(errorMessage.join(', '));
                                 return;
-                            }                            
-                            
-                            
-                            
-                            console.log(form);
+                            }
+                            $scope.waiting = true;
+                            subscriptionsService.setUserSubscription({
+                                subscriptionId: scope.selectedPlan.id,
+                                pricePolicyId: scope.selectedPlan.pricePolicyId,
+                                card: scope.cardData
+                            }).then(
+                                function(response){
+                                    $rootScope.currentPlan = response.data.subscription;
+                                    $state.go('main.welcome');
+                                },
+                                function(){
+                                    var alert = $mdDialog.alert()
+                                            .content('The payment transaction is unsuccessful.<br>Please try a different credit card. Thank you.')
+                                            .ok('OK');
+                                    alert._options.template = '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" style="padding: 20px"><md-dialog-content role="document" tabIndex="-1" style="padding: 0 20px"><h2 class="md-title">{{ dialog.title }}</h2><p ng-bind-html="dialog.content" style="font-size: 20px; text-align: left"></p></md-dialog-content><div class="md-actions"><md-button ng-if="dialog.$type == \'confirm\'" ng-click="dialog.abort()" class="md-primary">{{ dialog.cancel }}</md-button><md-button ng-click="dialog.hide()" class="md-primary">{{ dialog.ok }}</md-button></div></md-dialog>';
+                                    $mdDialog.show(alert);
+                                }
+                            )
+                            .finally(function(){
+                                $scope.waiting = false;
+                            });
                         };
                         $mdDialog.show({
                             scope: scope,
                             templateUrl: 'app/templates/payment-popup.html'
                         });            
-//                        stripe.openCheckout({description: selectedPlan.name + ' plan', amount: selectedPlan.amount});
                     } else {
+                        
+                        
+                        
+                        
                         
                     }
                 }
