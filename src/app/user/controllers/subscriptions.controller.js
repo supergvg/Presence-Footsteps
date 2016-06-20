@@ -5,6 +5,7 @@ angular.module('gliist')
         function($scope, subscriptionsService, $mdDialog, dialogService, $rootScope, $state) {
             $scope.loading = true;
             $scope.plans = [];
+            $scope.options = $scope.options || {};
             
             subscriptionsService.getSubscriptions().then(
                 function(data) {
@@ -37,7 +38,8 @@ angular.module('gliist')
                             id: selectedPlan.id,
                             pricePolicyId: selectedPlan.pricePolicies[0].id,
                             name: selectedPlan.name,
-                            total: '$'+selectedPlan.pricePolicies[0].prices[0].amount / 100,
+                            total: selectedPlan.pricePolicies[0].prices[0].amount,
+                            currency: selectedPlan.pricePolicies[0].prices[0].currency,
                             promo: {
                                 applied: false,
                                 invalid: false
@@ -57,7 +59,7 @@ angular.module('gliist')
                                             scope.selectedPlan.promo.code = code;
                                             scope.selectedPlan.promo.applied = true;
                                             scope.selectedPlan.totalBeforePromo = scope.selectedPlan.total;
-                                            scope.selectedPlan.total = '$'+response.pricePolicies[0].prices[0].amount / 100;
+                                            scope.selectedPlan.total = response.pricePolicies[0].prices[0].amount;
                                         }
                                     }
                                 ).finally(function(){
@@ -74,7 +76,7 @@ angular.module('gliist')
                                     } else {
                                         scope.selectedPlan.promo.applied = false;
                                         scope.selectedPlan.totalBeforePromo = scope.selectedPlan.total;
-                                        scope.selectedPlan.total = '$'+response.pricePolicies[0].prices[0].amount / 100;
+                                        scope.selectedPlan.total = response.pricePolicies[0].prices[0].amount;
                                     }
                                 }
                             ).finally(function(){
@@ -162,4 +164,5 @@ angular.module('gliist')
                     }
                 }
             };
-        }]);
+        }
+    ]);

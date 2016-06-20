@@ -21,8 +21,8 @@
                                 {{selectedPlan.name}}
                             </div>
                             <div flex="20" layout="row" layout-align="end center">
-                                <div ng-if="selectedPlan.totalBeforePromo"><i><s>{{selectedPlan.totalBeforePromo}}</s></i>&nbsp;&nbsp;</div>
-                                {{selectedPlan.total}}
+                                <div ng-if="selectedPlan.totalBeforePromo"><i><s>{{selectedPlan.totalBeforePromo | money : selectedPlan.currency}}</s></i>&nbsp;&nbsp;</div>
+                                {{selectedPlan.total | money : selectedPlan.currency}}
                             </div>
                         </md-list-item>
                     </md-list>

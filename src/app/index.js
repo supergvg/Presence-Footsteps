@@ -226,8 +226,7 @@ angular.module('gliist', [
                     }
                 }).state('choose_plan', {
                     url: '/choose-plan',
-                    templateUrl: 'app/templates/choose-plan.html',
-                    controller: 'SubscriptionsCtrl'
+                    templateUrl: 'app/templates/choose-plan.html'
                 });
             $urlRouterProvider.otherwise('/main/welcome');
         }])

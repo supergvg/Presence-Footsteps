@@ -4,13 +4,9 @@ angular.module('gliist')
     .directive('billing', [function () {
         return {
             restrict: 'EA',
-
-            scope: {
-            },
+            scope: {},
             controller: 'BillingCtrl',
-
             replace: true,
-
             templateUrl: 'app/user/templates/billing.html'
         };
     }]);

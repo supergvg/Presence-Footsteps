@@ -8,46 +8,10 @@
     </div>
     <div class="block-field">
         <h4>Subscriptions</h4>
-        <div class="tariff-blocks">
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-            <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans" ng-if="!tariff.combinedThisPlanWith">
-                <div layout="column" class="tariff-header" layout-align="space-between start">
-                    <div layout="row" layout-align="space-between start">
-                        <div class="title">{{tariff.name}}</div>
-                        <img ng-src="assets/images/plan_icons/{{tariff.keyForUI | spaceless}}_blue.png"/>
-                    </div>
-                    <div class="price-details">{{tariff.priceDetails}}</div>
-                </div>
-                <div layout="column" class="tariff-content" layout-align="start start">
-                    <ul>
-                        <li ng-repeat="feature in tariff.feature">{{feature.SubscriptionFeature.name}}</li>
-                    </ul>
-                </div>
-                <div layout="column" class="tariff-footer" layout-align="center center">
-                    <ng-switch on="tariff.paymentType">
-                        <h4 ng-switch-when="comingsoon">Coming soon</h4>
-                        <div ng-switch-when="select">
-                            <md-button class="raised-btn" ng-click="selectPlan($index)">Upgrade</md-button>
-                        </div>
-                        <div ng-switch-when="contactus">
-                            <a class="md-button raised-btn" href="mailto:info@gjests.com?subject=Entreprise%20Account">CONTACT US</a>
-                        </div>
-                    </ng-switch>
-                    <h4 ng-if="tariff.isActive"><b>ACTIVE</b> Expires on 03/01/2016</h4>
-                </div>
-            </div>
-            <div layout="row" layout-align="end center" layout-sm="column" class="promo" ng-show="!loading && plans.length > 0">
-                <h4>Enter your promo code</h4>
-                <md-input-container md-no-float>
-                    <input type="text" aria-label="Promo Code">
-                </md-input-container>
-                <md-button class="raised-btn">
-                    Enter
-                </md-button>
-            </div>
-        </div>        
+        <subscriptions options="options"></subscriptions>
     </div>    
-    <div class="block-field">
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+    <div class="block-field" ng-if="!loading">
         <h4>Invoice</h4>
         <md-list class="zebra">
             <md-list-item>
@@ -62,13 +26,13 @@
             </md-list-item>
             <md-list-item ng-repeat="invoice in invoices">
                 <div flex="30">
-                    {{invoice.date}}
+                    {{invoice.date | date : 'MM/dd/yyyy'}}
                 </div>
                 <div flex="30">
-                    {{invoice.amount}}
+                    {{invoice.amount | money : invoice.currency}}
                 </div>
                 <div flex class="actions" layout="row" layout-align="end center">
-                    <md-button ng-click="invoiceDetails()" class="icon-btn">
+                    <md-button ng-click="invoiceDetails(invoice)" class="icon-btn" aria-label="Invoice details">
                         <img ng-src="assets/images/icons/download.png"/>
                     </md-button>
                 </div>

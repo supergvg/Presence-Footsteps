@@ -7,11 +7,11 @@
         <div layout="row" layout-align="space-between center" class="payment-details">
             <dl>
                 <dt>Transaction ID</dt>
-                <dd>BHK37GH29</dd>
+                <dd>{{invoice.id}}</dd>
             </dl>
             <dl class="right">
-                <dt>Oct 31, 2017</dt>
-                <dd>11:38 AM</dd>
+                <dt>{{invoice.date | date : 'MMM d, yyyy'}}</dt>
+                <dd>{{invoice.date | date : 'hh:mm a'}}</dd>
             </dl>
         </div>
         <div layout="column" layout-align="center stretch" class="payment-confirm">
@@ -27,7 +27,7 @@
                 <div class="right">
                     <dl>
                         <dt>Payment:</dt>
-                        <dt class="cnumber"><sup>0000 0000 0000</sup> <span>7438</span></dt>
+                        <dt class="cnumber"><sup>0000 0000 0000</sup> <span>{{invoice.cardLastFourNumber}}</span></dt>
                     </dl>
                     <div class="card visa"></div>
                 </div>
@@ -43,10 +43,10 @@
                 </md-list-item>
                 <md-list-item>
                     <div flex="50">
-                        Monthly Plan - Pay Monthly
+                        {{invoice.description}}
                     </div>
                     <div flex="50">
-                        $ 260.0
+                        {{invoice.amount | money : invoice.currency}}
                     </div>
                 </md-list-item>
                 <md-list-item>
@@ -54,7 +54,7 @@
                         Total Amount Paid:
                     </div>
                     <div flex="50">
-                        $260.00
+                        {{invoice.amount | money : invoice.currency}}
                     </div>
                 </md-list-item>
             </md-list>

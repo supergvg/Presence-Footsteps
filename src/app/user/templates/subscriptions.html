@@ -1,0 +1,34 @@
+<div class="tariff-blocks">
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+    <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
+        <div layout="column" class="tariff-header{{tariff.isPopular ? ' popular' : ''}}" layout-align="space-between center">
+            <div ng-if="options.billing" layout="row" layout-align="space-between start">
+                <div class="title">{{tariff.name}}</div>
+                <img ng-src="assets/images/plan_icons/{{tariff.name | spaceless | lowercase}}_blue.png"/>
+            </div>
+            <div ng-if="!options.billing">
+                <img ng-src="assets/images/plan_icons/{{tariff.name | spaceless | lowercase}}.png"/>
+                <div class="title">{{tariff.name}}</div>
+            </div>
+            <div class="price-details">{{tariff.pricePolicies[0].prices[0].title}}</div>
+            <div ng-if="!options.billing">
+                {{tariff.description}}
+            </div>
+        </div>
+        <div layout="column" class="tariff-content" layout-align="space-between center">
+            <ul>
+                <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
+            </ul>
+            <!--<md-radio-group ng-if="tariff.pricePolicies[0].prices.length > 1">
+                <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="" aria-label="pricePolicy.prices[0].type">{{pricePolicy.prices[0].description}}</md-radio-button>
+            </md-radio-group>-->
+        </div>
+        <div layout="column" class="tariff-footer" layout-align="center center">
+            <h4 ng-if="tariff.isCurrentlyUsed"><b>ACTIVE</b></h4>
+            <div ng-if="!tariff.isCurrentlyUsed">
+                <md-button class="raised-btn" ng-click="selectPlan($index)" ng-if="allowToSelect($index)">SELECT</md-button>
+                <a class="md-button raised-btn" href="mailto:info@gjests.com?subject={{tariff.name}}" ng-if="!allowToSelect($index)">CONTACT US</a>
+            </div>
+        </div>
+    </div>
+</div>
