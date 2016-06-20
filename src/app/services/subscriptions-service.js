@@ -3,8 +3,13 @@
 angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialogService', '$rootScope',
     function ($http, $q, dialogService, $rootScope) {
         var responseError = function(d, rejection) {
-                dialogService.error('Endpoint '+rejection.config.url+' '+rejection.statusText.toLowerCase());
-                d.reject();
+                var message = rejection.data && rejection.data.message || 'Endpoint '+rejection.config.url+' '+rejection.statusText.toLowerCase();
+                if (rejection.data && rejection.data.success === false) {
+                    d.reject(rejection);
+                } else {
+                    dialogService.error(message);
+                    d.reject();
+                }
             },
             response = function(d, response) {
                 if (response.data.success) {
@@ -29,7 +34,9 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
             },
             setUserSubscription: function(data) {
                 var d = $q.defer();
-                data.card.name = $rootScope.currentUser.firstName+' '+$rootScope.currentUser.lastName;
+                if (data.card) {
+                    data.card.name = $rootScope.currentUser.firstName+' '+$rootScope.currentUser.lastName;
+                }
                 $http.post('user/subscription', data, {api: 'subscriptions_api'}).then(
                     function(answer) {
                         response(d, answer);
@@ -41,8 +48,12 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 return d.promise;                
             },
             getSubscriptions: function() {
-                var d = $q.defer();
-                $http.get('subscriptions', {api: 'subscriptions_api'}).then(
+                var d = $q.defer(),
+                    uri = 'subscriptions';
+                if ($rootScope.currentUser) {
+                    uri = 'user/subscriptions';
+                }
+                $http.get(uri, {api: 'subscriptions_api'}).then(
                     function(answer) {
                         response(d, answer);
                     },

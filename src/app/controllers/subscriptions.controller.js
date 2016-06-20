@@ -19,8 +19,14 @@ angular.module('gliist')
             };
             
             $scope.selectPlan = function(index) {
-                var selectedPlan = $scope.plans[index];
-                
+                var selectedPlan = $scope.plans[index],
+                    setSubscriptionError = function(rejection) {
+                        var alert = $mdDialog.alert()
+                                .content(rejection.data.message)
+                                .ok('OK');
+                        alert._options.template = '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" style="padding: 20px"><md-dialog-content role="document" tabIndex="-1" style="padding: 0 20px"><h2 class="md-title">{{ dialog.title }}</h2><p ng-bind-html="dialog.content" style="font-size: 20px; text-align: left"></p></md-dialog-content><div class="md-actions"><md-button ng-if="dialog.$type == \'confirm\'" ng-click="dialog.abort()" class="md-primary">{{ dialog.cancel }}</md-button><md-button ng-click="dialog.hide()" class="md-primary">{{ dialog.ok }}</md-button></div></md-dialog>';
+                        $mdDialog.show(alert);
+                    };
                 if ($scope.allowToSelect(index)) {
                     if (selectedPlan.pricePolicies[0].prices[0].amount > 0) {
                         var scope = $scope.$new();
@@ -122,31 +128,37 @@ angular.module('gliist')
                                 card: scope.cardData
                             }).then(
                                 function(response){
-                                    $rootScope.currentPlan = response.data.subscription;
+                                    $rootScope.currentUser.subscription = response.data.subscription;
+                                    scope.close();
                                     $state.go('main.welcome');
                                 },
-                                function(){
-                                    var alert = $mdDialog.alert()
-                                            .content('The payment transaction is unsuccessful.<br>Please try a different credit card. Thank you.')
-                                            .ok('OK');
-                                    alert._options.template = '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" style="padding: 20px"><md-dialog-content role="document" tabIndex="-1" style="padding: 0 20px"><h2 class="md-title">{{ dialog.title }}</h2><p ng-bind-html="dialog.content" style="font-size: 20px; text-align: left"></p></md-dialog-content><div class="md-actions"><md-button ng-if="dialog.$type == \'confirm\'" ng-click="dialog.abort()" class="md-primary">{{ dialog.cancel }}</md-button><md-button ng-click="dialog.hide()" class="md-primary">{{ dialog.ok }}</md-button></div></md-dialog>';
-                                    $mdDialog.show(alert);
+                                function(rejection){
+                                    setSubscriptionError(rejection);
                                 }
-                            )
-                            .finally(function(){
+                            ).finally(function(){
                                 $scope.waiting = false;
                             });
                         };
                         $mdDialog.show({
                             scope: scope,
                             templateUrl: 'app/templates/payment-popup.html'
-                        });            
+                        });
                     } else {
-                        
-                        
-                        
-                        
-                        
+                        $scope.waiting = true;
+                        subscriptionsService.setUserSubscription({
+                            subscriptionId: selectedPlan.id,
+                            pricePolicyId: selectedPlan.pricePolicies[0].id
+                        }).then(
+                            function(response){
+                                $rootScope.currentUser.subscription = response.data.subscription;
+                                $state.go('main.welcome');
+                            },
+                            function(rejection){
+                                setSubscriptionError(rejection);
+                            }
+                        ).finally(function(){
+                            $scope.waiting = false;
+                        });
                     }
                 }
             };

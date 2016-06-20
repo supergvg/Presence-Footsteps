@@ -260,12 +260,22 @@ angular.module('gliist', [
                 }
             });
 
-            var toLoginPage = function() {
+            var appStatus = function(ready) {
+                    $rootScope.appReady = ready;
+                    if ($rootScope.appReady) {
+                        angular.element('#loading').hide();
+                    } else {
+                        angular.element('#loading').show();
+                        
+                    }
+                },
+                toLoginPage = function() {
                     userService.logout();
                     $state.go('home');
+                    appStatus(true);
                 },
                 checkSubscription = function(event, nextStateName) {
-                    if ($rootScope.currentPlan === 'undefined') {
+                    if ($rootScope.currentUser.subscription === 'undefined') {
                         if ($rootScope.currentUser.permissions === 'admin') {
                             if (nextStateName !== 'choose_plan' || event.defaultPrevented) {
                                 event.preventDefault();
@@ -284,29 +294,6 @@ angular.module('gliist', [
                             $state.go(nextStateName);
                         }
                     }
-                },
-                getSubscription = function(event, nextStateName) {
-                    if (!$rootScope.currentPlan) {
-                        event.preventDefault();
-                        angular.element('#loading').show();
-                        $rootScope.appReady = false;
-                        $rootScope.waitingPlan = true;
-                        subscriptionsService.getUserSubscription().then(
-                            function(data){
-                                $rootScope.waitingPlan = false;
-                                $rootScope.currentPlan = 'undefined';
-                                if (data.data && data.dataTotalCount > 0) {
-                                    $rootScope.currentPlan = data.data;
-                                }
-                                checkSubscription(event, nextStateName);
-                            },
-                            function(){
-                                toLoginPage();
-                            }
-                        );
-                    } else {
-                        checkSubscription(event, nextStateName);
-                    }
                 };
 
             $rootScope.$on('$stateChangeStart', function(event, next) {
@@ -324,15 +311,27 @@ angular.module('gliist', [
                         if (!userService.getLogged()) {
                             toLoginPage();
                         } else {
-                            angular.element('#loading').show();
-                            $rootScope.appReady = false;
+                            appStatus(false);
                             $rootScope.waitingUserInfo = true;
                             userService.getCurrentUser().then(function(user) {
                                 $rootScope.currentUser = user;
                                 if ($rootScope.currentUser.permissions !== 'admin' && angular.isUndefined($rootScope.permissions[$rootScope.currentUser.permissions])) {
                                     toLoginPage();
                                 } else {
-                                    getSubscription(event, next.name);
+                                    $rootScope.waitingPlan = true;
+                                    subscriptionsService.getUserSubscription().then(
+                                        function(data){
+                                            $rootScope.waitingPlan = false;
+                                            $rootScope.currentUser.subscription = 'undefined';
+                                            if (data.data && data.dataTotalCount > 0) {
+                                                $rootScope.currentUser.subscription = data.data;
+                                            }
+                                            checkSubscription(event, next.name);
+                                        },
+                                        function(){
+                                            toLoginPage();
+                                        }
+                                    );
                                 }
                                 $rootScope.waitingUserInfo = false;
                             }, function() {
@@ -340,15 +339,14 @@ angular.module('gliist', [
                             });
                         }
                     } else {
-                        getSubscription(event, next.name);
+                        checkSubscription(event, next.name);
                     }
                 }
             });
             
             $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-                if (((toState.access && toState.access.allowAnonymous) || ($rootScope.currentPlan && $rootScope.currentUser)) && !$rootScope.appReady) {
-                    angular.element('#loading').hide();
-                    $rootScope.appReady = true;
+                if (((toState.access && toState.access.allowAnonymous) || ($rootScope.currentUser && $rootScope.currentUser.subscription)) && !$rootScope.appReady) {
+                    appStatus(true);
                 }
             });
         }

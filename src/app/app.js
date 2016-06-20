@@ -130,7 +130,7 @@ angular.module('gliist')
                 if ($state.current.name.match(/^landing_.+/) || $state.current.name === 'choose_plan') {
                     return false;
                 }
-                return $rootScope.currentUser && $rootScope.currentPlan;
+                return $rootScope.currentUser;
             };
 
             $scope.login = function() {
