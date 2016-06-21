@@ -319,6 +319,7 @@ angular.module('gliist')
                     $scope.gli.actual = [];
                 }
                 
+                var guestCount = guests.length;
                 for (var i = 0; i < guestCount; i ++) {
                     $scope.gli.actual.push({
                         gl_id: $scope.gli.id,

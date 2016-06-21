@@ -357,13 +357,6 @@ angular.module('gliist')
                     return;
                 }
                 
-                var lines = $scope.textGuestList.split('\n');
-                var guestCount = lines.length;
-                
-                if (!guestCount) {
-                    return;
-                }
-                
                 var guests = guestListParserService.parse($scope.textGuestList);
                 if (guests === null)
                     return dialogService.error('No guests found in the list');;
@@ -378,6 +371,7 @@ angular.module('gliist')
                     $scope.list.guests = [];
                 }
                 
+                var guestCount = guests.length;
                 for (var i = 0; i < guestCount; i ++) {
                     $scope.list.guests.push(guests[i]);
                 }
