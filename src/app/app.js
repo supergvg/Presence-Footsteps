@@ -49,7 +49,7 @@ angular.module('gliist')
                     denyAccess: ['main.create_event', 'main.user']
                 }
             };
-
+            
             $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = newValue;
                 $scope.getUserPhoto();

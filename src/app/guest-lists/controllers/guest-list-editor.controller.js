@@ -352,16 +352,18 @@ angular.module('gliist')
                 });
             };
             
-            $scope.onAddGuestsClicked = function(ev) {
+            $scope.onAddGuestsClicked = function() {
                 if (!$scope.textGuestList) {
                     return;
                 }
                 
                 var guests = guestListParserService.parse($scope.textGuestList);
-                if (guests === null)
-                    return dialogService.error('No guests found in the list');;
-                if (typeof guests === 'string')
+                if (guests === null) {
+                    return dialogService.error('No guests found in the list');
+                }
+                if (typeof guests === 'string') {
                     return dialogService.error(guests);
+                }
                 
                 //import
                 if (!$scope.list) {

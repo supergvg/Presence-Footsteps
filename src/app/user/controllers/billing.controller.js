@@ -11,7 +11,7 @@ angular.module('gliist')
             
             paymentsService.getCharges().then(
                 function(data) {
-                    if (data.data.length > 0) {
+                    if (data.data && data.data.length > 0) {
                         $scope.invoices = data.data;
                     }
                 }

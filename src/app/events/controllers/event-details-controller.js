@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$rootScope', '$location', '$filter', '$state',
-        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $rootScope, $location, $filter, $state) {
+    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$rootScope', '$location', '$filter', 'subscriptionsService',
+        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $rootScope, $location, $filter, subscriptionsService) {
             $scope.eventCategories = [
                 'Art',
                 'Fashion',
@@ -94,6 +94,10 @@ angular.module('gliist')
                 return $rootScope.isPromoter();
             };
 
+            $scope.subscriptionRestrictions = function(featureName, featureValue, event, message) {
+                return !subscriptionsService.verifyFeature(featureName, featureValue, event, message);
+            };
+
             $scope.getSelected = function(idx) {
                 return ($scope.selectedIndex === idx);
             };
@@ -175,19 +179,26 @@ angular.module('gliist')
             $scope.timeValid = function() {
                 $scope.startEventTimeInvalid = false;
                 $scope.endEventTimeInvalid = false;
+                $scope.maxStartEventTimeInvalid = false;
+                $scope.startRangeDays = subscriptionsService.getFeatureValue('EventStartRangeDays') || 45;
+                
                 if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.dt.endEventRsvpDateTime.setTime($scope.dt.endEventDateTime.getTime());
                 }
-                $scope.startEventTimeInvalid = false;
                 var now = new Date(Date.now()),
-                    locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000);
+                    locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000),
+                    locationMaxStartDateTime = locationDateTime.valueOf() + $scope.startRangeDays * 24 * 60 * 60 * 1000;
+            
                 if ($scope.dt.startEventDateTime.getTime() < locationDateTime.valueOf()) {
                     $scope.startEventTimeInvalid = true;
+                }
+                if ($scope.dt.startEventDateTime.getTime() > locationMaxStartDateTime) {
+                    $scope.maxStartEventTimeInvalid = true;
                 }
                 if ($scope.dt.startEventDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.endEventTimeInvalid = true;
                 }
-                if ($scope.startEventTimeInvalid || $scope.endEventTimeInvalid) {
+                if ($scope.startEventTimeInvalid || $scope.endEventTimeInvalid || $scope.maxStartEventTimeInvalid) {
                     return false;
                 }
                 return true;
@@ -198,6 +209,12 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
+                    if ($scope.subscriptionRestrictions('Checkins', $scope.getTotalGuests(), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                        return;
+                    }
+                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, 'You are not allowed to create events longer than {value} days. Would you like to upgrade to unlimited?')) {
+                        return;
+                    }
                     var errorMessage = [];
                     if (form && form.$invalid) {
                         var errors = {
@@ -233,6 +250,9 @@ angular.module('gliist')
                         }
                         if ($scope.endEventTimeInvalid) {
                             errorMessage.push('End time has to be after start time');
+                        }
+                        if ($scope.maxStartEventTimeInvalid) {
+                            errorMessage.push('You can only create event up to '+$scope.startRangeDays+' days in advance');
                         }
                     }
                     if (!$scope.location.details) {
@@ -292,18 +312,14 @@ angular.module('gliist')
                 delete $scope.location.details;
             };
             
-            $scope.checkPermission = function(event) {
-                var confirm = $mdDialog.confirm({
-                    title: 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?',
-                    ok: 'Upgrade',
-                    cancel: 'Close',
-                    targetEvent: event
+            $scope.getTotalGuests = function() {
+                var total = 0;
+                angular.forEach($scope.event.guestLists, function(gl){
+                    total += gl.guestsCount;
                 });
-                $mdDialog.show(confirm).then(function() {
-                    $state.go('main.user', {view: 2});
-                });
+                return total;
             };
-
+            
             $scope.init = function() {
                 if ($scope.isPromoter()) {
                     $scope.selectedIndex = 3;

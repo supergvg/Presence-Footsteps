@@ -273,7 +273,7 @@ angular.module('gliist', [
                     $state.go('home');
                     appStatus(true);
                 },
-                checkSubscription = function(event, nextStateName) {
+                checkSubscription = function(event, nextStateName, nextStateParams) {
                     if ($rootScope.currentUser.subscription === 'undefined') {
                         if ($rootScope.currentUser.permissions === 'admin') {
                             if (nextStateName !== 'choose_plan' || event.defaultPrevented) {
@@ -290,12 +290,12 @@ angular.module('gliist', [
                             event.preventDefault();
                             $state.go('main.welcome');
                         } else if (event.defaultPrevented) {
-                            $state.go(nextStateName);
+                            $state.go(nextStateName, nextStateParams);
                         }
                     }
                 };
 
-            $rootScope.$on('$stateChangeStart', function(event, next) {
+            $rootScope.$on('$stateChangeStart', function(event, next, nextParams) {
                 if (next.access && next.access.denyLogged && userService.getLogged()) {
                     event.preventDefault();
                     $state.go('main.welcome');
@@ -325,7 +325,7 @@ angular.module('gliist', [
                                             if (data.data && data.dataTotalCount > 0) {
                                                 $rootScope.currentUser.subscription = data.data;
                                             }
-                                            checkSubscription(event, next.name);
+                                            checkSubscription(event, next.name, nextParams);
                                         },
                                         function(){
                                             toLoginPage();
@@ -338,7 +338,7 @@ angular.module('gliist', [
                             });
                         }
                     } else {
-                        checkSubscription(event, next.name);
+                        checkSubscription(event, next.name, nextParams);
                     }
                 }
             });

@@ -18,13 +18,29 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                     dialogService.error(response.data.message);
                     d.reject();
                 }
-            };
+            }, 
+            quotas = {}, features = {};
         return {
+            getFeatureValue: function(featureName) {
+                if (!features[featureName]) {
+                    return false;
+                }
+                return features[featureName].value;
+            },
             getUserSubscription: function() {
                 var d = $q.defer();
                 $http.get('user/subscription', {api: 'subscriptions_api'}).then(
                     function(answer) {
                         response(d, answer);
+                        angular.forEach(answer.data.data.quotas, function(quota){
+                            quotas[quota.feature] = quota.value;
+                        });
+                        angular.forEach(answer.data.data.subscription.policies, function(feature){
+                            features[feature.feature] = {
+                                type: feature.type,
+                                value: feature.value
+                            };
+                        });
                     },
                     function(response) {
                         responseError(d, response);
@@ -92,6 +108,42 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                     }
                 );
                 return d.promise;                
+            },
+            verifyFeature: function(featureName, featureValue, event, message) {
+                if (!$rootScope.currentUser) {
+                    return;
+                }
+                var allow = true;
+
+                if (features[featureName]) {
+                    switch (features[featureName].type) {
+                        case 'Restrict':
+                            allow = false;
+                            break;
+                        case 'LimitedQuota':
+                            if (!quotas[featureName] || (quotas[featureName] && featureValue > quotas[featureName])) {
+                                allow = false;
+                            }
+                            if (quotas[featureName] && message) {
+                                message = message.replace(/{value}/, quotas[featureName]);
+                            }
+                            break;
+                        case 'Parameter': 
+                            if (featureValue > features[featureName].value) {
+                                allow = false;
+                            }
+                            if (message) {
+                                message = message.replace(/{value}/, features[featureName].value);
+                            }
+                            break;
+                    }
+                }
+                
+                if (angular.isDefined(event) && !allow) {
+                    dialogService.upgrade(event, message);
+                }
+                
+                return allow;
             }
         };
     }]);
