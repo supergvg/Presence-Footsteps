@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope, guestListParserService) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -305,71 +305,11 @@ angular.module('gliist')
                     return;
                 }
                 
-                var lines = $scope.textGuestList.split('\n');
-                var guestCount = lines.length;
-                
-                if (!guestCount) {
-                    return;
-                }
-                
-                var guests = [];
-                
-                var validateEmail = function(email) {
-                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return re.test(email);
-                };
-                
-                if ($scope.textGuestList.indexOf('\t') !== -1) {//it's Excel format if there are any tabs
-                    for (var i = 0; i < guestCount; i ++) {
-                        var l = lines[i].split('\t'); //First Name, Last Name, Email, Note, Plus
-                        var plus = parseInt(l[4], 10);
-                        
-                        if (isNaN(plus)) {
-                            dialogService.error('Invalid "Plus" value on line ' + (i + 1));
-                            return;
-                        }
-                        if (!validateEmail(l[2])) {
-                            dialogService.error('Invalid Email on line ' + (i + 1));
-                            return;
-                        }
-                        
-                        guests.push({
-                            firstName: l[0],
-                            lastName: l[1],
-                            email: l[2],
-                            notes: l[3],
-                            plus: plus
-                        });
-                    }
-                } else {
-                    for (var i = 0; i < guestCount; i ++) {
-                        var l = lines[i].split(','); //(Full) Name, Email, Note, Plus
-                        
-                        for (var j = 0; j < 4; j++) {
-                            l[j] = l[j].trim();
-                        }
-                        
-                        var name = l[0].split(' ', 2);
-                        var plus = parseInt(l[3], 10);
-                        
-                        if (isNaN(plus)) {
-                            dialogService.error('Invalid "Plus" value on line ' + (i + 1));
-                            return;
-                        }
-                        if (!validateEmail(l[1])) {
-                            dialogService.error('Invalid Email on line ' + (i + 1));
-                            return;
-                        }
-                        
-                        guests.push({
-                            firstName: name[0],
-                            lastName: name[1] ? name[1] : '',
-                            email: l[1],
-                            notes: l[2],
-                            plus: plus
-                        });
-                    }
-                }
+                var guests = guestListParserService.parse($scope.textGuestList);
+                if (guests === null)
+                    return dialogService.error('No guests found in the list');;
+                if (typeof guests === 'string')
+                    return dialogService.error(guests);
                 
                 //import
                 if (!$scope.gli) {
@@ -379,6 +319,7 @@ angular.module('gliist')
                     $scope.gli.actual = [];
                 }
                 
+                var guestCount = guests.length;
                 for (var i = 0; i < guestCount; i ++) {
                     $scope.gli.actual.push({
                         gl_id: $scope.gli.id,
@@ -390,6 +331,7 @@ angular.module('gliist')
                 
                 dialogService.success('Guests were added successfully');
                 $scope.onDataChange();
+                $scope.textGuestList = '';
             };
             
             $scope.onFileSelect = function (files) {

@@ -324,7 +324,7 @@
              md-swipe-right="previous($event)">
             <div>
                 <div class="block-field" ng-hide="isPromoter()">
-                    <h4>Send event confirmation invite to</h4>
+                    <h4>Add confirmed guests</h4>
                     <md-list>
                         <md-list-item layout="row">
                             <div flex>
@@ -349,7 +349,7 @@
                     </md-list>
                 </div>
                 <div class="block-field" ng-if="event.type !== 1">
-                    <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Send RSVP to'}}</h4>
+                    <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
                     <md-list>
                         <md-list-item layout="row">
                             <div flex>

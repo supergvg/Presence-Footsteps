@@ -708,7 +708,6 @@ md-input-container {
             }
         }
         .ui-select-choices {
-            max-height: inherit;
             .active a {
                 background-color: #99ccff;
             }
@@ -2919,4 +2918,20 @@ md-dialog {
             }
         }
     }
+}
+
+.guest-list-import-box {
+    overflow-x: none;
+    overflow-y: auto;
+    width: 100%;
+    height: 250px !important;
+    background-color: #fff;
+    padding: 0 0 0 15px;
+    font-size: 16px !important;
+    margin: 0;
+    line-height: 40px !important;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    line-height: 1.5 !important;
 }
