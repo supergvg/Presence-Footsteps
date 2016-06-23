@@ -974,11 +974,27 @@ md-dialog {
             box-shadow: none !important;
         }
     }
-    &.square,
+    &.payment-info {
+        md-content {
+            padding: 10px 55px 0 55px;
+            form {
+                padding: 0;
+                margin-bottom: 20px;
+                h4 {
+                    font-weight: normal;
+                    margin: 15px 0;
+                }
+                & > div:nth-child(2) > div:nth-child(2) {
+                    padding-left: 20px;
+                }
+            }
+        }
+    }
     &.invoice-details {
+        color: #000;
         .header {
-            background-color: #fff;
-            height: 50px;
+            background-color: #99ccff;
+            height: 120px;
             padding: 15px;
             .logo {
                 font-size: 24px;
@@ -991,47 +1007,6 @@ md-dialog {
                 right: 10px;
                 top: 10px;
             }
-        }
-        
-    }
-    &.square {
-        .left {
-            background-color: #ececec;
-            .action {
-                margin: 20px 0 30px 0;
-                width: 100%;
-            }
-        }
-        .right {
-            background-color: #dbdbdb;
-            p {
-                font-size: 12px;
-                font-weight: bold;
-                padding: 0 40px;
-                text-align: justify;
-                line-height: 14px;
-            }
-            .action {
-                margin: 0 30px 30px 0;
-                width: 100%;
-            }
-        }
-        h4 {
-            font-weight: bold;
-            padding: 20px 0;
-            margin: 0;
-            text-align: center;
-        }
-        md-input-container {
-            width: 100%;
-            padding: 0 50px;
-        }
-    }
-    &.invoice-details {
-        color: #000;
-        .header {
-            background-color: #99ccff;
-            height: 120px;
         }
         .content {
             overflow-y: auto;
@@ -2901,6 +2876,22 @@ md-dialog {
                 
             }
         }
+        &.payment-info {
+            md-content {
+                padding: 20px;
+                form {
+                    .expire-date {
+                        & > md-input-container:last-child {
+                            padding: 0;
+                            margin-left: 20px;
+                        }
+                    }
+                    & > div:nth-child(2) > div:nth-child(2) {
+                        padding-left: 0;
+                    }
+                }
+            }
+        }        
         &.payment-popup {
             padding: 50px 20px;
             .content {

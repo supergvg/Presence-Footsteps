@@ -195,7 +195,7 @@ angular.module('gliist')
                     errorMessage.push('Please Add Guests');
                 }*/
                 if ($scope.guestsError()) {
-                    errorMessage.push('First Name must be not empty.');
+                    errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
                 }
                 if (errorMessage.length > 0) {
                     if (!autoSave) {
@@ -268,9 +268,18 @@ angular.module('gliist')
                 if (!$scope.list || !$scope.list.guests) {
                     return result;
                 }
-                angular.forEach($scope.list.guests, function(guest) {
-                    result = result || (guest.firstName === '');
-                });
+                
+                var guestCount = $scope.list.guests.length;
+                if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
+                    for (var i = 0; i < guestCount; i++)
+                        if ($scope.list.guests[i].email === '')
+                            return true;
+                } else {
+                    for (var i = 0; i < guestCount; i++)
+                        if ($scope.list.guests[i].firstName === '')
+                            return true;
+                }
+                	
                 return result;
             };
             

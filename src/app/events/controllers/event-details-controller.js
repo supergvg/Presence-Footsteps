@@ -321,7 +321,7 @@ angular.module('gliist')
             };
             
             $scope.init = function() {
-                if ($scope.isPromoter()) {
+                if ($scope.isPromoter() && $scope.selectedIndex !== 3 && $scope.selectedIndex !== 4) {
                     $scope.selectedIndex = 3;
                 }
                 if ($scope.event) {

@@ -2,16 +2,16 @@
     <div class="block-field">
         <h4>Payment Information</h4>
         <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center" class="payment-info">
-            <div class="card-number">XXXX XXXX XXXX 2378</div>
-            <md-button class="raised-btn" ng-click="editPaymentInfo()">Edit</md-button>
+            <div class="card-number">{{printCard()}}</div>
+            <md-button class="raised-btn" ng-click="editPaymentInfo()" ng-disabled="loadingCard">Edit</md-button>
         </div>
     </div>
     <div class="block-field">
         <h4>Subscriptions</h4>
         <subscriptions options="options"></subscriptions>
     </div>    
-    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-    <div class="block-field" ng-if="!loading">
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loadingInvoices"></md-progress-circular>
+    <div class="block-field" ng-if="!loadingInvoices">
         <h4>Invoice</h4>
         <md-list class="zebra">
             <md-list-item>

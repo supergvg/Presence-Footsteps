@@ -5,8 +5,8 @@
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
     </div>
     <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
-        <h4 ng-if="public && !event.event.isRsvpExpired">Dear guest, you are cordially invited to this event.</h4>
-        <h4 ng-if="!public && !event.event.isRsvpExpired">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
+        <h4 ng-if="(public && !event.event.isRsvpExpired) || !event.guest.firstName">Dear guest, you are cordially invited to this event.</h4>
+        <h4 ng-if="!public && !event.event.isRsvpExpired && event.guest.firstName">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
         <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
         <div class="title">
@@ -32,7 +32,7 @@
                 <div class="item-label">RSVP:</div>
                 <h4 ng-if="success" class="success">{{message}}</h4>
                 <form name="rsvpLandingForm">
-                    <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+                    <div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
                         <label>Name</label>
                         <input type="text" name="name" ng-model="rsvp.name" required/>
                     </div>

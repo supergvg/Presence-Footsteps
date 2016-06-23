@@ -1,0 +1,52 @@
+<md-dialog flex="50" flex-sm="90" class="payment-info">
+    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+        <h3>Edit Payment Information</h3>
+    </div>
+    <md-content>
+        <div class="block-field">
+            <h4>Primary Payment</h4>        
+            <form name="card">
+                <div layout="row" layout-align="space-between stretch" layout-sm="column">
+                    <md-input-container flex="60" md-no-float flex-sm="100">
+                        <h4>Card Number Number</h4>
+                        <input type="text" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="Enter Credit Card Number" required>
+                    </md-input-container>
+                    <md-input-container flex="40" md-no-float flex-sm="100">
+                        <h4>Security Code</h4>
+                        <input type="text" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="Enter Security Code" required>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-align="space-between stretch" layout-sm="column">
+                    <div flex="60" flex-sm="100">
+                        <h4>Expire Date</h4>
+                        <div layout="row" layout-align="start center" class="expire-date">
+                            <md-input-container md-no-float flex="30">
+                                <input type="number" ng-model="cardData.expiryMonth" name="exp_month" pattern="\d{1,2}" min="1" max="12" placeholder="Month" required>
+                            </md-input-container>
+                            <md-input-container md-no-float flex="30">
+                                <input type="number" ng-model="cardData.expiryYear" name="exp_year" pattern="\d{4}" min="1970" placeholder="Year" required>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div flex="40" flex-sm="100">
+                        <md-input-container md-no-float>
+                            <h4>Billing Zip Code</h4>
+                            <input type="text" ng-model="cardData.zipCode" name="address_zip" placeholder="Enter Zip Code">
+                        </md-input-container>
+                    </div>
+                </div>
+            </form>                
+            <div layout="row" layout-align="end center">
+                <md-button ng-click="close()">
+                    Cancel
+                </md-button>
+                <md-button class="raised-btn" ng-click="update(card)">
+                    Update
+                </md-button>
+                <div ng-if="waiting">
+                    <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</md-dialog>

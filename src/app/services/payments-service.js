@@ -31,6 +31,18 @@ angular.module('gliist').factory('paymentsService', ['$http', '$q', 'dialogServi
                     }
                 );
                 return d.promise;                
+            },
+            getCard: function() {
+                var d = $q.defer();
+                $http.get('user/card', {api: 'payments_api'}).then(
+                    function(answer) {
+                        response(d, answer);
+                    },
+                    function(response) {
+                        responseError(d, response);
+                    }
+                );
+                return d.promise;                
             }
         };
     }]);

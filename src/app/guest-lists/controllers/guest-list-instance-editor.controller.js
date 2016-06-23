@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope, guestListParserService) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -47,6 +47,9 @@ angular.module('gliist')
                     ]
                 }
             };
+            
+            var instanceType = parseInt($stateParams.instanceType);
+            
             $scope.options.methods = {
                 updateGridData: function() {
                     if ($scope.gli) {
@@ -101,6 +104,8 @@ angular.module('gliist')
                 $scope.loading = true;
                 guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function(data) {
                     $scope.gli = data;
+                    instanceType = data.instanceType;
+
                     if ($scope.gli.instanceType === 2) {
                         $scope.options.gridOptions.columnDefs.splice(4);
                     }
@@ -185,7 +190,7 @@ angular.module('gliist')
             
             $scope.save = function(autoSave) {
                 if ($scope.guestsError()) {
-                    dialogService.error('First Name must be not empty.');
+                    dialogService.error(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
                     return;
                 }
                 $scope.fetchingData = true;
@@ -249,9 +254,18 @@ angular.module('gliist')
                 if (!$scope.gli) {
                     return result;
                 }
-                angular.forEach($scope.gli.actual, function(actual) {
-                    result = result || (actual.guest.firstName === '');
-                });
+                
+                var guestCount = $scope.gli.actual.length;
+                if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
+                    for (var i = 0; i < guestCount; i++)
+                        if ($scope.gli.actual[i].guest.email === '')
+                            return true;
+                } else {
+                    for (var i = 0; i < guestCount; i++)
+                        if ($scope.gli.actual[i].guest.firstName === '')
+                            return true;
+                }
+                	
                 return result;
             };
 
