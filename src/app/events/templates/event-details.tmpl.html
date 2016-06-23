@@ -49,7 +49,7 @@
             <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(4) ? 'logo-bg' : ''"
-                       ng-disabled="!event.id || isPromoter()"
+                       ng-disabled="!event.id"
                        ng-click="selectedIndex = 4"
                        aria-label="Preview">
             </md-button>
@@ -348,7 +348,7 @@
                         </md-list-item>
                     </md-list>
                 </div>
-                <div class="block-field" ng-if="event.type !== 1">
+                <div class="block-field" ng-if="event.type !== 1 && !isPromoter()">
                     <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
                     <md-list>
                         <md-list-item layout="row">
