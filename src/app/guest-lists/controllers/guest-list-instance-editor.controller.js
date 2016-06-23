@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -47,6 +47,9 @@ angular.module('gliist')
                     ]
                 }
             };
+            
+            var instanceType = parseInt($stateParams.instanceType);
+            
             $scope.options.methods = {
                 updateGridData: function() {
                     if ($scope.gli) {
@@ -101,6 +104,8 @@ angular.module('gliist')
                 $scope.loading = true;
                 guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function(data) {
                     $scope.gli = data;
+                    instanceType = data.instanceType;
+
                     if ($scope.gli.instanceType === 2) {
                         $scope.options.gridOptions.columnDefs.splice(4);
                     }
@@ -127,7 +132,7 @@ angular.module('gliist')
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 20000);
+                }, 7000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -185,7 +190,7 @@ angular.module('gliist')
             
             $scope.save = function(autoSave) {
                 if ($scope.guestsError()) {
-                    dialogService.error('First Name must be not empty.');
+                    dialogService.error(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
                     return;
                 }
                 $scope.fetchingData = true;
@@ -195,9 +200,7 @@ angular.module('gliist')
                 }
                 var gli = {};
                 angular.copy($scope.gli, gli);
-                if (autoSave) {
-                    gli.actual.splice(gli.actual.length - 1, 1);
-                }
+                
                 guestFactory.GuestListInstance.update(gli).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -251,9 +254,18 @@ angular.module('gliist')
                 if (!$scope.gli) {
                     return result;
                 }
-                angular.forEach($scope.gli.actual, function(actual) {
-                    result = result || (actual.guest.firstName === '');
-                });
+                
+                var guestCount = $scope.gli.actual.length;
+                if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
+                    for (var i = 0; i < guestCount; i++)
+                        if ($scope.gli.actual[i].guest.email === '')
+                            return true;
+                } else {
+                    for (var i = 0; i < guestCount; i++)
+                        if ($scope.gli.actual[i].guest.firstName === '')
+                            return true;
+                }
+                	
                 return result;
             };
 
@@ -284,6 +296,7 @@ angular.module('gliist')
                                 return dialogService.error('There was a problem linking your guest list, please try again');
                             }
                             $scope.gli.actual = result.actual;
+                            $scope.onDataChange();
                         },
                         function () {
                             dialogService.error('There was a problem linking your guest list, please try again');
@@ -299,6 +312,40 @@ angular.module('gliist')
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
+            };
+            
+            $scope.onAddGuestsClicked = function(ev) {
+                if (!$scope.textGuestList) {
+                    return;
+                }
+                
+                var guests = guestListParserService.parse($scope.textGuestList);
+                if (guests === null)
+                    return dialogService.error('No guests found in the list');;
+                if (typeof guests === 'string')
+                    return dialogService.error(guests);
+                
+                //import
+                if (!$scope.gli) {
+                    $scope.gli = {};
+                }
+                if (!$scope.gli.actual) {
+                    $scope.gli.actual = [];
+                }
+                
+                var guestCount = guests.length;
+                for (var i = 0; i < guestCount; i ++) {
+                    $scope.gli.actual.push({
+                        gl_id: $scope.gli.id,
+                        status: 'no show',
+                        guest: guests[i]
+                    });
+                }
+                $scope.isDirty = true;
+                
+                dialogService.success('Guests were added successfully');
+                $scope.onDataChange();
+                $scope.textGuestList = '';
             };
             
             $scope.onFileSelect = function (files) {
@@ -322,6 +369,10 @@ angular.module('gliist')
                     return;
                 }
                 $scope.upload(files[0]);
+            };
+            
+            $scope.onDataChange = function () {
+                $scope.isDirty = true;
             };
 
             $scope.upload = function (files, glId) {

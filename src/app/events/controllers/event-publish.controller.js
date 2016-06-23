@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventPublishCtrl', ['$scope', 'dialogService', '$state', 'eventsService', '$mdDialog',
-        function ($scope, dialogService, $state, eventsService, $mdDialog) {
+    .controller('EventPublishCtrl', ['$scope', 'dialogService', '$state', 'eventsService', '$mdDialog', '$rootScope',
+        function ($scope, dialogService, $state, eventsService, $mdDialog, $rootScope) {
 
             $scope.toPublish = [];
 
@@ -18,7 +18,10 @@ angular.module('gliist')
                 $mdDialog.show(confirm).then(function() {
                     eventsService.publishEvent($scope.toPublish, $scope.event.id).then(
                         function() {
-                            $state.go('main.email_stats', {eventId: $scope.event.id});
+                            if ($rootScope.isPromoter())
+                                dialogService.success('Guest list has been published');
+                            else
+                                $state.go('main.email_stats', {eventId: $scope.event.id});
                         },
                         function(err) {
                             dialogService.error(err);
