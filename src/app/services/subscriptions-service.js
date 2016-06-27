@@ -19,7 +19,18 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                     d.reject();
                 }
             }, 
-            quotas = {}, features = {};
+            quotas = {}, features = {},
+            parseSubscription = function(data) {
+                angular.forEach(data.quotas, function(quota){
+                    quotas[quota.feature] = quota.value;
+                });
+                angular.forEach(data.subscription.policies, function(feature){
+                    features[feature.feature] = {
+                        type: feature.type,
+                        value: feature.value
+                    };
+                });
+            };
         return {
             getFeatureValue: function(featureName) {
                 if (!features[featureName]) {
@@ -31,18 +42,10 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 var d = $q.defer();
                 $http.get('user/subscription', {api: 'subscriptions_api'}).then(
                     function(answer) {
-                        response(d, answer);
                         if (answer.data.data) {
-                            angular.forEach(answer.data.data.quotas, function(quota){
-                                quotas[quota.feature] = quota.value;
-                            });
-                            angular.forEach(answer.data.data.subscription.policies, function(feature){
-                                features[feature.feature] = {
-                                    type: feature.type,
-                                    value: feature.value
-                                };
-                            });
+                            parseSubscription(answer.data.data);
                         }
+                        response(d, answer);
                     },
                     function(response) {
                         responseError(d, response);
@@ -57,6 +60,9 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 }
                 $http.post('user/subscription', data, {api: 'subscriptions_api'}).then(
                     function(answer) {
+                        if (answer.data.data) {
+                            parseSubscription(answer.data.data);
+                        }
                         response(d, answer);
                     },
                     function(response) {
