@@ -15,8 +15,9 @@ angular.module('gliist').service('guestListParserService',
             for (var i = 0; i < guestCount; i++) {
                 var l = lines[i];
                 
-                if (l === '')
+                if (l === '') {
                     continue;
+                }
                 
                 var name = null;
                 var note = null;
@@ -24,30 +25,35 @@ angular.module('gliist').service('guestListParserService',
                 
                 if (l.indexOf(',') !== -1) { //Name, Note, Pluses
                     var values = l.split(',');
-                    if (values.length !== 3)
+                    if (values.length !== 3) {
                         return 'Invalid format on line ' + (i + 1) + '. Valid format is: Name, Note, Pluses.';
+                    }
                     
                     name = values[0].trim();
-                    if (name === '')
+                    if (name === '') {
                         continue;
+                    }
                     
                     note = values[1].trim();
                     plus = parseInt(values[2].trim(), 10);
                         
-                    if (isNaN(plus))
+                    if (isNaN(plus)) {
                         return 'Invalid "Plus" value on line ' + (i + 1);
+                    }
                 } else if (l.indexOf('+') !== -1) { //Name +1
                     var values = l.split('+');
                     
                     name = values[0].trim();
-                    if (name === '')
+                    if (name === '') {
                         continue;
+                    }
                     
                     note = '';
                     plus = parseInt(values[1].trim(), 10);
                         
-                    if (isNaN(plus))
+                    if (isNaN(plus)) {
                         return 'Invalid "Plus" value on line ' + (i + 1);
+                    }
                 } else { //Name
                     name = l.trim();
                     note = '';

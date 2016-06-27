@@ -21,8 +21,9 @@ angular.module('gliist')
                     }
                 }
 
-                if (!$scope.public && data.guest.firstName === '')
+                if (!$scope.public && data.guest.firstName === '') {
                     $scope.nameIsMissing = true;
+                }
 
                 $scope.loading = false;
                 $scope.event = data;

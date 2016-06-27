@@ -271,13 +271,17 @@ angular.module('gliist')
                 
                 var guestCount = $scope.list.guests.length;
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.list.guests[i].email === '')
+                    for (var i = 0; i < guestCount; i++) {
+                        if ($scope.list.guests[i].email === '') {
                             return true;
+                        }
+                    }
                 } else {
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.list.guests[i].firstName === '')
+                    for (var i = 0; i < guestCount; i++) {
+                        if ($scope.list.guests[i].firstName === '') {
                             return true;
+                        }
+                    }
                 }
                 	
                 return result;
@@ -367,10 +371,12 @@ angular.module('gliist')
                 }
                 
                 var guests = guestListParserService.parse($scope.textGuestList);
-                if (guests === null)
-                    return dialogService.error('No guests found in the list');;
-                if (typeof guests === 'string')
+                if (guests === null) {
+                    return dialogService.error('No guests found in the list');
+                }
+                if (typeof guests === 'string') {
                     return dialogService.error(guests);
+                }
                 
                 //import
                 if (!$scope.list) {
