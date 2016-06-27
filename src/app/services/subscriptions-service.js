@@ -32,15 +32,17 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 $http.get('user/subscription', {api: 'subscriptions_api'}).then(
                     function(answer) {
                         response(d, answer);
-                        angular.forEach(answer.data.data.quotas, function(quota){
-                            quotas[quota.feature] = quota.value;
-                        });
-                        angular.forEach(answer.data.data.subscription.policies, function(feature){
-                            features[feature.feature] = {
-                                type: feature.type,
-                                value: feature.value
-                            };
-                        });
+                        if (answer.data.data) {
+                            angular.forEach(answer.data.data.quotas, function(quota){
+                                quotas[quota.feature] = quota.value;
+                            });
+                            angular.forEach(answer.data.data.subscription.policies, function(feature){
+                                features[feature.feature] = {
+                                    type: feature.type,
+                                    value: feature.value
+                                };
+                            });
+                        }
                     },
                     function(response) {
                         responseError(d, response);

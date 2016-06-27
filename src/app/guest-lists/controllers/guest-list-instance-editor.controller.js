@@ -257,13 +257,17 @@ angular.module('gliist')
                 
                 var guestCount = $scope.gli.actual.length;
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.gli.actual[i].guest.email === '')
+                    for (var i = 0; i < guestCount; i++) {
+                        if ($scope.gli.actual[i].guest.email === '') {
                             return true;
+                        }
+                    }
                 } else {
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.gli.actual[i].guest.firstName === '')
+                    for (var i = 0; i < guestCount; i++) {
+                        if ($scope.gli.actual[i].guest.firstName === '') {
                             return true;
+                        }
+                    }
                 }
                 	
                 return result;
