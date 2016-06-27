@@ -9,11 +9,11 @@
                 <div layout="row" layout-align="space-between stretch" layout-sm="column">
                     <md-input-container flex="60" md-no-float flex-sm="100">
                         <h4>Card Number Number</h4>
-                        <input type="text" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="Enter Credit Card Number" required>
+                        <input type="text" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="{{cardDataLoaded ? 'XXXX XXXX XXXX '+cardDataSaved.number : 'Enter Credit Card Number'}}" required>
                     </md-input-container>
                     <md-input-container flex="40" md-no-float flex-sm="100">
                         <h4>Security Code</h4>
-                        <input type="text" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="Enter Security Code" required>
+                        <input type="text" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="{{cardDataLoaded ? 'XXX' : 'Enter Security Code'}}" required>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-align="space-between stretch" layout-sm="column">
@@ -40,10 +40,10 @@
                 <md-button ng-click="close()">
                     Cancel
                 </md-button>
-                <md-button class="raised-btn" ng-click="update(card)">
+                <md-button class="raised-btn" ng-click="update(card)" ng-disabled="savingCard">
                     Update
                 </md-button>
-                <div ng-if="waiting">
+                <div ng-if="savingCard">
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
                 </div>
             </div>
