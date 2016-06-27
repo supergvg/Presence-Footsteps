@@ -209,7 +209,7 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    if ($scope.subscriptionRestrictions('Checkins', $scope.getTotalGuests(), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
                         return;
                     }
                     if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, 'You are not allowed to create events longer than {value} days. Would you like to upgrade to unlimited?')) {

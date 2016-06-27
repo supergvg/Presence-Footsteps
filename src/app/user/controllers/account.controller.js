@@ -4,7 +4,8 @@ angular.module('gliist')
     .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope', 'subscriptionsService',
         function ($scope, $mdDialog, userService, dialogService, $rootScope, subscriptionsService) {
             $scope.linkNewAccount = function(ev) {
-                if (!subscriptionsService.verifyFeature('Accounts', $scope.getLinkedUsers().length + 2, ev, 'You are not allowed to invite contributors. Would you like to upgrade to unlimited?')) {
+                if (!subscriptionsService.verifyFeature('ManagerRole') && !subscriptionsService.verifyFeature('PromoterRole') && !subscriptionsService.verifyFeature('StaffRole')) {
+                    dialogService.upgrade(ev, 'You are not allowed to invite contributors. Would you like to upgrade to unlimited?');
                     return;
                 }
                 var scope = $scope.$new();

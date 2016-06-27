@@ -21,7 +21,7 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
             }, 
             quotas = {}, features = {},
             parseSubscription = function(data) {
-                angular.forEach(data.quotas, function(quota){
+                angular.forEach(data.usedPolicies, function(quota){
                     quotas[quota.feature] = quota.value;
                 });
                 angular.forEach(data.subscription.policies, function(feature){
@@ -127,6 +127,14 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                     switch (features[featureName].type) {
                         case 'Restrict':
                             allow = false;
+                            break;
+                        case 'LimitedPerInstanceQuota':
+                            if (featureValue > features[featureName].value) {
+                                allow = false;
+                            }
+                            if (message) {
+                                message = message.replace(/{value}/, features[featureName].value);
+                            }
                             break;
                         case 'LimitedQuota':
                             if (!quotas[featureName] || (quotas[featureName] && featureValue > quotas[featureName])) {
