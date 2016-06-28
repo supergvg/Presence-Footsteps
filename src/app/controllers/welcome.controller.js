@@ -24,10 +24,10 @@ angular.module('gliist')
                     scope.getStyles = function() {
                         var top = 549;
                         if ($rootScope.isStaff()) {
-                            top = 469;
+                            top = 389;
                         }
                         return {
-                            top: top - $window.scrollY +'px',
+                            top: (top - $window.scrollY) +'px',
                             display: $mdMedia('gt-lg') && !$scope.hideArrow ? 'block' : 'none'
                         };
                     };
