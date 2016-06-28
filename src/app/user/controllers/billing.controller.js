@@ -47,7 +47,6 @@ angular.module('gliist')
                 $scope.cardData.number = '';
                 $scope.cardData.cvc = '';
                 $scope.cardDataLoaded = true;
-                
             };
             
             $scope.editPaymentInfo = function() {
@@ -60,7 +59,7 @@ angular.module('gliist')
                     if (form && form.$invalid) {
                         var errors = {
                             required: {
-                                number: 'Please Enter Card Number Title',
+                                number: 'Please Enter Card Number',
                                 cvc: 'Please Enter Card CVC Code',
                                 exp_month: 'Please Enter Card Expiration Month',
                                 exp_year: 'Please Enter Card Expiration Year'

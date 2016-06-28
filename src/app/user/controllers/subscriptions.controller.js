@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', '$mdDialog', 'dialogService', '$rootScope', '$state',
-        function($scope, subscriptionsService, $mdDialog, dialogService, $rootScope, $state) {
+    .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', '$mdDialog', 'dialogService', '$rootScope', '$state', 'paymentsService',
+        function($scope, subscriptionsService, $mdDialog, dialogService, $rootScope, $state, paymentsService) {
             $scope.loading = true;
             $scope.plans = [];
             $scope.options = $scope.options || {};
@@ -31,6 +31,22 @@ angular.module('gliist')
                 if ($scope.allowToSelect(index)) {
                     if (selectedPlan.pricePolicies[0].prices[0].amount > 0) {
                         var scope = $scope.$new();
+                        scope.cardDataLoaded = false;
+                        scope.cardDataSaved = {};
+                        scope.loadingCard = true;
+                        paymentsService.getCard().then(
+                            function(data) {
+                                if (data.data) {
+                                    scope.cardData = data.data;
+                                    scope.cardDataSaved.number = scope.cardData.number;
+                                    scope.cardData.number = '';
+                                    scope.cardData.cvc = '';
+                                    scope.cardDataLoaded = true;
+                                }
+                            }
+                        ).finally(function(){
+                            scope.loadingCard = false;
+                        });
                         scope.close = function() {
                             $mdDialog.hide();
                         };
@@ -84,11 +100,12 @@ angular.module('gliist')
                             });
                         };
                         scope.process = function(form){
-                            var errorMessage = [];
-                            if (form && form.$invalid) {
+                            var errorMessage = [],
+                                newCard = scope.cardDataLoaded && form.number.$viewValue !== '';
+                            if (form && form.$invalid && (!scope.cardDataLoaded || newCard)) {
                                 var errors = {
                                     required: {
-                                        number: 'Please Enter Card Number Title',
+                                        number: 'Please Enter Card Number',
                                         cvc: 'Please Enter Card CVC Code',
                                         exp_month: 'Please Enter Card Expiration Month',
                                         exp_year: 'Please Enter Card Expiration Year'
@@ -123,12 +140,15 @@ angular.module('gliist')
                                 dialogService.error(errorMessage.join(', '));
                                 return;
                             }
-                            $scope.waiting = true;
-                            subscriptionsService.setUserSubscription({
+                            $scope.subscribe = {
                                 subscriptionId: scope.selectedPlan.id,
-                                pricePolicyId: scope.selectedPlan.pricePolicyId,
-                                card: scope.cardData
-                            }).then(
+                                pricePolicyId: scope.selectedPlan.pricePolicyId
+                            };
+                            if (!scope.cardDataLoaded || newCard) {
+                                $scope.subscribe.card = scope.cardData;
+                            }
+                            $scope.waiting = true;
+                            subscriptionsService.setUserSubscription($scope.subscribe).then(
                                 function(response){
                                     $rootScope.currentUser.subscription = response.data.subscription;
                                     scope.close();
@@ -143,7 +163,7 @@ angular.module('gliist')
                         };
                         $mdDialog.show({
                             scope: scope,
-                            templateUrl: 'app/templates/payment-popup.html'
+                            templateUrl: 'app/user/templates/payment-popup.html'
                         });
                     } else {
                         $scope.waiting = true;

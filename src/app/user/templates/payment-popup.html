@@ -47,11 +47,11 @@
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
                             <md-input-container flex="60" md-no-float flex-sm="100">
                                 <h4>Card Number Number</h4>
-                                <input type="text" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="Enter Credit Card Number" required>
+                                <input type="text" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="{{cardDataLoaded ? 'XXXX XXXX XXXX '+cardDataSaved.number : 'Enter Credit Card Number'}}" required>
                             </md-input-container>
                             <md-input-container flex="40" md-no-float flex-sm="100">
                                 <h4>Security Code</h4>
-                                <input type="text" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="Enter Security Code" required>
+                                <input type="text" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="{{cardDataLoaded ? 'XXX' : 'Enter Security Code'}}" required>
                             </md-input-container>
                         </div>
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
@@ -84,7 +84,7 @@
         <div class="payment-actions margin-top" layout="row" layout-align="space-between start">
             <md-button class="raised-btn" ng-click="close()">BACK</md-button>
             <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
-            <md-button class="raised-btn" ng-click="process(card)" ng-disabled="waiting">PROCESS PAYMENT</md-button>
+            <md-button class="raised-btn" ng-click="process(card)" ng-disabled="waiting || loadingCard">PROCESS PAYMENT</md-button>
         </div>
     </div>
 </md-dialog>
