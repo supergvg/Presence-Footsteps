@@ -14,12 +14,15 @@ angular.module('gliist')
                     scope.close = function() {
                         $scope.hideArrow = true;
                         $mdDialog.hide();
-                        userService.markCurrentUserAsLoggedInAtLeastOnce().then(function(){
-                        }, function(error){
-                            if (error && error.message) {
-                                dialogService.error(error.message);
+                        userService.markCurrentUserAsLoggedInAtLeastOnce().then(
+                            function(){
+                                $rootScope.currentUser.IsFirstLogin = false;
+                            }, function(error){
+                                if (error && error.message) {
+                                    dialogService.error(error.message);
+                                }
                             }
-                        });
+                        );
                     };
                     scope.getStyles = function() {
                         var top = 549;
