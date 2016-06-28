@@ -193,10 +193,28 @@ angular.module('gliist')
             };
             
             $scope.save = function(autoSave) {
-                if ($scope.guestsError()) {
-                    dialogService.error(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
-                    return;
+                var errorMessage = [];
+                if (!$scope.createGuestListForm.$valid) {
+                    var errors = {
+                        required: {
+                            title: 'Please Enter Guest List Title',
+                            listType: 'Please Select Guest Type'
+                        }
+                    };
+                    angular.forEach($scope.createGuestListForm.$error.required, function(value){
+                        errorMessage.push(errors.required[value.$name]);
+                    });
                 }
+                if ($scope.guestsError()) {
+                    errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
+                }
+                if (errorMessage.length > 0) {
+                    if (!autoSave) {
+                        dialogService.error(errorMessage.join(', '));
+                    }
+                    return;
+                }                
+                
                 $scope.fetchingData = true;
                 $scope.cancelAutoSave();
                 if (!$scope.gli.listType) {
@@ -259,18 +277,14 @@ angular.module('gliist')
                     return result;
                 }
                 
-                var guestCount = $scope.gli.actual.length;
+                var guestCount = $scope.gli.actual.length,
+                    verifyField = 'firstName';
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++) {
-                        if ($scope.gli.actual[i].guest.email === '') {
-                            return true;
-                        }
-                    }
-                } else {
-                    for (var i = 0; i < guestCount; i++) {
-                        if ($scope.gli.actual[i].guest.firstName === '') {
-                            return true;
-                        }
+                    verifyField = 'email';
+                }
+                for (var i = 0; i < guestCount; i++) {
+                    if ($scope.gli.actual[i].guest[verifyField] === '') {
+                        return true;
                     }
                 }
                 	
@@ -322,7 +336,7 @@ angular.module('gliist')
                 });
             };
             
-            $scope.onAddGuestsClicked = function(ev) {
+            $scope.onAddGuestsClicked = function() {
                 if (!$scope.textGuestList) {
                     return;
                 }

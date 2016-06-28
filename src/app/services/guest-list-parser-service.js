@@ -22,9 +22,10 @@ angular.module('gliist').service('guestListParserService',
                 var name = null;
                 var note = null;
                 var plus = 0;
+                var values = [];
                 
                 if (l.indexOf(',') !== -1) { //Name, Note, Pluses
-                    var values = l.split(',');
+                    values = l.split(',');
                     if (values.length !== 3) {
                         return 'Invalid format on line ' + (i + 1) + '. Valid format is: Name, Note, Pluses.';
                     }
@@ -41,7 +42,7 @@ angular.module('gliist').service('guestListParserService',
                         return 'Invalid "Plus" value on line ' + (i + 1);
                     }
                 } else if (l.indexOf('+') !== -1) { //Name +1
-                    var values = l.split('+');
+                    values = l.split('+');
                     
                     name = values[0].trim();
                     if (name === '') {

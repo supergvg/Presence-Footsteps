@@ -273,18 +273,14 @@ angular.module('gliist')
                     return result;
                 }
                 
-                var guestCount = $scope.list.guests.length;
+                var guestCount = $scope.list.guests.length,
+                    verifyField = 'firstName';
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++) {
-                        if ($scope.list.guests[i].email === '') {
-                            return true;
-                        }
-                    }
-                } else {
-                    for (var i = 0; i < guestCount; i++) {
-                        if ($scope.list.guests[i].firstName === '') {
-                            return true;
-                        }
+                    verifyField = 'email';
+                }
+                for (var i = 0; i < guestCount; i++) {
+                    if ($scope.list.guests[i][verifyField] === '') {
+                        return true;
                     }
                 }
                 	
@@ -369,7 +365,7 @@ angular.module('gliist')
                 });
             };
             
-            $scope.onAddGuestsClicked = function(ev) {
+            $scope.onAddGuestsClicked = function() {
                 if (!$scope.textGuestList) {
                     return;
                 }
