@@ -33,7 +33,7 @@ angular.module('gliist')
                                   '         <md-tooltip md-direction="top">edit guest list</md-tooltip>' +
                                   '         <ng-md-icon icon="mode_edit"></ng-md-icon>' +
                                   '     </md-button>' +
-                                  '     <md-button class="icon-btn" ng-click="grid.appScope.options.methods.deleteGuest($event, row.entity.glist)" ng-disabled="grid.appScope.options.methods.isRemoval(row.entity.glist)" ng-hide="grid.appScope.options.display.readOnly" aria-label="Delete guest list">' +
+                                  '     <md-button class="icon-btn" ng-click="grid.appScope.options.methods.deleteGuest($event, row.entity.glist)" ng-hide="!grid.appScope.options.methods.isRemoval(row.entity.glist)" aria-label="Delete guest list">' +
                                   '         <md-tooltip md-direction="top">delete guest list</md-tooltip>' +
                                   '         <ng-md-icon icon="delete"></ng-md-icon>' +
                                   '     </md-button>' +
@@ -44,10 +44,13 @@ angular.module('gliist')
 
             $scope.options.methods = {
                 isRemoval: function(guest) {
-                    if (!$rootScope.isPromoter() || !guest.created_by) {
+                    if ($scope.options.display.readOnly) {
                         return false;
                     }
-                    return guest.created_by.UserName !== $rootScope.currentUser.UserName;
+                    if (!$rootScope.isPromoter() || !guest.created_by) {
+                        return true;
+                    }
+                    return guest.created_by.UserName === $rootScope.currentUser.UserName;
                 },
                 guestSelected: function(guest) {
                     return $scope.selected.indexOf(guest) > -1;
