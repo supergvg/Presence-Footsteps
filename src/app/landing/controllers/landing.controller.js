@@ -131,7 +131,7 @@ angular.module('gliist')
                                 $scope.message = 'Thank you! You have been added to the event guest list!';
                                 $scope.success = true;
                             }, function(data) {
-                                $scope.message = data.message || data.Message;
+                                $scope.message = data.message || data.Message || data;
                                 $scope.success = true;
                             }
                         ).finally(function(){
