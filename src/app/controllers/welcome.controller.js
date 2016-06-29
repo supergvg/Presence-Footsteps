@@ -9,7 +9,7 @@ angular.module('gliist')
             };
             $scope.hideArrow = false;
             var init = $scope.$watch('currentUser', function(newVal) {
-                if (angular.isDefined(newVal)) {
+                if (newVal && angular.isDefined(newVal)) {
                     init(); //destroy $watch
                     $scope.permissionTitle = ' - ' + $rootScope.currentUser.permissions.charAt(0).toUpperCase() + $rootScope.currentUser.permissions.slice(1).toLowerCase();
                     if ($rootScope.currentUser.permissions === 'admin') {
