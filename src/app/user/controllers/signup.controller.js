@@ -43,7 +43,7 @@ angular.module('gliist')
                     $scope.loading = true;
                     userService.getInviteInfo(company, token).then(function(userInfo) {
                         if (!userInfo) {
-                            $state.go('main.home');
+                            $state.go('home');
                             return;
                         }
                         $scope.user = userInfo;

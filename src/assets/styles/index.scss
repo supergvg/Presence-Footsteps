@@ -777,6 +777,9 @@ md-radio-button {
         top: 0;
         vertical-align: middle;
     }
+    .md-label {
+        width: calc(100% - 50px);
+    }
     .md-ripple-container,
     .md-container,
     .md-container:before,
@@ -1697,7 +1700,7 @@ md-dialog {
             }
             .tariff-content {
                 border-top: 2px dashed #8e8e8e;
-                min-height: 300px;
+                min-height: 335px;
                 ul {
                     font-size: 13px;
                     list-style: none;
@@ -1711,7 +1714,6 @@ md-dialog {
                 md-radio-group {
                     border-top: 2px dashed #8e8e8e;
                     padding: 20px;
-                    font-weight: bold;
                     text-align: left;
                     md-radio-button {
                         .md-off {

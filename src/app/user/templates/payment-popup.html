@@ -21,8 +21,8 @@
                                 {{selectedPlan.name}}
                             </div>
                             <div flex="20" layout="row" layout-align="end center">
-                                <div ng-if="selectedPlan.totalBeforePromo"><i><s>{{selectedPlan.totalBeforePromo | money : selectedPlan.currency}}</s></i>&nbsp;&nbsp;</div>
-                                {{selectedPlan.total | money : selectedPlan.currency}}
+                                <div ng-if="pricePolicyBeforePromo"><i><s>{{pricePolicyBeforePromo.prices[0].amount | money : pricePolicyBeforePromo.prices[0].currency}}</s></i>&nbsp;&nbsp;</div>
+                                {{pricePolicy.prices[0].amount | money : pricePolicy.prices[0].currency}}
                             </div>
                         </md-list-item>
                     </md-list>
@@ -32,12 +32,12 @@
                     <h4>Promo Code</h4>
                     <div layout="row" layout-align="space-between start">
                         <md-input-container md-no-float flex="50">
-                            <input type="text" ng-model="selectedPlan.promo.code" aria-label="Promo Code" placeholder="Enter your promo code">
-                            <div class="promo-apply" ng-if="selectedPlan.promo.applied" ng-click="undoPromo()">Applied X</div>
+                            <input type="text" ng-model="promo.code" aria-label="Promo Code" placeholder="Enter your promo code">
+                            <div class="promo-apply" ng-if="promo.applied" ng-click="undoPromo()">Applied X</div>
                         </md-input-container>
                         <md-button class="raised-btn" ng-click="applyPromo()" ng-disabled="waiting">Enter</md-button>
                     </div>
-                    <div class="promo-status" ng-if="selectedPlan.promo.invalid">This promo code is invalid. Please use a different promo code, thank you.</div>
+                    <div class="promo-status" ng-if="promo.invalid">This promo code is invalid. Please use a different promo code, thank you.</div>
                 </div>
             </div>
             <div flex="50" flex-sm="100" class="payment">

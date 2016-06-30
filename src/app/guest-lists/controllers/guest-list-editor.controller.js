@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', 'guestListParserService',
-        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, guestListParserService) {
+    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService',
+        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -72,9 +72,13 @@ angular.module('gliist')
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
+                        $timeout(function(){
+                            $scope.gridApi.cellNav.scrollToFocus($scope.list.guests[$scope.list.guests.length - 1], $scope.options.gridOptions.columnDefs[0]);
+                        }, 100);
                     }
                 },
                 onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
                     var rowSelectionChanged = function() {
                         $scope.rowSelected = gridApi.selection.getSelectedRows();
                         if ($scope.rowSelected.length === 0) {
@@ -269,18 +273,14 @@ angular.module('gliist')
                     return result;
                 }
                 
-                var guestCount = $scope.list.guests.length;
+                var guestCount = $scope.list.guests.length,
+                    verifyField = 'firstName';
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++) {
-                        if ($scope.list.guests[i].email === '') {
-                            return true;
-                        }
-                    }
-                } else {
-                    for (var i = 0; i < guestCount; i++) {
-                        if ($scope.list.guests[i].firstName === '') {
-                            return true;
-                        }
+                    verifyField = 'email';
+                }
+                for (var i = 0; i < guestCount; i++) {
+                    if ($scope.list.guests[i][verifyField] === '') {
+                        return true;
                     }
                 }
                 	

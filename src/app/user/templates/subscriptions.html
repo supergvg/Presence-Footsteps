@@ -15,13 +15,13 @@
                 {{tariff.description}}
             </div>
         </div>
-        <div layout="column" class="tariff-content" layout-align="space-between center">
+        <div layout="column" class="tariff-content" layout-align="space-between center" ng-init="pricePolicyKeys[$index] = 0">
             <ul>
                 <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
             </ul>
-            <!--<md-radio-group ng-if="tariff.pricePolicies[0].prices.length > 1">
-                <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="" aria-label="pricePolicy.prices[0].type">{{pricePolicy.prices[0].description}}</md-radio-button>
-            </md-radio-group>-->
+            <md-radio-group ng-if="tariff.pricePolicies.length > 1" ng-model="pricePolicyKeys[$index]">
+                <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}">{{pricePolicy.prices[0].description}}</md-radio-button>
+            </md-radio-group>
         </div>
         <div layout="column" class="tariff-footer" layout-align="center center">
             <h4 ng-if="tariff.isCurrentlyUsed"><b>ACTIVE</b></h4>
