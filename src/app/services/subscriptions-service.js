@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialogService', '$rootScope',
-    function ($http, $q, dialogService, $rootScope) {
+angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialogService', '$rootScope', '$state',
+    function ($http, $q, dialogService, $rootScope, $state) {
         var responseError = function(d, rejection) {
                 var message = rejection.data && rejection.data.message || 'Endpoint '+rejection.config.url+' '+rejection.statusText.toLowerCase();
                 if (rejection.data && rejection.data.success === false) {
@@ -42,6 +42,9 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 var d = $q.defer();
                 $http.get('user/subscription', {api: 'subscriptions_api'}).then(
                     function(answer) {
+                        if (answer.data.data && answer.data.data.status === 'Unpaid') {
+                            answer.data.data = null;
+                        }
                         if (answer.data.data) {
                             parseSubscription(answer.data.data);
                         }
@@ -60,10 +63,14 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 }
                 $http.post('user/subscription', data, {api: 'subscriptions_api'}).then(
                     function(answer) {
-                        if (answer.data.data) {
-                            parseSubscription(answer.data.data);
+                        if (answer.data.data && answer.data.data.status === 'Unpaid') {
+                            responseError(d, response);
+                        } else {
+                            if (answer.data.data) {
+                                parseSubscription(answer.data.data);
+                            }
+                            response(d, answer);
                         }
-                        response(d, answer);
                     },
                     function(response) {
                         responseError(d, response);
@@ -156,7 +163,11 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 }
                 
                 if (angular.isDefined(event) && !allow) {
-                    dialogService.upgrade(event, message);
+                    dialogService.confirm(event, message || 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?', 'Upgrade', 'Close').then(
+                        function() {
+                            $state.go('main.user', {view: 2});
+                        }
+                    );
                 }
                 
                 return allow;

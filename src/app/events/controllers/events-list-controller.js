@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$rootScope',
-        function ($scope, $mdDialog, eventsService, dialogService, $rootScope) {
+    .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$rootScope', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, $rootScope, $state) {
             $scope.options = $scope.options || {};
             var defaultOptions = {
                 filter: {
@@ -33,6 +33,14 @@ angular.module('gliist')
                     'height': '185px',
                     'background-size': 'cover'
                 };
+            };
+
+            $scope.showUpgradePopup = function(event) {
+                dialogService.confirmX(event, 'Do you want to activate this event?').then(
+                    function() {
+                        $state.go('main.user', {view: 2});
+                    }
+                );
             };
 
             $scope.deleteEvent = function(ev, event) {

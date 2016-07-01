@@ -20,16 +20,16 @@ angular.module('gliist')
                 return $scope.plans[index].pricePolicies.length > 0;
             };
             
+            $scope.isSubscribed = function() {
+              return $rootScope.currentUser.subscription !== 'undefined';
+            };
+            
             $scope.selectPlan = function(index) {
                 var scope = $scope.$new(),
                     setSubscriptionError = function(rejection) {
-                        var alert = $mdDialog.alert()
-                                .content(rejection.data.message)
-                                .ok('OK');
-                        alert._options.template = '<md-dialog md-theme="{{ dialog.theme }}" aria-label="{{ dialog.ariaLabel }}" style="padding: 20px"><md-dialog-content role="document" tabIndex="-1" style="padding: 0 20px"><h2 class="md-title">{{ dialog.title }}</h2><p ng-bind-html="dialog.content" style="font-size: 20px; text-align: left"></p></md-dialog-content><div class="md-actions"><md-button ng-if="dialog.$type == \'confirm\'" ng-click="dialog.abort()" class="md-primary">{{ dialog.cancel }}</md-button><md-button ng-click="dialog.hide()" class="md-primary">{{ dialog.ok }}</md-button></div></md-dialog>';
-                        $mdDialog.show(alert);
+                        dialogService.confirm(null, rejection.data.message, 'OK', '');
                     };
-                    
+                
                 scope.selectedPlan = $scope.plans[index];
                 scope.pricePolicyKey = $scope.pricePolicyKeys[index];
                 scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];

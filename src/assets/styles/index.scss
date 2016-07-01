@@ -1239,6 +1239,24 @@ md-dialog {
             }
         }
     }
+    &.close-corner {
+        padding: 40px;
+        border: 5px solid #99ccff;
+        & > img {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+        md-dialog-content {
+            padding: 0;
+        }
+        .md-actions {
+            .md-button {
+                width: 150px;
+            }
+        }
+    }
 }
 
 .welcome-select {
@@ -2139,6 +2157,17 @@ md-dialog {
     color: #666;
     md-list-item {
         border: 1px solid #ebebeb;
+        position: relative;
+        .not-active {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;    
+            background-color: rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
         h3 {
             font-weight: bold;
             border-bottom: 1px solid #8f8f8f;

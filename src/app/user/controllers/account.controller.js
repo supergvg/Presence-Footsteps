@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope', 'subscriptionsService',
-        function ($scope, $mdDialog, userService, dialogService, $rootScope, subscriptionsService) {
+    .controller('AccountDetailsCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope', 'subscriptionsService', '$state',
+        function ($scope, $mdDialog, userService, dialogService, $rootScope, subscriptionsService, $state) {
             $scope.linkNewAccount = function(ev) {
                 if (!subscriptionsService.verifyFeature('ManagerRole') && !subscriptionsService.verifyFeature('PromoterRole') && !subscriptionsService.verifyFeature('StaffRole')) {
-                    dialogService.upgrade(ev, 'You are not allowed to invite contributors. Would you like to upgrade to unlimited?');
+                    dialogService.confirm(ev, 'You are not allowed to invite contributors. Would you like to upgrade to unlimited?', 'Upgrade', 'Close').then(
+                        function() {
+                            $state.go('main.user', {view: 2});
+                        }
+                    );
                     return;
                 }
                 var scope = $scope.$new();
