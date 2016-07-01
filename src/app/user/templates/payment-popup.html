@@ -32,7 +32,7 @@
                     <h4>Promo Code</h4>
                     <div layout="row" layout-align="space-between start">
                         <md-input-container md-no-float flex="50">
-                            <input type="text" ng-model="promo.code" aria-label="Promo Code" placeholder="Enter your promo code">
+                            <input type="text" ng-disabled="waiting" ng-model="promo.code" aria-label="Promo Code" placeholder="Enter your promo code">
                             <div class="promo-apply" ng-if="promo.applied" ng-click="undoPromo()">Applied X</div>
                         </md-input-container>
                         <md-button class="raised-btn" ng-click="applyPromo()" ng-disabled="waiting">Enter</md-button>
@@ -47,11 +47,11 @@
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
                             <md-input-container flex="60" md-no-float flex-sm="100">
                                 <h4>Card Number Number</h4>
-                                <input type="text" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="{{cardDataLoaded ? 'XXXX XXXX XXXX '+cardDataSaved.number : 'Enter Credit Card Number'}}" required>
+                                <input type="text" ng-disabled="waiting" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="{{cardDataLoaded ? 'XXXX XXXX XXXX '+cardDataSaved.number : 'Enter Credit Card Number'}}" required>
                             </md-input-container>
                             <md-input-container flex="40" md-no-float flex-sm="100">
                                 <h4>Security Code</h4>
-                                <input type="text" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="{{cardDataLoaded ? 'XXX' : 'Enter Security Code'}}" required>
+                                <input type="text" ng-disabled="waiting" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="{{cardDataLoaded ? 'XXX' : 'Enter Security Code'}}" required>
                             </md-input-container>
                         </div>
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
@@ -59,23 +59,23 @@
                                 <h4>Expire Date</h4>
                                 <div layout="row" layout-align="start center">
                                     <md-input-container md-no-float flex="30">
-                                        <input type="number" ng-model="cardData.expiryMonth" name="exp_month" pattern="\d{1,2}" min="1" max="12" placeholder="Month" required>
+                                        <input type="number" ng-disabled="waiting" ng-model="cardData.expiryMonth" name="exp_month" pattern="\d{1,2}" min="1" max="12" placeholder="Month" required>
                                     </md-input-container>
                                     <md-input-container md-no-float flex="30">
-                                        <input type="number" ng-model="cardData.expiryYear" name="exp_year" pattern="\d{4}" min="1970" placeholder="Year" required>
+                                        <input type="number" ng-disabled="waiting" ng-model="cardData.expiryYear" name="exp_year" pattern="\d{4}" min="1970" placeholder="Year" required>
                                     </md-input-container>
                                 </div>
                             </div>
                             <div flex="40" flex-sm="100">
                                 <md-input-container md-no-float>
                                     <h4>Billing Zip Code</h4>
-                                    <input type="text" ng-model="addressData.address_zip" name="address_zip" placeholder="Enter Zip Code">
+                                    <input type="text" ng-disabled="waiting" ng-model="addressData.address_zip" name="address_zip" placeholder="Enter Zip Code">
                                 </md-input-container>
                             </div>
                         </div>
                     </div>
                     <div layout="row" layout-align="start center">
-                        <md-checkbox aria-label="Terms" ng-model="terms">I agree to the </md-checkbox>
+                        <md-checkbox aria-label="Terms" ng-disabled="waiting" ng-model="terms">I agree to the </md-checkbox>
                         <a href="http://www.gjests.com/terms-conditions/" target="_blank">Terms and Conditions</a>
                     </div>
                 </form>        

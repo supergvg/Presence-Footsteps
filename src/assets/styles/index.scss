@@ -1626,13 +1626,28 @@ md-dialog {
                 }
                 .tariff-content {
                     border-top: 2px dashed #8e8e8e;
-                    min-height: 250px;
+                    min-height: 300px;
                     padding: 10px;
                     ul {
                         padding-left: 16px;
                         text-align: left;
                         list-style: disc;
                     }
+                    md-radio-group {
+                        border-top: 2px dashed #8e8e8e;
+                        border-bottom: 2px dashed #8e8e8e;
+                        padding: 20px;
+                        text-align: left;
+                        md-radio-button {
+                            .md-off {
+                                background-color: #fff;
+                                border: none;
+                            }
+                            & + md-radio-button {
+                                margin-top: 10px;
+                            }
+                        }
+                    }                    
                 }
                 .tariff-footer {
                     padding: 15px;
