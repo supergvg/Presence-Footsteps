@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('WelcomeController', ['$scope', '$mdDialog', '$mdMedia', '$rootScope', '$anchorScroll', '$location', '$timeout', '$window', 'userService', 'dialogService',
-        function($scope, $mdDialog, $mdMedia, $rootScope, $anchorScroll, $location, $timeout, $window, userService, dialogService) {
+    .controller('WelcomeController', ['$scope', '$mdDialog', '$mdMedia', '$rootScope', '$anchorScroll', '$location', '$timeout', '$window', 'userService', 'dialogService', 'permissionsService',
+        function($scope, $mdDialog, $mdMedia, $rootScope, $anchorScroll, $location, $timeout, $window, userService, dialogService, permissionsService) {
             $scope.options = {
                 limit: 3,
                 readyOnly: true
@@ -18,7 +18,7 @@ angular.module('gliist')
                         $scope.permissionTitle += ' Access';
                     }
                     $timeout(function(){
-                        if ($rootScope.currentUser.IsFirstLogin && !$rootScope.isPromoter()) {
+                        if ($rootScope.currentUser.IsFirstLogin && !permissionsService.isRole('promoter')) {
                             var scope = $scope.$new();
                             scope.close = function() {
                                 $scope.hideArrow = true;
@@ -35,7 +35,7 @@ angular.module('gliist')
                             };
                             scope.getStyles = function() {
                                 var top = 549;
-                                if ($rootScope.isStaff()) {
+                                if (permissionsService.isRole('staff')) {
                                     top = 389;
                                 }
                                 return {

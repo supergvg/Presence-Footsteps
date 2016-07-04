@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$rootScope', '$location', '$filter', 'subscriptionsService',
-        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $rootScope, $location, $filter, subscriptionsService) {
+    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$location', '$filter', 'subscriptionsService', 'permissionsService',
+        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $location, $filter, subscriptionsService, permissionsService) {
             $scope.eventCategories = [
                 'Art',
                 'Fashion',
@@ -85,13 +85,9 @@ angular.module('gliist')
                     $scope.dt.endEventRsvpDateTime.setTime(newValue.getTime());
                 }
             });
-
-            $scope.isStaff = function() {
-                return $rootScope.isStaff();
-            };
-
+            
             $scope.isPromoter = function() {
-                return $rootScope.isPromoter();
+                return permissionsService.isRole('promoter');
             };
 
             $scope.subscriptionRestrictions = function(featureName, featureValue, event, message) {
@@ -321,7 +317,7 @@ angular.module('gliist')
             };
             
             $scope.init = function() {
-                if ($scope.isPromoter() && $scope.selectedIndex !== 3 && $scope.selectedIndex !== 4) {
+                if (permissionsService.isRole('promoter') && $scope.selectedIndex !== 3 && $scope.selectedIndex !== 4) {
                     $scope.selectedIndex = 3;
                 }
                 if ($scope.event) {

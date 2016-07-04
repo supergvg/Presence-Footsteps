@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdSidenav', '$mdMedia',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdSidenav, $mdMedia) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdSidenav', '$mdMedia', 'permissionsService',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdSidenav, $mdMedia, permissionsService) {
             $scope.credentials = {};
             $scope.hidePhoto = false;
             $scope.menuItems = [
@@ -32,23 +32,6 @@ angular.module('gliist')
                     icon: {src: 'assets/images/icons/user_profile.png'}
                 }
             ];
-            $rootScope.permissions = {
-                manager: {
-                    label: 'Manager',
-                    desc: 'Same access as Admin but cant add contributor',
-                    denyAccess: []
-                },
-                staff: {
-                    label: 'Staff',
-                    desc: 'Allow to check guests in and check on event stats',
-                    denyAccess: ['main.create_event', 'main.list_management', 'main.edit_glist', 'main.create_list_management']
-                },
-                promoter: {
-                    label: 'Promoter',
-                    desc: 'Allow to add guests to the list he is assigned to',
-                    denyAccess: ['main.create_event', 'main.user']
-                }
-            };
             
             $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = newValue;
@@ -62,33 +45,12 @@ angular.module('gliist')
             });
 
             $scope.getMenuItems = function() {
-                if ($rootScope.isPromoter()) {
+                if (permissionsService.isRole('promoter')) {
                     return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3]];
-                } else if ($rootScope.isStaff()) {
+                } else if (permissionsService.isRole('staff')) {
                     return [$scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
                 }
                 return $scope.menuItems;
-            };
-            
-            $rootScope.isPromoter = function() {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
-                    return;
-                }
-                return $rootScope.currentUser.permissions.indexOf('promoter') > -1;
-            };
-
-            $rootScope.isAdmin = function() {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
-                    return;
-                }
-                return $rootScope.currentUser.permissions.indexOf('admin') > -1;
-            };
-
-            $rootScope.isStaff = function() {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.permissions) {
-                    return;
-                }
-                return $rootScope.currentUser.permissions.indexOf('staff') > -1;
             };
             
             $scope.getUserPhoto = function(height) {

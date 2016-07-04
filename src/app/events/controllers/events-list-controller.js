@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$rootScope', '$state',
-        function ($scope, $mdDialog, eventsService, dialogService, $rootScope, $state) {
+    .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, $state) {
             $scope.options = $scope.options || {};
             var defaultOptions = {
                 filter: {
@@ -17,14 +17,6 @@ angular.module('gliist')
                 value: ''
             };
             
-            $scope.isPromoter = function() {
-                return $rootScope.isPromoter();
-            };
-
-            $scope.isStaff = function() {
-                return $rootScope.isStaff();
-            };
-
             $scope.getEventInvite = function(event) {
                 return {
                     'background-image': 'url("' + event.invitePicture + '")',

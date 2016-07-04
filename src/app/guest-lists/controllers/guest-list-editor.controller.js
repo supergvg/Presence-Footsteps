@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService',
-        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService', 'permissionsService',
+        function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService, permissionsService) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -99,10 +99,6 @@ angular.module('gliist')
             $scope.rowSelected = false;
             $scope.isDirty = false;
 
-            $scope.isPromoter = function() {
-                return $rootScope.isPromoter();
-            };
-
             $scope.$watch('list.listType', function(newVal, oldVal) {
                 if (!$scope.list || !$scope.list.id) {
                     return;
@@ -124,6 +120,10 @@ angular.module('gliist')
                     $scope.startAutoSave();
                 }
             });
+            
+            $scope.isPromoter = function() {
+                return permissionsService.isRole('promoter');
+            };
 
             $scope.startAutoSave = function() {
                 $scope.autoSave = $interval(function(){

@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', '$rootScope',
-        function ($scope, $mdDialog, userService, dialogService, $rootScope) {
-            $scope.permissionsOrder = ['manager', 'staff', 'promoter'];
-            $scope.permissions = $rootScope.permissions;
+    .controller('InviteUserCtrl', ['$scope', '$mdDialog', 'userService', 'dialogService', 'permissionsService',
+        function ($scope, $mdDialog, userService, dialogService, permissionsService) {
+            $scope.rolesOrder = ['manager', 'staff', 'promoter'];
+            $scope.roles = permissionsService.roles;
             $scope.init = function() {
                 $scope.linkedAccountInEdit = $scope.linked_account || {};
                 $scope.selected = $scope.linkedAccountInEdit.permissions ? $scope.linkedAccountInEdit.permissions : '';

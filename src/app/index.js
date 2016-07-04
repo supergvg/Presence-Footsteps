@@ -78,42 +78,27 @@ angular.module('gliist', [
                 .state('home', {
                     url: '/',
                     templateUrl: 'app/templates/home.html',
-                    access: {
-                        allowAnonymous: true,
-                        denyLogged: true
-                    }
+                    permissions: ['allowAnonymous', 'denyLogged']
                 }).state('signup', {
                     url: '/signup',
                     templateUrl: 'app/user/templates/signup.html',
                     controller: 'SignupCtrl',
-                    access: {
-                        allowAnonymous: true,
-                        denyLogged: true
-                    }
+                    permissions: ['allowAnonymous', 'denyLogged']
                 }).state('signup_invite', {
                     url: '/signup/invite/:company/:token',
                     templateUrl: 'app/user/templates/signup.html',
                     controller: 'SignupCtrl',
-                    access: {
-                        allowAnonymous: true,
-                        denyLogged: true
-                    }
+                    permissions: ['allowAnonymous', 'denyLogged']
                 }).state('recover_password', {
                     url: '/recover_password',
                     templateUrl: 'app/user/templates/recover-password.html',
                     controller: 'RecoverPasswordCtrl',
-                    access: {
-                        allowAnonymous: true,
-                        denyLogged: true
-                    }
+                    permissions: ['allowAnonymous', 'denyLogged']
                 }).state('reset_password', {
                     url: '/reset_password/:token',
                     templateUrl: 'app/user/templates/reset-password.html',
                     controller: 'ResetPasswordCtrl',
-                    access: {
-                        allowAnonymous: true,
-                        denyLogged: true
-                    }
+                    permissions: ['allowAnonymous', 'denyLogged']
                 }).state('main', {
                     url: '/main',
                     templateUrl: 'app/templates/main.html',
@@ -193,45 +178,35 @@ angular.module('gliist', [
                         return 'app/landing/templates/landing'+($stateParams.companyName.toLowerCase() === 'popsugar' ? '-custom' : '')+'.html';
                     },
                     controller: 'LandingCtrl',
-                    access: {
-                        allowAnonymous: true
-                    }
+                    permissions: ['allowAnonymous']
                 }).state('landing_personal', {
                     url: '/rsvp/:token',
                     templateUrl: 'app/landing/templates/landing.html',
                     controller: 'LandingCtrl',
-                    access: {
-                        allowAnonymous: true
-                    }
+                    permissions: ['allowAnonymous']
                 }).state('landing_personal_custom', {
                     url: '/rsvp-custom/:token',
                     templateUrl: 'app/landing/templates/landing-custom.html',
                     controller: 'LandingCtrl',
-                    access: {
-                        allowAnonymous: true
-                    }
+                    permissions: ['allowAnonymous']
                 }).state('landing_ticketing_public', {
                     url: '/tickets/:companyName/:eventName',
                     templateUrl: 'app/landing/templates/landing-ticketing.html',
                     controller: 'LandingTicketCtrl',
-                    access: {
-                        allowAnonymous: true
-                    }
+                    permissions: ['allowAnonymous']
                 }).state('landing_ticketing_personal', {
                     url: '/tickets/:token',
                     templateUrl: 'app/landing/templates/landing-ticketing.html',
                     controller: 'LandingTicketCtrl',
-                    access: {
-                        allowAnonymous: true
-                    }
+                    permissions: ['allowAnonymous']
                 }).state('choose_plan', {
                     url: '/choose-plan',
                     templateUrl: 'app/templates/choose-plan.html'
                 });
             $urlRouterProvider.otherwise('/main/welcome');
         }])
-    .run(['$rootScope', '$state', 'userService', 'subscriptionsService', '$document', 'Analytics', 'dialogService',
-        function ($rootScope, $state, userService, subscriptionsService, $document, Analytics, dialogService) {
+    .run(['$rootScope', '$state', 'userService', 'subscriptionsService', '$document', 'Analytics', 'dialogService', 'permissionsService',
+        function ($rootScope, $state, userService, subscriptionsService, $document, Analytics, dialogService, permissionsService) {
             $document.on('keydown', function (event) {
                 var doPrevent = false;
                 if (event.keyCode === 8) {
@@ -286,7 +261,7 @@ angular.module('gliist', [
                             toLoginPage();
                         }
                     } else {
-                        if ($rootScope.currentUser.permissions !== 'admin' && $rootScope.permissions[$rootScope.currentUser.permissions].denyAccess.indexOf(nextStateName) > -1) {
+                        if (permissionsService.roleDenyAccess(nextStateName)) {
                             event.preventDefault();
                             $state.go('main.welcome');
                         } else if (event.defaultPrevented) {
@@ -296,11 +271,11 @@ angular.module('gliist', [
                 };
 
             $rootScope.$on('$stateChangeStart', function(event, next, nextParams) {
-                if (next.access && next.access.denyLogged && userService.getLogged()) {
+                if (next.permissions && next.permissions.indexOf('denyLogged') > -1 && userService.getLogged()) {
                     event.preventDefault();
                     $state.go('main.welcome');
                 }
-                if (!(next.access && next.access.allowAnonymous)) {
+                if (!(next.permissions && next.permissions.indexOf('allowAnonymous') > -1)) {
                     if ($rootScope.waitingUserInfo || $rootScope.waitingPlan) {
                         event.preventDefault();
                         return;
@@ -314,7 +289,7 @@ angular.module('gliist', [
                             $rootScope.waitingUserInfo = true;
                             userService.getCurrentUser().then(function(user) {
                                 $rootScope.currentUser = user;
-                                if ($rootScope.currentUser.permissions !== 'admin' && angular.isUndefined($rootScope.permissions[$rootScope.currentUser.permissions])) {
+                                if (!permissionsService.roleExisis()) {
                                     toLoginPage();
                                 } else {
                                     $rootScope.waitingPlan = true;
@@ -344,7 +319,7 @@ angular.module('gliist', [
             });
             
             $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-                if (((toState.access && toState.access.allowAnonymous) || ($rootScope.currentUser && $rootScope.currentUser.subscription)) && !$rootScope.appReady) {
+                if (((toState.permissions && toState.permissions.indexOf('allowAnonymous') > -1) || ($rootScope.currentUser && $rootScope.currentUser.subscription)) && !$rootScope.appReady) {
                     appStatus(true);
                 }
             });

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory', '$rootScope',
-        function ($scope, eventsService, dialogService, $state, guestFactory, $rootScope) {
+    .controller('GuestListInstanceViewerCtrl', ['$scope', 'eventsService', 'dialogService', '$state', 'guestFactory', 'permissionsService',
+        function ($scope, eventsService, dialogService, $state, guestFactory, permissionsService) {
             $scope.published = [];
             $scope.flexWidth = ['30', '20', 'none', '10', 'none', '10', 'none', '10', '10', '5'];
             if (($scope.options.stats || $scope.options.publish) && !$scope.options.readOnly) {
@@ -17,7 +17,7 @@ angular.module('gliist')
             }
             
             $scope.isPromoter = function() {
-                return $rootScope.isPromoter();
+                return permissionsService.isRole('promoter');
             };
 
             $scope.isPublished = function(glist) {

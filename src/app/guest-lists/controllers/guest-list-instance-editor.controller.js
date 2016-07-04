@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', 'guestListParserService', '$stateParams', 'permissionsService',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, guestListParserService, $stateParams, permissionsService) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -130,6 +130,10 @@ angular.module('gliist')
                     $scope.loading = false;
                 });
             });
+            
+            $scope.isPromoter = function() {
+                return permissionsService.isRole('promoter');
+            };
             
             $scope.startAutoSave = function() {
                 $scope.autoSave = $interval(function(){
@@ -289,10 +293,6 @@ angular.module('gliist')
                 }
                 	
                 return result;
-            };
-
-            $scope.isPromoter = function () {
-                return $rootScope.isPromoter();
             };
 
             $scope.onLinkClicked = function (ev) {

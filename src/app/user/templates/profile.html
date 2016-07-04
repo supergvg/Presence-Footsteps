@@ -6,7 +6,7 @@
         <md-button ng-class="getSelected(0)" ng-click="selectedIndex = 0" flex>
             Profile
         </md-button>
-        <md-button ng-class="getSelected(1)" ng-hide="!isAdmin()" ng-click="selectedIndex = 1" flex>
+        <md-button ng-class="getSelected(1)" remove-by-roles="promoter,staff,manager" ng-click="selectedIndex = 1" flex>
             Account
         </md-button>
         <md-button ng-class="getSelected(2)" ng-click="selectedIndex = 2" flex>

@@ -5,7 +5,7 @@
             <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(0) ? 'logo-bg' : ''"
-                       ng-disabled="isPromoter()" 
+                       ng-disabled="isPromoter()"
                        ng-click="selectedIndex = 0" 
                        aria-label="Details">
             </md-button>
@@ -323,7 +323,7 @@
              md-swipe-left="next($event)"
              md-swipe-right="previous($event)">
             <div>
-                <div class="block-field" ng-hide="isPromoter()">
+                <div class="block-field" remove-by-roles="promoter">
                     <h4>Add confirmed guests</h4>
                     <md-list>
                         <md-list-item layout="row">
@@ -348,7 +348,7 @@
                         </md-list-item>
                     </md-list>
                 </div>
-                <div class="block-field" ng-if="event.type !== 1 && !isPromoter()">
+                <div class="block-field" ng-if="event.type !== 1" remove-by-roles="promoter">
                     <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
                     <md-list>
                         <md-list-item layout="row">
@@ -382,11 +382,11 @@
                 </div>
             </div>
             <div layout="row" layout-align="end center" class="actions">
-                <md-button class="raised-btn" ng-click="previous()" ng-hide="isPromoter()">
+                <md-button class="raised-btn" ng-click="previous()" remove-by-roles="promoter">
                     Back
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(null, eventForm)" ng-hide="isPromoter()" ng-cloak>
+                <md-button class="raised-btn" ng-click="next(null, eventForm)" remove-by-roles="promoter" ng-cloak>
                     Next
                 </md-button>
             </div>

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter',
-        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter) {
+    .controller('GuestListViewerCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', '$rootScope', '$filter', 'permissionsService',
+        function ($scope, guestFactory, dialogService, $mdDialog, $rootScope, $filter, permissionsService) {
             $scope.selected = $scope.selected || [];
             $scope.options = $scope.options || {};
             var defaultOptions = {
@@ -25,7 +25,7 @@ angular.module('gliist')
                     {field: 'created_by', name: 'Created By', enableSorting: false, maxWidth: 150, allowCellFocus: false}
                 ]
             };
-            if (!$rootScope.isStaff()) {
+            if (!permissionsService.isRole('staff')) {
                 $scope.options.gridOptions.columnDefs.push({
                     name: '', field: 'id', enableSorting: false, width: 140, cellClass: 'actions-col', allowCellFocus: false,
                     cellTemplate: '<div class="actions">' +
@@ -47,7 +47,7 @@ angular.module('gliist')
                     if ($scope.options.display.readOnly) {
                         return false;
                     }
-                    if (!$rootScope.isPromoter() || !guest.created_by) {
+                    if (!permissionsService.isRole('promoter') || !guest.created_by) {
                         return true;
                     }
                     return guest.created_by.UserName === $rootScope.currentUser.UserName;
