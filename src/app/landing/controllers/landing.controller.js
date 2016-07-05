@@ -21,8 +21,9 @@ angular.module('gliist')
                     }
                 }
 
-                if (!$scope.public && data.guest.firstName === '')
+                if (!$scope.public && data.guest.firstName === '') {
                     $scope.nameIsMissing = true;
+                }
 
                 $scope.loading = false;
                 $scope.event = data;
@@ -130,7 +131,7 @@ angular.module('gliist')
                                 $scope.message = 'Thank you! You have been added to the event guest list!';
                                 $scope.success = true;
                             }, function(data) {
-                                $scope.message = data.message || data.Message;
+                                $scope.message = data.message || data.Message || data;
                                 $scope.success = true;
                             }
                         ).finally(function(){

@@ -1,2 +1,2 @@
 angular.module("gliist")
-.constant("EnvironmentConfig", {"api":"http://app.gjests.com/"});
+.constant("EnvironmentConfig", {"api":"http://staging-app.gjests.com/"});

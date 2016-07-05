@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', 'guestListParserService',
-        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, guestListParserService) {
+    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService',
+        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -49,6 +49,9 @@ angular.module('gliist')
             $scope.form = {};
             
             var instanceType = parseInt($stateParams.instanceType);
+            if (!instanceType) {
+                $scope.guestListTypes.push('RSVP');
+            }
             if (instanceType !== 2){
                 $scope.options.gridOptions.columnDefs.push({
                     field: 'plus',
@@ -72,9 +75,13 @@ angular.module('gliist')
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
+                        $timeout(function(){
+                            $scope.gridApi.cellNav.scrollToFocus($scope.list.guests[$scope.list.guests.length - 1], $scope.options.gridOptions.columnDefs[0]);
+                        }, 100);
                     }
                 },
                 onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
                     var rowSelectionChanged = function() {
                         $scope.rowSelected = gridApi.selection.getSelectedRows();
                         if ($scope.rowSelected.length === 0) {
@@ -195,7 +202,7 @@ angular.module('gliist')
                     errorMessage.push('Please Add Guests');
                 }*/
                 if ($scope.guestsError()) {
-                    errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
+                    errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP' ? 'Email must be not empty.' : 'First Name must be not empty.');
                 }
                 if (errorMessage.length > 0) {
                     if (!autoSave) {
@@ -269,15 +276,15 @@ angular.module('gliist')
                     return result;
                 }
                 
-                var guestCount = $scope.list.guests.length;
-                if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.list.guests[i].email === '')
-                            return true;
-                } else {
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.list.guests[i].firstName === '')
-                            return true;
+                var guestCount = $scope.list.guests.length,
+                    verifyField = 'firstName';
+                if (instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP') { //if RSVP or Public RSVP
+                    verifyField = 'email';
+                }
+                for (var i = 0; i < guestCount; i++) {
+                    if ($scope.list.guests[i][verifyField] === '') {
+                        return true;
+                    }
                 }
                 	
                 return result;
@@ -361,16 +368,18 @@ angular.module('gliist')
                 });
             };
             
-            $scope.onAddGuestsClicked = function(ev) {
+            $scope.onAddGuestsClicked = function() {
                 if (!$scope.textGuestList) {
                     return;
                 }
                 
                 var guests = guestListParserService.parse($scope.textGuestList);
-                if (guests === null)
-                    return dialogService.error('No guests found in the list');;
-                if (typeof guests === 'string')
+                if (guests === null) {
+                    return dialogService.error('No guests found in the list');
+                }
+                if (typeof guests === 'string') {
                     return dialogService.error(guests);
+                }
                 
                 //import
                 if (!$scope.list) {

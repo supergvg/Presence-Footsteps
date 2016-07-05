@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -61,9 +61,13 @@ angular.module('gliist')
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
+                        $timeout(function(){
+                            $scope.gridApi.cellNav.scrollToFocus($scope.gli.actual[$scope.gli.actual.length - 1], $scope.options.gridOptions.columnDefs[0]);
+                        }, 100);
                     }
                 },
                 onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
                     var rowSelectionChanged = function() {
                         $scope.rowSelected = gridApi.selection.getSelectedRows();
                         if ($scope.rowSelected.length === 0) {
@@ -189,10 +193,28 @@ angular.module('gliist')
             };
             
             $scope.save = function(autoSave) {
-                if ($scope.guestsError()) {
-                    dialogService.error(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
-                    return;
+                var errorMessage = [];
+                if (!$scope.createGuestListForm.$valid) {
+                    var errors = {
+                        required: {
+                            title: 'Please Enter Guest List Title',
+                            listType: 'Please Select Guest Type'
+                        }
+                    };
+                    angular.forEach($scope.createGuestListForm.$error.required, function(value){
+                        errorMessage.push(errors.required[value.$name]);
+                    });
                 }
+                if ($scope.guestsError()) {
+                    errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
+                }
+                if (errorMessage.length > 0) {
+                    if (!autoSave) {
+                        dialogService.error(errorMessage.join(', '));
+                    }
+                    return;
+                }                
+                
                 $scope.fetchingData = true;
                 $scope.cancelAutoSave();
                 if (!$scope.gli.listType) {
@@ -255,15 +277,15 @@ angular.module('gliist')
                     return result;
                 }
                 
-                var guestCount = $scope.gli.actual.length;
+                var guestCount = $scope.gli.actual.length,
+                    verifyField = 'firstName';
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.gli.actual[i].guest.email === '')
-                            return true;
-                } else {
-                    for (var i = 0; i < guestCount; i++)
-                        if ($scope.gli.actual[i].guest.firstName === '')
-                            return true;
+                    verifyField = 'email';
+                }
+                for (var i = 0; i < guestCount; i++) {
+                    if ($scope.gli.actual[i].guest[verifyField] === '') {
+                        return true;
+                    }
                 }
                 	
                 return result;
@@ -314,16 +336,18 @@ angular.module('gliist')
                 });
             };
             
-            $scope.onAddGuestsClicked = function(ev) {
+            $scope.onAddGuestsClicked = function() {
                 if (!$scope.textGuestList) {
                     return;
                 }
                 
                 var guests = guestListParserService.parse($scope.textGuestList);
-                if (guests === null)
-                    return dialogService.error('No guests found in the list');;
-                if (typeof guests === 'string')
+                if (guests === null) {
+                    return dialogService.error('No guests found in the list');
+                }
+                if (typeof guests === 'string') {
                     return dialogService.error(guests);
+                }
                 
                 //import
                 if (!$scope.gli) {
