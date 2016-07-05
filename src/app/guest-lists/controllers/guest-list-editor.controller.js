@@ -62,13 +62,6 @@ angular.module('gliist')
                 $scope.list = $scope.list || {listType: 'RSVP'};
             }
             $scope.options.methods = {
-                updateGridData: function() {
-                    if ($scope.list) {
-                        var data = [];
-                        angular.copy($scope.options.gridOptions.data, data);
-                        angular.copy(data, $scope.list.guests);
-                    }
-                },                
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
@@ -116,7 +109,7 @@ angular.module('gliist')
                 if (!newVal) {
                     return;
                 }
-                $scope.options.gridOptions.data = $scope.list.guests;
+                $scope.options.gridData = $scope.list.guests;
             });
 
             $scope.$watch('isDirty', function(newValue) {

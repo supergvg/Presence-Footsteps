@@ -45,7 +45,12 @@ angular.module('gliist')
             angular.forEach(defaultOptions, function(value, key){
                 $scope.options[key] = angular.merge(value, $scope.options[key]);
             });
-            $scope.options.gridOptions.data = $scope.options.gridData;
+            $scope.$watchCollection('options.gridData', function(newVal) {
+                if (!newVal) {
+                    return;
+                }
+                $scope.options.gridOptions.data = $scope.options.gridData;
+            });
             $scope.options.gridOptions.enableVerticalScrollbar = $scope.options.display.verticalScroll === false ? 0 : 2;
             $scope.options.gridOptions.enableSorting = $scope.options.sorting.active;
             $scope.options.gridOptions.enableRowHeaderSelection = $scope.options.display.enableGridSelection;
