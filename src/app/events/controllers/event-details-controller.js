@@ -193,7 +193,10 @@ angular.module('gliist')
                 return true;
             };
 
-            $scope.next = function(form) {
+            $scope.next = function(ev, form) {
+                if (ev && ev.pointer.type === 'm') {
+                    return;
+                }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
                     var errorMessage = [];
                     if (form && form.$invalid) {
@@ -274,6 +277,12 @@ angular.module('gliist')
                 $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
             };
             
+            $scope.previous = function(ev) {
+                if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
+                    $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+                }
+            };
+            
             $scope.convertDateTime = function(date) {
                 var convertDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000),
                     dateStr = convertDate.toISOString().replace(/\..+$/, ''),
@@ -281,16 +290,12 @@ angular.module('gliist')
                 return dateStr+($scope.utcOffset < 0 ? '-' : '+')+('0'+offset.getUTCHours()).slice(-2)+':'+('0'+offset.getUTCMinutes()).slice(-2);
             };
             
-            $scope.previous = function() {
-                $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
-            };
-
             $scope.clearLocation = function() {
                 delete $scope.location.details;
             };
 
             $scope.init = function() {
-                if ($scope.isPromoter()) {
+                if ($scope.isPromoter() && $scope.selectedIndex !== 3 && $scope.selectedIndex !== 4) {
                     $scope.selectedIndex = 3;
                 }
                 if ($scope.event) {

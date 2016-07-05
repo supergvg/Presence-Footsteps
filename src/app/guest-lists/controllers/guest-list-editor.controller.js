@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval',
-        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval) {
+    .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService',
+        function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService) {
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -46,6 +46,8 @@ angular.module('gliist')
                     ]
                 }
             };
+            $scope.form = {};
+            
             var instanceType = parseInt($stateParams.instanceType);
             if (!instanceType) {
                 $scope.guestListTypes.push('RSVP');
@@ -73,9 +75,13 @@ angular.module('gliist')
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
+                        $timeout(function(){
+                            $scope.gridApi.cellNav.scrollToFocus($scope.list.guests[$scope.list.guests.length - 1], $scope.options.gridOptions.columnDefs[0]);
+                        }, 100);
                     }
                 },
                 onRegisterApi: function(gridApi){
+                    $scope.gridApi = gridApi;
                     var rowSelectionChanged = function() {
                         $scope.rowSelected = gridApi.selection.getSelectedRows();
                         if ($scope.rowSelected.length === 0) {
@@ -127,7 +133,7 @@ angular.module('gliist')
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
-                }, 20000);
+                }, 7000);
             };
             $scope.cancelAutoSave = function() {
                 $scope.isDirty = false;
@@ -181,14 +187,14 @@ angular.module('gliist')
             
             $scope.save = function(autoSave) {
                 var errorMessage = [];
-                if (!$scope.createGuestListForm.$valid) {
+                if (!$scope.form.createGuestListForm.$valid) {
                     var errors = {
                         required: {
                             title: 'Please Enter Guest List Title',
                             listType: 'Please Select Guest Type'
                         }
                     };
-                    angular.forEach($scope.createGuestListForm.$error.required, function(value){
+                    angular.forEach($scope.form.createGuestListForm.$error.required, function(value){
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }
@@ -210,15 +216,10 @@ angular.module('gliist')
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
-                if ($scope.glTypeChanged) {
-                    $scope.list.id = null;
-                    $scope.list.title += ' ' + $scope.list.listType;
-                }
+                
                 var list = {};
                 angular.copy($scope.list, list);
-                if (autoSave) {
-                    list.guests.splice(list.guests.length - 1, 1);
-                }
+                
                 guestFactory.GuestList.update(list).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -349,6 +350,7 @@ angular.module('gliist')
                                 return dialogService.error('There was a problem linking your guest list, please try again');
                             }
                             $scope.list.guests = result.guests;
+                            $scope.onDataChange();
                         }, 
                         function() {
                             dialogService.error('There was a problem linking your guest list, please try again');
@@ -364,6 +366,41 @@ angular.module('gliist')
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
                 });
+            };
+            
+            $scope.onAddGuestsClicked = function() {
+                if (!$scope.textGuestList) {
+                    return;
+                }
+                
+                var guests = guestListParserService.parse($scope.textGuestList);
+                if (guests === null) {
+                    return dialogService.error('No guests found in the list');
+                }
+                if (typeof guests === 'string') {
+                    return dialogService.error(guests);
+                }
+                
+                //import
+                if (!$scope.list) {
+                    $scope.list = {};
+                }
+                if (!$scope.list.guests) {
+                    $scope.list.guests = [];
+                }
+                
+                var guestCount = guests.length;
+                for (var i = 0; i < guestCount; i ++) {
+                    $scope.list.guests.push(guests[i]);
+                }
+                
+                dialogService.success('Guests were added successfully');
+                $scope.onDataChange();
+                $scope.textGuestList = '';
+            };
+            
+            $scope.onDataChange = function () {
+                $scope.isDirty = true;
             };
 
             $scope.init = function() {

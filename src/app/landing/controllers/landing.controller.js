@@ -11,6 +11,7 @@ angular.module('gliist')
             $scope.event = {};
             $scope.message = '';
             $scope.loading = true;
+            $scope.nameIsMissing = false;
             
             $scope.eventReceived = function(data) {
                 if (data.company.name.toLowerCase() === 'popsugar') {
@@ -19,6 +20,11 @@ angular.module('gliist')
                         return;
                     }
                 }
+
+                if (!$scope.public && data.guest.firstName === '') {
+                    $scope.nameIsMissing = true;
+                }
+
                 $scope.loading = false;
                 $scope.event = data;
                 $scope.rsvp.plus = 0;
@@ -120,12 +126,12 @@ angular.module('gliist')
                             $scope.waiting = false;
                         });
                     } else {
-                        eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus}).then(
+                        eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus, guestName: $scope.rsvp.name}).then(
                             function() {
                                 $scope.message = 'Thank you! You have been added to the event guest list!';
                                 $scope.success = true;
                             }, function(data) {
-                                $scope.message = data.message || data.Message;
+                                $scope.message = data.message || data.Message || data;
                                 $scope.success = true;
                             }
                         ).finally(function(){

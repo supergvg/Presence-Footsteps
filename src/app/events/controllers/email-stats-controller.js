@@ -89,7 +89,7 @@ angular.module('gliist')
                 if (status === 0) {
                     return 'Sending';
                 } else if (status === 1) {
-                    return 'Successful';
+                    return 'Delivered';
                 } else if (status === 2) {
                     return 'Not Delivered';
                 } else if (status === 3) {

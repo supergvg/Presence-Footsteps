@@ -49,7 +49,7 @@
             <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
             <md-button class="md-fab"
                        ng-class="getSelected(4) ? 'logo-bg' : ''"
-                       ng-disabled="!event.id || isPromoter()"
+                       ng-disabled="!event.id"
                        ng-click="selectedIndex = 4"
                        aria-label="Preview">
             </md-button>
@@ -61,8 +61,8 @@
              id="tab1-content"
              aria-labelledby="tab1"
              ng-switch-when="0"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <div>
                 <form name="eventForm">
                     <div class="block-field">
@@ -110,15 +110,15 @@
                             <textarea name=" details" ng-model="event.description" columns="1" placeholder="Event Details (to be included in confirmation email)"></textarea>
                         </md-input-container>
                         <md-input-container flex md-no-float>
-                            <h4>RSVP/Ticketing Details</h4>
-                            <textarea name=" details" ng-model="event.additionalDetails" columns="1" placeholder="Event Details (to be included in RSVP/ticketing page)"></textarea>
+                            <h4>RSVP Details</h4>
+                            <textarea name=" details" ng-model="event.additionalDetails" columns="1" placeholder="Event Details (to be included in RSVP page)"></textarea>
                         </md-input-container>
                     </div>
                 </form>
             </div>
             <div layout="row" layout-align="end center">
                 <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(eventForm)">
+                <md-button class="raised-btn" ng-click="next(null, eventForm)">
                     Next
                 </md-button>
             </div>
@@ -127,8 +127,8 @@
              id="tab2-content"
              aria-labelledby="tab2"
              ng-switch-when="1"
-             md-swipe-left="next()"
-             md-swipe-right="previous()"
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)"
              class="event-step">
             <div>
                 <form name="rsvpForm">
@@ -278,7 +278,7 @@
                 <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
-                <md-button class="raised-btn" ng-click="next(rsvpForm)">
+                <md-button class="raised-btn" ng-click="next(null, rsvpForm)">
                     Next
                 </md-button>
             </div>
@@ -287,8 +287,8 @@
              id="tab3-content"
              aria-labelledby="tab3"
              ng-switch-when="2"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <div>
                 <md-list>
                     <md-list-item layout="row" layout-sm="column">
@@ -320,11 +320,11 @@
              id="tab4-content"
              aria-labelledby="tab4"
              ng-switch-when="3"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <div>
-                <div class="block-field">
-                    <h4>Send event confirmation invite to</h4>
+                <div class="block-field" ng-hide="isPromoter()">
+                    <h4>Add confirmed guests</h4>
                     <md-list>
                         <md-list-item layout="row">
                             <div flex>
@@ -348,8 +348,8 @@
                         </md-list-item>
                     </md-list>
                 </div>
-                <div class="block-field" ng-if="event.type !== 1">
-                    <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Send RSVP to'}}</h4>
+                <div class="block-field" ng-if="event.type !== 1 && !isPromoter()">
+                    <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
                     <md-list>
                         <md-list-item layout="row">
                             <div flex>
@@ -386,7 +386,7 @@
                     Back
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(eventForm)" ng-hide="isPromoter()" ng-cloak>
+                <md-button class="raised-btn" ng-click="next(null, eventForm)" ng-hide="isPromoter()" ng-cloak>
                     Next
                 </md-button>
             </div>
@@ -396,8 +396,8 @@
              id="tab5-content"
              aria-labelledby="tab5"
              ng-switch-when="4"
-             md-swipe-left="next()"
-             md-swipe-right="previous()">
+             md-swipe-left="next($event)"
+             md-swipe-right="previous($event)">
             <event-publish event-id="event.id" options="previewOptions"></event-publish>
         </div>
     </ng-switch>
