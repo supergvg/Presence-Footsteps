@@ -47,6 +47,9 @@ angular.module('gliist')
                 }
             };
             var instanceType = parseInt($stateParams.instanceType);
+            if (!instanceType) {
+                $scope.guestListTypes.push('RSVP');
+            }
             if (instanceType !== 2){
                 $scope.options.gridOptions.columnDefs.push({
                     field: 'plus',
@@ -193,7 +196,7 @@ angular.module('gliist')
                     errorMessage.push('Please Add Guests');
                 }*/
                 if ($scope.guestsError()) {
-                    errorMessage.push('First Name must be not empty.');
+                    errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP' ? 'Email must be not empty.' : 'First Name must be not empty.');
                 }
                 if (errorMessage.length > 0) {
                     if (!autoSave) {
@@ -271,9 +274,18 @@ angular.module('gliist')
                 if (!$scope.list || !$scope.list.guests) {
                     return result;
                 }
-                angular.forEach($scope.list.guests, function(guest) {
-                    result = result || (guest.firstName === '');
-                });
+                
+                var guestCount = $scope.list.guests.length,
+                    verifyField = 'firstName';
+                if (instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP') { //if RSVP or Public RSVP
+                    verifyField = 'email';
+                }
+                for (var i = 0; i < guestCount; i++) {
+                    if ($scope.list.guests[i][verifyField] === '') {
+                        return true;
+                    }
+                }
+                	
                 return result;
             };
             
