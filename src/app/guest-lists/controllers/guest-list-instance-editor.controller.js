@@ -51,13 +51,6 @@ angular.module('gliist')
             var instanceType = parseInt($stateParams.instanceType);
             
             $scope.options.methods = {
-                updateGridData: function() {
-                    if ($scope.gli) {
-                        var data = [];
-                        angular.copy($scope.options.gridOptions.data, data);
-                        angular.copy(data, $scope.gli.actual);
-                    }
-                },                
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
@@ -92,7 +85,7 @@ angular.module('gliist')
                 if (!newVal) {
                     return;
                 }
-                $scope.options.gridOptions.data = $scope.gli.actual;
+                $scope.options.gridData = $scope.gli.actual;
             });
 
             $scope.$watch('isDirty', function(newValue) {

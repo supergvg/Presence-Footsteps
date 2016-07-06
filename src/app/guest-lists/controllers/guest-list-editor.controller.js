@@ -49,6 +49,9 @@ angular.module('gliist')
             $scope.form = {};
             
             var instanceType = parseInt($stateParams.instanceType);
+            if (!instanceType) {
+                $scope.guestListTypes.push('RSVP');
+            }
             if (instanceType !== 2){
                 $scope.options.gridOptions.columnDefs.push({
                     field: 'plus',
@@ -62,13 +65,6 @@ angular.module('gliist')
                 $scope.list = $scope.list || {listType: 'RSVP'};
             }
             $scope.options.methods = {
-                updateGridData: function() {
-                    if ($scope.list) {
-                        var data = [];
-                        angular.copy($scope.options.gridOptions.data, data);
-                        angular.copy(data, $scope.list.guests);
-                    }
-                },                
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
@@ -112,7 +108,7 @@ angular.module('gliist')
                 if (!newVal) {
                     return;
                 }
-                $scope.options.gridOptions.data = $scope.list.guests;
+                $scope.options.gridData = $scope.list.guests;
             });
 
             $scope.$watch('isDirty', function(newValue) {
@@ -199,7 +195,7 @@ angular.module('gliist')
                     errorMessage.push('Please Add Guests');
                 }*/
                 if ($scope.guestsError()) {
-                    errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
+                    errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP' ? 'Email must be not empty.' : 'First Name must be not empty.');
                 }
                 if (errorMessage.length > 0) {
                     if (!autoSave) {
@@ -275,7 +271,7 @@ angular.module('gliist')
                 
                 var guestCount = $scope.list.guests.length,
                     verifyField = 'firstName';
-                if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
+                if (instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP') { //if RSVP or Public RSVP
                     verifyField = 'email';
                 }
                 for (var i = 0; i < guestCount; i++) {

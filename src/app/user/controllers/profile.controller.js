@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', '$stateParams',
-        function ($scope, $rootScope, userService, dialogService, $stateParams) {
+    .controller('ProfileCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', '$location',
+        function ($scope, $rootScope, userService, dialogService, $location) {
+            $scope.selectedIndex = parseInt($location.search().view) || 0;
+            
+            $scope.$watch('selectedIndex', function(newValue) {
+                $location.search('view', newValue);
+            });
             $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = angular.copy(newValue);
             });
-            $scope.selectedIndex = 0;
-            if ($stateParams.view) {
-                $scope.selectedIndex = parseInt($stateParams.view);
-            }
 
             $scope.getSelected = function(idx) {
                 return $scope.selectedIndex === idx ? 'active' : '';

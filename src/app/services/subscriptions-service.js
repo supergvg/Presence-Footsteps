@@ -4,12 +4,8 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
     function ($http, $q, dialogService, $rootScope, $state) {
         var responseError = function(d, rejection) {
                 var message = rejection.data && rejection.data.message || 'Endpoint '+rejection.config.url+' '+rejection.statusText.toLowerCase();
-                if (rejection.data && rejection.data.success === false) {
-                    d.reject(rejection);
-                } else {
-                    dialogService.error(message);
-                    d.reject();
-                }
+                dialogService.error(message);
+                d.reject(rejection);
             },
             response = function(d, response) {
                 if (response.data.success) {

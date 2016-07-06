@@ -106,12 +106,14 @@ angular.module('gliist', [
                 }).state('main.user', {
                     url: '/user?view',
                     templateUrl: 'app/user/templates/profile.html',
-                    controller: 'ProfileCtrl'
+                    controller: 'ProfileCtrl',
+                    permissions: ['refreshSubscription']
                 }).state('main.create_event', {
                     url: '/create?view',
                     templateUrl: 'app/templates/create-event.html',
                     reloadOnSearch: false,
-                    controller: 'EventsCtrl'
+                    controller: 'EventsCtrl',
+                    permissions: ['refreshSubscription']
                 }).state('main.create_gl_event', {
                     url: '/event/edit/guestlist/:eventId/:instanceType',
                     templateUrl: 'app/events/templates/event-add-guestlist.html',
@@ -123,7 +125,8 @@ angular.module('gliist', [
                 }).state('main.edit_event', {
                     url: '/event/edit/:eventId?view',
                     templateUrl: 'app/events/templates/edit-event.html',
-                    controller: 'EditEventCtrl'
+                    controller: 'EditEventCtrl',
+                    permissions: ['refreshSubscription']
                 }).state('main.event_summary', {
                     url: '/event/summary/:eventId',
                     templateUrl: 'app/events/templates/event-summary.html',
@@ -240,7 +243,6 @@ angular.module('gliist', [
                         angular.element('#loading').hide();
                     } else {
                         angular.element('#loading').show();
-                        
                     }
                 },
                 toLoginPage = function() {
@@ -248,24 +250,51 @@ angular.module('gliist', [
                     $state.go('home');
                     appStatus(true);
                 },
-                checkSubscription = function(event, nextStateName, nextStateParams) {
-                    if ($rootScope.currentUser.subscription === 'undefined') {
-                        if ($rootScope.currentUser.permissions === 'admin') {
-                            if (nextStateName !== 'choose_plan' || event.defaultPrevented) {
-                                event.preventDefault();
-                                $state.go('choose_plan');
+                loadSubscription = function(event, next, nextParams) {
+                    $rootScope.waitingPlan = true;
+                    subscriptionsService.getUserSubscription().then(
+                        function(data){
+                            $rootScope.waitingPlan = false;
+                            $rootScope.currentUser.subscription = 'undefined';
+                            if (data.data && data.dataTotalCount > 0) {
+                                $rootScope.currentUser.subscription = data.data;
                             }
-                        } else {
-                            dialogService.error('Your company doesn\'t have plan selected. Please contact to your administrator.');
-                            event.preventDefault();
+                            $rootScope.stateLoadedSubscription = {
+                                name: next.name,
+                                params: nextParams
+                            };
+                            checkSubscription(event, next, nextParams);
+                        },
+                        function(){
                             toLoginPage();
                         }
+                    );
+                },
+                checkSubscription = function(event, next, nextParams) {
+                    if ($rootScope.currentUser.subscription && next.permissions && next.permissions.indexOf('refreshSubscription') > -1 && (next.name !== $rootScope.stateLoadedSubscription.name || !angular.equals(nextParams, $rootScope.stateLoadedSubscription.params))) {
+                        $rootScope.currentUser.subscription = null;
+                    }
+                    if (!$rootScope.currentUser.subscription) {
+                        loadSubscription(event, next, nextParams);
                     } else {
-                        if (permissionsService.roleDenyAccess(nextStateName)) {
-                            event.preventDefault();
-                            $state.go('main.welcome');
-                        } else if (event.defaultPrevented) {
-                            $state.go(nextStateName, nextStateParams);
+                        if ($rootScope.currentUser.subscription === 'undefined') {
+                            if (permissionsService.isRole('admin')) {
+                                if (next.name !== 'choose_plan' || event.defaultPrevented) {
+                                    event.preventDefault();
+                                    $state.go('choose_plan');
+                                }
+                            } else {
+                                dialogService.error('Your company doesn\'t have plan selected. Please contact to your administrator.');
+                                event.preventDefault();
+                                toLoginPage();
+                            }
+                        } else {
+                            if (permissionsService.roleDenyAccess(next.name)) {
+                                event.preventDefault();
+                                $state.go('main.welcome');
+                            } else if (event.defaultPrevented) {
+                                $state.go(next.name, nextParams);
+                            }
                         }
                     }
                 };
@@ -292,20 +321,7 @@ angular.module('gliist', [
                                 if (!permissionsService.roleExisis()) {
                                     toLoginPage();
                                 } else {
-                                    $rootScope.waitingPlan = true;
-                                    subscriptionsService.getUserSubscription().then(
-                                        function(data){
-                                            $rootScope.waitingPlan = false;
-                                            $rootScope.currentUser.subscription = 'undefined';
-                                            if (data.data && data.dataTotalCount > 0) {
-                                                $rootScope.currentUser.subscription = data.data;
-                                            }
-                                            checkSubscription(event, next.name, nextParams);
-                                        },
-                                        function(){
-                                            toLoginPage();
-                                        }
-                                    );
+                                    checkSubscription(event, next, nextParams);
                                 }
                                 $rootScope.waitingUserInfo = false;
                             }, function() {
@@ -313,7 +329,7 @@ angular.module('gliist', [
                             });
                         }
                     } else {
-                        checkSubscription(event, next.name, nextParams);
+                        checkSubscription(event, next, nextParams);
                     }
                 }
             });
