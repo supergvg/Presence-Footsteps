@@ -20,6 +20,13 @@ angular.module('gliist')
                 return $scope.plans[index].pricePolicies.length > 0;
             };
             
+            $scope.buttonLabel = function() {
+                if ($rootScope.currentUser.subscription.subscription.name === 'Basic') {
+                    return 'UPGRADE';
+                }
+                return 'SELECT';
+            };
+            
             $scope.isSubscribed = function() {
               return $rootScope.currentUser.subscription !== 'undefined';
             };
