@@ -212,6 +212,10 @@ angular.module('gliist')
                     return;
                 }                
                 
+                if (!autoSave && $scope.onBeforeSave && !$scope.onBeforeSave($scope.gli)) {
+                    return;
+                }
+                
                 $scope.fetchingData = true;
                 $scope.cancelAutoSave();
                 if (!$scope.gli.listType) {
@@ -301,11 +305,11 @@ angular.module('gliist')
                         verticalScroll: false
                     }
                 };
-                scope.importGLists = function (selected) {
+                scope.importGLists = function() {
                     $scope.gli = $scope.gli || {title: 'New Guest List'};
                     $scope.gli.guests = $scope.gli.guests || [];
 
-                    eventsService.importGuestsToGLInstance($scope.gli.id, selected, $scope.gli).then(
+                    eventsService.importGuestsToGLInstance($scope.gli.id, scope.selected, $scope.gli).then(
                         function (result) {
                             if (!result) {
                                 return dialogService.error('There was a problem linking your guest list, please try again');
@@ -322,7 +326,6 @@ angular.module('gliist')
                 };
 
                 $mdDialog.show({
-                    //controller: DialogController,
                     scope: scope,
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev

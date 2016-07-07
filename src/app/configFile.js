@@ -1,2 +1,2 @@
 angular.module("gliist")
-.constant("EnvironmentConfig", {"gjests_api":"http://54.228.219.224:8007/","subscriptions_api":"http://54.228.219.224:8008/api/","payments_api":"http://54.228.219.224:8009/api/"});
+.constant("EnvironmentConfig", {"gjests_api":"http://gjests-api.ideas-implemented.com/","subscriptions_api":"http://54.228.219.224:8005/api/","payments_api":"http://54.228.219.224:8006/api/"});

@@ -117,10 +117,9 @@ angular.module('gliist')
             
             $scope.upload = function(files) {
                 $scope.fetchingData = true;
-                uploaderService.uploadEventInvite(files, $scope.event.id).then(function (res) {
+                uploaderService.uploadEventInvite(files, $scope.event.id).then(function(res) {
                         $scope.event.invitePicture = res;
                         dialogService.success('Invite saved');
-
                     },
                     function() {
                         dialogService.error('There was a problem saving your image please try again');
@@ -134,12 +133,10 @@ angular.module('gliist')
 
             $scope.onAddGLClicked = function(ev, instanceType) {
                 var scope = $scope.$new();
-                scope.currentGlist = $scope.event;
-                scope.cancel = $scope.cancel;
-                scope.save = $scope.save;
-
-                scope.selected = angular.copy($scope.event.guestLists);
-
+                scope.cancel = function() {
+                    $mdDialog.hide();
+                };
+                scope.selected = [];
                 scope.options = {
                     display: {
                         enableSelection: true,
@@ -147,12 +144,10 @@ angular.module('gliist')
                         verticalScroll: false
                     }
                 };
-
-                scope.cancel = function () {
-                    $mdDialog.hide();
-                };
-
-                scope.importGLists = function () {
+                scope.importGLists = function(ev) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected) + $scope.getTotalGuests($scope.event.guestLists), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                        return;
+                    }
                     eventsService.linkGuestList(scope.selected, $scope.event.id, instanceType).then(
                         function (guestListInstances) {
                             $scope.event.guestLists = guestListInstances;
@@ -163,9 +158,7 @@ angular.module('gliist')
                         }
                     );
                 };
-
                 $mdDialog.show({
-                    //controller: DialogController,
                     scope: scope,
                     templateUrl: 'app/guest-lists/templates/glist-import-dialog.html',
                     targetEvent: ev
@@ -205,7 +198,7 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
                         return;
                     }
                     if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, 'You are not allowed to create events longer than {value} days. Would you like to upgrade to unlimited?')) {
@@ -308,10 +301,14 @@ angular.module('gliist')
                 delete $scope.location.details;
             };
             
-            $scope.getTotalGuests = function() {
+            $scope.getTotalGuests = function(guestLists) {
                 var total = 0;
-                angular.forEach($scope.event.guestLists, function(gl){
-                    total += gl.guestsCount;
+                angular.forEach(guestLists, function(gl){
+                    if (angular.isDefined(gl.guestsCount)) {
+                        total += gl.guestsCount;
+                    } else if (angular.isDefined(gl.total)) {
+                        total += gl.total;
+                    }
                 });
                 return total;
             };

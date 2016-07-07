@@ -7,7 +7,8 @@ angular.module('gliist')
             controller: 'GuestListInstanceEditorCtrl',
             scope: {
                 id: '=',
-                onSave: '=?'
+                onSave: '=?',
+                onBeforeSave: '=?'
             },
             replace: true,
             templateUrl: 'app/guest-lists/templates/guest-list-instance-editor.html'

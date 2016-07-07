@@ -117,11 +117,11 @@ angular.module('gliist', [
                 }).state('main.create_gl_event', {
                     url: '/event/edit/guestlist/:eventId/:instanceType',
                     templateUrl: 'app/events/templates/event-add-guestlist.html',
-                    controller: 'AddGLEventCtrl'
+                    controller: 'AddEditGLEventCtrl'
                 }).state('main.edit_gl_event', {
                     url: '/event/edit/guestlistinstance/:gli/:eventId',
                     templateUrl: 'app/events/templates/event-edit-guestlist.html',
-                    controller: 'EditGLEventCtrl'
+                    controller: 'AddEditGLEventCtrl'
                 }).state('main.edit_event', {
                     url: '/event/edit/:eventId?view',
                     templateUrl: 'app/events/templates/edit-event.html',
