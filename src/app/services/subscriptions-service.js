@@ -90,9 +90,9 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 );
                 return d.promise;                
             },
-            applyPromo: function(code) {
+            applyPromo: function(code, subscriptionId) {
                 var d = $q.defer();
-                $http.post('user/promo', {code: code}, {api: 'subscriptions_api'}).then(
+                $http.post('user/promo', {code: code, subscriptionId: subscriptionId}, {api: 'subscriptions_api'}).then(
                     function(answer) {
                         response(d, answer);
                     },
@@ -102,13 +102,14 @@ angular.module('gliist').factory('subscriptionsService', ['$http', '$q', 'dialog
                 );
                 return d.promise;                
             },
-            undoPromo: function(code) {
+            undoPromo: function(code, subscriptionId) {
                 var d = $q.defer();
                 $http({
                     method: 'DELETE',
                     url: 'user/promo',
                     params: {
-                        code: code
+                        code: code,
+                        subscriptionId: subscriptionId
                     }
                 }).then(
                     function(answer){

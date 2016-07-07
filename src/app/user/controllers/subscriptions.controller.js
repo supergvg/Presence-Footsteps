@@ -21,7 +21,7 @@ angular.module('gliist')
             };
             
             $scope.buttonLabel = function() {
-                if ($rootScope.currentUser.subscription.subscription.name === 'Basic') {
+                if ($rootScope.currentUser.subscription !== 'undefined' && $rootScope.currentUser.subscription.subscription.name === 'Basic') {
                     return 'UPGRADE';
                 }
                 return 'SELECT';
@@ -70,17 +70,16 @@ angular.module('gliist')
                         if (code !== '') {
                             scope.promo.invalid = false;
                             $scope.waiting = true;
-                            subscriptionsService.applyPromo(code).then(
+                            subscriptionsService.applyPromo(code, scope.selectedPlan.id).then(
                                 function(response) {
-                                    if (response.dataTotalCount === 0) {
-                                        scope.promo.invalid = true;
-                                    } else {
-                                        scope.promo.code = code;
-                                        scope.promo.applied = true;
-                                        scope.pricePolicyBeforePromo = scope.pricePolicy;
-                                        scope.selectedPlan = response.data;
-                                        scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
-                                    }
+                                    scope.promo.code = code;
+                                    scope.promo.applied = true;
+                                    scope.pricePolicyBeforePromo = scope.pricePolicy;
+                                    scope.selectedPlan = response.data;
+                                    scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
+                                },
+                                function() {
+                                    scope.promo.invalid = true;
                                 }
                             ).finally(function(){
                                 $scope.waiting = false;
@@ -91,7 +90,7 @@ angular.module('gliist')
                         var code = scope.promo.code ? scope.promo.code.trim() : '';
                         if (code !== '') {
                             $scope.waiting = true;
-                            subscriptionsService.applyPromo(code).then(
+                            subscriptionsService.undoPromo(code, scope.selectedPlan.id).then(
                                 function(response) {
                                     if (response.dataTotalCount === 0) {
                                         scope.promo.invalid = true;

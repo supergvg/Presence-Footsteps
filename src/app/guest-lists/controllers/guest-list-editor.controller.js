@@ -50,7 +50,7 @@ angular.module('gliist')
             
             var instanceType = parseInt($stateParams.instanceType);
             if (!instanceType) {
-                $scope.guestListTypes.push('RSVP');
+                $scope.guestListTypes.splice(8, 0, 'RSVP');
             }
             if (instanceType !== 2){
                 $scope.options.gridOptions.columnDefs.push({
