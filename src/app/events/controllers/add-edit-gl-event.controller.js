@@ -35,7 +35,7 @@ angular.module('gliist')
             
             $scope.checkSubscription = function(glist) {
                 var totalGuests = $scope.gliId ? glist.actual.length : glist.guests.length;
-                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + totalGuests, null, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + totalGuests, {}, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
                     return false;
                 }
                 return true;

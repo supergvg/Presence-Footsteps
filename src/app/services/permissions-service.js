@@ -30,6 +30,6 @@ angular.module('gliist').service('permissionsService', ['$rootScope',
             return this.roles[$rootScope.currentUser.permissions].denyAccess.indexOf(stateName) > -1;
         };
         this.isRole = function(role) {
-            return $rootScope.currentUser.permissions.indexOf(role) > -1;            
+            return $rootScope.currentUser && $rootScope.currentUser.permissions.indexOf(role) > -1;            
         };
     }]);
