@@ -46,7 +46,9 @@ angular.module('gliist')
                     }).then(
                         function(response){
                             $rootScope.currentUser.subscription = response.data.subscription;
-                            $state.go('main.welcome');
+                            if ($state.current.name === 'choose_plan') {
+                                $state.go('main.welcome');
+                            }
                         },
                         function(rejection){
                             dialogService.confirm(null, rejection.data.message, 'OK', '');
