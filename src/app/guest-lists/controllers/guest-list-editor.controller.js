@@ -144,7 +144,6 @@ angular.module('gliist')
                     $scope.list.guests = [];
                 }
                 $scope.list.guests.push(angular.extend({}, $scope.defaultFields));
-                $scope.isDirty = true;
             };
 
             $scope.deleteSelectedRows = function() {
