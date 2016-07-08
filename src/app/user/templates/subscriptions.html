@@ -20,7 +20,7 @@
                 <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
             </ul>
             <md-radio-group ng-if="tariff.pricePolicies.length > 1" ng-model="pricePolicyKeys[$index]">
-                <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}">{{pricePolicy.prices[0].description}}</md-radio-button>
+                <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}">{{pricePolicy.prices[0].description}}<br>{{pricePolicy.description}}</md-radio-button>
             </md-radio-group>
         </div>
         <div layout="column" class="tariff-footer" layout-align="center center">
