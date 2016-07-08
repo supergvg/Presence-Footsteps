@@ -21,7 +21,7 @@ angular.module('gliist')
             };
             
             $scope.buttonLabel = function() {
-                if ($scope.isSubscribed() && $rootScope.currentUser.subscription.subscription && $rootScope.currentUser.subscription.subscription.name === 'Basic') {
+                if ($scope.isSubscribed() && $rootScope.currentUser.subscription.subscription && $rootScope.currentUser.subscription.subscription.isDefault === 'True') {
                     return 'UPGRADE';
                 }
                 return 'SELECT';
