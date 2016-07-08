@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('BillingCtrl', ['$scope', '$mdDialog', 'paymentsService', 'dialogService',
-        function($scope, $mdDialog, paymentsService, dialogService) {
+    .controller('BillingCtrl', ['$scope', '$mdDialog', 'paymentsService', 'dialogService', 'EnvironmentConfig', '$window',
+        function($scope, $mdDialog, paymentsService, dialogService, EnvironmentConfig, $window) {
             $scope.invoices = [];
             $scope.cardDataSaved = {
                 number: 'XXXX'
@@ -108,16 +108,8 @@ angular.module('gliist')
                 });  
             };
             
-            $scope.invoiceDetails = function(invoice) {
-                var scope = $scope.$new();
-                scope.close = function() {
-                    $mdDialog.hide();
-                };
-                scope.invoice = invoice;
-                $mdDialog.show({
-                    scope: scope,
-                    templateUrl: 'app/user/templates/invoice-details.html'
-                });  
+            $scope.getExportPdfUrl = function(chargeId) {
+                return EnvironmentConfig.payments_api+'charges/export?id='+chargeId+'&authToken='+$window.localStorage.access_token;
             };
         }
     ]);
