@@ -36,7 +36,7 @@ angular.module('gliist')
                     pricePolicyKey = $scope.pricePolicyKeys[index],
                     pricePolicy = selectedPlan.pricePolicies[pricePolicyKey];
                 
-                if (pricePolicy.prices[0].amount > 0 && selectedPlan.name !== 'Pay as you go') {
+                if ((pricePolicy.prices[0].amount > 0 || selectedPlan.usedPromoCode) && selectedPlan.name !== 'Pay as you go') {
                     subscriptionsService.paymentPopup(selectedPlan, pricePolicyKey);
                 } else {
                     $scope.waiting = true;
