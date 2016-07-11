@@ -44,10 +44,34 @@ angular.module('gliist').factory('paymentsService', ['$http', '$q', 'dialogServi
                 );
                 return d.promise;                
             },
-            setCard: function(data) {
+            updateCard: function(data) {
+                var d = $q.defer();
+                $http.put('user/cards', data, {api: 'payments_api'}).then(
+                    function(answer) {
+                        response(d, answer);
+                    },
+                    function(response) {
+                        responseError(d, response);
+                    }
+                );
+                return d.promise;                
+            },
+            addCard: function(data) {
                 var d = $q.defer();
                 data.name = $rootScope.currentUser.firstName+' '+$rootScope.currentUser.lastName;
-                $http.post('user/card', data, {api: 'payments_api'}).then(
+                $http.post('user/cards', data, {api: 'payments_api'}).then(
+                    function(answer) {
+                        response(d, answer);
+                    },
+                    function(response) {
+                        responseError(d, response);
+                    }
+                );
+                return d.promise;                
+            },
+            getCards: function() {
+                var d = $q.defer();
+                $http.get('user/cards', {api: 'payments_api'}).then(
                     function(answer) {
                         response(d, answer);
                     },

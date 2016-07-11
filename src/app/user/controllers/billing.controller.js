@@ -3,23 +3,27 @@
 angular.module('gliist')
     .controller('BillingCtrl', ['$scope', '$mdDialog', 'paymentsService', 'dialogService', 'EnvironmentConfig', '$window',
         function($scope, $mdDialog, paymentsService, dialogService, EnvironmentConfig, $window) {
+            var card = {
+                    cardDataSaved: {
+                        number: 'XXXX'
+                    },
+                    cardData: {
+                        number: '',
+                        cvc: '',
+                        expiryMonth: '',
+                        expiryYear: '',
+                        zipCode: '',
+                        isDefault: false
+                    }
+                };
+            $scope.cards = [angular.extend({}, card), angular.extend({}, card)];
             $scope.invoices = [];
-            $scope.cardDataSaved = {
-                number: 'XXXX'
-            };
-            $scope.cardDataLoaded = false;
-            $scope.cardData = {
-                number: '',
-                cvc: '',
-                expiryMonth: '',
-                expiryYear: '',
-                zipCode: ''
-            };
+            $scope.cardsDataLoaded = false;
             $scope.options = {
                 'billing': true
             };
             $scope.loadingInvoices = true;
-            $scope.loadingCard = true;
+            $scope.loadingCards = true;
             
             paymentsService.getCharges().then(
                 function(data) {
@@ -30,31 +34,33 @@ angular.module('gliist')
             ).finally(function(){
                 $scope.loadingInvoices = false;
             });
-
-            paymentsService.getCard().then(
+            
+            $scope.initCard = function(card, index) {
+                $scope.cards[index].cardData = angular.extend({}, card);
+                $scope.cards[index].cardData.number = '';
+                $scope.cards[index].cardData.cvc = '';
+                $scope.cards[index].cardDataSaved = angular.extend({}, card);
+            };
+            
+            paymentsService.getCards().then(
                 function(data) {
                     if (data.data) {
-                        $scope.cardLoaded(data.data);
+                        angular.forEach(data.data, function(card, key){
+                            $scope.initCard(card, key);
+                        });
+                        $scope.cardsDataLoaded = true;
                     }
                 }
             ).finally(function(){
-                $scope.loadingCard = false;
+                $scope.loadingCards = false;
             });
-            
-            $scope.cardLoaded = function(data) {
-                $scope.cardData = data;
-                $scope.cardDataSaved.number = $scope.cardData.number;
-                $scope.cardData.number = '';
-                $scope.cardData.cvc = '';
-                $scope.cardDataLoaded = true;
-            };
             
             $scope.editPaymentInfo = function() {
                 var scope = $scope.$new();
                 scope.close = function() {
                     $mdDialog.hide();
                 };
-                scope.update = function(form) {
+                scope.update = function(form, index) {
                     var errorMessage = [];
                     if (form && form.$invalid) {
                         var errors = {
@@ -80,7 +86,7 @@ angular.module('gliist')
                         angular.forEach(form.$error, function(value, key){
                             if (errors[key]) {
                                 angular.forEach(value, function(value1){
-                                    if (errors[key][value1.$name]) {
+                                    if (errors[key][value1.$name] && (!$scope.cards[index].cardData.cardId || ($scope.cards[index].cardData.cardId && ['number', 'cvc'].indexOf(value1.$name) === -1))) {
                                         errorMessage.push(errors[key][value1.$name]);
                                     }
                                 });
@@ -91,16 +97,29 @@ angular.module('gliist')
                         dialogService.error(errorMessage.join(', '));
                         return;
                     }
-                    $scope.savingCard = true;
-                    paymentsService.setCard($scope.cardData).then(
-                        function(data) {
-                            if (data.data) {
-                                $scope.cardLoaded(data.data);
+                    if ($scope.cards[index].cardData.cardId) {
+                        $scope.savingCard = true;
+                        paymentsService.updateCard($scope.cards[index].cardData).then(
+                            function(data) {    
+                                if (data.data) {
+                                    $scope.initCard(data.data, index);
+                                }
                             }
-                        }
-                    ).finally(function(){
-                        $scope.savingCard = false;
-                    });
+                        ).finally(function(){
+                            $scope.savingCard = false;
+                        });
+                    } else {
+                        $scope.savingCard = true;
+                        paymentsService.addCard($scope.cards[index].cardData).then(
+                            function(data) {
+                                if (data.data) {
+                                    $scope.initCard(data.data, index);
+                                }
+                            }
+                        ).finally(function(){
+                            $scope.savingCard = false;
+                        });
+                    }
                 };
                 $mdDialog.show({
                     scope: scope,

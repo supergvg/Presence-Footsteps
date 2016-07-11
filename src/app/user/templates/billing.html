@@ -2,8 +2,8 @@
     <div class="block-field">
         <h4>Payment Information</h4>
         <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center center" class="payment-info">
-            <div class="card-number">XXXX XXXX XXXX {{cardDataSaved.number}}</div>
-            <md-button class="raised-btn" ng-click="editPaymentInfo()" ng-disabled="loadingCard">Edit</md-button>
+            <div class="card-number">XXXX XXXX XXXX {{cards[0].cardDataSaved.number}}</div>
+            <md-button class="raised-btn" ng-click="editPaymentInfo()" ng-disabled="loadingCards">Edit</md-button>
         </div>
     </div>
     <div class="block-field">
