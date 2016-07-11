@@ -1,4 +1,4 @@
-<div class="tariff-blocks">
+<div class="tariff-blocks" alignment-height>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
     <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
         <div layout="column" class="tariff-header{{tariff.isPopular ? ' popular' : ''}}" layout-align="space-between center">
@@ -19,7 +19,7 @@
             <ul>
                 <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
             </ul>
-            <md-radio-group ng-if="tariff.pricePolicies.length > 1" ng-model="pricePolicyKeys[$index]">
+            <md-radio-group ng-if="tariff.pricePolicies.length > 1 && !tariff.isCurrentlyUsed" ng-model="pricePolicyKeys[$index]">
                 <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}">{{pricePolicy.prices[0].description}}<br>{{pricePolicy.description}}</md-radio-button>
             </md-radio-group>
         </div>
