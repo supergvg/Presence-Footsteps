@@ -262,7 +262,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             number: 'Please Enter Card Number',
                             cvc: 'Please Enter Card CVC Code',
                             exp_month: 'Please Enter Card Expiration Month',
-                            exp_year: 'Please Enter Card Expiration Year'
+                            exp_year: 'Please Enter Card Expiration Year',
+                            address_zip: 'Payment zip code is missing'
                         },
                         pattern: {
                             number: 'Please Enter Correct Card Number',

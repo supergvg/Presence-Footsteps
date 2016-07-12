@@ -194,7 +194,7 @@ angular.module('gliist')
             };
 
             $scope.next = function(ev, form) {
-                if (ev && ev.pointer.type === 'm') {
+                if (ev && ev.pointer && ev.pointer.type === 'm') {
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {

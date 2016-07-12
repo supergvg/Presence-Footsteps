@@ -118,7 +118,7 @@
             </div>
             <div layout="row" layout-align="end center">
                 <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(null, eventForm)">
+                <md-button class="raised-btn" ng-click="next($event, eventForm)">
                     Next
                 </md-button>
             </div>
@@ -278,7 +278,7 @@
                 <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
-                <md-button class="raised-btn" ng-click="next(null, rsvpForm)">
+                <md-button class="raised-btn" ng-click="next($event, rsvpForm)">
                     Next
                 </md-button>
             </div>
@@ -311,7 +311,7 @@
                 <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
-                <md-button class="raised-btn" ng-click="next()">
+                <md-button class="raised-btn" ng-click="next($event)">
                     Next
                 </md-button>
             </div>
@@ -386,7 +386,7 @@
                     Back
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next(null, eventForm)" remove-by-roles="promoter" ng-cloak>
+                <md-button class="raised-btn" ng-click="next($event, eventForm)" remove-by-roles="promoter" ng-cloak>
                     Next
                 </md-button>
             </div>
