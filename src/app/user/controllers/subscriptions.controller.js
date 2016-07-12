@@ -8,19 +8,19 @@ angular.module('gliist')
             $scope.options = $scope.options || {};
             $scope.planLabels = [];
             
-            $rootScope.$watch('currentUser.subscription', function(newValue) {
-                if (!newValue) {
-                    return;
-                }
-                $scope.getSubscriptions();
-            });
-            
             $scope.allowToSelect = function(index) {
                 return $scope.plans[index].pricePolicies.length > 0;
             };
             
+            $scope.getCurrenPricePolicyId = function() {
+                if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
+                    return $rootScope.currentUser.subscription.pricePolicy.id;
+                }
+                return false;
+            };
+            
             $scope.isSubscribed = function() {
-              return $rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined';
+                return $rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined';
             };
 
             $scope.beforeSelectPlan = function(index, event) {
@@ -43,7 +43,7 @@ angular.module('gliist')
                     pricePolicy = selectedPlan.pricePolicies[pricePolicyKey];
                 
                 if ((pricePolicy.prices[0].amount > 0 || selectedPlan.usedPromoCode) && selectedPlan.name !== 'Pay as you go') {
-                    subscriptionsService.paymentPopup(selectedPlan, pricePolicyKey);
+                    subscriptionsService.paymentPopup(selectedPlan, pricePolicyKey, $scope.getSubscriptions);
                 } else {
                     $scope.waiting = true;
                     subscriptionsService.setUserSubscription({
@@ -51,9 +51,11 @@ angular.module('gliist')
                         pricePolicyId: pricePolicy.id
                     }).then(
                         function(response){
-                            $rootScope.currentUser.subscription = response.data.subscription;
+                            $rootScope.currentUser.subscription = response.data;
                             if ($state.current.name === 'choose_plan') {
                                 $state.go('main.welcome');
+                            } else {
+                                $scope.getSubscriptions();
                             }
                         },
                         function(rejection){
@@ -74,11 +76,18 @@ angular.module('gliist')
                         if (!$scope.isSubscribed()) {
                             label = 'SELECT';
                         }
+                        $scope.planLabels = [];
                         angular.forEach($scope.plans, function(plan){
                             if (plan.isCurrentlyUsed) {
+                                if (plan.pricePolicies.length > 1) {
+                                    $scope.planLabels.push('UPDATE');
+                                } else {
+                                    $scope.planLabels.push('ACTIVE');
+                                }
                                 label = 'UPGRADE';
+                            } else {
+                                $scope.planLabels.push(label);
                             }
-                            $scope.planLabels.push(label);
                         });
                     }
                 ).finally(function(){

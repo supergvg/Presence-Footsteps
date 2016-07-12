@@ -181,7 +181,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             return allow;
         };
         
-        this.paymentPopup = function(selectedPlan, pricePolicyKey) {
+        this.paymentPopup = function(selectedPlan, pricePolicyKey, callback) {
             var scope = $rootScope.$new();
             scope.selectedPlan = selectedPlan;
             scope.pricePolicyKey = pricePolicyKey;
@@ -304,10 +304,12 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 scope.waiting = true;
                 subscriptionsService.setUserSubscription(subscribe).then(
                     function(response){
-                        $rootScope.currentUser.subscription = response.data.subscription;
+                        $rootScope.currentUser.subscription = response.data;
                         scope.close();
                         if ($state.current.name === 'choose_plan') {
                             $state.go('main.welcome');
+                        } else if (callback) {
+                            callback();
                         }
                     },
                     function(rejection){

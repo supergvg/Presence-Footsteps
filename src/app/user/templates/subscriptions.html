@@ -19,13 +19,13 @@
             <ul>
                 <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
             </ul>
-            <md-radio-group ng-if="tariff.pricePolicies.length > 1 && !tariff.isCurrentlyUsed" ng-model="pricePolicyKeys[$index]">
-                <md-radio-button ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}">{{pricePolicy.prices[0].description}}<br>{{pricePolicy.description}}</md-radio-button>
+            <md-radio-group ng-if="tariff.pricePolicies.length > 1" ng-model="pricePolicyKeys[$index]" ng-init="tariffIndex = $index">
+                <md-radio-button ng-init="pricePolicyKeys[tariffIndex] = tariff.isCurrentlyUsed && getCurrenPricePolicyId() !== pricePolicy.id ? $index : 0" ng-if="!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && getCurrenPricePolicyId() !== pricePolicy.id)" ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}">{{pricePolicy.prices[0].description}}<br>{{pricePolicy.description}}</md-radio-button>
             </md-radio-group>
         </div>
         <div layout="column" class="tariff-footer" layout-align="center center">
-            <h4 ng-if="tariff.isCurrentlyUsed && isSubscribed()"><b>ACTIVE</b></h4>
-            <div ng-if="!isSubscribed() || (isSubscribed() && !tariff.isCurrentlyUsed)">
+            <h4 ng-if="tariff.isCurrentlyUsed && tariff.pricePolicies.length === 1"><b>ACTIVE</b></h4>
+            <div ng-if="!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && tariff.pricePolicies.length > 1)">
                 <md-button class="raised-btn" ng-click="beforeSelectPlan($index, $event)" ng-if="allowToSelect($index)">{{planLabels[$index]}}</md-button>
                 <a class="md-button raised-btn" href="mailto:info@gjests.com?subject={{tariff.name}} Account" ng-if="!allowToSelect($index)">CONTACT US</a>
             </div>
