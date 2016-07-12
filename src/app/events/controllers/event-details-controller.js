@@ -201,7 +201,7 @@ angular.module('gliist')
                     if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
                         return;
                     }
-                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, 'You are not allowed to create events longer than {value} days. Would you like to upgrade to unlimited?')) {
+                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, 'You can only create event that lasts up to {value} days.')) {
                         return;
                     }
                     var errorMessage = [];

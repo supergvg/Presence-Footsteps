@@ -26,7 +26,7 @@ angular.module('gliist').factory('dialogService', [ '$mdToast', '$mdDialog',
                         .content(content || '')
                         .ok(labelOk || 'Yes')
                         .targetEvent(event),
-                    isCloseButton = angular.isUndefined(labelCancel) || labelCancel !== '';
+                    isCloseButton = labelCancel && labelCancel !== '';
                 if (isCloseButton) {
                     confirm.cancel(labelCancel || 'Cancel');
                 }

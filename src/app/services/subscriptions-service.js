@@ -125,7 +125,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             if (!$rootScope.currentUser) {
                 return;
             }
-            var allow = true;
+            var allow = true,
+                maxParam = false;
             if (features[featureName]) {
                 switch (features[featureName].type) {
                     case 'Restrict':
@@ -154,20 +155,27 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         if (message) {
                             message = message.replace(/{value}/, features[featureName].value);
                         }
+                        if (featureName === 'EventDurationDays' && features[featureName].value === 6) {
+                            maxParam = true;
+                        }
                         break;
                 }
             }
 
             if (event && !allow) {
-                dialogService.confirm(event, message || 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?', 'Upgrade', 'Close').then(
-                    function() {
-                        if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go') {
-                            $state.go('main.user', {view: 2});
-                        } else {
-                            subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0);
+                if (maxParam) {
+                    dialogService.confirm(event, message, 'Ok');
+                } else {
+                    dialogService.confirm(event, message || 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?', 'Upgrade', 'Close').then(
+                        function() {
+                            if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go') {
+                                $state.go('main.user', {view: 2});
+                            } else {
+                                subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0);
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
 
             return allow;
