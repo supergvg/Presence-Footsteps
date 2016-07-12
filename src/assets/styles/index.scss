@@ -614,6 +614,7 @@ md-input-container {
         border-color: #99ccff;
     }
     .md-input {
+        max-width: 100%;
         background-color: #fff;
         padding: 0 0 0 15px;
         font-size: 16px !important;
@@ -880,7 +881,7 @@ md-checkbox .md-icon {
                 margin: 0;
                 padding: 0;
             }
-            md-input-container input {
+            md-input-container {
                 width: 90px;
             }
             dl {
