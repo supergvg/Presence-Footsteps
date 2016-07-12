@@ -28,7 +28,7 @@ angular.module('gliist')
             };
 
             $scope.showUpgradePopup = function(event) {
-                dialogService.confirmX(event, 'Do you want to activate this event?').then(
+                dialogService.confirm(event, 'Do you want to activate this event?', 'Yes', '', 'close-x border').then(
                     function() {
                         $state.go('main.user', {view: 2});
                     }

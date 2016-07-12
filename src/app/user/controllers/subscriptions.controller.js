@@ -3,32 +3,38 @@
 angular.module('gliist')
     .controller('SubscriptionsCtrl', ['$scope', 'subscriptionsService', 'dialogService', '$rootScope', '$state',
         function($scope, subscriptionsService, dialogService, $rootScope, $state) {
-            $scope.loading = true;
             $scope.plans = [];
             $scope.pricePolicyKeys = [];
             $scope.options = $scope.options || {};
+            $scope.planLabels = [];
             
-            subscriptionsService.getSubscriptions().then(
-                function(data) {
-                    $scope.plans = data.data;
+            $rootScope.$watch('currentUser.subscription', function(newValue) {
+                if (!newValue) {
+                    return;
                 }
-            ).finally(function(){
-                $scope.loading = false; 
+                $scope.getSubscriptions();
             });
             
             $scope.allowToSelect = function(index) {
                 return $scope.plans[index].pricePolicies.length > 0;
             };
             
-            $scope.buttonLabel = function() {
-                if ($scope.isSubscribed() && $rootScope.currentUser.subscription.subscription && $rootScope.currentUser.subscription.subscription.isDefault === 'True') {
-                    return 'UPGRADE';
-                }
-                return 'SELECT';
-            };
-            
             $scope.isSubscribed = function() {
               return $rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined';
+            };
+
+            $scope.beforeSelectPlan = function(index, event) {
+                if ($scope.planLabels[index] === 'UPGRADE') {
+                    dialogService.confirm(event, 'You are about to upgrade.<br>We will prorate your payment separately', 'UPGRADE', 'CANCEL').then(function(){
+                        $scope.selectPlan(index);
+                    });
+                } else if ($scope.planLabels[index] === 'DOWNGRADE') {
+                    dialogService.confirm(event, 'Are you sure you want to downgrade?<br>You plan will be downgraded on the next billing period', 'YES', 'NO').then(function(){
+                        $scope.selectPlan(index);
+                    });
+                } else {
+                    $scope.selectPlan(index);
+                }
             };
             
             $scope.selectPlan = function(index) {
@@ -58,5 +64,27 @@ angular.module('gliist')
                     });
                 }
             };
+            
+            $scope.getSubscriptions = function() {
+                $scope.loading = true;
+                subscriptionsService.getSubscriptions().then(
+                    function(data) {
+                        $scope.plans = data.data;
+                        var label = 'DOWNGRADE';
+                        if (!$scope.isSubscribed()) {
+                            label = 'SELECT';
+                        }
+                        angular.forEach($scope.plans, function(plan){
+                            if (plan.isCurrentlyUsed) {
+                                label = 'UPGRADE';
+                            }
+                            $scope.planLabels.push(label);
+                        });
+                    }
+                ).finally(function(){
+                    $scope.loading = false; 
+                });
+            };
+            $scope.getSubscriptions();
         }
     ]);

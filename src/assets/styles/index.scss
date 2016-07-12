@@ -1135,10 +1135,10 @@ md-dialog {
             }
         }
     }
-    &.close-corner {
+    &.close-x {
         padding: 40px;
-        border: 5px solid #99ccff;
         & > img {
+            display: block !important;
             position: absolute;
             top: 15px;
             right: 15px;
@@ -1148,9 +1148,13 @@ md-dialog {
             padding: 0;
         }
         .md-actions {
+            padding: 0 !important;
             .md-button {
                 width: 150px;
             }
+        }
+        &.border {
+            border: 5px solid #99ccff;
         }
     }
 }

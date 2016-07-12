@@ -26,7 +26,7 @@
         <div layout="column" class="tariff-footer" layout-align="center center">
             <h4 ng-if="tariff.isCurrentlyUsed && isSubscribed()"><b>ACTIVE</b></h4>
             <div ng-if="!isSubscribed() || (isSubscribed() && !tariff.isCurrentlyUsed)">
-                <md-button class="raised-btn" ng-click="selectPlan($index)" ng-if="allowToSelect($index)">{{buttonLabel()}}</md-button>
+                <md-button class="raised-btn" ng-click="beforeSelectPlan($index, $event)" ng-if="allowToSelect($index)">{{planLabels[$index]}}</md-button>
                 <a class="md-button raised-btn" href="mailto:info@gjests.com?subject={{tariff.name}} Account" ng-if="!allowToSelect($index)">CONTACT US</a>
             </div>
         </div>

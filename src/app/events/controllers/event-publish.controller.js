@@ -7,7 +7,7 @@ angular.module('gliist')
             $scope.toPublish = [];
 
             $scope.publishEvent = function(ev) {
-                dialogService.confirm(ev, 'Are you sure you want to send<br><b>confirmation emails/RSVP invitations</b><br>to the selected guest lists?').then(
+                dialogService.confirm(ev, 'Are you sure you want to send<br><b>confirmation emails/RSVP invitations</b><br>to the selected guest lists?', 'Yes', 'No').then(
                     function() {
                         eventsService.publishEvent($scope.toPublish, $scope.event.id).then(
                             function() {
