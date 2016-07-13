@@ -110,7 +110,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         
         this.undoPromo = function(code, subscriptionId) {
             var d = $q.defer();
-            $http.delete('user/promo', {api: 'subscriptions_api', data: {code: code, subscriptionId: subscriptionId}}).then(
+            $http.delete('user/promo', {api: 'subscriptions_api', data: {code: code, subscriptionId: subscriptionId}, headers: {'Content-Type': 'application/json'}}).then(
                 function(answer){
                     response(d, answer);
                 },
@@ -246,6 +246,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                                 scope.pricePolicyBeforePromo = null;
                                 scope.selectedPlan = response.data;
                                 scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
+                                scope.promo.code = '';
                             }
                         }
                     ).finally(function(){
