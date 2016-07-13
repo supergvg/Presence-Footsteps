@@ -190,6 +190,7 @@ angular.module('gliist')
             };
             
             $scope.save = function(autoSave) {
+                $scope.cancelAutoSave();
                 var errorMessage = [];
                 if (!$scope.createGuestListForm.$valid) {
                     var errors = {
@@ -212,12 +213,11 @@ angular.module('gliist')
                     return;
                 }                
                 
-                if (!autoSave && $scope.onBeforeSave && !$scope.onBeforeSave($scope.gli)) {
+                if ($scope.onBeforeSave && !$scope.onBeforeSave($scope.gli, !autoSave)) {
                     return;
                 }
                 
                 $scope.fetchingData = true;
-                $scope.cancelAutoSave();
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }

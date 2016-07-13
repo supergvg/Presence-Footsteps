@@ -33,9 +33,9 @@ angular.module('gliist')
                 return total;
             };    
             
-            $scope.checkSubscription = function(glist) {
+            $scope.checkSubscription = function(glist, showPopup) {
                 var totalGuests = $scope.gliId ? glist.actual.length : glist.guests.length;
-                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + totalGuests, {}, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + totalGuests, showPopup, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
                     return false;
                 }
                 return true;
