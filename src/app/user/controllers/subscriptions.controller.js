@@ -19,6 +19,13 @@ angular.module('gliist')
                 return false;
             };
             
+            $scope.getEndDate = function() {
+                if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
+                    return $rootScope.currentUser.subscription.endDate;
+                }
+                return false;
+            };
+            
             $scope.isSubscribed = function() {
                 return $rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined';
             };

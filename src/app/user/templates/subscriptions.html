@@ -24,8 +24,9 @@
             </md-radio-group>
         </div>
         <div layout="column" class="tariff-footer" layout-align="center center">
-            <h4 ng-if="tariff.isCurrentlyUsed && tariff.pricePolicies.length === 1"><b>ACTIVE</b></h4>
-            <div ng-if="!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && tariff.pricePolicies.length > 1)">
+            <h4 ng-if="tariff.isCurrentlyUsed && tariff.pricePolicies.length === 1"><b>ACTIVE Expires on {{getEndDate() | date:'MM/dd/yyyy HH:mm'}}</b></h4>
+            <h4 ng-if="tariff.isTransform"><b>Ongoing</b></h4>
+            <div ng-if="(!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && tariff.pricePolicies.length > 1)) && !tariff.isTransform">
                 <md-button class="raised-btn" ng-click="beforeSelectPlan($index, $event)" ng-if="allowToSelect($index)">{{planLabels[$index]}}</md-button>
                 <a class="md-button raised-btn" href="mailto:info@gjests.com?subject={{tariff.name}} Account" ng-if="!allowToSelect($index)">CONTACT US</a>
             </div>
