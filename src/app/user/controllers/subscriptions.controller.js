@@ -45,7 +45,7 @@ angular.module('gliist')
                 if ((pricePolicy.prices[0].amount > 0 || selectedPlan.usedPromoCode) && selectedPlan.name !== 'Pay as you go') {
                     subscriptionsService.paymentPopup(selectedPlan, pricePolicyKey, $scope.getSubscriptions);
                 } else {
-                    $scope.waiting = true;
+                    $scope.loading = true;
                     subscriptionsService.setUserSubscription({
                         subscriptionId: selectedPlan.id,
                         pricePolicyId: pricePolicy.id
@@ -68,7 +68,7 @@ angular.module('gliist')
                             dialogService.confirm(null, rejection.data.message, 'OK', '');
                         }
                     ).finally(function(){
-                        $scope.waiting = false;
+                        $scope.loading = false;
                     });
                 }
             };

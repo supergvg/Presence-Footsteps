@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="payment-actions margin-top" layout="row" layout-align="space-between start">
-            <md-button class="raised-btn" ng-click="close()">BACK</md-button>
+            <md-button class="raised-btn" ng-click="close()" ng-disabled="waiting">BACK</md-button>
             <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
             <md-button class="raised-btn" ng-click="process(card)" ng-disabled="waiting || loadingCard">PROCESS PAYMENT</md-button>
         </div>
