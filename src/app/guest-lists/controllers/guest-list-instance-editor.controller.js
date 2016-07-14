@@ -47,6 +47,7 @@ angular.module('gliist')
                     ]
                 }
             };
+            $scope.form = {};
             
             var instanceType = parseInt($stateParams.instanceType);
             
@@ -155,7 +156,6 @@ angular.module('gliist')
                     status: 'no show',
                     guest: angular.extend({}, $scope.defaultFields)
                 });
-                $scope.isDirty = true;
             };
 
             $scope.deleteSelectedRows = function() {
@@ -192,14 +192,14 @@ angular.module('gliist')
             $scope.save = function(autoSave) {
                 $scope.cancelAutoSave();
                 var errorMessage = [];
-                if (!$scope.createGuestListForm.$valid) {
+                if (!$scope.form.createGuestListForm.$valid) {
                     var errors = {
                         required: {
                             title: 'Please Enter Guest List Title',
                             listType: 'Please Select Guest Type'
                         }
                     };
-                    angular.forEach($scope.createGuestListForm.$error.required, function(value){
+                    angular.forEach($scope.form.createGuestListForm.$error.required, function(value){
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }

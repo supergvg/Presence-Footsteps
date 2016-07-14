@@ -13,9 +13,10 @@ angular.module('gliist')
                 {name: 'Comp', color: '#f3d4f9'},
                 {name: 'All Access', color: '#c9badb'},
                 {name: 'Press', color: '#e0e0e0'},
-                {name: 'RSVP', color: '#eae3da'},
+                {name: 'RSVP', color: '#ffd8b4'},
                 {name: 'Reduced', color: '#f9e6e2'},
-                {name: 'Walk up', color: '#bbe4f9'}
+                {name: 'Walk up', color: '#bbe4f9'},
+                {name: 'On the spot', color: '#f0f6fb'}
             ];
             $scope.rsvp = [
                 {name: 'Invited', color: '#cef0f2', total: 0},

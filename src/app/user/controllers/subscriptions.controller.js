@@ -53,7 +53,13 @@ angular.module('gliist')
                         function(response){
                             $rootScope.currentUser.subscription = response.data;
                             if ($state.current.name === 'choose_plan') {
-                                $state.go('main.welcome');
+                                if ($rootScope.currentUser.subscription.subscription.name === 'Pay as you go') {
+                                    dialogService.confirm(null, 'Payment is not required now until you create an event.', 'Ok').then(function(){
+                                        $state.go('main.welcome');
+                                    });
+                                } else {
+                                    $state.go('main.welcome');
+                                }
                             } else {
                                 $scope.getSubscriptions();
                             }
