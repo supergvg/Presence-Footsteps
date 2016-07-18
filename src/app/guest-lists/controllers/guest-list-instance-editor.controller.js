@@ -72,10 +72,19 @@ angular.module('gliist')
                     gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
                     gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
 
+                    gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent){
+                        $scope.cancelAutoSave();
+                    });
+
                     gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-                        if (newValue !== oldValue) {
-                            $scope.isDirty = true;
-                        }
+                        if (newValue !== oldValue)
+                            $scope.onDataChange();
+                        else
+                            $scope.startAutoSave();
+                    });
+
+                    gridApi.edit.on.cancelCellEdit($scope,function(rowEntity, colDef){
+                        $scope.startAutoSave();
                     });
                 }
             };
@@ -87,12 +96,6 @@ angular.module('gliist')
                     return;
                 }
                 $scope.options.gridData = $scope.gli.actual;
-            });
-
-            $scope.$watch('isDirty', function(newValue) {
-                if (newValue === true) {
-                    $scope.startAutoSave();
-                }
             });
 
             $scope.$watch('id', function(newValue) {
@@ -126,16 +129,18 @@ angular.module('gliist')
             });
             
             $scope.startAutoSave = function() {
-                $scope.autoSave = $interval(function(){
+                if ($scope.isDirty === false)
+                    return;
+
+                $scope.autoSave = $timeout(function(){
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
                 }, 7000);
             };
             $scope.cancelAutoSave = function() {
-                $scope.isDirty = false;
                 if ($scope.autoSave) {
-                    $interval.cancel($scope.autoSave);
+                    $timeout.cancel($scope.autoSave);
                     delete $scope.autoSave;
                 }
             };
@@ -252,6 +257,7 @@ angular.module('gliist')
                             message = 'Guest list autosaved';
                         }
                         dialogService.success(message);
+                        $scope.isDirty = false;
                         if ($scope.onSave && !autoSave) {
                             $scope.onSave(data);
                         }
@@ -390,6 +396,7 @@ angular.module('gliist')
             
             $scope.onDataChange = function () {
                 $scope.isDirty = true;
+                $scope.startAutoSave();
             };
 
             $scope.upload = function (files, glId) {
