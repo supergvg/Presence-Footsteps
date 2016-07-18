@@ -252,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    <div layout="column" ng-show="(event.type === 1 && event.rsvpType === 2) || (event.type === 2)">
+                    <div layout="column" ng-show="event.type !== 1">
                         <div class="block-field">
                             <h4>Additional Guests:</h4>
                             <span layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
