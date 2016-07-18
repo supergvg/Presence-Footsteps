@@ -22,6 +22,9 @@ angular.module('gliist')
                 notes: '',
                 plus: 0
             };
+            $scope.canEdit = function () {
+                return !$scope.fetchingData;
+            };
             $scope.options = {
                 filter: {
                     active: true,
@@ -38,6 +41,7 @@ angular.module('gliist')
                     enableEditCells: true
                 },
                 gridOptions: {
+					cellEditableCondition : $scope.canEdit,
                     columnDefs: [
                         {field: 'firstName', name: 'First Name'},
                         {field: 'lastName', name: 'Last Name'},
