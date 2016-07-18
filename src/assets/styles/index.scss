@@ -1551,9 +1551,10 @@ md-dialog {
                     }                    
                 }
                 .tariff-footer {
-                    padding: 15px;
-                    height: 70px;
+                    padding: 5px 15px 15px 15px;
+                    height: 90px;
                     h4,b {
+                        margin-top: 0;
                         font-size: 16px;
                         color: #8e8e8e;
                     }
@@ -1663,10 +1664,14 @@ md-dialog {
             .tariff-footer {
                 border-top: 2px dashed #8e8e8e;
                 padding: 15px;
-                height: 70px;
+                height: 90px;
                 h4 {
+                    margin-top: 0;
                     font-size: 20px;
                     color: #8f8f8f;
+                    &.small-font {
+                        font-size: 12px;
+                    }
                 }
             }
         }

@@ -120,18 +120,23 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 return d.promise;
             },
             
-            createEvent: function (event) {
+            createEvent: function(event) {
                 var d = $q.defer();
 
-                $http({
-                    method: 'POST',
-                    url: 'api/event',
-                    data: event
-                }).success(function (data) {
-                    d.resolve(data);
-                }).error(function () {
-                    d.reject('Oops there was an error trying to get events, please try again');
-                });
+                $http.post('api/event', event).then(
+                    function(data) {
+                        d.resolve(data);
+                    },
+                    function(response) {
+                        var message = 'Oops there was an error trying to get events, please try again';
+                        if (response.status === 403) {
+                            
+                            
+                            
+                        }
+                        d.reject(message);
+                    }   
+                );
 
                 return d.promise;
             },
