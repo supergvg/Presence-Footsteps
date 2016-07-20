@@ -3,20 +3,21 @@
 angular.module('gliist')
     .controller('AddGLEventCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService',
         function ($scope, $stateParams, dialogService, $state, eventsService) {
+            $scope.listLinked = false;
 
             $scope.goBackToEvent = function (glist) {
                 var eventId = $stateParams.eventId,
                     instanceType = $stateParams.instanceType;
-
-                eventsService.linkGuestList([glist], eventId, instanceType).then(
-                    function() {
-                        dialogService.success('Guest lists were linked');
-                        $state.go('main.edit_event', {eventId: eventId, view: 3});
-                    }, function () {
-                        dialogService.error('There was a problem linking, please try again');
-                    }
-                );
-
+                if (!$scope.listLinked) {
+                    eventsService.linkGuestList([glist], eventId, instanceType).then(
+                        function(data) {
+                            dialogService.success('Guest lists were linked');
+                            $scope.listLinked = true;
+                        }, function () {
+                            dialogService.error('There was a problem linking, please try again');
+                        }
+                    );
+                }
             };
 
             $scope.init = function () {
