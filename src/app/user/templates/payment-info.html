@@ -43,8 +43,8 @@
                 <md-button ng-click="close()" ng-if="$last">
                     Cancel
                 </md-button>
-                <md-button class="raised-btn" ng-click="update(cardForm[$index], $index)" ng-disabled="savingCard">
-                    {{card.cardData.cardId ? 'Update' : 'Add'}}
+                <md-button class="raised-btn" ng-click="card.cardData.cardId ? delete($index) : update(cardForm[$index], $index)" ng-disabled="savingCard">
+                    {{card.cardData.cardId ? 'Delete' : 'Add'}}
                 </md-button>
                 <div ng-if="savingCard">
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>

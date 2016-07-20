@@ -101,9 +101,7 @@ angular.module('gliist')
                         $scope.savingCard = true;
                         paymentsService.updateCard($scope.cards[index].cardData).then(
                             function(data) {    
-                                if (data.data) {
-                                    $scope.initCard(data.data, index);
-                                }
+                                $scope.initCard(data.data, index);
                             }
                         ).finally(function(){
                             $scope.savingCard = false;
@@ -112,9 +110,19 @@ angular.module('gliist')
                         $scope.savingCard = true;
                         paymentsService.addCard($scope.cards[index].cardData).then(
                             function(data) {
-                                if (data.data) {
-                                    $scope.initCard(data.data, index);
-                                }
+                                $scope.initCard(data.data, index);
+                            }
+                        ).finally(function(){
+                            $scope.savingCard = false;
+                        });
+                    }
+                };
+                scope.delete = function(index) {
+                    if ($scope.cards[index].cardData.cardId) {
+                        $scope.savingCard = true;
+                        paymentsService.deleteCard($scope.cards[index].cardData.cardId).then(
+                            function(data) {    
+                                $scope.initCard(data.data, index);
                             }
                         ).finally(function(){
                             $scope.savingCard = false;
