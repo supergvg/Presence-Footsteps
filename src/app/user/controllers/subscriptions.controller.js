@@ -12,12 +12,24 @@ angular.module('gliist')
                 return $scope.plans[index].pricePolicies.length > 0;
             };
             
-            $scope.getCurrenPricePolicyId = function() {
+            $scope.getCurrentPricePolicyId = function() {
                 if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
                     return $rootScope.currentUser.subscription.pricePolicy.id;
                 }
                 return false;
             };
+            
+            $scope.getCurrentSubscriptionStatus = function() {
+                if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
+                    return $rootScope.currentUser.subscription.status;
+                }
+                return false;
+            };
+            
+            $scope.showButton = function(index) {
+                return $scope.allowToSelect(index) && ($scope.getCurrentSubscriptionStatus() === 'Active' || ($scope.getCurrentSubscriptionStatus() !== 'Active' && $scope.planLabels[index] !== 'DOWNGRADE'));                
+            };
+            
             
             $scope.getEndDate = function() {
                 if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
@@ -36,7 +48,7 @@ angular.module('gliist')
                         $scope.selectPlan(index);
                     });
                 } else if ($scope.planLabels[index] === 'DOWNGRADE') {
-                    dialogService.confirm(event, 'Are you sure you want to downgrade?<br>You plan will be downgraded on the next billing period', 'YES', 'NO').then(function(){
+                    dialogService.confirm(event, 'Are you sure you want to downgrade?<br>Your new plan will be in effect the next billing cycle', 'YES', 'NO').then(function(){
                         $scope.selectPlan(index);
                     });
                 } else {
