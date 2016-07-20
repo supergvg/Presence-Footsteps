@@ -132,6 +132,7 @@ angular.module('gliist')
                 if ($scope.isDirty === false)
                     return;
 
+                $scope.cancelAutoSave();
                 $scope.autoSave = $timeout(function(){
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
@@ -403,16 +404,10 @@ angular.module('gliist')
                 if ($scope.list) {
                     $scope.cancelAutoSave();
                     $scope.fetchingData = true;
-                    guestFactory.GuestList.update($scope.list).$promise.then(
-                        function(data) {
-                            $scope.list = data;
-                            $scope.upload(files[0], $scope.list.id);
-                        }, 
-                        function() {
-                            dialogService.error('There was a problem saving your guest list, please try again');
-                        }
-                    ).finally(function () {
-                        $scope.fetchingData = false;
+                    $scope.save(true, true, function(onSave){
+                        $scope.upload(files[0], $scope.list.id);
+                        if (onSave)
+                            onSave();
                     });
                     return;
                 }

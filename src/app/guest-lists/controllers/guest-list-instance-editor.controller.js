@@ -136,6 +136,7 @@ angular.module('gliist')
                 if ($scope.isDirty === false)
                     return;
 
+                $scope.cancelAutoSave();
                 $scope.autoSave = $timeout(function(){
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
@@ -493,16 +494,11 @@ angular.module('gliist')
                     var gli = angular.copy($scope.gli, {});
                     $scope.cancelAutoSave();
                     $scope.fetchingData = true;
-                    guestFactory.GuestListInstance.update(gli).$promise.then(
-                        function (data) {
-                            $scope.gli = data;
-                            $scope.upload(files[0], $scope.gli.id);
-                        },
-                        function () {
-                            $scope.fetchingData = false;
-                            dialogService.error('There was a problem saving your guest list, please try again');
-                        }
-                    );
+                    $scope.save(true, true, function(onSave){
+                        $scope.upload(files[0], $scope.gli.id);
+                        if (onSave)
+                            onSave();
+                    });
                     return;
                 }
                 $scope.upload(files[0]);
