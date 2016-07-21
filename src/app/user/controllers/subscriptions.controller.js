@@ -12,27 +12,18 @@ angular.module('gliist')
                 return $scope.plans[index].pricePolicies.length > 0;
             };
             
-            $scope.getCurrentPricePolicyId = function() {
-                if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
-                    return $rootScope.currentUser.subscription.pricePolicy.id;
-                }
-                return false;
-            };
-            
-            $scope.getCurrentSubscriptionStatus = function() {
-                if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
-                    return $rootScope.currentUser.subscription.status;
-                }
-                return false;
-            };
-            
             $scope.showButton = function(index) {
-                return $scope.allowToSelect(index) && ($scope.getCurrentSubscriptionStatus() === 'Active' || ($scope.getCurrentSubscriptionStatus() !== 'Active' && $scope.planLabels[index] !== 'DOWNGRADE'));                
+                var subscriptionStatus = '',
+                    pricePolicyType = '';
+                if ($scope.isSubscribed()) {
+                    subscriptionStatus = $rootScope.currentUser.subscription.status;
+                    pricePolicyType = $rootScope.currentUser.subscription.pricePolicy.prices[0].type;
+                }
+                return $scope.allowToSelect(index) && (!$scope.plans[index].isCurrentlyUsed || ($scope.plans[index].isCurrentlyUsed && $scope.plans[index].pricePolicies.length > 1 && pricePolicyType !== 'Year')) && (subscriptionStatus === 'Active' || (subscriptionStatus !== 'Active' && $scope.planLabels[index] !== 'DOWNGRADE'));
             };
-            
             
             $scope.getEndDate = function() {
-                if ($rootScope.currentUser && $rootScope.currentUser.subscription) {
+                if ($scope.isSubscribed()) {
                     return $rootScope.currentUser.subscription.endDate;
                 }
                 return false;
@@ -48,7 +39,11 @@ angular.module('gliist')
                         $scope.selectPlan(index);
                     });
                 } else if ($scope.planLabels[index] === 'DOWNGRADE') {
-                    dialogService.confirm(event, 'Are you sure you want to downgrade?<br>Your new plan will be in effect the next billing cycle', 'YES', 'NO').then(function(){
+                    var message = 'Are you sure you want to downgrade?<br>Your new plan will be in effect the next billing cycle';
+                    if ($scope.isSubscribed() && $rootScope.currentUser.subscription.subscription.name === 'Monthly' && $scope.plans[index].name === 'Guest List Only') {
+                        message = 'Are you sure you want to downgrade?<br>Your premium features will not be accessible after';
+                    }
+                    dialogService.confirm(event, message, 'YES', 'NO').then(function(){
                         $scope.selectPlan(index);
                     });
                 } else {
@@ -102,11 +97,18 @@ angular.module('gliist')
                             label = 'SELECT';
                         }
                         $scope.planLabels = [];
-                        angular.forEach($scope.plans, function(plan){
+                        $scope.pricePolicyKeys = [];
+                        angular.forEach($scope.plans, function(plan, key){
+                            $scope.pricePolicyKeys[key] = 0;
                             if (plan.isCurrentlyUsed) {
-                                if (plan.pricePolicies.length > 1) {
-                                    $scope.planLabels.push('UPDATE');
-                                } else {
+                                if ($scope.isSubscribed()) {
+                                    angular.forEach(plan.pricePolicies, function(pricePolicy, index){
+                                        if (pricePolicy.id !== $rootScope.currentUser.subscription.pricePolicy.id) {
+                                            $scope.pricePolicyKeys[key] = index;
+                                        }
+                                    });
+                                }
+                                if (plan.pricePolicies.length === 1) {
                                     $scope.planLabels.push('ACTIVE');
                                 }
                                 label = 'UPGRADE';
