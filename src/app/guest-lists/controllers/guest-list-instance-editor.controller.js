@@ -3,6 +3,8 @@
 angular.module('gliist')
     .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams', '$mdTheming',
         function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams, $mdTheming) {
+            var instanceType = parseInt($stateParams.instanceType);
+
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -24,6 +26,9 @@ angular.module('gliist')
             };
             $scope.canEdit = function () {
                 return !$scope.fetchingData;
+            };
+            $scope.canEditPlus = function () {
+                return !(instanceType === 2 || instanceType === 4); //disable editing for RSVP list
             };
             $scope.options = {
                 filter: {
@@ -47,13 +52,11 @@ angular.module('gliist')
                         {field: 'guest.lastName', name: 'Last Name'},
                         {field: 'guest.email', name: 'Email', enableSorting: false},
                         {field: 'guest.notes', name: 'Note', enableSorting: false},
-                        {field: 'guest.plus', name: 'Plus', enableSorting: false}
+                        {field: 'guest.plus', name: 'Plus', enableSorting: false, cellEditableCondition: $scope.canEditPlus}
                     ]
                 }
             };
             $scope.form = {};
-            
-            var instanceType = parseInt($stateParams.instanceType);
             
             $scope.options.methods = {
                 gridCellTab: function(event, col) {
