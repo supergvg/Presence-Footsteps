@@ -417,17 +417,13 @@ angular.module('gliist')
                 if (!files || files.length === 0) {
                     return;
                 }
-                if ($scope.list) {
-                    $scope.cancelAutoSave();
-                    $scope.fetchingData = true;
-                    $scope.save(true, true, function(onSave){
-                        $scope.upload(files[0], $scope.list.id);
-                        if (onSave)
-                            onSave();
-                    });
-                    return;
-                }
-                $scope.upload(files[0]);
+                
+                $scope.cancelAutoSave();
+                $scope.save(true, true, function(onSave){
+                    $scope.upload(files[0], $scope.list.id);
+                    if (onSave)
+                        onSave();
+                });
             };
 
             $scope.upload = function(files, glId) {
