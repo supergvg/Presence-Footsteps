@@ -3,6 +3,7 @@
 angular.module('gliist')
     .controller('GuestListEditorCtrl', ['$scope', '$rootScope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService', '$mdTheming',
         function ($scope, $rootScope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService, $mdTheming) {
+            $scope.mustBeLinked = $scope.linkToEvent ? true : false; //if no linkToEvent callback specified the list doesn't need linking
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -213,7 +214,7 @@ angular.module('gliist')
                     return;
                 }
                 
-                if (!forceSaveGuest) {
+                /*if (!forceSaveGuest) {
                     var list = $scope.list.guests.slice();
                     var duplicated = [];
                     
@@ -235,7 +236,7 @@ angular.module('gliist')
                     
                     if (duplicated.length)
                         return $scope.confirmDuplicatedGuests(autoSave, duplicated);
-                }
+                }*/
                 
                 var list = {};
                 if (!$scope.list.listType) {
@@ -281,18 +282,33 @@ angular.module('gliist')
                         }
                         dialogService.success(message);
                         $scope.isDirty = false;
-                        if (onSuccess) {
-                            onSuccess(function() {
+                        
+                        if (onSuccess) { //fire onSuccess before onSave
+                            var sc = function() {
                                 if ($scope.onSave) {
-                                    $scope.onSave(data);
-                                } else {
-                                    $state.go('main.edit_glist', {listId: data.id});
+                                    $scope.onSave(data, autoSave);
+                                } else if (!autoSave) {
+                                    $state.go('main.list_management', {listId: data.id});
                                 }
-                            });
+                            }
+                            
+                            if ($scope.mustBeLinked) //link before continuing
+                                $scope.linkToEvent(data).then(function(){
+                                    $scope.mustBeLinked = false;
+                                    onSuccess(sc);
+                                });
+                            else
+                                onSuccess(sc);
                         } else if ($scope.onSave) {
-                            $scope.onSave(data);
-                        } else {
-                            $state.go('main.edit_glist', {listId: data.id});
+                            if ($scope.mustBeLinked)
+                                $scope.linkToEvent(data).then(function(){
+                                    $scope.mustBeLinked = false;
+                                    $scope.onSave(data, autoSave);
+                                });
+                            else
+                                $scope.onSave(data, autoSave);
+                        } else if (!autoSave) {
+                            $state.go('main.list_management', {listId: data.id});
                         }
                     }, function(error) {
                         dialogService.error(error.data.Message || 'There was a problem saving your guest list, please try again');
