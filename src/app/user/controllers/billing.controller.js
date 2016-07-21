@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('BillingCtrl', ['$scope', '$mdDialog', 'paymentsService', 'dialogService', 'EnvironmentConfig', '$window',
-        function($scope, $mdDialog, paymentsService, dialogService, EnvironmentConfig, $window) {
+    .controller('BillingCtrl', ['$scope', '$mdDialog', 'paymentsService', 'dialogService', 'EnvironmentConfig', '$window', '$rootScope',
+        function($scope, $mdDialog, paymentsService, dialogService, EnvironmentConfig, $window, $rootScope) {
             var card = {
                     cardDataSaved: {
                         number: 'XXXX'
@@ -22,18 +22,6 @@ angular.module('gliist')
             $scope.options = {
                 'billing': true
             };
-            $scope.loadingInvoices = true;
-            $scope.loadingCards = true;
-            
-            paymentsService.getCharges().then(
-                function(data) {
-                    if (data.data && data.data.length > 0) {
-                        $scope.invoices = data.data;
-                    }
-                }
-            ).finally(function(){
-                $scope.loadingInvoices = false;
-            });
             
             $scope.initCard = function(card, index) {
                 $scope.cards[index].cardData = angular.extend({}, card);
@@ -42,17 +30,39 @@ angular.module('gliist')
                 $scope.cards[index].cardDataSaved = angular.extend({}, card);
             };
             
-            paymentsService.getCards().then(
-                function(data) {
-                    if (data.data) {
-                        angular.forEach(data.data, function(card, key){
-                            $scope.initCard(card, key);
-                        });
-                        $scope.cardsDataLoaded = true;
+            $scope.loadParts = function() {
+                $scope.loadingInvoices = true;
+                paymentsService.getCharges().then(
+                    function(data) {
+                        if (data.data && data.data.length > 0) {
+                            $scope.invoices = data.data;
+                        }
                     }
+                ).finally(function(){
+                    $scope.loadingInvoices = false;
+                });
+                $scope.loadingCards = true;
+                paymentsService.getCards().then(
+                    function(data) {
+                        if (data.data) {
+                            angular.forEach(data.data, function(card, key){
+                                $scope.initCard(card, key);
+                            });
+                            $scope.cardsDataLoaded = true;
+                        }
+                    }
+                ).finally(function(){
+                    $scope.loadingCards = false;
+                });
+            };
+            
+            $scope.loadParts();
+            
+            $rootScope.$watch('currentUser.subscription', function(newValue, oldValue) {
+                if (!newValue || !oldValue || (newValue.id === oldValue.id && newValue.pricePolicy.id === oldValue.pricePolicy.id)) {
+                    return;
                 }
-            ).finally(function(){
-                $scope.loadingCards = false;
+                $scope.loadParts();
             });
             
             $scope.editPaymentInfo = function() {
