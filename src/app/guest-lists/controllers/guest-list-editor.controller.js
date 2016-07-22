@@ -22,6 +22,9 @@ angular.module('gliist')
                 notes: '',
                 plus: 0
             };
+            $scope.canEdit = function () {
+                return !$scope.fetchingData;
+            };
             $scope.options = {
                 filter: {
                     active: true,
@@ -38,6 +41,7 @@ angular.module('gliist')
                     enableEditCells: true
                 },
                 gridOptions: {
+					cellEditableCondition : $scope.canEdit,
                     columnDefs: [
                         {field: 'firstName', name: 'First Name'},
                         {field: 'lastName', name: 'Last Name'},
@@ -184,7 +188,7 @@ angular.module('gliist')
                 $scope.rowSelected = false;
             };
             
-            $scope.save = function(autoSave) {
+            $scope.save = function(autoSave, forceSaveGuest) {
                 $scope.cancelAutoSave();
                 var errorMessage = [];
                 if (!$scope.form.createGuestListForm.$valid) {
@@ -219,10 +223,24 @@ angular.module('gliist')
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
+
+                if (!forceSaveGuest) {
+                    var gc = $scope.list.guests.length; //find duplicated guests
+                    for (var i = 0; i < gc; i++) {
+                        var fn = $scope.list.guests[i].firstName;
+                        var ln = $scope.list.guests[i].lastName;
+                        for (var j = 0; j < gc; j++) {
+                            if (fn === $scope.list.guests[j].firstName && ln === $scope.list.guests[j].lastName && i !== j) {
+                                return $scope.confirmDuplicatedGuests(autoSave);
+                            }
+                        }
+                    }
+                }
                 
                 var list = {};
-                angular.copy($scope.list, list);
-                
+                angular.copy($scope.list, list);                  
+                    
+                $scope.fetchingData = true;
                 guestFactory.GuestList.update(list).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -266,12 +284,22 @@ angular.module('gliist')
                                 $state.go('main.edit_glist', {listId: data.id});
                             }
                         }
-                    }, function() {
-                        dialogService.error('There was a problem saving your guest list, please try again');
+                    }, function(error) {
+                        dialogService.error(error.data.Message || 'There was a problem saving your guest list, please try again');
                     }
                 ).finally(function() {
                     $scope.fetchingData = false;
                 });
+            };
+
+            $scope.confirmDuplicatedGuests = function (autoSave) {
+                var confirm = $mdDialog.confirm()
+                    .content('These names have been added, do you want to add them again to this event?')
+                    .ok('Yes')
+                    .cancel('No');
+                $mdDialog.show(confirm).then(function() {
+                    $scope.save(autoSave, true);
+                }, function() {});
             };
             
             $scope.guestsError = function() {

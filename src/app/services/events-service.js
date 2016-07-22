@@ -124,8 +124,8 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                 var d = $q.defer();
 
                 $http.post('api/event', event).then(
-                    function(data) {
-                        d.resolve(data);
+                    function(response) {
+                        d.resolve(response.data);
                     },
                     function(response) {
                         var message = 'Oops there was an error trying to get events, please try again';
