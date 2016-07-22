@@ -6,7 +6,8 @@ angular.module('gliist')
             restrict: 'EA',
             scope: {
                 list: '=',
-                onSave: '=?'
+                onSave: '=?',
+                linkToEvent: '=?'
             },
             controller: 'GuestListEditorCtrl',
             replace: true,

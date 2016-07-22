@@ -3,20 +3,22 @@
 angular.module('gliist')
     .controller('AddGLEventCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService',
         function ($scope, $stateParams, dialogService, $state, eventsService) {
-
-            $scope.goBackToEvent = function (glist) {
-                var eventId = $stateParams.eventId,
-                    instanceType = $stateParams.instanceType;
-
-                eventsService.linkGuestList([glist], eventId, instanceType).then(
-                    function() {
+            $scope.goBackToEvent = function (glist, autoSave) {
+                if (!autoSave)
+                    $state.go('main.edit_event', {eventId: $stateParams.eventId, view: 3});
+            };
+            
+            $scope.linkToEvent = function (glist) {
+                var p = eventsService.linkGuestList([glist], $stateParams.eventId, $stateParams.instanceType)
+                p.then(
+                    function(data) {
                         dialogService.success('Guest lists were linked');
-                        $state.go('main.edit_event', {eventId: eventId, view: 3});
                     }, function () {
                         dialogService.error('There was a problem linking, please try again');
                     }
                 );
-
+                
+                return p;
             };
 
             $scope.init = function () {
