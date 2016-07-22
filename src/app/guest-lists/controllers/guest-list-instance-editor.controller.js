@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams) {
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', '$rootScope', 'guestListParserService', '$stateParams', '$mdTheming',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, $rootScope, guestListParserService, $stateParams, $mdTheming) {
+            var instanceType = parseInt($stateParams.instanceType);
+
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -22,6 +24,12 @@ angular.module('gliist')
                 notes: '',
                 plus: 0
             };
+            $scope.canEdit = function () {
+                return !$scope.fetchingData;
+            };
+            $scope.canEditPlus = function () {
+                return !(instanceType === 2 || instanceType === 4); //disable editing for RSVP list
+            };
             $scope.options = {
                 filter: {
                     active: true,
@@ -38,26 +46,19 @@ angular.module('gliist')
                     enableEditCells: true
                 },
                 gridOptions: {
+                    cellEditableCondition : $scope.canEdit,
                     columnDefs: [
                         {field: 'guest.firstName', name: 'First Name'},
                         {field: 'guest.lastName', name: 'Last Name'},
                         {field: 'guest.email', name: 'Email', enableSorting: false},
                         {field: 'guest.notes', name: 'Note', enableSorting: false},
-                        {field: 'guest.plus', name: 'Plus', enableSorting: false}
+                        {field: 'guest.plus', name: 'Plus', enableSorting: false, cellEditableCondition: $scope.canEditPlus}
                     ]
                 }
             };
-            
-            var instanceType = parseInt($stateParams.instanceType);
+            $scope.form = {};
             
             $scope.options.methods = {
-                updateGridData: function() {
-                    if ($scope.gli) {
-                        var data = [];
-                        angular.copy($scope.options.gridOptions.data, data);
-                        angular.copy(data, $scope.gli.actual);
-                    }
-                },                
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
                         $scope.addMore();
@@ -78,10 +79,19 @@ angular.module('gliist')
                     gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
                     gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
 
+                    gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent){
+                        $scope.cancelAutoSave();
+                    });
+
                     gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-                        if (newValue !== oldValue) {
-                            $scope.isDirty = true;
-                        }
+                        if (newValue !== oldValue)
+                            $scope.onDataChange();
+                        else
+                            $scope.startAutoSave();
+                    });
+
+                    gridApi.edit.on.cancelCellEdit($scope,function(rowEntity, colDef){
+                        $scope.startAutoSave();
                     });
                 }
             };
@@ -92,13 +102,7 @@ angular.module('gliist')
                 if (!newVal) {
                     return;
                 }
-                $scope.options.gridOptions.data = $scope.gli.actual;
-            });
-
-            $scope.$watch('isDirty', function(newValue) {
-                if (newValue === true) {
-                    $scope.startAutoSave();
-                }
+                $scope.options.gridData = $scope.gli.actual;
             });
 
             $scope.$watch('id', function(newValue) {
@@ -132,16 +136,19 @@ angular.module('gliist')
             });
             
             $scope.startAutoSave = function() {
-                $scope.autoSave = $interval(function(){
+                if ($scope.isDirty === false)
+                    return;
+
+                $scope.cancelAutoSave();
+                $scope.autoSave = $timeout(function(){
                     if (!$scope.guestsError() && !$scope.fetchingData) {
                         $scope.save(true);
                     }
                 }, 7000);
             };
             $scope.cancelAutoSave = function() {
-                $scope.isDirty = false;
                 if ($scope.autoSave) {
-                    $interval.cancel($scope.autoSave);
+                    $timeout.cancel($scope.autoSave);
                     delete $scope.autoSave;
                 }
             };
@@ -158,7 +165,6 @@ angular.module('gliist')
                     status: 'no show',
                     guest: angular.extend({}, $scope.defaultFields)
                 });
-                $scope.isDirty = true;
             };
 
             $scope.deleteSelectedRows = function() {
@@ -192,16 +198,16 @@ angular.module('gliist')
                 $scope.rowSelected = false;
             };
             
-            $scope.save = function(autoSave) {
+            $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
                 var errorMessage = [];
-                if (!$scope.createGuestListForm.$valid) {
+                if (!$scope.form.createGuestListForm.$valid) {
                     var errors = {
                         required: {
                             title: 'Please Enter Guest List Title',
                             listType: 'Please Select Guest Type'
                         }
                     };
-                    angular.forEach($scope.createGuestListForm.$error.required, function(value){
+                    angular.forEach($scope.form.createGuestListForm.$error.required, function(value){
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }
@@ -213,16 +219,42 @@ angular.module('gliist')
                         dialogService.error(errorMessage.join(', '));
                     }
                     return;
-                }                
+                }
                 
-                $scope.fetchingData = true;
-                $scope.cancelAutoSave();
+                /*if (!forceSaveGuest) { //will cause second check before sending data
+                    var list = $scope.gli.actual.slice();
+                    var duplicated = [];
+                    
+                    var i = 0;
+                    while (list[i]) {
+                        var fn = list[i].guest.firstName;
+                        var ln = list[i].guest.lastName;
+                        
+                        for (var j = i; j < list.length; j++) {
+                            if (fn === list[j].guest.firstName && ln === list[j].guest.lastName && i != j) {
+                                duplicated.push(list[j].guest);
+                                list.splice(j, 1); //remove from temporary list to eliminate cross-checking
+                                j--;
+                            }
+                        }
+
+                        i++;
+                    }
+                    
+                    if (duplicated.length)
+                        return $scope.confirmDuplicatedGuests(autoSave, duplicated);
+                }*/
+                
+                var gli = {};
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
-                var gli = {};
                 angular.copy($scope.gli, gli);
-                
+                if (forceSaveGuest)
+                    gli.ForceSaveGuest = true;
+                    
+                $scope.cancelAutoSave();
+                $scope.fetchingData = true;
                 guestFactory.GuestListInstance.update(gli).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -259,15 +291,100 @@ angular.module('gliist')
                             message = 'Guest list autosaved';
                         }
                         dialogService.success(message);
-                        if ($scope.onSave && !autoSave) {
+                        $scope.isDirty = false;
+                        if (onSuccess) {
+                            onSuccess(function() {
+                                if ($scope.onSave && !autoSave) {
+                                    $scope.onSave(data);
+                                }
+                            });
+                        } else if ($scope.onSave && !autoSave) {
                             $scope.onSave(data);
                         }
+                        
                     }, function(error) {
-                        var message = error.data.Message || 'There was a problem saving your guest list, please try again';
-                        dialogService.error(message);
+                        if (error.status === 409)
+                            $scope.confirmDuplicatedGuests(autoSave, error.data);
+                        else
+                            dialogService.error(error.data.Message || 'There was a problem saving your guest list, please try again');
                     }
                 ).finally(function() {
                     $scope.fetchingData = false;
+                });
+            };
+
+            $scope.confirmDuplicatedGuests = function (autoSave, list) {
+                var htmlcontent = '<p>These names are already in the guest list:</p>\n<ul>';
+                angular.forEach(list, function(item) {
+                    htmlcontent += '<li>' + item.firstName + ' ' + item.lastName + '</li>'
+                });
+                htmlcontent += '</ul><p>Do you want to delete them?</p>';
+
+                $mdDialog.show({
+                    template: [
+                        '<md-dialog md-theme="{{ dialog.theme }}" aria-label="">',
+                        '<md-dialog-content role="document" tabIndex="-1">',
+                        htmlcontent,
+                        '</md-dialog-content>',
+                        '<div class="md-actions">',
+                        '<md-button ng-click="dialog.hide()" class="md-primary">Yes</md-button>',
+                        '<md-button ng-click="dialog.abort()" class="md-primary">No</md-button>',
+                        '</div>',
+                        '</md-dialog>'
+                    ].join(''),
+                    controller: function mdDialogCtrl() {
+                        this.hide = function() {
+                            $mdDialog.hide(true);
+                        };
+                        this.abort = function() {
+                            $mdDialog.cancel();
+                        };
+                    },
+                    controllerAs: 'dialog',
+                    bindToController: true,
+                    theme: $mdTheming.defaultTheme()
+                }).then(function() {
+                    var ids = [];
+                    angular.forEach(list, function(item) {
+                        if (item.id === 0) { //id = 0 if returned by back end
+                            var l = $scope.gli.actual;
+                            var i = 0;
+                            while(l[i]) {
+                                if (l[i].guest.firstName === item.firstName && l[i].guest.lastName === item.lastName && l[i].guest.id === undefined) {
+                                    l.splice(i, 1);
+                                    i--;
+                                }
+                                i++;
+                            }
+                        } else if (item.id === undefined) { //id = undefined if returned by front end
+                            var l = $scope.gli.actual;
+                            var i = 0;
+                            while(l[i]) {
+                                if (l[i].guest === item) {
+                                    l.splice(i, 1);
+                                    i--;
+                                }
+                                i++;
+                            }
+                        } else //remove on back end
+                            ids.push(item.id);
+                    });
+                    
+                    if (ids.length) {
+                        $scope.save(autoSave, true, function(onSave) {
+                            $scope.fetchingData = true;
+                            eventsService.removeGuestsFromGLInstance($scope.gli.id, ids).then( function(data) {
+                                $scope.gli = data;
+                                if (onSave)
+                                    onSave();
+                            }).finally(function () {
+                                $scope.fetchingData = false;
+                            });
+                        });
+                    } else
+                        $scope.save(autoSave);
+                }, function() {
+                    $scope.save(autoSave, true);
                 });
             };
             
@@ -287,7 +404,7 @@ angular.module('gliist')
                         return true;
                     }
                 }
-                	
+                    
                 return result;
             };
 
@@ -318,7 +435,7 @@ angular.module('gliist')
                                 return dialogService.error('There was a problem linking your guest list, please try again');
                             }
                             $scope.gli.actual = result.actual;
-                            $scope.onDataChange();
+                            $scope.save(true);
                         },
                         function () {
                             dialogService.error('There was a problem linking your guest list, please try again');
@@ -380,16 +497,11 @@ angular.module('gliist')
                     var gli = angular.copy($scope.gli, {});
                     $scope.cancelAutoSave();
                     $scope.fetchingData = true;
-                    guestFactory.GuestListInstance.update(gli).$promise.then(
-                        function (data) {
-                            $scope.gli = data;
-                            $scope.upload(files[0], $scope.gli.id);
-                        },
-                        function () {
-                            $scope.fetchingData = false;
-                            dialogService.error('There was a problem saving your guest list, please try again');
-                        }
-                    );
+                    $scope.save(true, true, function(onSave){
+                        $scope.upload(files[0], $scope.gli.id);
+                        if (onSave)
+                            onSave();
+                    });
                     return;
                 }
                 $scope.upload(files[0]);
@@ -397,6 +509,7 @@ angular.module('gliist')
             
             $scope.onDataChange = function () {
                 $scope.isDirty = true;
+                $scope.startAutoSave();
             };
 
             $scope.upload = function (files, glId) {
@@ -404,6 +517,7 @@ angular.module('gliist')
                 uploaderService.uploadGuestListInstance(files, glId).then(
                     function (data) {
                         $scope.gli = data;
+                        $scope.save(true);
                     },
                     function () {
                         dialogService.error('There was a problem saving your guest list please try again');

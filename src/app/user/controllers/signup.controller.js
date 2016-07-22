@@ -21,14 +21,18 @@ angular.module('gliist')
                 if ($scope.user.password !== $scope.user.confirmPassword) {
                     return;
                 }
-                $scope.sendinggData = true;
+                $scope.sendingData = true;
                 userService.registerEmail($scope.user, $scope.options.inviteMode).then(function() {
                     $scope.user.username = null;
                     $scope.user.password = null;
                     $scope.user.confirmPassword = null;
                     $state.go('main.welcome');
                 }, function(error) {
-                    var message = (error && error.Message) || 'There was a problem signing up, please try again';
+                    var message = 'There was a problem signing up, please try again';
+                    if (error.ModelState)
+                        for (var err in error.ModelState)
+                        message = error.ModelState[err][0] + '\n';
+
                     dialogService.error(message);
                 }).finally(function() {
                     $scope.sendingData = false;
@@ -50,8 +54,8 @@ angular.module('gliist')
                         $scope.user.username = userInfo.email;
                         $scope.user.company = company;
                         $scope.user.token = token;
-                    }, function() {
-                        dialogService.error('There was a problem signing up, please try again');
+                    }, function(error) {
+                        dialogService.error(error && error.Message || 'There was a problem signing up, please try again');
                     }).finally(function() {
                         $scope.loading = false;
                     });
