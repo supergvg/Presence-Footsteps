@@ -3,7 +3,7 @@
 angular.module('gliist')
     .controller('BillingCtrl', ['$scope', '$mdDialog', 'paymentsService', 'dialogService', 'EnvironmentConfig', '$window', '$rootScope',
         function($scope, $mdDialog, paymentsService, dialogService, EnvironmentConfig, $window, $rootScope) {
-            var card = {
+            var cardDefault = {
                     cardDataSaved: {
                         number: 'XXXX'
                     },
@@ -13,10 +13,10 @@ angular.module('gliist')
                         expiryMonth: '',
                         expiryYear: '',
                         zipCode: '',
-                        isDefault: false
+                        isDefault: true
                     }
                 };
-            $scope.cards = [angular.extend({}, card), angular.extend({}, card)];
+            $scope.cards = [angular.extend({}, cardDefault)];
             $scope.invoices = [];
             $scope.cardsDataLoaded = false;
             $scope.options = {
@@ -24,6 +24,13 @@ angular.module('gliist')
             };
             
             $scope.initCard = function(card, index) {
+                $scope.cards = [angular.extend({}, cardDefault)];
+                if (!card || (card && !card.isDefault)) {
+                    return;
+                }
+                if (!$scope.cards[index]) {
+                    $scope.cards.push(angular.extend({}, cardDefault));
+                }
                 $scope.cards[index].cardData = angular.extend({}, card);
                 $scope.cards[index].cardData.number = '';
                 $scope.cards[index].cardData.cvc = '';
