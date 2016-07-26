@@ -30,6 +30,9 @@ angular.module('gliist')
             $scope.canEditPlus = function () {
                 return !(instanceType === 2 || instanceType === 4); //disable editing for RSVP list
             };
+            $scope.isNotPublicRSVP = function () {
+                return instanceType !== 4;
+            };
             $scope.options = {
                 filter: {
                     active: true,
@@ -50,9 +53,9 @@ angular.module('gliist')
                     columnDefs: [
                         {field: 'guest.firstName', name: 'First Name'},
                         {field: 'guest.lastName', name: 'Last Name'},
-                        {field: 'guest.email', name: 'Email', enableSorting: false},
-                        {field: 'guest.notes', name: 'Note', enableSorting: false},
-                        {field: 'guest.plus', name: 'Plus', enableSorting: false, cellEditableCondition: $scope.canEditPlus}
+                        {field: 'guest.email', name: 'Email', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.isNotPublicRSVP(); }},
+                        {field: 'guest.notes', name: 'Note', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.isNotPublicRSVP(); }},
+                        {field: 'guest.plus', name: 'Plus', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.canEditPlus(); }}
                     ]
                 }
             };
