@@ -960,6 +960,11 @@ md-checkbox .md-icon {
     }
 }
 
+.md-dialog-is-showing {
+    position: fixed;
+    overflow: hidden;
+}
+
 md-dialog {
     overflow-x: hidden;
     color: #666;
