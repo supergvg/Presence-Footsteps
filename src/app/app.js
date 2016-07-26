@@ -22,7 +22,7 @@ angular.module('gliist')
                     icon: {src: 'assets/images/icons/guest_list_management.png'}
                 },
                 {
-                    title: 'Events Stats',
+                    title: 'Event Statistics',
                     ui_sref: 'main.stats',
                     icon: {src: 'assets/images/icons/event_stats.png'}
                 },
