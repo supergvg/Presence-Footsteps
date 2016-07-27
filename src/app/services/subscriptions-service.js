@@ -27,7 +27,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     };
                 });
             },
-            subscriptionsService = this;
+            subscriptionsService = this,
+            lastVerifiedFeaturedName, lastVerifiedFeaturedValue;
             
         this.getFeatureValue = function(featureName) {
             if (!features[featureName]) {
@@ -121,10 +122,25 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             return d.promise;                
         };
         
+        this.buyFeature = function(data) {
+            var d = $q.defer();
+            $http.post('user/feature/buy', data, {api: 'subscriptions_api'}).then(
+                function(answer) {
+                    response(d, answer);
+                },
+                function(response) {
+                    responseError(d, response);
+                }
+            );
+            return d.promise;                         
+        };
+        
         this.verifyFeature = function(featureName, featureValue, event) {
             if (!$rootScope.currentUser) {
                 return;
             }
+            lastVerifiedFeaturedName = featureName;
+            lastVerifiedFeaturedValue = featureValue;
             var allow = true,
                 maxParam = false,
                 message = '';
@@ -316,22 +332,49 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     subscribe.card = scope.cardData;
                 }
                 scope.waiting = true;
-                subscriptionsService.setUserSubscription(subscribe).then(
-                    function(response){
-                        $rootScope.currentUser.subscription = response.data;
-                        scope.close();
-                        if ($state.current.name === 'choose_plan') {
-                            $state.go('main.welcome');
-                        } else if (callback) {
-                            callback();
-                        }
-                    },
-                    function(rejection){
-                        dialogService.confirm(null, rejection.data.message, 'OK', '');
+                if ($rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined' && $rootScope.currentUser.subscription.subscription.name === 'Pay as you go') {
+                    var buyFeature = {
+                        featureName: lastVerifiedFeaturedName,
+                        featureValue: lastVerifiedFeaturedValue
+                    };
+                    if (!scope.cardDataLoaded || newCard) {
+                        buyFeature.card = scope.cardData;
                     }
-                ).finally(function(){
-                    scope.waiting = false;
-                });
+                    subscriptionsService.buyFeature(buyFeature).then(
+                        function(response){
+                            subscriptionsService.getUserSubscription().then(
+                                function(data){
+                                    if (data.data && data.dataTotalCount > 0) {
+                                        $rootScope.currentUser.subscription = data.data;
+                                        scope.close();
+                                    }
+                                }
+                            );                            
+                        },
+                        function(rejection){
+                            dialogService.confirm(null, rejection.data.message, 'OK', '');
+                        }
+                    ).finally(function(){
+                        scope.waiting = false;
+                    });
+                } else {
+                    subscriptionsService.setUserSubscription(subscribe).then(
+                        function(response){
+                            $rootScope.currentUser.subscription = response.data;
+                            scope.close();
+                            if ($state.current.name === 'choose_plan') {
+                                $state.go('main.welcome');
+                            } else if (callback) {
+                                callback();
+                            }
+                        },
+                        function(rejection){
+                            dialogService.confirm(null, rejection.data.message, 'OK', '');
+                        }
+                    ).finally(function(){
+                        scope.waiting = false;
+                    });
+                }
             };
             $mdDialog.show({
                 scope: scope,
