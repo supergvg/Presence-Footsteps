@@ -121,21 +121,24 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             return d.promise;                
         };
         
-        this.verifyFeature = function(featureName, featureValue, event, message) {
+        this.verifyFeature = function(featureName, featureValue, event) {
             if (!$rootScope.currentUser) {
                 return;
             }
             var allow = true,
-                maxParam = false;
+                maxParam = false,
+                message = '';
             if (features[featureName]) {
-                
-                
-                
-                
-//return true;                
-                
-                
-                
+                switch (featureName) {
+                    case 'Guests':
+                        message = 'You are only allowed {value} guests, Would you like to upgrade to unlimited?';
+                        break;
+                    case 'EventDurationDays':
+                        message = 'You can only create event that lasts up to {value} days.';
+                        break;
+                    default:
+                        message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
+                }
                 
                 switch (features[featureName].type) {
                     case 'Restrict':
@@ -175,7 +178,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 if (maxParam) {
                     dialogService.confirm(event, message, 'Ok');
                 } else {
-                    dialogService.confirm(event, message || 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?', 'Upgrade', 'Close').then(
+                    dialogService.confirm(event, message, 'Upgrade', 'Close').then(
                         function() {
                             if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go') {
                                 $state.go('main.user', {view: 2});

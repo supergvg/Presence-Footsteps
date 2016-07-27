@@ -90,8 +90,8 @@ angular.module('gliist')
                 return permissionsService.isRole('promoter');
             };
 
-            $scope.subscriptionRestrictions = function(featureName, featureValue, event, message) {
-                return !subscriptionsService.verifyFeature(featureName, featureValue, event, message);
+            $scope.subscriptionRestrictions = function(featureName, featureValue, event) {
+                return !subscriptionsService.verifyFeature(featureName, featureValue, event);
             };
 
             $scope.getSelected = function(idx) {
@@ -145,7 +145,7 @@ angular.module('gliist')
                     }
                 };
                 scope.importGLists = function(ev) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected) + $scope.getTotalGuests($scope.event.guestLists), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected) + $scope.getTotalGuests($scope.event.guestLists), ev)) {
                         return;
                     }
                     eventsService.linkGuestList(scope.selected, $scope.event.id, instanceType).then(
@@ -198,10 +198,10 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, 'You are only allowed {value} guests, Would you like to upgrade to unlimited?')) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev)) {
                         return;
                     }
-                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, 'You can only create event that lasts up to {value} days.')) {
+                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {})) {
                         return;
                     }
                     var errorMessage = [];
@@ -271,6 +271,7 @@ angular.module('gliist')
                             $scope.event.instagrammPageUrl = res.instagrammPageUrl;
                             $scope.event.twitterPageUrl = res.twitterPageUrl;
                             dialogService.success('Event ' + res.title + ' saved');
+                            $location.path('/main/event/edit/'+$scope.event.id);
                         }, function() {
                             dialogService.error('There was a problem saving your event, please try again');
                         }
