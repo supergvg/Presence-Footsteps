@@ -124,7 +124,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         
         this.buyFeature = function(data) {
             var d = $q.defer();
-            $http.post('user/feature/buy', data, {api: 'subscriptions_api'}).then(
+            $http.post('user/features/buy', data, {api: 'subscriptions_api'}).then(
                 function(answer) {
                     response(d, answer);
                 },

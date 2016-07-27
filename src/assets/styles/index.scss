@@ -2869,6 +2869,20 @@ md-dialog {
                 }
             }
         }
+        &.welcome-popup {
+            .content {
+                margin: 0 20px 20px 20px;
+                padding: 20px;
+                border-width: 3px;
+                h2 {
+                    font-size: 19px;
+                }
+                p {
+                    font-size: 13px;
+                    line-height: 22px;
+                }
+            }
+        }        
     }
 }
 
