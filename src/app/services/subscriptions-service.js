@@ -128,6 +128,15 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             var allow = true,
                 maxParam = false;
             if (features[featureName]) {
+                
+                
+                
+                
+//return true;                
+                
+                
+                
+                
                 switch (features[featureName].type) {
                     case 'Restrict':
                         allow = false;

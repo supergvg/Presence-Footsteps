@@ -962,7 +962,6 @@ md-checkbox .md-icon {
 
 .md-dialog-is-showing {
     position: fixed;
-    overflow: hidden;
 }
 
 md-dialog {
@@ -1545,6 +1544,7 @@ md-dialog {
                         border-bottom: 2px dashed #8e8e8e;
                         padding: 20px;
                         text-align: left;
+                        width: 100%;
                         md-radio-button {
                             .md-off {
                                 background-color: #fff;

@@ -1,7 +1,19 @@
 'use strict';
 
-angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
-    function ($rootScope, $http, $q) {
+angular.module('gliist').factory('eventsService', ['$http', '$q',
+    function ($http, $q) {
+        var processHeaders = function(response) {
+                if (response.status === 403) {
+                    var headers = response.headers();        
+//                    console.log(headers);
+                    
+                    
+                    
+                    
+                    
+                }
+            };
+
         return {
 
             removeGuestsFromGL: function (guestListId, guestIds) {
@@ -129,11 +141,7 @@ angular.module('gliist').factory('eventsService', ['$rootScope', '$http', '$q',
                     },
                     function(response) {
                         var message = 'Oops there was an error trying to get events, please try again';
-                        if (response.status === 403) {
-                            
-                            
-                            
-                        }
+                        processHeaders(response);
                         d.reject(message);
                     }   
                 );
