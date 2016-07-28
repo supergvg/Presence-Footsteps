@@ -1,36 +1,52 @@
 <div layout="column" layout-align="center stretch">
-    <div class="header" flex layout="row" layout-align="center center"><img ng-src="{{getCompanyLogo()}}" height="130"/></div>
+    <div class="header" flex layout="row" layout-align="center center"><img ng-src="{{getCompanyLogo()}}" /></div>
     <div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
         <h4>Loading ...</h4>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
     </div>
-    <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
+    <div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
         <h4 ng-if="(public && !event.event.isRsvpExpired) || !event.guest.firstName">Dear guest, you are cordially invited to this event.</h4>
-        <h4 ng-if="!public && !event.event.isRsvpExpired && event.guest.firstName">Dear {{event.guest.firstName}} {{event.guest.lastName}}, you are cordially invited to this event.</h4>
+        <h4 ng-if="!public && !event.event.isRsvpExpired && event.guest.firstName">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
         <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
-        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
         <div class="title">
-            <h4>Event:</h4>
             <h3>{{event.event.title}}</h3>
         </div>
+        <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
+    </div>
+    <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
         <div layout="row" layout-sm="column" class="blocks event-details">
             <div layout="column">
                 <div class="item">
-                    <div class="item-label">Date + Time:</div>
-                    <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</div>
+                    <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | EEEE'}}<br />{{event.event.time | ignoreTimeZone | date:'h:mm a'}}</div>
                 </div>
                 <div class="item">
-                    <div class="item-label">Location:</div>
                     <div class="item-text" ng-bind-html="event.event.location"></div>
                 </div>
                 <div class="item">
-                    <div class="item-label">Details:</div>
-                    <div class="item-text" ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></div>
+                    <div class="item-text text-details" ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></div>
+                </div>
+                <div layout="row" layout-sm="column" class="blocks socials" ng-if="public">
+                    <div>
+                        <div class="item-label">Share this event:</div>
+                        <ul class="social share">
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
+                            <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
+                            <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">
+                            <div class="item-label">Event on Social:</div>
+                            <ul class="social">
+                                <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
+                                <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
+                                <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div layout="column">
-                <div class="item-label">RSVP:</div>
-                <h4 ng-if="success" class="success">{{message}}</h4>
                 <form name="rsvpLandingForm">
                     <div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
                         <label>Name</label>
@@ -44,31 +60,12 @@
                         <label>Plus</label>
                         <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}"/>
                     </div>
-                    <div class="actions" ng-if="!success">
+                    <div class="actions" ng-if="!success && !waiting">
                         <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
                     </div>
                     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
+                    <h4 ng-if="success" class="success">{{message}}</h4>
                 </form>
-            </div>
-        </div>
-        <div layout="row" layout-sm="column" class="blocks socials">
-            <div>
-                <div class="item-label">Share this event:</div>
-                <ul class="social share">
-                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
-                    <li><a href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
-                    <li><a href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
-                </ul>
-            </div>
-            <div>
-                <div ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">
-                    <div class="item-label">Event on Social:</div>
-                    <ul class="social">
-                        <li ng-if="event.event.facebookPageUrl"><a href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
-                        <li ng-if="event.event.twitterPageUrl"><a href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
-                        <li ng-if="event.event.instagrammPageUrl"><a href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
