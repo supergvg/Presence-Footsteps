@@ -1532,10 +1532,14 @@ md-dialog {
                         font-size: 24px;
                         color: #99ccff;
                     }
-                    .price-details {
+                    .price {
                         font-size: 17px;
                         font-weight: bold;
                         text-align: left;
+                    }
+                    .price-details {
+                        font-size: 13px;
+                        line-height: 1;
                     }
                 }
                 .tariff-content {
@@ -1643,8 +1647,12 @@ md-dialog {
                     padding-top: 15px;
                     font-size: 20px;
                 }
-                .price-details {
+                .price {
                     font-size: 18px;
+                }
+                .price-details {
+                    font-size: 13px;
+                    line-height: 1;
                 }
             }
             .tariff-content {

@@ -10,15 +10,12 @@
                 <img ng-src="assets/images/plan_icons/{{tariff.name | spaceless | lowercase}}.png"/>
                 <div class="title">{{tariff.name}}</div>
             </div>
-            <div class="price-details">{{tariff.pricePolicies[0].prices[0].title}}</div>
-            <div ng-if="!options.billing">
-                {{tariff.description}}
-            </div>
+            <div class="price">{{tariff.pricePolicies[0].prices[0].title}}</div>
+            <div class="price-details" ng-if="tariff.pricePolicies[0].prices[0].subtitle">{{tariff.pricePolicies[0].prices[0].subtitle}}</div>
+            <div ng-if="!options.billing" ng-bind-html="tariff.description"></div>
         </div>
         <div layout="column" class="tariff-content" layout-align="space-between center">
-            <ul>
-                <li ng-repeat="policy in tariff.policies">{{policy.description}}</li>
-            </ul>
+            <div ng-bind-html="tariff.policiesDescription"></div>
             <md-radio-group ng-if="tariff.pricePolicies.length > 1 && showButton($index)" ng-model="pricePolicyKeys[$index]" ng-init="tariffIndex = $index">
                 <md-radio-button ng-if="!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && pricePolicyKeys[tariffIndex] === $index)" ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}"><div ng-bind-html="pricePolicy.prices[0].description+'<br>'+pricePolicy.description"></div></md-radio-button>
             </md-radio-group>
