@@ -25,7 +25,7 @@
                         </md-input-container>
                     </div>
                 </div>
-                <div class="block-field">
+                <div class="block-field" ng-if="isNotPublicRSVP()">
                     <h4>Promoter</h4>
                     <md-input-container flex md-no-float>
                         <ui-select name="promoter" ng-model="gli.promoter_Id" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()">
@@ -40,7 +40,7 @@
                 </div>
             </form>
         </div>
-        <div class="block-field">
+        <div class="block-field" ng-if="isNotPublicRSVP()">
             <h4>Import Guests</h4>
             <md-list>
                 <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
@@ -78,7 +78,7 @@
             <md-list>
                 <md-list-item layout="row">
                     <div flex class="actions">
-                        <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData">
+                        <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData" ng-if="isNotPublicRSVP()">
                             Add Guest
                         </md-button>
                         <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">

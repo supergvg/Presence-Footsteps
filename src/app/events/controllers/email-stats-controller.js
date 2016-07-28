@@ -118,7 +118,7 @@ angular.module('gliist')
                     angular.forEach($scope.deliveryReport, function(guest) {
                         $scope.options.gridData.push({
                             id: guest.GuestId,
-                            name: guest.FirstName +' '+ guest.LastName,
+                            name: (guest.FirstName ? guest.FirstName : '') + (guest.LastName ? (' ' + guest.LastName) : ''),
                             email: guest.Email,
                             status: $scope.getTextStatus(guest.DeliveryStatus),
                             messageType: guest.MessageType,

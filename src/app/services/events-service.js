@@ -2,7 +2,7 @@
 
 angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptionsService', '$rootScope',
     function ($http, $q, subscriptionsService, $rootScope) {
-        var processHeaders = function(response) {
+        var processHeaders = function(response, featureIntId) {
                 if (response.status === 403) {
                     var headers = response.headers();        
                     if (headers['feature-name']) {
@@ -10,7 +10,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                             function(data){
                                 if (data.data && data.dataTotalCount > 0) {
                                     $rootScope.currentUser.subscription = data.data;
-                                    subscriptionsService.verifyFeature(headers['feature-name'], headers['feature-value'] || 0, {});
+                                    subscriptionsService.verifyFeature(headers['feature-name'], headers['feature-value'] || 0, {}, featureIntId);
                                 }
                             }
                         );
@@ -145,7 +145,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                     },
                     function(response) {
                         var message = 'Oops there was an error trying to get events, please try again';
-                        processHeaders(response);
+                        processHeaders(response, event.id);
                         d.reject(message);
                     }   
                 );

@@ -619,7 +619,7 @@ md-input-container {
         padding: 0 0 0 15px;
         font-size: 16px !important;
         margin: 0;
-        line-height: 40px !important;
+        min-height: 42px;
         &.rounded-lr {
             border-radius: 25px !important;
             border-left: 1px solid #99ccff;
@@ -638,6 +638,9 @@ md-input-container {
             margin-bottom: 0;
             border-color: #aaa !important;
         }
+    }
+    textarea.md-input {
+        padding: 10px 15px 0 15px;
     }
     md-select {
         height: 44px;
@@ -847,6 +850,9 @@ md-checkbox .md-icon {
             text-shadow: -1px 0 0 #d0e5fc;
             background: none;
             border-bottom-color: transparent;
+            &:hover {
+                background: none;
+            }
         }
         + * {
             margin-left: -1px;
@@ -2900,4 +2906,8 @@ md-dialog {
     border-radius: 5px;
     resize: none;
     line-height: 1.5 !important;
+}
+
+.datetimepicker-wrapper table tr td:nth-child(2) {
+    display: none;
 }

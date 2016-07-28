@@ -90,8 +90,8 @@ angular.module('gliist')
                 return permissionsService.isRole('promoter');
             };
 
-            $scope.subscriptionRestrictions = function(featureName, featureValue, event) {
-                return !subscriptionsService.verifyFeature(featureName, featureValue, event);
+            $scope.subscriptionRestrictions = function(featureName, featureValue, event, eventId) {
+                return !subscriptionsService.verifyFeature(featureName, featureValue, event, eventId);
             };
 
             $scope.getSelected = function(idx) {
@@ -145,7 +145,7 @@ angular.module('gliist')
                     }
                 };
                 scope.importGLists = function(ev) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected) + $scope.getTotalGuests($scope.event.guestLists), ev)) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected) + $scope.getTotalGuests($scope.event.guestLists), ev, $scope.event.id)) {
                         return;
                     }
                     eventsService.linkGuestList(scope.selected, $scope.event.id, instanceType).then(
@@ -198,10 +198,10 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev)) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, $scope.event.id)) {
                         return;
                     }
-                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {})) {
+                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, $scope.event.id)) {
                         return;
                     }
                     var errorMessage = [];

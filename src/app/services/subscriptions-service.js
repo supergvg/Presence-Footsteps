@@ -28,7 +28,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 });
             },
             subscriptionsService = this,
-            lastVerifiedFeaturedName, lastVerifiedFeaturedValue;
+            lastVerifiedFeaturedName, lastVerifiedFeaturedValue, featureInternalId;
             
         this.getFeatureValue = function(featureName) {
             if (!features[featureName]) {
@@ -135,12 +135,13 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             return d.promise;                         
         };
         
-        this.verifyFeature = function(featureName, featureValue, event) {
+        this.verifyFeature = function(featureName, featureValue, event, featureIntId) {
             if (!$rootScope.currentUser) {
                 return;
             }
             lastVerifiedFeaturedName = featureName;
             lastVerifiedFeaturedValue = featureValue;
+            featureInternalId = featureIntId;
             var allow = true,
                 maxParam = false,
                 message = '';
@@ -337,11 +338,14 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         featureName: lastVerifiedFeaturedName,
                         featureValue: lastVerifiedFeaturedValue
                     };
+                    if (featureInternalId) {
+                        buyFeature.featureInternalId = featureInternalId;
+                    }
                     if (!scope.cardDataLoaded || newCard) {
                         buyFeature.card = scope.cardData;
                     }
                     subscriptionsService.buyFeature(buyFeature).then(
-                        function(response){
+                        function(){
                             subscriptionsService.getUserSubscription().then(
                                 function(data){
                                     if (data.data && data.dataTotalCount > 0) {

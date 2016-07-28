@@ -35,7 +35,7 @@ angular.module('gliist')
             
             $scope.checkSubscription = function(glist, showPopup) {
                 var totalGuests = $scope.gliId ? glist.actual.length : glist.guests.length;
-                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + totalGuests, showPopup)) {
+                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + totalGuests, showPopup, eventId)) {
                     return false;
                 }
                 return true;
