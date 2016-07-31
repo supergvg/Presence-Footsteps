@@ -2642,6 +2642,6 @@ md-dialog {
     line-height: 1.5 !important;
 }
 
-.datetimepicker-wrapper table tr td:nth-child(2) {
+.datetimepicker-wrapper:nth-child(2) > table[readonly-input] tr:nth-child(2) > td:nth-child(2) {
     display: none;
 }
