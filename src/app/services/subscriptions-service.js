@@ -151,7 +151,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         message = 'You are only allowed {value} guests, Would you like to upgrade to unlimited?';
                         break;
                     case 'EventDurationDays':
-                        message = 'You can only create event that lasts up to {value} days.';
+                        message = 'You are not allowed to create events longer than {value} days. Would you like to upgrade?';
                         break;
                     default:
                         message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
