@@ -1246,8 +1246,8 @@ md-dialog {
                 vertical-align: top;
                 .tariff-header {
                     background-color: #f0f6fb;
-                    height: 75px;
-                    padding: 8px 10px;
+                    height: 80px;
+                    padding: 10px 20px;
                     & > div {
                         width: 100%;
                     }
@@ -1262,10 +1262,10 @@ md-dialog {
                         font-size: 17px;
                         font-weight: bold;
                         text-align: left;
-                    }
-                    .price-details {
-                        font-size: 13px;
-                        line-height: 1;
+                        line-height: 0.9;
+                        .price-details {
+                            font-size: 13px;
+                        }
                     }
                 }
                 .tariff-content {
@@ -1276,7 +1276,12 @@ md-dialog {
                         padding-left: 16px;
                         text-align: left;
                         list-style: disc;
-                    }
+                        li {
+                            b {
+                                color: #8e8e8e;
+                            }
+                        }
+                    }                        
                     md-radio-group {
                         border-top: 2px dashed #8e8e8e;
                         border-bottom: 2px dashed #8e8e8e;
@@ -1353,7 +1358,7 @@ md-dialog {
             vertical-align: top;
             .tariff-header {
                 background-color: #99ccff;
-                height: 210px;
+                height: 235px;
                 color: #f0f6fb;
                 font-weight: bold;
                 text-align: center;
@@ -1375,10 +1380,10 @@ md-dialog {
                 }
                 .price {
                     font-size: 18px;
-                }
-                .price-details {
-                    font-size: 13px;
-                    line-height: 1;
+                    line-height: 0.9;
+                    .price-details {
+                        font-size: 13px;
+                    }
                 }
             }
             .tariff-content {
@@ -1392,6 +1397,9 @@ md-dialog {
                     text-align: center;
                     li {
                         padding: 2px 0;
+                        b {
+                            color: #8e8e8e;
+                        }
                     }
                 }
                 md-radio-group {
