@@ -35,7 +35,7 @@ angular.module('gliist')
                 if (!$scope.guestChecked) {
                     $scope.guestCheckin.plus--;
                 }
-                eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(success, error)
+                eventsService.postGuestCheckin($scope.guestCheckin, $scope.guestListInstance).then(success)
                     .finally(function () {
                         $scope.checkingGuest = false;
                     });
@@ -43,7 +43,7 @@ angular.module('gliist')
 
             $scope.undoCheckIn = function () {
                 $scope.checkingGuest = true;
-                eventsService.postGuestUndoCheckin($scope.guestCheckin, $scope.guestListInstance).then(success, error)
+                eventsService.postGuestUndoCheckin($scope.guestCheckin, $scope.guestListInstance).then(success)
                     .finally(function () {
                         $scope.checkingGuest = false;
                     });

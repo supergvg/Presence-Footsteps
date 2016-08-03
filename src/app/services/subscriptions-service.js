@@ -148,6 +148,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             if (features[featureName]) {
                 switch (featureName) {
                     case 'Guests':
+                    case 'Checkins':
                         message = 'You are only allowed {value} guests, Would you like to upgrade to unlimited?';
                         break;
                     case 'EventDurationDays':
@@ -394,11 +395,17 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         function(data){
                             if (data.data && data.dataTotalCount > 0) {
                                 $rootScope.currentUser.subscription = data.data;
-                                subscriptionsService.verifyFeature(headers['feature-name'], headers['feature-value'] || 0, {}, featureIntId);
+                                var feature_value = headers['feature-value'];
+                                if (headers['feature-status'] === 'SubscriptionShouldBeUpgraded') {
+                                    feature_value = subscriptionsService.getFeatureValue(headers['feature-name']) + 1;
+                                }
+                                subscriptionsService.verifyFeature(headers['feature-name'], feature_value, {}, featureIntId);
                             }
                         }
                     );
                 }
+                return true;
             }
+            return false;
         };
     }]);

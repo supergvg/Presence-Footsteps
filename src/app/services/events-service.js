@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptionsService',
-    function ($http, $q, subscriptionsService) {
+angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptionsService', 'dialogService',
+    function ($http, $q, subscriptionsService, dialogService) {
         return {
 
             removeGuestsFromGL: function (guestListId, guestIds) {
@@ -45,19 +45,24 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
             postGuestCheckin: function (checkinData, glInstance) {
                 var d = $q.defer();
 
-                $http({
-                    method: 'POST',
-                    url: 'api/GuestEventController/CheckinGuest',
-                    data: {
+                $http.post('api/GuestEventController/CheckinGuest', 
+                    {
                         guestId: checkinData.guest.id,
                         gliId: glInstance.id,
                         plus: checkinData.plus
                     }
-                }).success(function (data) {
-                    d.resolve(data);
-                }).error(function (err) {
-                    d.reject(err);
-                });
+                ).then(
+                    function(response) {
+                        d.resolve(response);
+                    },
+                    function(response) {
+                        d.reject();
+                        if (!subscriptionsService.process403Status(response)) {
+                            var message = response.Message || 'Oops there was a problem getting guest, please try again';
+                            dialogService.error(message);
+                        }
+                    }
+                );
 
                 return d.promise;
             },
@@ -65,19 +70,22 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
             postGuestUndoCheckin: function (checkinData, glInstance) {
                 var d = $q.defer();
 
-                $http({
-                    method: 'POST',
-                    url: 'api/GuestEventController/UndoCheckinGuest',
-                    data: {
+                $http.post('api/GuestEventController/UndoCheckinGuest',
+                    {
                         guestId: checkinData.guest.id,
                         gliId: glInstance.id,
                         plus: checkinData.plus
                     }
-                }).success(function (data) {
-                    d.resolve(data);
-                }).error(function (err) {
-                    d.reject(err);
-                });
+                ).then(
+                    function(response) {
+                        d.resolve(response);
+                    },
+                    function(response) {
+                        d.reject();
+                        var message = response.Message || 'Oops there was a problem getting guest, please try again';
+                        dialogService.error(message);
+                    }
+                );
 
                 return d.promise;
             },
