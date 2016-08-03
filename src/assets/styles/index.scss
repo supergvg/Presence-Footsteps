@@ -1259,10 +1259,11 @@ md-dialog {
                         color: #99ccff;
                     }
                     .price {
+                        margin-top: 10px;
                         font-size: 17px;
                         font-weight: bold;
                         text-align: left;
-                        line-height: 0.9;
+                        line-height: 1;
                         .price-details {
                             font-size: 13px;
                         }
@@ -1350,15 +1351,15 @@ md-dialog {
         margin: 20px 0;
         text-align: center;
         .tariff-block {
-            width: 230px;
+            width: 225px;
             display: inline-block;
-            margin: 10px;
+            margin: 15px;
             font-size: 14px;
             background-color: #ececec;
             vertical-align: top;
             .tariff-header {
                 background-color: #99ccff;
-                height: 235px;
+                height: 215px;
                 color: #f0f6fb;
                 font-weight: bold;
                 text-align: center;
@@ -1375,31 +1376,43 @@ md-dialog {
                     height: 38px;
                 }
                 .title {
-                    padding-top: 15px;
+                    margin-top: 15px;
                     font-size: 20px;
                 }
                 .price {
+                    margin-top: 25px;
                     font-size: 18px;
-                    line-height: 0.9;
+                    line-height: 1;
                     .price-details {
                         font-size: 13px;
+                        font-weight: normal;
                     }
+                }
+                .description {
+                    margin-top: 15px;
+                    font-weight: normal;
+                    font-size: 13px;
                 }
             }
             .tariff-content {
                 border-top: 2px dashed #8e8e8e;
                 min-height: 335px;
-                ul {
-                    font-size: 13px;
-                    list-style: none;
+                font-size: 13px;
+                color: #8e8e8e;
+                .description {
+                    padding: 20px 10px;
+                    width: 100%;
+                    line-height: 1.7;
+                }
+                b {
                     color: #8e8e8e;
+                }
+                ul {
+                    list-style: none;
                     padding: 20px;
                     text-align: center;
                     li {
                         padding: 2px 0;
-                        b {
-                            color: #8e8e8e;
-                        }
                     }
                 }
                 md-radio-group {
