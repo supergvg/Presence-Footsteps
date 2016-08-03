@@ -385,4 +385,20 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 templateUrl: 'app/user/templates/payment-popup.html'
             });
         };
+        
+        this.process403Status = function(response, featureIntId) {
+            if (response.status === 403) {
+                var headers = response.headers();        
+                if (headers['feature-name']) {
+                    subscriptionsService.getUserSubscription().then(
+                        function(data){
+                            if (data.data && data.dataTotalCount > 0) {
+                                $rootScope.currentUser.subscription = data.data;
+                                subscriptionsService.verifyFeature(headers['feature-name'], headers['feature-value'] || 0, {}, featureIntId);
+                            }
+                        }
+                    );
+                }
+            }
+        };
     }]);

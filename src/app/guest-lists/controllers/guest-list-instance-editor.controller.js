@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$interval', '$timeout', '$mdDialog', 'uploaderService', 'guestListParserService', '$stateParams', 'permissionsService', '$mdTheming',
-        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $interval, $timeout, $mdDialog, uploaderService, guestListParserService, $stateParams, permissionsService, $mdTheming) {
-            var instanceType = parseInt($stateParams.instanceType);
+    .controller('GuestListInstanceEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$state', 'eventsService', 'userService', '$timeout', '$mdDialog', 'uploaderService', 'guestListParserService', '$stateParams', 'permissionsService', '$mdTheming', 'subscriptionsService',
+        function ($scope, guestFactory, dialogService, $state, eventsService, userService, $timeout, $mdDialog, uploaderService, guestListParserService, $stateParams, permissionsService, $mdTheming, subscriptionsService) {
+            var instanceType = parseInt($stateParams.instanceType),
+                eventId = parseInt($stateParams.eventId);
+            
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -316,6 +318,7 @@ angular.module('gliist')
                         }
                         
                     }, function(error) {
+                        subscriptionsService.process403Status(error, eventId);
                         if (error.status === 409) {
                             $scope.confirmDuplicatedGuests(autoSave, error.data);
                         } else {
