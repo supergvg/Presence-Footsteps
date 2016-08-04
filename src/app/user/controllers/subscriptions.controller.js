@@ -34,7 +34,7 @@ angular.module('gliist')
             };
 
             $scope.beforeSelectPlan = function(index, event) {
-                if ($scope.planLabels[index] === 'UPGRADE') {
+                if ($scope.planLabels[index] === 'UPGRADE' && $scope.plans[index].name !== 'Pay as you go') {
                     dialogService.confirm(event, 'You are about to upgrade.<br>We will prorate your payment separately', 'UPGRADE', 'CANCEL').then(function(){
                         $scope.selectPlan(index);
                     });

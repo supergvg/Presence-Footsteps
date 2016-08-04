@@ -182,11 +182,12 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         if (featureValue > features[featureName].value) {
                             allow = false;
                         }
+                        if (featureName === 'EventDurationDays' && features[featureName].value === 5) {
+                            message = 'You are not allowed to create events longer than {value} days.';
+                            maxParam = true;
+                        }
                         if (message) {
                             message = message.replace(/{value}/, features[featureName].value);
-                        }
-                        if (featureName === 'EventDurationDays' && features[featureName].value === 6) {
-                            maxParam = true;
                         }
                         break;
                 }
@@ -253,7 +254,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             scope.promo.applied = true;
                             scope.pricePolicyBeforePromo = scope.pricePolicy;
                             scope.selectedPlan = response.data;
-                            scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
+                            scope.pricePolicy = scope.selectedPlan.pricePolicies[0];
                         },
                         function() {
                             scope.promo.invalid = true;
