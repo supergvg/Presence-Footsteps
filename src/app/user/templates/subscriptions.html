@@ -11,7 +11,7 @@
                 <div class="title">{{tariff.name}}</div>
             </div>
             <div class="price">
-                {{tariff.pricePolicies[0].prices[0].title}} {{tariff.pricePolicies[1] ? 'or ' + tariff.pricePolicies[1].prices[0].title : ''}}
+                {{tariff.pricePolicies[0].prices[0].title}} {{(options.billing && tariff.pricePolicies[1]) ? ('or ' + tariff.pricePolicies[1].prices[0].title) : ''}}
                 <div class="price-details" ng-if="!options.billing && tariff.pricePolicies[0].prices[0].subtitle">{{tariff.pricePolicies[0].prices[0].subtitle}}</div>
             </div>
             <div class="description" ng-if="!options.billing" ng-bind-html="tariff.description"></div>
