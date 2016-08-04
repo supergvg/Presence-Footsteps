@@ -1,7 +1,7 @@
 <div class="tariff-blocks" alignment-height>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="loading"></md-progress-circular>
     <div class="tariff-block" ng-show="!loading" ng-repeat="tariff in plans">
-        <div layout="column" class="tariff-header{{tariff.isPopular ? ' popular' : ''}}" layout-align="space-between center">
+        <div class="tariff-header{{tariff.isPopular ? ' popular' : ''}}">
             <div ng-if="options.billing" layout="row" layout-align="space-between start">
                 <div class="title">{{tariff.name}}</div>
                 <img ng-src="assets/images/plan_icons/{{tariff.name | spaceless | lowercase}}_blue.png"/>
@@ -11,13 +11,13 @@
                 <div class="title">{{tariff.name}}</div>
             </div>
             <div class="price">
-                {{tariff.pricePolicies[0].prices[0].title}}
-                <div class="price-details" ng-if="tariff.pricePolicies[0].prices[0].subtitle">{{tariff.pricePolicies[0].prices[0].subtitle}}</div>
+                {{tariff.pricePolicies[0].prices[0].title}} {{(options.billing && tariff.pricePolicies[1]) ? ('or ' + tariff.pricePolicies[1].prices[0].title) : ''}}
+                <div class="price-details" ng-if="!options.billing && tariff.pricePolicies[0].prices[0].subtitle">{{tariff.pricePolicies[0].prices[0].subtitle}}</div>
             </div>
-            <div ng-if="!options.billing" ng-bind-html="tariff.description"></div>
+            <div class="description" ng-if="!options.billing" ng-bind-html="tariff.description"></div>
         </div>
         <div layout="column" class="tariff-content" layout-align="space-between start">
-            <div ng-bind-html="tariff.policiesDescription"></div>
+            <div class="description" ng-bind-html="options.billing ? tariff.policiesDescription : tariff.policiesPreviewDescription"></div>
             <md-radio-group ng-if="tariff.pricePolicies.length > 1 && showButton($index)" ng-model="pricePolicyKeys[$index]" ng-init="tariffIndex = $index">
                 <md-radio-button ng-if="!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && pricePolicyKeys[tariffIndex] === $index)" ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}"><div ng-bind-html="pricePolicy.prices[0].description+'<br>'+pricePolicy.description"></div></md-radio-button>
             </md-radio-group>
