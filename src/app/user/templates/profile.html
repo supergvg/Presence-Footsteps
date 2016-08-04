@@ -59,8 +59,8 @@
                  id="tab3-content"
                  aria-labelledby="tab3"
                  ng-switch-when="2"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()">
+                 md-swipe-left="next($event)"
+                 md-swipe-right="previous($event)">
                 <billing></billing>
             </div>
         </ng-switch>

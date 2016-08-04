@@ -5,12 +5,17 @@ angular.module('gliist')
         function ($scope, $mdDialog, eventsService, dialogService, $state) {
             $scope.options = $scope.options || {};
             var defaultOptions = {
+                showInactive: false,
                 filter: {
                     active: false
                 }
             };
             angular.forEach(defaultOptions, function(value, key){
-               $scope.options[key] = angular.merge(value, $scope.options[key]);
+                if (angular.isObject(value)) {
+                    $scope.options[key] = angular.merge(value, $scope.options[key]);
+                } else if (angular.isUndefined($scope.options[key])) {
+                    $scope.options[key] = value;
+                }
             });
             $scope.orderField = $scope.options.stats ? '-time' : '';
             $scope.filter = {
