@@ -17,8 +17,12 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             }, 
             quotas = {}, features = {},
             parseSubscription = function(data) {
+                quotas = {};
+                features = {};
                 angular.forEach(data.usedPolicies, function(quota){
-                    quotas[quota.feature] = quota.value;
+                    if (!quotas[quota.feature])
+                        quotas[quota.feature] = [];
+                    quotas[quota.feature].push(quota);
                 });
                 angular.forEach(data.subscription.policies, function(feature){
                     features[feature.feature] = {
@@ -136,83 +140,184 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         };
         
         this.verifyFeature = function(featureName, featureValue, event, featureIntId) {
-            if (!$rootScope.currentUser) {
+            if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
                 return;
             }
             lastVerifiedFeaturedName = featureName;
             lastVerifiedFeaturedValue = featureValue;
             featureInternalId = featureIntId;
-            var allow = true,
+            var allow = false,
                 maxParam = false,
-                message = '';
-            if (features[featureName]) {
-                switch (featureName) {
-                    case 'Guests':
-                    case 'Checkins':
-                        message = 'You are only allowed {value} guests, Would you like to upgrade to unlimited?';
-                        break;
-                    case 'EventDurationDays':
-                        message = 'You are not allowed to create events longer than {value} days. Would you like to upgrade?';
-                        break;
-                    default:
-                        message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
+                message;
+            
+            var hasPolicyOfType = function (type) {
+                return features[featureName] && features[featureName].type === type;
+            };
+            var findUsedPolicyByType = function (type, feature) {
+                var usedPolicies = quotas[feature ? feature : featureName];
+                if (usedPolicies) {
+                    for (var i = 0, c = usedPolicies.length; i < c; i++) {
+                        var up = usedPolicies[i];
+                        if (up.policy.type === type && (!up.featureInternalId || up.featureInternalId == featureIntId))
+                            return up;
+                    }
                 }
-                
-                switch (features[featureName].type) {
-                    case 'Restrict':
-                        allow = false;
-                        break;
-                    case 'LimitedPerInstanceQuota':
-                        if (featureValue > features[featureName].value) {
-                            allow = false;
-                        }
-                        if (message) {
-                            message = message.replace(/{value}/, features[featureName].value);
-                        }
-                        break;
-                    case 'LimitedQuota':
-                        if (!quotas[featureName] || (quotas[featureName] && featureValue > quotas[featureName])) {
-                            allow = false;
-                        }
-                        if (quotas[featureName] && message) {
-                            message = message.replace(/{value}/, quotas[featureName]);
-                        }
-                        break;
-                    case 'Parameter': 
-                        if (featureValue > features[featureName].value) {
-                            allow = false;
-                        }
-                        if (featureName === 'EventDurationDays' && features[featureName].value === 5) {
-                            message = 'You are not allowed to create events longer than {value} days.';
-                            maxParam = true;
-                        }
-                        if (message) {
-                            message = message.replace(/{value}/, features[featureName].value);
-                        }
-                        break;
-                }
-            }
-
-            if (event && !allow) {
-                if (maxParam) {
-                    dialogService.confirm(event, message, 'Ok');
-                } else {
-                    dialogService.confirm(event, message, 'Upgrade', 'Close').then(
-                        function() {
-                            if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go') {
-                                $state.go('main.user', {view: 2});
-                            } else {
-                                subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0);
+                return null;
+            };
+            
+            var featureStatus = { 
+                unknown: 0,
+                allowed: 1,
+                notAllowed: 2,
+                notEnoughQuota: 3,
+                shouldBePurchased: 4,
+                hasQuota: 5,
+                subscriptionNotActive: 6,
+                subscriptionShouldBeUpgraded: 7,
+                hasParameter: 8
+            };
+            var vResult = function (s, maxv) {
+                return {status: s, maxValue: maxv};
+            };
+            var policyValidators = [ //returns: { status: featureStatus, value: number }
+                function () { //ActiveSubscriptionPolicyValidator 0
+                    if (!$rootScope.currentUser.subscription || $rootScope.currentUser.subscription.status === 'Unpaid')
+                        return vResult(featureStatus.notAllowed);
+                    return null;
+                },
+                function () { //ParameterPolicyValidator 1
+                    var usedPolicy = findUsedPolicyByType('Parameter');
+                    if (usedPolicy)
+                        return vResult(featureValue <= usedPolicy.value ? featureStatus.hasParameter : featureStatus.notAllowed, usedPolicy.value);
+                    
+                    if (hasPolicyOfType('Parameter')) {
+                        if (featureValue <= features[featureName].value) //if allowed by subscription policy
+                            return vResult(featureStatus.hasParameter, features[featureName].value);
+                        
+                        var maxValue = features[featureName].value;
+                        var pp = $rootScope.currentUser.subscription.pricePolicy; //if not, find out can subscription be upgraded
+                        if (pp.type === 'PerFeature') {
+                            for (var i = 0, pc = pp.prices.length; i < pc; i++) {
+                                if (pp.prices[i].feature === featureName && pp.prices[i].additionalPolicy.type === 'Parameter') {
+                                    maxValue = pp.prices[i].additionalPolicy.value;
+                                    if (featureValue <= pp.prices[i].additionalPolicy.value)
+                                        return vResult(featureStatus.shouldBePurchased, features[featureName].value); //provide max value from current subscription
+                                }
                             }
                         }
-                    );
+                        
+                        return vResult(featureStatus.notAllowed, maxValue);
+                    }
+                    
+                    return null;
+                },
+                function () { //AllowPolicyValidator 2
+                    if (findUsedPolicyByType('Allow') || hasPolicyOfType('Allow'))
+                        return vResult(featureStatus.allowed);
+                    return null;
+                },
+                function () { //UnlimitedQuotaPolicyValidator 3
+                    if (findUsedPolicyByType('UnlimitedQuota') || hasPolicyOfType('UnlimitedQuota'))
+                        return vResult(featureStatus.allowed);
+                    return null;
+                },
+                function () { //LimitedQuotaPolicyValidator 4
+                    var usedPolicy = findUsedPolicyByType('LimitedQuota');
+                    if (usedPolicy)
+                        return vResult((usedPolicy.value - featureValue) >= 0 ? featureStatus.hasQuota : featureStatus.notEnoughQuota, usedPolicy.value);
+                    
+                    return null;
+                },
+                function () { //LimitedPerInstanceQuotaPolicyValidator 5
+                    var usedPolicy = findUsedPolicyByType('LimitedPerInstanceQuota');
+                    if (usedPolicy)
+                        return vResult((usedPolicy.value - featureValue) >= 0 ? featureStatus.hasQuota : featureStatus.notAllowed, usedPolicy.policy.value);
+                    
+                    if (hasPolicyOfType('LimitedPerInstanceQuota'))
+                        return vResult(featureStatus.hasQuota);
+                    
+                    return null;
+                },
+                function () { //AcquiredQuotaPolicyValidator 6
+                    var pp = $rootScope.currentUser.subscription.pricePolicy;
+                    if (pp.type === 'PerFeature') {
+                        for (var j = 0, pc = pp.prices.length; j < pc; j++) {
+                            if (pp.prices[j].feature === featureName) {
+                                var usedPolicy = findUsedPolicyByType('LimitedQuota');
+                                if (usedPolicy)
+                                    return vResult(usedPolicy.value > 0 ? featureStatus.hasQuota : featureStatus.shouldBePurchased);
+                                else
+                                    return vResult(featureStatus.shouldBePurchased);
+                            }
+                        }
+                    }
+                    
+                    return null;
+                },
+                function () { //RestrictPolicyValidator 7
+                    if (findUsedPolicyByType('Restrict') || hasPolicyOfType('Restrict'))
+                        return vResult(featureStatus.notAllowed);
+                    return null;
+                },
+                function () { //AllFeaturesPolicyValidator 8
+                    if (findUsedPolicyByType('Allow', 'All') || (features['All'] && features['All'].type === 'Allow'))
+                        return vResult(featureStatus.allowed);
+                    return null;
                 }
+            ];
+            
+            var validationStatus = featureStatus.unknown;
+            var validationMaxValue;
+            for (var i = 0, c = policyValidators.length; i < c; i++) {
+                var vr = policyValidators[i]();
+                if (vr) {
+                    validationStatus = vr.status;
+                    validationMaxValue = vr.maxValue;
+                }
+                
+                if ((validationStatus === featureStatus.notAllowed || validationStatus === featureStatus.notEnoughQuota) && $rootScope.currentUser.subscription.subscription.isDefault) {
+                    validationStatus = featureStatus.subscriptionShouldBeUpgraded;
+                    break;
+                }
+                
+                if (validationStatus !== featureStatus.unknown)
+                    break;
             }
-
-            return allow;
+            if (validationStatus === featureStatus.unknown)
+                    validationStatus = featureStatus.notAllowed;
+            
+            if (validationStatus === featureStatus.allowed || validationStatus === featureStatus.hasParameter || validationStatus === featureStatus.hasQuota)
+                return true;
+            if (!event) //if not triggered by user
+                return false;
+                
+            if (featureName === 'Guests' || featureName === 'Checkins') {
+                message = 'You are only allowed ' + validationMaxValue + ' guests. Would you like to upgrade to unlimited?';
+            } else if (featureName === 'EventDurationDays') {
+                if (validationStatus === featureStatus.shouldBePurchased)
+                    message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days. Would you like to upgrade?';
+                else
+                    message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days.';
+            } else if (featureName === 'EventStartRangeDays') {
+                message = 'You can only create event up to ' + validationMaxValue + ' days in advance.';
+            } else
+                message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
+            
+            if (validationStatus === featureStatus.notAllowed && (featureName === 'EventStartRangeDays' || featureName === 'EventDurationDays'))
+                dialogService.confirm(event, message, 'Ok');
+            else
+                dialogService.confirm(event, message, 'Upgrade', 'Close').then(function() {
+                        if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go')
+                            $state.go('main.user', {view: 2});
+                        else
+                            subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0, null, featureIntId);
+                    }
+                );
+            
+            return false;
         };
         
-        this.paymentPopup = function(selectedPlan, pricePolicyKey, callback) {
+        this.paymentPopup = function(selectedPlan, pricePolicyKey, callback, featureIntId) {
             var scope = $rootScope.$new();
             scope.selectedPlan = selectedPlan;
             scope.pricePolicyKey = pricePolicyKey;
@@ -338,10 +443,10 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 if ($rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined' && $rootScope.currentUser.subscription.subscription.name === 'Pay as you go') {
                     var buyFeature = {
                         featureName: lastVerifiedFeaturedName,
-                        featureValue: lastVerifiedFeaturedValue
+                        featureValue: lastVerifiedFeaturedValue ? lastVerifiedFeaturedValue : 0
                     };
                     if (featureInternalId) {
-                        buyFeature.featureInternalId = featureInternalId;
+                        buyFeature.featureInternalId = String(featureInternalId);
                     }
                     if (!scope.cardDataLoaded || newCard) {
                         buyFeature.card = scope.cardData;
