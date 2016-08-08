@@ -458,6 +458,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                                     if (data.data && data.dataTotalCount > 0) {
                                         $rootScope.currentUser.subscription = data.data;
                                         scope.close();
+                                        $state.reload();
                                     }
                                 }
                             );                            

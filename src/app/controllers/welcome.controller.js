@@ -5,7 +5,8 @@ angular.module('gliist')
         function($scope, $mdDialog, $mdMedia, $rootScope, $anchorScroll, $location, $timeout, $window, userService, dialogService, permissionsService) {
             $scope.options = {
                 limit: 3,
-                readyOnly: true
+                readyOnly: true,
+                showInactive: true
             };
             $scope.hideArrow = false;
             var init = $scope.$watch('currentUser', function(newVal) {

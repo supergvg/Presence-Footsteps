@@ -34,7 +34,6 @@ angular.module('gliist')
                             message = error.ModelState[err][0] + '\n';
                         }
                     }
-
                     dialogService.error(message);
                 }).finally(function() {
                     $scope.sendingData = false;

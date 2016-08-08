@@ -315,7 +315,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                     headers: {'Content-Type': 'application/json'}
                 }).success(function(data, status) {
                     if (status === 200) {
-                        that.login(user, deferred).then(function(data) {
+                        that.login(user).then(function(data) {
                             deferred.resolve(data);
                         }, function(error) {
                             deferred.reject(error);
