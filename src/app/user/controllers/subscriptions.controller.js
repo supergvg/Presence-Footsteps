@@ -38,7 +38,7 @@ angular.module('gliist')
                     dialogService.confirm(event, 'You are about to upgrade.<br>If there is a prorated amount, you will receive an email', 'UPGRADE', 'CANCEL').then(function(){
                         $scope.selectPlan(index);
                     });
-                } else if ($scope.planLabels[index] === 'DOWNGRADE') {
+                } else if ($scope.planLabels[index] === 'DOWNGRADE' && $scope.plans[index].name !== 'Basic') {
                     var message = 'Are you sure you want to downgrade?<br>Your new plan will be in effect the next billing cycle';
                     if ($scope.isSubscribed() && $rootScope.currentUser.subscription.subscription.name === 'Monthly' && $scope.plans[index].name === 'Guest List Only') {
                         message = 'Are you sure you want to downgrade?<br>Your premium features will not be accessible after';

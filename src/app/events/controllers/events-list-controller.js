@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$state',
-        function ($scope, $mdDialog, eventsService, dialogService, $state) {
+    .controller('EventsListCtrl', ['$scope', '$mdDialog', 'eventsService', 'dialogService', '$state', 'permissionsService',
+        function ($scope, $mdDialog, eventsService, dialogService, $state, permissionsService) {
             $scope.options = $scope.options || {};
             var defaultOptions = {
                 showInactive: false,
@@ -33,11 +33,13 @@ angular.module('gliist')
             };
 
             $scope.showUpgradePopup = function(event) {
-                dialogService.confirm(event, 'Do you want to activate this event?', 'Yes', '', 'close-x border').then(
-                    function() {
-                        $state.go('main.user', {view: 2});
-                    }
-                );
+                if (permissionsService.isRole('admin')) {
+                    dialogService.confirm(event, 'Do you want to activate this event?', 'Yes', '', 'close-x border').then(
+                        function() {
+                            $state.go('main.user', {view: 2});
+                        }
+                    );
+                }
             };
 
             $scope.deleteEvent = function(ev, event) {
