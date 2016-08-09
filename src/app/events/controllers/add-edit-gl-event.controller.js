@@ -36,9 +36,11 @@ angular.module('gliist')
             $scope.checkSubscription = function(glist, showPopup) {
                 var guests = glist.actual;
                 var newGuests = 0;
-                for (var i = 0, c = guests.length; i< c; i++)
-                    if (!guests[i].id)
+                for (var i = 0, c = guests.length; i< c; i++) {
+                    if (!guests[i].id) {
                         newGuests++;
+                    }
+                }
                 
                 if (!subscriptionsService.verifyFeature('Guests', newGuests, showPopup, eventId)) {
                     return false;
