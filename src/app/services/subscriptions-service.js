@@ -31,8 +31,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     };
                 });
             },
-            subscriptionsService = this,
-            lastVerifiedFeaturedName, lastVerifiedFeaturedValue, featureInternalId;
+            subscriptionsService = this;
             
         this.getFeatureValue = function(featureName) {
             if (!features[featureName]) {
@@ -140,15 +139,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         };
         
         this.verifyFeature = function(featureName, featureValue, event, featureIntId) {
-            if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
+            if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
                 return;
-            }
-            lastVerifiedFeaturedName = featureName;
-            lastVerifiedFeaturedValue = featureValue;
-            featureInternalId = featureIntId;
-            var allow = false,
-                maxParam = false,
-                message;
             
             var hasPolicyOfType = function (type) {
                 return features[featureName] && features[featureName].type === type;
@@ -290,7 +282,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 return true;
             if (!event) //if not triggered by user
                 return false;
-                
+
+            var message;
             if (featureName === 'Guests' || featureName === 'Checkins') {
                 message = 'You are only allowed ' + validationMaxValue + ' guests. Would you like to upgrade to unlimited?';
             } else if (featureName === 'EventDurationDays') {
@@ -310,14 +303,14 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go')
                             $state.go('main.user', {view: 2});
                         else
-                            subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0, null, featureIntId);
+                            subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0, null, featureName, featureValue, featureIntId);
                     }
                 );
             
             return false;
         };
         
-        this.paymentPopup = function(selectedPlan, pricePolicyKey, callback, featureIntId) {
+        this.paymentPopup = function(selectedPlan, pricePolicyKey, callback, featureName, featureValue, featureIntId) {
             var scope = $rootScope.$new();
             scope.selectedPlan = selectedPlan;
             scope.pricePolicyKey = pricePolicyKey;
@@ -440,13 +433,13 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     subscribe.card = scope.cardData;
                 }
                 scope.waiting = true;
-                if ($rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined' && $rootScope.currentUser.subscription.subscription.name === 'Pay as you go') {
+                if (featureName) {
                     var buyFeature = {
-                        featureName: lastVerifiedFeaturedName,
-                        featureValue: lastVerifiedFeaturedValue ? lastVerifiedFeaturedValue : 0
+                        featureName: featureName,
+                        featureValue: featureValue ? featureValue : 0
                     };
-                    if (featureInternalId) {
-                        buyFeature.featureInternalId = String(featureInternalId);
+                    if (featureIntId) {
+                        buyFeature.featureIntId = String(featureIntId);
                     }
                     if (!scope.cardDataLoaded || newCard) {
                         buyFeature.card = scope.cardData;
