@@ -145,7 +145,7 @@ angular.module('gliist')
                     }
                 };
                 scope.importGLists = function(ev) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected) + $scope.getTotalGuests($scope.event.guestLists), ev, $scope.event.id)) {
+                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests(scope.selected), ev, $scope.event.id)) {
                         return;
                     }
                     eventsService.linkGuestList(scope.selected, $scope.event.id, instanceType).then(
@@ -168,7 +168,6 @@ angular.module('gliist')
             $scope.timeValid = function() {
                 $scope.startEventTimeInvalid = false;
                 $scope.endEventTimeInvalid = false;
-                $scope.maxStartEventTimeInvalid = false;
                 $scope.startRangeDays = subscriptionsService.getFeatureValue('EventStartRangeDays') || 45;
                 
                 if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
@@ -181,13 +180,10 @@ angular.module('gliist')
                 if ($scope.dt.startEventDateTime.getTime() < locationDateTime.valueOf()) {
                     $scope.startEventTimeInvalid = true;
                 }
-                if ($scope.dt.startEventDateTime.getTime() > locationMaxStartDateTime) {
-                    $scope.maxStartEventTimeInvalid = true;
-                }
                 if ($scope.dt.startEventDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.endEventTimeInvalid = true;
                 }
-                if ($scope.startEventTimeInvalid || $scope.endEventTimeInvalid || $scope.maxStartEventTimeInvalid) {
+                if ($scope.startEventTimeInvalid || $scope.endEventTimeInvalid) {
                     return false;
                 }
                 return true;
@@ -198,10 +194,13 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, $scope.event.id)) {
+                    /*if ($scope.subscriptionRestrictions('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, $scope.event.id)) {
+                        return;
+                    }*/
+                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, ev, $scope.event.id)) {
                         return;
                     }
-                    if ($scope.subscriptionRestrictions('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, {}, $scope.event.id)) {
+                    if ($scope.subscriptionRestrictions('EventStartRangeDays', (($scope.dt.startEventDateTime.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24), ev, $scope.event.id)) {
                         return;
                     }
                     var errorMessage = [];
@@ -239,9 +238,6 @@ angular.module('gliist')
                         }
                         if ($scope.endEventTimeInvalid) {
                             errorMessage.push('End time has to be after start time');
-                        }
-                        if ($scope.maxStartEventTimeInvalid) {
-                            errorMessage.push('You can only create event up to '+$scope.startRangeDays+' days in advance');
                         }
                     }
                     if (!$scope.location.details) {
@@ -302,7 +298,7 @@ angular.module('gliist')
                 delete $scope.location.details;
             };
             
-            $scope.getTotalGuests = function(guestLists) {
+            $scope.getTotalGuests = function(guestLists, onlyNew) {
                 var total = 0;
                 angular.forEach(guestLists, function(gl){
                     if (angular.isDefined(gl.guestsCount)) {
