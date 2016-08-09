@@ -36,7 +36,7 @@ angular.module('gliist')
                     eventsService.checkGuestsEmailBeforePublishing({ids: glRSVP, eventId: $scope.event.id}).then(
                         function(data) {
                             if (data.Warnings && data.Warnings.length > 0) {
-                                dialogService.error('Some guests email address are missing, please provide that');
+                                dialogService.error(data.Warnings.join('\n'));
                             } else {
                                 $scope.publishEvent(ev);
                             }
