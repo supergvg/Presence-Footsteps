@@ -30,9 +30,9 @@ angular.module('gliist')
                 }, function(error) {
                     var message = 'There was a problem signing up, please try again';
                     if (error && error.ModelState) {
-                        for (var err in error.ModelState) {
-                            message = error.ModelState[err][0] + '\n';
-                        }
+                        angular.forEach(error.ModelState, function(value) {
+                            message += value[0] + '\n';
+                        });
                     }
                     dialogService.error(message);
                 }).finally(function() {

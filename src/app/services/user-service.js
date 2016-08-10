@@ -18,9 +18,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 isLogged = true;
                 userEmail = data.userName;
                 setAuthToken(data.access_token);
-                try {
-                    $window.localStorage.setItem('access_token', data.access_token);
-                } catch (e) {}
+                try { $window.localStorage.setItem('access_token', data.access_token);} catch(e) {}
             };
 
         return {
@@ -270,20 +268,13 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
 
                 $http.post('Token', body, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
                     function(response) {
-                        if (response.status === 200) {
-                            onLoginSuccessful(response.data);
-
-                            d.resolve(response.data);
-                        } else {
-                            isLogged = false;
-                            userEmail = '';
-                            d.resolve(response.data);
-                        }
-                        d.resolve(response.data);
+                        onLoginSuccessful(response.data);
+                        d.resolve();
                     },
                     function(response) {
-                        response.data.status = response.status;
-                        d.reject(response.data);
+                        isLogged = false;
+                        userEmail = '';
+                        d.reject(response);
                     }
                 );
 
@@ -305,18 +296,12 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                     that = this;
             
                 $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
-                    function(response) {
-                        if (response.status === 200) {
-                            that.login(user).then(function(data) {
-                                deferred.resolve(data);
-                            }, function(error) {
-                                deferred.reject(error);
-                            });
-                        } else {
-                            isLogged = false;
-                            userEmail = '';
-                            deferred.reject(response.data.ModelState);
-                        }
+                    function() {
+                        that.login(user).then(function() {
+                            deferred.resolve();
+                        }, function(response) {
+                            deferred.reject(response.data);
+                        });
                     },
                     function(response) {
                         isLogged = false;
