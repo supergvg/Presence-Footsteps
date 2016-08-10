@@ -18,8 +18,9 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
                 isLogged = true;
                 userEmail = data.userName;
                 setAuthToken(data.access_token);
-
-                $window.localStorage.setItem('access_token', data.access_token);
+                try {
+                    $window.localStorage.setItem('access_token', data.access_token);
+                } catch (e) {}
             };
 
         return {
@@ -264,29 +265,27 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             },
             
             login: function(credentials) {
-                var d = $q.defer();
-                var body = 'grant_type=password&username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password);
+                var d = $q.defer(),
+                    body = 'grant_type=password&username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password);
 
-                $http({
-                    method: 'POST',
-                    url: 'Token',
-                    data: body,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function(data, status) {
-                    if (status === 200) {
-                        onLoginSuccessful(data);
+                $http.post('Token', body, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
+                    function(response) {
+                        if (response.status === 200) {
+                            onLoginSuccessful(response.data);
 
-                        d.resolve(data);
-                    } else {
-                        isLogged = false;
-                        userEmail = '';
-                        d.resolve(data);
+                            d.resolve(response.data);
+                        } else {
+                            isLogged = false;
+                            userEmail = '';
+                            d.resolve(response.data);
+                        }
+                        d.resolve(response.data);
+                    },
+                    function(response) {
+                        response.data.status = response.status;
+                        d.reject(response.data);
                     }
-                    d.resolve(data);
-                }).error(function(data, status) {
-                    data.status = status;
-                    d.reject(data);
-                });
+                );
 
                 return d.promise;
             },
@@ -301,35 +300,30 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             },
             
             registerEmail: function(user, inviteMode) {
-                var deferred = $q.defer();
-                var url = 'api/Account/Register';
-
-                if (inviteMode) {
-                    url = 'api/Account/CreateUserByAccount';
-                }
-                var that = this;
-                $http({
-                    method: 'POST',
-                    url: url,
-                    data: user,
-                    headers: {'Content-Type': 'application/json'}
-                }).success(function(data, status) {
-                    if (status === 200) {
-                        that.login(user).then(function(data) {
-                            deferred.resolve(data);
-                        }, function(error) {
-                            deferred.reject(error);
-                        });
-                    } else {
+                var deferred = $q.defer(),
+                    url = inviteMode ? 'api/Account/CreateUserByAccount' : 'api/Account/Register',
+                    that = this;
+            
+                $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
+                    function(response) {
+                        if (response.status === 200) {
+                            that.login(user).then(function(data) {
+                                deferred.resolve(data);
+                            }, function(error) {
+                                deferred.reject(error);
+                            });
+                        } else {
+                            isLogged = false;
+                            userEmail = '';
+                            deferred.reject(response.data.ModelState);
+                        }
+                    },
+                    function(response) {
                         isLogged = false;
                         userEmail = '';
-                        deferred.reject(data.ModelState);
+                        deferred.reject(response.data);
                     }
-                }).error(function(data) {
-                    isLogged = false;
-                    userEmail = '';
-                    deferred.reject(data);
-                });
+                );
 
                 return deferred.promise;
             },
