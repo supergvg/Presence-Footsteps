@@ -289,7 +289,7 @@ angular.module('gliist', [
                                 toLoginPage();
                             }
                         } else {
-                            if (permissionsService.roleDenyAccess(next.name)) {
+                            if (permissionsService.roleDenyAccess(next.name, nextParams)) {
                                 event.preventDefault();
                                 $state.go('main.welcome');
                             } else if (event.defaultPrevented) {

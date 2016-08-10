@@ -453,8 +453,9 @@ angular.module('gliist')
                             $scope.save(true);
                         },
                         function (error) {
-                            if (error.status === 403)
+                            if (error.status === 403) {
                                 return subscriptionsService.verifyFeature('Guests', error.data, true, eventId);
+                            }
                             dialogService.error('There was a problem linking your guest list, please try again');
                         }
                     ).finally(function () {
@@ -537,11 +538,13 @@ angular.module('gliist')
                     },
                     function (response) {
                         if (response) {
-                            if (response.status === 403)
+                            if (response.status === 403) {
                                 return subscriptionsService.verifyFeature('Guests', response.data, true, eventId);
+                            }
                             
-                            if (response.data)
+                            if (response.data) {
                                 return dialogService.error(response.data);
+                            }
                         }
                         
                         dialogService.error('There was a problem saving your guest list please try again');

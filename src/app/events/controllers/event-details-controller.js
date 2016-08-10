@@ -82,7 +82,13 @@ angular.module('gliist')
 
             $scope.$watch('dt.endEventDateTime', function(newValue) {
                 if (newValue.getTime() < $scope.dt.endEventRsvpDateTime.getTime()) {
-                    $scope.dt.endEventRsvpDateTime.setTime(newValue.getTime());
+                    $scope.dt.endEventRsvpDateTime = new Date(newValue.getTime());
+                }
+            });
+            
+            $scope.$watch('event.type', function(newValue, oldValue) {
+                if (newValue !== oldValue && newValue === 2) {
+                    $scope.dt.endEventRsvpDateTime = new Date($scope.dt.endEventDateTime.getTime());
                 }
             });
             
@@ -154,8 +160,9 @@ angular.module('gliist')
                             dialogService.success('Guest lists were linked');
                             $mdDialog.hide();
                         }, function (error) {
-                            if (error.status === 403)
+                            if (error.status === 403) {
                                 return subscriptionsService.verifyFeature('Guests', error.data, true, $scope.event.id);
+                            }
                             dialogService.error('There was a problem linking, please try again');
                         }
                     );
@@ -173,11 +180,10 @@ angular.module('gliist')
                 $scope.startRangeDays = subscriptionsService.getFeatureValue('EventStartRangeDays') || 45;
                 
                 if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
-                    $scope.dt.endEventRsvpDateTime.setTime($scope.dt.endEventDateTime.getTime());
+                    $scope.dt.endEventRsvpDateTime = new Date($scope.dt.endEventDateTime.getTime());
                 }
                 var now = new Date(Date.now()),
-                    locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000),
-                    locationMaxStartDateTime = locationDateTime.valueOf() + $scope.startRangeDays * 24 * 60 * 60 * 1000;
+                    locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000);
             
                 if ($scope.dt.startEventDateTime.getTime() < locationDateTime.valueOf()) {
                     $scope.startEventTimeInvalid = true;

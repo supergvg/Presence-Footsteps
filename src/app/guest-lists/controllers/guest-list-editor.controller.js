@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$interval', '$timeout', 'guestListParserService', 'permissionsService', '$mdTheming',
-        function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $interval, $timeout, guestListParserService, permissionsService, $mdTheming) {
+    .controller('GuestListEditorCtrl', ['$scope', 'guestFactory', 'dialogService', '$mdDialog', 'uploaderService', 'eventsService', '$state', '$stateParams', 'userService', '$timeout', 'guestListParserService', 'permissionsService', '$mdTheming',
+        function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $timeout, guestListParserService, permissionsService, $mdTheming) {
             $scope.mustBeLinked = $scope.linkToEvent ? true : false; //if no linkToEvent callback specified the list doesn't need linking
             $scope.guestListTypes = [
                 'GA',

@@ -106,8 +106,8 @@ angular.module('gliist')
                 userService.login($scope.credentials).then(
                     function() {
                         $state.go('main.welcome');
-                    }, function(error) {
-                        var message = (error && error.status !== 500 && error.error_description) || 'Something went wrong. Try again later please.';
+                    }, function(response) {
+                        var message = (response && response.status !== 500 && response.data.error_description) || 'Something went wrong. Try again later please.';
                         dialogService.error(message);
                     }
                 ).finally(function() {
