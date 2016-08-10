@@ -192,7 +192,9 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                     data: {guestListIds: ids, eventId: eventId, instanceType: instanceType}
                 }).success(function (data) {
                     d.resolve(data);
-                }).error(function () {
+                }).error(function (err, s) {
+                    if (err)
+                        return d.reject({data: err, status: s});
                     d.reject('Oops there was an error trying to get events, please try again');
                 });
 
@@ -237,7 +239,9 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                     data: ids
                 }).success(function (data) {
                     d.resolve(data);
-                }).error(function () {
+                }).error(function (err, s) {
+                    if (err)
+                        return d.reject({data: err, status: s});
                     d.reject('Oops there was an error trying to get events, please try again');
                 });
 

@@ -61,6 +61,7 @@ angular.module('gliist')
                 }
             };
             $scope.form = {};
+            $scope.data = { textGuestList: null };
             
             $scope.options.methods = {
                 gridCellTab: function(event, col) {
@@ -451,7 +452,9 @@ angular.module('gliist')
                             $scope.gli.actual = result.actual;
                             $scope.save(true);
                         },
-                        function () {
+                        function (error) {
+                            if (error.status === 403)
+                                return subscriptionsService.verifyFeature('Guests', error.data, true, eventId);
                             dialogService.error('There was a problem linking your guest list, please try again');
                         }
                     ).finally(function () {
@@ -467,11 +470,11 @@ angular.module('gliist')
             };
             
             $scope.onAddGuestsClicked = function() {
-                if (!$scope.textGuestList) {
+                if (!$scope.data.textGuestList) {
                     return;
                 }
                 
-                var guests = guestListParserService.parse($scope.textGuestList);
+                var guests = guestListParserService.parse($scope.data.textGuestList);
                 if (guests === null) {
                     return dialogService.error('No guests found in the list');
                 }
@@ -499,7 +502,7 @@ angular.module('gliist')
                 
                 dialogService.success('Guests were added successfully');
                 $scope.onDataChange();
-                $scope.textGuestList = '';
+                $scope.data.textGuestList = '';
             };
             
             $scope.onFileSelect = function (files) {
@@ -532,7 +535,15 @@ angular.module('gliist')
                         $scope.gli = data;
                         $scope.save(true);
                     },
-                    function () {
+                    function (response) {
+                        if (response) {
+                            if (response.status === 403)
+                                return subscriptionsService.verifyFeature('Guests', response.data, true, eventId);
+                            
+                            if (response.data)
+                                return dialogService.error(response.data);
+                        }
+                        
                         dialogService.error('There was a problem saving your guest list please try again');
                     }
                 ).finally(function () {

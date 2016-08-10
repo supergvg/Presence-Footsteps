@@ -15,8 +15,8 @@ angular.module('gliist').factory('uploaderService',
                         file: file
                     }).success(function (data) {
                         d.resolve(data);
-                    }).error(function (err) {
-                            d.reject(err);
+                    }).error(function (err, s) {
+                            d.reject(err, s);
                         }
                     );
 
@@ -34,8 +34,8 @@ angular.module('gliist').factory('uploaderService',
                         file: file
                     }).success(function (data) {
                         d.resolve(data);
-                    }).error(function (err) {
-                        d.reject(err);
+                    }).error(function (err, s) {
+                        d.reject({data: err, status: s});
                     });
 
                     return d.promise;

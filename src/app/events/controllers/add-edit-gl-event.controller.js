@@ -34,7 +34,10 @@ angular.module('gliist')
             };    
             
             $scope.checkSubscription = function(glist, showPopup) {
-                var guests = glist.actual;
+                if (!glist.guests && !glist.actual)
+                    return true;
+                
+                var guests = glist.guests ? glist.guests : glist.actual;
                 var newGuests = 0;
                 for (var i = 0, c = guests.length; i< c; i++) {
                     if (!guests[i].id) {
@@ -42,9 +45,9 @@ angular.module('gliist')
                     }
                 }
                 
-                if (!subscriptionsService.verifyFeature('Guests', newGuests, showPopup, eventId)) {
+                if (!subscriptionsService.verifyFeature('Guests', newGuests, showPopup, eventId))
                     return false;
-                }
+                
                 return true;
             };
             

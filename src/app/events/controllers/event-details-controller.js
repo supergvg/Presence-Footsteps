@@ -153,7 +153,9 @@ angular.module('gliist')
                             $scope.event.guestLists = guestListInstances;
                             dialogService.success('Guest lists were linked');
                             $mdDialog.hide();
-                        }, function () {
+                        }, function (error) {
+                            if (error.status === 403)
+                                return subscriptionsService.verifyFeature('Guests', error.data, true, $scope.event.id);
                             dialogService.error('There was a problem linking, please try again');
                         }
                     );
