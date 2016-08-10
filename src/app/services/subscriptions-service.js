@@ -293,6 +293,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days.';
             } else if (featureName === 'EventStartRangeDays') {
                 message = 'You can only create event up to ' + validationMaxValue + ' days in advance.';
+            } else if (featureName === 'GLM') {
+                message = 'This is a feature for monthly subscription plans. Do you want to upgrade?';
             } else
                 message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
             

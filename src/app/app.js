@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdSidenav', '$mdMedia', 'permissionsService',
-        function ($scope, $rootScope, userService, $state, dialogService, $mdSidenav, $mdMedia, permissionsService) {
+    .controller('AppController', ['$scope', '$rootScope', 'userService', '$state', 'dialogService', '$mdSidenav', '$mdMedia', 'permissionsService', 'subscriptionsService',
+        function ($scope, $rootScope, userService, $state, dialogService, $mdSidenav, $mdMedia, permissionsService, subscriptionsService) {
             $scope.credentials = {};
             $scope.hidePhoto = false;
             $scope.menuItems = [
@@ -22,7 +22,7 @@ angular.module('gliist')
                     icon: {src: 'assets/images/icons/guest_list_management.png'}
                 },
                 {
-                    title: 'Event Analytic',
+                    title: 'Past Events',
                     ui_sref: 'main.stats',
                     icon: {src: 'assets/images/icons/event_stats.png'}
                 },
@@ -62,10 +62,13 @@ angular.module('gliist')
             };
 
             $scope.setSelected = function (item) {
+                if (item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true))
+                    return;
                 $scope.selectedMenuItem = item;
                 if (!$mdMedia('gt-lg')) {
                     $mdSidenav('left').close();
                 }
+                $state.go(item.ui_sref, {view: 2});
             };
 
             $scope.getItemClass = function(item) {

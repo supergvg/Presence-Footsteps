@@ -56,7 +56,7 @@
                 <md-sidenav layout-fill flex md-is-locked-open="$mdMedia('gt-lg')" md-component-id="left" class="logo-bg" ng-if="showUserBars()" ng-cloak>
                     <div ng-style="userProfilePic"></div>
                     <div>
-                        <div ng-repeat="it in getMenuItems()" ui-sref="{{it.ui_sref}}" ng-click="setSelected(it)" ng-class="getItemClass(it)" class="sidenav-item">
+                        <div ng-repeat="it in getMenuItems()" ng-click="setSelected(it)" ng-class="getItemClass(it)" class="sidenav-item">
                             <div>
                                 <img ng-src="{{it.icon.src}}"/>
                                 {{it.title}}
