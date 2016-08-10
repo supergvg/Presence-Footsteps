@@ -217,8 +217,8 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                     data: {ids: ids, id: masterGLId, gl: gl}
                 }).success(function (data) {
                     d.resolve(data);
-                }).error(function () {
-                    d.reject('Oops there was an error trying to get events, please try again');
+                }).error(function (err) {
+                    d.reject(err ? err : 'Oops there was an error trying to get events, please try again');
                 });
 
                 return d.promise;

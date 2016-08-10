@@ -163,7 +163,7 @@ angular.module('gliist')
                             if (error.status === 403) {
                                 return subscriptionsService.verifyFeature('Guests', error.data, true, $scope.event.id);
                             }
-                            dialogService.error('There was a problem linking, please try again');
+                            dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem linking, please try again');
                         }
                     );
                 };

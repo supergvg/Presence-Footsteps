@@ -477,8 +477,8 @@ angular.module('gliist')
                             $scope.list.guests = result.guests;
                             $scope.save(true);
                         }, 
-                        function() {
-                            dialogService.error('There was a problem linking your guest list, please try again');
+                        function(err) {
+                            dialogService.error(err && err.Message ? err.Message : 'There was a problem linking your guest list, please try again');
                         }
                     ).finally(function() {
                         $mdDialog.hide();
