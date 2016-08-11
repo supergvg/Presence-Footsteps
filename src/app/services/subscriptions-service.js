@@ -31,7 +31,12 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     };
                 });
             },
-            subscriptionsService = this;
+            subscriptionsService = this,
+            payed = $q.defer();
+            
+        this.isPayed = function() {
+            return payed.promise;
+        };    
             
         this.getFeatureValue = function(featureName) {
             if (!features[featureName]) {
@@ -298,16 +303,20 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             } else
                 message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
             
-            if (validationStatus === featureStatus.notAllowed && (featureName === 'EventStartRangeDays' || featureName === 'EventDurationDays'))
+            if (validationStatus === featureStatus.notAllowed && (featureName === 'EventStartRangeDays' || featureName === 'EventDurationDays')) {
                 dialogService.confirm(event, message, 'Ok');
-            else
-                dialogService.confirm(event, message, 'Upgrade', 'Close').then(function() {
-                        if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go' || featureName === 'GLM')
+            } else {
+                payed = $q.defer();
+                dialogService.confirm(event, message, 'Upgrade', 'Close').then(
+                    function() {
+                        if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go' || featureName === 'GLM') {
                             $state.go('main.user', {view: 2});
-                        else
+                        } else {
                             subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0, null, featureName, featureValue, featureIntId);
+                        }
                     }
                 );
+            }
             
             return false;
         };
@@ -452,8 +461,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                                 function(data){
                                     if (data.data && data.dataTotalCount > 0) {
                                         $rootScope.currentUser.subscription = data.data;
+                                        payed.resolve();
                                         scope.close();
-                                        $state.reload();
                                     }
                                 }
                             );                            
