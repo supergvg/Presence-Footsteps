@@ -14,12 +14,16 @@ angular.module('gliist')
             
             $scope.showButton = function(index) {
                 var subscriptionStatus = '',
-                    pricePolicyType = '';
+                    pricePolicyType = '',
+                    isPAYG = false;
                 if ($scope.isSubscribed()) {
                     subscriptionStatus = $rootScope.currentUser.subscription.status;
                     pricePolicyType = $rootScope.currentUser.subscription.pricePolicy.prices[0].type;
+                    isPAYG = $rootScope.currentUser.subscription.subscription.name === 'Pay as you go';
                 }
-                return $scope.allowToSelect(index) && (!$scope.plans[index].isCurrentlyUsed || ($scope.plans[index].isCurrentlyUsed && $scope.plans[index].pricePolicies.length > 1 && pricePolicyType !== 'Year')) && (subscriptionStatus === 'Active' || (subscriptionStatus !== 'Active' && $scope.planLabels[index] !== 'DOWNGRADE'));
+                var isMoreOnePrice = !$scope.plans[index].isCurrentlyUsed || ($scope.plans[index].isCurrentlyUsed && $scope.plans[index].pricePolicies.length > 1 && pricePolicyType !== 'Year'),
+                    isPlanTransform = subscriptionStatus === 'Active' || (subscriptionStatus !== 'Active' && $scope.planLabels[index] !== 'DOWNGRADE');
+                return $scope.allowToSelect(index) && isMoreOnePrice && isPlanTransform && !(isPAYG && $scope.plans[index].name === 'Basic');
             };
             
             $scope.getEndDate = function() {
