@@ -302,7 +302,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 dialogService.confirm(event, message, 'Ok');
             else
                 dialogService.confirm(event, message, 'Upgrade', 'Close').then(function() {
-                        if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go')
+                        if ($rootScope.currentUser.subscription.subscription.name !== 'Pay as you go' || featureName === 'GLM')
                             $state.go('main.user', {view: 2});
                         else
                             subscriptionsService.paymentPopup($rootScope.currentUser.subscription.subscription, 0, null, featureName, featureValue, featureIntId);

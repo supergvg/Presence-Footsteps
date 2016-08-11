@@ -177,6 +177,22 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                 return d.promise;
             },
 
+            createGuestList: function (eventId, instanceType) {
+                var d = $q.defer();
+
+                $http({
+                    method: 'POST',
+                    url: 'api/Event/CreateGuestList',
+                    data: {eventId: eventId, instanceType: instanceType}
+                }).success(function (data) {
+                    d.resolve(data);
+                }).error(function (err) {
+                    d.reject(err);
+                });
+
+                return d.promise;
+            },
+
             linkGuestList: function (guestLists, eventId, instanceType) {
                 var d = $q.defer(),
                     ids = guestLists.map(function(gl) {

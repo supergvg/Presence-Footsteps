@@ -341,7 +341,7 @@
                                 <p>Create new guest list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 1})">
+                                <md-button class="raised-btn" ng-click="onCreateGLClicked(1)">
                                     Create
                                 </md-button>
                             </div>
@@ -366,7 +366,7 @@
                                 <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
                             </div>
                             <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ui-sref="main.create_gl_event({eventId: event.id, instanceType: 2})">
+                                <md-button class="raised-btn" ng-click="onCreateGLClicked(2)">
                                     Create
                                 </md-button>
                             </div>

@@ -115,11 +115,11 @@ angular.module('gliist', [
                     controller: 'EventsCtrl',
                     permissions: ['refreshSubscription']
                 }).state('main.create_gl_event', {
-                    url: '/event/edit/guestlist/:eventId/:instanceType',
+                    url: '/event/edit/guestlist/:id/:eventId',
                     templateUrl: 'app/events/templates/event-add-guestlist.html',
                     controller: 'AddEditGLEventCtrl'
                 }).state('main.edit_gl_event', {
-                    url: '/event/edit/guestlistinstance/:gli/:eventId',
+                    url: '/event/edit/guestlistinstance/:id/:eventId',
                     templateUrl: 'app/events/templates/event-edit-guestlist.html',
                     controller: 'AddEditGLEventCtrl'
                 }).state('main.edit_event', {

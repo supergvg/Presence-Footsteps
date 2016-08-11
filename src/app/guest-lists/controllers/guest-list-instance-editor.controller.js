@@ -5,7 +5,7 @@ angular.module('gliist')
         function ($scope, guestFactory, dialogService, $state, eventsService, userService, $timeout, $mdDialog, uploaderService, guestListParserService, $stateParams, permissionsService, $mdTheming, subscriptionsService) {
             var instanceType = parseInt($stateParams.instanceType),
                 eventId = parseInt($stateParams.eventId);
-            
+            $scope.guestTypeDisabled = true;
             $scope.guestListTypes = [
                 'GA',
                 'VIP',
@@ -119,6 +119,7 @@ angular.module('gliist')
                 guestFactory.GuestListInstance.get({id: $scope.id}).$promise.then(function(data) {
                     $scope.gli = data;
                     instanceType = data.instanceType;
+                    $scope.guestTypeDisabled = data.listType ? true : false;
 
                     if ($scope.gli.instanceType === 2) {
                         $scope.options.gridOptions.columnDefs.splice(4);
@@ -208,8 +209,8 @@ angular.module('gliist')
                 }
                 $scope.rowSelected = false;
             };
-            
-            $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
+
+            $scope.validateForm = function () {
                 var errorMessage = [];
                 if (!$scope.form.createGuestListForm.$valid) {
                     var errors = {
@@ -222,21 +223,23 @@ angular.module('gliist')
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }
-                if ($scope.guestsError()) {
+                if ($scope.guestsError())
                     errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
-                }
-                if (errorMessage.length > 0) {
-                    if (!autoSave) {
-                        dialogService.error(errorMessage.join(', '));
-                    }
+                
+                return errorMessage;
+            };
+
+            $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
+                var errors = $scope.validateForm();
+                if (errors.length) {
+                    if (!autoSave)
+                        dialogService.error(errors.join(', '));
                     return;
                 }
                 
                 if ($scope.onBeforeSave && !$scope.onBeforeSave($scope.gli, !autoSave)) {
                     return;
                 }
-                
-                $scope.fetchingData = true;
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
@@ -270,7 +273,9 @@ angular.module('gliist')
                 if (forceSaveGuest) {
                     gli.ForceSaveGuest = true;
                 }
-                    
+
+                $scope.cancelAutoSave();
+                $scope.fetchingData = true;
                 guestFactory.GuestListInstance.update(gli).$promise.then(
                     function(data) {
                         if (!autoSave) {
@@ -428,6 +433,10 @@ angular.module('gliist')
             };
 
             $scope.onLinkClicked = function (ev) {
+                var errors = $scope.validateForm();
+                if (errors.length)
+                    return dialogService.error(errors.join(', '));
+
                 var scope = $scope.$new();
                 scope.cancel = function () {
                     $mdDialog.hide();
@@ -440,26 +449,30 @@ angular.module('gliist')
                         verticalScroll: false
                     }
                 };
+                
                 scope.importGLists = function() {
-                    $scope.gli = $scope.gli || {title: 'New Guest List'};
-                    $scope.gli.guests = $scope.gli.guests || [];
-
-                    eventsService.importGuestsToGLInstance($scope.gli.id, scope.selected, $scope.gli).then(
-                        function (result) {
-                            if (!result) {
-                                return dialogService.error('There was a problem linking your guest list, please try again');
+                    $scope.cancelAutoSave();
+                    $scope.save(true, false, function(onSave){
+                        eventsService.importGuestsToGLInstance($scope.gli.id, scope.selected, $scope.gli).then(
+                            function (result) {
+                                if (!result) {
+                                    return dialogService.error('There was a problem linking your guest list, please try again');
+                                }
+                                $scope.gli.actual = result.actual;
+                                $scope.save(true);
+                            },
+                            function (error) {
+                                if (error.status === 403) {
+                                    return subscriptionsService.verifyFeature('Guests', error.data, true, eventId);
+                                }
+                                dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem linking your guest list, please try again');
                             }
-                            $scope.gli.actual = result.actual;
-                            $scope.save(true);
-                        },
-                        function (error) {
-                            if (error.status === 403) {
-                                return subscriptionsService.verifyFeature('Guests', error.data, true, eventId);
-                            }
-                            dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem linking your guest list, please try again');
+                        ).finally(function () {
+                            $mdDialog.hide();
+                        });
+                        if (onSave) {
+                            onSave();
                         }
-                    ).finally(function () {
-                        $mdDialog.hide();
                     });
                 };
 
@@ -510,18 +523,19 @@ angular.module('gliist')
                 if (!files || files.length === 0) {
                     return;
                 }
-                if ($scope.gli) {
-                    $scope.cancelAutoSave();
-                    $scope.fetchingData = true;
-                    $scope.save(true, true, function(onSave){
-                        $scope.upload(files[0], $scope.gli.id);
-                        if (onSave) {
-                            onSave();
-                        }
-                    });
-                    return;
-                }
-                $scope.upload(files[0]);
+                
+                var errors = $scope.validateForm();
+                if (errors.length)
+                    return dialogService.error(errors.join(', '));
+
+                $scope.cancelAutoSave();
+                $scope.save(true, true, function(onSave){
+                    $scope.upload(files[0], $scope.gli.id);
+                    if (onSave) {
+                        onSave();
+                    }
+                });
+                return;
             };
             
             $scope.onDataChange = function () {

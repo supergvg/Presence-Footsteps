@@ -3,7 +3,8 @@
 angular.module('gliist')
     .controller('AddEditGLEventCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', 'subscriptionsService',
         function ($scope, $stateParams, dialogService, $state, eventsService, subscriptionsService) {
-            $scope.gliId = $stateParams.gli;
+            $scope.gliId = $stateParams.id;
+            $scope.listIsLinked = false;
             $scope.currentGlist = {
                 title: 'New Guest List',
                 guests: []
@@ -51,23 +52,8 @@ angular.module('gliist')
                 return true;
             };
             
-            $scope.goBackToEvent = function() {
-                $state.go('main.edit_event', {eventId: eventId, view: 3});
-            };
-            
-            
-            $scope.goBackToEvent = function(glist) {
-                if ($scope.gliId) {
-                    $state.go('main.edit_event', {eventId: eventId, view: 3});
-                } else {
-                    eventsService.linkGuestList([glist], eventId, instanceType).then(
-                        function() {
-                            dialogService.success('Guest lists were linked');
-                            $state.go('main.edit_event', {eventId: eventId, view: 3});
-                        }, function () {
-                            dialogService.error('There was a problem linking, please try again');
-                        }
-                    );
-                }
+            $scope.goBackToEvent = function(glist, autosave) {
+                if (!autosave)
+                        $state.go('main.edit_event', {eventId: eventId, view: 3});
             };
         }]);

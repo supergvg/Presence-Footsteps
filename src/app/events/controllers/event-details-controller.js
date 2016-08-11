@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$location', '$filter', 'subscriptionsService', 'permissionsService',
-        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $location, $filter, subscriptionsService, permissionsService) {
+    .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$location', '$filter', 'subscriptionsService', 'permissionsService', '$state',
+        function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $location, $filter, subscriptionsService, permissionsService, $state) {
             $scope.eventCategories = [
                 'Art',
                 'Fashion',
@@ -137,6 +137,16 @@ angular.module('gliist')
                 );
             };
 
+			$scope.onCreateGLClicked = function (instanceType) {
+				eventsService.createGuestList($scope.event.id, instanceType).then(
+                    function (data) {
+                        $state.go('main.create_gl_event', {id: data, eventId: $scope.event.id});
+                    }, function (error) {
+                        dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem creating guest list, please try again');
+                    }
+                );
+			};
+			
             $scope.onAddGLClicked = function(ev, instanceType) {
                 var scope = $scope.$new();
                 scope.cancel = function() {

@@ -68,7 +68,7 @@ angular.module('gliist')
                 if (!$mdMedia('gt-lg')) {
                     $mdSidenav('left').close();
                 }
-                $state.go(item.ui_sref, {view: 2});
+                $state.go(item.ui_sref);
             };
 
             $scope.getItemClass = function(item) {

@@ -36,7 +36,7 @@ angular.module('gliist')
             };
             
             $scope.editInstance = function(ev, instance) {
-                $state.go('main.edit_gl_event', {gli: instance.id, eventId: $scope.event.id});
+                $state.go('main.edit_gl_event', {id: instance.id, eventId: $scope.event.id});
             };
 
             $scope.deleteInstance = function(ev, instance) {

@@ -189,8 +189,8 @@ angular.module('gliist')
                 }
                 $scope.rowSelected = false;
             };
-            
-            $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
+
+            $scope.validateForm = function () {
                 var errorMessage = [];
                 if (!$scope.form.createGuestListForm.$valid) {
                     var errors = {
@@ -203,24 +203,23 @@ angular.module('gliist')
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }
-                /*if (!$scope.list || !$scope.list.guests || $scope.list.guests.length === 0) {
-                    errorMessage.push('Please Add Guests');
-                }*/
-                if ($scope.guestsError()) {
+                if ($scope.guestsError())
                     errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP' ? 'Email must be not empty.' : 'First Name must be not empty.');
-                }
-                if (errorMessage.length > 0) {
-                    if (!autoSave) {
-                        dialogService.error(errorMessage.join(', '));
-                    }
+                
+                return errorMessage;
+            };
+            
+            $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
+                var errors = $scope.validateForm();
+                if (errors.length) {
+                    if (!autoSave)
+                        dialogService.error(errors.join(', '));
                     return;
                 }
                 
                 if ($scope.onBeforeSave && !$scope.onBeforeSave($scope.list, !autoSave)) {
                     return;
                 }
-
-                $scope.fetchingData = true;
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
@@ -250,8 +249,9 @@ angular.module('gliist')
                 }*/
                 
                 var list = {};
-                angular.copy($scope.list, list);                  
-                    
+                angular.copy($scope.list, list);
+
+                $scope.cancelAutoSave();
                 $scope.fetchingData = true;
                 guestFactory.GuestList.update(list).$promise.then(
                     function(data) {
@@ -428,6 +428,10 @@ angular.module('gliist')
                     return;
                 }
                 
+                var errors = $scope.validateForm();
+                if (errors.length)
+                    return dialogService.error(errors.join(', '));
+                
                 $scope.cancelAutoSave();
                 $scope.save(true, true, function(onSave){
                     $scope.upload(files[0], $scope.list.id);
@@ -453,6 +457,10 @@ angular.module('gliist')
             };
 
             $scope.onLinkClicked = function(ev) {
+                var errors = $scope.validateForm();
+                if (errors.length)
+                    return dialogService.error(errors.join(', '));
+                
                 var scope = $scope.$new();
                 scope.cancel = function() {
                     $mdDialog.hide();
@@ -466,10 +474,9 @@ angular.module('gliist')
                     }
                 };
                 scope.importGLists = function() {
-                    $scope.list = $scope.list || {title: 'New Guest List'};
-                    $scope.list.guests = $scope.list.guests || [];
-
-                    eventsService.importGuestList($scope.list.id, scope.selected, $scope.list).then(
+                    $scope.cancelAutoSave();
+                    $scope.save(true, true, function(onSave){
+                        eventsService.importGuestList($scope.list.id, scope.selected, $scope.list).then(
                         function(result) {
                             if (!result) {
                                 return dialogService.error('There was a problem linking your guest list, please try again');
@@ -482,6 +489,10 @@ angular.module('gliist')
                         }
                     ).finally(function() {
                         $mdDialog.hide();
+                    });
+                        if (onSave) {
+                            onSave();
+                        }
                     });
                 };
 
