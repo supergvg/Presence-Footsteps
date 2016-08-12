@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EmailStatsController', ['$scope', 'eventsService', 'dialogService', '$state', '$stateParams', '$location',
-        function ($scope, eventsService, dialogService, $state, $stateParams, $location) {
+    .controller('EmailStatsController', ['$scope', 'eventsService', 'dialogService', '$state', '$stateParams', '$location', '$rootScope',
+        function ($scope, eventsService, dialogService, $state, $stateParams, $location, $rootScope) {
             $scope.selectedIndex = parseInt($location.search().view) || 0;
             $scope.selected = [];
             $scope.options = $scope.options || {};
@@ -100,6 +100,7 @@ angular.module('gliist')
             //EmailDeliveryStatus Sending = 0 Delivered = 1 DeliveryFailed = 2
             
             $scope.init = function() {
+                $rootScope.appStatus(false);
                 var eventId = $stateParams.eventId;
                     $scope.initializing = true;
                      
@@ -110,6 +111,7 @@ angular.module('gliist')
                     $state.go('main.current_events');
                 }).finally(function() {
                     $scope.initializing = false;
+                    $rootScope.appStatus(true);
                 });
                 
                 $scope.fetchingData = true;

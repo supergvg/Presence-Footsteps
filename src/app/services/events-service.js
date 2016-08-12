@@ -209,8 +209,9 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function (err, s) {
-                    if (err)
+                    if (err) {
                         return d.reject({data: err, status: s});
+                    }
                     d.reject('Oops there was an error trying to get events, please try again');
                 });
 
@@ -256,8 +257,9 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                 }).success(function (data) {
                     d.resolve(data);
                 }).error(function (err, s) {
-                    if (err)
+                    if (err) {
                         return d.reject({data: err, status: s});
+                    }
                     d.reject('Oops there was an error trying to get events, please try again');
                 });
 

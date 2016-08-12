@@ -237,18 +237,19 @@ angular.module('gliist', [
                 }
             });
 
-            var appStatus = function(ready) {
-                    $rootScope.appReady = ready;
-                    if ($rootScope.appReady) {
-                        angular.element('#loading').hide();
-                    } else {
-                        angular.element('#loading').show();
-                    }
-                },
-                toLoginPage = function() {
+            $rootScope.appStatus = function(ready) {
+                $rootScope.appReady = ready;
+                if ($rootScope.appReady) {
+                    angular.element('#loading').hide();
+                } else {
+                    angular.element('#loading').show();
+                }
+            };
+
+            var toLoginPage = function() {
                     userService.logout();
                     $state.go('home');
-                    appStatus(true);
+                    $rootScope.appStatus(true);
                 },
                 loadSubscription = function(event, next, nextParams) {
                     $rootScope.waitingPlan = true;
@@ -314,7 +315,7 @@ angular.module('gliist', [
                         if (!userService.getLogged()) {
                             toLoginPage();
                         } else {
-                            appStatus(false);
+                            $rootScope.appStatus(false);
                             $rootScope.waitingUserInfo = true;
                             userService.getCurrentUser().then(function(user) {
                                 $rootScope.currentUser = user;
@@ -336,7 +337,7 @@ angular.module('gliist', [
             
             $rootScope.$on('$stateChangeSuccess', function(event, toState) {
                 if (((toState.permissions && toState.permissions.indexOf('allowAnonymous') > -1) || ($rootScope.currentUser && $rootScope.currentUser.subscription)) && !$rootScope.appReady) {
-                    appStatus(true);
+                    $rootScope.appStatus(true);
                 }
             });
         }

@@ -62,8 +62,9 @@ angular.module('gliist')
             };
 
             $scope.setSelected = function (item) {
-                if (item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true))
+                if (item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true)) {
                     return;
+                }
                 $scope.selectedMenuItem = item;
                 if (!$mdMedia('gt-lg')) {
                     $mdSidenav('left').close();
