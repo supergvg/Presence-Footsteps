@@ -323,6 +323,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         
         this.paymentPopup = function(selectedPlan, pricePolicyKey, callback, featureName, featureValue, featureIntId) {
             var scope = $rootScope.$new();
+            scope.now = new Date(Date.now());
             scope.selectedPlan = selectedPlan;
             scope.pricePolicyKey = pricePolicyKey;
             scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
