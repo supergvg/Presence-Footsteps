@@ -451,7 +451,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         featureValue: featureValue ? featureValue : 0
                     };
                     if (featureIntId) {
-                        buyFeature.featureIntId = String(featureIntId);
+                        buyFeature.featureInternalId = String(featureIntId);
                     }
                     if (!scope.cardDataLoaded || newCard) {
                         buyFeature.card = scope.cardData;
