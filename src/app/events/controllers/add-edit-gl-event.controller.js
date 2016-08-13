@@ -39,14 +39,13 @@ angular.module('gliist')
                     return true;
                 
                 var guests = glist.guests ? glist.guests : glist.actual;
-                var newGuests = 0;
+                var guestsInCurrentList = 0;
                 for (var i = 0, c = guests.length; i< c; i++) {
-                    if (!guests[i].id) {
-                        newGuests++;
-                    }
+                    guestsInCurrentList++;
+                    guestsInCurrentList += Number(guests[i].guest.plus);
                 }
                 
-                if (!subscriptionsService.verifyFeature('Guests', newGuests, showPopup, eventId))
+                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + guestsInCurrentList, showPopup, eventId))
                     return false;
                 
                 return true;

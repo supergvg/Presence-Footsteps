@@ -139,16 +139,16 @@ angular.module('gliist')
                 );
             };
 
-			$scope.onCreateGLClicked = function (instanceType) {
-				eventsService.createGuestList($scope.event.id, instanceType).then(
+            $scope.onCreateGLClicked = function (instanceType) {
+                eventsService.createGuestList($scope.event.id, instanceType).then(
                     function (data) {
                         $state.go('main.create_gl_event', {id: data, eventId: $scope.event.id});
                     }, function (error) {
                         dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem creating guest list, please try again');
                     }
                 );
-			};
-			
+            };
+            
             $scope.onAddGLClicked = function(ev, instanceType) {
                 var scope = $scope.$new();
                 scope.cancel = function() {
@@ -214,13 +214,14 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    /*if (!subscriptionsService.verifyFeature('Guests', $scope.getTotalGuests($scope.event.guestLists), ev, $scope.event.id)) {
-                        return;
-                    }*/
-                    if (!subscriptionsService.verifyFeature('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, ev, $scope.event.id)) {
+                    var featureInternalId = $scope.event.id ? $scope.event.id : null;
+                    if ($scope.event.capacity && !subscriptionsService.verifyFeature('Guests', $scope.event.capacity, ev, featureInternalId)) {
                         return;
                     }
-                    if (!subscriptionsService.verifyFeature('EventStartRangeDays', (($scope.dt.startEventDateTime.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24), ev, $scope.event.id)) {
+                    if (!subscriptionsService.verifyFeature('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, ev, featureInternalId)) {
+                        return;
+                    }
+                    if (!subscriptionsService.verifyFeature('EventStartRangeDays', (($scope.dt.startEventDateTime.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24), ev, featureInternalId)) {
                         return;
                     }
                     var errorMessage = [];

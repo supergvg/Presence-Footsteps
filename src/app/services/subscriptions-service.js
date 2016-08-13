@@ -184,11 +184,11 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 },
                 function () { //ParameterPolicyValidator 1
                     var usedPolicy = findUsedPolicyByType('Parameter');
-                    if (usedPolicy)
-                        return vResult(featureValue <= usedPolicy.value ? featureStatus.hasParameter : featureStatus.notAllowed, usedPolicy.value);
+                    if (usedPolicy && usedPolicy.value >= featureValue)
+                        return vResult(featureStatus.hasParameter, usedPolicy.value);
                     
                     if (hasPolicyOfType('Parameter')) {
-                        if (featureValue <= features[featureName].value) //if allowed by subscription policy
+                        if (features[featureName].value >= featureValue) //if allowed by subscription policy
                             return vResult(featureStatus.hasParameter, features[featureName].value);
                         
                         var maxValue = features[featureName].value;
@@ -197,14 +197,15 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             for (var i = 0, pc = pp.prices.length; i < pc; i++) {
                                 if (pp.prices[i].feature === featureName && pp.prices[i].additionalPolicy.type === 'Parameter') {
                                     maxValue = pp.prices[i].additionalPolicy.value;
-                                    if (featureValue <= pp.prices[i].additionalPolicy.value)
+                                    if (featureValue <= pp.prices[i].additionalPolicy.value || pp.prices[i].additionalPolicy.type === 'UnlimitedQuota' || pp.prices[i].additionalPolicy.type === 'Allow')
                                         return vResult(featureStatus.shouldBePurchased, features[featureName].value); //provide max value from current subscription
                                 }
                             }
                         }
                         
                         return vResult(featureStatus.notAllowed, maxValue);
-                    }
+                    } else if (usedPolicy)
+                        return vResult(featureStatus.notAllowed, usedPolicy.policy.value);
                     
                     return null;
                 },
@@ -227,11 +228,28 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 },
                 function () { //LimitedPerInstanceQuotaPolicyValidator 5
                     var usedPolicy = findUsedPolicyByType('LimitedPerInstanceQuota');
-                    if (usedPolicy)
-                        return vResult((usedPolicy.value - featureValue) >= 0 ? featureStatus.hasQuota : featureStatus.notAllowed, usedPolicy.policy.value);
+                    if (usedPolicy && usedPolicy.value >= featureValue)
+                        return vResult(featureStatus.hasQuota, usedPolicy.policy.value);
                     
-                    if (hasPolicyOfType('LimitedPerInstanceQuota'))
-                        return vResult((features[featureName].value - featureValue) >= 0 ? featureStatus.hasQuota : featureStatus.notAllowed, features[featureName].value);
+                    if (hasPolicyOfType('LimitedPerInstanceQuota')) {
+                        if (features[featureName].value >= featureValue)
+                            return vResult(featureStatus.hasQuota, features[featureName].value);
+                        
+                        var maxValue = features[featureName].value;
+                        var pp = $rootScope.currentUser.subscription.pricePolicy; //if not, find out can subscription be upgraded
+                        if (pp.type === 'PerFeature') {
+                            for (var i = 0, pc = pp.prices.length; i < pc; i++) {
+                                if (pp.prices[i].feature === featureName) {
+                                    maxValue = pp.prices[i].additionalPolicy.value;
+                                    if (featureValue <= pp.prices[i].additionalPolicy.value || pp.prices[i].additionalPolicy.type === 'UnlimitedQuota' || pp.prices[i].additionalPolicy.type === 'Allow')
+                                        return vResult(featureStatus.shouldBePurchased, features[featureName].value); //provide max value from current subscription
+                                }
+                            }
+                        }
+                        
+                        return vResult(featureStatus.notAllowed, maxValue);
+                    } else if (usedPolicy)
+                        return vResult(featureStatus.notAllowed, usedPolicy.policy.value);
                     
                     return null;
                 },
@@ -448,11 +466,9 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 if (featureName) {
                     var buyFeature = {
                         featureName: featureName,
-                        featureValue: featureValue ? featureValue : 0
+                        featureValue: featureValue ? featureValue : 0,
+                        featureInternalId: featureIntId ? String(featureIntId) : null
                     };
-                    if (featureIntId) {
-                        buyFeature.featureInternalId = String(featureIntId);
-                    }
                     if (!scope.cardDataLoaded || newCard) {
                         buyFeature.card = scope.cardData;
                     }
