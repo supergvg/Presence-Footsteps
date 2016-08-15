@@ -9,21 +9,21 @@
         <div class="block-field">
             <h4>Manage Accounts</h4>
             <md-list>
-                <md-list-item layout="row" layout-sm="column">
-                    <div flex="75" flex-sm="100">
+                <md-list-item layout="row" layout-sm="column" layout-align="space-between center">
+                    <div flex="75" flex-sm="auto">
                         <p>Create new Account (Enter details for the users you would like to invite)</p>
                     </div>
-                    <div flex="25" flex-sm="100" layout="row" layout-align="end center" layout-align-sm="center center">
+                    <div flex="25" flex-sm="auto" layout="row" layout-align="end center" layout-align-sm="center center">
                         <md-button class="raised-btn" ng-click="linkNewAccount($event)">
                             Invite
                         </md-button>
                     </div>
                 </md-list-item>
-                <md-list-item layout="row" layout-sm="column">
-                    <div flex="75" flex-sm="100">
+                <md-list-item layout="row" layout-sm="column" layout-align="space-between center">
+                    <div flex="75" flex-sm="auto">
                         <p>Delete Account</p>
                     </div>
-                    <div flex="25" flex-sm="100" layout="row" layout-align="end center" layout-align-sm="center center">
+                    <div flex="25" flex-sm="auto" layout="row" layout-align="end center" layout-align-sm="center center">
                         <md-button class="raised-btn" ng-click="deleteAccount($event)">
                             Delete
                         </md-button>
@@ -37,16 +37,16 @@
             <md-list ng-if="!refreshing">
                 <md-list-item ng-repeat="user in getLinkedUsers()" layout="row" layout-sm="column">
                     <div flex layout="row" layout-sm="column">
-                        <div flex="40" flex-sm="100">
+                        <div flex="40" flex-sm="auto">
                             <p>{{user.firstName}} {{user.lastName}}</p>
                         </div>
-                        <div flex="15" flex-sm="100" ng-if="user.permission">
+                        <div flex="15" flex-sm="auto" ng-if="user.permission">
                             <p>{{user.permission}}</p>
                         </div>
-                        <div flex="20" flex-sm="100" ng-if="user.UserName">
+                        <div flex="20" flex-sm="auto" ng-if="user.UserName">
                             <p>{{user.UserName}}</p>
                         </div>
-                        <div flex="10" flex-sm="100" ng-if="user.phoneNumber" style="padding: 0">
+                        <div flex="10" flex-sm="auto" ng-if="user.phoneNumber" style="padding: 0">
                             <p>{{user.phoneNumber}}</p>
                         </div>
                     </div>

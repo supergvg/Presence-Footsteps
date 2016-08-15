@@ -67,11 +67,11 @@
                 <form name="eventForm">
                     <div class="block-field">
                         <div layout layout-sm="column">
-                            <md-input-container flex="75" md-no-float>
+                            <md-input-container flex="75" md-no-float flex-sm="auto">
                                 <h4>Event Title</h4>
                                 <input required name="title" ng-model="event.title" placeholder="Enter event title, e.g. Holiday Party">
                             </md-input-container>
-                            <md-input-container flex="25" md-no-float>
+                            <md-input-container flex="25" md-no-float flex-sm="auto">
                                 <h4>Event Category</h4>
                                 <md-select required name="category" placeholder="Select event category" ng-model="event.category">
                                     <md-select-label>{{event.category || 'Select event category'}}</md-select-label>
@@ -82,12 +82,12 @@
                             </md-input-container>
                         </div>
                         <div layout layout-sm="column">
-                            <md-input-container flex="75" md-no-float>
+                            <md-input-container flex="75" md-no-float flex-sm="auto">
                                 <h4>Event Location</h4>
                                 <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="location.value" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
                             </md-input-container>
-                            <md-input-container flex="25" md-no-float>
+                            <md-input-container flex="25" md-no-float flex-sm="auto">
                                 <h4>Event Capacity</h4>
                                 <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1" placeholder="Enter event capacity">
                                 <md-icon class="input-icon" md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
@@ -135,11 +135,11 @@
                     <div class="block-field" layout="column">
                         <h4>Select the type of Event</h4>
                         <md-radio-group ng-model="event.type" layout layout-sm="column">
-                            <md-content layout="row" layout-align="left center" flex="20">
+                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
                                 <md-tooltip md-direction="top">Send event invite to guests to confirm the attendance</md-tooltip>                                    
                                 <md-radio-button ng-value="2" aria-label="RSVP Event">RSVP Event</md-radio-button>
                             </md-content>
-                            <md-content layout="row" layout-align="left center" flex="20">
+                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
                                 <md-tooltip md-direction="top">Send confirmation email to guests that are attending the event</md-tooltip>                                    
                                 <md-radio-button ng-value="1" aria-label="Guest List Event">Guest List Event</md-radio-button>
                             </md-content>
@@ -151,11 +151,11 @@
                     <div class="block-field" layout="column" ng-show="event.type !== 1">
                         <h4>{{event.type === 3 ? 'Send ticket purchase invite to:' : 'Send RSVP Invite to:'}}</h4>
                         <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
-                            <md-content layout="row" layout-align="left center" flex="20">
+                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
                                 <md-tooltip md-direction="top">{{event.type === 3 ? 'Only these guests can purchase tickets. Tickets & Invites are non transferable' : 'Only these guests can rsvp the event. Invite is non transferable'}}</md-tooltip>
                                 <md-radio-button ng-value="2" aria-label="{{event.type === 3 ? 'Private' : 'Private/Invited guests'}}">{{event.type === 3 ? 'Private' : 'Private/Invited guests'}}</md-radio-button>
                             </md-content>
-                            <md-content layout="row" layout-align="left center" flex="20">
+                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
                                 <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>                                    
                                 <md-radio-button ng-value="3" aria-label="{{event.type === 3 ? 'Public' : 'Public Guests'}}" ng-click="event.additionalGuests = 1">{{event.type === 3 ? 'Public' : 'Public Guests'}}</md-radio-button>
                             </md-content>
@@ -292,10 +292,10 @@
             <div>
                 <md-list>
                     <md-list-item layout="row" layout-sm="column">
-                        <div flex="70" flex-sm="100">
+                        <div flex="70" flex-sm="auto">
                             <p>Upload your invite (jpg,gif, file formats supported)</p>
                         </div>
-                        <div flex="30" layout="row" layout-align="end center" flex-sm="100">
+                        <div flex="30" layout="row" layout-align="end center" flex-sm="auto">
                             <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
                                 UPLOAD
                             </md-button>
@@ -307,7 +307,7 @@
                     <div flex ng-style="getEventInvite('300px')" class="event-image"></div>
                 </div>
             </div>
-            <div layout="row" layout-align="end center" class="actions">
+            <div layout="row" layout-align="end center" layout-sm="column" class="actions">
                 <md-button class="raised-btn" ng-click="previous()">
                     Back
                 </md-button>
@@ -381,7 +381,7 @@
                     <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
                 </div>
             </div>
-            <div layout="row" layout-align="end center" class="actions">
+            <div layout="row" layout-align="end center" layout-sm="column" class="actions">
                 <md-button class="raised-btn" ng-click="previous()" remove-by-roles="promoter">
                     Back
                 </md-button>

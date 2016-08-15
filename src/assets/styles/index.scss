@@ -1989,6 +1989,12 @@ md-dialog {
 }
 
 @media screen and (max-width: 600px) {
+    [layout-sm="column"] > [flex-sm="auto"] {
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        max-width: none;
+    }
     div[ui-grid] {
         border: none;
         margin-right: -20px;
@@ -2235,6 +2241,9 @@ md-dialog {
                     .tariff-header {
                         height: auto;
                     }
+                    .tariff-content {
+                        min-height: 200px;
+                    }
                 }
             }
         }
@@ -2443,6 +2452,7 @@ md-dialog {
             }
         }
         .date {
+            width: 100%;
             background: none !important;
             color: #7ab9f8;
             .dayOfWeek, .month, .day {
@@ -2566,6 +2576,10 @@ md-dialog {
             }
         }
     }
+    .md-dialog-container,
+    md-backdrop {
+        top: 0 !important;
+    }
     md-dialog {
         max-width: 100%;
         &.landing-ticketing-purchase {
@@ -2600,6 +2614,9 @@ md-dialog {
             }
         }
         &.payment-info {
+            .section-title h3 {
+                font-size: 20px;
+            }
             md-content {
                 padding: 20px;
                 form {

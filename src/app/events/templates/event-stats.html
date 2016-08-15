@@ -15,7 +15,7 @@
         <h3 ng-if="event.guestLists.length === 0" class="block-field">Event has no guests</h3>
         <div ng-if="event.guestLists.length > 0">
             <div layout="row" layout-align="space-between start" layout-sm="column" layout-align-sm="start stretch" class="block-field chart">
-                <div layout="column" flex="50" flex-sm="100">
+                <div layout="column" flex="50" flex-sm="auto">
                     <div ng-if="isRSVP() || (!isRSVP() && isMobile)">
                         <h4 class="chart-title">Total Checked in Guests: {{totalCheckedIn}}</h4>
                         <div google-chart chart="chartObject"></div>

@@ -4,7 +4,7 @@
     </div>
     <div class="content">
         <div layout="row" layout-align="space-between stretch" layout-sm="column">
-            <div flex="50" flex-sm="100" class="order">
+            <div flex="50" flex-sm="auto" class="order">
                 <h3>YOUR ORDER SUMMARY</h3>
                 <div class="summary">
                     <md-list>
@@ -42,22 +42,22 @@
                     <div class="promo-status" ng-if="promo.invalid">This promo code is invalid. Please use a different promo code, thank you.</div>
                 </div>
             </div>
-            <div flex="50" flex-sm="100" class="payment">
+            <div flex="50" flex-sm="auto" class="payment">
                 <h3>ENTER PAYMENT DETAIL</h3>
                 <form name="card">
                     <div class="block-field">
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
-                            <md-input-container flex="60" md-no-float flex-sm="100">
+                            <md-input-container flex="60" md-no-float flex-sm="auto">
                                 <h4>Card Number Number</h4>
                                 <input type="text" ng-disabled="waiting" ng-model="cardData.number" name="number" pattern="\d{14,16}" placeholder="{{cardDataLoaded ? 'XXXX XXXX XXXX '+cardDataSaved.number : 'Enter Credit Card Number'}}" required>
                             </md-input-container>
-                            <md-input-container flex="40" md-no-float flex-sm="100">
+                            <md-input-container flex="40" md-no-float flex-sm="auto">
                                 <h4>Security Code</h4>
                                 <input type="text" ng-disabled="waiting" ng-model="cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="{{cardDataLoaded ? 'XXX' : 'Enter Security Code'}}" required>
                             </md-input-container>
                         </div>
                         <div layout="row" layout-align="space-between stretch" layout-sm="column">
-                            <div flex="60" flex-sm="100">
+                            <div flex="60" flex-sm="auto">
                                 <h4>Expire Date</h4>
                                 <div layout="row" layout-align="start center">
                                     <md-input-container md-no-float flex="30">
@@ -68,7 +68,7 @@
                                     </md-input-container>
                                 </div>
                             </div>
-                            <div flex="40" flex-sm="100">
+                            <div flex="40" flex-sm="auto">
                                 <!--<md-input-container md-no-float>
                                     <h4>Billing Zip Code</h4>
                                     <input type="text" ng-disabled="waiting" ng-model="cardData.zipCode" name="address_zip" placeholder="Enter Zip Code" required>
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <div layout="row" layout-align="start center">
+                    <div layout="row" layout-align="start center" layout-sm="column">
                         <md-checkbox aria-label="Terms" ng-disabled="waiting" ng-model="terms">I agree to the </md-checkbox>
                         <a href="http://www.gjests.com/terms-conditions/" target="_blank">Terms and Conditions</a>
                     </div>

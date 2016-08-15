@@ -1,7 +1,7 @@
 <div class="ui-grid-responsive">
     <div layout="row" layout-align="space-between end" layout-sm="column" layout-align-sm="center stretch" ng-if="options.filter.active">
         <p class="info" flex-order-sm="1" ng-bind-html="options.display.tip" ng-style="options.display.tip === '' ? {margin:0} : {}"></p>
-        <md-input-container flex="40" flex-sm="100" md-no-float class="search">
+        <md-input-container flex="40" flex-sm="auto" md-no-float class="search">
             <input type="text" name="search" ng-model="filter.value" ng-change="filter.refresh()" placeholder="{{options.filter.placeholder}}">
             <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
         </md-input-container>

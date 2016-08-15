@@ -8,17 +8,17 @@
             <h4>{{card.cardDataSaved.isDefault ? 'Primary Payment' : (card.cardData.cardId ? 'Different Card' : 'Add a Different Card')}}</h4>        
             <form name="cardForm[{{$index}}]">
                 <div layout="row" layout-align="space-between stretch" layout-sm="column">
-                    <md-input-container flex="60" md-no-float flex-sm="100">
+                    <md-input-container flex="60" md-no-float flex-sm="auto">
                         <h4>Credit Card Number</h4>
                         <input type="text" ng-model="card.cardData.number" name="number" pattern="\d{14,16}" placeholder="{{cardsDataLoaded ? 'XXXX XXXX XXXX '+card.cardDataSaved.number : 'Enter Credit Card Number'}}" required ng-disabled="card.cardData.cardId">
                     </md-input-container>
-                    <md-input-container flex="40" md-no-float flex-sm="100">
+                    <md-input-container flex="40" md-no-float flex-sm="auto">
                         <h4>Security Code</h4>
                         <input type="text" ng-model="card.cardData.cvc" name="cvc" pattern="\d{2,4}" placeholder="{{cardsDataLoaded ? 'XXX' : 'Enter Security Code'}}" required ng-disabled="card.cardData.cardId">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-align="space-between stretch" layout-sm="column">
-                    <div flex="60" flex-sm="100">
+                    <div flex="60" flex-sm="auto">
                         <h4>Expire Date</h4>
                         <div layout="row" layout-align="start center" class="expire-date">
                             <md-input-container md-no-float flex="30">
@@ -29,7 +29,7 @@
                             </md-input-container>
                         </div>
                     </div>
-<!--                    <div flex="40" flex-sm="100">
+<!--                    <div flex="40" flex-sm="auto">
                         <md-input-container md-no-float>
                             <h4>Billing Zip Code</h4>
                             <input type="text" ng-model="card.cardData.zipCode" name="address_zip" placeholder="Enter Zip Code" ng-disabled="card.cardData.cardId">

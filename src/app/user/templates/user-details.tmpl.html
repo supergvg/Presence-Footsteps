@@ -1,15 +1,15 @@
 <div layout="column">
     <md-whiteframe flex class="user-details">
         <div ng-show="!editMode" layout layout-align="center stretch" layout-sm="column" layout-align-sm="space-between stretch" class="user-details-teaser">
-            <div flex="30" flex-sm="100" ng-style="getUserPhoto('150px')"></div>
-            <div flex="40" flex-sm="100" layout="column" layout-align="space-around start" layout-align-sm="space-around center" class="description">
+            <div flex="30" flex-sm="auto" ng-style="getUserPhoto('150px')"></div>
+            <div flex="40" flex-sm="auto" layout="column" layout-align="space-around start" layout-align-sm="space-around center" class="description">
                 <h3>{{user.firstName}} {{user.lastName}}</h3>
                 <div ng-if="user.email">{{user.email}}</div>
                 <div ng-if="user.phoneNumber">{{user.phoneNumber}}</div>
                 <div ng-if="user.city">{{user.city}}</div>
                 <div ng-if="user.company">{{user.company}}</div>
             </div>
-            <div flex="30" layout="row" layout-align="end center" layout-align-sm="center center">
+            <div flex="30" flex-sm="auto" layout="row" layout-align="end center" layout-align-sm="center center">
                 <md-button class="raised-btn" ng-click="editMode = !editMode">
                     Edit
                 </md-button>
@@ -91,7 +91,7 @@
                             <textarea ng-model="user.bio" placeholder="Company's info for guest"></textarea>
                         </md-input-container>
                     </div>
-                    <div class="actions" layout="row" layout-align="end center" ng-show="editMode">
+                    <div class="actions" layout="row" layout-sm="column" layout-align="end center" ng-show="editMode">
                         <md-button class="raised-btn" ng-click="editMode=!editMode">
                             Cancel
                         </md-button>
@@ -123,7 +123,7 @@
                             </div>
                         </md-input-container>
                     </div>
-                    <div class="actions" layout="row" layout-align="end center" ng-show="editMode">
+                    <div class="actions" layout="row" layout-sm="column" layout-align="end center" ng-show="editMode">
                         <md-button class="raised-btn" ng-click="editMode=!editMode">
                             Cancel
                         </md-button>
