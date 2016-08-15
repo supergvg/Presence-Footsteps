@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialogService', '$rootScope', '$state', '$mdDialog', 'paymentsService',
-    function ($http, $q, dialogService, $rootScope, $state, $mdDialog, paymentsService) {
+angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialogService', '$rootScope', '$state', '$mdDialog', 'paymentsService', 'permissionsService',
+    function ($http, $q, dialogService, $rootScope, $state, $mdDialog, paymentsService, permissionsService) {
         var responseError = function(d, rejection) {
                 var message = rejection.data && rejection.data.message || 'Endpoint '+rejection.config.url+' '+rejection.statusText.toLowerCase();
                 dialogService.error(message);
@@ -310,18 +310,24 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             if (featureName === 'Guests' || featureName === 'Checkins') {
                 message = 'You are only allowed ' + validationMaxValue + ' guests. Would you like to upgrade to unlimited?';
             } else if (featureName === 'EventDurationDays') {
-                if (validationStatus === featureStatus.shouldBePurchased)
+                if (validationStatus === featureStatus.shouldBePurchased) {
                     message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days. Would you like to upgrade?';
-                else
+                } else {
                     message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days.';
+                }
             } else if (featureName === 'EventStartRangeDays') {
                 message = 'You can only create event up to ' + validationMaxValue + ' days in advance.';
             } else if (featureName === 'GLM') {
-                message = 'This is a feature for monthly subscription plans. Do you want to upgrade?';
-            } else
+                if (permissionsService.isRole('admin')) {
+                    message = 'This is a feature for monthly subscription plans. Do you want to upgrade?';
+                } else {
+                    message = 'Please check with admin to use this feature';
+                }
+            } else {
                 message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
+            }
             
-            if (validationStatus === featureStatus.notAllowed && (featureName === 'EventStartRangeDays' || featureName === 'EventDurationDays')) {
+            if (validationStatus === featureStatus.notAllowed && (!permissionsService.isRole('admin') || featureName === 'EventStartRangeDays' || featureName === 'EventDurationDays')) {
                 dialogService.confirm(event, message, 'Ok');
             } else {
                 payed = $q.defer();
