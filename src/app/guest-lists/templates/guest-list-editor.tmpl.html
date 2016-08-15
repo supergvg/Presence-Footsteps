@@ -40,7 +40,7 @@
                 </div>
             </form>
         </div>
-        <div class="block-field">
+        <div class="block-field" ng-if="!isSpotType()">
             <h4>Import Guests</h4>
             <md-list>
                 <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
@@ -78,7 +78,7 @@
             <md-list>
                 <md-list-item layout="row">
                     <div flex class="actions">
-                        <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData">
+                        <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData" ng-if="!isSpotType()">
                             Add Guest
                         </md-button>
                         <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">

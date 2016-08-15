@@ -146,6 +146,14 @@ angular.module('gliist')
                 return permissionsService.isRole('promoter');
             };
             
+            $scope.isSpotType = function() {
+                if (!$scope.gli) {
+                    return false;
+                }
+                return $scope.gli.listType === 'On the spot';
+            };
+
+            
             $scope.startAutoSave = function() {
                 if ($scope.isDirty === false) {
                     return;
@@ -166,6 +174,9 @@ angular.module('gliist')
             };
             
             $scope.addMore = function() {
+                if ($scope.isSpotType()) {
+                    return;
+                }
                 if (!$scope.gli) {
                     $scope.gli = {};
                 }
@@ -223,8 +234,9 @@ angular.module('gliist')
                         errorMessage.push(errors.required[value.$name]);
                     });
                 }
-                if ($scope.guestsError())
+                if ($scope.guestsError()) {
                     errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
+                }
                 
                 return errorMessage;
             };
@@ -232,8 +244,9 @@ angular.module('gliist')
             $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
                 var errors = $scope.validateForm();
                 if (errors.length) {
-                    if (!autoSave)
+                    if (!autoSave) {
                         dialogService.error(errors.join(', '));
+                    }
                     return;
                 }
                 
@@ -434,8 +447,9 @@ angular.module('gliist')
 
             $scope.onLinkClicked = function (ev) {
                 var errors = $scope.validateForm();
-                if (errors.length)
+                if (errors.length) {
                     return dialogService.error(errors.join(', '));
+                }
 
                 var scope = $scope.$new();
                 scope.cancel = function () {
@@ -525,8 +539,9 @@ angular.module('gliist')
                 }
                 
                 var errors = $scope.validateForm();
-                if (errors.length)
+                if (errors.length) {
                     return dialogService.error(errors.join(', '));
+                }
 
                 $scope.cancelAutoSave();
                 $scope.save(true, true, function(onSave){
