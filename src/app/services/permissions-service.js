@@ -20,7 +20,7 @@ angular.module('gliist').service('permissionsService', ['$rootScope',
             promoter: {
                 label: 'Promoter',
                 desc: 'Allow to add guests to the list he is assigned to',
-                denyAccess: ['main.create_event', 'main.user']
+                denyAccess: ['main.create_event', 'main.user?view=1', 'main.user?view=2']
             }
         };
         this.roleExisis = function() {
