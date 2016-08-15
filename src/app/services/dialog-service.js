@@ -17,7 +17,7 @@ angular.module('gliist').factory('dialogService', [ '$mdToast', '$mdDialog',
                     $mdToast.simple()
                         .content(message)
                         .position('center center')
-                        .hideDelay(3000)
+                        .hideDelay(50000)
                 );
             },
             

@@ -94,7 +94,7 @@
                             </md-input-container>
                         </div>
                     </div>
-                    <div layout layout-sm="column" class="block-field date">
+                    <div layout class="block-field date">
                         <fieldset flex md-no-float ng-disabled="eventStarted">
                             <h4>Starts</h4>
                             <datetimepicker ng-model="dt.startEventDateTime" name="time" min-date="minDate" minue-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
@@ -116,7 +116,7 @@
                     </div>
                 </form>
             </div>
-            <div layout="row" layout-align="end center">
+            <div layout="row" layout-align="end center" layout-align-sm="center center">
                 <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
                 <md-button class="raised-btn" ng-click="next($event, eventForm)">
                     Next

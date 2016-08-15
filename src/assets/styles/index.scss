@@ -1989,6 +1989,12 @@ md-dialog {
 }
 
 @media screen and (max-width: 600px) {
+    md-toast {
+        &.md-center {
+            top: 0;
+            height: 0;
+        }
+    }
     [layout-sm="column"] > [flex-sm="auto"] {
         -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
@@ -2421,12 +2427,30 @@ md-dialog {
             md-radio-group md-content + md-content {
                 padding-top: 15px;
             }
+            &.date fieldset {
+                margin-right: 5px;
+            }
         }        
         .event-image {
             height: 190px !important;
         }
         p.info {
             margin: 0;
+        }
+        datetimepicker {
+            display: block;
+            .datetimepicker-wrapper {
+                & > input {
+                    width: 125px;
+                }
+                [ng-model=hours], [ng-model=minutes] {
+                    width: 35px !important;
+                    padding: 0;
+                }
+                table td.form-group {
+                    width: 40px !important;
+                }
+            }
         }
     }
     .event-preview {
@@ -2679,8 +2703,4 @@ md-dialog {
     border-radius: 5px;
     resize: none;
     line-height: 1.5 !important;
-}
-
-.datetimepicker-wrapper:nth-child(2) > table[readonly-input] tr:nth-child(2) > td:nth-child(2) {
-    display: none;
 }
