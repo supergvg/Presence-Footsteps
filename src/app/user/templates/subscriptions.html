@@ -19,11 +19,11 @@
         <div layout="column" class="tariff-content" layout-align="space-between start">
             <div class="description" ng-bind-html="options.billing ? tariff.policiesDescription : tariff.policiesPreviewDescription"></div>
             <md-radio-group ng-if="tariff.pricePolicies.length > 1 && showButton($index)" ng-model="pricePolicyKeys[$index]" ng-init="tariffIndex = $index">
-                <md-radio-button ng-if="!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && pricePolicyKeys[tariffIndex] === $index)" ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}"><div ng-bind-html="pricePolicy.prices[0].description+'<br>'+pricePolicy.description"></div></md-radio-button>
+                <md-radio-button ng-if="(!tariff.isCurrentlyUsed || (tariff.isCurrentlyUsed && pricePolicyKeys[tariffIndex] === $index)) && pricePolicy.type !== 'Promo'" ng-repeat="pricePolicy in tariff.pricePolicies" ng-value="$index" aria-label="{{pricePolicy.prices[0].type}}"><div ng-bind-html="pricePolicy.prices[0].description+'<br>'+pricePolicy.description"></div></md-radio-button>
             </md-radio-group>
         </div>
         <div layout="column" class="tariff-footer" layout-align="center center">
-            <h4 ng-if="tariff.isCurrentlyUsed" class="small-font">ACTIVE{{getEndDate() ? ': expires on ' + (getEndDate() | date:'MM/dd/yyyy') : ''}}</h4>
+            <h4 ng-if="tariff.isCurrentlyUsed" class="small-font">ACTIVE{{getEndDate() ? ': expires on ' + (getEndDate() | date:'MM/dd/yyyy') : ''}}<br>{{tariff.isPromoApplied ? 'Applied Code' : ''}}</h4>
             <div>
                 <md-button class="raised-btn" ng-click="beforeSelectPlan($index, $event)" ng-if="showButton($index)">{{planLabels[$index]}}</md-button>
                 <a class="md-button raised-btn" href="mailto:info@gjests.com?subject={{tariff.name}} Account" ng-if="!allowToSelect($index)">CONTACT US</a>

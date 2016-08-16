@@ -353,6 +353,17 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
             scope.pricePolicyKeyBeforePromo = null;
             scope.pricePolicyBeforePromo = null;
+            if (scope.selectedPlan.usedPromoCode) {
+                angular.forEach(scope.selectedPlan.pricePolicies, function(policy, key) {
+                    if (policy.type === 'Promo') {
+                        scope.pricePolicyKeyBeforePromo = scope.pricePolicyKey;
+                        scope.pricePolicyBeforePromo = scope.pricePolicy;
+                        scope.pricePolicyKey = key;
+                        scope.pricePolicy = policy;
+                        return false;
+                    }
+                });
+            }
             scope.cardDataLoaded = false;
             scope.cardDataSaved = {};
             scope.loadingCard = true;
@@ -448,10 +459,11 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             exp_year: 'Please Enter Correct Card Expiration Year'
                         },
                         max: {
-                            exp_month: 'Please Enter Correct Card Expiration Month'
+                            exp_month: 'Expiration month is invalid. It must be 1-12 or 01-12'
                         },
                         min: {
-                            exp_year: 'Please Enter Correct Card Expiration Year'
+                            exp_month: 'Expiration month is invalid. It must be 1-12 or 01-12',
+                            exp_year: 'Expiration date year is invalid. It must be later than 1970'
                         }
                     };
                     angular.forEach(form.$error, function(value, key){
