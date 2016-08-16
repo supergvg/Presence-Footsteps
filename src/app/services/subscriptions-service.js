@@ -351,6 +351,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             scope.selectedPlan = selectedPlan;
             scope.pricePolicyKey = pricePolicyKey;
             scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
+            scope.pricePolicyKeyBeforePromo = null;
             scope.pricePolicyBeforePromo = null;
             scope.cardDataLoaded = false;
             scope.cardDataSaved = {};
@@ -388,7 +389,14 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             scope.promo.applied = true;
                             scope.pricePolicyBeforePromo = scope.pricePolicy;
                             scope.selectedPlan = response.data;
-                            scope.pricePolicy = scope.selectedPlan.pricePolicies[0];
+                            angular.forEach(scope.selectedPlan.pricePolicies, function(policy, key) {
+                                if (policy.type === 'Promo') {
+                                    scope.pricePolicyKeyBeforePromo = scope.pricePolicyKey;
+                                    scope.pricePolicyKey = key;
+                                    scope.pricePolicy = policy;
+                                    return false;
+                                }
+                            });
                         },
                         function() {
                             scope.promo.invalid = true;
@@ -410,6 +418,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                                 scope.promo.applied = false;
                                 scope.pricePolicyBeforePromo = null;
                                 scope.selectedPlan = response.data;
+                                scope.pricePolicyKey = scope.pricePolicyKeyBeforePromo;
+                                scope.pricePolicyKeyBeforePromo = null;
                                 scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
                                 scope.promo.code = '';
                             }
