@@ -479,16 +479,22 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         buyFeature.card = scope.cardData;
                     }
                     subscriptionsService.buyFeature(buyFeature).then(
-                        function(){
-                            subscriptionsService.getUserSubscription().then(
-                                function(data){
-                                    if (data.data && data.dataTotalCount > 0) {
-                                        $rootScope.currentUser.subscription = data.data;
-                                        payed.resolve();
-                                        scope.close();
-                                    }
+                        function(response){
+                            if (response.data && response.dataTotalCount > 0) {
+                                if (response.data.status === 'PurchaseFailed') {
+                                    dialogService.error('The payment transaction is unsuccessful. Please try a different credit card. Thank you.');
+                                } else {
+                                    subscriptionsService.getUserSubscription().then(
+                                        function(data){
+                                            if (data.data && data.dataTotalCount > 0) {
+                                                $rootScope.currentUser.subscription = data.data;
+                                                payed.resolve();
+                                                scope.close();
+                                            }
+                                        }
+                                    );                            
                                 }
-                            );                            
+                            }
                         },
                         function(rejection){
                             dialogService.confirm(null, rejection.data.message, 'OK', '');
