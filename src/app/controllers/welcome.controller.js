@@ -44,10 +44,10 @@ angular.module('gliist')
                                     display: $mdMedia('gt-lg') && !$scope.hideArrow ? 'block' : 'none'
                                 };
                             };
-//                            if (!$mdMedia('gt-lg')) {
+                            if ($mdMedia('gt-lg')) {
                                 $location.hash('bottom');
                                 $anchorScroll();
-//                            }
+                            }
                             $mdDialog.show({
                                 scope: scope,
                                 templateUrl: 'app/templates/welcome-popup.html'
