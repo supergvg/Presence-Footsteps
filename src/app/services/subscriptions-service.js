@@ -371,7 +371,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 function(data) {
                     if (data.data) {
                         scope.cardData = data.data;
-                        scope.cardDataSaved.number = scope.cardData.number;
+                        scope.cardDataSaved = angular.extend({}, scope.cardData);
                         scope.cardData.number = '';
                         scope.cardData.cvc = '';
                         scope.cardDataLoaded = true;
@@ -442,8 +442,9 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             };
             scope.process = function(form){
                 var errorMessage = [],
-                    newCard = scope.cardDataLoaded && form.number.$viewValue !== '';
-                if (form && form.$invalid && (!scope.cardDataLoaded || newCard)) {
+                    newCard = !scope.cardDataLoaded || (scope.cardDataLoaded && (form.number.$viewValue !== '' || form.cvc.$viewValue !== '' || scope.cardDataSaved.expiryMonth !== scope.cardData.expiryMonth || scope.cardDataSaved.expiryYear !== scope.cardData.expiryYear));
+            
+                if (form && form.$invalid && newCard) {
                     var errors = {
                         required: {
                             number: 'Please Enter Card Number',
@@ -487,7 +488,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     subscriptionId: scope.selectedPlan.id,
                     pricePolicyId: scope.pricePolicy.id
                 };
-                if (!scope.cardDataLoaded || newCard) {
+                if (newCard) {
                     subscribe.card = scope.cardData;
                 }
                 scope.waiting = true;
@@ -497,7 +498,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         featureValue: featureValue ? featureValue : 0,
                         featureInternalId: featureIntId ? String(featureIntId) : null
                     };
-                    if (!scope.cardDataLoaded || newCard) {
+                    if (newCard) {
                         buyFeature.card = scope.cardData;
                     }
                     subscriptionsService.buyFeature(buyFeature).then(
