@@ -142,8 +142,11 @@ angular.module('gliist')
                 });
             });
             
-            $scope.isPromoter = function() {
-                return permissionsService.isRole('promoter');
+            $scope.disablePromoterList = function() {
+                return permissionsService.isRole('promoter') || !subscriptionsService.verifyFeature('EventContributors', 0, null, eventId);
+            };
+            $scope.onPromoterClick = function() {
+                subscriptionsService.verifyFeature('EventContributors', 0, true, eventId);
             };
             
             $scope.isSpotType = function() {

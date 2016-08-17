@@ -214,7 +214,7 @@ angular.module('gliist')
                     return;
                 }
                 if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-                    var featureInternalId = $scope.event.id ? $scope.event.id : null;
+                    var featureInternalId = $scope.event.id ? $scope.event.id : 'NEWEVENT';
                     if ($scope.event.capacity && !subscriptionsService.verifyFeature('Guests', $scope.event.capacity, ev, featureInternalId)) {
                         return;
                     }

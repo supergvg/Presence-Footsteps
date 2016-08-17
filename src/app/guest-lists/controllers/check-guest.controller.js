@@ -10,7 +10,7 @@ angular.module('gliist')
             $scope.guestChecked = false;
 
             var success = function(result) {
-                    $scope.guestCheckin = result;
+                    $scope.guestCheckin = result.data;
                     $scope.initVars();
                 },
                 error = function(error) {

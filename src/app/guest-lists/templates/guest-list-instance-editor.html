@@ -28,7 +28,7 @@
                 <div class="block-field" ng-if="isNotPublicRSVP()">
                     <h4>Promoter</h4>
                     <md-input-container flex md-no-float>
-                        <ui-select name="promoter" ng-model="gli.promoter_Id" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()">
+                        <ui-select name="promoter" ng-model="gli.promoter_Id" search-enabled="false" ng-disabled="disablePromoterList()" ng-change="onDataChange()" ng-click="onPromoterClick()">
                             <ui-select-match placeholder="Select Promoter to Manage List">
                                 {{$select.selected.firstName}} {{$select.selected.lastName}}
                             </ui-select-match>
