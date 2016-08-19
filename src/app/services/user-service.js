@@ -7,8 +7,8 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
             access_token,
             userData,
             setAuthToken = function(token) {
+                access_token = token;
                 if (token !== '') {
-                    access_token = token;
                     $http.defaults.headers.common.Authorization = 'Bearer ' + token;
                 }
             },
