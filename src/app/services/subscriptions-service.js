@@ -20,8 +20,9 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 quotas = {};
                 features = {};
                 angular.forEach(data.usedPolicies, function(quota){
-                    if (!quotas[quota.feature])
+                    if (!quotas[quota.feature]) {
                         quotas[quota.feature] = [];
+                    }
                     quotas[quota.feature].push(quota);
                 });
                 angular.forEach(data.subscription.policies, function(feature){
@@ -144,8 +145,9 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         };
         
         this.verifyFeature = function(featureName, featureValue, event, featureIntId) {
-            if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
+            if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
                 return;
+            }
             
             var hasPolicyOfType = function (type) {
                 return features[featureName] && features[featureName].type === type;
@@ -155,8 +157,9 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 if (usedPolicies) {
                     for (var i = 0, c = usedPolicies.length; i < c; i++) {
                         var up = usedPolicies[i];
-                        if (up.policy.type === type && (!up.featureInternalId || up.featureInternalId == featureIntId))
+                        if (up.policy.type === type && (!up.featureInternalId || up.featureInternalId == featureIntId)) {
                             return up;
+                        }
                     }
                 }
                 return null;
@@ -178,18 +181,21 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             };
             var policyValidators = [ //returns: { status: featureStatus, value: number }
                 function () { //ActiveSubscriptionPolicyValidator 0
-                    if (!$rootScope.currentUser.subscription || $rootScope.currentUser.subscription.status === 'Unpaid')
+                    if (!$rootScope.currentUser.subscription || $rootScope.currentUser.subscription.status === 'Unpaid') {
                         return vResult(featureStatus.notAllowed);
+                    }
                     return null;
                 },
                 function () { //ParameterPolicyValidator 1
                     var usedPolicy = findUsedPolicyByType('Parameter');
-                    if (usedPolicy && usedPolicy.value >= featureValue)
+                    if (usedPolicy && usedPolicy.value >= featureValue) {
                         return vResult(featureStatus.hasParameter, usedPolicy.value);
+                    }
                     
                     if (hasPolicyOfType('Parameter')) {
-                        if (features[featureName].value >= featureValue) //if allowed by subscription policy
+                        if (features[featureName].value >= featureValue) {//if allowed by subscription policy
                             return vResult(featureStatus.hasParameter, features[featureName].value);
+                        }
                         
                         var maxValue = features[featureName].value;
                         var pp = $rootScope.currentUser.subscription.pricePolicy; //if not, find out can subscription be upgraded
@@ -197,43 +203,50 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             for (var i = 0, pc = pp.prices.length; i < pc; i++) {
                                 if (pp.prices[i].feature === featureName && pp.prices[i].additionalPolicy.type === 'Parameter') {
                                     maxValue = pp.prices[i].additionalPolicy.value;
-                                    if (featureValue <= pp.prices[i].additionalPolicy.value || pp.prices[i].additionalPolicy.type === 'UnlimitedQuota' || pp.prices[i].additionalPolicy.type === 'Allow')
+                                    if (featureValue <= pp.prices[i].additionalPolicy.value || pp.prices[i].additionalPolicy.type === 'UnlimitedQuota' || pp.prices[i].additionalPolicy.type === 'Allow') {
                                         return vResult(featureStatus.shouldBePurchased, features[featureName].value); //provide max value from current subscription
+                                    }
                                 }
                             }
                         }
                         
                         return vResult(featureStatus.notAllowed, maxValue);
-                    } else if (usedPolicy)
+                    } else if (usedPolicy) {
                         return vResult(featureStatus.notAllowed, usedPolicy.policy.value);
+                    }
                     
                     return null;
                 },
                 function () { //AllowPolicyValidator 2
-                    if (findUsedPolicyByType('Allow') || hasPolicyOfType('Allow'))
+                    if (findUsedPolicyByType('Allow') || hasPolicyOfType('Allow')) {
                         return vResult(featureStatus.allowed);
+                    }
                     return null;
                 },
                 function () { //UnlimitedQuotaPolicyValidator 3
-                    if (findUsedPolicyByType('UnlimitedQuota') || hasPolicyOfType('UnlimitedQuota'))
+                    if (findUsedPolicyByType('UnlimitedQuota') || hasPolicyOfType('UnlimitedQuota')) {
                         return vResult(featureStatus.allowed);
+                    }
                     return null;
                 },
                 function () { //LimitedQuotaPolicyValidator 4
                     var usedPolicy = findUsedPolicyByType('LimitedQuota');
-                    if (usedPolicy)
+                    if (usedPolicy) {
                         return vResult((usedPolicy.value - featureValue) >= 0 ? featureStatus.hasQuota : featureStatus.notEnoughQuota, usedPolicy.value);
+                    }
                     
                     return null;
                 },
                 function () { //LimitedPerInstanceQuotaPolicyValidator 5
                     var usedPolicy = findUsedPolicyByType('LimitedPerInstanceQuota');
-                    if (usedPolicy && usedPolicy.value >= featureValue)
+                    if (usedPolicy && usedPolicy.value >= featureValue) {
                         return vResult(featureStatus.hasQuota, usedPolicy.policy.value);
+                    }
                     
                     if (hasPolicyOfType('LimitedPerInstanceQuota')) {
-                        if (features[featureName].value >= featureValue)
+                        if (features[featureName].value >= featureValue) {
                             return vResult(featureStatus.hasQuota, features[featureName].value);
+                        }
                         
                         var maxValue = features[featureName].value;
                         var pp = $rootScope.currentUser.subscription.pricePolicy; //if not, find out can subscription be upgraded
@@ -241,15 +254,17 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                             for (var i = 0, pc = pp.prices.length; i < pc; i++) {
                                 if (pp.prices[i].feature === featureName) {
                                     maxValue = pp.prices[i].additionalPolicy.value;
-                                    if (featureValue <= pp.prices[i].additionalPolicy.value || pp.prices[i].additionalPolicy.type === 'UnlimitedQuota' || pp.prices[i].additionalPolicy.type === 'Allow')
+                                    if (featureValue <= pp.prices[i].additionalPolicy.value || pp.prices[i].additionalPolicy.type === 'UnlimitedQuota' || pp.prices[i].additionalPolicy.type === 'Allow') {
                                         return vResult(featureStatus.shouldBePurchased, features[featureName].value); //provide max value from current subscription
+                                    }
                                 }
                             }
                         }
                         
                         return vResult(featureStatus.notAllowed, maxValue);
-                    } else if (usedPolicy)
+                    } else if (usedPolicy) {
                         return vResult(featureStatus.notAllowed, usedPolicy.policy.value);
+                    }
                     
                     return null;
                 },
@@ -259,10 +274,11 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                         for (var j = 0, pc = pp.prices.length; j < pc; j++) {
                             if (pp.prices[j].feature === featureName) {
                                 var usedPolicy = findUsedPolicyByType('LimitedQuota');
-                                if (usedPolicy)
+                                if (usedPolicy) {
                                     return vResult(usedPolicy.value > 0 ? featureStatus.hasQuota : featureStatus.shouldBePurchased);
-                                else
+                                } else {
                                     return vResult(featureStatus.shouldBePurchased);
+                                }
                             }
                         }
                     }
@@ -270,13 +286,15 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     return null;
                 },
                 function () { //RestrictPolicyValidator 7
-                    if (findUsedPolicyByType('Restrict') || hasPolicyOfType('Restrict'))
+                    if (findUsedPolicyByType('Restrict') || hasPolicyOfType('Restrict')) {
                         return vResult(featureStatus.notAllowed);
+                    }
                     return null;
                 },
                 function () { //AllFeaturesPolicyValidator 8
-                    if (findUsedPolicyByType('Allow', 'All') || (features['All'] && features['All'].type === 'Allow'))
+                    if (findUsedPolicyByType('Allow', 'All') || (features['All'] && features['All'].type === 'Allow')) {
                         return vResult(featureStatus.allowed);
+                    }
                     return null;
                 }
             ];
@@ -295,16 +313,20 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                     break;
                 }
                 
-                if (validationStatus !== featureStatus.unknown)
+                if (validationStatus !== featureStatus.unknown) {
                     break;
+                }
             }
-            if (validationStatus === featureStatus.unknown)
-                    validationStatus = featureStatus.notAllowed;
+            if (validationStatus === featureStatus.unknown) {
+                validationStatus = featureStatus.notAllowed;
+            }
             
-            if (validationStatus === featureStatus.allowed || validationStatus === featureStatus.hasParameter || validationStatus === featureStatus.hasQuota)
+            if (validationStatus === featureStatus.allowed || validationStatus === featureStatus.hasParameter || validationStatus === featureStatus.hasQuota) {
                 return true;
-            if (!event) //if not triggered by user
+            }
+            if (!event) {//if not triggered by user
                 return false;
+            }
 
             var message;
             if (featureName === 'Guests' || featureName === 'Checkins') {

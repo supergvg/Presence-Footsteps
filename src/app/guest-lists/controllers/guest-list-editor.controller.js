@@ -60,6 +60,7 @@ angular.module('gliist')
             if (instanceType !== 2){
                 $scope.options.gridOptions.columnDefs.push({
                     field: 'plus',
+                    type: 'number',
                     name: 'Plus',
                     width: '90',
                     enableSorting: false

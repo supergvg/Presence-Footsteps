@@ -11,7 +11,6 @@ angular.module('gliist')
             };
             
             var eventId = $stateParams.eventId,
-                instanceType = $stateParams.instanceType,
                 eventTotalGuests = 0;
         
             if (eventId) {
@@ -35,8 +34,9 @@ angular.module('gliist')
             };    
             
             $scope.checkSubscription = function(glist, showPopup) {
-                if (!glist.guests && !glist.actual)
+                if (!glist.guests && !glist.actual) {
                     return true;
+                }
                 
                 var guests = glist.guests ? glist.guests : glist.actual;
                 var guestsInCurrentList = 0;
@@ -45,14 +45,16 @@ angular.module('gliist')
                     guestsInCurrentList += Number(guests[i].guest.plus);
                 }
                 
-                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + guestsInCurrentList, showPopup, eventId))
+                if (!subscriptionsService.verifyFeature('Guests', eventTotalGuests + guestsInCurrentList, showPopup, eventId)) {
                     return false;
+                }
                 
                 return true;
             };
             
             $scope.goBackToEvent = function(glist, autosave) {
-                if (!autosave)
-                        $state.go('main.edit_event', {eventId: eventId, view: 3});
+                if (!autosave) {
+                    $state.go('main.edit_event', {eventId: eventId, view: 3});
+                }
             };
         }]);
