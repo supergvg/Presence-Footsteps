@@ -2,8 +2,8 @@
 	padding: 0 !important;
 
 	.header {
-		height: 140px;
-		line-height: 140px;
+		height: 170px;
+		line-height: 170px;
 		background: #000;
 
 		img {
@@ -362,7 +362,7 @@
 			background: linear-gradient(to bottom, #99ccff 50%,#207cca 50%,#ffffff 50%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99ccff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 			h4 {
-				font-size: 18px;
+				font-size: 16px;
 				margin: 25px auto;
 				color: #ffffff;
 				padding: 0;
@@ -404,7 +404,7 @@
 				text-align: center;
 
 				h5 {
-					font-size: 12px;
+					font-size: 16px;
 					font-weight: bold;
 					color: #99ccff;
 					margin: 0;
@@ -413,13 +413,13 @@
 				}
 
 				span {
-					font-size: 12px;
+					font-size: 14px;
 					color: #000000;
 				}
 
 				form {
 					.form-item {
-						width: 250px;
+						width: 225px;
 						margin: 5px auto;
 
 						label {
@@ -436,8 +436,10 @@
 							background: #ececec;
 							border: none;
 							border-radius: 2px;
-							width: 200px;
-							padding: 5px 0 5px 15px;
+							width: 175px;
+							height: 25px;
+							font-size: 14px;
+							padding: 5px;
 						}
 					}
 				}
@@ -489,7 +491,7 @@
 			bottom: 0;
 			left: 0;
 			right: 0;
-			background-color: #7ab9f8;
+			background-color: #99ccff;
 			text-align: center;
 
 			p {
