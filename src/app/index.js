@@ -301,6 +301,14 @@ angular.module('gliist', [
                 };
 
             $rootScope.$on('$stateChangeStart', function(event, next, nextParams) {
+                var s = $rootScope.currentUser ? $rootScope.currentUser.subscription : null;
+                if (permissionsService.isRole('admin') && next.name !== 'choose_plan' && s) {
+                    if (s.status === 'Canceled' || (s.pricePolicy.type === 'Promo' && new Date(s.endDate) < new Date())) {
+                        event.preventDefault();
+                        $state.go('choose_plan');
+                        return;
+                    }
+                }
                 if (next.permissions && next.permissions.indexOf('denyLogged') > -1 && userService.getLogged()) {
                     event.preventDefault();
                     $state.go('main.welcome');

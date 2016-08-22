@@ -466,7 +466,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 var errorMessage = [],
                     newCard = !scope.cardDataLoaded || (scope.cardDataLoaded && (form.number.$viewValue !== '' || form.cvc.$viewValue !== '' || scope.cardDataSaved.expiryMonth !== scope.cardData.expiryMonth || scope.cardDataSaved.expiryYear !== scope.cardData.expiryYear));
             
-                if (form && form.$invalid && newCard) {
+                if (scope.pricePolicy.prices[0].amount != 0 && form && form.$invalid && newCard) {
                     var errors = {
                         required: {
                             number: 'Please Enter Card Number',
