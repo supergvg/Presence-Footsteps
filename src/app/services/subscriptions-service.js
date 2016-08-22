@@ -328,25 +328,26 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
                 return false;
             }
 
-            var message;
+            var message = '', upgradeMessage = '';
             if (featureName === 'Guests' || featureName === 'Checkins') {
-                message = 'You are only allowed ' + validationMaxValue + ' guests. Would you like to upgrade to unlimited?';
+                message = 'You are only allowed ' + validationMaxValue + ' guests.';
+                upgradeMessage = 'Would you like to upgrade to unlimited?';
             } else if (featureName === 'EventDurationDays') {
+                message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days.';
                 if (validationStatus === featureStatus.shouldBePurchased) {
-                    message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days. Would you like to upgrade?';
-                } else {
-                    message = 'You are not allowed to create events longer than ' + validationMaxValue + ' days.';
+                    upgradeMessage = 'Would you like to upgrade?';
                 }
             } else if (featureName === 'EventStartRangeDays') {
                 message = 'You can only create event up to ' + validationMaxValue + ' days in advance.';
             } else if (featureName === 'GLM') {
-                if (permissionsService.isRole('admin')) {
-                    message = 'This is a feature for monthly subscription plans. Do you want to upgrade?';
-                } else {
-                    message = 'Please check with admin to use this feature';
-                }
+                upgradeMessage = 'This is a feature for monthly subscription plans. Do you want to upgrade?';
             } else {
-                message = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
+                upgradeMessage = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
+            }
+            if (permissionsService.isRole('admin')) {
+                message = message +' '+upgradeMessage;
+            } else if (upgradeMessage !== '') {
+                message = message +' Please check with admin to use this feature';
             }
             
             if (validationStatus === featureStatus.notAllowed && (!permissionsService.isRole('admin') || featureName === 'EventStartRangeDays' || featureName === 'EventDurationDays')) {
