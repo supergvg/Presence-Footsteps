@@ -29,7 +29,7 @@ angular.module('gliist')
                 if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
                     return true;
                 var s = $rootScope.currentUser.subscription;
-                return s.status === 'Canceled' || (s.pricePolicy.type === 'Promo' && new Date(s.endDate) < new Date());
+                return new Date(s.endDate) < new Date() && (s.status === 'Canceled' || s.pricePolicy.type === 'Promo');
             };
             $scope.subscriptionHasPromo = function (plan) {
                 if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
@@ -43,9 +43,11 @@ angular.module('gliist')
             };
             
             $scope.showButton = function(index) {
-                for (var i = 0, pc = $scope.plans.length; i < pc; i++) //hide if subscription is transforming
-                    if ($scope.plans[i].isTransform)
-                        return false;
+                if ($scope.getLabelForButton($scope.plans[index]) != 'UPGRADE') {
+                    for (var i = 0, pc = $scope.plans.length; i < pc; i++) //hide downgrade if subscription is transforming
+                        if ($scope.plans[i].isTransform)
+                            return false;
+                }
                 if (!$scope.allowToSelect(index)) //if has options
                     return false;
                 if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) //only on choose plan page
@@ -135,7 +137,7 @@ angular.module('gliist')
                 if (!$scope.isSubscribed() || $scope.subscriptionIsExpired())
                     return 'SELECT';
                 var sid = $rootScope.currentUser.subscription.subscription.id;
-                if (plan.id >=  sid)
+                if (plan.id >= sid)
                     return 'UPGRADE';
                 return 'DOWNGRADE';
             };

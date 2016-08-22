@@ -290,7 +290,7 @@ angular.module('gliist', [
                                 toLoginPage();
                             }
                         } else {
-                            var subscriptionOff = $rootScope.currentUser.subscription.status === 'Canceled' || ($rootScope.currentUser.subscription.pricePolicy.type === 'Promo' && new Date($rootScope.currentUser.subscription.endDate) < new Date());
+                            var subscriptionOff = new Date($rootScope.currentUser.subscription.endDate) < new Date() && ($rootScope.currentUser.subscription.status === 'Canceled' || $rootScope.currentUser.subscription.pricePolicy.type === 'Promo');
                             if (permissionsService.isRole('admin') && next.name !== 'choose_plan' && subscriptionOff) {
                                 event.preventDefault();
                                 $state.go('choose_plan');
