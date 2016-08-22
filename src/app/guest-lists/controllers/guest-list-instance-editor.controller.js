@@ -90,6 +90,9 @@ angular.module('gliist')
 
                     gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
                         if (newValue !== oldValue) {
+                            if (!rowEntity.guest.plus) {
+                                rowEntity.guest.plus = 0;
+                            }
                             $scope.onDataChange();
                         } else {
                             $scope.startAutoSave();
