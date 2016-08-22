@@ -63,7 +63,8 @@ angular.module('gliist')
                     type: 'number',
                     name: 'Plus',
                     width: '90',
-                    enableSorting: false
+                    enableSorting: false,
+                    editableCellTemplate: '<div><form name="inputForm"><input type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" min="0"></form></div>'
                 });
             }
             if (instanceType !== 1 && instanceType > 0) {

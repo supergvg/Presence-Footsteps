@@ -290,7 +290,11 @@ angular.module('gliist', [
                                 toLoginPage();
                             }
                         } else {
-                            if (permissionsService.roleDenyAccess(next.name, nextParams)) {
+                            var subscriptionOff = $rootScope.currentUser.subscription.status === 'Canceled' || ($rootScope.currentUser.subscription.pricePolicy.type === 'Promo' && new Date($rootScope.currentUser.subscription.endDate) < new Date());
+                            if (permissionsService.isRole('admin') && next.name !== 'choose_plan' && subscriptionOff) {
+                                event.preventDefault();
+                                $state.go('choose_plan');
+                            } else if (permissionsService.roleDenyAccess(next.name, nextParams)) {
                                 event.preventDefault();
                                 $state.go('main.welcome');
                             } else if (event.defaultPrevented) {
@@ -301,14 +305,6 @@ angular.module('gliist', [
                 };
 
             $rootScope.$on('$stateChangeStart', function(event, next, nextParams) {
-                var s = $rootScope.currentUser ? $rootScope.currentUser.subscription : null;
-                if (permissionsService.isRole('admin') && next.name !== 'choose_plan' && s) {
-                    if (s.status === 'Canceled' || (s.pricePolicy.type === 'Promo' && new Date(s.endDate) < new Date())) {
-                        event.preventDefault();
-                        $state.go('choose_plan');
-                        return;
-                    }
-                }
                 if (next.permissions && next.permissions.indexOf('denyLogged') > -1 && userService.getLogged()) {
                     event.preventDefault();
                     $state.go('main.welcome');

@@ -56,7 +56,7 @@ angular.module('gliist')
                         {field: 'guest.lastName', name: 'Last Name'},
                         {field: 'guest.email', name: 'Email', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.isNotPublicRSVP(); }},
                         {field: 'guest.notes', name: 'Note', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.isNotPublicRSVP(); }},
-                        {field: 'guest.plus', name: 'Plus', type: 'number', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.canEditPlus(); }}
+                        {field: 'guest.plus', name: 'Plus', type: 'number', enableSorting: false, editableCellTemplate: '<div><form name="inputForm"><input type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" min="0"></form></div>', cellEditableCondition: function () { return $scope.canEdit() && $scope.canEditPlus(); }}
                     ]
                 }
             };
