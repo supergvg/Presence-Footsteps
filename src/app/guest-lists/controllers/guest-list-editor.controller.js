@@ -52,6 +52,7 @@ angular.module('gliist')
                 }
             };
             $scope.form = {};
+            $scope.vars = {};
             
             var instanceType = parseInt($stateParams.instanceType);
             if (!instanceType) {
@@ -520,11 +521,11 @@ angular.module('gliist')
             };
             
             $scope.onAddGuestsClicked = function() {
-                if (!$scope.textGuestList) {
+                if (!$scope.vars.textGuestList) {
                     return;
                 }
                 
-                var guests = guestListParserService.parse($scope.textGuestList);
+                var guests = guestListParserService.parse($scope.vars.textGuestList);
                 if (guests === null) {
                     return dialogService.error('No guests found in the list');
                 }
@@ -547,7 +548,7 @@ angular.module('gliist')
                 
                 dialogService.success('Guests were added successfully');
                 $scope.onDataChange();
-                $scope.textGuestList = '';
+                $scope.vars.textGuestList = '';
             };
             
             $scope.onDataChange = function () {
