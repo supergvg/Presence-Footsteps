@@ -47,7 +47,7 @@
                     </md-input-container>
                     <md-input-container flex ng-class="userForm.company.$valid ? 'checked' : ''">
                         <label>Industry</label>
-                        <input name="industry" ng-model="user.industry" class="rounded-r">
+                        <input name="industry" ng-model="user.industry" ng-disabled="options.inviteMode" class="rounded-r">
                     </md-input-container>
                 </div>
                 <div layout layout-align="center center" layout-sm="column" class="passwords">
