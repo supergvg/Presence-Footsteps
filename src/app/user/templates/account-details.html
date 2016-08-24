@@ -35,18 +35,18 @@
             <h4>Edit previously added Accounts</h4>
             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-if="refreshing"></md-progress-circular>
             <md-list ng-if="!refreshing">
-                <md-list-item ng-repeat="user in getLinkedUsers()" layout="row" layout-sm="column">
-                    <div flex layout="row" layout-sm="column">
-                        <div flex="40" flex-sm="auto">
+                <md-list-item ng-repeat="user in getLinkedUsers()" layout="row" layout-sm="column" layout-align="space-between center">
+                    <div flex layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center start">
+                        <div flex="30" flex-sm="auto">
                             <p>{{user.firstName}} {{user.lastName}}</p>
                         </div>
-                        <div flex="15" flex-sm="auto" ng-if="user.permission">
-                            <p>{{user.permission}}</p>
+                        <div ng-if="user.permissions" flex="15" flex-sm="auto">
+                            <p>{{user.permissions}}</p>
                         </div>
-                        <div flex="20" flex-sm="auto" ng-if="user.UserName">
+                        <div ng-if="user.UserName" flex="40" flex-sm="auto">
                             <p>{{user.UserName}}</p>
                         </div>
-                        <div flex="10" flex-sm="auto" ng-if="user.phoneNumber" style="padding: 0">
+                        <div ng-if="user.phoneNumber" flex="15" flex-sm="auto">
                             <p>{{user.phoneNumber}}</p>
                         </div>
                     </div>
