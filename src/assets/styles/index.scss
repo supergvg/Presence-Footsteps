@@ -228,6 +228,15 @@ div[ui-grid] {
                     &.actions-col {
                         margin: 0;
                     }
+                    &.icon {
+                        padding: 0;
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                            left: 50%;
+                        }
+                    }
                 }
             }
         }
@@ -1937,12 +1946,6 @@ md-dialog {
     }
 }
 
-.event-checkin {
-    md-radio-button + md-radio-button {
-        margin-top: 15px;
-    }
-}
-
 .email-stats {
     .event-preview {
         margin-bottom: 15px;
@@ -2133,6 +2136,10 @@ md-dialog {
                                     margin: 0;
                                     width: 100%;
                                 }
+                            }
+                            &.icon img {
+                                position: static;
+                                transform: none;
                             }
                         }
                     }

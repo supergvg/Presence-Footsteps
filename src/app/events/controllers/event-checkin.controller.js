@@ -18,6 +18,10 @@ angular.module('gliist')
                 },
                 gridOptions: {
                     columnDefs: [
+                        {
+                            name: '', field: 'status', enableSorting: false, width: 50, allowCellFocus: false, cellClass: 'icon',
+                            cellTemplate: '<img ng-src="assets/images/icons/checked.png" ng-hide="grid.appScope.options.methods.guestPending(row.entity)"/>'
+                        },
                         {field: 'firstName', name: 'First Name', allowCellFocus: false},
                         {field: 'lastName', name: 'Last Name', allowCellFocus: false},
                         {field: 'title', name: 'List Title', allowCellFocus: false},
@@ -25,7 +29,7 @@ angular.module('gliist')
                         {field: 'email', name: 'Email', allowCellFocus: false},
                         {field: 'plus', name: 'Plus', width: 80, allowCellFocus: false},
                         {
-                            name: 'Check in', field: 'id', enableSorting: false, width: 90, allowCellFocus: false,
+                            name: 'Check in', field: 'id', enableSorting: false, width: 90, allowCellFocus: false, cellClass: 'actions-col',
                             cellTemplate: '<div class="actions" title="Checkin">' +
                                 '<md-button class="icon-btn" md-no-ink="\'true\'" ng-click="grid.appScope.options.methods.checkinGuest(row.entity)" aria-label="CheckIn">' +
                                 '<md-icon ng-show="row.entity.status == \'checked in\'" md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>' +
@@ -38,10 +42,6 @@ angular.module('gliist')
                 gridData: []
             };
             $scope.options.methods = {
-                onRegisterApi: function(gridApi){
-                    $scope.gridApi = gridApi;
-                    gridApi.grid.registerRowsProcessor($scope.customFilter, 150);
-                },
                 guestPending: function(row){
                     return (row.status === 'no show');
                 },
@@ -57,32 +57,6 @@ angular.module('gliist')
                 return EnvironmentConfig.gjests_api+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
             
-            $scope.filter = {
-                status: 'pending'
-            };
-
-            $scope.customFilter = function(renderableRows) {
-                renderableRows.forEach(function(row) {
-                    row.visible = false;
-                    if ($scope.filter.status === 'checked' && !$scope.options.methods.guestPending(row.entity)) {
-                        row.visible = true;
-                    }
-                    if ($scope.filter.status === 'pending' && $scope.options.methods.guestPending(row.entity)) {
-                        row.visible = true;
-                    }
-                });
-                return renderableRows;
-            };
-            
-            $scope.$watchCollection('filter', function(newValue) {
-                if (!newValue) {
-                    return;
-                }
-                if ($scope.gridApi) {
-                    $scope.gridApi.grid.refresh();
-                }
-            });
-
             $scope.pastEvent = function() {
                 var eventEndTime = $filter('ignoreTimeZone')($scope.event.endTime).getTime() + 24 * 60 * 60 * 1000;
                 

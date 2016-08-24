@@ -9,15 +9,11 @@
         </span>
     </div>
     <div ng-show="!initializing">
-        <div layout="row" layout-align="space-between center" layout-sm="column" class="block-field">
-            <md-radio-group ng-model="filter.status">
-                <md-radio-button value="pending" class="radio-icon"><img ng-src="assets/images/icons/pending.png"/>Pending</md-radio-button>
-                <md-radio-button value="checked" class="radio-icon"><img ng-src="assets/images/icons/checked-in.png"/>Checked</md-radio-button>
-            </md-radio-group>
-            <a href="{{getExportExcelUrl()}}" class="md-button raised-btn" style="width: 200px;">EXPORT REPORT</a>
-        </div>
-        <div class="block-field">
+        <div class="margin-top">
             <ui-grid-responsive options="options"></ui-grid-responsive>
+        </div>
+        <div layout="row" layout-align="end center" class="margin-top" layout-align-sm="center center">
+            <a href="{{getExportExcelUrl()}}" class="md-button raised-btn" style="width: 200px;">EXPORT REPORT</a>
         </div>
     </div>
 </div>
