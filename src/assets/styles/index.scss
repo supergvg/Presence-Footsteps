@@ -2191,9 +2191,9 @@ md-dialog {
         }
     }
     .block-field {
-        md-input-container + md-input-container {
+        &[layout-sm="column"] > * {
             padding-left: 0;
-            padding-top: 20px;
+            margin-top: 20px;
         }
         md-radio-group {
             md-content + md-content {
@@ -2560,6 +2560,9 @@ md-dialog {
             md-list {
                 margin-top: 20px;
                 md-list-item {
+                    &:first-child {
+                        font-size: 10px;
+                    }
                     padding: 0px 16px;
                 }
             }

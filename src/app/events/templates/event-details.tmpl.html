@@ -326,50 +326,34 @@
                 <div class="block-field" remove-by-roles="promoter">
                     <h4>Add confirmed guests</h4>
                     <md-list>
-                        <md-list-item layout="row">
-                            <div flex>
-                                <p>Link previous guest list</p>
-                            </div>
-                            <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ng-click="onAddGLClicked($event, 1)">
-                                    Link
-                                </md-button>
-                            </div>
+                        <md-list-item layout="row" layout-align="space-between center">
+                            <p>Link previous guest list</p>
+                            <md-button class="raised-btn" ng-click="onAddGLClicked($event, 1)">
+                                Link
+                            </md-button>
                         </md-list-item>
-                        <md-list-item layout="row">
-                            <div flex>
-                                <p>Create new guest list</p>
-                            </div>
-                            <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ng-click="onCreateGLClicked(1)">
-                                    Create
-                                </md-button>
-                            </div>
+                        <md-list-item layout="row" layout-align="space-between center">
+                            <p>Create new guest list</p>
+                            <md-button class="raised-btn" ng-click="onCreateGLClicked(1)">
+                                Create
+                            </md-button>
                         </md-list-item>
                     </md-list>
                 </div>
                 <div class="block-field" ng-if="event.type !== 1" remove-by-roles="promoter">
                     <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
                     <md-list>
-                        <md-list-item layout="row">
-                            <div flex>
-                                <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
-                            </div>
-                            <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
-                                    Link
-                                </md-button>
-                            </div>
+                        <md-list-item layout="row" layout-align="space-between center">
+                            <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
+                            <md-button class="raised-btn" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
+                                Link
+                            </md-button>
                         </md-list-item>
-                        <md-list-item layout="row">
-                            <div flex>
-                                <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
-                            </div>
-                            <div flex layout="row" layout-align="end center">
-                                <md-button class="raised-btn" ng-click="onCreateGLClicked(2)">
-                                    Create
-                                </md-button>
-                            </div>
+                        <md-list-item layout="row" layout-align="space-between center">
+                            <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
+                            <md-button class="raised-btn" ng-click="onCreateGLClicked(2)">
+                                Create
+                            </md-button>
                         </md-list-item>
                     </md-list>
                 </div>

@@ -25,30 +25,30 @@
                     </div>
                     <md-list ng-show="table1Visible">
                         <md-list-item>
-                            <div flex="25">
+                            <div flex="45">
                                 Categories
                             </div>
-                            <div flex="25">
+                            <div flex="20">
                                 Checked in
                             </div>
-                            <div flex="25">
+                            <div flex="20">
                                 Total
                             </div>
-                            <div flex="25">
+                            <div flex="15">
                                 Percentage
                             </div>
                         </md-list-item>
                         <md-list-item ng-repeat="category in categories" style="background-color: {{category.color}};">
-                            <div flex>
+                            <div flex="45">
                                 {{category.name}}
                             </div>
-                            <div flex>
+                            <div flex="20">
                                 {{getCategoryStats(category.name).totalCheckedIn}}
                             </div>
-                            <div flex>
+                            <div flex="20">
                                 {{getCategoryStats(category.name).total}}
                             </div>
-                            <div flex>
+                            <div flex="15">
                                 {{getCategoryStats(category.name).total > 0 ? Math.round(getCategoryStats(category.name).totalCheckedIn / getCategoryStats(category.name).total * 100) + '%' : 'N/A'}}
                             </div>
                         </md-list-item>
