@@ -1988,6 +1988,13 @@ md-dialog {
     }
 }
 
+@media screen and (max-width: 1024px) {
+    .md-dialog-container,
+    md-backdrop {
+        top: 0 !important;
+    }
+}
+
 @media screen and (max-width: 600px) {
     md-toast {
         &.md-center {
@@ -2605,10 +2612,6 @@ md-dialog {
                 padding: 10px;
             }
         }
-    }
-    .md-dialog-container,
-    md-backdrop {
-        top: 0 !important;
     }
     md-dialog {
         max-width: 100%;
