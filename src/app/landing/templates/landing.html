@@ -19,7 +19,7 @@
             <div layout="row" layout-sm="column" class="blocks event-details">
                 <div layout="column">
                     <div class="item">
-                        <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | EEEE'}}<br />{{event.event.time | ignoreTimeZone | date:'h:mm a'}}</div>
+                        <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | EEEE'}}<br />{{event.event.time | ignoreTimeZone | date:'h:mm a'}} - {{event.event.endTime | ignoreTimeZone | date:'h:mm a'}}</div>
                     </div>
                     <div class="item">
                         <div class="item-text" ng-bind-html="event.event.location"></div>
