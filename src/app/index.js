@@ -135,10 +135,6 @@ angular.module('gliist', [
                     url: '/event/checkin/:eventId',
                     templateUrl: 'app/events/templates/event-checkin.html',
                     controller: 'EventCheckinCtrl'
-                }).state('main.check_guest', {
-                    url: '/event/guest/checkin/:gliId/:guestId',
-                    templateUrl: 'app/guest-lists/templates/guest-checkin.html',
-                    controller: 'CheckGuestCtrl'
                 }).state('main.event_stats', {
                     url: '/event/stats/:eventId',
                     templateUrl: 'app/events/templates/event-stats.html',

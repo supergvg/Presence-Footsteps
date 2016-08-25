@@ -924,18 +924,19 @@ md-checkbox .md-icon {
 }
 
 .guest-checkin {
+    overflow-y: auto;
+    padding: 30px;
     .content {
-        text-align: center;
-        & > div {
-            margin-top: 25px;
+        & > *:not(:last-child):not(h3) {
+            margin-bottom: 25px;
         }
-        h3 {
-            margin: 0;
+        & > h3 {
+            margin: 0 0 15px 0;
         }
         .notes {
             textarea {
                 border-radius: 5px;
-                max-width: 340px;
+                width: 340px;
                 height: 70px;
                 padding: 10px;
             }
@@ -2418,6 +2419,9 @@ md-dialog {
             .notes {
                 & > *:first-child {
                     text-align: center;
+                }
+                textarea {
+                    width: auto;
                 }
                 & > * + * {
                     margin-left: 0;

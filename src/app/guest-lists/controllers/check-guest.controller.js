@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('CheckGuestCtrl', ['$scope', '$stateParams', 'dialogService', 'eventsService', '$state', '$window',
-        function ($scope, $stateParams, dialogService, eventsService, $state, $window) {
-
+    .controller('CheckGuestCtrl', ['$scope', 'dialogService', 'eventsService',
+        function ($scope, dialogService, eventsService) {
             $scope.maxGuests = 0;
             $scope.notCheckInGuests = 0;
             $scope.checkInGuests = 0;
@@ -24,10 +23,6 @@ angular.module('gliist')
 
             $scope.addGuestCount = function () {
                 $scope.guestCheckin.plus = $scope.guestCheckin.plus >= $scope.notCheckInGuests ? $scope.notCheckInGuests : $scope.guestCheckin.plus + 1;
-            };
-
-            $scope.back = function () {
-                $window.history.back();
             };
 
             $scope.checkIn = function () {
@@ -68,16 +63,11 @@ angular.module('gliist')
             };
             
             $scope.init = function () {
-                var guestId = $stateParams.guestId,
-                    gliId = $stateParams.gliId;
-
-                if (!guestId || !gliId) {
-                    $state.go('main.welcome');
-                    return;
+                if (!$scope.guestId || !$scope.gliId) {
+                    $scope.close();
                 }
-
                 $scope.fetchingData = true;
-                eventsService.getGuestCheckin(guestId, gliId).then(
+                eventsService.getGuestCheckin($scope.guestId, $scope.gliId).then(
                     function(res) {
                         $scope.guestCheckin = res.checkin;
                         $scope.initVars();

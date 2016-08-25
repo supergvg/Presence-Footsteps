@@ -9,31 +9,37 @@ angular.module('gliist')
             $scope.planLabels = [];
 
             $scope.isPricePolicyVisible = function (plan, pricePolicy) {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
+                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
                     return true;
+                }
                 var userSubscription = $rootScope.currentUser.subscription;
                 if (userSubscription.subscription.id === plan.id && userSubscription.pricePolicy.type === 'Promo') { //hide standard policies of same type
                     //for future releases: hide options covered by current price policy
                     var userpp = userSubscription.pricePolicy;
                     var userPriceTypes = [];
-                    for (var i = 0, pc = userpp.prices.length; i < pc; i++) //collect all price types for user's price policy
+                    for (var i = 0, pc = userpp.prices.length; i < pc; i++) { //collect all price types for user's price policy
                         userPriceTypes.push(userpp.prices[i].type);
-                    for (var i = 0, pc = pricePolicy.prices.length; i < pc; i++)
-                        if (userPriceTypes.indexOf(pricePolicy.prices[i].type) !== -1)
+                    }
+                    for (var i = 0, pc = pricePolicy.prices.length; i < pc; i++) {
+                        if (userPriceTypes.indexOf(pricePolicy.prices[i].type) !== -1) {
                             return false;
+                        }
+                    }
                 }
                 return !(userSubscription.pricePolicy.id === pricePolicy.id);
             };
 
             $scope.subscriptionIsExpired = function () {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
+                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
                     return true;
+                }
                 var s = $rootScope.currentUser.subscription;
                 return new Date(s.endDate) < new Date() && (s.status === 'Canceled' || s.pricePolicy.type === 'Promo');
             };
             $scope.subscriptionHasPromo = function (plan) {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription)
+                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
                     return false;
+                }
                 var s = $rootScope.currentUser.subscription;
                 return s.subscription.id === plan.id && s.pricePolicy.type === 'Promo';
             };
@@ -44,16 +50,21 @@ angular.module('gliist')
             
             $scope.showButton = function(index) {
                 if ($scope.getLabelForButton($scope.plans[index]) != 'UPGRADE') {
-                    for (var i = 0, pc = $scope.plans.length; i < pc; i++) //hide downgrade if subscription is transforming
-                        if ($scope.plans[i].isTransform)
+                    for (var i = 0, pc = $scope.plans.length; i < pc; i++) {//hide downgrade if subscription is transforming
+                        if ($scope.plans[i].isTransform) {
                             return false;
+                        }
+                    }
                 }
-                if (!$scope.allowToSelect(index)) //if has options
+                if (!$scope.allowToSelect(index)) {//if has options
                     return false;
-                if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) //only on choose plan page
+                }
+                if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) {//only on choose plan page
                     return true;
-                if ($scope.subscriptionHasPromo($scope.plans[index])) //hide button for promo
+                }
+                if ($scope.subscriptionHasPromo($scope.plans[index])) {//hide button for promo
                     return false;
+                }
                 var subscriptionStatus = '',
                     pricePolicyType = '',
                     isPAYG = false;
@@ -134,11 +145,13 @@ angular.module('gliist')
             };
 
             $scope.getLabelForButton = function (plan) {
-                if (!$scope.isSubscribed() || $scope.subscriptionIsExpired())
+                if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) {
                     return 'SELECT';
+                }
                 var sid = $rootScope.currentUser.subscription.subscription.id;
-                if (plan.id >= sid)
+                if (plan.id >= sid) {
                     return 'UPGRADE';
+                }
                 return 'DOWNGRADE';
             };
             

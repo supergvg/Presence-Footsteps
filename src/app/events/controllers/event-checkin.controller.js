@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$filter', '$window', 'EnvironmentConfig',
-        function ($scope, $stateParams, dialogService, $state, eventsService, $filter, $window, EnvironmentConfig) {
+    .controller('EventCheckinCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService', '$filter', '$window', 'EnvironmentConfig', '$mdDialog',
+        function ($scope, $stateParams, dialogService, $state, eventsService, $filter, $window, EnvironmentConfig, $mdDialog) {
             $scope.event = {id: 0};
             $scope.options = {
                 filter: {
@@ -46,9 +46,18 @@ angular.module('gliist')
                     return (row.status === 'no show');
                 },
                 checkinGuest: function(row) {
-                    $state.go('main.check_guest', {
-                        guestId: row.id,
-                        gliId: row.gliId
+                    var scope = $scope.$new();
+                    scope.guestId = row.id;
+                    scope.gliId = row.gliId;
+                    scope.close = function() {
+                        $mdDialog.hide();
+                    };
+                    $mdDialog.show({
+                        scope: scope,
+                        controller: 'CheckGuestCtrl',
+                        templateUrl: 'app/guest-lists/templates/guest-checkin.html'
+                    }).then(function(){
+                        $scope.init();
                     });
                 }
             };
@@ -68,6 +77,7 @@ angular.module('gliist')
 
             $scope.init = function () {
                 var eventId = $stateParams.eventId;
+                $scope.options.gridData = [];
                 $scope.initializing = true;
                 eventsService.getEvents(eventId).then(function(data) {
                     $scope.event = data;
