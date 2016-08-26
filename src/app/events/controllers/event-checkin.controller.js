@@ -97,7 +97,7 @@ angular.module('gliist')
                                 title: checkin.guest.title,
                                 type: checkin.guest.type,
                                 email: checkin.guest.email,
-                                plus: checkin.status === 'checked in' ? (checkin.guest.plus - checkin.plus) : checkin.guest.plus,
+                                plus: checkin.guest.plus,
                                 id: checkin.guest.id,
                                 status: checkin.status,
                                 gliId: checkin.gl_id
