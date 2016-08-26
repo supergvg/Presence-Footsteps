@@ -5,7 +5,7 @@
     </div>
     <div ng-hide="fetchingData">
         <div layout="column" layout-align="start center" class="content">
-            <div class="guest-avatar">Guest</div>
+            <div class="guest-avatar bg-{{guest.type | spaceless | lowercase}}">Guest</div>
             <h3><u>{{guestListInstance.title}}</u></h3>
             <h3><b>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</b></h3>
             <h3>{{guestCheckin.guest.type}}</h3>

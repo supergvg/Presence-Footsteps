@@ -47,8 +47,7 @@ angular.module('gliist')
                 },
                 checkinGuest: function(row) {
                     var scope = $scope.$new();
-                    scope.guestId = row.id;
-                    scope.gliId = row.gliId;
+                    scope.guest = row;
                     scope.close = function() {
                         $mdDialog.hide();
                     };

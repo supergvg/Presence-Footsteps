@@ -63,11 +63,11 @@ angular.module('gliist')
             };
             
             $scope.init = function () {
-                if (!$scope.guestId || !$scope.gliId) {
+                if (!$scope.guest) {
                     $scope.close();
                 }
                 $scope.fetchingData = true;
-                eventsService.getGuestCheckin($scope.guestId, $scope.gliId).then(
+                eventsService.getGuestCheckin($scope.guest.id, $scope.guest.gliId).then(
                     function(res) {
                         $scope.guestCheckin = res.checkin;
                         $scope.initVars();
