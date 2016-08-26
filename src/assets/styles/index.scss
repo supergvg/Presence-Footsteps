@@ -927,6 +927,17 @@ md-checkbox .md-icon {
     overflow-y: auto;
     padding: 30px;
     .content {
+        .guest-avatar {
+            width: 120px;
+            height: 120px;
+            background-color: #f7f9c3;
+            border-radius: 60px;
+            text-align: center;
+            line-height: 120px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #8f8f8f;
+        }
         & > *:not(:last-child):not(h3) {
             margin-bottom: 25px;
         }
