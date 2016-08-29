@@ -78,7 +78,7 @@
                 </div>        
             </form>
             <div class="md-actions" layout="row" layout-align="center center">
-                <md-button class="raised-btn" ng-click="register(userForm)" ng-disabled="sendingData">
+                <md-button class="raised-btn" ng-click="register(userForm)" ng-disabled="sendingData" ga-track-event="['Button', 'Click', 'Sign Up']">
                     Get Started
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="sendingData"></md-progress-circular>

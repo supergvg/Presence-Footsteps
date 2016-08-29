@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-    .controller('SignupCtrl', ['$scope', 'userService', 'dialogService', '$state', '$stateParams',
-        function ($scope, userService, dialogService, $state, $stateParams) {
+    .controller('SignupCtrl', ['$scope', 'userService', 'dialogService', '$state', '$stateParams', 'Analytics',
+        function ($scope, userService, dialogService, $state, $stateParams, Analytics) {
             $scope.user = {};
             $scope.options = {
                 inviteMode: false,   //true = Invite link register
