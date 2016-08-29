@@ -52,22 +52,22 @@ angular.module('gliist')
                             total: 0
                         };
                     }
-                    if (!(category === 'rsvp' && gl.instanceType !== 4)) {
-                        angular.forEach(gl.actual, function(guest) {
-                            if (guest.status === 'checked in') {
-                                $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
-                                $scope.totalCheckedIn += guest.guest.plus + 1 - guest.plus;
-                            }
-                        });
-                        $scope.stats[category].total += gl.guestsCount;
-                    }                        
+                    
+                    angular.forEach(gl.actual, function(guest) {
+                        if (guest.status === 'checked in') {
+                            $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
+                            $scope.totalCheckedIn += guest.guest.plus + 1 - guest.plus;
+                        }
+                    });
+                    if (gl.instanceType === 2 && gl.instanceType === 4) //include all except for unpublished private RSVP
+                        $scope.stats[category].total += gl.guestsCount;                
                     
                     if ($scope.isRSVP()) {
                         //RSVP stats
                         if (gl.instanceType === 2 && gl.published) {
                             $scope.rsvp[0].total += gl.guestsCount;
                             angular.forEach(gl.actual, function(guest) {
-                                $scope.rsvp[1].total += guest.plus + 1;
+                                $scope.rsvp[1].total += guest.guest.plus + 1;
                             });
                             $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                         }
@@ -75,6 +75,7 @@ angular.module('gliist')
                             $scope.rsvp[1].total += gl.guestsCount;
                             $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
                         }
+                        $scope.stats[category].total = $scope.rsvp[1].total;
                     }
                 });
                 eventsService.getRSVPVisitors($scope.event.id).then(
