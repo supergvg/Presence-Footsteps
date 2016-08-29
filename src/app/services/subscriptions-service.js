@@ -2,6 +2,7 @@
 
 angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialogService', '$rootScope', '$state', '$mdDialog', 'paymentsService', 'permissionsService',
     function ($http, $q, dialogService, $rootScope, $state, $mdDialog, paymentsService, permissionsService) {
+        var mustUpdateSubscription = true;
         var responseError = function(d, rejection) {
                 var message = rejection.data && rejection.data.message || 'Endpoint '+rejection.config.url+' '+rejection.statusText.toLowerCase();
                 dialogService.error(message);
@@ -48,8 +49,9 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         
         this.getUserSubscription = function() {
             var d = $q.defer();
-            $http.get('user/subscription', {api: 'subscriptions_api'}).then(
+            $http.get('user/subscription', {api: 'subscriptions_api', params: {update: mustUpdateSubscription}}).then(
                 function(answer) {
+                    mustUpdateSubscription = false;
                     if (answer.data.data && answer.data.data.status === 'Unpaid') {
                         answer.data.data = null;
                     }
