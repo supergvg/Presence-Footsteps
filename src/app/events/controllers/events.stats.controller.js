@@ -59,7 +59,7 @@ angular.module('gliist')
                             $scope.totalCheckedIn += guest.guest.plus + 1 - guest.plus;
                         }
                     });
-                    if (gl.instanceType === 2 && gl.instanceType === 4) //include all except for unpublished private RSVP
+                    if (gl.instanceType !== 2 && gl.instanceType !== 4) //include all except for unpublished private RSVP
                         $scope.stats[category].total += gl.guestsCount;                
                     
                     if ($scope.isRSVP()) {
@@ -70,12 +70,13 @@ angular.module('gliist')
                                 $scope.rsvp[1].total += guest.guest.plus + 1;
                             });
                             $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
+                            $scope.stats[category].total = $scope.rsvp[1].total;
                         }
                         if (gl.instanceType === 4) {
                             $scope.rsvp[1].total += gl.guestsCount;
                             $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
+                            $scope.stats[category].total = $scope.rsvp[1].total;
                         }
-                        $scope.stats[category].total = $scope.rsvp[1].total;
                     }
                 });
                 eventsService.getRSVPVisitors($scope.event.id).then(
