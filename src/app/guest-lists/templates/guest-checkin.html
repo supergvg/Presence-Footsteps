@@ -1,4 +1,5 @@
 <md-dialog class="guest-checkin" ng-init="init()" flex-sm="90">
+    <img src="assets/images/popup-close.png" ng-click="close()" class="btn-close"/>
     <div ng-show="fetchingData">
         <h4>Loading...</h4>
         <span><md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular></span>
@@ -35,9 +36,6 @@
                 </md-button>
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="checkingGuest"></md-progress-circular>
             </div>
-            <md-button class="raised-btn" ng-click="close()">
-                Back
-            </md-button>
         </div>
     </div>
 </md-dialog>

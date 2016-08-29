@@ -926,6 +926,11 @@ md-checkbox .md-icon {
 .guest-checkin {
     overflow-y: auto;
     padding: 30px;
+    .btn-close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
     .content {
         .guest-avatar {
             width: 120px;
