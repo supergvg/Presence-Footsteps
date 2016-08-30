@@ -45,7 +45,7 @@ angular.module('gliist')
             });
 
             $scope.getMenuItems = function() {
-                if (permissionsService.isRole('promoter')) {
+                if (permissionsService.isRole('promoter') || (permissionsService.isRole('manager') && !subscriptionsService.verifyFeature('EventContributors'))) {
                     return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4]];
                 } else if (permissionsService.isRole('staff')) {
                     return [$scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
