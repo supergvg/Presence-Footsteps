@@ -146,7 +146,7 @@ angular.module('gliist')
             });
             
             $scope.disablePromoterList = function() {
-                return permissionsService.isRole('promoter') || !subscriptionsService.verifyFeature('EventContributors', 0, null, eventId);
+                return permissionsService.isRole('promoter') || !subscriptionsService.verifyFeature('EventContributors', 0, null, eventId) || $scope.isSpotType();
             };
             $scope.onPromoterClick = function() {
                 subscriptionsService.verifyFeature('EventContributors', 0, true, eventId);
@@ -214,9 +214,18 @@ angular.module('gliist')
                     }
                 });
                 if (guestIds.length > 0) {
+                    var rowSelected = $scope.rowSelected;
                     eventsService.removeGuestsFromGLInstance($scope.gli.id, guestIds).then(
                         function(data) {
-                            $scope.gli = data;
+                            //$scope.gli = data;
+                            angular.forEach(rowSelected, function(row){
+                                if (row.guest.id) {
+                                    var index = $scope.gli.actual.indexOf(row);
+                                    if (index > -1) {
+                                        $scope.gli.actual.splice(index, 1);
+                                    }
+                                }
+                            });
                         }
                     ).finally(function () {
                         $scope.fetchingData = false;
