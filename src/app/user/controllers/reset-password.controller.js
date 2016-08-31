@@ -44,8 +44,10 @@ angular.module('gliist')
                     $scope.resetSent = true;
                     dialogService.success('Password Changed');
                 }, function(error) {
-                    if (error) {
+                    if (error && error.ExceptionMessage) {
                       dialogService.error(error.ExceptionMessage);
+                    } else if (error && error.ModelState && error.ModelState[''] && error.ModelState[''][0]) {
+                      dialogService.error(error.ModelState[''][0]);
                     } else {
                       dialogService.error('Oops there was a problem please try again');
                     }
