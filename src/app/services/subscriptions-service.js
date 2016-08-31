@@ -52,9 +52,6 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             $http.get('user/subscription', {api: 'subscriptions_api', params: {update: mustUpdateSubscription}}).then(
                 function(answer) {
                     mustUpdateSubscription = false;
-                    if (answer.data.data && answer.data.data.status === 'Unpaid') {
-                        answer.data.data = null;
-                    }
                     if (answer.data.data) {
                         parseSubscription(answer.data.data);
                     }
@@ -183,8 +180,18 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             };
             var policyValidators = [ //returns: { status: featureStatus, value: number }
                 function () { //ActiveSubscriptionPolicyValidator 0
-                    if (!$rootScope.currentUser.subscription || $rootScope.currentUser.subscription.status === 'Unpaid') {
+                    if (!$rootScope.currentUser.subscription) {
                         return vResult(featureStatus.notAllowed);
+                    }
+                    if ($rootScope.currentUser.subscription.status === 'Unpaid') {
+                        if(!$rootScope.currentUser.subscription.endDate)
+                            return vResult(featureStatus.notAllowed);
+
+                        var nextDay = new Date($rootScope.currentUser.subscription.endDate);
+                        nextDay.setDate(nextDay.getDate() + 1);
+
+                        if(nextDay < new Date()) //allow to use for 1 day while payment is being processed
+                            return vResult(featureStatus.notAllowed);
                     }
                     return null;
                 },
