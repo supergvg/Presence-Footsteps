@@ -24,7 +24,6 @@ angular.module('gliist')
             };
             
             $scope.initCard = function(card, index) {
-                $scope.cards = [angular.extend({}, cardDefault)];
                 if (!card || (card && !card.isDefault)) {
                     return;
                 }
@@ -52,6 +51,7 @@ angular.module('gliist')
                 paymentsService.getCards().then(
                     function(data) {
                         if (data.data) {
+                            $scope.cards = [angular.extend({}, cardDefault)];
                             angular.forEach(data.data, function(card, key){
                                 $scope.initCard(card, key);
                             });
@@ -139,7 +139,7 @@ angular.module('gliist')
                         $scope.savingCard = true;
                         paymentsService.deleteCard($scope.cards[index].cardData.cardId).then(
                             function(data) {    
-                                $scope.initCard(data.data, index);
+                                $scope.loadParts();
                             }
                         ).finally(function(){
                             $scope.savingCard = false;
