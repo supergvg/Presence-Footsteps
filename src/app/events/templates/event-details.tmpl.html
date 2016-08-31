@@ -149,15 +149,15 @@
                         </md-radio-group>
                     </div>
                     <div class="block-field" layout="column" ng-show="event.type !== 1">
-                        <h4>{{event.type === 3 ? 'Send ticket purchase invite to:' : 'Send RSVP Invite to:'}}</h4>
+                        <h4>{{event.type === 3 ? 'Send ticket purchase invite to:' : 'Select RSVP event type:'}}</h4>
                         <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
                             <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
                                 <md-tooltip md-direction="top">{{event.type === 3 ? 'Only these guests can purchase tickets. Tickets & Invites are non transferable' : 'Only these guests can rsvp the event. Invite is non transferable'}}</md-tooltip>
-                                <md-radio-button ng-value="2" aria-label="{{event.type === 3 ? 'Private' : 'Private/Invited guests'}}">{{event.type === 3 ? 'Private' : 'Private/Invited guests'}}</md-radio-button>
+                                <md-radio-button ng-value="2" aria-label="Private">Private</md-radio-button>
                             </md-content>
                             <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
                                 <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>                                    
-                                <md-radio-button ng-value="3" aria-label="{{event.type === 3 ? 'Public' : 'Public Guests'}}" ng-click="event.additionalGuests = 1">{{event.type === 3 ? 'Public' : 'Public Guests'}}</md-radio-button>
+                                <md-radio-button ng-value="3" aria-label="Public" ng-click="event.additionalGuests = 1">Public</md-radio-button>
                             </md-content>
                         </md-radio-group>
                     </div>
