@@ -138,7 +138,7 @@ angular.module('gliist')
                     if ($scope.cards[index].cardData.cardId) {
                         $scope.savingCard = true;
                         paymentsService.deleteCard($scope.cards[index].cardData.cardId).then(
-                            function(data) {    
+                            function() {    
                                 $scope.loadParts();
                             }
                         ).finally(function(){

@@ -46,6 +46,9 @@ angular.module('gliist')
                         $scope.editMode = false;
                     }, function(error) {
                         var message = error.Message || 'Oops there was an error, please try again';
+                        if (error && error.ModelState && error.ModelState[''] && error.ModelState[''][0]) {
+                            message = error.ModelState[''][0];
+                        }
                         dialogService.error(message);
                     }
                 );

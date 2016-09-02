@@ -216,8 +216,7 @@ angular.module('gliist')
                 if (guestIds.length > 0) {
                     var rowSelected = $scope.rowSelected;
                     eventsService.removeGuestsFromGLInstance($scope.gli.id, guestIds).then(
-                        function(data) {
-                            //$scope.gli = data;
+                        function() {
                             angular.forEach(rowSelected, function(row){
                                 if (row.guest.id) {
                                     var index = $scope.gli.actual.indexOf(row);

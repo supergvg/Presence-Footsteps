@@ -59,8 +59,9 @@ angular.module('gliist')
                             $scope.totalCheckedIn += guest.guest.plus + 1 - guest.plus;
                         }
                     });
-                    if (gl.instanceType !== 2 && gl.instanceType !== 4) //include all except for unpublished private RSVP
-                        $scope.stats[category].total += gl.guestsCount;                
+                    if (gl.instanceType !== 2 && gl.instanceType !== 4) {//include all except for unpublished private RSVP
+                        $scope.stats[category].total += gl.guestsCount;  
+                    }
                     
                     if ($scope.isRSVP()) {
                         //RSVP stats
