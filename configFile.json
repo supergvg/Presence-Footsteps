@@ -1,9 +1,9 @@
 {
     "production": {
         "EnvironmentConfig": {
-            "gjests_api": "http://app.gjests.com/",
-            "subscriptions_api": "http://subscriptions.gjests.com/api/",
-            "payments_api": "http://payments.gjests.com/api/"
+            "gjests_api": "https://app.gjests.com/",
+            "subscriptions_api": "https://subscriptions.gjests.com/api/",
+            "payments_api": "https://payments.gjests.com/api/"
         }
     },
     "development": {
@@ -22,9 +22,9 @@
     },
     "test": {
         "EnvironmentConfig": {
-            "gjests_api": "http://54.228.219.224:8007/",
-            "subscriptions_api": "http://54.228.219.224:8008/api/",
-            "payments_api": "http://54.228.219.224:8009/api/"
+            "gjests_api": "http://localhost:1746/",
+            "subscriptions_api": "http://localhost:5433/api/",
+            "payments_api": "http://localhost:5717/api/"
         }
     }
 }
