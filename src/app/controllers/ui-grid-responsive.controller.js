@@ -63,7 +63,7 @@ angular.module('gliist')
                 }
                 $scope.options.methods.onRegisterApi($scope.gridApi);
             };
-            
+
             $scope.sort = {
                 sortingFields: [],
                 sortField: ''
@@ -73,38 +73,37 @@ angular.module('gliist')
                     $scope.sort.sortingFields.push(value);
                 }
             });
-            
+
             $scope.setSortField = function() {
                 var column = $scope.gridApi.grid.getColumn($scope.sort.sortField);
                 $scope.gridApi.grid.sortColumn(column);
                 $scope.gridApi.grid.refresh();
             };
-            
+
             $scope.filter = {
                 refresh: function() {
                     $scope.gridApi.grid.refresh();
                 },
                 value: ''
             };
-            
+
             $scope.singleFilter = function(renderableRows) {
-                var matcher = new RegExp($scope.filter.value, 'i');
+              var matcher = new RegExp($scope.filter.value, 'i');
+              var filterFields = $scope.options.filter.fields;
                 renderableRows.forEach(function(row) {
-                    var match = false;
-                    $scope.options.filter.fields.forEach(function(field) {
-                        var getter = $parse('entity.'+field),
-                            fieldValue = getter(row) || '';
-                        if (fieldValue.match(matcher)){
-                            match = true;
-                        }
-                    });
-                    if (!match) {
-                        row.visible = false;
-                    }
+                  var match = filterFields.some(function(field) {
+                    var getter = $parse('entity.'+field);
+                    var fieldValue = getter(row) || '';
+                    return matcher.test(fieldValue);
+                  });
+
+                  if (!match) {
+                    row.visible = false;
+                  }
                 });
                 return renderableRows;
             };
-            
+
             $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {
                 $scope.isMobile = status;
                 if ($scope.options.gridOptions.columnDefs.length > 0) {
@@ -116,7 +115,7 @@ angular.module('gliist')
                     $scope.options.methods.updateGridData();
                 }
             });
-            
+
             $scope.getTableHeight = function() {
                 var numberItems = $scope.isMobile ? $scope.options.display.totalMobileViewportItems : $scope.options.display.totalViewportItems;
                 if ($scope.options.display.verticalScroll === false) {
@@ -129,7 +128,7 @@ angular.module('gliist')
                     height: (numberItems * $scope.options.gridOptions.rowHeight + 5) + 'px'
                 };
             };
-            
+
             $scope.getClass = function() {
                 var classes = ['margin-top'];
                 if ($scope.options.display.verticalScroll === false) {
