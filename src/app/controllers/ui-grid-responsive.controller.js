@@ -59,7 +59,7 @@ angular.module('gliist')
             $scope.options.gridOptions.onRegisterApi = function(gridApi){
                 $scope.gridApi = gridApi;
                 if ($scope.options.filter.active) {
-                    $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+                    $scope.gridApi.grid.registerRowsProcessor($scope.applyCustomFilter, 200);
                 }
                 $scope.options.methods.onRegisterApi($scope.gridApi);
             };
@@ -87,14 +87,23 @@ angular.module('gliist')
                 value: ''
             };
 
-            $scope.singleFilter = function(renderableRows) {
-              var matcher = new RegExp($scope.filter.value, 'i');
+            $scope.applyCustomFilter = function(renderableRows) {
+              var filterFunction = $scope.options.filter.filterFunction;
+              var filterValue = $scope.filter.value;
+              var singleFilter = $scope.singleFilter;
+              if (angular.isFunction(filterFunction)) {
+                return filterFunction(renderableRows, filterValue, singleFilter, $scope.checkFieldFilter);
+              } else {
+                return singleFilter(renderableRows, filterValue);
+              }
+            };
+
+            $scope.singleFilter = function(renderableRows, filterValue) {
+              var matcher = new RegExp(filterValue, 'i');
               var filterFields = $scope.options.filter.fields;
                 renderableRows.forEach(function(row) {
                   var match = filterFields.some(function(field) {
-                    var getter = $parse('entity.'+field);
-                    var fieldValue = getter(row) || '';
-                    return matcher.test(fieldValue);
+                    return $scope.checkFieldFilter(row, field, matcher);
                   });
 
                   if (!match) {
@@ -102,6 +111,12 @@ angular.module('gliist')
                   }
                 });
                 return renderableRows;
+            };
+
+            $scope.checkFieldFilter = function(row, field, matcher) {
+              var getter = $parse('entity.'+field);
+              var fieldValue = getter(row) || '';
+              return matcher.test(fieldValue);
             };
 
             $scope.$watch(function() { return !$mdMedia('gt-sm'); }, function(status) {

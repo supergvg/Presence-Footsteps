@@ -36,9 +36,31 @@ angular.module('gliist')
             };
             $scope.options = {
                 filter: {
-                    active: true,
-                    placeholder: 'Search Guest',
-                    fields: ['guest.firstName', 'guest.lastName', 'guest.email']
+                  active: true,
+                  placeholder: 'Search Guest',
+                  fields: ['guest.firstName', 'guest.lastName', 'guest.email'],
+                  filterFunction: function(renderableRows, filterValue, originalFilter, fieldFilter) {
+                    var filterWords;
+                    var firstNameField = $scope.options.filter.fields[0];
+                    var lastNameField = $scope.options.filter.fields[1];
+                    var firstNameFilter;
+                    var lastNameFilter;
+                    if (filterValue.indexOf(' ') !== -1) {
+                      filterWords = filterValue.split(/\s+/);
+                      firstNameFilter = new RegExp('^' + filterWords[0], 'i');
+                      lastNameFilter = new RegExp('^' + filterWords[1], 'i');
+                      renderableRows.forEach(function(row) {
+                        var match = fieldFilter(row, firstNameField, firstNameFilter)
+                          && fieldFilter(row, lastNameField, lastNameFilter);
+                        if (!match) {
+                          row.visible = false;
+                        }
+                      });
+                      return renderableRows;
+                    } else {
+                      return originalFilter(renderableRows, filterValue);
+                    }
+                  }
                 },
                 sorting: {
                     active: true
