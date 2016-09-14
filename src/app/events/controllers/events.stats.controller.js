@@ -4,19 +4,22 @@ angular.module('gliist')
     .controller('EventsStatsCtrl', ['$scope', 'eventsService', 'dialogService', '$stateParams', '$state', '$window', '$mdMedia', 'EnvironmentConfig',
         function ($scope, eventsService, dialogService, $stateParams, $state, $window, $mdMedia, EnvironmentConfig) {
             $scope.categories = [
-                {name: 'GA', color: '#d4e4f9'},
-                {name: 'VIP', color: '#cef0f2'},
-                {name: 'Super VIP', color: '#cfefdc'},
-                {name: 'Guest', color: '#f7f9c3'},
-                {name: 'Artist', color: '#ffd8b4'},
-                {name: 'Production', color: '#ead5e1'},
-                {name: 'Comp', color: '#f3d4f9'},
-                {name: 'All Access', color: '#c9badb'},
-                {name: 'Press', color: '#e0e0e0'},
-                {name: 'RSVP', color: '#ffd8b4'},
-                {name: 'Reduced', color: '#f9e6e2'},
-                {name: 'Walk up', color: '#bbe4f9'},
-                {name: 'On the spot', color: '#f0f6fb'}
+              {name: 'GA', color: '#d4e4f9'},
+              {name: 'VIP', color: '#cef0f2'},
+              {name: 'Super VIP', color: '#cfefdc'},
+              {name: 'Guest', color: '#f7f9c3'},
+              {name: 'Artist', color: '#ffd8b4'},
+              {name: 'Production', color: '#ead5e1'},
+              {name: 'Comp', color: '#f3d4f9'},
+              {name: 'All Access', color: '#c9badb'},
+              {name: 'Press', color: '#e0e0e0'},
+              {name: 'RSVP', color: '#ffd8b4'},
+              {name: 'Reduced', color: '#f9e6e2'},
+              {name: 'Walk up', color: '#bbe4f9'},
+              {name: 'On the spot', color: '#f0f6fb'},
+              {name: 'Parking Pass', color: '#dcecf9'},
+              {name: 'Shuttle Pass', color: '#fef5d5'},
+              {name: 'Table Service', color: '#feded6'}
             ];
             $scope.rsvp = [
                 {name: 'Invited', color: '#cef0f2', total: 0},
@@ -52,7 +55,7 @@ angular.module('gliist')
                             total: 0
                         };
                     }
-                    
+
                     angular.forEach(gl.actual, function(guest) {
                         if (guest.status === 'checked in') {
                             $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
@@ -60,9 +63,9 @@ angular.module('gliist')
                         }
                     });
                     if (gl.instanceType !== 2 && gl.instanceType !== 4) {//include all except for unpublished private RSVP
-                        $scope.stats[category].total += gl.guestsCount;  
+                        $scope.stats[category].total += gl.guestsCount;
                     }
-                    
+
                     if ($scope.isRSVP()) {
                         //RSVP stats
                         if (gl.instanceType === 2 && gl.published) {
@@ -87,19 +90,19 @@ angular.module('gliist')
                 );
                 $scope.updateChart();
             };
-            
+
             $scope.isRSVP = function() {
                 return $scope.eventType === 2;
             };
-            
+
             $scope.getExportExcelUrl = function() {
                 return EnvironmentConfig.gjests_api+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
-            
+
             $scope.getCategoryStats = function(category) {
                 return $scope.stats[category.toLowerCase()] || {totalCheckedIn: 0, total: 0};
             };
-            
+
             $scope.updateChart = function() {
                 $scope.chartObject = {
                     type: 'PieChart',
@@ -125,7 +128,7 @@ angular.module('gliist')
                         c: [{v: category.name}, {v: $scope.getCategoryStats(category.name).totalCheckedIn}]
                     });
                 });
-                
+
                 if ($scope.isRSVP()) {
                     var rsvp = angular.copy($scope.rsvp);
                     rsvp.sort(function(a, b){
