@@ -3,4 +3,5 @@ bower_components/
 .sass-cache/
 .tmp/
 nbproject
+.idea
 dist/
