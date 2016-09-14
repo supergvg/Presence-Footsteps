@@ -30,7 +30,7 @@ angular.module('gliist')
                 filter: {
                     active: true,
                     placeholder: 'Search Guest',
-                    fields: ['firstName', 'lastName']
+                    fields: ['firstName', 'lastName', 'email']
                 },
                 sorting: {
                     active: true
@@ -53,7 +53,7 @@ angular.module('gliist')
             };
             $scope.form = {};
             $scope.vars = {};
-            
+
             var instanceType = parseInt($stateParams.instanceType);
             if (!instanceType) {
                 $scope.guestListTypes.splice(8, 0, 'RSVP');
@@ -121,7 +121,7 @@ angular.module('gliist')
                     $scope.glTypeChanged = true;
                 }
             });
-            
+
             $scope.$watchCollection('list.guests', function(newVal) {
                 if (!newVal) {
                     return;
@@ -132,14 +132,14 @@ angular.module('gliist')
             $scope.isPromoter = function() {
                 return permissionsService.isRole('promoter');
             };
-            
+
             $scope.isSpotType = function() {
                 if (!$scope.list) {
                     return false;
                 }
                 return $scope.list.listType === 'On the spot';
             };
-            
+
             $scope.startAutoSave = function() {
                 if ($scope.isDirty === false) {
                     return;
@@ -219,10 +219,10 @@ angular.module('gliist')
                 if ($scope.guestsError()) {
                     errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP' ? 'Email must be not empty.' : 'First Name must be not empty.');
                 }
-                
+
                 return errorMessage;
             };
-            
+
             $scope.save = function(autoSave, forceSaveGuest, onSuccess) {
                 var errors = $scope.validateForm();
                 if (errors.length) {
@@ -231,23 +231,23 @@ angular.module('gliist')
                     }
                     return;
                 }
-                
+
                 if ($scope.onBeforeSave && !$scope.onBeforeSave($scope.list, !autoSave)) {
                     return;
                 }
                 if (!$scope.list.listType) {
                     $scope.list.listType = 'GA';
                 }
-        
+
                 /*if (!forceSaveGuest) {
                     var list = $scope.list.guests.slice();
                     var duplicated = [];
-                    
+
                     var i = 0;
                     while (list[i]) {
                         var fn = list[i].firstName;
                         var ln = list[i].lastName;
-                        
+
                         for (var j = i; j < list.length; j++) {
                             if (fn === list[j].firstName && ln === list[j].lastName && i != j) {
                                 duplicated.push(list[j]);
@@ -258,11 +258,11 @@ angular.module('gliist')
 
                         i++;
                     }
-                    
+
                     if (duplicated.length)
                         return $scope.confirmDuplicatedGuests(autoSave, duplicated);
                 }*/
-                
+
                 var list = {};
                 angular.copy($scope.list, list);
 
@@ -304,7 +304,7 @@ angular.module('gliist')
                         }
                         dialogService.success(message);
                         $scope.isDirty = false;
-                        
+
                         if (onSuccess) { //fire onSuccess before onSave
                             var sc = function() {
                                 if ($scope.onSave) {
@@ -313,7 +313,7 @@ angular.module('gliist')
                                     $state.go('main.list_management', {listId: data.id});
                                 }
                             };
-                            
+
                             if ($scope.mustBeLinked) {//link before continuing
                                 $scope.linkToEvent(data).then(function(){
                                     $scope.mustBeLinked = false;
@@ -397,7 +397,7 @@ angular.module('gliist')
                             ids.push(item.id);
                         }
                     });
-                    
+
                     if (ids.length) {
                         $scope.save(autoSave, true, function(onSave) {
                             $scope.fetchingData = true;
@@ -417,13 +417,13 @@ angular.module('gliist')
                     $scope.save(autoSave, true);
                 });
             };
-            
+
             $scope.guestsError = function() {
                 var result = false;
                 if (!$scope.list || !$scope.list.guests) {
                     return result;
                 }
-                
+
                 var guestCount = $scope.list.guests.length,
                     verifyField = 'firstName';
                 if (instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP') { //if RSVP or Public RSVP
@@ -434,20 +434,20 @@ angular.module('gliist')
                         return true;
                     }
                 }
-                    
+
                 return result;
             };
-            
+
             $scope.onFileSelect = function(files) {
                 if (!files || files.length === 0) {
                     return;
                 }
-                
+
                 var errors = $scope.validateForm();
                 if (errors.length) {
                     return dialogService.error(errors.join(', '));
                 }
-                
+
                 $scope.cancelAutoSave();
                 $scope.save(true, true, function(onSave){
                     $scope.upload(files[0], $scope.list.id);
@@ -477,7 +477,7 @@ angular.module('gliist')
                 if (errors.length) {
                     return dialogService.error(errors.join(', '));
                 }
-                
+
                 var scope = $scope.$new();
                 scope.cancel = function() {
                     $mdDialog.hide();
@@ -500,7 +500,7 @@ angular.module('gliist')
                             }
                             $scope.list.guests = result.guests;
                             $scope.save(true);
-                        }, 
+                        },
                         function(err) {
                             dialogService.error(err && err.Message ? err.Message : 'There was a problem linking your guest list, please try again');
                         }
@@ -519,12 +519,12 @@ angular.module('gliist')
                     targetEvent: ev
                 });
             };
-            
+
             $scope.onAddGuestsClicked = function() {
                 if (!$scope.vars.textGuestList) {
                     return;
                 }
-                
+
                 var guests = guestListParserService.parse($scope.vars.textGuestList);
                 if (guests === null) {
                     return dialogService.error('No guests found in the list');
@@ -532,7 +532,7 @@ angular.module('gliist')
                 if (typeof guests === 'string') {
                     return dialogService.error(guests);
                 }
-                
+
                 //import
                 if (!$scope.list) {
                     $scope.list = {};
@@ -540,17 +540,17 @@ angular.module('gliist')
                 if (!$scope.list.guests) {
                     $scope.list.guests = [];
                 }
-                
+
                 var guestCount = guests.length;
                 for (var i = 0; i < guestCount; i ++) {
                     $scope.list.guests.push(guests[i]);
                 }
-                
+
                 dialogService.success('Guests were added successfully');
                 $scope.onDataChange();
                 $scope.vars.textGuestList = '';
             };
-            
+
             $scope.onDataChange = function () {
                 $scope.isDirty = true;
                 $scope.startAutoSave();

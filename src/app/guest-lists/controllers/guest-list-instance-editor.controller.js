@@ -38,7 +38,7 @@ angular.module('gliist')
                 filter: {
                     active: true,
                     placeholder: 'Search Guest',
-                    fields: ['guest.firstName', 'guest.lastName']
+                    fields: ['guest.firstName', 'guest.lastName', 'guest.email']
                 },
                 sorting: {
                     active: true
@@ -62,7 +62,7 @@ angular.module('gliist')
             };
             $scope.form = {};
             $scope.data = { textGuestList: null };
-            
+
             $scope.options.methods = {
                 gridCellTab: function(event, col) {
                     if (event.keyCode === 9 && col.uid === col.grid.columns[col.grid.columns.length - 1].uid) {
@@ -144,14 +144,14 @@ angular.module('gliist')
                     $scope.loading = false;
                 });
             });
-            
+
             $scope.disablePromoterList = function() {
                 return permissionsService.isRole('promoter') || !subscriptionsService.verifyFeature('EventContributors', 0, null, eventId) || $scope.isSpotType();
             };
             $scope.onPromoterClick = function() {
                 subscriptionsService.verifyFeature('EventContributors', 0, true, eventId);
             };
-            
+
             $scope.isSpotType = function() {
                 if (!$scope.gli) {
                     return false;
@@ -159,7 +159,7 @@ angular.module('gliist')
                 return $scope.gli.listType === 'On the spot';
             };
 
-            
+
             $scope.startAutoSave = function() {
                 if ($scope.isDirty === false) {
                     return;
@@ -178,7 +178,7 @@ angular.module('gliist')
                     delete $scope.autoSave;
                 }
             };
-            
+
             $scope.addMore = function() {
                 if ($scope.isSpotType()) {
                     return;
@@ -251,7 +251,7 @@ angular.module('gliist')
                 if ($scope.guestsError()) {
                     errorMessage.push(instanceType === 2 || instanceType === 4 ? 'Email must be not empty.' : 'First Name must be not empty.');
                 }
-                
+
                 return errorMessage;
             };
 
@@ -263,23 +263,23 @@ angular.module('gliist')
                     }
                     return;
                 }
-                
+
                 if ($scope.onBeforeSave && !$scope.onBeforeSave($scope.gli, !autoSave)) {
                     return;
                 }
                 if (!$scope.gli.listType) {
                     $scope.gli.listType = 'GA';
                 }
-                
+
                 /*if (!forceSaveGuest) { //will cause second check before sending data
                     var list = $scope.gli.actual.slice();
                     var duplicated = [];
-                    
+
                     var i = 0;
                     while (list[i]) {
                         var fn = list[i].guest.firstName;
                         var ln = list[i].guest.lastName;
-                        
+
                         for (var j = i; j < list.length; j++) {
                             if (fn === list[j].guest.firstName && ln === list[j].guest.lastName && i != j) {
                                 duplicated.push(list[j].guest);
@@ -290,11 +290,11 @@ angular.module('gliist')
 
                         i++;
                     }
-                    
+
                     if (duplicated.length)
                         return $scope.confirmDuplicatedGuests(autoSave, duplicated);
                 }*/
-                
+
                 var gli = {};
                 angular.copy($scope.gli, gli);
                 if (forceSaveGuest) {
@@ -349,7 +349,7 @@ angular.module('gliist')
                         } else if ($scope.onSave && !autoSave) {
                             $scope.onSave(data);
                         }
-                        
+
                     }, function(error) {
                         subscriptionsService.process403Status(error, eventId);
                         if (error.status === 409) {
@@ -418,7 +418,7 @@ angular.module('gliist')
                             ids.push(item.id);
                         }
                     });
-                    
+
                     if (ids.length) {
                         $scope.save(autoSave, true, function(onSave) {
                             $scope.fetchingData = true;
@@ -438,13 +438,13 @@ angular.module('gliist')
                     $scope.save(autoSave, true);
                 });
             };
-            
+
             $scope.guestsError = function() {
                 var result = false;
                 if (!$scope.gli) {
                     return result;
                 }
-                
+
                 var guestCount = $scope.gli.actual.length,
                     verifyField = 'firstName';
                 if (instanceType === 2 || instanceType === 4) { //if RSVP or Public RSVP
@@ -455,7 +455,7 @@ angular.module('gliist')
                         return true;
                     }
                 }
-                    
+
                 return result;
             };
 
@@ -477,7 +477,7 @@ angular.module('gliist')
                         verticalScroll: false
                     }
                 };
-                
+
                 scope.importGLists = function() {
                     $scope.cancelAutoSave();
                     $scope.save(true, false, function(onSave){
@@ -510,12 +510,12 @@ angular.module('gliist')
                     targetEvent: ev
                 });
             };
-            
+
             $scope.onAddGuestsClicked = function() {
                 if (!$scope.data.textGuestList) {
                     return;
                 }
-                
+
                 var guests = guestListParserService.parse($scope.data.textGuestList);
                 if (guests === null) {
                     return dialogService.error('No guests found in the list');
@@ -523,7 +523,7 @@ angular.module('gliist')
                 if (typeof guests === 'string') {
                     return dialogService.error(guests);
                 }
-                
+
                 //import
                 if (!$scope.gli) {
                     $scope.gli = {};
@@ -531,7 +531,7 @@ angular.module('gliist')
                 if (!$scope.gli.actual) {
                     $scope.gli.actual = [];
                 }
-                
+
                 var guestCount = guests.length;
                 for (var i = 0; i < guestCount; i ++) {
                     $scope.gli.actual.push({
@@ -541,17 +541,17 @@ angular.module('gliist')
                     });
                 }
                 $scope.isDirty = true;
-                
+
                 dialogService.success('Guests were added successfully');
                 $scope.onDataChange();
                 $scope.data.textGuestList = '';
             };
-            
+
             $scope.onFileSelect = function (files) {
                 if (!files || files.length === 0) {
                     return;
                 }
-                
+
                 var errors = $scope.validateForm();
                 if (errors.length) {
                     return dialogService.error(errors.join(', '));
@@ -566,7 +566,7 @@ angular.module('gliist')
                 });
                 return;
             };
-            
+
             $scope.onDataChange = function () {
                 $scope.isDirty = true;
                 $scope.startAutoSave();
@@ -584,12 +584,12 @@ angular.module('gliist')
                             if (response.status === 403) {
                                 return subscriptionsService.verifyFeature('Guests', response.data, true, eventId);
                             }
-                            
+
                             if (response.data) {
                                 return dialogService.error(response.data);
                             }
                         }
-                        
+
                         dialogService.error('There was a problem saving your guest list please try again');
                     }
                 ).finally(function () {

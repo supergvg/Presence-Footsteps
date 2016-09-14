@@ -8,7 +8,7 @@ angular.module('gliist')
                 filter: {
                     active: true,
                     placeholder: 'Search Guest',
-                    fields: ['firstName', 'lastName']
+                    fields: ['firstName', 'lastName', 'email']
                 },
                 sorting: {
                     active: true
@@ -60,14 +60,14 @@ angular.module('gliist')
                     });
                 }
             };
-            
+
             $scope.getExportExcelUrl = function() {
                 return EnvironmentConfig.gjests_api+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
             };
-            
+
             $scope.pastEvent = function() {
                 var eventEndTime = $filter('ignoreTimeZone')($scope.event.endTime).getTime() + 24 * 60 * 60 * 1000;
-                
+
                 if (Date.now() > eventEndTime) {
                     return true;
                 }
