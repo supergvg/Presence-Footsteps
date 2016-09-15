@@ -146,104 +146,24 @@
             </div>
           </md-list-item>
 
-          <md-list-item>
+          <md-list-item ng-repeat="stat in offlineStats track by $index">
             <div flex="20">
-              Alice
+              {{::stat.guestName}}
             </div>
             <div flex="10">
-              VIP
+              {{::stat.type}}
             </div>
             <div flex="20">
-              Alice's List
+              {{::stat.list}}
             </div>
             <div class="warning" flex="20">
-              Guest Not Found
+              {{::stat.reason}}
             </div>
             <div class="warning" flex="15">
-              -
+              {{::stat.guestExceeded || '-'}}
             </div>
             <div flex="15">
-              Jocelyn
-            </div>
-          </md-list-item>
-          <md-list-item>
-            <div flex="20">
-              Tim
-            </div>
-            <div flex="10">
-              Guest
-            </div>
-            <div flex="20">
-              Jocelyn's List
-            </div>
-            <div class="warning" flex="20">
-              Guest List Exceeded
-            </div>
-            <div class="warning" flex="15">
-              3
-            </div>
-            <div flex="15">
-              Jocelyn
-            </div>
-          </md-list-item>
-          <md-list-item>
-            <div flex="20">
-              Bill
-            </div>
-            <div flex="10">
-              Guest
-            </div>
-            <div flex="20">
-              Alice's List
-            </div>
-            <div class="warning" flex="20">
-              Double checked-in
-            </div>
-            <div class="warning" flex="15">
-              -
-            </div>
-            <div flex="15">
-              Jocelyn
-            </div>
-          </md-list-item>
-          <md-list-item>
-            <div flex="20">
-              Cathy
-            </div>
-            <div flex="10">
-              Guest
-            </div>
-            <div flex="20">
-              Alice's List
-            </div>
-            <div class="warning" flex="20">
-              Double checked-in
-            </div>
-            <div class="warning" flex="15">
-              -
-            </div>
-            <div flex="15">
-              Jocelyn
-            </div>
-          </md-list-item>
-          <md-list-item>
-            <div flex="20">
-              Tony
-            </div>
-            <div flex="10">
-              VIP
-            </div>
-            <div flex="20">
-              Jocelyn's List
-            </div>
-            <div class="warning" flex="20">
-              Guest List Exceeded
-            </div>
-            <div class="warning" flex="15">
-              2
-            </div>
-            <div flex="15">
-              Jocelyn
+              {{::stat.userName}}
             </div>
           </md-list-item>
         </md-list>
