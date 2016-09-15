@@ -5,16 +5,19 @@ angular.module('gliist')
         function ($scope, guestFactory, dialogService, $mdDialog, uploaderService, eventsService, $state, $stateParams, userService, $timeout, guestListParserService, permissionsService, $mdTheming) {
             $scope.mustBeLinked = $scope.linkToEvent ? true : false; //if no linkToEvent callback specified the list doesn't need linking
             $scope.guestListTypes = [
-                'GA',
-                'VIP',
-                'Super VIP',
-                'Guest',
-                'Artist',
-                'Production',
-                'Comp',
-                'Press',
-                'All Access',
-                'Reduced'
+              'GA',
+              'VIP',
+              'Super VIP',
+              'Guest',
+              'Artist',
+              'Production',
+              'Comp',
+              'Press',
+              'All Access',
+              'Reduced',
+              'Parking Pass',
+              'Shuttle Pass',
+              'Table Service'
             ];
             $scope.defaultFields = {
                 firstName: '',

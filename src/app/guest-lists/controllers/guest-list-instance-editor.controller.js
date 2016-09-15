@@ -7,16 +7,19 @@ angular.module('gliist')
                 eventId = parseInt($stateParams.eventId);
             $scope.guestTypeDisabled = true;
             $scope.guestListTypes = [
-                'GA',
-                'VIP',
-                'Super VIP',
-                'Guest',
-                'Artist',
-                'Production',
-                'Comp',
-                'Press',
-                'All Access',
-                'Reduced'
+              'GA',
+              'VIP',
+              'Super VIP',
+              'Guest',
+              'Artist',
+              'Production',
+              'Comp',
+              'Press',
+              'All Access',
+              'Reduced',
+              'Parking Pass',
+              'Shuttle Pass',
+              'Table Service'
             ];
             $scope.defaultFields = {
                 firstName: '',
