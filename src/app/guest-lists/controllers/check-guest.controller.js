@@ -13,7 +13,7 @@ angular.module('gliist')
                     $scope.initVars();
                 },
                 error = function(error) {
-                    var message = error.Message || 'Oops there was a problem getting guest, please try again';
+                    var message = error.Message || 'Guest list is at capacity. No more guests can be checked in under this list.';
                     dialogService.error(message);
                 };
 
