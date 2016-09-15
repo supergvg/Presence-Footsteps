@@ -48,6 +48,10 @@
           }
         ]);
         return $http.get('api/OfflineModeController/GetStats/' + eventId);
+      },
+
+      getReport: function (eventId) {
+        return $http.get('api/OfflineModeController/GetReport/' + eventId);
       }
     };
   }

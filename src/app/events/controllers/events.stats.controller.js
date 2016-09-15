@@ -10,6 +10,8 @@ function EventsStatsController (
   offlineReportService,
   dialogService,
   EnvironmentConfig) {
+  $scope.eventId = $stateParams.eventId;
+
   $scope.categories = [
     {name: 'GA', color: '#d4e4f9'},
     {name: 'VIP', color: '#cef0f2'},
@@ -172,22 +174,25 @@ function EventsStatsController (
       };
     }
 
-    $scope.getOfflineStats = function (eventId) {
-      offlineReportService.getStats(eventId).then(function (stats) {
+    $scope.getOfflineStats = function () {
+      offlineReportService.getStats($scope.eventId).then(function (stats) {
         $scope.offlineStats = stats;
       });
     };
+
+    $scope.exportOfflineReport = function () {
+      offlineReportService.getReport($scope.eventId);
+    }
   };
 
   $scope.init = function() {
-    var eventId = $stateParams.eventId;
     $scope.initializing = true;
-    eventsService.getEvents(eventId).then(
+    eventsService.getEvents($scope.eventId).then(
       function(data) {
         $scope.event = data;
         $scope.eventType = $scope.event.type;
         $scope.calculateStats();
-        $scope.getOfflineStats(eventId);
+        $scope.getOfflineStats();
       }, function() {
         dialogService.error('There was a problem getting your events, please try again');
         $state.go('main.current_events');
