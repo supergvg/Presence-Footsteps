@@ -6,7 +6,7 @@
             <md-button class="md-fab"
                        ng-class="getSelected(0) ? 'logo-bg' : ''"
                        ng-disabled="isPromoter()"
-                       ng-click="selectedIndex = 0" 
+                       ng-click="selectedIndex = 0"
                        aria-label="Details">
             </md-button>
         </div>
@@ -104,6 +104,18 @@
                             <datetimepicker ng-model="dt.endEventDateTime" name="endTime" min-date="endMinDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
                         </div>
                     </div>
+                    <div layout="row" class="block-field">
+                      <md-input-container>
+                        <h4>Inviter</h4>
+                        <span>
+                          Invites From:
+                        </span>
+                      </md-input-container>
+                      <md-input-container flex md-no-float>
+                        <h4></h4>
+                        <input type="text" ng-model="event.inviteFrom" name="inviteFrom" placeholder="Your name/company's name/client's name">
+                      </md-input-container>
+                    </div>
                     <div layout layout-sm="column" class="block-field">
                         <md-input-container flex md-no-float>
                             <h4>Confirmation Email</h4>
@@ -136,11 +148,11 @@
                         <h4>Select the type of Event</h4>
                         <md-radio-group ng-model="event.type" layout layout-sm="column">
                             <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">Send event invite to guests to confirm the attendance</md-tooltip>                                    
+                                <md-tooltip md-direction="top">Send event invite to guests to confirm the attendance</md-tooltip>
                                 <md-radio-button ng-value="2" aria-label="RSVP Event">RSVP Event</md-radio-button>
                             </md-content>
                             <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">Send confirmation email to guests that are attending the event</md-tooltip>                                    
+                                <md-tooltip md-direction="top">Send confirmation email to guests that are attending the event</md-tooltip>
                                 <md-radio-button ng-value="1" aria-label="Guest List Event">Guest List Event</md-radio-button>
                             </md-content>
                             <!--<md-content layout="row" layout-align="left center" >
@@ -156,7 +168,7 @@
                                 <md-radio-button ng-value="2" aria-label="Private">Private</md-radio-button>
                             </md-content>
                             <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>                                    
+                                <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>
                                 <md-radio-button ng-value="3" aria-label="Public" ng-click="event.additionalGuests = 1">Public</md-radio-button>
                             </md-content>
                         </md-radio-group>
@@ -268,7 +280,7 @@
                             <h4>RSVP expires on:</h4>
                             <datetimepicker ng-model="dt.endEventRsvpDateTime" min-date="minDate" max-date="endMaxDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
                         </div>
-                    </div>                    
+                    </div>
                 </form>
             </div>
             <div layout="row" layout-align="end center" layout-sm="column" class="actions">
