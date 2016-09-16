@@ -73,8 +73,8 @@
         <div id="bottom"></div>
 
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>        
-        
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
         <!-- Google Tag Manager -->
         <noscript>
             <iframe src="//www.googletagmanager.com/ns.html?id=GTM-MNXVG6"
@@ -93,6 +93,29 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-MNXVG6');</script>
         <!-- End Google Tag Manager -->
+
+        <!-- Facebook API -->
+        <script>
+        (function (w, d, s, id) {
+          window.fbAsyncInit = function () {
+            FB.init({
+              appId: '522861391237723',
+              status: true,
+              cookie: true,
+              xfbml: true,
+              version: 'v2.4'
+            });
+          };
+
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk/debug.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(window, document, 'script', 'facebook-jssdk'));
+        </script>
+        <!-- End Facebook API -->
 
         <!-- build:js(src) scripts/vendor.js -->
         <!-- bower:js -->
