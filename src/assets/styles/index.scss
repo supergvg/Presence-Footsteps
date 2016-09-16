@@ -329,83 +329,92 @@ md-tooltip .md-content{
 }
 
 .md-button {
-    min-width: 30px;
-    min-height: 30px;
-    font-weight: bold;
-    color: #aaa;
-    flex-shrink: 0;
-    img,
-    md-icon,
-    ng-md-icon {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%,-50%);
-        height: 24px;
-        fill: white;
+  min-width: 30px;
+  min-height: 30px;
+  font-weight: bold;
+  color: #aaa;
+  flex-shrink: 0;
+  img,
+  md-icon,
+  ng-md-icon {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    height: 24px;
+    fill: white;
+  }
+  span {
+    line-height: 1;
+  }
+  &.raised-btn {
+    color: #fff;
+    border: 1px solid #84add5;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    border-radius: 25px;
+    background-color: #99ccff;
+    padding: 0 20px;
+    margin: 0;
+    width: 150px;
+    text-shadow: 0 -1px 0 #b3b3b3;
+    background: linear-gradient(to bottom, #98ccff, #6db2f6);
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border: 1px solid #b3d9ff;
+      border-radius: 25px;
     }
-    span {
-        line-height: 1;
+    &:hover {
+      background: linear-gradient(to bottom, #6db2f6, #98ccff);
     }
-    &.raised-btn {
-        color: #fff;
-        border: 1px solid #84add5;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        border-radius: 25px;
-        background-color: #99ccff;
-        padding: 0 20px;
-        margin: 0;
-        width: 150px;
-        text-shadow: 0 -1px 0 #b3b3b3;
-        background: linear-gradient(to bottom, #98ccff, #6db2f6);
-        &:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            border: 1px solid #b3d9ff;
-            border-radius: 25px;
-        }
-        &:hover {
-            background: linear-gradient(to bottom, #6db2f6, #98ccff);
-        }
+  }
+  &.white-btn {
+    border: 1px solid #b3b3b3;
+    background: linear-gradient(to bottom, #fff, #eee);
+    color: #7ab9f8 !important;
+    &:before {
+      border-color: #f4f4f4;
     }
-    &.white-btn {
-        border: 1px solid #b3b3b3;
-        background: linear-gradient(to bottom, #fff, #eee);
-        color: #7ab9f8 !important;
-        &:before {
-            border-color: #f4f4f4;
-        }
-        &:hover {
-            background: linear-gradient(to bottom, #eee, #fff);
-        }
+    &:hover {
+      background: linear-gradient(to bottom, #eee, #fff);
     }
-    &.icon-btn {
-        width: 35px;
-        height: 35px;
-        padding: 0;
-        margin: 0;
-        border-radius: 5px;
-        background: linear-gradient(to bottom, #98ccff, #65aef6);
-        border: 1px solid #65aef6;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        color: #fff;
-        &:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            border: 1px solid #abd5ff;
-            border-radius: 5px;
-        }
-        &:hover {
-            background: linear-gradient(to bottom, #65aef6, #98ccff);
-        }
+  }
+  &.icon-btn {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #98ccff, #65aef6);
+    border: 1px solid #65aef6;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    color: #fff;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border: 1px solid #abd5ff;
+      border-radius: 5px;
     }
+    &:hover {
+      background: linear-gradient(to bottom, #65aef6, #98ccff);
+    }
+  }
+
+  &.facebook-btn {
+    color: #fff;
+    border: 1px solid #365285;
+    border-radius: 25px;
+    background-image: linear-gradient( 90deg, #4464ab 0%, #6b8bcd 100%);
+    box-shadow: 0 3px 7px 0 rgba(77, 77, 77, 0.35);
+    padding: 0 20px;
+  }
 }
 
 .md-actions .md-button:last-child {
@@ -1633,32 +1642,44 @@ md-dialog {
 }
 
 .signin {
-    background-color: #99ccff;
-    display: block;
-    .action {
+  background-color: #99ccff;
+  display: block;
+  .action {
+    margin-top: 25px;
+    & > * {
+      float: left;
+    }
+  }
+  md-input-container {
+    width: 300px;
+    label {
+      text-align: center;
+      padding: 0 !important;
+    }
+    &.md-input-focused label:not(.md-no-float),
+    &.md-input-has-value label:not(.md-no-float) {
+      transform: translate3d(30px, -5px, 0) scale(0.75);
+    }
+  }
+  .footer {
+    background-color: #79b9f7;
+    h3,
+    p {
+      color: #fff;
+    }
+
+    .md-button {
+      width: 300px;
+
+      & + .md-button {
         margin-top: 25px;
-        & > * {
-            float: left;
-        }
+      }
+
+      &.facebook-btn span {
+        margin-left: 20px;
+      }
     }
-    md-input-container {
-        width: 300px;
-        label {
-            text-align: center;
-            padding: 0 !important;
-        }
-        &.md-input-focused label:not(.md-no-float),
-        &.md-input-has-value label:not(.md-no-float) {
-            transform: translate3d(30px, -5px, 0) scale(0.75);
-        }
-    }
-    .footer {
-        background-color: #79b9f7;
-        h3,
-        p {
-            color: #fff;
-        }
-    }
+  }
 }
 
 .recover_password,
