@@ -127,7 +127,12 @@ function AppController (
   };
 
   $scope.facebookSignUp = function () {
-    facebookService.login();
+    facebookService.login().then(function () {
+      facebookService.getUserData().then(function (data) {
+        userService.setUserData(data);
+        $state.go('signup');
+      });
+    });
   };
 
   $rootScope.logout = function() {
