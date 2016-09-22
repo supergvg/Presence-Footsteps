@@ -32,7 +32,7 @@ angular.module('gliist')
                     icon: {src: 'assets/images/icons/user_profile.png'}
                 }
             ];
-            
+
             $rootScope.$watch('currentUser', function(newValue) {
                 $scope.currentUser = newValue;
                 $scope.getUserPhoto();
@@ -44,25 +44,26 @@ angular.module('gliist')
                 $scope.userProfilePic = userService.getUserPhoto(null, $scope.currentUser, $scope.suffix);
             });
 
-            $scope.getMenuItems = function() {
-                if (permissionsService.isRole('promoter') || (permissionsService.isRole('manager') && !subscriptionsService.verifyFeature('EventContributors'))) {
-                    return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4]];
-                } else if (permissionsService.isRole('staff')) {
-                    return [$scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
-                }
-                return $scope.menuItems;
-            };
-            
+          $scope.getMenuItems = function() {
+            if (permissionsService.isRole('promoter')) {
+              return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4]];
+            } else if (permissionsService.isRole('staff')) {
+              return [$scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4]];
+            }
+            return $scope.menuItems;
+          };
+
             $scope.getUserPhoto = function(height) {
                 $scope.userProfilePic = userService.getUserPhoto(height, $scope.currentUser, $scope.suffix);
             };
-            
+
             $scope.toggleSidebar = function() {
                 $mdSidenav('left').toggle();
             };
 
             $scope.setSelected = function (item) {
-                if (item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true)) {
+                if ((item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true)) ||
+                  (item.title === 'Create Event' && !subscriptionsService.verifyFeature('EventContributors', 0, true))) {
                     return;
                 }
                 $scope.selectedMenuItem = item;
@@ -91,7 +92,7 @@ angular.module('gliist')
                     return 'choose_plan';
                 }
             };
-            
+
             $scope.showUserBars = function(){
                 if ($state.current.name.match(/^landing_.+/) || $state.current.name === 'choose_plan') {
                     return false;

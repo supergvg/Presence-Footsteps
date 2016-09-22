@@ -267,7 +267,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         },
         function () { //AcquiredQuotaPolicyValidator 6
           var pp = $rootScope.currentUser.subscription.pricePolicy;
-          if (pp.type === 'PerFeature') {
+          if (permissionsService.isRole('admin') && pp.type === 'PerFeature') {
             for (var j = 0, pc = pp.prices.length; j < pc; j++) {
               if (pp.prices[j].feature === featureName) {
                 var usedPolicy = findUsedPolicyByType('LimitedQuota');
@@ -336,7 +336,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         }
       } else if (featureName === 'EventStartRangeDays') {
         message = 'You can only create event up to ' + validationMaxValue + ' days in advance.';
-      } else if (featureName === 'GLM') {
+      } else if (featureName === 'Create Event' || featureName === 'GLM') {
         upgradeMessage = 'This is a feature for monthly subscription plans. Do you want to upgrade?';
       } else {
         upgradeMessage = 'This is a paid feature. Would you like to upgrade your plan to unlock this feature?';
