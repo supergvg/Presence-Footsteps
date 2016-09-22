@@ -33,7 +33,7 @@
                     <h4>Promo Code</h4>
                     <div layout="row" layout-align="space-between start">
                         <md-input-container md-no-float flex="50">
-                            <input type="text" ng-disabled="waiting" ng-model="promo.code" aria-label="Promo Code" placeholder="Enter your promo code">
+                            <input type="text" ng-disabled="waiting" ng-model="selectedPlan.usedPromoCode" aria-label="Promo Code" placeholder="Enter your promo code">
                             <div class="promo-apply" ng-if="promo.applied">Applied</div>
                         </md-input-container>
                         <md-button class="raised-btn" ng-click="applyPromo()" ng-disabled="waiting" ng-if="!promo.applied">Enter</md-button>
@@ -80,7 +80,7 @@
                         <md-checkbox aria-label="Terms" ng-disabled="waiting" ng-model="terms">I agree to the </md-checkbox>
                         <a href="http://www.gjests.com/terms-conditions/" target="_blank">Terms and Conditions</a>
                     </div>
-                </form>        
+                </form>
             </div>
         </div>
         <div class="payment-actions margin-top" layout="row" layout-align="space-between start">
