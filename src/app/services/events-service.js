@@ -42,30 +42,23 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                 return d.promise;
             },
 
-            postGuestCheckin: function (checkinData, glInstance) {
-                var d = $q.defer();
-
-                $http.post('api/GuestEventController/CheckinGuest', 
-                    {
-                        guestId: checkinData.guest.id,
-                        gliId: glInstance.id,
-                        plus: checkinData.plus
-                    }
-                ).then(
-                    function(response) {
-                        d.resolve(response);
-                    },
-                    function(response) {
-                        d.reject();
-                        if (!subscriptionsService.process403Status(response)) {
-                            var message = response.Message || 'Oops there was a problem getting guest, please try again';
-                            dialogService.error(message);
-                        }
-                    }
-                );
-
-                return d.promise;
-            },
+          postGuestCheckin: function (checkinData, glInstance) {
+            return $http.post('api/GuestEventController/CheckinGuest', {
+              guestId: checkinData.guest.id,
+              gliId: glInstance.id,
+              plus: checkinData.plus
+            }).then(
+              function(response) {
+                return response;
+              },
+              function(response) {
+                if (!subscriptionsService.process403Status(response)) {
+                  var message = response.data.Message || 'Oops there was a problem getting guest, please try again';
+                  dialogService.error(message);
+                }
+              }
+            );
+          },
 
             postGuestUndoCheckin: function (checkinData, glInstance) {
                 var d = $q.defer();
@@ -108,7 +101,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             updateGuestNotes: function(guestId, notes) {
                 var d = $q.defer();
 
@@ -127,7 +120,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             createEvent: function(event) {
                 var d = $q.defer();
 
@@ -139,7 +132,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                         var message = 'Oops there was an error trying to get events, please try again';
                         subscriptionsService.process403Status(response, event.id);
                         d.reject(message);
-                    }   
+                    }
                 );
 
                 return d.promise;
@@ -364,7 +357,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             getPublicEventDetails: function(type, companyName, eventName) {
                 // type = rsvp or tickets
                 var d = $q.defer();
@@ -380,7 +373,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             getPersonalEventDetails: function(type, token) {
                 // type = rsvp or tickets
                 var d = $q.defer();
@@ -396,7 +389,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             confirmRSVPPublicEvent: function(data) {
                 var d = $q.defer();
 
@@ -412,7 +405,7 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             confirmRSVPPersonalEvent: function(data) {
                 var d = $q.defer();
 
@@ -428,17 +421,17 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             incRSVPVisitors: function(eventId) {
                 $http({
                     method: 'POST',
                     url: 'api/reports/rsvpvisitors/' + eventId
                 });
             },
-            
+
             getRSVPVisitors: function(eventId) {
                 var d = $q.defer();
-                
+
                 $http({
                     method: 'GET',
                     url: 'api/reports/rsvpvisitors/' + eventId
@@ -447,10 +440,10 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                 }).error(function(data) {
                     d.reject(data);
                 });
-                
+
                 return d.promise;
             },
-            
+
             checkGuestsEmailBeforePublishing: function(data) {
                 var d = $q.defer();
 
@@ -466,10 +459,10 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
 
                 return d.promise;
             },
-            
+
             getEmailDeliveryReport: function(eventId) {
                 var d = $q.defer();
-                
+
                 $http({
                     method: 'GET',
                     url: 'api/GuestEventController/GetEmailDeliveryReport/' + eventId
@@ -478,10 +471,10 @@ angular.module('gliist').factory('eventsService', ['$http', '$q', 'subscriptions
                 }).error(function(data) {
                     d.reject(data);
                 });
-                
+
                 return d.promise;
             },
-            
+
             resendGuestEmails: function(data) {
                 var d = $q.defer();
 
