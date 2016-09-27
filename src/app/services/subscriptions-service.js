@@ -426,6 +426,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             }
           });
         }, function () {
+          scope.selectedPlan.usedPromoCode = '';
           scope.promo.invalid = true;
         }).finally(function () {
           scope.waiting = false;
