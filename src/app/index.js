@@ -104,7 +104,7 @@ angular.module('gliist', [
                     templateUrl: 'app/templates/main.html',
                     controller: 'MainCtrl'
                 }).state('main.user', {
-                    url: '/user?view',
+                    url: '/user?view&updatePaymentMethod',
                     templateUrl: 'app/user/templates/profile.html',
                     controller: 'ProfileCtrl',
                     permissions: ['refreshSubscription']
