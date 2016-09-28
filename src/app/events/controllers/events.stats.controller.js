@@ -176,13 +176,13 @@ function EventsStatsController (
 
     $scope.getOfflineStats = function () {
       offlineReportService.getStats($scope.eventId).then(function (stats) {
-        $scope.offlineStats = stats;
+        $scope.offlineStats = stats.data;
       });
     };
 
-    $scope.exportOfflineReport = function () {
-      offlineReportService.getReport($scope.eventId);
-    }
+    $scope.getOfflineModeReportUrl = function() {
+      return EnvironmentConfig.gjests_api+'api/OfflineMode/Report/'+$scope.eventId+'?authToken='+$window.localStorage.access_token;
+    };
   };
 
   $scope.init = function() {
