@@ -1,49 +1,51 @@
 <div>
-    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
-        <h3>Welcome to gjests{{permissionTitle}}</h3>
+  <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+    <h3>Welcome to gjests{{permissionTitle}}</h3>
+  </div>
+  <div layout="row" layout-align="space-between stretch" class="margin-top" layout-sm="column" layout-align-sm="start stretch">
+    <div layout="column" layout-align="space-between stretch" flex>
+      <div class="billet">
+        <h4>Download gjests app</h4>
+        <md-content>
+          <a href="https://geo.itunes.apple.com/us/app/gjests/id1001494301?mt=8" target="_blank">
+            <img alt="iOS app on App Store" src="assets/images/app-store.png"/>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.gjests.app" target="_blank">
+            <img alt="Android app on Google Play" src="assets/images/google-play.png"/>
+          </a>
+        </md-content>
+      </div>
+      <div class="billet" flex>
+        <h4>Updates</h4>
+        <md-content>
+          <ul>
+            <li>We are open to public. Please <a href="mailto:INFO@gjests.com">contact us</a> if you want to continue using gjests for free</li>
+            <li>Facebook Event Integration under development</li>
+            <li>Offline mode ready in August</li>
+          </ul>
+        </md-content>
+      </div>
     </div>
-    <div layout="row" layout-align="space-between stretch" class="margin-top" layout-sm="column" layout-align-sm="start stretch">
-        <div layout="column" layout-align="space-between stretch" flex>
-            <div class="billet">
-                <h4>Download gjests app</h4>
-                <md-content>
-                    <a href="https://geo.itunes.apple.com/us/app/gjests/id1001494301?mt=8" target="_blank">
-                        <img alt="iOS app on App Store" src="assets/images/app-store.png"/>
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=com.gjests.app" target="_blank">
-                        <img alt="Android app on Google Play" src="assets/images/google-play.png"/>
-                    </a>
-                </md-content>
-            </div>
-            <div class="billet" flex>
-                <h4>Updates</h4>
-                <md-content>
-                    <ul>
-                        <li>We are open to public. Please <a href="mailto:INFO@gjests.com">contact us</a> if you want to continue using gjests for free</li>
-                        <li>Facebook Event Integration under development</li>
-                        <li>Offline mode ready in August</li>
-                    </ul>
-                </md-content>
-            </div>
-        </div>
-        <div class="billet" flex>
-            <h4>Questions?</h4>
-            <md-content>
-                <ul>
-                    <li><a href="http://www.gjests.com/questions/2016/6/7/adding-guest-to-or-deleting-guests-from-the-guest-list" target="_blank">Adding/Deleting guests to an Event</a></li>
-                    <li><a href="https://vimeo.com/169579329" target="_blank">How to create a guest list event</a></li>
-                    <li><a href="https://vimeo.com/160246973" target="_blank">How to create an RSVP event</a></li>
-                    <li><a href="http://www.gjests.com/questions/2016/3/23/how-limit-check-in" target="_blank">How to limit check-in</a></li>
-                    <li><a href="http://www.gjests.com/questions/2016/3/23/confirmation-email-rsvp-invite" target="_blank">How does gjests confirmation email & RSVP invite look like</a></li>
-                    <li><a href="http://www.gjests.com/blog/2016/3/22/qzio5bse3b2ca3zgp65hsldqcz52h4" target="_blank">Contributor levels: Manager, Promoter, and Staff</a></li>
-                    <li><a href="http://www.gjests.com/questions/2016/3/23/public-event-vs-private-event" target="_blank">Private VS Public event</a></li>
-                    <li><a href="http://www.gjests.com/questions/2016/3/23/upload-excelgoogle-excelcsv-formats" target="_blank">Upload formats</a></li>
-                </ul>
-            </md-content>
-        </div>
+    <div class="billet" flex>
+      <h4>Questions?</h4>
+      <md-content>
+        <ul>
+          <li><a href="http://www.gjests.com/questions/2016/6/7/adding-guest-to-or-deleting-guests-from-the-guest-list" target="_blank">Adding/Deleting guests to an Event</a></li>
+          <li><a href="https://vimeo.com/169579329" target="_blank">How to create a guest list event</a></li>
+          <li><a href="https://vimeo.com/160246973" target="_blank">How to create an RSVP event</a></li>
+          <li><a href="http://www.gjests.com/questions/2016/3/23/how-limit-check-in" target="_blank">How to limit check-in</a></li>
+          <li><a href="http://www.gjests.com/questions/2016/3/23/confirmation-email-rsvp-invite" target="_blank">How does gjests confirmation email & RSVP invite look like</a></li>
+          <li><a href="http://www.gjests.com/blog/2016/3/22/qzio5bse3b2ca3zgp65hsldqcz52h4" target="_blank">Contributor levels: Manager, Promoter, and Staff</a></li>
+          <li><a href="http://www.gjests.com/questions/2016/3/23/public-event-vs-private-event" target="_blank">Private VS Public event</a></li>
+          <li><a href="http://www.gjests.com/questions/2016/3/23/upload-excelgoogle-excelcsv-formats" target="_blank">Upload formats</a></li>
+          <li><a href="http://www.gjests.com/questions/2016/9/28/qr-code" target="_blank">QR Code</a></li>
+          <li><a href="http://www.gjests.com/questions/2016/9/28/email-management-delivery" target="_blank">Email Management/Delivery</a></li>
+        </ul>
+      </md-content>
     </div>
-    <div class="billet margin-top" layout="column" layout-align="start stretch">
-        <h4>Upcoming events</h4>
-        <event-list events="currentEvents" options="options"></event-list>
-    </div>
+  </div>
+  <div class="billet margin-top" layout="column" layout-align="start stretch">
+    <h4>Upcoming events</h4>
+    <event-list events="currentEvents" options="options"></event-list>
+  </div>
 </div>
