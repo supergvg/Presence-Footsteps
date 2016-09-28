@@ -276,18 +276,12 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
     },
 
     getPastEvents: function () {
-      var d = $q.defer();
-
-      $http({
-        method: 'GET',
-        url: 'api/event/PastEvents/'
-      }).success(function (data) {
-        d.resolve(data);
-      }).error(function () {
-        d.reject('Oops there was an error trying to get events, please try again');
-      });
-
-      return d.promise;
+      return $http.get('api/event/PastEvents/')
+        .then(function (response) {
+          return response.data;
+        }, function () {
+          return 'Oops there was an error trying to get events, please try again';
+        });
     },
 
     getCurrentEvents: function () {
@@ -306,18 +300,12 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
     },
 
     getEvents: function (id) {
-      var d = $q.defer();
-
-      $http({
-        method: 'GET',
-        url: 'api/event/' + (id || '')
-      }).success(function (data) {
-        d.resolve(data);
-      }).error(function () {
-        d.reject('Oops there was an error trying to get events, please try again');
-      });
-
-      return d.promise;
+      return $http.get('api/event/' + (id || ''))
+        .then(function (response) {
+          return response.data;
+        }, function () {
+          return 'Oops there was an error trying to get events, please try again';
+        });
     },
 
     deleteEvent: function (id) {

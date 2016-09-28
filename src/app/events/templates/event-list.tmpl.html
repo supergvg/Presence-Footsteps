@@ -1,59 +1,59 @@
 <div class="event-list">
-    <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
-    <div layout="row" layout-align="end center" class="margin-top" ng-if="options.filter.active">
-        <md-input-container flex="40" flex-sm="100" md-no-float>
-            <input type="text" name="search" ng-model="filter.value" placeholder="Search Event">
-            <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
-        </md-input-container>
-    </div>
-    <md-list class="margin-top">
-        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-        <md-list-item ng-repeat="event in events | filter:{title: filter.value} | limitTo:(options.limit || events.length) | orderBy: orderField" layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="start start" flex>
-            <div ng-if="!event.isActive && options.showInactive" class="not-active" ng-click="showUpgradePopup($event)"></div>
-            <div ng-style="getEventInvite(event)" class="event-image"></div>
-            <div layout="column" layout-align="start stretch" flex class="event-details">
-                <h3>{{event.title}}</h3>
-                <div layout="row" layout-align="space-between start" layout-sm="column">
-                    <div>
-                        <p>
-                            <b>Starts:</b>&nbsp;{{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
-                        </p>
-                        <p>
-                            <b>Ends:</b>&nbsp;{{event.endTime | ignoreTimeZone | date : 'MMM dd, yyyy h:mma'}}
-                        </p>
-                        <div layout="row" layout-align="start center">
-                            <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>
-                            <p ng-bind-html="event.location"></p>
-                        </div>
-                    </div>
-                    <div layout="row" ng-cloak layout-align="end center" layout-align-sm="center center" ng-hide="options.local" class="actions">
-                        <md-button class="icon-btn" remove-by-roles="promoter" ui-sref="main.event_checkin({eventId:{{event.id}}})" aria-label="CheckIn">
-                            <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
-                            <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
-                        </md-button>
-                        <md-button class="icon-btn" remove-by-roles="staff" ng-if="!options.readyOnly" ui-sref="main.edit_event({eventId:{{event.id}}})" aria-label="Edit event">
-                            <md-tooltip md-direction="top">Edit event</md-tooltip>
-                            <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
-                        </md-button>
-                        <md-button class="icon-btn" remove-by-roles="staff" ng-if="!options.readyOnly" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
-                            <md-tooltip md-direction="top">Preview event</md-tooltip>
-                            <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
-                        </md-button>
-                        <md-button class="icon-btn" remove-by-roles="staff,promoter" ng-if="!options.readyOnly" ui-sref="main.email_stats({eventId:{{event.id}}})" aria-label="Email Management">
-                            <md-tooltip md-direction="top">Email Management</md-tooltip>
-                            <md-icon md-svg-src="assets/images/SVG/email.svg" size="24"></md-icon>
-                        </md-button>
-                        <md-button class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" aria-label="Event stats">
-                            <md-tooltip md-direction="top">Event stats</md-tooltip>
-                            <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
-                        </md-button>
-                        <md-button class="icon-btn" remove-by-roles="staff,promoter" ng-if="!options.readyOnly" ng-click="deleteEvent($event,event)" aria-label="Delete event">
-                            <md-tooltip md-direction="top">Delete event</md-tooltip>
-                            <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                        </md-button>
-                    </div>
-                </div>
+  <h3 class="md-title" ng-show="events.length == 0">No events found</h3>
+  <div layout="row" layout-align="end center" class="margin-top" ng-if="options.filter.active">
+    <md-input-container flex="40" flex-sm="100" md-no-float>
+      <input type="text" name="search" ng-model="filter.value" placeholder="Search Event">
+      <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
+    </md-input-container>
+  </div>
+  <md-list class="margin-top">
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+    <md-list-item ng-repeat="event in events | filter:{title: filter.value} | limitTo:(options.limit || events.length) | orderBy: orderField" layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="start start" flex>
+      <div ng-if="!event.isActive && options.showInactive" class="not-active" ng-click="showUpgradePopup($event)"></div>
+      <div ng-style="getEventInvite(event)" class="event-image"></div>
+      <div layout="column" layout-align="start stretch" flex class="event-details">
+        <h3>{{event.title}}</h3>
+        <div layout="row" layout-align="space-between start" layout-sm="column">
+          <div>
+            <p>
+              <b>Starts:</b>&nbsp;{{event.time | ignoreTimeZone | date:'MMM dd, yyyy h:mma'}}
+            </p>
+            <p>
+              <b>Ends:</b>&nbsp;{{event.endTime | ignoreTimeZone | date : 'MMM dd, yyyy h:mma'}}
+            </p>
+            <div layout="row" layout-align="start center">
+              <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>
+              <p ng-bind-html="event.location"></p>
             </div>
-        </md-list-item>
-    </md-list>
+          </div>
+          <div layout="row" ng-cloak layout-align="end center" layout-align-sm="center center" ng-hide="options.local" class="actions">
+            <md-button class="icon-btn" remove-by-roles="promoter" ui-sref="main.event_checkin({eventId:{{event.id}}})" aria-label="CheckIn">
+              <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
+              <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
+            </md-button>
+            <md-button class="icon-btn" remove-by-roles="staff" ng-if="!options.readyOnly" ui-sref="main.edit_event({eventId:{{event.id}}})" aria-label="Edit event">
+              <md-tooltip md-direction="top">Edit event</md-tooltip>
+              <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+            </md-button>
+            <md-button class="icon-btn" remove-by-roles="staff" ng-if="!options.readyOnly" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
+              <md-tooltip md-direction="top">Preview event</md-tooltip>
+              <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
+            </md-button>
+            <md-button class="icon-btn" remove-by-roles="staff,promoter" ng-if="!options.readyOnly || options.past" ui-sref="main.email_stats({eventId:{{event.id}}})" aria-label="Email Management">
+              <md-tooltip md-direction="top">Email Management</md-tooltip>
+              <md-icon md-svg-src="assets/images/SVG/email.svg" size="24"></md-icon>
+            </md-button>
+            <md-button class="icon-btn" ui-sref="main.event_stats({eventId:{{event.id}}})" aria-label="Event stats">
+              <md-tooltip md-direction="top">Event stats</md-tooltip>
+              <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
+            </md-button>
+            <md-button class="icon-btn" remove-by-roles="staff,promoter" ng-if="!options.readyOnly" ng-click="deleteEvent($event,event)" aria-label="Delete event">
+              <md-tooltip md-direction="top">Delete event</md-tooltip>
+              <ng-md-icon icon="delete" size="24"></ng-md-icon>
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </md-list-item>
+  </md-list>
 </div>
