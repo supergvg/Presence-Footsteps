@@ -2,8 +2,8 @@
   <div ng-if="initializing">
     <h4>Loading Event...</h4>
     <span>
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-        </span>
+      <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+    </span>
   </div>
   <div ng-if="!initializing">
     <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
@@ -14,6 +14,42 @@
     </div>
     <h3 ng-if="event.guestLists.length === 0" class="block-field">Event has no guests</h3>
     <div ng-if="event.guestLists.length > 0">
+      <div class="event-summary block-field">
+        <div layout="row">
+          <div flex="25" class="summary-header">
+            <img src="assets/images/icons/user.png">
+            Checked-in
+          </div>
+          <div flex="25" class="summary-header">
+            <img src="assets/images/icons/users.png">
+            Total Guests
+          </div>
+          <div flex="25" class="summary-header">
+            <img src="assets/images/icons/envelope_check.png">
+            Total RSVP'd
+          </div>
+          <div flex="25" class="summary-header">
+            <img src="assets/images/icons/envelope.png">
+            Total RSVP Invites
+          </div>
+        </div>
+        <div layout="row">
+          <div flex="25" class="summary-item">
+            {{totalCheckedIn}}
+          </div>
+          <div flex="25" class="summary-item">
+            {{totalGuests}}
+          </div>
+          <div flex="25" class="summary-item">
+            {{ isRSVP() ? rsvp[1].total : 'N/A' }}
+          </div>
+          <div flex="25" class="summary-item">
+            {{ isRSVP() ? rsvp[0].total : 'N/A' }}
+          </div>
+        </div>
+      </div>
+
+
       <div layout="row" layout-align="space-between start" layout-sm="column" layout-align-sm="start stretch" class="block-field chart">
         <div layout="column" flex="50" flex-sm="auto">
           <div ng-if="isRSVP() || (!isRSVP() && isMobile)">

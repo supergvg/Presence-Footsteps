@@ -42,6 +42,7 @@ function EventsStatsController (
     stats: true
   };
   $scope.stats = {};
+  $scope.totalGuests = 0;
   $scope.totalCheckedIn = 0;
   $scope.eventType = 1;
   $scope.table1Visible = $mdMedia('gt-sm');
@@ -66,9 +67,11 @@ function EventsStatsController (
       }
 
       angular.forEach(gl.actual, function(guest) {
+        var addGuests = guest.guest.plus + 1 - guest.plus;
+        $scope.totalGuests += addGuests;
         if (guest.status === 'checked in') {
-          $scope.stats[category].totalCheckedIn += guest.guest.plus + 1 - guest.plus;
-          $scope.totalCheckedIn += guest.guest.plus + 1 - guest.plus;
+          $scope.stats[category].totalCheckedIn += addGuests;
+          $scope.totalCheckedIn += addGuests;
         }
       });
       if (gl.instanceType !== 2 && gl.instanceType !== 4) {//include all except for unpublished private RSVP
