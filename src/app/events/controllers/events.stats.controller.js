@@ -14,9 +14,9 @@ function EventsStatsController (
 
   $scope.categories = [
     {name: 'GA', color: '#d4e4f9'},
-    {name: 'VIP', color: '#cef0f2'},
+    {name: 'VIP', color: '#f7f9c3'},
     {name: 'Super VIP', color: '#cfefdc'},
-    {name: 'Guest', color: '#f7f9c3'},
+    {name: 'Guest', color: '#cef0f2'},
     {name: 'Artist', color: '#ffd8b4'},
     {name: 'Production', color: '#ead5e1'},
     {name: 'Comp', color: '#f3d4f9'},
