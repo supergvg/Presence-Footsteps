@@ -24,7 +24,11 @@ angular.module('gliist', [
     'angular-google-analytics'])
     .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', 'EnvironmentConfig',
         function ($stateProvider, $urlRouterProvider, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, EnvironmentConfig) {
-           $locationProvider.html5Mode(true);
+           $locationProvider.html5Mode({
+             enabled: true,
+             requireBase: true,
+             rewriteLinks: false
+           });
 
             AnalyticsProvider
                 .useAnalytics(false)
