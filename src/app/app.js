@@ -61,7 +61,7 @@ angular.module('gliist')
 
       $scope.setSelected = function (item) {
         if ((item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true)) ||
-          (item.title === 'Create Event' && !subscriptionsService.verifyFeature('EventContributors', 0, true))) {
+          (item.title === 'Create Event' && !permissionsService.isRole('admin') && !subscriptionsService.verifyFeature('EventContributors', 0, true))) { //admin always can create events
           return;
         }
         $scope.selectedMenuItem = item;

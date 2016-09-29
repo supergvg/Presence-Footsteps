@@ -267,7 +267,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         },
         function () { //AcquiredQuotaPolicyValidator 6
           var pp = $rootScope.currentUser.subscription.pricePolicy;
-          if (permissionsService.isRole('admin') && pp.type === 'PerFeature') {
+          if (pp.type === 'PerFeature') {
             for (var j = 0, pc = pp.prices.length; j < pc; j++) {
               if (pp.prices[j].feature === featureName) {
                 var usedPolicy = findUsedPolicyByType('LimitedQuota');
