@@ -2087,6 +2087,15 @@ md-dialog {
       width: auto;
     }
   }
+
+  .offline-report {
+    h4 {
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: bold;
+      padding-left: 16px;
+    }
+  }
 }
 
 .email-stats {
