@@ -8,10 +8,10 @@
             <div ng-bind-html="event.description | linky:'_blank'"></div>
             <div class="links">
                 <span ng-if="event.type === 2 && event.rsvpType === 3">
-                    RSVP link : <a href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
+                    RSVP link : <a ng-href="{{event.rsvpUrl}}" target="_blank">{{event.rsvpUrl}}</a>
                 </span>
                 <span ng-if="event.type === 3">
-                    Ticketing link : <a href="{{event.ticketingUrl}}" target="_blank">{{event.ticketingUrl}}</a>
+                    Ticketing link : <a ng-href="{{event.ticketingUrl}}" target="_blank">{{event.ticketingUrl}}</a>
                 </span>
             </div>
         </div>

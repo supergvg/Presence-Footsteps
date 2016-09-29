@@ -121,7 +121,7 @@
               </md-list-item>
             </md-list>
             <div layout="row" layout-align="end center" layout-align-sm="center center" class="margin-top" ng-show="table2Visible">
-              <a href="{{getExportExcelUrl()}}" class="md-button raised-btn">Export Rsvp Report</a>
+              <a ng-href="{{getExportExcelUrl()}}" class="md-button raised-btn">Export Rsvp Report</a>
             </div>
             <md-list class="margin-top" ng-show="table2Visible">
               <md-list-item>
@@ -153,7 +153,7 @@
             <h4>Offline Report</h4>
           </div>
           <div layout="column" layout-align="center end" flex="50">
-            <a href="{{getOfflineModeReportUrl()}}" class="md-button raised-btn" style="width: 300px;">Export Offline Mode Report</a>
+            <a ng-href="{{getOfflineModeReportUrl()}}" class="md-button raised-btn" style="width: 300px;">Export Offline Mode Report</a>
           </div>
         </div>
 
