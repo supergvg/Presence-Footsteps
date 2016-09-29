@@ -2090,10 +2090,24 @@ md-dialog {
 
   .offline-report {
     h4 {
-      font-family: inherit;
-      font-size: 16px;
       font-weight: bold;
-      padding-left: 16px;
+      font-size: 16px;
+    }
+
+    md-list {
+      border-radius: 5px;
+      border: 1px solid #ccc;
+
+      md-list-item:first-child {
+        font-weight: bold;
+        color: #666;
+        background-color: #e6e6e6;
+      }
+
+      .warning {
+        color: #d13d3d;
+        font-family: 'Arial', serif
+      }
     }
   }
 }
