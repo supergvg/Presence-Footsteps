@@ -71,7 +71,7 @@ angular.module('gliist')
                     columnDefs: [
                         {field: 'firstName', name: 'First Name'},
                         {field: 'lastName', name: 'Last Name'},
-                        {field: 'email', name: 'Email', enableSorting: false},
+                        {field: 'email', name: 'Email'},
                         {field: 'notes', name: 'Note', enableSorting: false}
                     ]
                 }
