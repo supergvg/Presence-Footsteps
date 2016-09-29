@@ -81,7 +81,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
           }
         },
         function(response) {
-          return responseError(response);
+          return $q.reject(response);
         }
       );
     };
