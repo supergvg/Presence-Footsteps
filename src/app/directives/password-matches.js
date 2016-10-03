@@ -8,7 +8,7 @@ angular.module('gliist')
         password: '='
       },
       templateUrl: 'app/templates/password-matches.html',
-      link: function(scope, element, attrs, ctrl) {
+      link: function(scope, element, attrs) {
         scope.$watch('password', function (val) {
           val = val || '';
           scope.minLength = parseInt(attrs.minLength, 10) || 0;
@@ -16,7 +16,7 @@ angular.module('gliist')
             number: /\d/.test(val),
             special: /[-[\]{}()*+?.,\\^$|#!@%&]/.test(val),
             length: val.length >= scope.minLength
-          }
+          };
         });
       }
     };

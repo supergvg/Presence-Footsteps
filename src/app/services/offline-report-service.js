@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-  function OfflineReportService ($http, $q) {
+  function OfflineReportService ($http) {
     return {
       getStats: function (eventId) {
         return $http.get('api/OfflineMode/Stats/' + eventId);
@@ -14,8 +14,7 @@
   }
 
   OfflineReportService.$inject = [
-    '$http',
-    '$q'
+    '$http'
   ];
 
   angular.module('gliist').factory('offlineReportService', OfflineReportService);

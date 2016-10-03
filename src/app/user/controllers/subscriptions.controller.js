@@ -17,16 +17,17 @@ angular.module('gliist')
                     //for future releases: hide options covered by current price policy
                     var userpp = userSubscription.pricePolicy;
                     var userPriceTypes = [];
-                    for (var i = 0, pc = userpp.prices.length; i < pc; i++) { //collect all price types for user's price policy
+                    var i, pc;
+                    for (i = 0, pc = userpp.prices.length; i < pc; i++) { //collect all price types for user's price policy
                         userPriceTypes.push(userpp.prices[i].type);
                     }
-                    for (var i = 0, pc = pricePolicy.prices.length; i < pc; i++) {
+                    for (i = 0, pc = pricePolicy.prices.length; i < pc; i++) {
                         if (userPriceTypes.indexOf(pricePolicy.prices[i].type) !== -1) {
                             return false;
                         }
                     }
                 }
-                return !(userSubscription.pricePolicy.id === pricePolicy.id);
+                return userSubscription.pricePolicy.id !== pricePolicy.id;
             };
 
             $scope.subscriptionIsExpired = function () {
@@ -43,13 +44,13 @@ angular.module('gliist')
                 var s = $rootScope.currentUser.subscription;
                 return s.subscription.id === plan.id && s.pricePolicy.type === 'Promo';
             };
-            
+
             $scope.allowToSelect = function(index) {
                 return $scope.plans[index].pricePolicies.length > 0;
             };
-            
+
             $scope.showButton = function(index) {
-                if ($scope.getLabelForButton($scope.plans[index]) != 'UPGRADE') {
+                if ($scope.getLabelForButton($scope.plans[index]) !== 'UPGRADE') {
                     for (var i = 0, pc = $scope.plans.length; i < pc; i++) {//hide downgrade if subscription is transforming
                         if ($scope.plans[i].isTransform) {
                             return false;
@@ -77,14 +78,14 @@ angular.module('gliist')
                     isPlanTransform = subscriptionStatus === 'Active' || (subscriptionStatus !== 'Active' && $scope.getLabelForButton($scope.plans[index]) !== 'DOWNGRADE');
                 return isMoreOnePrice && isPlanTransform && !(isPAYG && $scope.plans[index].name === 'Basic');
             };
-            
+
             $scope.getEndDate = function() {
                 if ($scope.isSubscribed()) {
                     return $rootScope.currentUser.subscription.endDate;
                 }
                 return false;
             };
-            
+
             $scope.isSubscribed = function() {
                 return $rootScope.currentUser && $rootScope.currentUser.subscription && $rootScope.currentUser.subscription !== 'undefined';
             };
@@ -107,12 +108,12 @@ angular.module('gliist')
                     $scope.selectPlan(index);
                 }
             };
-            
+
             $scope.selectPlan = function(index) {
                 var selectedPlan = $scope.plans[index],
                     pricePolicyKey = $scope.pricePolicyKeys[index],
                     pricePolicy = selectedPlan.pricePolicies[pricePolicyKey];
-                
+
                 if ((pricePolicy.prices[0].amount > 0 || selectedPlan.usedPromoCode) && selectedPlan.name !== 'Pay as you go') {
                     subscriptionsService.paymentPopup(selectedPlan, pricePolicyKey, $scope.getSubscriptions);
                 } else {
@@ -154,7 +155,7 @@ angular.module('gliist')
                 }
                 return 'DOWNGRADE';
             };
-            
+
             $scope.getSubscriptions = function() {
                 $scope.loading = true;
                 subscriptionsService.getSubscriptions().then(
@@ -186,7 +187,7 @@ angular.module('gliist')
                         });
                     }
                 ).finally(function(){
-                    $scope.loading = false; 
+                    $scope.loading = false;
                 });
             };
             $scope.getSubscriptions();

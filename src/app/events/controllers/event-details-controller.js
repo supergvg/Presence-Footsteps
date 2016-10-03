@@ -41,7 +41,7 @@ angular.module('gliist')
             $scope.maxTicketDate = function() {
                 return $scope.dt.startEventDateTime.getTime() - 3 * 60 * 60 * 1000;
             };
-            
+
             $scope.previewOptions = {
                 hideEdit: true
             };
@@ -58,7 +58,7 @@ angular.module('gliist')
             $scope.$watch('selectedIndex', function(newValue) {
                 $location.search('view', newValue);
             });
-            
+
             $scope.$watch('location.details', function(newValue) {
                 if (!newValue) {
                     return;
@@ -85,7 +85,7 @@ angular.module('gliist')
                     $scope.dt.endEventRsvpDateTime = new Date(newValue.getTime());
                 }
             });
-            
+
             $scope.$watch('event.type', function(newValue, oldValue) {
                 if (newValue !== oldValue && newValue === 2) {
                     if (!subscriptionsService.verifyFeature('RSVP', null, {}, $scope.event.id)) {
@@ -97,7 +97,7 @@ angular.module('gliist')
                     $scope.dt.endEventRsvpDateTime = new Date($scope.dt.endEventDateTime.getTime());
                 }
             });
-            
+
             $scope.isPromoter = function() {
                 return permissionsService.isRole('promoter');
             };
@@ -115,14 +115,14 @@ angular.module('gliist')
                     'background-size': 'contain'
                 };
             };
-            
+
             $scope.onInviteSelected = function(files) {
                 if (!files || files.length === 0) {
                     return;
                 }
                 $scope.upload(files[0]);
             };
-            
+
             $scope.upload = function(files) {
                 $scope.fetchingData = true;
                 uploaderService.uploadEventInvite(files, $scope.event.id).then(function(res) {
@@ -148,7 +148,7 @@ angular.module('gliist')
                     }
                 );
             };
-            
+
             $scope.onAddGLClicked = function(ev, instanceType) {
                 var scope = $scope.$new();
                 scope.cancel = function() {
@@ -190,13 +190,13 @@ angular.module('gliist')
                 $scope.startEventTimeInvalid = false;
                 $scope.endEventTimeInvalid = false;
                 $scope.startRangeDays = subscriptionsService.getFeatureValue('EventStartRangeDays') || 45;
-                
+
                 if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
                     $scope.dt.endEventRsvpDateTime = new Date($scope.dt.endEventDateTime.getTime());
                 }
                 var now = new Date(Date.now()),
                     locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000);
-            
+
                 if ($scope.dt.startEventDateTime.getTime() < locationDateTime.valueOf()) {
                     $scope.startEventTimeInvalid = true;
                 }
@@ -271,7 +271,7 @@ angular.module('gliist')
                         dialogService.error(errorMessage.join(', '));
                         return;
                     }
-                    
+
                     $scope.savingEvent = true;
                     $scope.event.location = $scope.location.formatted;
                     $scope.event.time = $scope.convertDateTime($scope.dt.startEventDateTime);
@@ -301,25 +301,25 @@ angular.module('gliist')
 
                 $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
             };
-            
+
             $scope.previous = function(ev) {
                 if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
                     $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
                 }
             };
-            
+
             $scope.convertDateTime = function(date) {
                 var convertDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000),
                     dateStr = convertDate.toISOString().replace(/\..+$/, ''),
                     offset = new Date(Math.abs($scope.utcOffset) * 1000);
                 return dateStr+($scope.utcOffset < 0 ? '-' : '+')+('0'+offset.getUTCHours()).slice(-2)+':'+('0'+offset.getUTCMinutes()).slice(-2);
             };
-            
+
             $scope.clearLocation = function() {
                 delete $scope.location.details;
             };
-            
-            $scope.getTotalGuests = function(guestLists, onlyNew) {
+
+            $scope.getTotalGuests = function(guestLists) {
                 var total = 0;
                 angular.forEach(guestLists, function(gl){
                     if (angular.isDefined(gl.guestsCount)) {
@@ -330,7 +330,7 @@ angular.module('gliist')
                 });
                 return total;
             };
-            
+
             $scope.init = function() {
                 if (permissionsService.isRole('promoter') && $scope.selectedIndex !== 3 && $scope.selectedIndex !== 4) {
                     $scope.selectedIndex = 3;
@@ -339,7 +339,7 @@ angular.module('gliist')
                     $scope.location.details = {};
                     $scope.location.formatted = $scope.event.location;
                     $scope.location.value = $scope.location.formatted.replace(/<[^>]+>/gm, '');
-                    
+
                     var parseDate = $scope.event.time.split(/[^0-9]/);
                     $scope.utcOffset = $scope.event.time.substr(19, 1) + (parseDate[6] * 60 * 60 + parseDate[7] * 60);
                     $scope.dt.startEventDateTime = $filter('ignoreTimeZone')($scope.event.time);
@@ -356,7 +356,7 @@ angular.module('gliist')
                     }
                     return;
                 }
-                
+
                 $scope.event = {
                     title: '',
                     guestLists: [],
