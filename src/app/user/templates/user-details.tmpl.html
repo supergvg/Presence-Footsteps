@@ -20,10 +20,10 @@
                 <h4>Upload Company Logo</h4>
                 <div layout="row" layout-sm="column" layout-align="space-between center">
                     <md-input-container>
-                        Support jpg, gif file. (To be included in all communication to guests)
+                        To be included in all communication to guests (any image format)
                     </md-input-container>
                     <md-input-container>
-                        <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".jpg,.png,.gif">
+                        <md-button class="raised-btn" ng-file-select="onFileSelect($files)" ng-accept="'image/*'">
                             UPLOAD
                         </md-button>
                         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
@@ -71,13 +71,13 @@
                                 <md-input-container flex md-no-float>
                                     <h4>City</h4>
                                     <input ng-model="user.city" placeholder="City">
-                                </md-input-container>                        
+                                </md-input-container>
                             </div>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
                                 <md-input-container flex md-no-float>
                                     <h4>Contact Email for Guests</h4>
                                     <input ng-model="user.contactEmail" placeholder="Contact Email for guests">
-                                </md-input-container>                        
+                                </md-input-container>
                             </div>
                             <div layout="row" layout-sm="column" layout-align="space-between stretch" class="margin-top">
                                 <md-input-container flex md-no-float>

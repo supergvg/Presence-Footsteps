@@ -9,7 +9,7 @@ angular.module('gliist')
             $scope.planLabels = [];
 
             $scope.isPricePolicyVisible = function (plan, pricePolicy) {
-                if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
+                if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) {
                     return true;
                 }
                 var userSubscription = $rootScope.currentUser.subscription;
@@ -168,7 +168,7 @@ angular.module('gliist')
                         $scope.pricePolicyKeys = [];
                         angular.forEach($scope.plans, function(plan, key){
                             $scope.pricePolicyKeys[key] = 0;
-                            if (plan.isCurrentlyUsed) {
+                            if (plan.isCurrentlyUsed && ($scope.isSubscribed() && !$scope.subscriptionIsExpired())) {
                                 if ($scope.isSubscribed()) {
                                     angular.forEach(plan.pricePolicies, function(pricePolicy, index){
                                         if (pricePolicy.id !== $rootScope.currentUser.subscription.pricePolicy.id) {

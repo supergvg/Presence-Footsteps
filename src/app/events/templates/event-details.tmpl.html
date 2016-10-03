@@ -105,15 +105,9 @@
                         </div>
                     </div>
                     <div layout="row" class="block-field">
-                      <md-input-container>
-                        <h4>Inviter</h4>
-                        <span>
-                          Invites From:
-                        </span>
-                      </md-input-container>
                       <md-input-container flex md-no-float>
-                        <h4></h4>
-                        <input type="text" ng-model="event.inviteFrom" name="inviteFrom" placeholder="Your name/company's name/client's name">
+                        <h4>Invites From</h4>
+                        <input type="text" ng-model="event.inviteFrom" name="inviteFrom" placeholder="Coming from your company">
                       </md-input-container>
                     </div>
                     <div layout layout-sm="column" class="block-field">
@@ -305,10 +299,10 @@
                 <md-list>
                     <md-list-item layout="row" layout-sm="column">
                         <div flex="70" flex-sm="auto">
-                            <p>Upload your invite (jpg,gif, file formats supported)</p>
+                            <p>Upload your invite (any image format)</p>
                         </div>
                         <div flex="30" layout="row" layout-align="end center" flex-sm="auto">
-                            <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" accept=".jpg,.png,.gif">
+                            <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" ng-accept="'image/*'">
                                 UPLOAD
                             </md-button>
                             <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>

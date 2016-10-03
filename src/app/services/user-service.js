@@ -2,34 +2,31 @@
 
 angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$window', 'EnvironmentConfig',
   function ($rootScope, $http, $q, $window, EnvironmentConfig) {
-    var userEmail,
-      isLogged,
-      access_token,
-      userData,
-      setAuthToken = function(token) {
-        access_token = token;
-        if (token !== '') {
-          $http.defaults.headers.common.Authorization = 'Bearer ' + token;
-        }
-      },
-      onLoginSuccessful = function(data) {
-        if (!data.access_token) {
-          throw 'Trying to save empty access token';
-        }
-        // successful login
-        isLogged = true;
-        userEmail = data.userName;
-        setAuthToken(data.access_token);
-        try { $window.localStorage.setItem('access_token', data.access_token);} catch(e) {}
-      };
+    var userEmail;
+    var isLogged;
+    var access_token;
+    var userData;
+    var setAuthToken = function(token) {
+      access_token = token;
+      if (token !== '') {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+      }
+    };
+    var onLoginSuccessful = function(data) {
+      if (!data.access_token) {
+        throw 'Trying to save empty access token';
+      }
+      // successful login
+      isLogged = true;
+      userEmail = data.userName;
+      setAuthToken(data.access_token);
+      try { $window.localStorage.setItem('access_token', data.access_token);} catch(e) {}
+    };
+    var cacheKey = Date.now();
 
     return {
-      setUserData: function (data) {
-        userData = data;
-      },
-
-      getUserData: function () {
-        return userData;
+      resetCacheKey: function() {
+        cacheKey = Date.now();
       },
 
       resetPassword: function(resetPassword) {
@@ -198,11 +195,11 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
         return deferred.promise;
       },
 
-      getUserPhoto: function(height, currentUser, suffix) {
+      getUserPhoto: function(height, currentUser) {
         var bgImg;
 
         if (currentUser) {
-          bgImg = EnvironmentConfig.gjests_api + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + suffix;
+          bgImg = EnvironmentConfig.gjests_api + 'api/account/ProfilePicture/?userId=' + currentUser.userId + '&suffix=' + cacheKey;
           bgImg = 'url("' + bgImg + '")';
         } else {
           bgImg = 'url("assets/images/blank_user_icon.png")';
@@ -241,7 +238,7 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
           self = this;
 
         if (userData) {
-          return $q.resolve(userData);
+          deferred.resolve(userData);
         }
         $http({
           method: 'GET',

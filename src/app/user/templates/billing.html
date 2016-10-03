@@ -32,7 +32,7 @@
                     {{invoice.amount | money : invoice.currency}}
                 </div>
                 <div flex class="actions" layout="row" layout-align="end center">
-                    <a href="{{getExportPdfUrl(invoice.id)}}" class="md-button icon-btn">
+                    <a ng-href="{{getExportPdfUrl(invoice.id)}}" class="md-button icon-btn">
                         <img ng-src="assets/images/icons/download.png"/>                        
                     </a>
                 </div>

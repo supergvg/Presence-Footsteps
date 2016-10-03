@@ -24,7 +24,11 @@ angular.module('gliist', [
     'angular-google-analytics'])
     .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$mdThemingProvider', '$mdIconProvider', '$locationProvider', 'AnalyticsProvider', 'EnvironmentConfig',
         function ($stateProvider, $urlRouterProvider, $httpProvider, $mdThemingProvider, $mdIconProvider, $locationProvider, AnalyticsProvider, EnvironmentConfig) {
-//            $locationProvider.html5Mode(true);
+           $locationProvider.html5Mode({
+             enabled: true,
+             requireBase: true,
+             rewriteLinks: false
+           });
 
             AnalyticsProvider
                 .useAnalytics(false)
@@ -54,7 +58,7 @@ angular.module('gliist', [
                 //.accentPalette('grey')
                 .warnPalette('red')
                 .backgroundPalette('grey');
-                
+
             $httpProvider.interceptors.push(function(){
                 return {
                     'request': function(config) {
@@ -104,7 +108,7 @@ angular.module('gliist', [
                     templateUrl: 'app/templates/main.html',
                     controller: 'MainCtrl'
                 }).state('main.user', {
-                    url: '/user?view',
+                    url: '/user?view&updatePaymentMethod',
                     templateUrl: 'app/user/templates/profile.html',
                     controller: 'ProfileCtrl',
                     permissions: ['refreshSubscription']
@@ -334,7 +338,7 @@ angular.module('gliist', [
                     }
                 }
             });
-            
+
             $rootScope.$on('$stateChangeSuccess', function(event, toState) {
                 if (((toState.permissions && toState.permissions.indexOf('allowAnonymous') > -1) || ($rootScope.currentUser && $rootScope.currentUser.subscription)) && !$rootScope.appReady) {
                     $rootScope.appStatus(true);
