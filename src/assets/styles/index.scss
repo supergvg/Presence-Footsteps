@@ -406,6 +406,15 @@ md-tooltip .md-content{
       background: linear-gradient(to bottom, #65aef6, #98ccff);
     }
   }
+
+  &.facebook-btn {
+    color: #fff;
+    border: 1px solid #365285;
+    border-radius: 25px;
+    background-image: linear-gradient( 90deg, #4464ab 0%, #6b8bcd 100%);
+    box-shadow: 0 3px 7px 0 rgba(77, 77, 77, 0.35);
+    padding: 0 20px;
+  }
 }
 
 .md-actions .md-button:last-child {
@@ -1681,6 +1690,18 @@ md-dialog {
     h3,
     p {
       color: #fff;
+    }
+  }
+
+  .md-button {
+    width: 300px;
+
+    & + .md-button {
+      margin-top: 25px;
+    }
+
+    &.facebook-btn span {
+      margin-left: 20px;
     }
   }
 }

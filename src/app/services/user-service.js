@@ -25,6 +25,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
     var cacheKey = Date.now();
 
     return {
+      setUserData: function (data) {
+        userData = data;
+      },
+
+      getUserData: function () {
+        return userData;
+      },
+
       resetCacheKey: function() {
         cacheKey = Date.now();
       },
@@ -233,29 +241,22 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
       },
 
       getCurrentUser: function() {
-        var deferred = $q.defer(),
-          url = 'api/Account/UserInfo',
-          self = this;
+        var url = 'api/Account/UserInfo';
+        var self = this;
 
         if (userData) {
-          deferred.resolve(userData);
+          return $q.resolve(userData);
         }
-        $http({
-          method: 'GET',
-          url: url,
-          params: {},
+        return $http.get(url, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
-        }).success(function (data) {
-          self.userData = data;
-          deferred.resolve(self.userData);
-
-        }).error(function (data) {
-          deferred.reject(data);
+        }).then(function (response) {
+          self.userData = response.data;
+          return self.userData;
+        }, function (response) {
+          return response.data;
         });
-
-        return deferred.promise;
       },
 
       getLogged: function() {
