@@ -68,7 +68,6 @@ function EventsStatsController (
 
       angular.forEach(gl.actual, function(guest) {
         var addGuests = guest.guest.plus + 1 - guest.plus;
-        $scope.totalGuests += addGuests;
         if (guest.status === 'checked in') {
           $scope.stats[category].totalCheckedIn += addGuests;
           $scope.totalCheckedIn += addGuests;
@@ -94,6 +93,8 @@ function EventsStatsController (
           $scope.stats[category].total = $scope.rsvp[1].total;
         }
       }
+
+      $scope.totalGuests += $scope.stats[category].total;
     });
     eventsService.getRSVPVisitors($scope.event.id).then(
       function(data) {
