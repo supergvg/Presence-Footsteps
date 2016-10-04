@@ -1,5 +1,14 @@
 <div layout="column" layout-align="start center" layout-fill>
-    <img ng-src="assets/images/gliist_logo_blue.png" class="header-image"/>
-    <h4>Select your plan!</h4>
-    <subscriptions></subscriptions>
+  <img ng-src="assets/images/gliist_logo_blue.png" class="header-image"/>
+  <h4>Select your plan!</h4>
+  <subscriptions></subscriptions>
 </div>
+
+<script>
+  dataLayer = dataLayer || [];
+  dataLayer.push({
+    'label': 'Choose a Plan',
+    'action': 'Pageview - Choose a Plan',
+    'event': 'New User Registration'
+  });
+</script>
