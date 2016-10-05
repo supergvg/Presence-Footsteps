@@ -58,7 +58,6 @@ function EventsStatsController (
     }
     var category = '';
     angular.forEach($scope.event.guestLists, function(gl) {
-      var listGuests = 0;
       category = gl.listType ? gl.listType.toLowerCase() : '';
       if (!$scope.stats[category]) {
         $scope.stats[category] = {
@@ -76,7 +75,6 @@ function EventsStatsController (
       });
       if (gl.instanceType !== 2 && gl.instanceType !== 4) {//include all except for unpublished private RSVP
         $scope.stats[category].total += gl.guestsCount;
-        listGuests += gl.guestsCount;
       }
 
       if ($scope.isRSVP()) {
@@ -88,17 +86,20 @@ function EventsStatsController (
           });
           $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
           $scope.stats[category].total = $scope.rsvp[1].total;
-          listGuests = $scope.rsvp[1].total;
         } else if (gl.instanceType === 4) {
           $scope.rsvp[1].total += gl.guestsCount;
           $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
           $scope.stats[category].total = $scope.rsvp[1].total;
-          listGuests = $scope.rsvp[1].total;
         }
       }
-
-      $scope.totalGuests += listGuests;
     });
+
+    var totalGuests = 0;
+    angular.forEach($scope.stats, function(category) {
+      totalGuests += category.total;
+    });
+    $scope.totalGuests = totalGuests;
+
     eventsService.getRSVPVisitors($scope.event.id).then(
       function(data) {
         $scope.rsvpTotalVisitors = data;
