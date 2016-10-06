@@ -11,25 +11,27 @@
   </div>
   <div ng-hide="fetchingData">
     <div class="content">
-      <md-radio-group ng-model="xxx">
+      Please select ONE event to integrate into gjests
+
+      <md-radio-group ng-model="selectedEvent">
         <md-list>
-          <md-list-item layout="row">
-            <div flex="50px">
-              <md-radio-button ng-value="1" aria-label="XXX event">
-
-              </md-radio-button>
-            </div>
-
-            <div flex>
-              <img src="">
-            </div>
-
-            <div flex>
-
-            </div>
+          <md-list-item layout="row" ng-repeat="event in events track by event.id">
+            <md-radio-button ng-value="event" aria-label="{{::event.title}}">
+              <div layout="row">
+                <img ng-src="{{::event.img}}">
+                <div layout="column">
+                  <span>{{::event.title}}</span>
+                  <span>Starts: {{::event.startDate | date:'MMM d, y h:mm a'}}</span>
+                  <span>Ends: {{::event.endDate | date:'MMM d, y h:mm a'}}</span>
+                  <span>{{::event.location}}</span>
+                </div>
+              </div>
+            </md-radio-button>
           </md-list-item>
         </md-list>
       </md-radio-group>
+
+
     </div>
   </div>
 </md-dialog>

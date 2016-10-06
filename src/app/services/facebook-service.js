@@ -50,11 +50,28 @@ angular.module('gliist').factory('facebookService', [
       getEvents: function () {
         var events = [
           {
-            title: '',
+            id: 1,
+            title: 'Waterfight NYC 2016 #StayWet',
             img: 'http://loremflickr.com/150/150/cat',
             startDate: new Date(),
             endDate: new Date(),
-            location: ''
+            location: 'Sheep Meadow, Central Park, New York, New Your 10023'
+          },
+          {
+            id: 2,
+            title: 'Kickstarter Summer Festival 2016',
+            img: 'http://loremflickr.com/150/150/cat',
+            startDate: new Date(),
+            endDate: new Date(),
+            location: 'Fort Greene Park, Brooklyn, New York 11217'
+          },
+          {
+            id: 3,
+            title: 'Quiet Clubbing Party Cruise',
+            img: 'http://loremflickr.com/150/150/cat',
+            startDate: new Date(),
+            endDate: new Date(),
+            location: 'Circle Line Sightseeing Cruises, Pier 83, West 42nd Street & 12th Avenue, New York, New York 10036'
           }
         ];
         return $q.resolve(events);
