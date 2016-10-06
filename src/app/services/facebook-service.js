@@ -37,6 +37,7 @@ angular.module('gliist').factory('facebookService', [
             deferred.reject(response ? response.error : null);
           } else {
             deferred.resolve({
+              id: response.id,
               firstName: response.first_name,
               lastName: response.last_name,
               email: response.email
@@ -47,7 +48,7 @@ angular.module('gliist').factory('facebookService', [
         return deferred.promise;
       },
 
-      getEvents: function () {
+      getEvents: function (userId) {
         var events = [
           {
             id: 1,
@@ -74,7 +75,32 @@ angular.module('gliist').factory('facebookService', [
             location: 'Circle Line Sightseeing Cruises, Pier 83, West 42nd Street & 12th Avenue, New York, New York 10036'
           }
         ];
-        return $q.resolve(events);
+
+        var deferred = $q.defer();
+
+        // TODO: load only created events?
+        // TODO: add pagination
+        // TODO: account for event timezone
+        // TODO: add error handling
+        FB.api('/' + userId + '/events', function (response) {
+          console.log(response);
+          if (response && !response.error) {
+            // events = response.data.map(function (event) {
+            response.data.map(function (event) {
+              return {
+                id: event.id,
+                name: event.name,
+                image: event.cover,
+                startDate: event.start_time,
+                endDate: event.end_time,
+                location: event.place
+              };
+            });
+            deferred.resolve(events);
+          }
+        });
+
+        return deferred.promise;
       }
     };
   }
