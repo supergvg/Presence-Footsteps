@@ -45,6 +45,19 @@ angular.module('gliist').factory('facebookService', [
         });
 
         return deferred.promise;
+      },
+
+      getEvents: function () {
+        var events = [
+          {
+            title: '',
+            img: 'http://loremflickr.com/150/150/cat',
+            startDate: new Date(),
+            endDate: new Date(),
+            location: ''
+          }
+        ];
+        return $q.resolve(events);
       }
     };
   }

@@ -6,6 +6,7 @@ function AppController (
   $state,
   $mdSidenav,
   $mdMedia,
+  $mdDialog,
   userService,
   dialogService,
   permissionsService,
@@ -19,6 +20,10 @@ function AppController (
       title: 'Create Event',
       ui_sref: 'main.create_event',
       icon: {src: 'assets/images/icons/create_event.png'}
+    },
+    {
+      title: 'Facebook Event Integration',
+      icon: {src: 'assets/images/icons/facebook_solid.png'}
     },
     {
       title: 'Upcoming Events',
@@ -73,6 +78,12 @@ function AppController (
       (item.title === 'Create Event' && !permissionsService.isRole('admin') && !subscriptionsService.verifyFeature('EventContributors', 0, true))) { //admin always can create events
       return;
     }
+
+    if (item.title === 'Facebook Event Integration') {
+      $scope.showFacebookEvents();
+      return;
+    }
+
     $scope.selectedMenuItem = item;
     if (!$mdMedia('gt-lg')) {
       $mdSidenav('left').close();
@@ -133,6 +144,15 @@ function AppController (
     });
   };
 
+  $scope.showFacebookEvents = function () {
+    var scope = $scope.$new();
+    $mdDialog.show({
+      scope: scope,
+      controller: 'FacebookEventsController',
+      templateUrl: 'app/templates/facebook-events-popup.html'
+    });
+  };
+
   $rootScope.logout = function() {
     userService.logout();
     $state.go('home');
@@ -151,6 +171,7 @@ AppController.$inject = [
   '$state',
   '$mdSidenav',
   '$mdMedia',
+  '$mdDialog',
   'userService',
   'dialogService',
   'permissionsService',

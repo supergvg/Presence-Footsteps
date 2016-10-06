@@ -295,6 +295,10 @@ md-toolbar {
 }
 
 md-sidenav {
+  width: 354px !important;
+  min-width: 354px !important;
+  max-width: 354px !important;
+
   .item-selected {
     background-color: #ccc !important;
   }
@@ -1056,13 +1060,16 @@ md-checkbox .md-icon {
 md-dialog {
   overflow-x: hidden;
   color: #666;
+
   .actions-sm {
     min-height: 60px;
   }
+
   .actions,
   md-content {
     padding: 10px 20px;
   }
+
   .md-actions button {
     width: auto;
     &:first-child:not(:last-child) {
@@ -1071,6 +1078,7 @@ md-dialog {
       box-shadow: none !important;
     }
   }
+
   &.payment-info {
     md-content {
       padding: 10px 55px 0 55px;
@@ -1087,6 +1095,7 @@ md-dialog {
       }
     }
   }
+
   &.welcome-popup {
     z-index: 1;
     .header {
@@ -1115,6 +1124,7 @@ md-dialog {
       }
     }
   }
+
   &.link-account-dialog {
     p {
       padding: 10px 16px 0 16px;
@@ -1126,6 +1136,7 @@ md-dialog {
     }
 
   }
+
   &.payment-popup {
     overflow-y: auto;
     max-width: 100%;
@@ -1249,6 +1260,18 @@ md-dialog {
     }
     &.border {
       border: 5px solid #99ccff;
+    }
+  }
+
+  &.facebook-events-popup {
+    .header {
+      background-color: #e6e6e6;
+      font-size: 21px;
+      padding: 25px 50px;
+    }
+
+    .content {
+      padding: 0 40px;
     }
   }
 }
