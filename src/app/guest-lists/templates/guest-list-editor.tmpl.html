@@ -1,105 +1,105 @@
 <div class="guest-list-editor">
-    <div ng-show="loading">
-        <h4>Loading Guest List...</h4>
-        <span><md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular></span>
-    </div>
-    <div ng-show="!loading">
-        <div>
-            <form name="form.createGuestListForm">
-                <div class="block-field">
-                    <div layout layout-sm="column">
-                        <md-input-container flex="75" md-no-float flex-sm="auto">
-                            <h4>Guest List Title</h4>
-                            <input type="text" ng-model="list.title" name="title" required placeholder="Enter Guest List Title" ng-change="onDataChange()">
-                        </md-input-container>
-                        <md-input-container flex="25" md-no-float flex-sm="auto">
-                            <h4>Guest Type</h4>
-                            <ui-select required name="listType" ng-model="list.listType" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()" flex>
-                                <ui-select-match placeholder="Select Type">
-                                    {{$select.selected}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="t in guestListTypes">
-                                    {{t}}
-                                </ui-select-choices>
-                            </ui-select>                   
-                        </md-input-container>
-                    </div>
-                </div>
-                <div class="block-field">
-                    <h4>Promoter</h4>
-                    <md-input-container flex md-no-float>
-                        <ui-select name="promoter" ng-model="list.promoter_Id" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()">
-                            <ui-select-match placeholder="Select Promoter to Manage List">
-                                {{$select.selected.firstName}} {{$select.selected.lastName}}
-                            </ui-select-match>
-                            <ui-select-choices repeat="promoter.Id as promoter in promoters">
-                                {{promoter.firstName}} {{promoter.lastName}}
-                            </ui-select-choices>
-                        </ui-select>                   
-                    </md-input-container>
-                </div>
-            </form>
-        </div>
-        <div class="block-field" ng-if="!isSpotType()">
-            <h4>Import Guests</h4>
-            <md-list>
-                <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
-                    <p flex>Link previous guest list</p>
-                    <div>
-                        <md-button class="raised-btn" ng-click="onLinkClicked($event)">
-                            Link
-                        </md-button>
-                    </div>
-                </md-list-item>
-                <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
-                    <p flex>Upload new guest list (csv, xlsx) Upload: <a href="assets/docs/Guest List Upload format 1.xlsx">format 1</a>, <a href="assets/docs/Guest List Upload format 2.xlsx">format 2</a></p>
-                    <div>
-                        <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv,.xlsx,.xls">
-                            Upload
-                        </md-button>
-                    </div>
-                </md-list-item>
-                <md-list-item layout="column" layout-align="space-between stretch" layout-sm="column" layout-align-sm="space-between stretch">
-                    <div layout-fill>
-                        <p>Add Multiple Guests by Copying and Pasting</p>
-                        <p><i>Paste your guest list here in these formats: <b>Name</b> OR <b>Name +1</b> OR <b>Name, Note, Pluses</b>.<br/>Use line break for each guest.</i></p>
-                    </div>
-                    <div layout="row" layout-align="start center" layout-fill md-no-float>
-                        <textarea class="guest-list-import-box" ng-model="vars.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
-                    </div>
-                    <md-input-container layout="row" layout-align="end center" layout-fill>
-                        <div layout-margin><md-button class="raised-btn" ng-click="onAddGuestsClicked()">Add</md-button></div>
-                    </md-input-container>
-                </md-list-item>
-            </md-list>
+  <div ng-show="loading">
+    <h4>Loading Guest List...</h4>
+    <span><md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular></span>
+  </div>
+  <div ng-show="!loading">
+    <div>
+      <form name="form.createGuestListForm">
+        <div class="block-field">
+          <div layout layout-sm="column">
+            <md-input-container flex="75" md-no-float flex-sm="auto">
+              <h4>Guest List Title</h4>
+              <input type="text" ng-model="list.title" name="title" required placeholder="Enter Guest List Title" ng-change="onDataChange()">
+            </md-input-container>
+            <md-input-container flex="25" md-no-float flex-sm="auto">
+              <h4>Guest Type</h4>
+              <ui-select required name="listType" ng-model="list.listType" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()" flex>
+                <ui-select-match placeholder="Select Type">
+                  {{$select.selected}}
+                </ui-select-match>
+                <ui-select-choices repeat="t in guestListTypes">
+                  {{t}}
+                </ui-select-choices>
+              </ui-select>
+            </md-input-container>
+          </div>
         </div>
         <div class="block-field">
-            <h4>Guests</h4>
-            <md-list>
-                <md-list-item layout="row">
-                    <div flex class="actions">
-                        <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData" ng-if="!isSpotType()">
-                            Add Guest
-                        </md-button>
-                        <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">
-                            Delete
-                        </md-button>
-                    </div>
-                    <div layout="row" layout-align="end center" hide-sm>
-                        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                        <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
-                            Save
-                        </md-button>
-                    </div>
-                </md-list-item>
-            </md-list>
-            <ui-grid-responsive options="options"></ui-grid-responsive>
-            <div flex layout="row" layout-align="end center" hide-gt-sm>
-                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
-                    Save
-                </md-button>
-            </div>
+          <h4>Promoter</h4>
+          <md-input-container flex md-no-float>
+            <ui-select name="promoter" ng-model="list.promoter_Id" search-enabled="false" ng-disabled="isPromoter()" ng-change="onDataChange()">
+              <ui-select-match placeholder="Select Promoter to Manage List">
+                {{$select.selected.firstName}} {{$select.selected.lastName}}
+              </ui-select-match>
+              <ui-select-choices repeat="promoter.Id as promoter in promoters">
+                {{promoter.firstName}} {{promoter.lastName}}
+              </ui-select-choices>
+            </ui-select>
+          </md-input-container>
         </div>
+      </form>
     </div>
+    <div class="block-field" ng-if="!isSpotType()">
+      <h4>Import Guests</h4>
+      <md-list>
+        <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
+          <p flex>Link previous guest list</p>
+          <div>
+            <md-button class="raised-btn" ng-click="onLinkClicked($event)">
+              Link
+            </md-button>
+          </div>
+        </md-list-item>
+        <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
+          <p flex>Upload new guest list (csv, xlsx) Upload: <a href="assets/docs/Guest List Upload format 1.xlsx">format 1</a>, <a href="assets/docs/Guest List Upload format 2.xlsx">format 2</a></p>
+          <div>
+            <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv,.xlsx,.xls">
+              Upload
+            </md-button>
+          </div>
+        </md-list-item>
+        <md-list-item layout="column" layout-align="space-between stretch" layout-sm="column" layout-align-sm="space-between stretch">
+          <div layout-fill>
+            <p>Add Multiple Guests by Copying and Pasting</p>
+            <p><i>Paste your guest list here in these formats: <b>Name</b> OR <b>Name +1</b> OR <b>Name, Note, Pluses</b>.<br/>Use line break for each guest.</i></p>
+          </div>
+          <div layout="row" layout-align="start center" layout-fill md-no-float>
+            <textarea class="guest-list-import-box" ng-model="vars.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
+          </div>
+          <md-input-container layout="row" layout-align="end center" layout-fill>
+            <div layout-margin><md-button class="raised-btn" ng-click="onAddGuestsClicked()">Add</md-button></div>
+          </md-input-container>
+        </md-list-item>
+      </md-list>
+    </div>
+    <div class="block-field">
+      <h4>Guests</h4>
+      <md-list>
+        <md-list-item layout="row">
+          <div flex class="actions">
+            <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData" ng-if="!isSpotType()">
+              Add Guest
+            </md-button>
+            <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">
+              Delete
+            </md-button>
+          </div>
+          <div layout="row" layout-align="end center" hide-sm>
+            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+            <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+              Save
+            </md-button>
+          </div>
+        </md-list-item>
+      </md-list>
+      <ui-grid-responsive options="options"></ui-grid-responsive>
+      <div flex layout="row" layout-align="end center" hide-gt-sm>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+        <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+          Save
+        </md-button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -86,16 +86,20 @@ function EventsStatsController (
           });
           $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
           $scope.stats[category].total = $scope.rsvp[1].total;
-        }
-        if (gl.instanceType === 4) {
+        } else if (gl.instanceType === 4) {
           $scope.rsvp[1].total += gl.guestsCount;
           $scope.rsvp[2].total = $scope.stats[category].totalCheckedIn;
           $scope.stats[category].total = $scope.rsvp[1].total;
         }
       }
-
-      $scope.totalGuests += $scope.stats[category].total;
     });
+
+    var totalGuests = 0;
+    angular.forEach($scope.stats, function(category) {
+      totalGuests += category.total;
+    });
+    $scope.totalGuests = totalGuests;
+
     eventsService.getRSVPVisitors($scope.event.id).then(
       function(data) {
         $scope.rsvpTotalVisitors = data;

@@ -1,7 +1,7 @@
 <div ng-init="getGuestLists()">
-    <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-    <h3 class="md-title" ng-show="guestLists.length === 0">No guest lists found</h3>
-    <div ng-show="guestLists.length > 0">
-        <ui-grid-responsive options="options"></ui-grid-responsive>
-    </div>
+  <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+  <h3 class="md-title" ng-show="guestLists.length === 0">No guest lists found</h3>
+  <div ng-show="guestLists.length > 0">
+    <ui-grid-responsive options="options"></ui-grid-responsive>
+  </div>
 </div>
