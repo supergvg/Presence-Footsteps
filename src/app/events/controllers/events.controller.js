@@ -17,6 +17,7 @@ function EventsController ($scope, $filter, facebookService) {
       time: $scope.formatDate(event.startDate),
       endTime: $scope.formatDate(event.endDate),
       location: event.location,
+      invitePicture: event.image,
       type: 1,
       rsvpType: 3,
       guestLists: [],
