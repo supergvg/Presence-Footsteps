@@ -22,7 +22,10 @@
                 <h5>{{::event.title}}</h5>
                 <span><strong>Starts:</strong> {{::event.startDate | date:'MMM d, y h:mm a'}}</span>
                 <span><strong>Ends:</strong> {{::event.endDate | date:'MMM d, y h:mm a'}}</span>
-                <span><md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon> {{::event.location}}</span>
+                <div layout="row" layout-align="start start" class="location">
+                  <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>
+                  <span>{{::event.location}}</span>
+                </div>
               </div>
             </div>
           </md-radio-button>

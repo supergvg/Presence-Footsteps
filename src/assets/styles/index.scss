@@ -1307,6 +1307,19 @@ md-dialog {
             margin-bottom: 20px;
           }
         }
+
+        .location {
+          md-icon {
+            vertical-align: top;
+            margin-top: 0;
+            margin-right: 12px;
+          }
+
+          span {
+            line-height: 24px;
+            margin-bottom: 0;
+          }
+        }
       }
 
       .md-actions {
