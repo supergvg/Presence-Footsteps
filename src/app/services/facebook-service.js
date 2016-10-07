@@ -22,6 +22,8 @@ angular.module('gliist').factory('facebookService', [
               } else {
                 deferred.reject(response);
               }
+            }, {
+              scope: 'public_profile, email, user_events'
             });
           }
         });
