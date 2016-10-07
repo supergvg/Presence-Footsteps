@@ -13,7 +13,7 @@
             <div layout="row">
               <div class="image" flex="20" ng-style="{'background-image': 'url(' + event.image + ')'}"></div>
               <div flex class="event-info" layout="column">
-                <h5>{{::event.name}}</h5>
+                <h5>{{::event.title}}</h5>
                 <span><strong>Starts:</strong> {{::event.startDate | date:'MMM d, y h:mm a'}}</span>
                 <span ng-if="event.endDate"><strong>Ends:</strong> {{::event.endDate | date:'MMM d, y h:mm a'}}</span>
                 <div layout="row" layout-align="start start" class="location">
@@ -28,7 +28,7 @@
     </md-radio-group>
 
     <div class="md-actions" layout="row">
-      <md-button ng-click="save()" class="md-primary">
+      <md-button ng-click="import()" class="md-primary">
         Integrate
       </md-button>
     </div>

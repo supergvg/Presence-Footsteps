@@ -1,6 +1,6 @@
 'use strict';
 
-function FacebookEventsController ($scope, facebookService) {
+function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebookService) {
   $scope.fetchingData = true;
 
   // TODO: store FB user id in session.
@@ -12,10 +12,21 @@ function FacebookEventsController ($scope, facebookService) {
       });
     });
   });
+
+  $scope.import = function () {
+    $mdDialog.hide();
+    if ($scope.selectedEvent) {
+      $state.go('main.create_event');
+      $rootScope.$broadcast('facebookEventImport', $scope.selectedEvent);
+    }
+  };
 }
 
 FacebookEventsController.$inject = [
   '$scope',
+  '$rootScope',
+  '$state',
+  '$mdDialog',
   'facebookService'
 ];
 

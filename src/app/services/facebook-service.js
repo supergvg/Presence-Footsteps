@@ -54,13 +54,12 @@ angular.module('gliist').factory('facebookService', [
         var deferred = $q.defer();
 
         FB.api('/' + eventId, {fields: 'id, name, cover, start_time, end_time, place'}, function (response) {
-          console.log('event', response);
           deferred.resolve({
             id: response.id,
-            name: response.name,
+            title: response.name,
             image: response.cover.source,
-            startDate: response.start_time,
-            endDate: response.end_time,
+            startDate: new Date(response.start_time),
+            endDate: response.end_time ? new Date(response.end_time) : null,
             location: response.place.name
           });
         });
@@ -73,10 +72,8 @@ angular.module('gliist').factory('facebookService', [
         var deferred = $q.defer();
 
         // TODO: add pagination
-        // TODO: account for event timezone
         // TODO: add error handling
         FB.api('/' + userId + '/events', {type: 'created'}, function (response) {
-          console.log('events', response);
           if (response && !response.error) {
             var promises = response.data.map(function (event) {
               return self.getEventData(event.id);
