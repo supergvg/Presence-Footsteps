@@ -6,7 +6,7 @@
 angular.module('gliist').factory('facebookService', [
   '$q',
   function ($q) {
-    return  {
+    var facebookService = {
       login: function () {
         var deferred = $q.defer();
 
@@ -32,60 +32,66 @@ angular.module('gliist').factory('facebookService', [
       },
 
       getUserData: function () {
-        var deferred = $q.defer();
+        return facebookService.login().then(function () {
+          var deferred = $q.defer();
 
-        FB.api('/me', {fields: 'first_name, last_name, email'}, function (response) {
-          if (!response || response.error) {
-            deferred.reject(response ? response.error : null);
-          } else {
-            deferred.resolve({
-              id: response.id,
-              firstName: response.first_name,
-              lastName: response.last_name,
-              email: response.email
-            });
-          }
+          FB.api('/me', {fields: 'first_name, last_name, email'}, function (response) {
+            if (!response || response.error) {
+              deferred.reject(response ? response.error : null);
+            } else {
+              deferred.resolve({
+                id: response.id,
+                firstName: response.first_name,
+                lastName: response.last_name,
+                email: response.email
+              });
+            }
+          });
+
+          return deferred.promise;
         });
-
-        return deferred.promise;
       },
 
       getEventData: function (eventId) {
-        var deferred = $q.defer();
+        return facebookService.login().then(function () {
+          var deferred = $q.defer();
 
-        FB.api('/' + eventId, {fields: 'id, name, cover, start_time, end_time, place'}, function (response) {
-          deferred.resolve({
-            id: response.id,
-            title: response.name,
-            image: response.cover.source,
-            startDate: new Date(response.start_time),
-            endDate: response.end_time ? new Date(response.end_time) : null,
-            location: response.place.name
+          FB.api('/' + eventId, {fields: 'id, name, cover, start_time, end_time, place'}, function (response) {
+            deferred.resolve({
+              id: response.id,
+              title: response.name,
+              image: response.cover.source,
+              startDate: new Date(response.start_time),
+              endDate: response.end_time ? new Date(response.end_time) : null,
+              location: response.place.name
+            });
           });
-        });
 
-        return deferred.promise;
+          return deferred.promise;
+        });
       },
 
-      getEvents: function (userId) {
-        var self = this;
-        var deferred = $q.defer();
+      getEvents: function () {
+        return facebookService.getUserData().then(function (user) {
+          var deferred = $q.defer();
 
-        // TODO: add pagination
-        // TODO: add error handling
-        FB.api('/' + userId + '/events', {type: 'created'}, function (response) {
-          if (response && !response.error) {
-            var promises = response.data.map(function (event) {
-              return self.getEventData(event.id);
-            });
-            $q.all(promises).then(function (events) {
-              deferred.resolve(events);
-            });
-          }
+          // TODO: add pagination
+          // TODO: add error handling
+          FB.api('/' + user.id + '/events', {type: 'created'}, function (response) {
+            if (response && !response.error) {
+              var promises = response.data.map(function (event) {
+                return facebookService.getEventData(event.id);
+              });
+              $q.all(promises).then(function (events) {
+                deferred.resolve(events);
+              });
+            }
+          });
+
+          return deferred.promise;
         });
-
-        return deferred.promise;
       }
     };
+    return facebookService;
   }
 ]);

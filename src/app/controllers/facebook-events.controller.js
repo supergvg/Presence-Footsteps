@@ -3,14 +3,9 @@
 function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebookService) {
   $scope.fetchingData = true;
 
-  // TODO: store FB user id in session.
-  facebookService.login().then(function () {
-    facebookService.getUserData().then(function (user) {
-      facebookService.getEvents(user.id).then(function (events) {
-        $scope.fetchingData = false;
-        $scope.events = events;
-      });
-    });
+  facebookService.getEvents().then(function (events) {
+    $scope.fetchingData = false;
+    $scope.events = events;
   });
 
   $scope.import = function () {
