@@ -9,29 +9,26 @@
       <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
     </span>
   </div>
-  <div ng-hide="fetchingData">
-    <div class="content">
-      Please select ONE event to integrate into gjests
+  <div ng-hide="fetchingData" flex layout="column" class="content">
+    <h4>Please select ONE event to integrate into gjests</h4>
 
-      <md-radio-group ng-model="selectedEvent">
-        <md-list>
-          <md-list-item layout="row" ng-repeat="event in events track by event.id">
-            <md-radio-button ng-value="event" aria-label="{{::event.title}}">
-              <div layout="row">
-                <img ng-src="{{::event.img}}">
-                <div layout="column">
-                  <span>{{::event.title}}</span>
-                  <span>Starts: {{::event.startDate | date:'MMM d, y h:mm a'}}</span>
-                  <span>Ends: {{::event.endDate | date:'MMM d, y h:mm a'}}</span>
-                  <span>{{::event.location}}</span>
-                </div>
+    <md-radio-group ng-model="selectedEvent">
+      <md-list>
+        <md-list-item layout="row" ng-repeat="event in events track by event.id">
+          <md-radio-button ng-value="event" aria-label="{{::event.title}}">
+            <div layout="row">
+              <img ng-src="{{::event.img}}">
+              <div class="event-info" layout="column">
+                <h5>{{::event.title}}</h5>
+                <span><strong>Starts:</strong> {{::event.startDate | date:'MMM d, y h:mm a'}}</span>
+                <span><strong>Ends:</strong> {{::event.endDate | date:'MMM d, y h:mm a'}}</span>
+                <span><md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon> {{::event.location}}</span>
               </div>
-            </md-radio-button>
-          </md-list-item>
-        </md-list>
-      </md-radio-group>
-
+            </div>
+          </md-radio-button>
+        </md-list-item>
+      </md-list>
+    </md-radio-group>
 
     </div>
-  </div>
 </md-dialog>

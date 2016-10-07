@@ -1271,7 +1271,41 @@ md-dialog {
     }
 
     .content {
-      padding: 0 40px;
+      h4 {
+        font-weight: bold;
+        margin: 25px 40px 10px;
+      }
+
+      md-radio-group {
+        overflow: auto;
+        padding: 0 40px;
+      }
+
+      md-list-item {
+        border-bottom: 1px solid #8f8f8f;
+
+        md-radio-button {
+          padding: 20px 0;
+        }
+
+        .md-label {
+          margin-left: 23px;
+        }
+
+        .event-info {
+          margin-left: 30px;
+
+          h5 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 6px 0 25px 0;
+          }
+
+          span {
+            margin-bottom: 20px;
+          }
+        }
+      }
     }
   }
 }
