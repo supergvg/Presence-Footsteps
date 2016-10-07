@@ -1272,10 +1272,6 @@ md-dialog {
       padding: 25px 50px;
     }
 
-    .fetching {
-      text-align: center;
-    }
-
     .content {
       h4 {
         font-weight: bold;
@@ -1296,6 +1292,10 @@ md-dialog {
 
         .md-label {
           margin-left: 23px;
+        }
+
+        .image {
+          background-size: auto 100%;
         }
 
         .event-info {

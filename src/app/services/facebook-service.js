@@ -50,55 +50,40 @@ angular.module('gliist').factory('facebookService', [
         return deferred.promise;
       },
 
-      getEvents: function (userId) {
-        var events = [
-          {
-            id: 1,
-            title: 'Waterfight NYC 2016 #StayWet',
-            img: 'http://loremflickr.com/150/150/cat',
-            startDate: new Date(),
-            endDate: new Date(),
-            location: 'Sheep Meadow, Central Park, New York, New Your 10023'
-          },
-          {
-            id: 2,
-            title: 'Kickstarter Summer Festival 2016',
-            img: 'http://loremflickr.com/150/150/cat',
-            startDate: new Date(),
-            endDate: new Date(),
-            location: 'Fort Greene Park, Brooklyn, New York 11217'
-          },
-          {
-            id: 3,
-            title: 'Quiet Clubbing Party Cruise',
-            img: 'http://loremflickr.com/150/150/cat',
-            startDate: new Date(),
-            endDate: new Date(),
-            location: 'Circle Line Sightseeing Cruises, Pier 83, West 42nd Street & 12th Avenue, New York, New York 10036'
-          }
-        ];
-
+      getEventData: function (eventId) {
         var deferred = $q.defer();
 
-        // TODO: load only created events?
+        FB.api('/' + eventId, {fields: 'id, name, cover, start_time, end_time, place'}, function (response) {
+          console.log('event', response);
+          deferred.resolve({
+            id: response.id,
+            name: response.name,
+            image: response.cover.source,
+            startDate: response.start_time,
+            endDate: response.end_time,
+            location: response.place.name
+          });
+        });
+
+        return deferred.promise;
+      },
+
+      getEvents: function (userId) {
+        var self = this;
+        var deferred = $q.defer();
+
         // TODO: add pagination
         // TODO: account for event timezone
         // TODO: add error handling
-        FB.api('/' + userId + '/events', function (response) {
-          console.log(response);
+        FB.api('/' + userId + '/events', {type: 'created'}, function (response) {
+          console.log('events', response);
           if (response && !response.error) {
-            // events = response.data.map(function (event) {
-            response.data.map(function (event) {
-              return {
-                id: event.id,
-                name: event.name,
-                image: event.cover,
-                startDate: event.start_time,
-                endDate: event.end_time,
-                location: event.place
-              };
+            var promises = response.data.map(function (event) {
+              return self.getEventData(event.id);
             });
-            deferred.resolve(events);
+            $q.all(promises).then(function (events) {
+              deferred.resolve(events);
+            });
           }
         });
 
