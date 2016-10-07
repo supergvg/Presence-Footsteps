@@ -1264,6 +1264,8 @@ md-dialog {
   }
 
   &.facebook-events-popup {
+    max-width: 55%;
+
     .header {
       background-color: #e6e6e6;
       font-size: 21px;
@@ -1305,6 +1307,12 @@ md-dialog {
             margin-bottom: 20px;
           }
         }
+      }
+
+      .md-actions {
+        margin-top: 40px;
+        margin-right: 25px;
+        margin-bottom: 30px;
       }
     }
   }
