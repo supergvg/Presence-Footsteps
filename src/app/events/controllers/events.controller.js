@@ -15,7 +15,13 @@ function EventsController ($scope, $filter, facebookService) {
     $scope.currentEvent = {
       title: event.title,
       time: $scope.formatDate(event.startDate),
-      endTime: $scope.formatDate(event.endDate)
+      endTime: $scope.formatDate(event.endDate),
+      location: event.location,
+      type: 1,
+      rsvpType: 3,
+      guestLists: [],
+      additionalGuests: 0,
+      isRsvpCapacityLimited: false
     };
   };
 
