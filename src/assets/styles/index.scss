@@ -1264,12 +1264,16 @@ md-dialog {
   }
 
   &.facebook-events-popup {
-    max-width: 55%;
+    width: 55%;
 
     .header {
       background-color: #e6e6e6;
       font-size: 21px;
       padding: 25px 50px;
+    }
+
+    .fetching {
+      text-align: center;
     }
 
     .content {
