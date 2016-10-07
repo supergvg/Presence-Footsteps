@@ -11,8 +11,9 @@ function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebo
   $scope.import = function () {
     $mdDialog.hide();
     if ($scope.selectedEvent) {
-      $state.go('main.create_event');
-      $rootScope.$broadcast('facebookEventImport', $scope.selectedEvent);
+      $state.go('main.create_event').then(function () {
+        $rootScope.$broadcast('facebookEventImport', $scope.selectedEvent);
+      });
     }
   };
 }
