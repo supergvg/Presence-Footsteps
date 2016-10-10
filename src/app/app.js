@@ -138,6 +138,8 @@ function AppController (
   $scope.facebookSignUp = function () {
     facebookService.getUserData().then(function (data) {
       data.username = data.email;
+      data.facebookId = data.id;
+      delete data.id;
       userService.setUserData(data);
       $state.go('signup');
     });
