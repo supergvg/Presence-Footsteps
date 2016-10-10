@@ -13,6 +13,7 @@ function EventsController ($scope, $filter, facebookService) {
   $scope.importFacebookEvent = function (event) {
     $scope.facebookEvent = event;
     $scope.currentEvent = {
+      FacebookId: event.id,
       title: event.title,
       time: $scope.formatDate(event.startDate),
       endTime: $scope.formatDate(event.endDate),
