@@ -3,6 +3,7 @@
     <div>
       <img src="assets/images/gliist_logo.png" style="height:90px"/>
     </div>
+
     <div>
       <md-input-container>
         <label>Email</label>
@@ -13,17 +14,22 @@
         <input class="rounded-lr" type="password" ng-model="credentials.password" ng-keypress="onEnterPress($event)" required>
       </md-input-container>
     </div>
+
     <div class="action">
       <md-button class="raised-btn" ng-click="login()" ng-disabled="!credentials.username || !credentials.password">
         login
       </md-button>
       <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     </div>
-    <div>
-      <md-button class="md-primary" style="color:white!important;" ui-sref="recover_password">
-        Forgot Password
-      </md-button>
-    </div>
+
+    <md-button class="md-primary" style="color:white!important;" ui-sref="recover_password">
+      Forgot Password
+    </md-button>
+
+    <md-button class="facebook-btn" ng-click="facebookSignIn()">
+      <img src="assets/images/icons/facebook_logo.png">
+      Sign In With Facebook
+    </md-button>
   </div>
   <div class="footer">
     <div layout="column" layout-align="center center">

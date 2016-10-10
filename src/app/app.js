@@ -135,6 +135,16 @@ function AppController (
     });
   };
 
+  $scope.facebookSignIn = function () {
+    facebookService.login().then(function (response) {
+      var token = response.authResponse.accessToken;
+
+      facebookService.getUserData().then(function (user) {
+        console.log(token, user.email);
+      });
+    });
+  };
+
   $scope.facebookSignUp = function () {
     facebookService.getUserData().then(function (data) {
       data.username = data.email;
