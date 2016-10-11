@@ -148,12 +148,17 @@ function AppController (
   };
 
   $scope.facebookSignUp = function () {
-    facebookService.getUserData().then(function (data) {
-      data.username = data.email;
-      data.facebookId = data.id;
-      delete data.id;
-      userService.setUserData(data);
-      $state.go('signup');
+    facebookService.login().then(function (response) {
+      var token = response.authResponse.accessToken;
+      facebookService.getUserData().then(function (data) {
+        userService.setUserData({
+          FacebookToken: token,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          username: data.email
+        });
+        $state.go('signup');
+      });
     });
   };
 

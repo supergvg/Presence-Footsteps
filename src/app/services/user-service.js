@@ -310,26 +310,20 @@ angular.module('gliist').factory('userService', [
       },
 
       registerEmail: function(user, inviteMode) {
-        var deferred = $q.defer(),
-          url = inviteMode ? 'api/Account/CreateUserByAccount' : 'api/Account/Register',
-          that = this;
+        var url = inviteMode ? 'api/Account/CreateUserByAccount' : 'api/Account/Register';
+        var that = this;
 
-        $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
+        return $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
           function() {
-            that.login(user).then(function() {
-              deferred.resolve();
-            }, function(response) {
-              deferred.reject(response.data);
-            });
+            userData = null;
+            return that.login(user);
           },
           function(response) {
             isLogged = false;
             userEmail = '';
-            deferred.reject(response.data);
+            return $q.reject(response.data);
           }
         );
-
-        return deferred.promise;
       },
 
       updateCompanySocialLinks: function(currentUser) {
