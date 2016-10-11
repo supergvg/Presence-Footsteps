@@ -118,29 +118,31 @@ function AppController (
     return $rootScope.currentUser;
   };
 
+  $scope.loginSuccesful = function () {
+    $state.go('main.welcome');
+  };
+
+  $scope.loginFailed = function (response) {
+    var message = (response && response.status !== 500 && response.data.error_description) || 'Something went wrong. Try again later please.';
+    dialogService.error(message);
+  };
+
   $scope.login = function() {
     if (!$scope.credentials.username || !$scope.credentials.password) {
       return;
     }
     $scope.fetchingData = true;
-    userService.login($scope.credentials).then(
-      function() {
-        $state.go('main.welcome');
-      }, function(response) {
-        var message = (response && response.status !== 500 && response.data.error_description) || 'Something went wrong. Try again later please.';
-        dialogService.error(message);
-      }
-    ).finally(function() {
+    userService.login($scope.credentials).then($scope.loginSuccesful, $scope.loginFailed).finally(function() {
       $scope.fetchingData = false;
     });
   };
 
   $scope.facebookSignIn = function () {
-    facebookService.login().then(function (response) {
-      var token = response.authResponse.accessToken;
+    facebookService.login().then(function (fbResponse) {
+      var token = fbResponse.authResponse.accessToken;
 
-      facebookService.getUserData().then(function (user) {
-        console.log(token, user.email);
+      userService.login({facebook_token: token}).then($scope.loginSuccesful, $scope.loginFailed).finally(function() {
+        $scope.fetchingData = false;
       });
     });
   };

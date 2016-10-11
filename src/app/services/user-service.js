@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$window', 'EnvironmentConfig',
-  function ($rootScope, $http, $q, $window, EnvironmentConfig) {
+angular.module('gliist').factory('userService', [
+  '$rootScope',
+  '$http',
+  '$httpParamSerializerJQLike',
+  '$q',
+  '$window',
+  'EnvironmentConfig',
+  function ($rootScope, $http, $httpParamSerializerJQLike, $q, $window, EnvironmentConfig) {
     var userEmail;
     var isLogged;
     var access_token;
@@ -271,22 +277,27 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
       },
 
       login: function(credentials) {
-        var d = $q.defer(),
-          body = 'grant_type=password&username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password);
+        var body;
+        if (credentials.username && credentials.password){
+          body = {
+            grant_type: 'password',
+            username: credentials.username,
+            password: credentials.password
+          };
+        } else {
+          body = credentials;
+          body.grant_type = 'password';
+        }
 
-        $http.post('Token', body, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
+        return $http.post('Token', $httpParamSerializerJQLike(body), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
           function(response) {
             onLoginSuccessful(response.data);
-            d.resolve();
-          },
-          function(response) {
+          }, function(response) {
             isLogged = false;
             userEmail = '';
-            d.reject(response);
+            return $q.reject(response);
           }
         );
-
-        return d.promise;
       },
 
       logout: function() {
