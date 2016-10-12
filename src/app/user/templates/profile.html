@@ -1,68 +1,77 @@
 <div class="profile">
-    <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
-        <h3>User Profile</h3>
-    </div>
-    <div layout="row" layout-align="space-between center" class="tabs margin-top">
-        <md-button ng-class="getSelected(0)" ng-click="toIndex(0)" flex>
-            Profile
-        </md-button>
-        <md-button ng-class="getSelected(1)" ng-click="toIndex(1)" remove-by-roles="promoter,staff,manager" flex>
-            Account
-        </md-button>
-        <md-button ng-class="getSelected(2)" ng-click="toIndex(2)" remove-by-roles="promoter,staff,manager" flex>
-            Billing
-        </md-button>
-    </div>
-    <div class="tab-content">
-        <ng-switch on="selectedIndex">
-            <div role="tabpanel"
-                 id="tab1-content"
-                 aria-labelledby="tab1"
-                 ng-switch-when="0"
-                 md-swipe-left="next($event)"
-                 md-swipe-right="previous($event)">
-                <user-details user="currentUser"></user-details>
-                <div layout="column" layout-align="start stretch" class="social-links-edit" remove-by-roles="promoter">
-                    <h4>Enter company's social media account link (to be included in all communications to guests)</h4>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
-                        <img src="assets/images/instagram.png"/>
-                        <md-input-container md-no-float flex="60" flex-sm="auto">
-                            <input type="text" ng-model="currentUser.instagrammPageUrl" placeholder="Enter instagram link">
-                        </md-input-container>
-                    </div>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
-                        <img src="assets/images/facebook.png"/>
-                        <md-input-container md-no-float flex="60" flex-sm="auto">
-                            <input type="text" ng-model="currentUser.facebookPageUrl" placeholder="Enter facebook link">
-                        </md-input-container>
-                    </div>
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
-                        <img src="assets/images/twitter.png"/>
-                        <md-input-container md-no-float flex="60" flex-sm="auto">
-                            <input type="text" ng-model="currentUser.twitterPageUrl" placeholder="Enter twitter link">
-                        </md-input-container>
-                    </div>
-                    <div layout="row" layout-align="end start" class="actions" layout-align-sm="center center">
-                        <md-button class="raised-btn" ng-click="link()">Link</md-button>
-                    </div>
-                </div>
-            </div>
-            <div role="tabpanel"
-                 id="tab2-content"
-                 aria-labelledby="tab2"
-                 ng-switch-when="1"
-                 md-swipe-left="next($event)"
-                 md-swipe-right="previous($event)">
-                <account-details user="currentUser"></account-details>
-            </div>
-            <div role="tabpanel"
-                 id="tab3-content"
-                 aria-labelledby="tab3"
-                 ng-switch-when="2"
-                 md-swipe-left="next($event)"
-                 md-swipe-right="previous($event)">
-                <billing></billing>
-            </div>
-        </ng-switch>
-    </div>
+  <div layout="row" layout-wrap layout-align="space-between center" class="section-title">
+    <h3>User Profile</h3>
+  </div>
+  <div layout="row" layout-align="space-between center" class="tabs margin-top">
+    <md-button ng-class="getSelected(0)" ng-click="toIndex(0)" flex>
+      Profile
+    </md-button>
+    <md-button ng-class="getSelected(1)" ng-click="toIndex(1)" remove-by-roles="promoter,staff,manager" flex>
+      Account
+    </md-button>
+    <md-button ng-class="getSelected(2)" ng-click="toIndex(2)" remove-by-roles="promoter,staff,manager" flex>
+      Billing
+    </md-button>
+  </div>
+  <div class="tab-content">
+    <ng-switch on="selectedIndex">
+      <div role="tabpanel"
+           id="tab1-content"
+           aria-labelledby="tab1"
+           ng-switch-when="0"
+           md-swipe-left="next($event)"
+           md-swipe-right="previous($event)">
+        <user-details user="currentUser"></user-details>
+
+        <div layout="row" layout-align="start center" class="facebook-integration">
+          <img src="assets/images/icons/facebook_blue.png" height="24" width="24">
+          <div flex>
+            <strong>Facebook Integration -</strong> Pull in your Facebook Event info and guests' info to gjests
+          </div>
+          <md-button class="raised-btn" ng-click="connectFacebook()">Connect</md-button>
+        </div>
+
+        <div layout="column" layout-align="start stretch" class="social-links-edit" remove-by-roles="promoter">
+          <h4>Enter the link to your Social Media accounts</h4>
+          <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
+            <img src="assets/images/instagram.png"/>
+            <md-input-container md-no-float flex="60" flex-sm="auto">
+              <input type="text" ng-model="currentUser.instagrammPageUrl" placeholder="Enter instagram link">
+            </md-input-container>
+          </div>
+          <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
+            <img src="assets/images/facebook.png"/>
+            <md-input-container md-no-float flex="60" flex-sm="auto">
+              <input type="text" ng-model="currentUser.facebookPageUrl" placeholder="Enter facebook link">
+            </md-input-container>
+          </div>
+          <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
+            <img src="assets/images/twitter.png"/>
+            <md-input-container md-no-float flex="60" flex-sm="auto">
+              <input type="text" ng-model="currentUser.twitterPageUrl" placeholder="Enter twitter link">
+            </md-input-container>
+          </div>
+          <div layout="row" layout-align="end start" class="actions" layout-align-sm="center center">
+            <md-button class="raised-btn" ng-click="link()">Link</md-button>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel"
+           id="tab2-content"
+           aria-labelledby="tab2"
+           ng-switch-when="1"
+           md-swipe-left="next($event)"
+           md-swipe-right="previous($event)">
+        <account-details user="currentUser"></account-details>
+      </div>
+      <div role="tabpanel"
+           id="tab3-content"
+           aria-labelledby="tab3"
+           ng-switch-when="2"
+           md-swipe-left="next($event)"
+           md-swipe-right="previous($event)">
+        <billing></billing>
+      </div>
+    </ng-switch>
+  </div>
 </div>

@@ -5,7 +5,8 @@
 
 angular.module('gliist').factory('facebookService', [
   '$q',
-  function ($q) {
+  '$http',
+  function ($q, $http) {
     var facebookService = {
       login: function () {
         var deferred = $q.defer();
@@ -90,6 +91,12 @@ angular.module('gliist').factory('facebookService', [
 
           return deferred.promise;
         });
+      },
+
+      connectAccount: function () {
+        return facebookService.login().then(function (response) {
+          return $http.post('AccountController/IntegrateFacebook', {token: response.authResponse.accessToken});
+        })
       }
     };
     return facebookService;

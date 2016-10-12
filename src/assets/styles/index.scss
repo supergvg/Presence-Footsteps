@@ -3,6 +3,7 @@
 
 p,
 b,
+strong,
 h3,
 h4,
 html {
@@ -1343,6 +1344,16 @@ md-dialog {
 
 .profile {
   color: #8e8e8e;
+
+  .facebook-integration {
+    font-size: 16px;
+    margin-bottom: 20px;
+
+    img {
+      margin-right: 15px;
+    }
+  }
+
   .social-links-edit {
     border-top: 1px solid #b3b3b3;
     h4 {
