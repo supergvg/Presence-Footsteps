@@ -54,7 +54,8 @@ angular.module('gliist').factory('facebookService', [
       },
 
       getEventData: function (eventId) {
-        return facebookService.login().then(function () {
+        return facebookService.login().then(function (response) {
+          var userId = response.authResponse.userID;
           var deferred = $q.defer();
 
           FB.api('/' + eventId, {fields: 'id, name, cover, start_time, end_time, place, attending, maybe, noreply'}, function (response) {
@@ -64,6 +65,12 @@ angular.module('gliist').factory('facebookService', [
                 guests = guests.concat(response[group].data);
               }
             });
+
+            // Facebook includes event author in the guest lists.
+            guests = guests.filter(function (guest) {
+              return guest.id !== userId;
+            });
+
             deferred.resolve({
               id: response.id,
               title: response.name,
