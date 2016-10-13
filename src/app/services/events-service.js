@@ -308,6 +308,15 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
         });
     },
 
+    getGuestsForCheckin: function (id) {
+      return $http.get('api/GuestEventController/GetGuestsForCheckin/' + id)
+        .then(function (response) {
+          return response.data;
+        }, function () {
+          return 'Oops there was an error trying to get guests, please try again';
+        });
+    },
+
     deleteEvent: function (id) {
       var d = $q.defer();
 

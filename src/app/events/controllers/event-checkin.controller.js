@@ -100,32 +100,12 @@ angular.module('gliist')
                 var eventId = $stateParams.eventId;
                 $scope.options.gridData = [];
                 $scope.initializing = true;
-                eventsService.getEvents(eventId).then(function(data) {
-                    $scope.event = data;
+                eventsService.getGuestsForCheckin(eventId).then(function(data) {
+                    $scope.event = data.event;
                     if ($scope.pastEvent()) {
                         $scope.options.gridOptions.columnDefs.pop();
                     }
-                    angular.forEach($scope.event.guestLists, function(gl) {
-                        angular.forEach(gl.actual, function(checkin) {
-                            if (!checkin.guest.type) {
-                                checkin.guest.type = gl.listType;
-                            }
-                            if (!checkin.guest.title) {
-                                checkin.guest.title = gl.title;
-                            }
-                            $scope.options.gridData.push({
-                                firstName: checkin.guest.firstName,
-                                lastName: checkin.guest.lastName,
-                                title: checkin.guest.title,
-                                type: checkin.guest.type,
-                                email: checkin.guest.email,
-                                plus: checkin.guest.plus,
-                                id: checkin.guest.id,
-                                status: checkin.status,
-                                gliId: checkin.gl_id
-                            });
-                        });
-                    });
+                    $scope.options.gridData = data.guests;
                 }, function() {
                     dialogService.error('There was a problem getting your events, please try again');
                     $state.go('main.current_events');
