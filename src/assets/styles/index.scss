@@ -1411,17 +1411,20 @@ md-dialog {
 .choose_plan {
   padding: 0 !important;
   background-color: #fff !important;
+
   .header-image {
     margin: 50px 0 15px 0;
     height: 90px;
   }
+
   h4 {
     font-weight: bold;
     color: #aaa;
   }
+
   .tariff-blocks {
     margin: 20px 0;
-    text-align: center;
+
     .tariff-block {
       width: 225px;
       display: inline-block;
@@ -1429,6 +1432,7 @@ md-dialog {
       font-size: 14px;
       background-color: #ececec;
       vertical-align: top;
+
       .tariff-header {
         background-color: #99ccff;
         height: 215px;
@@ -1436,21 +1440,26 @@ md-dialog {
         font-weight: bold;
         text-align: center;
         padding: 10px 10px 20px 10px;
+
         &.disabled {
           background-color: #c1ddf9;
         }
+
         &.popular {
           background-image: url(/assets/images/popular.png);
           background-position:  100% 0;
           background-repeat: no-repeat;
         }
+
         img {
           height: 38px;
         }
+
         .title {
           margin-top: 15px;
           font-size: 20px;
         }
+
         .price {
           margin-top: 25px;
           font-size: 18px;
@@ -1460,37 +1469,45 @@ md-dialog {
             font-weight: normal;
           }
         }
+
         .description {
           margin-top: 15px;
           font-weight: normal;
           font-size: 13px;
         }
       }
+
       .tariff-content {
         border-top: 2px dashed #8e8e8e;
         min-height: 335px;
         font-size: 13px;
         color: #8e8e8e;
+
         .description {
           padding: 20px 10px;
           width: 100%;
           line-height: 1.7;
         }
+
         b {
           color: #8e8e8e;
         }
+
         ul {
           list-style: none;
           padding: 20px;
           text-align: center;
+
           li {
             padding: 2px 0;
           }
         }
+
         md-radio-group {
           border-top: 2px dashed #8e8e8e;
           padding: 20px;
           text-align: left;
+
           md-radio-button {
             .md-off {
               background-color: #fff;
@@ -1502,15 +1519,18 @@ md-dialog {
           }
         }
       }
+
       .tariff-footer {
         border-top: 2px dashed #8e8e8e;
         padding: 15px;
         height: 90px;
+
         h4 {
           font-weight: normal;
           margin-top: 0;
           font-size: 20px;
           color: #8f8f8f;
+
           &.small-font {
             font-size: 14px;
           }
