@@ -14,6 +14,7 @@ function EventsController ($scope, $filter, facebookService) {
     $scope.facebookEvent = event;
     $scope.currentEvent = {
       FacebookId: event.id,
+      FacebookGuests: event.guests,
       title: event.title,
       time: $scope.formatDate(event.startDate),
       endTime: $scope.formatDate(event.endDate),
