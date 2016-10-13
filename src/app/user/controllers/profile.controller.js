@@ -35,7 +35,9 @@ function ProfileController (
   };
 
   $scope.connectFacebook = function () {
-    facebookService.connectAccount();
+    facebookService.connectAccount().then(function () {
+      dialogService.success('Facebook account connected');
+    });
   };
 
   $scope.link = function() {
