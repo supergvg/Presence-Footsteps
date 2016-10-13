@@ -3,6 +3,7 @@
 
 p,
 b,
+strong,
 h3,
 h4,
 html {
@@ -295,6 +296,10 @@ md-toolbar {
 }
 
 md-sidenav {
+  width: 354px !important;
+  min-width: 354px !important;
+  max-width: 354px !important;
+
   .item-selected {
     background-color: #ccc !important;
   }
@@ -405,6 +410,15 @@ md-tooltip .md-content{
     &:hover {
       background: linear-gradient(to bottom, #65aef6, #98ccff);
     }
+  }
+
+  &.facebook-btn {
+    color: #fff;
+    border: 1px solid #365285;
+    border-radius: 25px;
+    background-image: linear-gradient(to bottom, #6b8bcd 0%, #4464ab 100%);
+    box-shadow: 0 3px 7px 0 rgba(77, 77, 77, 0.35);
+    padding: 0 20px;
   }
 }
 
@@ -1047,13 +1061,16 @@ md-checkbox .md-icon {
 md-dialog {
   overflow-x: hidden;
   color: #666;
+
   .actions-sm {
     min-height: 60px;
   }
+
   .actions,
   md-content {
     padding: 10px 20px;
   }
+
   .md-actions button {
     width: auto;
     &:first-child:not(:last-child) {
@@ -1062,6 +1079,7 @@ md-dialog {
       box-shadow: none !important;
     }
   }
+
   &.payment-info {
     md-content {
       padding: 10px 55px 0 55px;
@@ -1078,6 +1096,7 @@ md-dialog {
       }
     }
   }
+
   &.welcome-popup {
     z-index: 1;
     .header {
@@ -1106,6 +1125,7 @@ md-dialog {
       }
     }
   }
+
   &.link-account-dialog {
     p {
       padding: 10px 16px 0 16px;
@@ -1117,6 +1137,7 @@ md-dialog {
     }
 
   }
+
   &.payment-popup {
     overflow-y: auto;
     max-width: 100%;
@@ -1242,6 +1263,77 @@ md-dialog {
       border: 5px solid #99ccff;
     }
   }
+
+  &.facebook-events-popup {
+    width: 55%;
+
+    .header {
+      background-color: #e6e6e6;
+      font-size: 21px;
+      padding: 25px 50px;
+    }
+
+    .content {
+      h4 {
+        font-weight: bold;
+        margin: 25px 40px 10px;
+      }
+
+      md-radio-group {
+        overflow: auto;
+        padding: 0 40px;
+      }
+
+      md-list-item {
+        border-bottom: 1px solid #8f8f8f;
+
+        md-radio-button {
+          padding: 20px 0;
+        }
+
+        .md-label {
+          margin-left: 23px;
+        }
+
+        .image {
+          background-size: auto 100%;
+        }
+
+        .event-info {
+          margin-left: 30px;
+
+          h5 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 6px 0 25px 0;
+          }
+
+          span {
+            margin-bottom: 20px;
+          }
+        }
+
+        .location {
+          md-icon {
+            vertical-align: top;
+            margin-top: 0;
+            margin-right: 12px;
+          }
+
+          span {
+            line-height: 24px;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .md-actions {
+        margin-top: 40px;
+        margin-right: 25px;
+        margin-bottom: 30px;
+      }
+    }
+  }
 }
 
 .welcome-select {
@@ -1252,6 +1344,16 @@ md-dialog {
 
 .profile {
   color: #8e8e8e;
+
+  .facebook-integration {
+    font-size: 16px;
+    margin-bottom: 20px;
+
+    img {
+      margin-right: 15px;
+    }
+  }
+
   .social-links-edit {
     border-top: 1px solid #b3b3b3;
     h4 {
@@ -1701,6 +1803,19 @@ md-dialog {
     h3,
     p {
       color: #fff;
+    }
+  }
+
+  .md-button {
+    width: 300px;
+
+    & + .md-button {
+      margin-top: 25px;
+    }
+
+    &.facebook-btn span {
+      margin-left: 20px;
+      text-shadow: 0 -1px 0 #b3b3b3;
     }
   }
 }

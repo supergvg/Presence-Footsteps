@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$window', 'EnvironmentConfig',
-  function ($rootScope, $http, $q, $window, EnvironmentConfig) {
+angular.module('gliist').factory('userService', [
+  '$rootScope',
+  '$http',
+  '$httpParamSerializerJQLike',
+  '$q',
+  '$window',
+  'EnvironmentConfig',
+  function ($rootScope, $http, $httpParamSerializerJQLike, $q, $window, EnvironmentConfig) {
     var userEmail;
     var isLogged;
     var access_token;
@@ -25,6 +31,14 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
     var cacheKey = Date.now();
 
     return {
+      setUserData: function (data) {
+        userData = data;
+      },
+
+      getUserData: function () {
+        return userData;
+      },
+
       resetCacheKey: function() {
         cacheKey = Date.now();
       },
@@ -233,29 +247,22 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
       },
 
       getCurrentUser: function() {
-        var deferred = $q.defer(),
-          url = 'api/Account/UserInfo',
-          self = this;
+        var url = 'api/Account/UserInfo';
+        var self = this;
 
         if (userData) {
-          deferred.resolve(userData);
+          return $q.resolve(userData);
         }
-        $http({
-          method: 'GET',
-          url: url,
-          params: {},
+        return $http.get(url, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
-        }).success(function (data) {
-          self.userData = data;
-          deferred.resolve(self.userData);
-
-        }).error(function (data) {
-          deferred.reject(data);
+        }).then(function (response) {
+          self.userData = response.data;
+          return self.userData;
+        }, function (response) {
+          return response.data;
         });
-
-        return deferred.promise;
       },
 
       getLogged: function() {
@@ -270,22 +277,27 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
       },
 
       login: function(credentials) {
-        var d = $q.defer(),
-          body = 'grant_type=password&username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password);
+        var body;
+        if (credentials.username && credentials.password){
+          body = {
+            grant_type: 'password',
+            username: credentials.username,
+            password: credentials.password
+          };
+        } else {
+          body = credentials;
+          body.grant_type = 'password';
+        }
 
-        $http.post('Token', body, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
+        return $http.post('Token', $httpParamSerializerJQLike(body), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
           function(response) {
             onLoginSuccessful(response.data);
-            d.resolve();
-          },
-          function(response) {
+          }, function(response) {
             isLogged = false;
             userEmail = '';
-            d.reject(response);
+            return $q.reject(response);
           }
         );
-
-        return d.promise;
       },
 
       logout: function() {
@@ -298,26 +310,20 @@ angular.module('gliist').factory('userService', ['$rootScope', '$http', '$q', '$
       },
 
       registerEmail: function(user, inviteMode) {
-        var deferred = $q.defer(),
-          url = inviteMode ? 'api/Account/CreateUserByAccount' : 'api/Account/Register',
-          that = this;
+        var url = inviteMode ? 'api/Account/CreateUserByAccount' : 'api/Account/Register';
+        var that = this;
 
-        $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
+        return $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
           function() {
-            that.login(user).then(function() {
-              deferred.resolve();
-            }, function(response) {
-              deferred.reject(response.data);
-            });
+            userData = null;
+            return that.login(user);
           },
           function(response) {
             isLogged = false;
             userEmail = '';
-            deferred.reject(response.data);
+            return $q.reject(response.data);
           }
         );
-
-        return deferred.promise;
       },
 
       updateCompanySocialLinks: function(currentUser) {

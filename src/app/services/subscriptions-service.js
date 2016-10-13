@@ -172,14 +172,16 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
             return vResult(featureStatus.notAllowed);
           }
           if ($rootScope.currentUser.subscription.status === 'Unpaid') {
-            if(!$rootScope.currentUser.subscription.endDate)
+            if(!$rootScope.currentUser.subscription.endDate) {
               return vResult(featureStatus.notAllowed);
+            }
 
             var nextDay = new Date($rootScope.currentUser.subscription.endDate);
             nextDay.setDate(nextDay.getDate() + 1);
 
-            if(nextDay < new Date()) //allow to use for 1 day while payment is being processed
+            if(nextDay < new Date()) { //allow to use for 1 day while payment is being processed
               return vResult(featureStatus.notAllowed);
+            }
           }
           return null;
         },
@@ -289,7 +291,7 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
           return null;
         },
         function () { //AllFeaturesPolicyValidator 8
-          if (findUsedPolicyByType('Allow', 'All') || (features['All'] && features['All'].type === 'Allow')) {
+          if (findUsedPolicyByType('Allow', 'All') || (features.All && features.All.type === 'Allow')) {
             return vResult(featureStatus.allowed);
           }
           return null;

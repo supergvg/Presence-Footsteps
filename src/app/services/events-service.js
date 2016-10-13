@@ -41,23 +41,23 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
       return d.promise;
     },
 
-          postGuestCheckin: function (checkinData, glInstance) {
-            return $http.post('api/GuestEventController/CheckinGuest', {
-              guestId: checkinData.guest.id,
-              gliId: glInstance.id,
-              plus: checkinData.plus
-            }).then(
-              function(response) {
-                return response;
-              },
-              function(response) {
-                if (!subscriptionsService.process403Status(response)) {
-                  var message = response.data.Message || 'Oops there was a problem getting guest, please try again';
-                  dialogService.error(message);
-                }
-              }
-            );
-          },
+    postGuestCheckin: function (checkinData, glInstance) {
+      return $http.post('api/GuestEventController/CheckinGuest', {
+        guestId: checkinData.guest.id,
+        gliId: glInstance.id,
+        plus: checkinData.plus
+      }).then(
+        function(response) {
+          return response;
+        },
+        function(response) {
+          if (!subscriptionsService.process403Status(response)) {
+            var message = response.data.Message || 'Oops there was a problem getting guest, please try again';
+            dialogService.error(message);
+          }
+        }
+      );
+    },
 
     postGuestUndoCheckin: function (checkinData, glInstance) {
       var d = $q.defer();
@@ -98,11 +98,11 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
         d.reject('Oops there was an error trying to get guest information, please try again');
       });
 
-                return d.promise;
-            },
+      return d.promise;
+    },
 
-            updateGuestNotes: function(guestId, notes) {
-                var d = $q.defer();
+    updateGuestNotes: function(guestId, notes) {
+      var d = $q.defer();
 
       $http({
         method: 'POST',

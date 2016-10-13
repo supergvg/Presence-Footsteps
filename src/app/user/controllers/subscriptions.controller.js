@@ -13,26 +13,27 @@ function SubscriptionsCtrl (
   $scope.options = $scope.options || {};
   $scope.planLabels = [];
 
-  $scope.isPricePolicyVisible = function (plan, pricePolicy) {
-    if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) {
-      return true;
-    }
-    var userSubscription = $rootScope.currentUser.subscription;
-    if (userSubscription.subscription.id === plan.id && userSubscription.pricePolicy.type === 'Promo') { //hide standard policies of same type
-      //for future releases: hide options covered by current price policy
-      var userpp = userSubscription.pricePolicy;
-      var userPriceTypes = [];
-      for (var i = 0, pc = userpp.prices.length; i < pc; i++) { //collect all price types for user's price policy
-        userPriceTypes.push(userpp.prices[i].type);
-      }
-      for (var i = 0, pc = pricePolicy.prices.length; i < pc; i++) {
-        if (userPriceTypes.indexOf(pricePolicy.prices[i].type) !== -1) {
-          return false;
-        }
-      }
-    }
-    return !(userSubscription.pricePolicy.id === pricePolicy.id);
-  };
+            $scope.isPricePolicyVisible = function (plan, pricePolicy) {
+                if (!$scope.isSubscribed() || $scope.subscriptionIsExpired()) {
+                    return true;
+                }
+                var userSubscription = $rootScope.currentUser.subscription;
+                if (userSubscription.subscription.id === plan.id && userSubscription.pricePolicy.type === 'Promo') { //hide standard policies of same type
+                    //for future releases: hide options covered by current price policy
+                    var userpp = userSubscription.pricePolicy;
+                    var userPriceTypes = [];
+                    var i, pc;
+                    for (i = 0, pc = userpp.prices.length; i < pc; i++) { //collect all price types for user's price policy
+                        userPriceTypes.push(userpp.prices[i].type);
+                    }
+                    for (i = 0, pc = pricePolicy.prices.length; i < pc; i++) {
+                        if (userPriceTypes.indexOf(pricePolicy.prices[i].type) !== -1) {
+                            return false;
+                        }
+                    }
+                }
+                return userSubscription.pricePolicy.id !== pricePolicy.id;
+            };
 
   $scope.subscriptionIsExpired = function () {
     if (!$rootScope.currentUser || !$rootScope.currentUser.subscription) {
