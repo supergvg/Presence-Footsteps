@@ -8,6 +8,10 @@ function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebo
     $scope.events = events;
   });
 
+  $scope.close = function() {
+    $mdDialog.hide();
+  };
+
   $scope.import = function () {
     $mdDialog.hide();
     if ($scope.selectedEvent) {

@@ -59,14 +59,14 @@ angular.module('gliist').factory('facebookService', [
           var deferred = $q.defer();
 
           var fields = 'id, name, cover, start_time, end_time, place';
-          var guestGroups = ['attending', 'maybe', 'noreply'];
+          var guestGroups = ['attending', 'maybe'/*, 'noreply'*/];
           var guestFields = 'id, first_name, last_name, email, rsvp_status';
 
           angular.forEach(guestGroups, function (group) {
             fields += ', ' + group +'{' + guestFields + '}';
           });
 
-          FB.api('/' + eventId, {fields: fields}, function (response) {
+          FB.api('/' + eventId, {fields: fields, since: Math.floor(Date.now() / 1000)}, function (response) {
             var guests = [];
             angular.forEach(guestGroups, function (group) {
               if (response[group]) {

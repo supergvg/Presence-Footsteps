@@ -1296,7 +1296,9 @@ md-dialog {
         }
 
         .image {
-          background-size: auto 100%;
+          background-size: 100% auto;
+          background-repeat: no-repeat;
+          background-position: center center;
         }
 
         .event-info {
