@@ -58,9 +58,17 @@ angular.module('gliist').factory('facebookService', [
           var userId = response.authResponse.userID;
           var deferred = $q.defer();
 
-          FB.api('/' + eventId, {fields: 'id, name, cover, start_time, end_time, place, attending{id,first_name,last_name,email,rsvp_status}, maybe{id,first_name,last_name,email,rsvp_status}, noreply{id,first_name,last_name,email,rsvp_status}'}, function (response) {
+          var fields = 'id, name, cover, start_time, end_time, place';
+          var guestGroups = ['attending', 'maybe', 'noreply'];
+          var guestFields = 'id, first_name, last_name, email, rsvp_status';
+
+          angular.forEach(guestGroups, function (group) {
+            fields += group +'{' + guestFields + '}';
+          });
+
+          FB.api('/' + eventId, {fields: fields}, function (response) {
             var guests = [];
-            angular.forEach(['attending', 'maybe', 'noreply'], function (group) {
+            angular.forEach(guestGroups, function (group) {
               if (response[group]) {
                 guests = guests.concat(response[group].data);
               }
