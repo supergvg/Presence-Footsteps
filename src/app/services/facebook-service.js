@@ -62,9 +62,9 @@ angular.module('gliist').factory('facebookService', [
           var guestGroups = ['attending', 'maybe', 'noreply'];
           var guestFields = 'id, first_name, last_name, email, rsvp_status';
 
-          fields += guestGroups.map(function (group) {
-            return group +'{' + guestFields + '}';
-          }).join(', ');
+          angular.forEach(guestGroups, function (group) {
+            fields += ', ' + group +'{' + guestFields + '}';
+          });
 
           FB.api('/' + eventId, {fields: fields}, function (response) {
             var guests = [];
