@@ -104,7 +104,10 @@ angular.module('gliist').factory('facebookService', [
 
           // TODO: add pagination
           // TODO: add error handling
-          FB.api('/' + user.id + '/events', {type: 'created', since: dateService.utc(new Date())}, function (response) {
+          FB.api('/' + user.id + '/events', {
+            type: 'created',
+            since: dateService.utc(new Date())
+          }, function (response) {
             if (response && !response.error) {
               var promises = response.data.map(function (event) {
                 return facebookService.getEventData(event.id);

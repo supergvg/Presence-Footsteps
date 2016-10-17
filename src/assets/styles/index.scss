@@ -1265,6 +1265,7 @@ md-dialog {
   }
 
   &.facebook-events-popup {
+    height: 80%;
     width: 55%;
 
     .header {
@@ -1333,6 +1334,13 @@ md-dialog {
         margin-top: 40px;
         margin-right: 25px;
         margin-bottom: 30px;
+      }
+
+      &.content-empty {
+        h4 {
+          margin: 0;
+          text-align: center;
+        }
       }
     }
   }
