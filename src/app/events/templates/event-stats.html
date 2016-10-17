@@ -74,7 +74,7 @@
                 Percentage
               </div>
             </md-list-item>
-            <md-list-item ng-repeat="category in categories" style="background-color: {{category.color}};">
+            <md-list-item ng-repeat="category in categories" ng-style="{'background-color': category.color, color: category.fontColor};">
               <div flex="45">
                 {{category.name}}
               </div>

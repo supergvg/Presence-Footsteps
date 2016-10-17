@@ -28,7 +28,8 @@ function EventsStatsController (
     {name: 'On the spot', color: '#f0f6fb'},
     {name: 'Parking Pass', color: '#dcecf9'},
     {name: 'Shuttle Pass', color: '#fef5d5'},
-    {name: 'Table Service', color: '#feded6'}
+    {name: 'Table Service', color: '#feded6'},
+    {name: 'Facebook', color: '#3b5998', fontColor: '#fff'}
   ];
   $scope.rsvp = [
     {name: 'Invited', color: '#cef0f2', total: 0},
