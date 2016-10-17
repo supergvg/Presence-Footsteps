@@ -59,7 +59,7 @@ angular.module('gliist').factory('facebookService', [
           var deferred = $q.defer();
 
           var fields = 'id, name, cover, start_time, end_time, place';
-          var guestGroups = ['attending', 'maybe'/*, 'noreply'*/];
+          var guestGroups = ['attending', 'maybe'];
           var guestFields = 'id, first_name, last_name, email, rsvp_status';
 
           angular.forEach(guestGroups, function (group) {
