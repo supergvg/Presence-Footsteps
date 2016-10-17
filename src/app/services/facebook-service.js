@@ -122,6 +122,23 @@ angular.module('gliist').factory('facebookService', [
         });
       },
 
+      parseFacebookEvent: function (event) {
+        return {
+          FacebookId: event.id,
+          FacebookGuests: event.guests,
+          title: event.title,
+          time: dateService.utc(event.startDate),
+          endTime: dateService.utc(event.endDate),
+          location: event.location,
+          invitePicture: event.image,
+          type: 1,
+          rsvpType: 3,
+          guestLists: [],
+          additionalGuests: 0,
+          isRsvpCapacityLimited: false
+        };
+      },
+
       connectAccount: function () {
         return facebookService.login().then(function (response) {
           return $http.post('api/Account/IntegrateFacebook', {token: response.authResponse.accessToken});
