@@ -20,7 +20,7 @@
         <md-list-item layout="row" ng-repeat="event in events track by event.id">
           <md-radio-button flex ng-value="event" aria-label="{{::event.title}}">
             <div layout="row">
-              <div class="image" flex="20" ng-style="{'background-image': 'url(' + event.image + ')'}"></div>
+              <div class="image" flex="25" ng-style="{'background-image': 'url(' + event.image + ')'}"></div>
               <div flex class="event-info" layout="column">
                 <h5>{{::event.title}}</h5>
                 <span>
