@@ -1,6 +1,6 @@
 'use strict';
 
-function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebookService) {
+function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebookService, subscriptionsService) {
   $scope.fetchingData = true;
 
   facebookService.getEvents().then(function (events) {
@@ -13,8 +13,13 @@ function FacebookEventsController ($scope, $rootScope, $state, $mdDialog, facebo
   };
 
   $scope.import = function () {
-    $mdDialog.hide();
     if ($scope.selectedEvent) {
+      if (!subscriptionsService.verifyFeature('Guests', $scope.selectedEvent.guests.length, true)) {
+        return;
+      }
+
+      $mdDialog.hide();
+
       $state.go('main.create_event').then(function () {
         $rootScope.$broadcast('facebookEventImport', $scope.selectedEvent);
       });
@@ -27,7 +32,8 @@ FacebookEventsController.$inject = [
   '$rootScope',
   '$state',
   '$mdDialog',
-  'facebookService'
+  'facebookService',
+  'subscriptionsService'
 ];
 
 angular.module('gliist').controller('FacebookEventsController', FacebookEventsController);

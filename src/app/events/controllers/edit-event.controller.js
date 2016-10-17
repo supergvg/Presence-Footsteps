@@ -6,7 +6,8 @@ function EditEventController (
   $stateParams,
   dialogService,
   eventsService,
-  facebookService
+  facebookService,
+  subscriptionsService
 ) {
   var eventId = $stateParams.eventId;
   $scope.initializing = true;
@@ -24,6 +25,11 @@ function EditEventController (
 
   $scope.syncEvent = function () {
     facebookService.getEventData($scope.event.FacebookId).then(function (event) {
+      var guestsCount = event.guests.length;
+      if (guestsCount && !subscriptionsService.verifyFeature('Guests', guestsCount, true)) {
+        return;
+      }
+
       $scope.event = facebookService.parseFacebookEvent(event);
     });
   }
@@ -35,7 +41,8 @@ EditEventController.$inject = [
   '$stateParams',
   'dialogService',
   'eventsService',
-  'facebookService'
+  'facebookService',
+  'subscriptionsService'
 ];
 
 angular.module('gliist').controller('EditEventCtrl', EditEventController);

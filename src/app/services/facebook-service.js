@@ -57,13 +57,31 @@ angular.module('gliist').factory('facebookService', [
         });
       },
 
+      collectEventGuests: function (url, fields) {
+        var deferred = $q.defer();
+
+        FB.api(url, {fields: fields}, function (response) {
+          var guests = response.data;
+          var nextUrl = response.paging.next;
+          if (nextUrl) {
+            facebookService.collectEventGuests(nextUrl, fields).then(function (moreGuests) {
+              return guests.concat(moreGuests);
+            });
+          } else {
+            deferred.resolve(guests);
+          }
+        });
+
+        return deferred.promise;
+      },
+
       getEventData: function (eventId) {
         return facebookService.login().then(function (response) {
           var userId = response.authResponse.userID;
           var deferred = $q.defer();
 
           var fields = 'id, name, cover, start_time, end_time, place';
-          var guestGroups = ['attending', 'maybe'];
+          var guestGroups = ['attending', 'interested'];
           var guestFields = 'id, first_name, last_name, email, rsvp_status';
 
           angular.forEach(guestGroups, function (group) {
@@ -72,25 +90,38 @@ angular.module('gliist').factory('facebookService', [
 
           FB.api('/' + eventId, {fields: fields}, function (response) {
             var guests = [];
-            angular.forEach(guestGroups, function (group) {
-              if (response[group]) {
-                guests = guests.concat(response[group].data);
+            var guestsPromises = [];
+            angular.forEach(guestGroups, function (groupName) {
+              var group = response[groupName];
+              var nextUrl;
+              if (group) {
+                guests = guests.concat(group.data);
+                nextUrl = group.next;
+                if (nextUrl) {
+                  guestsPromises.push(facebookService.collectEventGuests(nextUrl, guestFields));
+                }
               }
             });
 
-            // Facebook includes event author in the guest lists.
-            guests = guests.filter(function (guest) {
-              return guest.id !== userId;
-            });
+            $q.all(guestsPromises).then(function (guestLists) {
+              angular.forEach(guestLists, function (guestList) {
+                guests = guests.concat(guestList);
+              });
 
-            deferred.resolve({
-              id: response.id,
-              title: response.name,
-              image: response.cover ? response.cover.source : null,
-              startDate:response.start_time,
-              endDate: response.end_time,
-              location: response.place.name,
-              guests: guests
+              // Facebook includes event author in the guest lists.
+              guests = guests.filter(function (guest) {
+                return guest.id !== userId;
+              });
+
+              deferred.resolve({
+                id: response.id,
+                title: response.name,
+                image: response.cover ? response.cover.source : null,
+                startDate:response.start_time,
+                endDate: response.end_time,
+                location: response.place.name,
+                guests: guests
+              });
             });
           });
 
