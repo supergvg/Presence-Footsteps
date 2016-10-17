@@ -87,8 +87,8 @@ angular.module('gliist').factory('facebookService', [
               id: response.id,
               title: response.name,
               image: response.cover ? response.cover.source : null,
-              startDate: new Date(response.start_time),
-              endDate: response.end_time ? new Date(response.end_time) : null,
+              startDate:response.start_time,
+              endDate: response.end_time,
               location: response.place.name,
               guests: guests
             });

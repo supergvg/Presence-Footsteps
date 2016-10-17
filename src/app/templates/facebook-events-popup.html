@@ -23,8 +23,12 @@
               <div class="image" flex="20" ng-style="{'background-image': 'url(' + event.image + ')'}"></div>
               <div flex class="event-info" layout="column">
                 <h5>{{::event.title}}</h5>
-                <span><strong>Starts:</strong> {{::event.startDate | date:'MMM d, y h:mm a'}}</span>
-                <span ng-if="event.endDate"><strong>Ends:</strong> {{::event.endDate | date:'MMM d, y h:mm a'}}</span>
+                <span>
+                  <strong>Starts:</strong> {{::event.startDate | ignoreTimeZone | date:'MMM d, y h:mm a'}}
+                </span>
+                <span ng-if="event.endDate">
+                  <strong>Ends:</strong> {{::event.endDate | ignoreTimeZone | date:'MMM d, y h:mm a'}}
+                </span>
                 <div layout="row" layout-align="start start" class="location">
                   <md-icon md-svg-src="assets/images/SVG/location.svg"></md-icon>
                   <span flex>{{::event.location}}</span>

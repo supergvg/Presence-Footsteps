@@ -5,8 +5,12 @@ angular.module('gliist').factory('dateService', [
   function ($filter) {
     return {
       utc: function( date ) {
+        if (!date || !angular.isDate(date)) {
+          return date;
+        }
+
         // Transform timezone offset from +0200 to +02:00
-        return date && $filter('date')(date, 'yyyy-MM-ddTHH:mm:ssZ').replace(/(\d{2})$/, ':$1');
+        return $filter('date')(date, 'yyyy-MM-ddTHH:mm:ssZ').replace(/(\d{2})$/, ':$1');
       }
     };
   }
