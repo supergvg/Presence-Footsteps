@@ -1,394 +1,394 @@
 <div ng-init="init()" class="event-details-page">
-    <div layout="row" layout-align="space-between center" class="steps margin-top">
-        <div class="step">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(0) ? 'logo-bg' : ''"
-                       ng-disabled="isPromoter()"
-                       ng-click="selectedIndex = 0"
-                       aria-label="Details">
-            </md-button>
-        </div>
-        <div flex class="line"></div>
-        <div class="step">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Event</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(1) ? 'logo-bg' : ''"
-                       ng-disabled="!event.id || isPromoter()"
-                       ng-click="selectedIndex = 1"
-                       aria-label="Event">
-            </md-button>
-        </div>
-        <div flex class="line"></div>
-        <div class="step">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Invite</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(2) ? 'logo-bg' : ''"
-                       ng-disabled="!event.id || isPromoter()"
-                       ng-click="selectedIndex = 2"
-                       aria-label="Invite">
-            </md-button>
-        </div>
-        <div flex class="line"></div>
-        <div class="step">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(3) ? 'text-bg' : ''">Guests</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(3) ? 'logo-bg' : ''"
-                       ng-disabled="!event.id"
-                       ng-click="selectedIndex = 3"
-                       aria-label="Guests">
-            </md-button>
-        </div>
-        <div flex class="line"></div>
-        <div class="step">
-            <div class="line"></div>
-            <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
-            <md-button class="md-fab"
-                       ng-class="getSelected(4) ? 'logo-bg' : ''"
-                       ng-disabled="!event.id"
-                       ng-click="selectedIndex = 4"
-                       aria-label="Preview">
-            </md-button>
-        </div>
+  <div layout="row" layout-align="space-between center" class="steps margin-top">
+    <div class="step">
+      <div class="line"></div>
+      <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
+      <md-button class="md-fab"
+                 ng-class="getSelected(0) ? 'logo-bg' : ''"
+                 ng-disabled="isPromoter()"
+                 ng-click="selectedIndex = 0"
+                 aria-label="Details">
+      </md-button>
     </div>
+    <div flex class="line"></div>
+    <div class="step">
+      <div class="line"></div>
+      <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Event</h4>
+      <md-button class="md-fab"
+                 ng-class="getSelected(1) ? 'logo-bg' : ''"
+                 ng-disabled="!event.id || isPromoter()"
+                 ng-click="selectedIndex = 1"
+                 aria-label="Event">
+      </md-button>
+    </div>
+    <div flex class="line"></div>
+    <div class="step">
+      <div class="line"></div>
+      <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Invite</h4>
+      <md-button class="md-fab"
+                 ng-class="getSelected(2) ? 'logo-bg' : ''"
+                 ng-disabled="!event.id || isPromoter()"
+                 ng-click="selectedIndex = 2"
+                 aria-label="Invite">
+      </md-button>
+    </div>
+    <div flex class="line"></div>
+    <div class="step">
+      <div class="line"></div>
+      <h4 ng-class="getSelected(3) ? 'text-bg' : ''">Guests</h4>
+      <md-button class="md-fab"
+                 ng-class="getSelected(3) ? 'logo-bg' : ''"
+                 ng-disabled="!event.id"
+                 ng-click="selectedIndex = 3"
+                 aria-label="Guests">
+      </md-button>
+    </div>
+    <div flex class="line"></div>
+    <div class="step">
+      <div class="line"></div>
+      <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
+      <md-button class="md-fab"
+                 ng-class="getSelected(4) ? 'logo-bg' : ''"
+                 ng-disabled="!event.id"
+                 ng-click="selectedIndex = 4"
+                 aria-label="Preview">
+      </md-button>
+    </div>
+  </div>
 
-    <ng-switch on="selectedIndex">
-        <div role="tabpanel"
-             id="tab1-content"
-             aria-labelledby="tab1"
-             ng-switch-when="0"
-             md-swipe-left="next($event)"
-             md-swipe-right="previous($event)">
-            <div>
-                <form name="eventForm">
+  <ng-switch on="selectedIndex">
+    <div role="tabpanel"
+         id="tab1-content"
+         aria-labelledby="tab1"
+         ng-switch-when="0"
+         md-swipe-left="next($event)"
+         md-swipe-right="previous($event)">
+      <div>
+        <form name="eventForm">
+          <div class="block-field">
+            <div layout layout-sm="column">
+              <md-input-container flex="75" md-no-float flex-sm="auto">
+                <h4>Event Title</h4>
+                <input required name="title" ng-model="event.title" placeholder="Enter event title, e.g. Holiday Party">
+              </md-input-container>
+              <md-input-container flex="25" md-no-float flex-sm="auto">
+                <h4>Event Category</h4>
+                <md-select required name="category" placeholder="Select event category" ng-model="event.category">
+                  <md-select-label>{{event.category || 'Select event category'}}</md-select-label>
+                  <md-option value="{{t}}" ng-repeat="t in eventCategories">
+                    <img ng-src="assets/images/category_icons/blue_{{t | lowercase | spaceless}}.png" width="24" height="24" style="margin-right: 10px"/>{{t}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+            <div layout layout-sm="column">
+              <md-input-container flex="75" md-no-float flex-sm="auto">
+                <h4>Event Location</h4>
+                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="location.value" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
+                <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
+              </md-input-container>
+              <md-input-container flex="25" md-no-float flex-sm="auto">
+                <h4>Event Capacity</h4>
+                <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1" placeholder="Enter event capacity">
+                <md-icon class="input-icon" md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
+              </md-input-container>
+            </div>
+          </div>
+          <div layout class="block-field date">
+            <fieldset flex md-no-float ng-disabled="eventStarted">
+              <h4>Starts</h4>
+              <datetimepicker ng-model="dt.startEventDateTime" name="time" min-date="minDate" minue-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
+            </fieldset>
+            <div flex md-no-float>
+              <h4>Ends</h4>
+              <datetimepicker ng-model="dt.endEventDateTime" name="endTime" min-date="endMinDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
+            </div>
+          </div>
+          <div layout="row" class="block-field">
+            <md-input-container flex md-no-float>
+              <h4>Invites From</h4>
+              <input type="text" ng-model="event.inviteFrom" name="inviteFrom" placeholder="Coming from your company">
+            </md-input-container>
+          </div>
+          <div layout layout-sm="column" class="block-field">
+            <md-input-container flex md-no-float>
+              <h4>Confirmation Email</h4>
+              <textarea name=" details" ng-model="event.description" columns="1" placeholder="Event Details (to be included in confirmation email)"></textarea>
+            </md-input-container>
+            <md-input-container flex md-no-float>
+              <h4>RSVP Details</h4>
+              <textarea name=" details" ng-model="event.additionalDetails" columns="1" placeholder="Event Details (to be included in RSVP page)"></textarea>
+            </md-input-container>
+          </div>
+        </form>
+      </div>
+      <div layout="row" layout-align="end center" layout-align-sm="center center">
+        <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
+        <md-button class="raised-btn" ng-click="next($event, eventForm)">
+          Next
+        </md-button>
+      </div>
+    </div>
+    <div role="tabpanel"
+         id="tab2-content"
+         aria-labelledby="tab2"
+         ng-switch-when="1"
+         md-swipe-left="next($event)"
+         md-swipe-right="previous($event)"
+         class="event-step">
+      <div>
+        <form name="rsvpForm">
+          <div class="block-field" layout="column">
+            <h4>Select the type of Event</h4>
+            <md-radio-group ng-model="event.type" layout layout-sm="column">
+              <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
+                <md-tooltip md-direction="top">Send event invite to guests to confirm the attendance</md-tooltip>
+                <md-radio-button flex ng-value="2" aria-label="RSVP Event">RSVP Event</md-radio-button>
+              </md-content>
+              <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
+                <md-tooltip md-direction="top">Send confirmation email to guests that are attending the event</md-tooltip>
+                <md-radio-button flex ng-value="1" aria-label="Guest List Event">Guest List Event</md-radio-button>
+              </md-content>
+              <!--<md-content layout="row" layout-align="left center" >
+                  <md-radio-button ng-value="3" aria-label="Ticketing Event">Ticketing Event</md-radio-button>
+              </md-content>-->
+            </md-radio-group>
+          </div>
+          <div class="block-field" layout="column" ng-show="event.type !== 1">
+            <h4>{{event.type === 3 ? 'Send ticket purchase invite to:' : 'Select RSVP event type:'}}</h4>
+            <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
+              <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
+                <md-tooltip md-direction="top">{{event.type === 3 ? 'Only these guests can purchase tickets. Tickets & Invites are non transferable' : 'Only these guests can rsvp the event. Invite is non transferable'}}</md-tooltip>
+                <md-radio-button ng-value="2" aria-label="Private">Private</md-radio-button>
+              </md-content>
+              <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
+                <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>
+                <md-radio-button ng-value="3" aria-label="Public" ng-click="event.additionalGuests = 1">Public</md-radio-button>
+              </md-content>
+            </md-radio-group>
+          </div>
+          <div class="block-field" layout="column" ng-show="event.type === 3">
+            <h4>Ticket types:</h4>
+            <div layout="row" class="ticket-blocks">
+              <div ng-repeat="ticket in tickets track by $index" class="ticket-block" ng-class="ticket.control.edit ? 'edit' : ''">
+                <div layout="column" ng-if="ticket.control.edit">
+                  <div layout="row" layout-align="space-between center" class="top">
+                    <md-input-container md-no-float>
+                      <input ng-model="ticket.data.name" aria-label="Ticket name" placeholder='Enter ticket name'>
+                    </md-input-container>
+                    <md-input-container md-no-float class="currency">
+                      <input ng-model="ticket.data.price" aria-label="Ticket price" type="number" min="1">
+                    </md-input-container>
+                  </div>
+                  <div layout="column" class="bottom">
+                    <div md-no-float class="block-field start-date">
+                      <h4>Set start when</h4>
+                      <md-radio-group ng-model="ticket.data.previousId" layout="column">
+                        <md-radio-button ng-repeat="t in tickets track by $index" ng-value="t.data.id" ng-if="$index !== $parent.$index && t.data.id" aria-label="{{t.data.name}} sale ends"><h4>{{t.data.name}} sale ends</h4></md-radio-button>
+                        <md-radio-button ng-value="0" aria-label="Set start date and time"><h4>Set start date and time</h4></md-radio-button>
+                        <md-content ng-if="ticket.data.previousId === 0">
+                          <md-tooltip md-direction="top">Set start date and time</md-tooltip>
+                          <datetimepicker ng-model="ticket.data.startTime" min-date="minDate" max-date="maxTicketDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
+                        </md-content>
+                      </md-radio-group>
+                    </div>
+                    <div class="block-field radio-height">
+                      <md-radio-group ng-model="ticket.control.endBy" layout="column">
+                        <md-radio-button ng-value="0" aria-label="Set end by date and time"><h4>Set end by date and time</h4></md-radio-button>
+                        <md-content ng-if="ticket.control.endBy === 0">
+                          <md-tooltip md-direction="top">Set timer for ticket sales end</md-tooltip>
+                          <datetimepicker ng-model="ticket.data.expirationTime" min-date="ticket.data.startTime" max-date="maxTicketDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
+                        </md-content>
+                        <md-radio-button ng-value="1" aria-label="Set end by quantity"><h4>Set end by quantity</h4></md-radio-button>
+                        <md-content ng-if="ticket.control.endBy === 1">
+                          <md-tooltip md-direction="top">Set quantity for ticket sales end</md-tooltip>
+                          <spinner ng-model="ticket.data.quantity" min="{{ticket.data.soldTicketsCount === 0 ? 1 : ticket.data.soldTicketsCount}}"></spinner>
+                        </md-content>
+                      </md-radio-group>
+                    </div>
+                    <div class="block-field actions" layout="row" layout-align="center center">
+                      <md-button class="raised-btn" ng-click="updateTicket(ticket)" ng-disabled="!validateTicket(ticket) || ticket.control.waiting">
+                        Save
+                      </md-button>
+                      <md-button class="raised-btn" ng-if="!ticket.data.id" ng-click="cancelTicket($index)" ng-disabled="ticket.control.waiting">
+                        Cancel
+                      </md-button>
+                      <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="ticket.control.waiting"></md-progress-circular>
+                    </div>
+                  </div>
+                </div>
+                <div layout="column" ng-if="!ticket.control.edit">
+                  <div layout="row" layout-align="space-between center" class="top">
+                    <h4>{{ticket.data.name}}</h4>
+                    <h3 class="currency">{{ticket.data.price}}</h3>
+                  </div>
+                  <div layout="column" class="bottom">
                     <div class="block-field">
-                        <div layout layout-sm="column">
-                            <md-input-container flex="75" md-no-float flex-sm="auto">
-                                <h4>Event Title</h4>
-                                <input required name="title" ng-model="event.title" placeholder="Enter event title, e.g. Holiday Party">
-                            </md-input-container>
-                            <md-input-container flex="25" md-no-float flex-sm="auto">
-                                <h4>Event Category</h4>
-                                <md-select required name="category" placeholder="Select event category" ng-model="event.category">
-                                    <md-select-label>{{event.category || 'Select event category'}}</md-select-label>
-                                    <md-option value="{{t}}" ng-repeat="t in eventCategories">
-                                        <img ng-src="assets/images/category_icons/blue_{{t | lowercase | spaceless}}.png" width="24" height="24" style="margin-right: 10px"/>{{t}}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </div>
-                        <div layout layout-sm="column">
-                            <md-input-container flex="75" md-no-float flex-sm="auto">
-                                <h4>Event Location</h4>
-                                <input type="text" name="location" ng-change="clearLocation()" required ng-autocomplete ng-model="location.value" options="{watchEnter: true}" details="location.details" placeholder="Enter event location">
-                                <md-icon class="input-icon" md-svg-src="assets/images/SVG/location.svg"></md-icon>
-                            </md-input-container>
-                            <md-input-container flex="25" md-no-float flex-sm="auto">
-                                <h4>Event Capacity</h4>
-                                <input name="capacity" required ng-model="event.capacity" type="number" min="0" step="1" placeholder="Enter event capacity">
-                                <md-icon class="input-icon" md-svg-src="assets/images/SVG/capacity.svg"></md-icon>
-                            </md-input-container>
-                        </div>
+                      <div ng-if="ticket.data.previousId === 0">
+                        <h4>Start date and time</h4>
+                        <p>{{ticket.data.startTime | date : 'd MMM yyyy' | uppercase}} <strong>{{ticket.data.startTime | date : 'h:mm a'}}</strong></p>
+                      </div>
+                      <div ng-if="ticket.data.previousId > 0">
+                        <h4>Start by {{getTicketById(ticket.data.previousId).data.name}} sale ends</h4>
+                      </div>
                     </div>
-                    <div layout class="block-field date">
-                        <fieldset flex md-no-float ng-disabled="eventStarted">
-                            <h4>Starts</h4>
-                            <datetimepicker ng-model="dt.startEventDateTime" name="time" min-date="minDate" minue-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
-                        </fieldset>
-                        <div flex md-no-float>
-                            <h4>Ends</h4>
-                            <datetimepicker ng-model="dt.endEventDateTime" name="endTime" min-date="endMinDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
-                        </div>
+                    <div class="block-field">
+                      <div ng-if="ticket.control.endBy === 0">
+                        <h4>End by date and time</h4>
+                        <p>{{ticket.data.expirationTime | date : 'd MMM yyyy' | uppercase}} <strong>{{ticket.data.expirationTime | date : 'h:mm a'}}</strong></p>
+                      </div>
+                      <div ng-if="ticket.control.endBy === 1">
+                        <h4>End by quantity</h4>
+                        <p><strong>{{ticket.data.quantity}}</strong></p>
+                      </div>
                     </div>
-                    <div layout="row" class="block-field">
-                      <md-input-container flex md-no-float>
-                        <h4>Invites From</h4>
-                        <input type="text" ng-model="event.inviteFrom" name="inviteFrom" placeholder="Coming from your company">
-                      </md-input-container>
+                    <div class="block-field actions" layout="row" layout-align="center center">
+                      <md-button class="icon-btn" ng-click="ticket.control.edit = true" ng-disabled="ticket.control.waiting" aria-label="Edit ticket">
+                        <md-tooltip md-direction="top">Edit ticket</md-tooltip>
+                        <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
+                      </md-button>
+                      <md-button class="icon-btn" ng-click="deleteTicket(ticket)" ng-disabled="ticket.control.waiting" aria-label="Delete ticket">
+                        <md-tooltip md-direction="top">Delete ticket</md-tooltip>
+                        <ng-md-icon icon="delete" size="24"></ng-md-icon>
+                      </md-button>
+                      <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="ticket.control.waiting"></md-progress-circular>
                     </div>
-                    <div layout layout-sm="column" class="block-field">
-                        <md-input-container flex md-no-float>
-                            <h4>Confirmation Email</h4>
-                            <textarea name=" details" ng-model="event.description" columns="1" placeholder="Event Details (to be included in confirmation email)"></textarea>
-                        </md-input-container>
-                        <md-input-container flex md-no-float>
-                            <h4>RSVP Details</h4>
-                            <textarea name=" details" ng-model="event.additionalDetails" columns="1" placeholder="Event Details (to be included in RSVP page)"></textarea>
-                        </md-input-container>
-                    </div>
-                </form>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div layout="row" layout-align="end center" layout-align-sm="center center">
-                <md-progress-circular class="md-hue-2 near" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next($event, eventForm)">
-                    Next
-                </md-button>
-            </div>
-        </div>
-        <div role="tabpanel"
-             id="tab2-content"
-             aria-labelledby="tab2"
-             ng-switch-when="1"
-             md-swipe-left="next($event)"
-             md-swipe-right="previous($event)"
-             class="event-step">
-            <div>
-                <form name="rsvpForm">
-                    <div class="block-field" layout="column">
-                        <h4>Select the type of Event</h4>
-                        <md-radio-group ng-model="event.type" layout layout-sm="column">
-                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">Send event invite to guests to confirm the attendance</md-tooltip>
-                                <md-radio-button ng-value="2" aria-label="RSVP Event">RSVP Event</md-radio-button>
-                            </md-content>
-                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">Send confirmation email to guests that are attending the event</md-tooltip>
-                                <md-radio-button ng-value="1" aria-label="Guest List Event">Guest List Event</md-radio-button>
-                            </md-content>
-                            <!--<md-content layout="row" layout-align="left center" >
-                                <md-radio-button ng-value="3" aria-label="Ticketing Event">Ticketing Event</md-radio-button>
-                            </md-content>-->
-                        </md-radio-group>
-                    </div>
-                    <div class="block-field" layout="column" ng-show="event.type !== 1">
-                        <h4>{{event.type === 3 ? 'Send ticket purchase invite to:' : 'Select RSVP event type:'}}</h4>
-                        <md-radio-group ng-model="event.rsvpType" layout layout-sm="column">
-                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">{{event.type === 3 ? 'Only these guests can purchase tickets. Tickets & Invites are non transferable' : 'Only these guests can rsvp the event. Invite is non transferable'}}</md-tooltip>
-                                <md-radio-button ng-value="2" aria-label="Private">Private</md-radio-button>
-                            </md-content>
-                            <md-content layout="row" layout-align="left center" flex="20" flex-sm="auto">
-                                <md-tooltip md-direction="top">{{event.type === 3 ? 'Ticket sale is open to public. Tickets are transferable' : 'Anyone can rsvp the event with the rsvp link'}}</md-tooltip>
-                                <md-radio-button ng-value="3" aria-label="Public" ng-click="event.additionalGuests = 1">Public</md-radio-button>
-                            </md-content>
-                        </md-radio-group>
-                    </div>
-                    <div class="block-field" layout="column" ng-show="event.type === 3">
-                        <h4>Ticket types:</h4>
-                        <div layout="row" class="ticket-blocks">
-                            <div ng-repeat="ticket in tickets track by $index" class="ticket-block" ng-class="ticket.control.edit ? 'edit' : ''">
-                                <div layout="column" ng-if="ticket.control.edit">
-                                    <div layout="row" layout-align="space-between center" class="top">
-                                        <md-input-container md-no-float>
-                                            <input ng-model="ticket.data.name" aria-label="Ticket name" placeholder='Enter ticket name'>
-                                        </md-input-container>
-                                        <md-input-container md-no-float class="currency">
-                                            <input ng-model="ticket.data.price" aria-label="Ticket price" type="number" min="1">
-                                        </md-input-container>
-                                    </div>
-                                    <div layout="column" class="bottom">
-                                        <div md-no-float class="block-field start-date">
-                                            <h4>Set start when</h4>
-                                            <md-radio-group ng-model="ticket.data.previousId" layout="column">
-                                                <md-radio-button ng-repeat="t in tickets track by $index" ng-value="t.data.id" ng-if="$index !== $parent.$index && t.data.id" aria-label="{{t.data.name}} sale ends"><h4>{{t.data.name}} sale ends</h4></md-radio-button>
-                                                <md-radio-button ng-value="0" aria-label="Set start date and time"><h4>Set start date and time</h4></md-radio-button>
-                                                <md-content ng-if="ticket.data.previousId === 0">
-                                                    <md-tooltip md-direction="top">Set start date and time</md-tooltip>
-                                                    <datetimepicker ng-model="ticket.data.startTime" min-date="minDate" max-date="maxTicketDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
-                                                </md-content>
-                                            </md-radio-group>
-                                        </div>
-                                        <div class="block-field radio-height">
-                                            <md-radio-group ng-model="ticket.control.endBy" layout="column">
-                                                <md-radio-button ng-value="0" aria-label="Set end by date and time"><h4>Set end by date and time</h4></md-radio-button>
-                                                <md-content ng-if="ticket.control.endBy === 0">
-                                                    <md-tooltip md-direction="top">Set timer for ticket sales end</md-tooltip>
-                                                    <datetimepicker ng-model="ticket.data.expirationTime" min-date="ticket.data.startTime" max-date="maxTicketDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
-                                                </md-content>
-                                                <md-radio-button ng-value="1" aria-label="Set end by quantity"><h4>Set end by quantity</h4></md-radio-button>
-                                                <md-content ng-if="ticket.control.endBy === 1">
-                                                    <md-tooltip md-direction="top">Set quantity for ticket sales end</md-tooltip>
-                                                    <spinner ng-model="ticket.data.quantity" min="{{ticket.data.soldTicketsCount === 0 ? 1 : ticket.data.soldTicketsCount}}"></spinner>
-                                                </md-content>
-                                            </md-radio-group>
-                                        </div>
-                                        <div class="block-field actions" layout="row" layout-align="center center">
-                                            <md-button class="raised-btn" ng-click="updateTicket(ticket)" ng-disabled="!validateTicket(ticket) || ticket.control.waiting">
-                                                Save
-                                            </md-button>
-                                            <md-button class="raised-btn" ng-if="!ticket.data.id" ng-click="cancelTicket($index)" ng-disabled="ticket.control.waiting">
-                                                Cancel
-                                            </md-button>
-                                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="ticket.control.waiting"></md-progress-circular>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div layout="column" ng-if="!ticket.control.edit">
-                                    <div layout="row" layout-align="space-between center" class="top">
-                                        <h4>{{ticket.data.name}}</h4>
-                                        <h3 class="currency">{{ticket.data.price}}</h3>
-                                    </div>
-                                    <div layout="column" class="bottom">
-                                        <div class="block-field">
-                                            <div ng-if="ticket.data.previousId === 0">
-                                                <h4>Start date and time</h4>
-                                                <p>{{ticket.data.startTime | date : 'd MMM yyyy' | uppercase}} <strong>{{ticket.data.startTime | date : 'h:mm a'}}</strong></p>
-                                            </div>
-                                            <div ng-if="ticket.data.previousId > 0">
-                                                <h4>Start by {{getTicketById(ticket.data.previousId).data.name}} sale ends</h4>
-                                            </div>
-                                        </div>
-                                        <div class="block-field">
-                                            <div ng-if="ticket.control.endBy === 0">
-                                                <h4>End by date and time</h4>
-                                                <p>{{ticket.data.expirationTime | date : 'd MMM yyyy' | uppercase}} <strong>{{ticket.data.expirationTime | date : 'h:mm a'}}</strong></p>
-                                            </div>
-                                            <div ng-if="ticket.control.endBy === 1">
-                                                <h4>End by quantity</h4>
-                                                <p><strong>{{ticket.data.quantity}}</strong></p>
-                                            </div>
-                                        </div>
-                                        <div class="block-field actions" layout="row" layout-align="center center">
-                                            <md-button class="icon-btn" ng-click="ticket.control.edit = true" ng-disabled="ticket.control.waiting" aria-label="Edit ticket">
-                                                <md-tooltip md-direction="top">Edit ticket</md-tooltip>
-                                                <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
-                                            </md-button>
-                                            <md-button class="icon-btn" ng-click="deleteTicket(ticket)" ng-disabled="ticket.control.waiting" aria-label="Delete ticket">
-                                                <md-tooltip md-direction="top">Delete ticket</md-tooltip>
-                                                <ng-md-icon icon="delete" size="24"></ng-md-icon>
-                                            </md-button>
-                                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="ticket.control.waiting"></md-progress-circular>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div layout="column" ng-show="event.type !== 1">
-                        <div class="block-field">
-                            <h4>Additional Guests:</h4>
-                            <span layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
+          </div>
+          <div layout="column" ng-show="event.type !== 1">
+            <div class="block-field">
+              <h4>Additional Guests:</h4>
+              <span layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
                                 <span>Guests are allowed to bring&nbsp;</span>
                                 <spinner ng-model="event.additionalGuests"></spinner>
                                 <span>&nbsp;additional people to the event.</span>
                             </span>
-                            <!--<md-checkbox ng-model="event.isRsvpCapacityLimited" aria-label="Limit capacity for rspv">
-                                Limit capacity for rspv
-                            </md-checkbox>-->
-                        </div>
-                        <div class="block-field date">
-                            <h4>RSVP expires on:</h4>
-                            <datetimepicker ng-model="dt.endEventRsvpDateTime" min-date="minDate" max-date="endMaxDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
-                        </div>
-                    </div>
-                </form>
+              <!--<md-checkbox ng-model="event.isRsvpCapacityLimited" aria-label="Limit capacity for rspv">
+                  Limit capacity for rspv
+              </md-checkbox>-->
             </div>
-            <div layout="row" layout-align="end center" layout-sm="column" class="actions">
-                <md-button class="raised-btn" ng-click="addNewTicket()" ng-show="event.type === 3">
-                    Add Ticket
-                </md-button>
-                <md-button class="raised-btn" ng-click="previous()">
-                    Back
-                </md-button>
-                <md-button class="raised-btn" ng-click="next($event, rsvpForm)">
-                    Next
-                </md-button>
+            <div class="block-field date">
+              <h4>RSVP expires on:</h4>
+              <datetimepicker ng-model="dt.endEventRsvpDateTime" min-date="minDate" max-date="endMaxDate()" minute-step="minuteStep" date-format="dd-MMM-yyyy" date-options="dateOptions" readonly-date="true"></datetimepicker>
             </div>
+          </div>
+        </form>
+      </div>
+      <div layout="row" layout-align="end center" layout-sm="column" class="actions">
+        <md-button class="raised-btn" ng-click="addNewTicket()" ng-show="event.type === 3">
+          Add Ticket
+        </md-button>
+        <md-button class="raised-btn" ng-click="previous()">
+          Back
+        </md-button>
+        <md-button class="raised-btn" ng-click="next($event, rsvpForm)">
+          Next
+        </md-button>
+      </div>
+    </div>
+    <div role="tabpanel"
+         id="tab3-content"
+         aria-labelledby="tab3"
+         ng-switch-when="2"
+         md-swipe-left="next($event)"
+         md-swipe-right="previous($event)">
+      <div>
+        <md-list>
+          <md-list-item layout="row" layout-sm="column">
+            <div flex="70" flex-sm="auto">
+              <p>Upload your invite (any image format)</p>
+            </div>
+            <div flex="30" layout="row" layout-align="end center" flex-sm="auto">
+              <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" ng-accept="'image/*'">
+                UPLOAD
+              </md-button>
+              <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+            </div>
+          </md-list-item>
+        </md-list>
+        <div layout="row">
+          <div flex ng-style="getEventInvite('300px')" class="event-image"></div>
         </div>
-        <div role="tabpanel"
-             id="tab3-content"
-             aria-labelledby="tab3"
-             ng-switch-when="2"
-             md-swipe-left="next($event)"
-             md-swipe-right="previous($event)">
-            <div>
-                <md-list>
-                    <md-list-item layout="row" layout-sm="column">
-                        <div flex="70" flex-sm="auto">
-                            <p>Upload your invite (any image format)</p>
-                        </div>
-                        <div flex="30" layout="row" layout-align="end center" flex-sm="auto">
-                            <md-button class="raised-btn" ng-file-select="onInviteSelected($files)" ng-accept="'image/*'">
-                                UPLOAD
-                            </md-button>
-                            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-                        </div>
-                    </md-list-item>
-                </md-list>
-                <div layout="row">
-                    <div flex ng-style="getEventInvite('300px')" class="event-image"></div>
-                </div>
-            </div>
-            <div layout="row" layout-align="end center" layout-sm="column" class="actions">
-                <md-button class="raised-btn" ng-click="previous()">
-                    Back
-                </md-button>
-                <md-button class="raised-btn" ng-click="next($event)">
-                    Next
-                </md-button>
-            </div>
+      </div>
+      <div layout="row" layout-align="end center" layout-sm="column" class="actions">
+        <md-button class="raised-btn" ng-click="previous()">
+          Back
+        </md-button>
+        <md-button class="raised-btn" ng-click="next($event)">
+          Next
+        </md-button>
+      </div>
+    </div>
+    <div role="tabpanel"
+         id="tab4-content"
+         aria-labelledby="tab4"
+         ng-switch-when="3"
+         md-swipe-left="next($event)"
+         md-swipe-right="previous($event)">
+      <div>
+        <div class="block-field" remove-by-roles="promoter">
+          <h4>Add confirmed guests</h4>
+          <md-list>
+            <md-list-item layout="row" layout-align="space-between center">
+              <p>Link previous guest list</p>
+              <md-button class="raised-btn" ng-click="onAddGLClicked($event, 1)">
+                Link
+              </md-button>
+            </md-list-item>
+            <md-list-item layout="row" layout-align="space-between center">
+              <p>Create new guest list</p>
+              <md-button class="raised-btn" ng-click="onCreateGLClicked(1)">
+                Create
+              </md-button>
+            </md-list-item>
+          </md-list>
         </div>
-        <div role="tabpanel"
-             id="tab4-content"
-             aria-labelledby="tab4"
-             ng-switch-when="3"
-             md-swipe-left="next($event)"
-             md-swipe-right="previous($event)">
-            <div>
-                <div class="block-field" remove-by-roles="promoter">
-                    <h4>Add confirmed guests</h4>
-                    <md-list>
-                        <md-list-item layout="row" layout-align="space-between center">
-                            <p>Link previous guest list</p>
-                            <md-button class="raised-btn" ng-click="onAddGLClicked($event, 1)">
-                                Link
-                            </md-button>
-                        </md-list-item>
-                        <md-list-item layout="row" layout-align="space-between center">
-                            <p>Create new guest list</p>
-                            <md-button class="raised-btn" ng-click="onCreateGLClicked(1)">
-                                Create
-                            </md-button>
-                        </md-list-item>
-                    </md-list>
-                </div>
-                <div class="block-field" ng-if="event.type !== 1" remove-by-roles="promoter">
-                    <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
-                    <md-list>
-                        <md-list-item layout="row" layout-align="space-between center">
-                            <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
-                            <md-button class="raised-btn" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
-                                Link
-                            </md-button>
-                        </md-list-item>
-                        <md-list-item layout="row" layout-align="space-between center">
-                            <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
-                            <md-button class="raised-btn" ng-click="onCreateGLClicked(2)">
-                                Create
-                            </md-button>
-                        </md-list-item>
-                    </md-list>
-                </div>
-                <div class="block-field">
-                    <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
-                        <h4>Guest Lists</h4>
-                        <p class="info">(<span>Add/delete</span> guests to a guest list associates with this event here)</p>
-                    </div>
-                    <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
-                </div>
-            </div>
-            <div layout="row" layout-align="end center" layout-sm="column" class="actions">
-                <md-button class="raised-btn" ng-click="previous()" remove-by-roles="promoter">
-                    Back
-                </md-button>
-                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
-                <md-button class="raised-btn" ng-click="next($event, eventForm)" remove-by-roles="promoter" ng-cloak>
-                    Next
-                </md-button>
-            </div>
+        <div class="block-field" ng-if="event.type !== 1" remove-by-roles="promoter">
+          <h4>{{event.type === 3 ? 'Send ticket purchase invite to' : 'Add RSVP guests to send RSVP invite'}}</h4>
+          <md-list>
+            <md-list-item layout="row" layout-align="space-between center">
+              <p>Link previous {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
+              <md-button class="raised-btn" ng-click="onAddGLClicked($event, event.type === 3 ? 3 : 2)">
+                Link
+              </md-button>
+            </md-list-item>
+            <md-list-item layout="row" layout-align="space-between center">
+              <p>Create new {{event.type === 3 ? 'Ticketing' : 'RSVP'}} list</p>
+              <md-button class="raised-btn" ng-click="onCreateGLClicked(2)">
+                Create
+              </md-button>
+            </md-list-item>
+          </md-list>
+        </div>
+        <div class="block-field">
+          <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
+            <h4>Guest Lists</h4>
+            <p class="info">(<span>Add/delete</span> guests to a guest list associates with this event here)</p>
+          </div>
+          <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
+        </div>
+      </div>
+      <div layout="row" layout-align="end center" layout-sm="column" class="actions">
+        <md-button class="raised-btn" ng-click="previous()" remove-by-roles="promoter">
+          Back
+        </md-button>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
+        <md-button class="raised-btn" ng-click="next($event, eventForm)" remove-by-roles="promoter" ng-cloak>
+          Next
+        </md-button>
+      </div>
 
-        </div>
-        <div role="tabpanel"
-             id="tab5-content"
-             aria-labelledby="tab5"
-             ng-switch-when="4"
-             md-swipe-left="next($event)"
-             md-swipe-right="previous($event)">
-            <event-publish event-id="event.id" options="previewOptions"></event-publish>
-        </div>
-    </ng-switch>
+    </div>
+    <div role="tabpanel"
+         id="tab5-content"
+         aria-labelledby="tab5"
+         ng-switch-when="4"
+         md-swipe-left="next($event)"
+         md-swipe-right="previous($event)">
+      <event-publish event-id="event.id" options="previewOptions"></event-publish>
+    </div>
+  </ng-switch>
 </div>

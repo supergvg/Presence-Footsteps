@@ -670,6 +670,7 @@ md-input-container {
     height: 44px;
     padding: 0;
     margin: 0;
+
     .md-select-label {
       width: 100%;
       padding: 0;
@@ -689,6 +690,10 @@ md-input-container {
           width: 100%;
         }
       }
+    }
+
+    .md-select-value {
+      padding: 0 0 0 15px;
     }
   }
   .ui-select-container {
