@@ -1,14 +1,9 @@
 'use strict';
 
-function EventsController ($scope, $filter, facebookService) {
+function EventsController ($scope, $filter, dateService, facebookService) {
   $scope.$on('facebookEventImport', function (e, event) {
     $scope.importFacebookEvent(event);
   });
-
-  $scope.formatDate = function (date) {
-    // Transform timezone offset from +0200 to +02:00
-    return date && $filter('date')(date, 'yyyy-MM-ddTHH:mm:ssZ').replace(/(\d{2})$/, ':$1');
-  };
 
   $scope.importFacebookEvent = function (event) {
     $scope.facebookEvent = event;
@@ -16,8 +11,8 @@ function EventsController ($scope, $filter, facebookService) {
       FacebookId: event.id,
       FacebookGuests: event.guests,
       title: event.title,
-      time: $scope.formatDate(event.startDate),
-      endTime: $scope.formatDate(event.endDate),
+      time: dateService.utc(event.startDate),
+      endTime: dateService.utc(event.endDate),
       location: event.location,
       invitePicture: event.image,
       type: 1,
@@ -38,6 +33,7 @@ function EventsController ($scope, $filter, facebookService) {
 EventsController.$inject = [
   '$scope',
   '$filter',
+  'dateService',
   'facebookService'
 ];
 

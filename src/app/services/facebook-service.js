@@ -3,10 +3,14 @@
 // https://developers.facebook.com/docs/facebook-login/web
 // https://developers.facebook.com/docs/javascript/howto/angularjs
 
+// User events API:
+// https://developers.facebook.com/docs/graph-api/reference/user/events/
+
 angular.module('gliist').factory('facebookService', [
   '$q',
   '$http',
-  function ($q, $http) {
+  'dateService',
+  function ($q, $http, dateService) {
     var facebookService = {
       login: function () {
         var deferred = $q.defer();
@@ -66,7 +70,7 @@ angular.module('gliist').factory('facebookService', [
             fields += ', ' + group +'{' + guestFields + '}';
           });
 
-          FB.api('/' + eventId, {fields: fields, since: Math.floor(Date.now() / 1000)}, function (response) {
+          FB.api('/' + eventId, {fields: fields}, function (response) {
             var guests = [];
             angular.forEach(guestGroups, function (group) {
               if (response[group]) {
@@ -100,7 +104,7 @@ angular.module('gliist').factory('facebookService', [
 
           // TODO: add pagination
           // TODO: add error handling
-          FB.api('/' + user.id + '/events', {type: 'created'}, function (response) {
+          FB.api('/' + user.id + '/events', {type: 'created', since: dateService.utc(new Date())}, function (response) {
             if (response && !response.error) {
               var promises = response.data.map(function (event) {
                 return facebookService.getEventData(event.id);
