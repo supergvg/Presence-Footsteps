@@ -30,7 +30,7 @@ function EditEventController (
         return;
       }
 
-      $scope.event = facebookService.parseFacebookEvent(event);
+      angular.extend($scope.event, facebookService.parseFacebookEvent(event))
     });
   }
 }
