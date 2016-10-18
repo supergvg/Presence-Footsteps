@@ -313,6 +313,7 @@ angular.module('gliist').factory('userService', [
         var url = inviteMode ? 'api/Account/CreateUserByAccount' : 'api/Account/Register';
         var that = this;
 
+        user.IsWebRegistration = true;
         return $http.post(url, user, {headers: {'Content-Type': 'application/json'}}).then(
           function() {
             userData = null;
