@@ -16,7 +16,7 @@ angular.module('gliist')
                         $scope.recoverSent = true;
                         dialogService.success('An email has been sent to your inbox, please check it for further instructions');
                     }, function() {
-                        dialogService.error('Oops there was a problem please try again');
+                        dialogService.error('This email does not have an account with gjests. Please sign up with us!');
                     }
                 ).finally(function() {
                     $scope.fetchingData = false;
