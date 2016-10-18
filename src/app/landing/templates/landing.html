@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-item">
                             <label>Plus</label>
-                            <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}"/>
+                            <input type="number" name="plus" ng-model="rsvp.plus" min="0"/>
                         </div>
                         <div class="actions" ng-if="!success && !waiting">
                             <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
@@ -111,7 +111,7 @@
                         <label>Email</label><input type="email" name="email" ng-model="rsvp.email" required/>
                     </div>
                     <div class="form-item">
-                        <label>Plus</label><input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}"/>
+                        <label>Plus</label><input type="number" name="plus" ng-model="rsvp.plus" min="0"/>
                     </div>
                     <div class="actions" ng-if="!success && !waiting">
                         <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>

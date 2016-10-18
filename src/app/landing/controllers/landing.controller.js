@@ -84,32 +84,34 @@ angular.module('gliist')
             
             $scope.rsvp = {};
             $scope.onSubmitClicked = function (form) {
-                if (form && form.$invalid) {
-                    var errors = {
-                            required: {
-                                name: 'Name is required',
-                                email: 'Email is required'
-                            },
-                            pattern: {
-                                name: 'Last Name is required'
-                            },  
-                            email: {
-                                email: 'Not valid email'
-                            },
-                            max: {
-                                plus: 'Number of additional guests cannot exceed ' + $scope.event.event.additionalGuests + ' people'
-                            }
+                var errors = {
+                        required: {
+                            name: 'Name is required',
+                            email: 'Email is required'
                         },
-                        errorMessage = [];
-                    angular.forEach(form.$error, function (value, key) {
-                        angular.forEach(value, function (value1) {
-                            errorMessage.push(errors[key][value1.$name]);
-                        });
+                        pattern: {
+                            name: 'Last Name is required'
+                        },  
+                        email: {
+                            email: 'Not valid email'
+                        }
+                    },
+                    errorMessage = [];
+
+                var plus = parseInt($scope.rsvp.plus);
+                if (plus === NaN || plus > $scope.event.event.additionalGuests)
+                    errorMessage.push('Number of additional guests cannot exceed ' + $scope.event.event.additionalGuests + ' people');
+                angular.forEach(form.$error, function (value, key) {
+                    angular.forEach(value, function (value1) {
+                        errorMessage.push(errors[key][value1.$name]);
                     });
+                });
+                if (errorMessage.length) {
                     dialogService.error(errorMessage.join(', '));
                     $scope.showValidation = true;
                     return;
                 }
+
                 if (!$scope.waiting) {
                     $scope.waiting = true;
                     $scope.success = false;
