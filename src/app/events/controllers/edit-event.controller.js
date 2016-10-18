@@ -30,9 +30,9 @@ function EditEventController (
         return;
       }
 
-      angular.extend($scope.event, facebookService.parseFacebookEvent(event))
+      angular.extend($scope.event, facebookService.parseFacebookEvent(event));
     });
-  }
+  };
 }
 
 EditEventController.$inject = [

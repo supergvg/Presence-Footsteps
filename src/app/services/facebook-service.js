@@ -172,7 +172,7 @@ angular.module('gliist').factory('facebookService', [
       connectAccount: function () {
         return facebookService.login().then(function (response) {
           return $http.post('api/Account/IntegrateFacebook', {token: response.authResponse.accessToken});
-        })
+        });
       }
     };
     return facebookService;

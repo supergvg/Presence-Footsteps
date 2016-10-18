@@ -38,7 +38,7 @@ angular.module('gliist')
         return instanceType !== 4;
       };
       $scope.isFacebookList = function () {
-        return $scope.gli && $scope.gli.listType === 'Facebook'
+        return $scope.gli && $scope.gli.listType === 'Facebook';
       };
       $scope.options = {
         filter: {
