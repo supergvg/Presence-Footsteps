@@ -164,7 +164,6 @@ angular.module('gliist').factory('facebookService', [
           invitePicture: event.image,
           type: 1,
           rsvpType: 3,
-          guestLists: [],
           additionalGuests: 0,
           isRsvpCapacityLimited: false
         };
