@@ -58,9 +58,9 @@ function AppController (
 
   $scope.getMenuItems = function() {
     if (permissionsService.isRole('promoter')) {
-      return [$scope.menuItems[1], $scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4], $scope.menuItems[5]];
+      return [$scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4], $scope.menuItems[5]];
     } else if (permissionsService.isRole('staff')) {
-      return [$scope.menuItems[1], $scope.menuItems[3], $scope.menuItems[4], $scope.menuItems[5]];
+      return [$scope.menuItems[2], $scope.menuItems[4], $scope.menuItems[5]];
     }
     return $scope.menuItems;
   };
@@ -75,7 +75,7 @@ function AppController (
 
   $scope.setSelected = function (item) {
     if ((item.title === 'Guest List Management' && !subscriptionsService.verifyFeature('GLM', 0, true)) ||
-      (item.title === 'Create Event' && !permissionsService.isRole('admin') && !subscriptionsService.verifyFeature('EventContributors', 0, true))) { //admin always can create events
+      ((item.title === 'Create Event' || item.title === 'Facebook Event Integration') && !permissionsService.isRole('admin') && !subscriptionsService.verifyFeature('EventContributors', 0, true))) { //admin always can create events
       return;
     }
 
