@@ -169,9 +169,9 @@ angular.module('gliist').factory('facebookService', [
         };
       },
 
-      connectAccount: function () {
+      connectAccount: function (connect) {
         return facebookService.login().then(function (response) {
-          return $http.post('api/Account/IntegrateFacebook', {token: response.authResponse.accessToken});
+          return $http.post('api/Account/IntegrateFacebook', connect ? {token: response.authResponse.accessToken} : {});
         });
       }
     };

@@ -28,7 +28,7 @@
           <div flex>
             <strong>Facebook Integration -</strong> Pull in your Facebook Event info and guests' info to gjests
           </div>
-          <md-button class="raised-btn" ng-click="connectFacebook()">Connect</md-button>
+          <md-button class="raised-btn" ng-click="connectFacebook()">{{currentUser.FacebookId ? 'Disconnect' : 'Connect'}}</md-button>
         </div>
 
         <div layout="column" layout-align="start stretch" class="social-links-edit" remove-by-roles="promoter">

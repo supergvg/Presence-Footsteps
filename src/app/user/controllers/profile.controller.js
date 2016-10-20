@@ -35,8 +35,16 @@ function ProfileController (
   };
 
   $scope.connectFacebook = function () {
-    facebookService.connectAccount().then(function () {
-      dialogService.success('Facebook account connected');
+    var fbId = $scope.currentUser.FacebookId;
+    facebookService.connectAccount(fbId == null).then(function () {
+      if (fbId)
+        dialogService.success('Facebook account disconnected');
+      else
+        dialogService.success('Facebook account connected');
+
+      userService.getCurrentUser().then(function(user) {
+        $rootScope.currentUser = user;
+      });
     });
   };
 
