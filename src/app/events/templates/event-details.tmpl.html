@@ -11,7 +11,7 @@
       </md-button>
     </div>
     <div flex class="line"></div>
-    <div class="step">
+    <div class="step" ng-if="!event.FacebookId">
       <div class="line"></div>
       <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Event</h4>
       <md-button class="md-fab"
@@ -21,7 +21,7 @@
                  aria-label="Event">
       </md-button>
     </div>
-    <div flex class="line"></div>
+    <div flex class="line" ng-if="!event.FacebookId"></div>
     <div class="step">
       <div class="line"></div>
       <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Invite</h4>

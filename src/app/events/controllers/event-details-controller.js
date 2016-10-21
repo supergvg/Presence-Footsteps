@@ -213,98 +213,104 @@ angular.module('gliist')
         if (ev && ev.pointer && ev.pointer.type === 'm') {
           return;
         }
-        if ([0, 1, 3].indexOf($scope.selectedIndex) !== -1) {
-          var featureInternalId = $scope.event.id ? $scope.event.id : 'NEWEVENT';
-          if ($scope.event.capacity && !subscriptionsService.verifyFeature('Guests', $scope.event.capacity, ev, featureInternalId)) {
-            return;
-          }
-          if (!subscriptionsService.verifyFeature('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, ev, featureInternalId)) {
-            return;
-          }
-          if (!subscriptionsService.verifyFeature('EventStartRangeDays', (($scope.dt.startEventDateTime.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24), ev, featureInternalId)) {
-            return;
-          }
-          var errorMessage = [];
-          if (form && form.$invalid) {
-            var errors = {
-              required: {
-                title: 'Please Enter Event Title',
-                category: 'Please Select Event Category',
-                /*location: 'Please Enter Event Location',*/
-                capacity: 'Please Enter Event Capacity'
-              },
-              pattern: {
-                title: 'Event Title can only contain alphabets, digits and spaces'
-              },
-              number: {
-                capacity: 'Please enter numbers only'
-              }
-            };
-            angular.forEach(form.$error, function(value, key){
-              if (errors[key]) {
-                angular.forEach(value, function(value1){
-                  if (errors[key][value1.$name]) {
-                    errorMessage.push(errors[key][value1.$name]);
-                  }
-                });
-              }
-            });
-          }
-          if (!$scope.timeValid()) {
-            if ($scope.eventFinished) {
-              errorMessage.push('Cant Update Event. Event has been finished');
+        if ([0, 1, 3].indexOf($scope.selectedIndex) === -1) {
+          $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
+          return;
+        }
+        var featureInternalId = $scope.event.id ? $scope.event.id : 'NEWEVENT';
+        if ($scope.event.capacity && !subscriptionsService.verifyFeature('Guests', $scope.event.capacity, ev, featureInternalId)) {
+          return;
+        }
+        if (!subscriptionsService.verifyFeature('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, ev, featureInternalId)) {
+          return;
+        }
+        if (!subscriptionsService.verifyFeature('EventStartRangeDays', (($scope.dt.startEventDateTime.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24), ev, featureInternalId)) {
+          return;
+        }
+        var errorMessage = [];
+        if (form && form.$invalid) {
+          var errors = {
+            required: {
+              title: 'Please Enter Event Title',
+              category: 'Please Select Event Category',
+              /*location: 'Please Enter Event Location',*/
+              capacity: 'Please Enter Event Capacity'
+            },
+            pattern: {
+              title: 'Event Title can only contain alphabets, digits and spaces'
+            },
+            number: {
+              capacity: 'Please enter numbers only'
             }
-            if ($scope.startEventTimeInvalid && !$scope.eventStarted) {
-              errorMessage.push('Cant Create Event in the Past');
+          };
+          angular.forEach(form.$error, function (value, key) {
+            if (errors[key]) {
+              angular.forEach(value, function (value1) {
+                if (errors[key][value1.$name]) {
+                  errorMessage.push(errors[key][value1.$name]);
+                }
+              });
             }
-            if ($scope.endEventTimeInvalid) {
-              errorMessage.push('End time has to be after start time');
-            }
-          }
-          if (!$scope.location.details) {
-            errorMessage.push('Please enter the city of the event or event location');
-          }
-          if ($scope.event.type === 3 && !$scope.isHasOneTicket()) {
-            errorMessage.push('Please specify at least one ticket tier');
-          }
-          if (errorMessage.length > 0) {
-            dialogService.error(errorMessage.join(', '));
-            return;
-          }
-
-          $scope.savingEvent = true;
-          $scope.event.location = $scope.location.formatted;
-          $scope.event.time = $scope.convertDateTime($scope.dt.startEventDateTime);
-          $scope.event.endTime = $scope.convertDateTime($scope.dt.endEventDateTime);
-          $scope.event.rsvpEndDate = $scope.convertDateTime($scope.dt.endEventRsvpDateTime);
-          eventsService.createEvent($scope.event).then(
-            function(res) {
-              $scope.event.id = res.id;
-              $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
-              $scope.event.invitePicture = res.invitePicture;
-              $scope.event.rsvpUrl = res.rsvpUrl;
-              $scope.event.ticketingUrl = res.ticketingUrl;
-              $scope.event.facebookPageUrl = res.facebookPageUrl;
-              $scope.event.instagrammPageUrl = res.instagrammPageUrl;
-              $scope.event.twitterPageUrl = res.twitterPageUrl;
-              dialogService.success('Event ' + res.title + ' saved');
-              $location.path('/main/event/edit/'+$scope.event.id);
-            }, function() {
-              dialogService.error('There was a problem saving your event, please try again');
-            }
-          ).finally(function() {
-            $scope.savingEvent = false;
           });
-
+        }
+        if (!$scope.timeValid()) {
+          if ($scope.eventFinished) {
+            errorMessage.push('Cant Update Event. Event has been finished');
+          }
+          if ($scope.startEventTimeInvalid && !$scope.eventStarted) {
+            errorMessage.push('Cant Create Event in the Past');
+          }
+          if ($scope.endEventTimeInvalid) {
+            errorMessage.push('End time has to be after start time');
+          }
+        }
+        if (!$scope.location.details) {
+          errorMessage.push('Please enter the city of the event or event location');
+        }
+        if ($scope.event.type === 3 && !$scope.isHasOneTicket()) {
+          errorMessage.push('Please specify at least one ticket tier');
+        }
+        if (errorMessage.length > 0) {
+          dialogService.error(errorMessage.join(', '));
           return;
         }
 
-        $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
+        $scope.savingEvent = true;
+        $scope.event.location = $scope.location.formatted;
+        $scope.event.time = $scope.convertDateTime($scope.dt.startEventDateTime);
+        $scope.event.endTime = $scope.convertDateTime($scope.dt.endEventDateTime);
+        $scope.event.rsvpEndDate = $scope.convertDateTime($scope.dt.endEventRsvpDateTime);
+        eventsService.createEvent($scope.event).then(
+          function (res) {
+            $scope.event.id = res.id;
+            if ($scope.event.FacebookId && !$scope.selectedIndex) {
+              $scope.selectedIndex = 2;
+            } else {
+              $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
+            }
+            $scope.event.invitePicture = res.invitePicture;
+            $scope.event.rsvpUrl = res.rsvpUrl;
+            $scope.event.ticketingUrl = res.ticketingUrl;
+            $scope.event.facebookPageUrl = res.facebookPageUrl;
+            $scope.event.instagrammPageUrl = res.instagrammPageUrl;
+            $scope.event.twitterPageUrl = res.twitterPageUrl;
+            dialogService.success('Event ' + res.title + ' saved');
+            $location.path('/main/event/edit/' + $scope.event.id);
+          }, function () {
+            dialogService.error('There was a problem saving your event, please try again');
+          }
+        ).finally(function () {
+          $scope.savingEvent = false;
+        });
       };
 
       $scope.previous = function(ev) {
         if (ev && ev.pointer.type === 't' || angular.isUndefined(ev)) {
-          $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+          if ($scope.event.FacebookId && $scope.selectedIndex === 2) {
+            $scope.selectedIndex = 0;
+          } else {
+            $scope.selectedIndex = Math.max($scope.selectedIndex - 1, 0);
+          }
         }
       };
 
@@ -348,6 +354,10 @@ angular.module('gliist')
             isRsvpCapacityLimited: false,
             rsvpEndDate: ''
           };
+        }
+
+        if ($scope.event.FacebookId && $scope.selectedIndex === 1) {
+          $scope.selectedIndex = 2;
         }
 
         $scope.$watch('event', function (event) {
