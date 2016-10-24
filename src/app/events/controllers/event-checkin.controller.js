@@ -106,6 +106,7 @@ angular.module('gliist')
         $scope.initializing = true;
         eventsService.getGuestsForCheckin(eventId).then(function(data) {
           $scope.event = data.event;
+          var guests = data.guests;
           if ($scope.pastEvent()) {
             $scope.options.gridOptions.columnDefs.pop();
           }
@@ -116,6 +117,7 @@ angular.module('gliist')
               click: function () {
                 var scope = $scope.$new();
                 $scope.guestLists = editableGuestLists;
+                $scope.guests = guests;
                 $mdDialog.show({
                   scope: scope,
                   controller: 'AddGuestController',
@@ -124,7 +126,7 @@ angular.module('gliist')
               }
             };
           }
-          $scope.options.gridData = data.guests;
+          $scope.options.gridData = guests;
         }, function() {
           dialogService.error('There was a problem getting your events, please try again');
           $state.go('main.current_events');
