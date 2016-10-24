@@ -32,20 +32,6 @@ angular.module('gliist')
             }
           }
         },
-        additionalButton: {
-          text: 'Add guest',
-          click: function () {
-            var scope = $scope.$new();
-            scope.close = function() {
-              $mdDialog.hide();
-            };
-            $mdDialog.show({
-              scope: scope,
-              controller: 'AddGuestController',
-              templateUrl: 'app/guest-lists/templates/guest-add-dialog.html'
-            });
-          }
-        },
         sorting: {
           active: true
         },
@@ -110,6 +96,10 @@ angular.module('gliist')
         return false;
       };
 
+      $scope.isEditableGuestList = function (list) {
+        return list.listType !== 'On the spot' && list.listType !== 'Facebook';
+      };
+
       $scope.init = function () {
         var eventId = $stateParams.eventId;
         $scope.options.gridData = [];
@@ -118,6 +108,21 @@ angular.module('gliist')
           $scope.event = data.event;
           if ($scope.pastEvent()) {
             $scope.options.gridOptions.columnDefs.pop();
+          }
+          var editableGuestLists = $scope.event.guestLists.filter($scope.isEditableGuestList);
+          if (editableGuestLists.length) {
+            $scope.options.additionalButton = {
+              text: 'Add guest',
+              click: function () {
+                var scope = $scope.$new();
+                $scope.guestLists = editableGuestLists;
+                $mdDialog.show({
+                  scope: scope,
+                  controller: 'AddGuestController',
+                  templateUrl: 'app/guest-lists/templates/guest-add-dialog.html'
+                });
+              }
+            };
           }
           $scope.options.gridData = data.guests;
         }, function() {

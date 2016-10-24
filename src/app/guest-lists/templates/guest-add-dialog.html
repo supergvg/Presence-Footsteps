@@ -20,7 +20,7 @@
         <ui-select-match placeholder="Select Guest List">
           {{$select.selected.title}}
         </ui-select-match>
-        <ui-select-choices repeat="guestList.id as guestList in event.guestLists">
+        <ui-select-choices repeat="guestList.id as guestList in guestLists">
           {{::guestList.title}}
         </ui-select-choices>
       </ui-select>

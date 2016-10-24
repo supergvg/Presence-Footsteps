@@ -1,9 +1,13 @@
 'use strict';
 
-function AddGuestController ($scope, guestListParserService, dialogService, eventsService) {
+function AddGuestController ($scope, $mdDialog, guestListParserService, dialogService, eventsService) {
   $scope.data = {
     list: null,
     textGuestList: null
+  };
+
+  $scope.close = function() {
+    $mdDialog.hide();
   };
 
   $scope.addGuest = function() {
@@ -20,6 +24,7 @@ function AddGuestController ($scope, guestListParserService, dialogService, even
     }
 
     eventsService.addGuestsToEvent(guests, $scope.event.id, $scope.data.list).then(function () {
+      $scope.close();
       dialogService.success('Guests were added successfully');
     });
   };
@@ -27,6 +32,7 @@ function AddGuestController ($scope, guestListParserService, dialogService, even
 
 AddGuestController.$inject = [
   '$scope',
+  '$mdDialog',
   'guestListParserService',
   'dialogService',
   'eventsService'
