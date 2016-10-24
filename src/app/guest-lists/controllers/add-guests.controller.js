@@ -18,7 +18,7 @@ function AddGuestController ($scope, $mdDialog, guestListParserService, dialogSe
       }
 
       if ($scope.addGuestForm.guestList.$invalid) {
-        errorMessage.push('Please Select Guest Type');
+        errorMessage.push('Please Select Guest List');
       }
     }
 
