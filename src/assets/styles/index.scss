@@ -1362,6 +1362,7 @@ md-dialog {
     min-height: 650px;
 
     .content {
+      overflow: visible;
       padding: 25px 40px;
 
       h2, h3 {

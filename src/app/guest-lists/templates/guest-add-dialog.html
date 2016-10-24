@@ -3,7 +3,7 @@
     <span class="flex">Add Guests</span>
   </div>
 
-  <div layout="column" class="content">
+  <form name="addGuestForm" layout="column" class="content">
     <h2>Add Multiple Guests by Copying and Pasting</h2>
     <p>
       <i>
@@ -12,11 +12,12 @@
       </i>
     </p>
 
-    <textarea class="guest-list-import-box" ng-model="data.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
+    <textarea required name="guests" class="guest-list-import-box" ng-model="data.textGuestList"
+              placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
 
     <md-input-container md-no-float>
       <h3>Guest List</h3>
-      <ui-select name="guestlist" ng-model="data.list" search-enabled="false">
+      <ui-select required name="guestList" ng-model="data.list" search-enabled="false">
         <ui-select-match placeholder="Select Guest List">
           {{$select.selected.title}}
         </ui-select-match>
@@ -25,7 +26,7 @@
         </ui-select-choices>
       </ui-select>
     </md-input-container>
-  </div>
+  </form>
 
   <div class="md-actions" layout="row">
     <md-button ng-click="close()">

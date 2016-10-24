@@ -10,7 +10,28 @@ function AddGuestController ($scope, $mdDialog, guestListParserService, dialogSe
     $mdDialog.hide();
   };
 
+  $scope.validateForm = function () {
+    var errorMessage = [];
+    if (!$scope.addGuestForm.$valid) {
+      if ($scope.addGuestForm.guests.$invalid) {
+        errorMessage.push('Please Add Guests');
+      }
+
+      if ($scope.addGuestForm.guestList.$invalid) {
+        errorMessage.push('Please Select Guest Type');
+      }
+    }
+
+    return errorMessage;
+  };
+
   $scope.addGuest = function() {
+    var errors = $scope.validateForm();
+    if (errors.length) {
+      dialogService.error(errors.join(', '));
+      return;
+    }
+
     var textGuestList = $scope.data.textGuestList;
     var listId = $scope.data.list;
     if (!textGuestList || !listId) {
