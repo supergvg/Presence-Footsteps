@@ -12,8 +12,8 @@ function AddGuestController ($scope, $mdDialog, guestListParserService, dialogSe
 
   $scope.addGuest = function() {
     var textGuestList = $scope.data.textGuestList;
-    var list = $scope.data.list;
-    if (!textGuestList || !list) {
+    var listId = $scope.data.list;
+    if (!textGuestList || !listId) {
       return;
     }
 
@@ -25,8 +25,8 @@ function AddGuestController ($scope, $mdDialog, guestListParserService, dialogSe
       return dialogService.error(guests);
     }
 
-    eventsService.addGuestsToEvent(guests, $scope.event.id, list).then(function (newGuests) {
-      Array.prototype.push.apply($scope.guests, newGuests);
+    eventsService.addGuestsToEvent(guests, $scope.event.id, listId).then(function (newGuests) {
+      $scope.$emit('guestsAdded');
       $scope.close();
       dialogService.success('Guests were added successfully');
     });

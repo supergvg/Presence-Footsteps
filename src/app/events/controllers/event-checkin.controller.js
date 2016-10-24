@@ -135,6 +135,12 @@ angular.module('gliist')
         });
       };
 
+      $scope.$on('guestsAdded', function () {
+        eventsService.getGuestsForCheckin($stateParams.eventId).then(function(data) {
+          $scope.options.gridData = data.guests;
+        });
+      });
+
       $scope.init();
     }
   ]);
