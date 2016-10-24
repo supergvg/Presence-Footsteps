@@ -1,0 +1,38 @@
+<md-dialog class="guest-add-dialog" flex-sm="90">
+  <div class="header" layout="row" layout-align="space-between center">
+    <span class="flex">Add Guests</span>
+  </div>
+
+  <div layout="column" class="content">
+    <h2>Add Multiple Guests by Copying and Pasting</h2>
+    <p>
+      <i>
+        Paste your guest list here in these formats: <b>Name</b> OR <b>Name +1</b> OR <b>Name, Note, Pluses</b>.<br/>
+        Use line break for each guest.
+      </i>
+    </p>
+
+    <textarea class="guest-list-import-box" ng-model="data.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
+
+    <md-input-container md-no-float>
+      <h3>Guest List</h3>
+      <ui-select name="guestlist" ng-model="data.list" search-enabled="false">
+        <ui-select-match placeholder="Select Guest List">
+          {{$select.selected.title}}
+        </ui-select-match>
+        <ui-select-choices repeat="guestList.id as guestList in event.guestLists">
+          {{::guestList.title}}
+        </ui-select-choices>
+      </ui-select>
+    </md-input-container>
+  </div>
+
+  <div class="md-actions" layout="row">
+    <md-button ng-click="close()">
+      Cancel
+    </md-button>
+    <md-button ng-click="save()" class="md-primary">
+      Add
+    </md-button>
+  </div>
+</md-dialog>
