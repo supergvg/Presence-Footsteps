@@ -138,19 +138,26 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
     },
 
     addGuestToEvent: function (guest, eventId) {
-      var d = $q.defer();
-
-      $http({
-        method: 'POST',
-        url: 'api/GuestEventController/AddGuest',
-        data: {guest: guest, eventId: eventId}
-      }).success(function (data) {
-        d.resolve(data);
-      }).error(function () {
-        d.reject('Oops there was an error trying to get events, please try again');
+      return $http.post('api/GuestEventController/AddGuest', {
+        guest: guest,
+        eventId: eventId
+      }).then(function (response) {
+        return response.data;
+      }, function () {
+        return $q.reject('Oops there was an error trying to get events, please try again');
       });
+    },
 
-      return d.promise;
+    addGuestsToEvent: function (guests, eventId, guestListId) {
+      return $http.post('api/GuestEventController/AddMultipleGuestsToEvent', {
+        guests: guests,
+        eventId: eventId,
+        guestListId: guestListId
+      }).then(function (response) {
+        return response.data;
+      }, function () {
+        return $q.reject('Oops there was an error trying to get events, please try again');
+      });
     },
 
     publishEvent: function (gli_ids, eventId) {

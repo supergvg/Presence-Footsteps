@@ -1,7 +1,12 @@
 'use strict';
 
-function AddGuestsController ($scope, guestListParserService, dialogService) {
-  $scope.onAddGuestsClicked = function() {
+function AddGuestController ($scope, guestListParserService, dialogService, eventsService) {
+  $scope.data = {
+    list: null,
+    textGuestList: null
+  };
+
+  $scope.addGuest = function() {
     if (!$scope.data.textGuestList) {
       return;
     }
@@ -14,34 +19,17 @@ function AddGuestsController ($scope, guestListParserService, dialogService) {
       return dialogService.error(guests);
     }
 
-    //import
-    if (!$scope.gli) {
-      $scope.gli = {};
-    }
-    if (!$scope.gli.actual) {
-      $scope.gli.actual = [];
-    }
-
-    var guestCount = guests.length;
-    for (var i = 0; i < guestCount; i ++) {
-      $scope.gli.actual.push({
-        gl_id: $scope.gli.id,
-        status: 'no show',
-        guest: guests[i]
-      });
-    }
-    $scope.isDirty = true;
-
-    dialogService.success('Guests were added successfully');
-    $scope.onDataChange();
-    $scope.data.textGuestList = '';
+    eventsService.addGuestsToEvent(guests, $scope.event.id, $scope.data.list).then(function () {
+      dialogService.success('Guests were added successfully');
+    });
   };
 }
 
-AddGuestsController.$inject = [
+AddGuestController.$inject = [
   '$scope',
   'guestListParserService',
-  'dialogService'
+  'dialogService',
+  'eventsService'
 ];
 
-angular.module('gliist').controller('AddGuestsController', AddGuestsController);
+angular.module('gliist').controller('AddGuestController', AddGuestController);

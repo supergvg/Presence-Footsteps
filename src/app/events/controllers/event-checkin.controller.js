@@ -36,16 +36,12 @@ angular.module('gliist')
           text: 'Add guest',
           click: function () {
             var scope = $scope.$new();
-            scope.data = {
-              list: null,
-              textGuestList: null
-            };
             scope.close = function() {
               $mdDialog.hide();
             };
             $mdDialog.show({
               scope: scope,
-              // controller: 'AddGuestController',
+              controller: 'AddGuestController',
               templateUrl: 'app/guest-lists/templates/guest-add-dialog.html'
             });
           }
