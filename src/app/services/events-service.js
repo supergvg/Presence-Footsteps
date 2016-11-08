@@ -65,8 +65,7 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
       $http.post('api/GuestEventController/UndoCheckinGuest',
         {
           guestId: checkinData.guest.id,
-          gliId: glInstance.id,
-          plus: checkinData.plus
+          gliId: glInstance.id
         }
       ).then(
         function(response) {
