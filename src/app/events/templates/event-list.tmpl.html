@@ -31,15 +31,15 @@
               <md-tooltip md-direction="top">{{options.stats ? 'Guests checkin stats' : 'check guests in'}}</md-tooltip>
               <ng-md-icon icon="assignment_turned_in" size="24"></ng-md-icon>
             </md-button>
-            <md-button class="icon-btn" remove-by-roles="staff" ng-if="!options.readyOnly" ui-sref="main.edit_event({eventId:{{event.id}}})" aria-label="Edit event">
+            <md-button class="icon-btn" remove-by-roles="staff,staff_limited" ng-if="!options.readyOnly" ui-sref="main.edit_event({eventId:{{event.id}}})" aria-label="Edit event">
               <md-tooltip md-direction="top">Edit event</md-tooltip>
               <ng-md-icon icon="mode_edit" size="24"></ng-md-icon>
             </md-button>
-            <md-button class="icon-btn" remove-by-roles="staff" ng-if="!options.readyOnly" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
+            <md-button class="icon-btn" remove-by-roles="staff,staff_limited" ng-if="!options.readyOnly" ui-sref="main.event_summary({eventId:{{event.id}}})" aria-label="Preview event">
               <md-tooltip md-direction="top">Preview event</md-tooltip>
               <md-icon md-svg-src="assets/images/SVG/play.svg" size="24"></md-icon>
             </md-button>
-            <md-button class="icon-btn" remove-by-roles="staff,promoter" ng-if="!options.readyOnly || options.past" ui-sref="main.email_stats({eventId:{{event.id}}})" aria-label="Email Management">
+            <md-button class="icon-btn" remove-by-roles="staff,staff_limited,promoter" ng-if="!options.readyOnly || options.past" ui-sref="main.email_stats({eventId:{{event.id}}})" aria-label="Email Management">
               <md-tooltip md-direction="top">Email Management</md-tooltip>
               <md-icon md-svg-src="assets/images/SVG/email.svg" size="24"></md-icon>
             </md-button>
@@ -47,7 +47,7 @@
               <md-tooltip md-direction="top">Event stats</md-tooltip>
               <ng-md-icon icon="insert_chart" size="24"></ng-md-icon>
             </md-button>
-            <md-button class="icon-btn" remove-by-roles="staff,promoter" ng-if="!options.readyOnly" ng-click="deleteEvent($event,event)" aria-label="Delete event">
+            <md-button class="icon-btn" remove-by-roles="staff,staff_limited,promoter" ng-if="!options.readyOnly" ng-click="deleteEvent($event,event)" aria-label="Delete event">
               <md-tooltip md-direction="top">Delete event</md-tooltip>
               <ng-md-icon icon="delete" size="24"></ng-md-icon>
             </md-button>

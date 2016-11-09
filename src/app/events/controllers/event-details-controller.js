@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$location', '$filter', 'subscriptionsService', 'permissionsService', '$state',
-    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $location, $filter, subscriptionsService, permissionsService, $state) {
+  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$location', '$filter', 'subscriptionsService', 'permissionsService', '$state', 'userService',
+    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $location, $filter, subscriptionsService, permissionsService, $state, userService) {
       $scope.eventCategories = [
         'Art',
         'Fashion',
@@ -53,6 +53,14 @@ angular.module('gliist')
       $scope.gliOptions = {
         showSummary: true,
         details: true
+      };
+
+      $scope.onManagerClick = function() {
+        subscriptionsService.verifyFeature('EventContributors', 0, true, $scope.event.id);
+      };
+      $scope.onStaffClick = $scope.onManagerClick;
+      $scope.contributorsVisible = function () {
+        return permissionsService.isRole('admin') || (permissionsService.isRole('manager') && !permissionsService.isRole('manager_limited'));
       };
 
       $scope.$watch('selectedIndex', function(newValue) {
@@ -387,6 +395,13 @@ angular.module('gliist')
           if (event.type === 3) {
             $scope.getTickets(event.id);
           }
+        });
+
+        userService.getUsersByRole("manager_limited").then(function (data) {
+          $scope.managers = [{id: null, firstName: "None", lastName: ""}].concat(data);
+        });
+        userService.getUsersByRole("staff_limited").then(function (data) {
+          $scope.staff = [{id: null, firstName: "None", lastName: ""}].concat(data);
         });
       };
 
