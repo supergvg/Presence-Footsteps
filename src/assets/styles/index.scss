@@ -1740,9 +1740,16 @@ md-dialog {
       background-color: #aaa !important;
     }
   }
+
+  .content {
+    width: 100%;
+  }
+
   .signup-form {
+    width: 60%;
+
     md-input-container {
-      width: 250px;
+      min-width: 250px;
       padding: 0;
       input {
         height: 45px;
