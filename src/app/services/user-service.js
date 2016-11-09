@@ -229,21 +229,11 @@ angular.module('gliist').factory('userService', [
       },
 
       updateUserProfile: function(user) {
-        var deferred = $q.defer(),
-          url = 'api/Account/UserInfo';
-
-        $http({
-          method: 'PUT',
-          url: url,
-          data: user
-        }).success(function (data) {
-          deferred.resolve(data);
-
-        }).error(function (data) {
-          deferred.reject(data);
+        return $http.put('api/Account/UserInfo', user).then(function (response) {
+          return response.data;
+        }, function (response) {
+          return $q.reject(response.data);
         });
-
-        return deferred.promise;
       },
 
       getCurrentUser: function() {
