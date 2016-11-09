@@ -36,9 +36,6 @@ angular.module('gliist')
               };
               scope.getStyles = function() {
                 var top = 549;
-                if (permissionsService.isRole('staff')) {
-                  top = 389;
-                }
                 return {
                   top: (top - $window.scrollY) +'px',
                   display: $mdMedia('gt-lg') && !$scope.hideArrow ? 'block' : 'none'
