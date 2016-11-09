@@ -12,12 +12,10 @@ angular.module('gliist')
       var init = $scope.$watch('currentUser', function(newVal) {
         if (newVal && angular.isDefined(newVal)) {
           init(); //destroy $watch
-          $scope.permissionTitle = ' - ' + $rootScope.currentUser.permissions.charAt(0).toUpperCase() + $rootScope.currentUser.permissions.slice(1).toLowerCase();
-          if ($rootScope.currentUser.permissions === 'admin') {
-            $scope.permissionTitle += ' Account';
-          } else {
-            $scope.permissionTitle += ' Access';
-          }
+
+          var permissions = $rootScope.currentUser.permissions;
+          $scope.permissionTitle = ' - ' + permissionsService.roles[permissions].label;
+          $scope.permissionTitle += permissions === 'admin' ? ' Account' : ' Access';
           $timeout(function(){
             if ($rootScope.currentUser.IsFirstLogin && permissionsService.isRole('admin')) {
               var scope = $scope.$new();
