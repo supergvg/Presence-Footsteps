@@ -10,7 +10,9 @@
           <div layout layout-sm="column">
             <md-input-container flex="75" md-no-float flex-sm="auto">
               <h4>Guest List Title</h4>
-              <input type="text" ng-model="gli.title" name="title" required placeholder="Enter Guest List Title" ng-change="onDataChange()">
+              <input type="text" ng-model="gli.title" name="title" required placeholder="Enter Guest List Title"
+                     ng-disabled="isPromoter()"
+                     ng-change="onDataChange()">
             </md-input-container>
             <md-input-container flex="25" md-no-float flex-sm="auto">
               <h4>Guest Type</h4>
