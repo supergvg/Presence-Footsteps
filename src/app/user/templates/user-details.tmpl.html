@@ -16,7 +16,7 @@
             </div>
         </div>
         <div ng-show="editMode">
-            <div class="block-field" remove-by-roles="staff,promoter">
+            <div class="block-field" remove-by-roles="staff,staff_limited,promoter,manager_limited">
                 <h4>Upload Company Logo</h4>
                 <div layout="row" layout-sm="column" layout-align="space-between center">
                     <md-input-container>
@@ -30,7 +30,7 @@
                     </md-input-container>
                 </div>
             </div>
-            <div class="block-field" remove-by-roles="promoter">
+            <div class="block-field" remove-by-roles="staff,staff_limited,promoter,manager_limited">
                 <h4>Edit Personal Details</h4>
                 <form name="userForm">
                     <div layout="row" layout-sm="column" layout-md="column" layout-align="space-between stretch">

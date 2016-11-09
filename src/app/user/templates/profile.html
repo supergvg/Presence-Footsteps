@@ -23,7 +23,7 @@
            md-swipe-right="previous($event)">
         <user-details user="currentUser"></user-details>
 
-        <div layout="row" layout-align="start center" class="facebook-integration" remove-by-roles="staff,promoter">
+        <div layout="row" layout-align="start center" class="facebook-integration" remove-by-roles="staff,staff_limited,promoter,manager_limited">
           <img src="assets/images/icons/facebook_blue.png" height="24" width="24">
           <div flex>
             <strong>Facebook Integration -</strong> Pull in your Facebook Event info and guests' info to gjests
@@ -31,7 +31,7 @@
           <md-button class="raised-btn" ng-click="connectFacebook()">{{currentUser.FacebookId ? 'Disconnect' : 'Connect'}}</md-button>
         </div>
 
-        <div layout="column" layout-align="start stretch" class="social-links-edit" remove-by-roles="promoter">
+        <div layout="column" layout-align="start stretch" class="social-links-edit" remove-by-roles="staff,staff_limited,promoter,manager_limited">
           <h4>Enter the link to your Social Media accounts</h4>
           <div layout="row" layout-align="start center" layout-sm="column" layout-align-sm="center start">
             <img src="assets/images/instagram.png"/>
