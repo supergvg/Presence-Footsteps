@@ -115,23 +115,25 @@ function EventCheckinController (
       var guests = data.guests;
       if ($scope.pastEvent()) {
         $scope.options.gridOptions.columnDefs.pop();
+      } else {
+        var editableGuestLists = $scope.event.guestLists.filter($scope.isEditableGuestList);
+        if (editableGuestLists.length && !permissionsService.isRole('staff_limited')) {
+          $scope.options.additionalButton = {
+            text: 'Add guest',
+            click: function () {
+              var scope = $scope.$new();
+              $scope.guestLists = editableGuestLists;
+              $scope.guests = guests;
+              $mdDialog.show({
+                scope: scope,
+                controller: 'AddGuestController',
+                templateUrl: 'app/guest-lists/templates/guest-add-dialog.html'
+              });
+            }
+          };
+        }
       }
-      var editableGuestLists = $scope.event.guestLists.filter($scope.isEditableGuestList);
-      if (editableGuestLists.length && !permissionsService.isRole('staff_limited')) {
-        $scope.options.additionalButton = {
-          text: 'Add guest',
-          click: function () {
-            var scope = $scope.$new();
-            $scope.guestLists = editableGuestLists;
-            $scope.guests = guests;
-            $mdDialog.show({
-              scope: scope,
-              controller: 'AddGuestController',
-              templateUrl: 'app/guest-lists/templates/guest-add-dialog.html'
-            });
-          }
-        };
-      }
+
       $scope.options.gridData = guests;
     }, function() {
       dialogService.error('There was a problem getting your events, please try again');
