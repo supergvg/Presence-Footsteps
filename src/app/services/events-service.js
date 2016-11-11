@@ -493,6 +493,10 @@ function EventsService ($http, $q, $window, subscriptionsService, dialogService,
       return d.promise;
     },
 
+    getRsvpReportUrl: function (eventId) {
+      return EnvironmentConfig.gjests_api + 'api/reports/exportrsvp/' + eventId + '?authToken=' + $window.localStorage.access_token;
+    },
+
     getCheckinReportUrl: function (eventId) {
       return EnvironmentConfig.gjests_api + 'api/Event/GuestsListsExcelFile/' + eventId + '?authToken=' + $window.localStorage.access_token;
     },

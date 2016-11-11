@@ -5,11 +5,9 @@ function EventCheckinController (
   $state,
   $stateParams,
   $filter,
-  $window,
   $mdDialog,
   dialogService,
   eventsService,
-  EnvironmentConfig,
   permissionsService
 ) {
   $scope.event = {id: 0};
@@ -157,11 +155,9 @@ EventCheckinController.$inject = [
   '$state',
   '$stateParams',
   '$filter',
-  '$window',
   '$mdDialog',
   'dialogService',
   'eventsService',
-  'EnvironmentConfig',
   'permissionsService'
 ];
 
