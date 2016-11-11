@@ -1,6 +1,6 @@
 'use strict';
 
-function EventsService ($http, $q, subscriptionsService, dialogService) {
+function EventsService ($http, $q, $window, subscriptionsService, dialogService, EnvironmentConfig) {
   return {
 
     removeGuestsFromGL: function (guestListId, guestIds) {
@@ -491,6 +491,14 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
       });
 
       return d.promise;
+    },
+
+    getCheckinReportUrl: function (eventId) {
+      return EnvironmentConfig.gjests_api + 'api/Event/GuestsListsExcelFile/' + eventId + '?authToken=' + $window.localStorage.access_token;
+    },
+
+    getOfflineModeReportUrl: function (eventId) {
+      return EnvironmentConfig.gjests_api + 'api/OfflineMode/Report/' + eventId + '?authToken=' + $window.localStorage.access_token;
     }
   };
 }
@@ -498,8 +506,10 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
 EventsService.$inject = [
   '$http',
   '$q',
+  '$window',
   'subscriptionsService',
-  'dialogService'
+  'dialogService',
+  'EnvironmentConfig'
 ];
 
 angular.module('gliist').factory('eventsService', EventsService);

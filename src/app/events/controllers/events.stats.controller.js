@@ -117,6 +117,10 @@ function EventsStatsController (
     return EnvironmentConfig.gjests_api+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
   };
 
+  $scope.getCheckinReportUrl = function () {
+    return eventsService.getCheckinReportUrl($scope.eventId);
+  };
+
   $scope.getCategoryStats = function(category) {
     return $scope.stats[category.toLowerCase()] || {totalCheckedIn: 0, total: 0};
   };
@@ -190,7 +194,7 @@ function EventsStatsController (
     };
 
     $scope.getOfflineModeReportUrl = function() {
-      return EnvironmentConfig.gjests_api+'api/OfflineMode/Report/'+$scope.eventId+'?authToken='+$window.localStorage.access_token;
+      return eventsService.getOfflineModeReportUrl($scope.eventId);
     };
   };
 

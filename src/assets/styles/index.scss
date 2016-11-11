@@ -2290,10 +2290,19 @@ md-dialog {
     }
   }
 
+  .offline-report h4,
+  .checkin-report h4 {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .checkin-report .report-button {
+    width: 250px;
+  }
+
   .offline-report {
-    h4 {
-      font-weight: bold;
-      font-size: 16px;
+    .report-button {
+      width: 300px;
     }
 
     md-list {

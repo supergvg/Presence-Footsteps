@@ -143,7 +143,17 @@
           </div>
         </div>
       </div>
-      <div class="block-field">
+      <div class="checkin-report block-field">
+        <div class="block-field" layout="row">
+          <div layout="column" flex="50">
+            <h4>Check-in Analytic</h4>
+          </div>
+          <div layout="column" layout-align="center end" flex="50">
+            <a ng-href="{{getCheckinReportUrl()}}" class="report-button md-button raised-btn">
+              Export Check-in Report
+            </a>
+          </div>
+        </div>
         <guest-list-instance-view event="event" lists="event.guestLists" options="gliOptions"></guest-list-instance-view>
       </div>
 
@@ -153,7 +163,9 @@
             <h4>Offline Report</h4>
           </div>
           <div layout="column" layout-align="center end" flex="50">
-            <a ng-href="{{getOfflineModeReportUrl()}}" class="md-button raised-btn" style="width: 300px;">Export Offline Mode Report</a>
+            <a ng-href="{{getOfflineModeReportUrl()}}" class="report-button md-button raised-btn">
+              Export Offline Mode Report
+            </a>
           </div>
         </div>
 

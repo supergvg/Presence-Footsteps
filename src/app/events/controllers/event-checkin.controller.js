@@ -93,7 +93,7 @@ function EventCheckinController (
   };
 
   $scope.getExportExcelUrl = function() {
-    return EnvironmentConfig.gjests_api+'api/Event/GuestsListsExcelFile/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
+    return eventsService.getCheckinReportUrl($scope.event.id);
   };
 
   $scope.pastEvent = function() {
