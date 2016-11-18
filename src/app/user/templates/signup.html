@@ -16,9 +16,18 @@
           </md-input-container>
           <md-input-container flex>
             <label>Last Name</label>
-            <input name="lastName" ng-model="user.lastName" required>
+            <input name="lastName" ng-model="user.lastName" required class="rounded-r">
             <div ng-messages="userForm.lastName.$error" ng-if="displayErrorMessage(userForm.lastName)">
               <div ng-message="required">Last name is required</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout layout-sm="column">
+          <md-input-container flex>
+            <label>Organization</label>
+            <input name="company" ng-model="user.company" ng-disabled="options.inviteMode" ng-required="!options.inviteMode" class="rounded-l">
+            <div ng-messages="userForm.company.$error" ng-if="displayErrorMessage(userForm.company)">
+              <div ng-message="required">Company is required</div>
             </div>
           </md-input-container>
           <md-input-container flex ng-class="userForm.firstName.$valid && userForm.lastName.$valid && userForm.email.$valid ? 'checked' : ''">
@@ -28,26 +37,6 @@
               <div ng-message="required">Email is required</div>
               <div ng-message="email">Email is incorrect</div>
             </div>
-          </md-input-container>
-        </div>
-        <div layout layout-sm="column">
-          <md-input-container flex>
-            <label>Phone Number</label>
-            <input name="phoneNumber" ng-model="user.phoneNumber" class="rounded-l" type="text" ng-pattern="/^[0-9+-. ()]*$/">
-            <div ng-messages="userForm.phoneNumber.$error" ng-if="displayErrorMessage(userForm.phoneNumber)">
-              <div ng-message="pattern">Correct phone number</div>
-            </div>
-          </md-input-container>
-          <md-input-container flex>
-            <label>Organization</label>
-            <input name="company" ng-model="user.company" ng-disabled="options.inviteMode" ng-required="!options.inviteMode">
-            <div ng-messages="userForm.company.$error" ng-if="displayErrorMessage(userForm.company)">
-              <div ng-message="required">Company is required</div>
-            </div>
-          </md-input-container>
-          <md-input-container flex ng-class="userForm.company.$valid ? 'checked' : ''">
-            <label>Industry</label>
-            <input name="industry" ng-model="user.industry" ng-disabled="options.inviteMode" class="rounded-r">
           </md-input-container>
         </div>
         <div layout layout-align="center center" layout-sm="row" class="passwords">
