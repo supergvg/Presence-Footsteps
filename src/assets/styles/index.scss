@@ -1827,7 +1827,7 @@ md-dialog {
             width: $size;
             position: absolute;
             left: -20px - $size;
-            top: calc(50% - #{$size / 2});
+            top: #{$size / 2};
           }
         }
       }
@@ -2575,8 +2575,14 @@ md-dialog {
         }
       }
       form {
-        & > div.passwords > md-input-container:first-child {
-          margin-right: 0;
+        & > div.passwords {
+          > md-input-container:first-child {
+            margin-right: 0;
+          }
+
+          .password-matches {
+            margin-top: 25px;
+          }
         }
       }
     }

@@ -6,7 +6,7 @@
     <md-progress-circular ng-show="loading" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
     <div class="signup-form" ng-if="!loading">
       <form name="userForm">
-        <div layout layout-sm="column">
+        <div layout="row" layout-align="center center" layout-sm="column">
           <md-input-container flex>
             <label>First Name</label>
             <input name="firstName" ng-model="user.firstName" required class="rounded-l">
@@ -22,7 +22,7 @@
             </div>
           </md-input-container>
         </div>
-        <div layout layout-sm="column">
+        <div layout="row" layout-align="center center" layout-sm="column">
           <md-input-container flex>
             <label>Organization</label>
             <input name="company" ng-model="user.company" ng-disabled="options.inviteMode" ng-required="!options.inviteMode" class="rounded-l">
@@ -39,8 +39,8 @@
             </div>
           </md-input-container>
         </div>
-        <div layout layout-align="center center" layout-sm="row" class="passwords">
-          <div layout="column" flex="50">
+        <div layout="row" layout-align="center center" layout-sm="column" class="passwords">
+          <div layout="column" layout-align="start" flex>
             <md-input-container>
               <label>Password</label>
               <input class="rounded-lr" name="password" type="password" ng-model="user.password" ng-minlength="8" required>
@@ -59,7 +59,7 @@
             </md-input-container>
           </div>
 
-          <div layout="column" flex="50" class="password-matches">
+          <div layout="column" flex class="password-matches">
             <password-matches password="user.password" min-length="8"></password-matches>
           </div>
         </div>
