@@ -106,26 +106,28 @@
           </div>
           <div layout layout-sm="column" class="block-field" ng-if="contributorsVisible()">
             <md-input-container flex md-no-float>
-                <h4>Manager Permission</h4>
-                <ui-select name="managerId" ng-model="event.ManagerId" search-enabled="false" ng-click="onManagerClick()">
-                  <ui-select-match placeholder="Select Manager">
-                    {{$select.selected.firstName}} {{$select.selected.lastName}}
-                  </ui-select-match>
-                  <ui-select-choices repeat="user.Id as user in managers">
-                    {{user.firstName}} {{user.lastName}}
-                  </ui-select-choices>
-                </ui-select>
+              <h4>Manager Permission</h4>
+              <md-tooltip md-direction="bottom">Assign a Limited Manager to manage this event</md-tooltip>
+              <ui-select name="managerId" ng-model="event.ManagerId" search-enabled="false" ng-click="onManagerClick()">
+                <ui-select-match placeholder="Select Manager">
+                  {{$select.selected.firstName}} {{$select.selected.lastName}}
+                </ui-select-match>
+                <ui-select-choices repeat="user.Id as user in managers">
+                  {{user.firstName}} {{user.lastName}}
+                </ui-select-choices>
+              </ui-select>
             </md-input-container>
             <md-input-container flex md-no-float>
               <h4>Staff Permission</h4>
-                <ui-select name="staffId" ng-model="event.StaffId" search-enabled="false" ng-click="onStaffClick()">
-                  <ui-select-match placeholder="Select Staff">
-                    {{$select.selected.firstName}} {{$select.selected.lastName}}
-                  </ui-select-match>
-                  <ui-select-choices repeat="user.Id as user in staff">
-                    {{user.firstName}} {{user.lastName}}
-                  </ui-select-choices>
-                </ui-select>
+              <md-tooltip md-direction="bottom">Assign a Limited Staff to manage this event</md-tooltip>
+              <ui-select name="staffId" ng-model="event.StaffId" search-enabled="false" ng-click="onStaffClick()">
+                <ui-select-match placeholder="Select Staff">
+                  {{$select.selected.firstName}} {{$select.selected.lastName}}
+                </ui-select-match>
+                <ui-select-choices repeat="user.Id as user in staff">
+                  {{user.firstName}} {{user.lastName}}
+                </ui-select-choices>
+              </ui-select>
             </md-input-container>
           </div>
           <div layout="row" class="block-field">
