@@ -113,7 +113,7 @@ function EventsStatsController (
   };
 
   $scope.getRsvpReportUrl = function() {
-    return getRsvpReportUrl($scope.eventId);
+    return eventsService.getRsvpReportUrl($scope.eventId);
   };
 
   $scope.getCheckinReportUrl = function () {
