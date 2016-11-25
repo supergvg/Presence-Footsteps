@@ -394,35 +394,19 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
     },
 
     confirmRSVPPublicEvent: function(data) {
-      var d = $q.defer();
-
-      $http({
-        method: 'POST',
-        url: 'api/rsvp/PublicConfirm',
-        data: data
-      }).success(function (data) {
-        d.resolve(data);
-      }).error(function(data) {
-        d.reject(data);
+      return $http.post('api/rsvp/PublicConfirm', data).then(function (response) {
+        return response.data;
+      }, function(response) {
+        return $q.reject(response.data);
       });
-
-      return d.promise;
     },
 
     confirmRSVPPersonalEvent: function(data) {
-      var d = $q.defer();
-
-      $http({
-        method: 'POST',
-        url: 'api/rsvp/InvitedConfirm',
-        data: data
-      }).success(function (data) {
-        d.resolve(data);
-      }).error(function(data) {
-        d.reject(data);
+      return $http.post('api/rsvp/InvitedConfirm', data).then(function (response) {
+        return response.data;
+      }, function(response) {
+        return $q.reject(response.data);
       });
-
-      return d.promise;
     },
 
     incRSVPVisitors: function(eventId) {

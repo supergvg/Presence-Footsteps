@@ -12,7 +12,7 @@ angular.module('gliist')
             $scope.message = '';
             $scope.loading = true;
             $scope.nameIsMissing = false;
-            
+
             $scope.eventReceived = function(data) {
                 if (data.company.name.toLowerCase() === 'popsugar') {
                     if (!$scope.public && $state.current.name !== 'landing_personal_custom') {
@@ -36,7 +36,7 @@ angular.module('gliist')
                     eventsService.incRSVPVisitors($scope.event.event.id);
                 }
             };
-            
+
             if ($scope.public) {
                 eventsService.getPublicEventDetails('rsvp', companyName, eventName).then(
                     $scope.eventReceived,
@@ -52,7 +52,7 @@ angular.module('gliist')
                     }
                 );
             }
-            
+
             $scope.getCustomLocation = function() {
                 if ($scope.event.event) {
                     var venueName = $scope.event.event.location.match(/venue-name">([^,]+)/),
@@ -61,7 +61,7 @@ angular.module('gliist')
                 }
                 return '';
             };
-            
+
             $scope.getCompanyLogo = function () {
                 if (!$scope.event || !$scope.event.company) {
                     return;
@@ -81,7 +81,7 @@ angular.module('gliist')
             $scope.getPageURL = function() {
                 return $location.absUrl();
             };
-            
+
             $scope.rsvp = {};
             $scope.onSubmitClicked = function (form) {
                 var errors = {
@@ -91,7 +91,7 @@ angular.module('gliist')
                         },
                         pattern: {
                             name: 'Last Name is required'
-                        },  
+                        },
                         email: {
                             email: 'Not valid email'
                         }
@@ -116,7 +116,13 @@ angular.module('gliist')
                     $scope.waiting = true;
                     $scope.success = false;
                     if ($scope.public) {
-                        eventsService.confirmRSVPPublicEvent({eventId: $scope.event.event.id, email: $scope.rsvp.email, name: $scope.rsvp.name, additionalGuests: $scope.rsvp.plus}).then(
+                        eventsService.confirmRSVPPublicEvent({
+                          eventId: $scope.event.event.id,
+                          affiliation: $scope.rsvp.affiliation,
+                          email: $scope.rsvp.email,
+                          name: $scope.rsvp.name,
+                          additionalGuests: $scope.rsvp.plus
+                        }).then(
                             function() {
                                 $scope.message = 'Thank you! You have been added to the event guest list!';
                                 $scope.success = true;
@@ -128,7 +134,13 @@ angular.module('gliist')
                             $scope.waiting = false;
                         });
                     } else {
-                        eventsService.confirmRSVPPersonalEvent({eventId: $scope.event.event.id, guestId: $scope.event.guest.id, additionalGuests: $scope.rsvp.plus, guestName: $scope.rsvp.name}).then(
+                        eventsService.confirmRSVPPersonalEvent({
+                          eventId: $scope.event.event.id,
+                          guestId: $scope.event.guest.id,
+                          affiliation: $scope.rsvp.affiliation,
+                          additionalGuests: $scope.rsvp.plus,
+                          guestName: $scope.rsvp.name
+                        }).then(
                             function() {
                                 $scope.message = 'Thank you! You have been added to the event guest list!';
                                 $scope.success = true;
