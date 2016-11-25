@@ -1,6 +1,6 @@
 'use strict';
 
-function EventsService ($http, $q, subscriptionsService, dialogService) {
+function EventsService ($http, $q, $window, subscriptionsService, dialogService, EnvironmentConfig) {
   return {
 
     removeGuestsFromGL: function (guestListId, guestIds) {
@@ -65,8 +65,7 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
       $http.post('api/GuestEventController/UndoCheckinGuest',
         {
           guestId: checkinData.guest.id,
-          gliId: glInstance.id,
-          plus: checkinData.plus
+          gliId: glInstance.id
         }
       ).then(
         function(response) {
@@ -476,6 +475,18 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
       });
 
       return d.promise;
+    },
+
+    getRsvpReportUrl: function (eventId) {
+      return EnvironmentConfig.gjests_api + 'api/reports/exportrsvp/' + eventId + '?authToken=' + $window.localStorage.access_token;
+    },
+
+    getCheckinReportUrl: function (eventId) {
+      return EnvironmentConfig.gjests_api + 'api/Event/GuestsListsExcelFile/' + eventId + '?authToken=' + $window.localStorage.access_token;
+    },
+
+    getOfflineModeReportUrl: function (eventId) {
+      return EnvironmentConfig.gjests_api + 'api/OfflineMode/Report/' + eventId + '?authToken=' + $window.localStorage.access_token;
     }
   };
 }
@@ -483,8 +494,10 @@ function EventsService ($http, $q, subscriptionsService, dialogService) {
 EventsService.$inject = [
   '$http',
   '$q',
+  '$window',
   'subscriptionsService',
-  'dialogService'
+  'dialogService',
+  'EnvironmentConfig'
 ];
 
 angular.module('gliist').factory('eventsService', EventsService);

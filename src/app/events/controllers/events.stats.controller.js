@@ -8,8 +8,7 @@ function EventsStatsController (
   $mdMedia,
   eventsService,
   offlineReportService,
-  dialogService,
-  EnvironmentConfig) {
+  dialogService) {
   $scope.eventId = $stateParams.eventId;
 
   $scope.categories = [
@@ -113,8 +112,12 @@ function EventsStatsController (
     return $scope.eventType === 2;
   };
 
-  $scope.getExportExcelUrl = function() {
-    return EnvironmentConfig.gjests_api+'api/reports/exportrsvp/'+$scope.event.id+'?authToken='+$window.localStorage.access_token;
+  $scope.getRsvpReportUrl = function() {
+    return eventsService.getRsvpReportUrl($scope.eventId);
+  };
+
+  $scope.getCheckinReportUrl = function () {
+    return eventsService.getCheckinReportUrl($scope.eventId);
   };
 
   $scope.getCategoryStats = function(category) {
@@ -190,7 +193,7 @@ function EventsStatsController (
     };
 
     $scope.getOfflineModeReportUrl = function() {
-      return EnvironmentConfig.gjests_api+'api/OfflineMode/Report/'+$scope.eventId+'?authToken='+$window.localStorage.access_token;
+      return eventsService.getOfflineModeReportUrl($scope.eventId);
     };
   };
 
@@ -220,8 +223,7 @@ EventsStatsController.$inject = [
   '$mdMedia',
   'eventsService',
   'offlineReportService',
-  'dialogService',
-  'EnvironmentConfig'
+  'dialogService'
 ];
 
 angular.module('gliist')

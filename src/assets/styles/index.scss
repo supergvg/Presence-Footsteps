@@ -1740,9 +1740,16 @@ md-dialog {
       background-color: #aaa !important;
     }
   }
+
+  .content {
+    width: 100%;
+  }
+
   .signup-form {
+    width: 60%;
+
     md-input-container {
-      width: 250px;
+      min-width: 250px;
       padding: 0;
       input {
         height: 45px;
@@ -1820,7 +1827,7 @@ md-dialog {
             width: $size;
             position: absolute;
             left: -20px - $size;
-            top: calc(50% - #{$size / 2});
+            top: #{$size / 2};
           }
         }
       }
@@ -2283,10 +2290,19 @@ md-dialog {
     }
   }
 
+  .offline-report h4,
+  .checkin-report h4 {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .checkin-report .report-button {
+    width: 250px;
+  }
+
   .offline-report {
-    h4 {
-      font-weight: bold;
-      font-size: 16px;
+    .report-button {
+      width: 300px;
     }
 
     md-list {
@@ -2559,8 +2575,14 @@ md-dialog {
         }
       }
       form {
-        & > div.passwords > md-input-container:first-child {
-          margin-right: 0;
+        & > div.passwords {
+          > md-input-container:first-child {
+            margin-right: 0;
+          }
+
+          .password-matches {
+            margin-top: 25px;
+          }
         }
       }
     }

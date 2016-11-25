@@ -41,7 +41,7 @@
                             <p>{{user.firstName}} {{user.lastName}}</p>
                         </div>
                         <div flex="15" flex-sm="auto">
-                            <p>{{user.permissions}}</p>
+                            <p>{{user.permissions | replaceUnderscores}}</p>
                         </div>
                         <div flex="40" flex-sm="auto">
                             <p>{{user.UserName}}</p>

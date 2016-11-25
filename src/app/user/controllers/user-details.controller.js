@@ -3,6 +3,9 @@
 angular.module('gliist')
   .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService',
     function ($scope, $rootScope, userService, dialogService, uploaderService) {
+      var originalUser = $scope.user;
+      $scope.user = angular.copy(originalUser);
+
       $scope.getUserPhoto = function(height) {
         return userService.getUserPhoto(height, $scope.user);
       };
@@ -54,6 +57,11 @@ angular.module('gliist')
         );
       };
 
+      $scope.cancel = function () {
+        $scope.editMode = false;
+        $scope.user = angular.copy(originalUser);
+      };
+
       $scope.saveChanges = function(form) {
         if (form && form.$invalid) {
           $scope.showValidation = true;
@@ -63,6 +71,7 @@ angular.module('gliist')
         userService.updateUserProfile($scope.user).then(
           function() {
             dialogService.success('Changes saved');
+            angular.extend(originalUser, $scope.user);
             $scope.editMode = false;
           },
           function(err) {

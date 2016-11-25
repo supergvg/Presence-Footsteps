@@ -173,8 +173,12 @@ angular.module('gliist')
         });
       });
 
+      $scope.isPromoter = function() {
+        return permissionsService.isRole('promoter');
+      };
+
       $scope.disablePromoterList = function() {
-        return permissionsService.isRole('promoter') || !subscriptionsService.verifyFeature('EventContributors', 0, null, eventId) || $scope.isSpotType();
+        return $scope.isPromoter() || !subscriptionsService.verifyFeature('EventContributors', 0, null, eventId) || $scope.isSpotType();
       };
       $scope.onPromoterClick = function() {
         subscriptionsService.verifyFeature('EventContributors', 0, true, eventId);

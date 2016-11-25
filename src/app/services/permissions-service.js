@@ -12,9 +12,19 @@ angular.module('gliist').service('permissionsService', ['$rootScope',
                 desc: 'Same access as Admin but cant add contributor',
                 denyAccess: ['main.user?view=1', 'main.user?view=2']
             },
+            manager_limited: {
+                label: 'Limited Manager',
+                desc: 'Same access as Manager but limited only to specific events',
+                denyAccess: ['main.user?view=1', 'main.user?view=2']
+            },
             staff: {
                 label: 'Staff',
                 desc: 'Allow to check guests in and check on event stats',
+                denyAccess: ['main.create_event', 'main.list_management', 'main.edit_glist', 'main.create_list_management', 'main.user?view=1', 'main.user?view=2']
+            },
+            staff_limited: {
+                label: 'Limited Staff',
+                desc: 'Same access as Staff but limited only to specific events',
                 denyAccess: ['main.create_event', 'main.list_management', 'main.edit_glist', 'main.create_list_management', 'main.user?view=1', 'main.user?view=2']
             },
             promoter: {

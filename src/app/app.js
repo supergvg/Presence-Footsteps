@@ -59,6 +59,8 @@ function AppController (
   $scope.getMenuItems = function() {
     if (permissionsService.isRole('promoter')) {
       return [$scope.menuItems[2], $scope.menuItems[3], $scope.menuItems[4], $scope.menuItems[5]];
+    } else if (permissionsService.isRole('manager_limited')) {
+      return [$scope.menuItems[2], $scope.menuItems[4], $scope.menuItems[5]];
     } else if (permissionsService.isRole('staff')) {
       return [$scope.menuItems[2], $scope.menuItems[4], $scope.menuItems[5]];
     }
