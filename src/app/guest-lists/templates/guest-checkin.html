@@ -1,43 +1,43 @@
 <md-dialog class="guest-checkin" ng-init="init()" flex-sm="90">
-    <img src="assets/images/popup-close.png" ng-click="close()" class="btn-close"/>
-    <div ng-show="fetchingData">
-        <h4>Loading...</h4>
-        <span><md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular></span>
+  <img src="assets/images/popup-close.png" ng-click="close()" class="btn-close"/>
+  <div ng-show="fetchingData">
+    <h4>Loading...</h4>
+    <span><md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular></span>
+  </div>
+  <div ng-hide="fetchingData">
+    <div layout="column" layout-align="start center" class="content">
+      <div class="guest-avatar bg-{{guest.type | spaceless | lowercase}}">
+        <span>{{guest.type}}</span>
+      </div>
+      <h3><u>{{guestListInstance.title}}</u></h3>
+      <h3><b>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</b></h3>
+      <h3 class="affiliation">{{guestCheckin.guest.Affiliation}}</h3>
+      <b>{{checkInGuests}}/{{maxGuests}} Checked</b>
+      <div class="notes" layout="row" layout-align="center center" layout-sm="column">
+        <b>Note</b>
+        <textarea ng-model="guestCheckin.guest.notes" columns="1" flex></textarea>
+        <md-button class="raised-btn" ng-click="updateNotes()" aria-label="UpdateNote">
+          <md-icon md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>
+        </md-button>
+      </div>
+      <div class="spinner-plusminus-h" ng-show="notCheckInGuests > 0">
+        <md-button class="raised-btn" ng-click="subtractGuestCount()" ng-disabled="checkingGuest">
+          -
+        </md-button>
+        <h4>{{guestCheckin.plus}}</h4>
+        <md-button class="raised-btn" ng-click="addGuestCount()" ng-disabled="checkingGuest">
+          +
+        </md-button>
+      </div>
+      <div>
+        <md-button class="raised-btn" ng-click="checkIn()" ng-disabled="checkingGuest" ng-show="notCheckInGuests > 0">
+          check in
+        </md-button>
+        <md-button class="raised-btn" ng-click="undoCheckIn()" ng-disabled="checkingGuest" ng-show="checkInGuests > 0">
+          undo
+        </md-button>
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="checkingGuest"></md-progress-circular>
+      </div>
     </div>
-    <div ng-hide="fetchingData">
-        <div layout="column" layout-align="start center" class="content">
-            <div class="guest-avatar bg-{{guest.type | spaceless | lowercase}}">
-              <span>{{guest.type}}</span>
-            </div>
-            <h3><u>{{guestListInstance.title}}</u></h3>
-            <h3><b>{{guestCheckin.guest.firstName}} {{guestCheckin.guest.lastName}}</b></h3>
-            <h3>{{guestCheckin.guest.type}}</h3>
-            <b>{{checkInGuests}}/{{maxGuests}} Checked</b>
-            <div class="notes" layout="row" layout-align="center center" layout-sm="column">
-                <b>Note</b>
-                <textarea ng-model="guestCheckin.guest.notes" columns="1" flex></textarea>
-                <md-button class="raised-btn" ng-click="updateNotes()" aria-label="UpdateNote">
-                    <md-icon md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>
-                </md-button>
-            </div>
-            <div class="spinner-plusminus-h" ng-show="notCheckInGuests > 0">
-                <md-button class="raised-btn" ng-click="subtractGuestCount()" ng-disabled="checkingGuest">
-                    -
-                </md-button>
-                <h4>{{guestCheckin.plus}}</h4>
-                <md-button class="raised-btn" ng-click="addGuestCount()" ng-disabled="checkingGuest">
-                    +
-                </md-button>
-            </div>
-            <div>
-                <md-button class="raised-btn" ng-click="checkIn()" ng-disabled="checkingGuest" ng-show="notCheckInGuests > 0">
-                    check in
-                </md-button>
-                <md-button class="raised-btn" ng-click="undoCheckIn()" ng-disabled="checkingGuest" ng-show="checkInGuests > 0">
-                    undo
-                </md-button>
-                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="checkingGuest"></md-progress-circular>
-            </div>
-        </div>
-    </div>
+  </div>
 </md-dialog>

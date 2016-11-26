@@ -82,22 +82,16 @@ function EventsService ($http, $q, $window, subscriptionsService, dialogService,
     },
 
     getGuestCheckin: function (guestId, gliId) {
-      var d = $q.defer();
-
-      $http({
-        method: 'GET',
-        url: 'api/GuestEventController/GetGuestCheckin',
+      return $http.get('api/GuestEventController/GetGuestCheckin', {
         params: {
           gliId: gliId,
           guestId: guestId
         }
-      }).success(function (data) {
-        d.resolve(data);
-      }).error(function () {
-        d.reject('Oops there was an error trying to get guest information, please try again');
+      }).then(function (response) {
+        return response.data;
+      }, function () {
+        return $q.reject('Oops there was an error trying to get guest information, please try again');
       });
-
-      return d.promise;
     },
 
     updateGuestNotes: function(guestId, notes) {
