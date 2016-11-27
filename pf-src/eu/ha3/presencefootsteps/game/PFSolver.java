@@ -53,7 +53,7 @@ public class PFSolver implements Solver {
 	
 	@Override
 	public Association findAssociationForPlayer(EntityPlayer ply, double verticalOffsetAsMinus, boolean isRightFoot) {
-		int yy = MathHelper.floor_double(ply.getEntityBoundingBox().minY - 0.1d - verticalOffsetAsMinus); // 0.1d: Support for trapdoors
+		int yy = MathHelper.floor(ply.getEntityBoundingBox().minY - 0.1d - verticalOffsetAsMinus); // 0.1d: Support for trapdoors
 		
 		double rot = Math.toRadians(MathHelper.wrapDegrees(ply.rotationYaw));
 		double xn = Math.cos(rot);
@@ -61,17 +61,17 @@ public class PFSolver implements Solver {
 		
 		float feetDistanceToCenter = 0.2f * (isRightFoot ? -1 : 1);
 		
-		int xx = MathHelper.floor_double(ply.posX + xn * feetDistanceToCenter);
-		int zz = MathHelper.floor_double(ply.posZ + zn * feetDistanceToCenter);
+		int xx = MathHelper.floor(ply.posX + xn * feetDistanceToCenter);
+		int zz = MathHelper.floor(ply.posZ + zn * feetDistanceToCenter);
 		
 		return findAssociationForLocation(ply, xx, yy, zz);
 	}
 
 	@Override
 	public Association findAssociationForPlayer(EntityPlayer ply, double verticalOffsetAsMinus) {
-		int yy = MathHelper.floor_double(ply.posY - 0.1d - ply.getYOffset() - verticalOffsetAsMinus); // 0.1d: Support for trapdoors
-		int xx = MathHelper.floor_double(ply.posX);
-		int zz = MathHelper.floor_double(ply.posZ);
+		int yy = MathHelper.floor(ply.posY - 0.1d - ply.getYOffset() - verticalOffsetAsMinus); // 0.1d: Support for trapdoors
+		int xx = MathHelper.floor(ply.posX);
+		int zz = MathHelper.floor(ply.posZ);
 		return findAssociationForLocation(ply, xx, yy, zz);
 	}
 
@@ -85,7 +85,7 @@ public class PFSolver implements Solver {
 		}
 		if (player.isInWater()) PFLog.debug("WARNING!!! Playing a sound while in the water! This is supposed to be halted by the stopping conditions!!");
 		
-		Association worked = findAssociationForBlock(player.worldObj, x, y, z);
+		Association worked = findAssociationForBlock(player.world, x, y, z);
 		
 		// If it didn't work, the player has walked over the air on the border of a block.
 		// ------ ------ --> z
@@ -121,9 +121,9 @@ public class PFSolver implements Solver {
 				// < maxofX- maxofX+ >
 				// Take the maximum border to produce the sound
 				if (isXdangMax) { // If we are in the positive border, add 1, else subtract 1
-					worked = findAssociationForBlock(player.worldObj, xdang > 0 ? x + 1 : x - 1, y, z);
+					worked = findAssociationForBlock(player.world, xdang > 0 ? x + 1 : x - 1, y, z);
 				} else {
-					worked = findAssociationForBlock(player.worldObj, x, y, zdang > 0 ? z + 1 : z - 1);
+					worked = findAssociationForBlock(player.world, x, y, zdang > 0 ? z + 1 : z - 1);
 				}
 				
 				// If that didn't work, then maybe the footstep hit in the
@@ -131,9 +131,9 @@ public class PFSolver implements Solver {
 				// Try with the other closest block
 				if (worked == null) { // Take the maximum direction and try with the orthogonal direction of it
 					if (isXdangMax) {
-						worked = findAssociationForBlock(player.worldObj, x, y, zdang > 0 ? z + 1 : z - 1);
+						worked = findAssociationForBlock(player.world, x, y, zdang > 0 ? z + 1 : z - 1);
 					} else {
-						worked = findAssociationForBlock(player.worldObj, xdang > 0 ? x + 1 : x - 1, y, z);
+						worked = findAssociationForBlock(player.world, xdang > 0 ? x + 1 : x - 1, y, z);
 					}
 				}
 			}
@@ -248,7 +248,7 @@ public class PFSolver implements Solver {
 	@Override
 	public boolean playSpecialStoppingConditions(EntityPlayer ply) {
 		if (ply.isInWater()) {
-			float volume = MathHelper.sqrt_double(ply.motionX * ply.motionX * 0.2d + ply.motionY * ply.motionY + ply.motionZ * ply.motionZ * 0.2d) * 0.35f;
+			float volume = MathHelper.sqrt(ply.motionX * ply.motionX * 0.2d + ply.motionY * ply.motionY + ply.motionZ * ply.motionZ * 0.2d) * 0.35f;
 			ConfigOptions options = new ConfigOptions();
 			options.getMap().put("gliding_volume", volume > 1 ? 1 : volume);
 			// material water, see EntityLivingBase line 293

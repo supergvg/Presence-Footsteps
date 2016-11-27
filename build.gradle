@@ -23,8 +23,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.liteloader'
 apply plugin: 'org.spongepowered.mixin'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 sourceSets {
 	main {
 		java {
@@ -40,7 +40,7 @@ sourceSets {
 }
 
 // Basic project information
-version = "u12"
+version = "u13"
 group = "eu.ha3"
 archivesBaseName = 'presencefootsteps'
 ext.revision = "0"

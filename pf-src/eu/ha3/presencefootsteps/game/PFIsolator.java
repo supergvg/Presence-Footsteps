@@ -42,7 +42,7 @@ public class PFIsolator implements Isolator, VariatorSettable {
 			Iterator<Map.Entry<UUID, Generator>> iter = generators.entrySet().iterator();
 			while (iter.hasNext()) {
 				UUID uuid = iter.next().getKey();
-				if (ply.worldObj.getPlayerEntityByUUID(uuid) == null) {
+				if (ply.world.getPlayerEntityByUUID(uuid) == null) {
 					iter.remove();
 				}
 			}

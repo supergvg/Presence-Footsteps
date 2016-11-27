@@ -110,8 +110,8 @@ public class PFReaderPeg extends PFReaderQuad {
 		}
 		
 		if (!ply.isInWater() && !isFalling && now > nextFlapTime) {
-			nextFlapTime = now + getWingSpeed() + (ply.worldObj.rand.nextInt(100) - 50);
-			flapMod = (flapMod + 1) % (1 + ply.worldObj.rand.nextInt(4));
+			nextFlapTime = now + getWingSpeed() + (ply.world.rand.nextInt(100) - 50);
+			flapMod = (flapMod + 1) % (1 + ply.world.rand.nextInt(4));
 			
 			float volume = 1;
 			long diffImmobile = now - lastTimeImmobile;

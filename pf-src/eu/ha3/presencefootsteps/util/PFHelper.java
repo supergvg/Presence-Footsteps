@@ -15,7 +15,7 @@ public class PFHelper {
 	 * Gets the block at a certain location in the current world. This method is not safe against locations in undefined space.
 	 */
 	public static Block getBlockAt(BlockPos pos) {
-		return getBlockAt(getClient().theWorld, pos);
+		return getBlockAt(getClient().world, pos);
 	}
 	
 	/**
@@ -24,9 +24,9 @@ public class PFHelper {
 	 * or throws any exception during evaluation), it will return a default string.
 	 */
 	public static String getNameAt(BlockPos pos, String defaultIfFail) {
-		if (pos.getY() > 0 && pos.getY() < getClient().theWorld.getHeight()) {
+		if (pos.getY() > 0 && pos.getY() < getClient().world.getHeight()) {
 			try {
-				return getNameAt(getClient().theWorld, pos);
+				return getNameAt(getClient().world, pos);
 			} catch (Exception e) {}
 		}
 		return defaultIfFail;

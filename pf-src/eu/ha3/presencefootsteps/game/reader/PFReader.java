@@ -119,10 +119,10 @@ public class PFReader implements Generator, VariatorSettable {
 			lastZ = ply.posZ;
 		}
 		if (ply instanceof EntityOtherPlayerMP) {
-			if (ply.worldObj.getWorldTime() % 1 == 0) {
-				ply.distanceWalkedModified += (double)MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ) * 0.8D;
+			if (ply.world.getWorldTime() % 1 == 0) {
+				ply.distanceWalkedModified += (double)MathHelper.sqrt(motionX * motionX + motionZ * motionZ) * 0.8D;
 				if (motionX != 0 || motionZ != 0) {
-					ply.distanceWalkedOnStepModified += (double)MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ) * 0.8D;
+					ply.distanceWalkedOnStepModified += (double)MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ) * 0.8D;
 				}
 				if (ply.onGround) {
 					ply.fallDistance = 0;
@@ -328,8 +328,8 @@ public class PFReader implements Generator, VariatorSettable {
 		
 		if ((motionX == 0d && motionZ == 0d) || ply.isSneaking()) return;
 		
-		int yy = MathHelper.floor_double(ply.posY - 0.1d - ply.getYOffset() - (ply.onGround ? 0d : 0.25d));
-		Association assos = mod.getSolver().findAssociationForBlock(ply.worldObj, MathHelper.floor_double(ply.posX), yy, MathHelper.floor_double(ply.posZ), "find_messy_foliage");
+		int yy = MathHelper.floor(ply.posY - 0.1d - ply.getYOffset() - (ply.onGround ? 0d : 0.25d));
+		Association assos = mod.getSolver().findAssociationForBlock(ply.world, MathHelper.floor(ply.posX), yy, MathHelper.floor(ply.posZ), "find_messy_foliage");
 		
 		if (assos != null) {
 			if (!isMessyFoliage) {

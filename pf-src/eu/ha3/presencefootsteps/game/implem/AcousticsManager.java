@@ -52,7 +52,7 @@ public class AcousticsManager extends AcousticsLibrary implements SoundPlayer, D
 		Block block = assos.getBlock();
 		SoundType soundType = block.getSoundType();
 		if (!assos.getMaterial().isLiquid() && soundType != null) {
-			if (entity.worldObj.getBlockState(assos.pos(0, 1, 0)).getBlock() == Blocks.SNOW_LAYER) {
+			if (entity.world.getBlockState(assos.pos(0, 1, 0)).getBlock() == Blocks.SNOW_LAYER) {
 				soundType = Blocks.SNOW_LAYER.getSoundType();
 			}
 			
@@ -80,7 +80,7 @@ public class AcousticsManager extends AcousticsLibrary implements SoundPlayer, D
 	}
 	
 	private boolean isClientPlayer(Entity ply) {
-		EntityPlayer clientPlayer = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer clientPlayer = Minecraft.getMinecraft().player;
 		return ply.getUniqueID().equals(clientPlayer.getUniqueID());
 	}
 	
