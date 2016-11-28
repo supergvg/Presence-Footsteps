@@ -5,9 +5,7 @@ angular.module('gliist')
         return {
             restrict: 'EA',
 
-            scope: {
-                user: '='
-            },
+            scope: true,
             controller: 'UserDetailsCtrl',
 
             replace: true,

@@ -3,7 +3,7 @@
 angular.module('gliist')
   .controller('UserDetailsCtrl', ['$scope', '$rootScope', 'userService', 'dialogService', 'uploaderService',
     function ($scope, $rootScope, userService, dialogService, uploaderService) {
-      var originalUser = $scope.user;
+      var originalUser = $rootScope.currentUser;
       $scope.user = angular.copy(originalUser);
 
       $scope.getUserPhoto = function(height) {
