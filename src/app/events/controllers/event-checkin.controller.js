@@ -115,7 +115,7 @@ function EventCheckinController (
         $scope.options.gridOptions.columnDefs.pop();
       } else {
         var editableGuestLists = $scope.event.guestLists.filter($scope.isEditableGuestList);
-        if (editableGuestLists.length && !permissionsService.isRole('staff_limited')) {
+        if (editableGuestLists.length && !permissionsService.isRole('staff') && !permissionsService.isRole('staff_limited')) {
           $scope.options.additionalButton = {
             text: 'Add guest',
             click: function () {
