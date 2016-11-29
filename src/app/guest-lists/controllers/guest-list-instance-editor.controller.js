@@ -554,7 +554,7 @@ angular.module('gliist')
           return;
         }
 
-        var guests = guestListParserService.parse($scope.data.textGuestList);
+        var guests = guestListParserService.parse($scope.data.textGuestList, $scope.isRSVP() || $scope.isPublicRSVP());
         if (guests === null) {
           return dialogService.error('No guests found in the list');
         }
