@@ -30,7 +30,7 @@
             </md-input-container>
           </div>
         </div>
-        <div class="block-field" ng-if="isNotPublicRSVP() && !isFacebookList()">
+        <div class="block-field" ng-if="!isPublicRSVP() && !isFacebookList()">
           <h4>Promoter</h4>
           <md-input-container flex md-no-float>
             <ui-select name="promoter" ng-model="gli.promoter_Id" search-enabled="false" ng-disabled="disablePromoterList()" ng-change="onDataChange()" ng-click="onPromoterClick()">
@@ -45,11 +45,11 @@
         </div>
       </form>
     </div>
-    <div class="block-field" ng-if="isNotPublicRSVP() && !isSpotType() && !isFacebookList()">
-      <h4>Import Guests</h4>
+    <div class="block-field" ng-if="!isPublicRSVP() && !isSpotType() && !isFacebookList()">
+      <h4>{{isRSVP() || isPublicRSVP() ? 'Import Emails' : 'Import Guests'}}</h4>
       <md-list>
         <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
-          <p flex>Link previous guest list</p>
+          <p flex>Link previous {{isRSVP() || isPublicRSVP() ? 'mailing list' : 'guest list'}}</p>
           <div>
             <md-button class="raised-btn" ng-click="onLinkClicked($event)">
               Link
@@ -57,7 +57,10 @@
           </div>
         </md-list-item>
         <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
-          <p flex>Upload new guest list (csv, xlsx) Upload: <a href="assets/docs/Guest List Upload format 1.xlsx">format 1</a>, <a href="assets/docs/Guest List Upload format 2.xlsx">format 2</a></p>
+          <p flex>
+            Upload new {{isRSVP() || isPublicRSVP() ? 'mailing list' : 'guest list'}} (csv, xlsx)
+            Upload: <a ng-href="{{isRSVP() || isPublicRSVP() ? 'assets/docs/Mailing List Upload format 1.xlsx' : 'assets/docs/Guest List Upload format 1.xlsx'}}">format 1</a>,
+            <a ng-href="{{isRSVP() || isPublicRSVP() ? 'assets/docs/Mailing List Upload format 2.xlsx' : 'assets/docs/Guest List Upload format 2.xlsx'}}">format 2</a></p>
           <div>
             <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv,.xlsx,.xls">
               Upload
@@ -66,11 +69,17 @@
         </md-list-item>
         <md-list-item layout="column" layout-align="space-between stretch" layout-sm="column" layout-align-sm="space-between stretch">
           <div layout-fill>
-            <p>Add Multiple Guests by Copying and Pasting</p>
-            <p><i>Paste your guest list here in these formats: <b>Name</b> OR <b>Name +1</b> OR <b>Name, Note, Pluses</b>.<br/>Use line break for each guest.</i></p>
+            <p>Add Multiple {{isRSVP() || isPublicRSVP() ? 'Emails' : 'Guests'}} by Copying and Pasting</p>
+            <p><i>
+              Paste your guest list here in these formats: <b>{{isRSVP() || isPublicRSVP() ? 'Email' : 'Name'}}</b>
+              OR <b>{{isRSVP() || isPublicRSVP() ? 'Name, Email' : 'Name +1'}}</b><span ng-hide="isRSVP() || isPublicRSVP()"> OR <b>Name, Note, Pluses</b></span>.<br/>
+              Use line break for each guest.
+            </i></p>
           </div>
           <div layout="row" layout-align="start end" layout-fill md-no-float>
-            <textarea class="guest-list-import-box" flex="75" ng-model="vars.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
+            <textarea class="guest-list-import-box" flex="75" ng-model="vars.textGuestList"
+                      placeholder="{{isRSVP() || isPublicRSVP() ? 'Example: Amy White, Amy@mail.com' : 'Example: Amy White +1'}}"
+                      rows="10" md-no-autogrow></textarea>
             <div flex layout="row" layout-align="end end">
               <md-button class="raised-btn" ng-click="onAddGuestsClicked()">Add</md-button>
             </div>

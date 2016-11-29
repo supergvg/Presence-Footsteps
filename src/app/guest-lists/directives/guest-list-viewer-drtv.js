@@ -8,7 +8,8 @@ angular.module('gliist')
       scope: {
         options: '=?',
         selected: '=?',
-        skipOnTheSpot: '=?'
+        skipOnTheSpot: '=?',
+        rsvpOnly: '=?'
       },
       replace: true,
       templateUrl: 'app/guest-lists/templates/guest-list-viewer.html'

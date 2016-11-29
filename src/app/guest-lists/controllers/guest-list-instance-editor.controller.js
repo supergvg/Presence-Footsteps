@@ -32,10 +32,15 @@ angular.module('gliist')
         return !$scope.fetchingData;
       };
       $scope.canEditPlus = function () {
-        return !(instanceType === 2 || instanceType === 4); //disable editing for RSVP list
+        return !$scope.isRSVP() && !$scope.isPublicRSVP(); //disable editing for RSVP list
       };
-      $scope.isNotPublicRSVP = function () {
-        return instanceType !== 4;
+
+      $scope.isRSVP = function () {
+        return instanceType === 2;
+      };
+
+      $scope.isPublicRSVP = function () {
+        return instanceType === 4;
       };
       $scope.isFacebookList = function () {
         return $scope.gli && $scope.gli.listType === 'Facebook';
@@ -82,8 +87,8 @@ angular.module('gliist')
           columnDefs: [
             {field: 'guest.firstName', name: 'First Name'},
             {field: 'guest.lastName', name: 'Last Name'},
-            {field: 'guest.email', name: 'Email', cellEditableCondition: function () { return $scope.canEdit() && $scope.isNotPublicRSVP(); }},
-            {field: 'guest.notes', name: 'Note', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && $scope.isNotPublicRSVP(); }},
+            {field: 'guest.email', name: 'Email', cellEditableCondition: function () { return $scope.canEdit() && !$scope.isPublicRSVP(); }},
+            {field: 'guest.notes', name: 'Note', enableSorting: false, cellEditableCondition: function () { return $scope.canEdit() && !$scope.isPublicRSVP(); }},
             {field: 'guest.plus', name: 'Plus', type: 'number', enableSorting: false, editableCellTemplate: '<div><form name="inputForm"><input type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" min="0"></form></div>', cellEditableCondition: function () { return $scope.canEdit() && $scope.canEditPlus(); }}
           ]
         }
@@ -509,6 +514,7 @@ angular.module('gliist')
             verticalScroll: false
           }
         };
+        scope.rsvpOnly = $scope.isRSVP() || $scope.isPublicRSVP();
 
         scope.importGLists = function() {
           $scope.cancelAutoSave();

@@ -89,7 +89,13 @@ angular.module('gliist')
         $scope.fetchingData = true;
         guestFactory.GuestLists.get().$promise.then(
           function(data) {
-            $scope.guestLists = data;
+            if ($scope.rsvpOnly) {
+              $scope.guestLists =data.filter(function (list) {
+                return list.listType === 'RSVP';
+              });
+            } else {
+              $scope.guestLists = data;
+            }
             $scope.options.gridData.splice(0, $scope.options.gridData.length);
             angular.forEach($scope.guestLists, function(guestList) {
               if ($scope.skipOnTheSpot && guestList.listType === 'On the spot') {
