@@ -69,36 +69,30 @@
             <p>Add Multiple Guests by Copying and Pasting</p>
             <p><i>Paste your guest list here in these formats: <b>Name</b> OR <b>Name +1</b> OR <b>Name, Note, Pluses</b>.<br/>Use line break for each guest.</i></p>
           </div>
-          <div layout="row" layout-align="start center" layout-fill md-no-float>
-            <textarea class="guest-list-import-box" ng-model="data.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
+          <div layout="row" layout-align="start end" layout-fill md-no-float>
+            <textarea class="guest-list-import-box" flex="75" ng-model="vars.textGuestList" placeholder="Example: Amy White +1" rows="10" md-no-autogrow></textarea>
+            <div flex layout="row" layout-align="end end">
+              <md-button class="raised-btn" ng-click="onAddGuestsClicked()">Add</md-button>
+            </div>
           </div>
-          <md-input-container layout="row" layout-align="end center" layout-fill>
-            <div layout-margin><md-button class="raised-btn" ng-click="onAddGuestsClicked($event)">Add</md-button></div>
-          </md-input-container>
+          <div class="save-button" layout="row" layout-align="end center" layout-fill>
+            <div layout="row" layout-align="center center">
+              <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
+              <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
+                Save
+              </md-button>
+            </div>
+          </div>
         </md-list-item>
       </md-list>
     </div>
     <div class="block-field">
       <h4>Guests</h4>
-      <md-list>
-        <md-list-item layout="row">
-          <div flex class="actions">
-            <md-button class="raised-btn" ng-click="addMore()" ng-disabled="fetchingData"
-                       ng-if="isNotPublicRSVP() && !isSpotType() && !isFacebookList()">
-              Add Guest
-            </md-button>
-            <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">
-              Delete
-            </md-button>
-          </div>
-          <div layout="row" layout-align="end center" hide-sm>
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
-            <md-button class="raised-btn" ng-click="save()" ng-disabled="fetchingData">
-              Save
-            </md-button>
-          </div>
-        </md-list-item>
-      </md-list>
+      <div flex class="actions">
+        <md-button class="raised-btn" ng-disabled="!rowSelected || fetchingData" ng-click="deleteSelectedRows()">
+          Delete
+        </md-button>
+      </div>
       <ui-grid-responsive options="options"></ui-grid-responsive>
       <div flex layout="row" layout-align="end center" hide-gt-sm>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
