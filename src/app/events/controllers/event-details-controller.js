@@ -170,6 +170,7 @@ angular.module('gliist')
             verticalScroll: false
           }
         };
+        scope.rsvpOnly = instanceType === 2;
         scope.importGLists = function(ev) {
           if (!subscriptionsService.verifyFeature('Guests', $scope.getTotalGuests(scope.selected), ev, $scope.event.id)) {
             return;
