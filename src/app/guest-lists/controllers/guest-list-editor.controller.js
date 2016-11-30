@@ -165,6 +165,10 @@ angular.module('gliist')
         return $scope.list.listType === 'On the spot';
       };
 
+      $scope.isRSVP = function () {
+        return instanceType === 2 || instanceType === 4 || ($scope.list && $scope.list.listType === 'RSVP');
+      };
+
       $scope.startAutoSave = function() {
         if ($scope.isDirty === false) {
           return;
@@ -242,7 +246,7 @@ angular.module('gliist')
           });
         }
         if ($scope.guestsError()) {
-          errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP' ? 'Email must be not empty.' : 'First Name must be not empty.');
+          errorMessage.push(instanceType === 2 || instanceType === 4 || $scope.isRSVP() ? 'Email must be not empty.' : 'First Name must be not empty.');
         }
 
         return errorMessage;
@@ -451,7 +455,7 @@ angular.module('gliist')
 
         var guestCount = $scope.list.guests.length,
           verifyField = 'firstName';
-        if (instanceType === 2 || instanceType === 4 || $scope.list.listType === 'RSVP') { //if RSVP or Public RSVP
+        if (instanceType === 2 || instanceType === 4 || $scope.isRSVP()) { //if RSVP or Public RSVP
           verifyField = 'email';
         }
         for (var i = 0; i < guestCount; i++) {
@@ -516,6 +520,7 @@ angular.module('gliist')
           }
         };
         scope.skipOnTheSpot = true;
+        scope.rsvpOnly = $scope.isRSVP();
         scope.importGLists = function() {
           $scope.cancelAutoSave();
           $scope.save(true, true, function(onSave){
@@ -551,7 +556,7 @@ angular.module('gliist')
           return;
         }
 
-        var guests = guestListParserService.parse($scope.vars.textGuestList);
+        var guests = guestListParserService.parse($scope.vars.textGuestList, $scope.isRSVP());
         if (guests === null) {
           return dialogService.error('No guests found in the list');
         }
