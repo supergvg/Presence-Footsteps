@@ -69,22 +69,14 @@ angular.module('gliist').service('guestListParserService',
           }
         }
 
+        name = name.split(/\s+/);
         var g = {
-          firstName: null,
-          lastName: null,
+          firstName: name[0] || '',
+          lastName: name[1] || '',
           email: email,
           notes: note,
           plus: plus
         };
-
-        var nameSpace = name.indexOf(' ');
-        if (nameSpace !== -1) {
-          g.firstName = name.substr(0, nameSpace).trim();
-          g.lastName = name.substr(nameSpace + 1).trim();
-        } else {
-          g.firstName = name;
-          g.lastName = '';
-        }
 
         result.push(g);
       }
