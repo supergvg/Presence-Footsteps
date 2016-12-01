@@ -24,9 +24,8 @@
         </div>
         <div layout="row" layout-align="center center" layout-sm="column">
           <md-input-container flex>
-            <label>Organization</label>
+            <label>Organization (will appear in invites)</label>
             <input name="company" ng-model="user.company" ng-disabled="options.inviteMode" ng-required="!options.inviteMode" class="rounded-l">
-            <div class="note">Appears in invites</div>
             <div ng-messages="userForm.company.$error" ng-if="displayErrorMessage(userForm.company)">
               <div ng-message="required">Company is required</div>
             </div>
@@ -34,7 +33,6 @@
           <md-input-container flex ng-class="userForm.firstName.$valid && userForm.lastName.$valid && userForm.email.$valid ? 'checked' : ''">
             <label>Email</label>
             <input type="email" name="email" ng-model="user.username" ng-disabled="options.inviteMode" ng-required="!options.inviteMode" class="rounded-r">
-            <div class="note">&nbsp;</div>
             <div ng-messages="userForm.email.$error" ng-if="displayErrorMessage(userForm.email)">
               <div ng-message="required">Email is required</div>
               <div ng-message="email">Email is incorrect</div>
