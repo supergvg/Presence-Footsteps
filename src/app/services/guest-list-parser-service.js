@@ -69,10 +69,10 @@ angular.module('gliist').service('guestListParserService',
           }
         }
 
-        name = name.split(/\s+/);
+        name = name.match(/(.+?)\s+(.+)/) || [];
         var g = {
-          firstName: name[0] || '',
-          lastName: name[1] || '',
+          firstName: name[1] || '',
+          lastName: name[2] || '',
           email: email,
           notes: note,
           plus: plus
