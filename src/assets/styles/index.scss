@@ -927,7 +927,7 @@ md-checkbox .md-icon {
         margin: 0;
         dt, dd {
           padding: 10px;
-          word-break: break-all;
+          overflow-wrap: break-word;
         }
         dd.no-padding {
           padding: 2px;
