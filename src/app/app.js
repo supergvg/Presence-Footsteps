@@ -149,21 +149,6 @@ function AppController (
     });
   };
 
-  $scope.facebookSignUp = function () {
-    facebookService.login().then(function (response) {
-      var token = response.authResponse.accessToken;
-      facebookService.getUserData().then(function (data) {
-        userService.setUserData({
-          FacebookToken: token,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          username: data.email
-        });
-        $state.go('signup');
-      });
-    });
-  };
-
   $scope.showFacebookEvents = function () {
     var scope = $scope.$new();
     $mdDialog.show({
