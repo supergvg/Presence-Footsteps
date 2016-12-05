@@ -53,7 +53,9 @@ function EventCheckinController (
         },
         {field: 'firstName', name: 'First Name', allowCellFocus: false},
         {field: 'lastName', name: 'Last Name', allowCellFocus: false},
-        {field: 'title', name: 'List Title', allowCellFocus: false},
+        {field: 'title', name: 'List Title', allowCellFocus: false, cellTooltip: function (row) {
+          return row.entity.title;
+        }},
         {field: 'type', name: 'Type', width: 80, allowCellFocus: false},
         {field: 'email', name: 'Email', allowCellFocus: false},
         {field: 'plus', name: 'Plus', width: 80, allowCellFocus: false},
