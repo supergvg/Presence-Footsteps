@@ -17,7 +17,9 @@ angular.module('gliist')
       });
       $scope.options.gridOptions = {
         columnDefs: [
-          {field: 'title', name: 'Guest List', minWidth: 200, allowCellFocus: false},
+          {field: 'title', name: 'Guest List', minWidth: 200, allowCellFocus: false, cellTooltip: function (row) {
+            return row.entity.title;
+          }},
           {field: 'total', name: 'Total', maxWidth: 100, allowCellFocus: false},
           {field: 'listType', name: 'Category', maxWidth: 150, allowCellFocus: false},
           {field: 'created_on', name: 'Date', maxWidth: 150, allowCellFocus: false},
