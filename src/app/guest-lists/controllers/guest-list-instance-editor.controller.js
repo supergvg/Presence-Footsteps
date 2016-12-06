@@ -623,9 +623,11 @@ angular.module('gliist')
                 return subscriptionsService.verifyFeature('Guests', response.data, true, eventId);
               }
 
-              if (response.data) {
+              /*if (response.data) {
                 return dialogService.error(response.data);
-              }
+              }*/
+
+              return dialogService.error('Sorry, we do not support this format. Please try another format (XLSX, XLS, CSV).');
             }
 
             dialogService.error('There was a problem saving your guest list please try again');
