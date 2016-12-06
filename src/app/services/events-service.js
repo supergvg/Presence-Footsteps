@@ -356,34 +356,21 @@ function EventsService ($http, $q, $window, subscriptionsService, dialogService,
 
     getPublicEventDetails: function(type, companyName, eventName) {
       // type = rsvp or tickets
-      var d = $q.defer();
-
-      $http({
-        method: 'GET',
-        url: 'api/'+type+'/PublicDetails/'+companyName+'/'+eventName
-      }).success(function(data) {
-        d.resolve(data);
-      }).error(function(data) {
-        d.reject(data);
+      return $http.get('api/'+type+'/PublicDetails/'+companyName+'/'+eventName).then(function(response) {
+        return response.data;
+      }, function(response) {
+        return $q.reject(response.data);
       });
-
-      return d.promise;
     },
 
     getPersonalEventDetails: function(type, token) {
       // type = rsvp or tickets
-      var d = $q.defer();
 
-      $http({
-        method: 'GET',
-        url: 'api/'+type+'/InvitedDetails/'+token
-      }).success(function(data) {
-        d.resolve(data);
-      }).error(function(data) {
-        d.reject(data);
+      return $http.get('api/'+type+'/InvitedDetails/'+token).then(function(response) {
+        return response.data;
+      }, function(response) {
+        return $q.reject(response.data);
       });
-
-      return d.promise;
     },
 
     confirmRSVPPublicEvent: function(data) {
