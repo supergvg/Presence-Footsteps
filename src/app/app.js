@@ -144,9 +144,7 @@ function AppController (
       var token = fbResponse.authResponse.accessToken;
 
       userService.login({facebook_token: token})
-        .then($scope.loginSuccesful, function (response) {
-          $scope.loginFailed(response);
-
+        .then($scope.loginSuccesful, function () {
           facebookService.getUserData().then(function (data) {
             userService.setUserData({
               FacebookToken: token,
