@@ -15,10 +15,9 @@
       <b>{{checkInGuests}}/{{maxGuests}} Checked</b>
       <div class="notes" layout="row" layout-align="center center" layout-sm="column">
         <b>Note</b>
-        <textarea ng-model="guestCheckin.guest.notes" columns="1" flex></textarea>
-        <md-button class="raised-btn" ng-click="updateNotes()" aria-label="UpdateNote">
-          <md-icon md-svg-src="assets/images/SVG/checkWhite.svg"></md-icon>
-        </md-button>
+        <textarea flex columns="1" ng-model="guestCheckin.guest.notes"
+                  ng-model-options="{updateOn: 'blur'}"
+                  ng-change="updateNotes()"></textarea>
       </div>
       <div class="spinner-plusminus-h" ng-show="notCheckInGuests > 0">
         <md-button class="raised-btn" ng-click="subtractGuestCount()" ng-disabled="checkingGuest">
