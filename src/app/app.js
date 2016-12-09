@@ -143,7 +143,21 @@ function AppController (
     facebookService.login().then(function (fbResponse) {
       var token = fbResponse.authResponse.accessToken;
 
-      userService.login({facebook_token: token}).then($scope.loginSuccesful, $scope.loginFailed).finally(function() {
+      userService.login({facebook_token: token})
+        .then($scope.loginSuccesful, function (response) {
+          $scope.loginFailed(response);
+
+          facebookService.getUserData().then(function (data) {
+            userService.setUserData({
+              FacebookToken: token,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              username: data.email
+            });
+            $state.go('signup');
+          });
+        })
+        .finally(function() {
         $scope.fetchingData = false;
       });
     });
