@@ -307,7 +307,7 @@
         <md-button class="raised-btn" ng-click="addNewTicket()" ng-show="event.type === 3">
           Add Ticket
         </md-button>
-        <md-button class="raised-btn" ng-click="previous()">
+        <md-button class="raised-btn" ng-click="previous()" hide-sm>
           Back
         </md-button>
         <md-button class="raised-btn" ng-click="next($event, rsvpForm)">
@@ -340,7 +340,7 @@
         </div>
       </div>
       <div layout="row" layout-align="end center" layout-sm="column" class="actions">
-        <md-button class="raised-btn" ng-click="previous()">
+        <md-button class="raised-btn" ng-click="previous()" hide-sm>
           Back
         </md-button>
         <md-button class="raised-btn" ng-click="next($event)">
@@ -398,7 +398,7 @@
         </div>
       </div>
       <div layout="row" layout-align="end center" layout-sm="column" class="actions">
-        <md-button class="raised-btn" ng-click="previous()" remove-by-roles="promoter">
+        <md-button class="raised-btn" ng-click="previous()" remove-by-roles="promoter" hide-sm>
           Back
         </md-button>
         <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="savingEvent"></md-progress-circular>
