@@ -89,6 +89,7 @@ angular.module('gliist')
         var errors = {
             required: {
               name: 'Name is required',
+              affiliation: 'Affiliation is required',
               email: 'Email is required'
             },
             pattern: {
