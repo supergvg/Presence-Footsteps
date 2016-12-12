@@ -385,10 +385,10 @@ angular.module('gliist')
             $scope.dt.startEventDateTime = $filter('ignoreTimeZone')(event.time);
             $scope.dt.endEventDateTime = $filter('ignoreTimeZone')(event.endTime);
             $scope.dt.endEventRsvpDateTime = $filter('ignoreTimeZone')(event.rsvpEndDate);
-            if ($scope.dt.startEventDateTime < Date.now()) {
+            if (new Date(event.time) < Date.now()) {
               $scope.eventStarted = true;
             }
-            if ($scope.dt.endEventDateTime < Date.now()) {
+            if (new Date(event.endTime) < Date.now()) {
               $scope.eventFinished = true;
             }
           }
