@@ -46,6 +46,8 @@ angular.module('gliist').service('guestListParserService',
 
             if (isNaN(plus)) {
               return 'Guest can\'t be added - invalid "Plus" field on line ' + (i + 1) + '. Please follow format.';
+            } else if (plus > 100) {
+              return 'You can only add up to 100 additional guests'
             }
           }
         } else if (l.indexOf('+') !== -1) { //Name +1
@@ -60,6 +62,8 @@ angular.module('gliist').service('guestListParserService',
 
           if (isNaN(plus)) {
             return 'Guest can\'t be added - invalid "Plus" field on line ' + (i + 1) + '. Please follow format.';
+          } else if (plus > 100) {
+            return 'You can only add up to 100 additional guests'
           }
         } else { //Name or Email
           if (isRSVP) {
