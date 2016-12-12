@@ -86,10 +86,10 @@ function SubscriptionsCtrl (
 
   $scope.getStatus = function () {
     var isExpired = $scope.subscriptionIsExpired();
-    var status = isExpired ? 'INACTIVE' : 'ACTIVE';
+    var status = isExpired ? '' : 'ACTIVE: ';
     var endDate = $scope.getEndDate();
     if (endDate) {
-      status += ': ' + (isExpired ? 'expired' : 'expires') + ' on ' + $filter('date')(endDate, 'MM/dd/yyyy');
+      status += (isExpired ? 'Expired' : 'expires') + ' on ' + $filter('date')(endDate, 'MM/dd/yyyy');
     }
     return status;
   };
