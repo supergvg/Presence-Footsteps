@@ -553,7 +553,7 @@ angular.module('gliist')
 
       $scope.onAddGuestsClicked = function() {
         if (!$scope.vars.textGuestList) {
-          return;
+          return dialogService.error('Please fill-in guest list');
         }
 
         var guests = guestListParserService.parse($scope.vars.textGuestList, $scope.isRSVP());
