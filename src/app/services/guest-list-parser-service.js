@@ -45,7 +45,7 @@ angular.module('gliist').service('guestListParserService',
             plus = parseInt(values[2].trim(), 10);
 
             if (isNaN(plus)) {
-              return 'Invalid "Plus" value on line ' + (i + 1);
+              return 'Guest can\'t be added - invalid "Plus" field on line ' + (i + 1) + '. Please follow format.';
             }
           }
         } else if (l.indexOf('+') !== -1) { //Name +1
@@ -59,7 +59,7 @@ angular.module('gliist').service('guestListParserService',
           plus = parseInt(values[1].trim(), 10);
 
           if (isNaN(plus)) {
-            return 'Invalid "Plus" value on line ' + (i + 1);
+            return 'Guest can\'t be added - invalid "Plus" field on line ' + (i + 1) + '. Please follow format.';
           }
         } else { //Name or Email
           if (isRSVP) {
