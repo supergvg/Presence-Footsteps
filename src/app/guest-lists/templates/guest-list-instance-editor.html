@@ -57,10 +57,19 @@
           </div>
         </md-list-item>
         <md-list-item layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="center stretch">
-          <p flex>
-            Upload new {{isRSVP() || isPublicRSVP() ? 'mailing list' : 'guest list'}} (csv, xlsx)
-            Upload: <a ng-href="{{isRSVP() || isPublicRSVP() ? 'assets/docs/Mailing List Upload format 1.xlsx' : 'assets/docs/Guest List Upload format 1.xlsx'}}">format 1</a>,
-            <a ng-href="{{isRSVP() || isPublicRSVP() ? 'assets/docs/Mailing List Upload format 2.xlsx' : 'assets/docs/Guest List Upload format 2.xlsx'}}">format 2</a></p>
+          <p flex ng-show="isRSVP() || isPublicRSVP()">
+            Upload new mailing list (csv, xlsx)
+            Upload:
+            <a href="assets/docs/Mailing List Upload format 1.xlsx">format 1</a>,
+            <a href="assets/docs/Mailing List Upload format 2.xlsx">format 2</a>
+          </p>
+          <p flex ng-hide="isRSVP()">
+            Upload new guest list (csv, xlsx)
+            Upload:
+            <a href="assets/docs/Guest List Upload format 1.xlsx">format 1</a>,
+            <a href="assets/docs/Guest List Upload format 2.xlsx}}">format 2</a>,
+            <a href="assets/docs/Mailing List Upload format 1.xlsx">RSVP format</a>
+          </p>
           <div>
             <md-button class="raised-btn" ng-file-select="onFileSelect($files)" accept=".csv,.xlsx,.xls">
               Upload
