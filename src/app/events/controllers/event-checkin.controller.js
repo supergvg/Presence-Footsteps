@@ -105,7 +105,7 @@ function EventCheckinController (
   };
 
   $scope.isEditableGuestList = function (list) {
-    return ['On the spot', 'Facebook', 'RSVP'].indexOf(list.listType) === -1;
+    return !/^(On the spot|Facebook|RSVP)$/i.test(list.listType);
   };
 
   $scope.init = function () {
