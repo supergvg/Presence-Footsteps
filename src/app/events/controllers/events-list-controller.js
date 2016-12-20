@@ -8,7 +8,8 @@ angular.module('gliist')
         showInactive: false,
         filter: {
           active: false
-        }
+        },
+        marginList: true
       };
       angular.forEach(defaultOptions, function(value, key){
         if (angular.isObject(value)) {

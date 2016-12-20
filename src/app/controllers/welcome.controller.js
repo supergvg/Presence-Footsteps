@@ -6,7 +6,8 @@ angular.module('gliist')
       $scope.options = {
         limit: 3,
         readyOnly: true,
-        showInactive: true
+        showInactive: true,
+        marginList: false
       };
       $scope.hideArrow = false;
       var init = $scope.$watch('currentUser', function(newVal) {

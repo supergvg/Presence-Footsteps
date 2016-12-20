@@ -6,7 +6,7 @@
       <md-icon class="input-icon" md-svg-src="assets/images/SVG/active-search.svg"></md-icon>
     </md-input-container>
   </div>
-  <md-list class="margin-top">
+  <md-list ng-class="options.marginList ? 'margin-top' : ''">
     <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="fetchingData"></md-progress-circular>
     <md-list-item ng-repeat="event in events | filter:{title: filter.value} | limitTo:(options.limit || events.length) | orderBy: orderField" layout="row" layout-align="space-between center" layout-sm="column" layout-align-sm="start start" flex>
       <div ng-if="!event.isActive && options.showInactive" class="not-active" ng-click="showUpgradePopup($event)"></div>
