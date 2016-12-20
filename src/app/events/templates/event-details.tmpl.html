@@ -1,7 +1,7 @@
 <div ng-init="init()" class="event-details-page">
   <div layout="row" layout-align="space-between center" class="steps margin-top">
+    <div class="line"></div>
     <div class="step">
-      <div class="line"></div>
       <h4 ng-class="getSelected(0) ? 'text-bg' : ''">Details</h4>
       <md-button class="md-fab"
                  ng-class="getSelected(0) ? 'logo-bg' : ''"
@@ -10,9 +10,7 @@
                  aria-label="Details">
       </md-button>
     </div>
-    <div flex class="line"></div>
-    <div class="step" ng-if="!event.FacebookId">
-      <div class="line"></div>
+    <div class="step" ng-show="!event.FacebookId">
       <h4 ng-class="getSelected(1) ? 'text-bg' : ''">Event</h4>
       <md-button class="md-fab"
                  ng-class="getSelected(1) ? 'logo-bg' : ''"
@@ -21,9 +19,7 @@
                  aria-label="Event">
       </md-button>
     </div>
-    <div flex class="line" ng-if="!event.FacebookId"></div>
     <div class="step">
-      <div class="line"></div>
       <h4 ng-class="getSelected(2) ? 'text-bg' : ''">Invite</h4>
       <md-button class="md-fab"
                  ng-class="getSelected(2) ? 'logo-bg' : ''"
@@ -32,9 +28,7 @@
                  aria-label="Invite">
       </md-button>
     </div>
-    <div flex class="line"></div>
     <div class="step">
-      <div class="line"></div>
       <h4 ng-class="getSelected(3) ? 'text-bg' : ''">Guests</h4>
       <md-button class="md-fab"
                  ng-class="getSelected(3) ? 'logo-bg' : ''"
@@ -43,9 +37,7 @@
                  aria-label="Guests">
       </md-button>
     </div>
-    <div flex class="line"></div>
     <div class="step">
-      <div class="line"></div>
       <h4 ng-class="getSelected(4) ? 'text-bg' : ''">Preview</h4>
       <md-button class="md-fab"
                  ng-class="getSelected(4) ? 'logo-bg' : ''"

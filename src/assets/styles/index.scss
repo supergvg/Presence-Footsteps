@@ -1985,11 +1985,17 @@ md-dialog {
 
 .event-details-page {
   .steps {
+    position: relative;
+
     .line {
       background-color: #e6e6e6;
+      position: absolute;
       height: 10px;
-      margin-top: 18px;
+      width: calc(100% - 60px);
+      left: 30px;
+      bottom: 15px;
     }
+
     .step {
       position: relative;
       text-align: center;
