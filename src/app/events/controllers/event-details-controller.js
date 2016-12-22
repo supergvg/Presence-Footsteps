@@ -264,7 +264,7 @@ angular.module('gliist')
         }
         if (!$scope.timeValid()) {
           if ($scope.eventFinished) {
-            errorMessage.push('Cant Update Event. Event has been finished');
+            errorMessage.push('Can\'t update the event since event has started');
           }
           if ($scope.startEventTimeInvalid && !$scope.eventStarted) {
             errorMessage.push('Cant Create Event in the Past');
