@@ -29,7 +29,7 @@
                     <p ng-if="pricePolicy.prices[0].type === 'Month'">*monthly payment will be proceed on {{now | date : 'd'}}th each month</p>
                     <p ng-if="pricePolicy.prices[0].type === 'Year'">*annual payment will be proceed on {{now | date : 'd'}}th each year</p>
                 </div>
-                <div class="promo" ng-if="selectedPlan.hasPromo">
+                <div class="promo" ng-if="selectedPlan.hasPromo || isEventFeature">
                     <h4>Promo Code</h4>
                     <div layout="row" layout-align="space-between start">
                         <md-input-container md-no-float flex="50">
