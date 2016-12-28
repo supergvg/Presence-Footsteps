@@ -1,5 +1,5 @@
 <div layout="column" layout-align="center stretch">
-  <div class="header" flex layout="row" layout-align="center center"><img ng-src="{{getCompanyLogo()}}" /></div>
+  <div class="header" flex layout="row" layout-align="center center" ng-style="{background: event.company.id != 802 ? '#000' : '#FFF'}"><img ng-src="{{getCompanyLogo()}}" /></div>
   <div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
     <h4>Loading ...</h4>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
@@ -7,8 +7,8 @@
 
   <section class="large-screen" hide show-gt-md>
     <div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <h4 ng-if="(public && !event.event.isRsvpExpired) || !event.guest.firstName">Dear guest, you are cordially invited to this event.</h4>
-      <h4 ng-if="!public && !event.event.isRsvpExpired && event.guest.firstName">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
+      <h4 ng-if="event.company.id != 802 && ((public && !event.event.isRsvpExpired) || !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
+      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
       <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
       <div class="title">
         <h3>{{event.event.title}}</h3>
@@ -62,10 +62,10 @@
               <label>Email</label>
               <input type="email" name="email" ng-model="rsvp.email" required/>
             </div>
-            <div class="form-item">
+            <div class="form-item" ng-if="event.company.id != 802">
               <label>Plus</label>
               <!-- ng-if="true" here is a workaround for dynamic max attribute not being set -->
-              <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}" ng-if="true">
+              <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}">
             </div>
             <div class="actions" ng-if="!success && !waiting">
               <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
@@ -119,7 +119,7 @@
                 <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
                   <label>Email</label><input type="email" name="email" ng-model="rsvp.email" required/>
                 </div>
-                <div class="form-item">
+                <div class="form-item" ng-if="event.company.id != 802">
                   <label>Plus</label><input type="number" name="plus" ng-model="rsvp.plus" min="0"/>
                 </div>
                 <div class="actions" ng-if="!success && !waiting">
