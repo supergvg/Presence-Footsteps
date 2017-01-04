@@ -120,6 +120,29 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
       );
     };
 
+    this.applyFeaturePromo = function(code, featureInternalId) {
+      return $http.post('user/features/promo', {code: code, internalId: featureInternalId}, {api: 'subscriptions_api'}).then(
+        function(answer) {
+          return response(answer);
+        },
+        function(response) {
+          return responseError(response);
+        }
+      );
+    };
+
+    this.undoFeaturePromo = function(code, featureInternalId) {
+      return $http.delete('user/features/promo', {api: 'subscriptions_api', data: {code: code, internalId: featureInternalId}, headers: {'Content-Type': 'application/json'}}).then(
+        function(answer){
+          return response(answer);
+        },
+        function(response) {
+          return responseError(response);
+        }
+      );
+    };
+
+
     this.buyFeature = function(data) {
       return $http.post('user/features/buy', data, {api: 'subscriptions_api'}).then(
         function(answer) {
@@ -368,7 +391,8 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
     };
 
     this.paymentPopup = function(selectedPlan, pricePolicyKey, callback, featureName, featureValue, featureIntId) {
-      var scope = $rootScope.$new();
+	  var userSubscription = $rootScope.currentUser.subscription;
+	  var scope = $rootScope.$new();
       scope.now = new Date(Date.now());
       scope.isEventFeature = featureName ? true : false;
       scope.selectedPlan = selectedPlan;
@@ -376,17 +400,35 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
       scope.pricePolicy = scope.selectedPlan.pricePolicies[scope.pricePolicyKey];
       scope.pricePolicyKeyBeforePromo = null;
       scope.pricePolicyBeforePromo = null;
-      if (scope.selectedPlan.usedPromoCode) {
-        angular.forEach(scope.selectedPlan.pricePolicies, function(policy, key) {
-          if (policy.type === 'Promo') {
-            scope.pricePolicyKeyBeforePromo = scope.pricePolicyKey;
-            scope.pricePolicyBeforePromo = scope.pricePolicy;
-            scope.pricePolicyKey = key;
-            scope.pricePolicy = policy;
-            return false;
-          }
-        });
-      }
+	  scope.promo = {
+        applied: !!selectedPlan.usedPromoCode,
+        invalid: false
+      };
+	  
+	  if (featureName) {
+		  angular.forEach(userSubscription.policyPromos, function(promo, key) {
+			  if (promo.internalId == featureIntId) {
+				scope.selectedPlan.usedPromoCode = promo.code;
+				scope.promo.applied = true;
+				scope.pricePolicyBeforePromo = scope.pricePolicy;
+				scope.pricePolicy = promo.pricePolicy;
+				return false;
+			  }
+			});
+	  } else {
+		if (scope.selectedPlan.usedPromoCode) {
+			angular.forEach(scope.selectedPlan.pricePolicies, function(policy, key) {
+			  if (policy.type === 'Promo') {
+				scope.pricePolicyKeyBeforePromo = scope.pricePolicyKey;
+				scope.pricePolicyBeforePromo = scope.pricePolicy;
+				scope.pricePolicyKey = key;
+				scope.pricePolicy = policy;
+				return false;
+			  }
+			});
+		  }  
+	  }
+	        
       scope.cardDataLoaded = false;
       scope.cardDataSaved = {};
       scope.loadingCard = true;
@@ -404,10 +446,6 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
       scope.close = function() {
         $mdDialog.hide();
       };
-      scope.promo = {
-        applied: !!selectedPlan.usedPromoCode,
-        invalid: false
-      };
 
       scope.applyPromo = function() {
         var code = $.trim(scope.selectedPlan.usedPromoCode);
@@ -416,6 +454,21 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
         }
         scope.promo.invalid = false;
         scope.waiting = true;
+		
+		if (featureName) {
+          subscriptionsService.applyFeaturePromo(code, featureIntId).then(function (response) {
+            scope.promo.applied = true;
+            scope.pricePolicyBeforePromo = scope.pricePolicy;
+            scope.pricePolicy = response.data;
+            }, function () {
+              scope.selectedPlan.usedPromoCode = '';
+              scope.promo.invalid = true;
+            }).finally(function () {
+              scope.waiting = false;
+            });
+            return;
+        }
+		
         subscriptionsService.applyPromo(code, scope.selectedPlan.id).then(function (response) {
           scope.promo.applied = true;
           scope.pricePolicyBeforePromo = scope.pricePolicy;
@@ -441,6 +494,28 @@ angular.module('gliist').service('subscriptionsService', ['$http', '$q', 'dialog
           return;
         }
         scope.waiting = true;
+		
+		if (featureName) {
+			subscriptionsService.undoFeaturePromo(code, featureIntId).then(function (response) {
+			  scope.promo.applied = false;
+			  scope.pricePolicy = scope.pricePolicyBeforePromo;
+			  scope.pricePolicyBeforePromo = null;
+			  scope.selectedPlan.usedPromoCode = '';
+			  
+			  subscriptionsService.getUserSubscription().then(
+                function(data){
+                  if (data.data && data.dataTotalCount > 0) {
+                    $rootScope.currentUser.subscription = data.data;
+                  }
+                }
+              );
+			}).finally(function () {
+			  scope.waiting = false;
+			});
+			
+			return;
+		}
+		
         subscriptionsService.undoPromo(code, scope.selectedPlan.id).then(function (response) {
           if (response.dataTotalCount === 0) {
             scope.promo.invalid = true;
