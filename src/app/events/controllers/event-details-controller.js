@@ -1,8 +1,31 @@
 'use strict';
 
 angular.module('gliist')
-  .controller('EventDetailsController', ['$scope', '$mdDialog', 'eventsService', 'dialogService', 'uploaderService', '$location', '$filter', 'subscriptionsService', 'permissionsService', '$state', 'userService',
-    function ($scope, $mdDialog, eventsService, dialogService, uploaderService, $location, $filter, subscriptionsService, permissionsService, $state, userService) {
+  .controller('EventDetailsController', [
+    '$scope',
+    '$mdDialog',
+    'eventsService',
+    'dialogService',
+    'uploaderService',
+    '$location',
+    '$filter',
+    'subscriptionsService',
+    'permissionsService',
+    '$state',
+    'userService',
+    function (
+      $scope,
+      $mdDialog,
+      eventsService,
+      dialogService,
+      uploaderService,
+      $location,
+      $filter,
+      subscriptionsService,
+      permissionsService,
+      $state,
+      userService
+    ) {
       $scope.eventCategories = [
         'Art',
         'Fashion',
@@ -58,12 +81,20 @@ angular.module('gliist')
       $scope.onManagerClick = function() {
         subscriptionsService.verifyFeature('EventContributors', 0, true, $scope.event.id);
       };
+
       $scope.onStaffClick = $scope.onManagerClick;
+
       $scope.contributorsVisible = function () {
-        return permissionsService.isRole('admin') || (permissionsService.isRole('manager') && !permissionsService.isRole('manager_limited'));
+        return permissionsService.isRole('admin')
+          || (permissionsService.isRole('manager')
+          && !permissionsService.isRole('manager_limited'));
       };
 
       $scope.$watch('selectedIndex', function(newValue) {
+        if (newValue === 2 && $scope.event.type !== 2 ) {
+          newValue = 3;
+        }
+
         $location.search('view', newValue);
       });
 
@@ -71,6 +102,7 @@ angular.module('gliist')
         if (!newValue) {
           return;
         }
+
         if (newValue.geometry) {
           $.ajax({
             url: 'https://maps.googleapis.com/maps/api/timezone/json?location=' +
@@ -80,6 +112,7 @@ angular.module('gliist')
           }).done(function(response) {
             $scope.utcOffset = response.dstOffset + response.rawOffset;
           });
+
           if (newValue.adr_address.indexOf(newValue.name) + 1) {
             $scope.location.formatted = newValue.adr_address;
           } else {
@@ -128,37 +161,39 @@ angular.module('gliist')
         if (!files || files.length === 0) {
           return;
         }
+
         $scope.upload(files[0]);
       };
 
       $scope.upload = function(files) {
         $scope.fetchingData = true;
-        uploaderService.uploadEventInvite(files, $scope.event.id).then(function(res) {
+
+        uploaderService
+          .uploadEventInvite(files, $scope.event.id)
+          .then(function(res) {
             $scope.event.invitePicture = res;
             dialogService.success('Invite saved');
-          },
-          function() {
+          }, function() {
             dialogService.error('There was a problem saving your image please try again');
-          }
-        ).finally(
-          function () {
+          })
+          .finally(function () {
             $scope.fetchingData = false;
-          }
-        );
+          });
       };
 
       $scope.onCreateGLClicked = function (instanceType) {
-        eventsService.createGuestList($scope.event.id, instanceType).then(
-          function (data) {
-            $state.go('main.create_gl_event', {id: data, eventId: $scope.event.id});
+        eventsService
+          .createGuestList($scope.event.id, instanceType)
+          .then(function (data) {
+            $state.go('main.create_gl_event', { id: data, eventId: $scope.event.id });
           }, function (error) {
             dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem creating guest list, please try again');
-          }
-        );
+          });
       };
 
       $scope.onAddGLClicked = function(ev, instanceType) {
         var scope = $scope.$new();
+
         scope.cancel = function() {
           $mdDialog.hide();
         };
@@ -175,18 +210,21 @@ angular.module('gliist')
           if (!subscriptionsService.verifyFeature('Guests', $scope.getTotalGuests(scope.selected), ev, $scope.event.id)) {
             return;
           }
-          eventsService.linkGuestList(scope.selected, $scope.event.id, instanceType).then(
-            function (guestListInstances) {
-              $scope.event.guestLists = guestListInstances;
-              dialogService.success('Guest lists were linked');
-              $mdDialog.hide();
-            }, function (error) {
-              if (error.status === 403) {
-                return subscriptionsService.verifyFeature('Guests', error.data, true, $scope.event.id);
+          eventsService
+            .linkGuestList(scope.selected, $scope.event.id, instanceType)
+            .then(
+              function (guestListInstances) {
+                $scope.event.guestLists = guestListInstances;
+                dialogService.success('Guest lists were linked');
+                $mdDialog.hide();
+              }, function (error) {
+                if (error.status === 403) {
+                  return subscriptionsService.verifyFeature('Guests', error.data, true, $scope.event.id);
+                }
+
+                dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem linking, please try again');
               }
-              dialogService.error(error && error.data && error.data.Message ? error.data.Message : 'There was a problem linking, please try again');
-            }
-          );
+            );
         };
         $mdDialog.show({
           scope: scope,
@@ -203,18 +241,22 @@ angular.module('gliist')
         if ($scope.dt.endEventRsvpDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
           $scope.dt.endEventRsvpDateTime = new Date($scope.dt.endEventDateTime.getTime());
         }
+
         var now = new Date(Date.now()),
           locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000);
 
         if ($scope.dt.startEventDateTime.getTime() < locationDateTime.valueOf()) {
           $scope.startEventTimeInvalid = true;
         }
+
         if ($scope.dt.startEventDateTime.getTime() > $scope.dt.endEventDateTime.getTime()) {
           $scope.endEventTimeInvalid = true;
         }
+
         if ($scope.startEventTimeInvalid || $scope.endEventTimeInvalid) {
           return false;
         }
+
         return true;
       };
 
@@ -222,21 +264,28 @@ angular.module('gliist')
         if (ev && ev.pointer && ev.pointer.type === 'm') {
           return;
         }
-        if ([0, 1, 3].indexOf($scope.selectedIndex) === -1) {
-          $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
+
+        if (!~[0, 1, 2, 4].indexOf($scope.selectedIndex)) {
+          $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 5);
           return;
         }
-        var featureInternalId = $scope.event.id ? $scope.event.id : 'NEWEVENT';
+
+        var featureInternalId = $scope.event.id || 'NEWEVENT';
+
         if ($scope.event.capacity && !subscriptionsService.verifyFeature('Guests', $scope.event.capacity, ev, featureInternalId)) {
           return;
         }
+
         if (!subscriptionsService.verifyFeature('EventDurationDays', ($scope.dt.endEventDateTime.getTime() - $scope.dt.startEventDateTime.getTime()) / 1000 / 60 / 60 / 24, ev, featureInternalId)) {
           return;
         }
+
         if (!subscriptionsService.verifyFeature('EventStartRangeDays', (($scope.dt.startEventDateTime.getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24), ev, featureInternalId)) {
           return;
         }
+
         var errorMessage = [];
+
         if (form && form.$invalid) {
           var errors = {
             required: {
@@ -262,6 +311,7 @@ angular.module('gliist')
             }
           });
         }
+
         if (!$scope.timeValid()) {
           if ($scope.eventFinished) {
             errorMessage.push('Can\'t update the event since event has started');
@@ -273,44 +323,54 @@ angular.module('gliist')
             errorMessage.push('End time has to be after start time');
           }
         }
-        if (!$scope.location.details) {
+
+        if ($scope.selectedIndex === 1 && !$scope.location.details) {
           errorMessage.push('Please enter the city of the event or event location');
         }
+
         if ($scope.event.type === 3 && !$scope.isHasOneTicket()) {
           errorMessage.push('Please specify at least one ticket tier');
         }
+
         if (errorMessage.length > 0) {
           dialogService.error(errorMessage.join(', '));
           return;
         }
 
-        $scope.savingEvent = true;
-        $scope.event.location = $scope.location.formatted;
-        $scope.event.time = $scope.convertDateTime($scope.dt.startEventDateTime);
-        $scope.event.endTime = $scope.convertDateTime($scope.dt.endEventDateTime);
-        $scope.event.rsvpEndDate = $scope.convertDateTime($scope.dt.endEventRsvpDateTime);
-        eventsService.createEvent($scope.event).then(
-          function (res) {
-            $scope.event.id = res.id;
-            if ($scope.event.FacebookId && !$scope.selectedIndex) {
-              $scope.selectedIndex = 2;
-            } else {
-              $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 4);
-            }
-            $scope.event.invitePicture = res.invitePicture;
-            $scope.event.rsvpUrl = res.rsvpUrl;
-            $scope.event.ticketingUrl = res.ticketingUrl;
-            $scope.event.facebookPageUrl = res.facebookPageUrl;
-            $scope.event.instagrammPageUrl = res.instagrammPageUrl;
-            $scope.event.twitterPageUrl = res.twitterPageUrl;
-            dialogService.success('Event ' + res.title + ' saved');
-            $location.path('/main/event/edit/' + $scope.event.id);
-          }, function () {
-            dialogService.error('There was a problem saving your event, please try again');
-          }
-        ).finally(function () {
-          $scope.savingEvent = false;
-        });
+        if ($scope.selectedIndex === 0 && !$scope.event.title) {
+          $scope.selectedIndex = 1
+        } else {
+          $scope.savingEvent = true;
+          $scope.event.location = $scope.location.formatted;
+          $scope.event.time = $scope.convertDateTime($scope.dt.startEventDateTime);
+          $scope.event.endTime = $scope.convertDateTime($scope.dt.endEventDateTime);
+          $scope.event.rsvpEndDate = $scope.convertDateTime($scope.dt.endEventRsvpDateTime);
+          eventsService
+            .createEvent($scope.event)
+            .then(function (res) {
+              $scope.event.id = res.id;
+
+              if ($scope.event.FacebookId && !$scope.selectedIndex) {
+                $scope.selectedIndex = 3;
+              } else {
+                $scope.selectedIndex = Math.min($scope.selectedIndex + 1, 5);
+              }
+
+              $scope.event.invitePicture = res.invitePicture;
+              $scope.event.rsvpUrl = res.rsvpUrl;
+              $scope.event.ticketingUrl = res.ticketingUrl;
+              $scope.event.facebookPageUrl = res.facebookPageUrl;
+              $scope.event.instagrammPageUrl = res.instagrammPageUrl;
+              $scope.event.twitterPageUrl = res.twitterPageUrl;
+              dialogService.success('Event ' + res.title + ' saved');
+              $location.path('/main/event/edit/' + $scope.event.id);
+            }, function () {
+              dialogService.error('There was a problem saving your event, please try again');
+            })
+            .finally(function () {
+              $scope.savingEvent = false;
+            });
+        }
       };
 
       $scope.previous = function(ev) {
@@ -324,9 +384,10 @@ angular.module('gliist')
       };
 
       $scope.convertDateTime = function(date) {
-        var convertDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000),
-          dateStr = convertDate.toISOString().replace(/\..+$/, ''),
-          offset = new Date(Math.abs($scope.utcOffset) * 1000);
+        var convertDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+        var dateStr = convertDate.toISOString().replace(/\..+$/, '');
+        var offset = new Date(Math.abs($scope.utcOffset) * 1000);
+
         return dateStr+($scope.utcOffset < 0 ? '-' : '+')+('0'+offset.getUTCHours()).slice(-2)+':'+('0'+offset.getUTCMinutes()).slice(-2);
       };
 
@@ -336,6 +397,7 @@ angular.module('gliist')
 
       $scope.getTotalGuests = function(guestLists) {
         var total = 0;
+
         angular.forEach(guestLists, function(gl){
           if (angular.isDefined(gl.guestsCount)) {
             total += gl.guestsCount;
@@ -343,12 +405,13 @@ angular.module('gliist')
             total += gl.total;
           }
         });
+
         return total;
       };
 
       $scope.init = function() {
-        if (permissionsService.isRole('promoter') && $scope.selectedIndex !== 3 && $scope.selectedIndex !== 4) {
-          $scope.selectedIndex = 3;
+        if (permissionsService.isRole('promoter') && $scope.selectedIndex !== 4 && $scope.selectedIndex !== 5) {
+          $scope.selectedIndex = 4;
         }
 
         if (!$scope.event) {
@@ -365,8 +428,8 @@ angular.module('gliist')
           };
         }
 
-        if ($scope.event.FacebookId && $scope.selectedIndex === 1) {
-          $scope.selectedIndex = 2;
+        if ($scope.event.FacebookId && $scope.selectedIndex === 0) {
+          $scope.selectedIndex = 3;
         }
 
         $scope.$watch('event', function (event) {
@@ -381,13 +444,16 @@ angular.module('gliist')
             event.rsvpEndDate = event.rsvpEndDate || event.time;
 
             var parseDate = event.time.split(/[^0-9]/);
+
             $scope.utcOffset = event.time.substr(19, 1) + (parseDate[6] * 60 * 60 + parseDate[7] * 60);
             $scope.dt.startEventDateTime = $filter('ignoreTimeZone')(event.time);
             $scope.dt.endEventDateTime = $filter('ignoreTimeZone')(event.endTime);
             $scope.dt.endEventRsvpDateTime = $filter('ignoreTimeZone')(event.rsvpEndDate);
+
             if (new Date(event.time) < Date.now()) {
               $scope.eventStarted = true;
             }
+
             if (new Date(event.endTime) < Date.now()) {
               $scope.eventFinished = true;
             }

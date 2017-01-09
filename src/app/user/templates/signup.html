@@ -40,27 +40,27 @@
           </md-input-container>
         </div>
         <div layout="row" layout-align="center center" layout-sm="column" class="passwords">
+          <div layout="column" flex class="password-matches">
+            <password-matches password="user.password" min-length="6"></password-matches>
+          </div>
+
           <div layout="column" layout-align="start" flex>
             <md-input-container>
               <label>Password</label>
-              <input class="rounded-lr" name="password" type="password" ng-model="user.password" ng-minlength="8" required>
+              <input class="rounded-lr" name="password" type="password" ng-model="user.password" ng-minlength="6" required>
               <div ng-messages="userForm.password.$error" ng-if="displayErrorMessage(userForm.password)">
                 <div ng-message="required">Password is required</div>
-                <div ng-message="minlength">Minimum password length 8 symbols</div>
+                <div ng-message="minlength">Minimum password length 6 symbols</div>
               </div>
             </md-input-container>
 
             <md-input-container ng-class="userForm.password.$valid && userForm.re_password.$valid ? 'checked' : ''">
               <label>Re-enter Password</label>
-              <input class="rounded-lr" type="password" name="re_password" ng-model="user.confirmPassword" ng-minlength="8" required ng-match="user.password">
+              <input class="rounded-lr" type="password" name="re_password" ng-model="user.confirmPassword" ng-minlength="6" required ng-match="user.password">
               <div ng-messages="userForm.re_password.$error" ng-if="displayErrorMessage(userForm.re_password)">
                 <div ng-message="match">Passwords don't match.</div>
               </div>
             </md-input-container>
-          </div>
-
-          <div layout="column" flex class="password-matches">
-            <password-matches password="user.password" min-length="8"></password-matches>
           </div>
         </div>
         <div layout layout-sm="column" layout-align="center center" ng-if="!options.freeRegister">
