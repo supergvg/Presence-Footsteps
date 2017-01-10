@@ -24,7 +24,7 @@ angular.module('gliist')
           {field: 'listType', name: 'Category', maxWidth: 150, allowCellFocus: false},
           {field: 'created_on', name: 'Date', maxWidth: 150, allowCellFocus: false},
           {field: 'UpdatedOn', name: 'Update', maxWidth: 150, allowCellFocus: false},
-          {field: 'created_by', name: 'Created By', enableSorting: false, maxWidth: 150, allowCellFocus: false}
+          {field: 'created_by', name: 'Updated By', enableSorting: false, maxWidth: 150, allowCellFocus: false}
         ]
       };
       if (!permissionsService.isRole('staff')) {
