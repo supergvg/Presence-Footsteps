@@ -69,8 +69,11 @@ angular.module('gliist').factory('uploaderService',
           );
 
           return d.promise;
+        },
+        
+        isImgTypeSupported: function(file) {
+          return !~['image/x-eps'].indexOf(file.type);
         }
-
       };
     }
   ]);

@@ -162,6 +162,10 @@ angular.module('gliist')
           return;
         }
 
+        if (!uploaderService.isImgTypeSupported(files[0])) {
+          return dialogService.error('Sorry. We do no support this format. Please use a different format.');
+        }
+
         $scope.upload(files[0]);
       };
 
