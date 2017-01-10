@@ -12,7 +12,6 @@ angular.module('gliist')
 
       var eventId = $stateParams.eventId;
       var eventTotalGuests = 0;
-      var eventType = 1;
 
 
       if (eventId) {
@@ -20,7 +19,6 @@ angular.module('gliist')
           .getEvents(eventId)
           .then(
             function(data) {
-              eventType = data.type;
               $scope.createTitle = data.type === 2 ? 'Create Mailing List' : 'Create Guest List';
               eventTotalGuests = $scope.getTotalGuests(data.guestLists);
             }, function () {
@@ -65,7 +63,7 @@ angular.module('gliist')
         if (!autosave) {
           $state.go('main.edit_event', {
             eventId: eventId,
-            view: eventType === 1 ? 3 : 4
+            view: 4
           });
         }
       };

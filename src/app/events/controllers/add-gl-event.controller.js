@@ -4,25 +4,12 @@ angular.module('gliist')
   .controller('AddGLEventCtrl', ['$scope', '$stateParams', 'dialogService', '$state', 'eventsService',
     function ($scope, $stateParams, dialogService, $state, eventsService) {
       var eventId = $stateParams.eventId;
-      var eventType = 1;
-
-      if (eventId) {
-        eventsService
-          .getEvents(eventId)
-          .then(
-            function(data) {
-              eventType = data.type;
-            }, function () {
-              dialogService.error('There was a problem getting your event, please try again');
-            }
-          );
-      }
 
       $scope.goBackToEvent = function (glist, autoSave) {
         if (!autoSave) {
           $state.go('main.edit_event', {
             eventId: eventId,
-            view: eventType === 1 ? 3 : 4
+            view: 4
           });
         }
       };

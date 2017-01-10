@@ -242,10 +242,10 @@ angular.module('gliist')
           $scope.dt.endEventRsvpDateTime = new Date($scope.dt.endEventDateTime.getTime());
         }
 
-        var now = new Date(Date.now()),
-          locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000);
+        var now = new Date(Date.now());
+        var locationDateTime = new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + $scope.utcOffset * 1000);
 
-        if ($scope.dt.startEventDateTime.getTime() < locationDateTime.valueOf()) {
+        if ($scope.dt.startEventDateTime.getTime() < /*locationDateTime.valueOf()*/ now) {
           $scope.startEventTimeInvalid = true;
         }
 
