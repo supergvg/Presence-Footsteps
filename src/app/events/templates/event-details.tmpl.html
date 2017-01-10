@@ -285,21 +285,21 @@
             </md-input-container>
           </div>
           <div layout layout-sm="column" class="block-field">
-            <md-input-container flex md-no-float>
-              <h4>Confirmation Email</h4>
-              <textarea name=" details"
-                        ng-model="event.description"
-                        columns="1"
-                        placeholder="Event Details that appears in confirmation email"
-                        rows="5">
-              </textarea>
-            </md-input-container>
             <md-input-container ng-if="event.type === 2" flex md-no-float>
               <h4>RSVP Details</h4>
               <textarea name=" details"
                         ng-model="event.additionalDetails"
                         columns="1"
                         placeholder="Event Details that appears on RSVP page and RSVP invite"
+                        rows="5">
+              </textarea>
+            </md-input-container>
+            <md-input-container flex md-no-float>
+              <h4>Confirmation Email</h4>
+              <textarea name=" details"
+                        ng-model="event.description"
+                        columns="1"
+                        placeholder="Event Details that appears in confirmation email"
                         rows="5">
               </textarea>
             </md-input-container>
