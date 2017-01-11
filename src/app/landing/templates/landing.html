@@ -1,5 +1,5 @@
 <div layout="column" layout-align="center stretch">
-  <div class="header" flex layout="row" layout-align="center center" ng-style="{background: event.company.id != 802 ? '#000' : '#FFF'}"><img ng-src="{{getCompanyLogo()}}" /></div>
+  <div class="header" flex layout="row" layout-align="center center" ng-style="{background: event.company.id != 802 ? '#000' : '#FFF'}" ng-if="event.company.id != 667"><img ng-src="{{getCompanyLogo()}}" /></div>
   <div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
     <h4>Loading ...</h4>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
@@ -7,13 +7,14 @@
 
   <section class="large-screen" hide show-gt-md>
     <div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <h4 ng-if="event.company.id != 802 && ((public && !event.event.isRsvpExpired) || !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
+      <h4 ng-if="event.company.id != 802 && (public && !event.event.isRsvpExpired)"></h4>
+      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
       <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
       <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
       <div class="title">
         <h3>{{event.event.title}}</h3>
       </div>
-      <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="295"/></div>
+      <div class="event-image"><img ng-style="{height: event.company.id != 667 ? '295px' : '450px'}" class="header-image" src="{{event.event.invitePicture}}"/></div>
     </div>
     <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
       <div layout="row" layout-sm="column" class="blocks event-details">
@@ -83,8 +84,9 @@
 
   <section class="small-screen" hide-gt-md>
     <div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <h4 ng-if="(public && !event.event.isRsvpExpired) || !event.guest.firstName">Dear guest, you are cordially invited to this event.</h4>
-      <h4 ng-if="!public && !event.event.isRsvpExpired && event.guest.firstName">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
+      <h4 ng-if="public && !event.event.isRsvpExpired"></h4>
+      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
+      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
       <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
       <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="280"/></div>
       <div class="title">
