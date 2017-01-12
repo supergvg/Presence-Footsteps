@@ -130,7 +130,7 @@
                 <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
               </form>
               <div/>
-              <div class="description-item">
+              <div class="description-item" ng-if="public">
                 <h5>Share this event:</h5>
                 <ul class="social share">
                   <li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
