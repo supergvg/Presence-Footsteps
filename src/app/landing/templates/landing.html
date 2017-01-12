@@ -14,7 +14,7 @@
       <div class="title">
         <h3>{{event.event.title}}</h3>
       </div>
-      <div class="event-image"><img ng-style="{height: event.company.id != 667 ? '295px' : '450px'}" class="header-image" src="{{event.event.invitePicture}}"/></div>
+      <div class="event-image"><img ng-style="{height: event.company.id != 667 ? '295px' : 'auto', 'max-height': '800px'}" class="header-image" src="{{event.event.invitePicture}}"/></div>
     </div>
     <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
       <div layout="row" layout-sm="column" class="blocks event-details">
