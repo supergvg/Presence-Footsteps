@@ -1,146 +1,146 @@
 <div layout="column" layout-align="center stretch">
-  <div class="header" flex layout="row" layout-align="center center" ng-style="{background: event.company.id != 802 ? '#000' : '#FFF'}" ng-if="event.company.id != 667"><img ng-src="{{getCompanyLogo()}}" /></div>
-  <div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
-    <h4>Loading ...</h4>
-    <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-  </div>
+	<div class="header" flex layout="row" layout-align="center center" ng-style="{background: event.company.id != 802 ? '#000' : '#FFF'}" ng-if="event.company.id != 667"><img ng-src="{{getCompanyLogo()}}" /></div>
+	<div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
+		<h4>Loading ...</h4>
+		<md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+	</div>
 
-  <section class="large-screen" hide show-gt-md>
-    <div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <h4 ng-if="event.company.id != 802 && (public && !event.event.isRsvpExpired)"></h4>
-      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
-      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
-      <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
-      <div class="title">
-        <h3>{{event.event.title}}</h3>
-      </div>
-      <div class="event-image"><img ng-style="{height: event.company.id != 667 ? '295px' : 'auto', 'max-height': '800px'}" class="header-image" src="{{event.event.invitePicture}}"/></div>
-    </div>
-    <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <div layout="row" layout-sm="column" class="blocks event-details">
-        <div layout="column">
-          <div class="item">
-            <div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | EEEE'}}<br />{{event.event.time | ignoreTimeZone | date:'h:mm a'}} - {{event.event.endTime | ignoreTimeZone | date:'h:mm a'}}</div>
-          </div>
-          <div class="item">
-            <div class="item-text" ng-bind-html="event.event.location"></div>
-          </div>
-          <div class="item">
-            <div class="item-text text-details" ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></div>
-          </div>
-          <div layout="row" layout-sm="column" class="blocks socials" ng-if="public">
-            <div>
-              <div class="item-label">Share this event:</div>
-              <ul class="social share">
-                <li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
-                <li><a ng-href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
-                <li><a ng-href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
-              </ul>
-            </div>
-            <div>
-              <div ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">
-                <div class="item-label">Event on Social:</div>
-                <ul class="social">
-                  <li ng-if="event.event.facebookPageUrl"><a ng-href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
-                  <li ng-if="event.event.twitterPageUrl"><a ng-href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
-                  <li ng-if="event.event.instagrammPageUrl"><a ng-href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div layout="column">
-          <form name="rsvpLandingForm">
-            <div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
-              <label>Name</label>
-              <input type="text" name="name" ng-model="rsvp.name" required/>
-            </div>
-            <div class="form-item">
-              <label>Affiliation</label>
-              <input type="text" name="name" ng-model="rsvp.affiliation" required/>
-            </div>
-            <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
-              <label>Email</label>
-              <input type="email" name="email" ng-model="rsvp.email" required/>
-            </div>
-            <div class="form-item" ng-if="event.company.id != 802">
-              <label>Plus</label>
-              <!-- ng-if="true" here is a workaround for dynamic max attribute not being set -->
-              <input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}">
-            </div>
-            <div class="actions" ng-if="!success && !waiting">
-              <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
-            </div>
-            <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
-            <h4 ng-if="success" class="success">{{message}}</h4>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="footer" flex>
-      <p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
-    </div>
-  </section>
+	<section class="large-screen" hide show-gt-md>
+		<div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
+			<h4 ng-if="event.company.id != 802 && (public && !event.event.isRsvpExpired)"></h4>
+			<h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
+			<h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
+			<h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
+			<div class="title">
+				<h3>{{event.event.title}}</h3>
+			</div>
+			<div class="event-image"><img ng-style="{height: event.company.id != 667 ? '295px' : 'auto', 'max-height': '800px'}" class="header-image" src="{{event.event.invitePicture}}" /></div>
+		</div>
+		<div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
+			<div layout="row" layout-sm="column" class="blocks event-details">
+				<div layout="column">
+					<div class="item">
+						<div class="item-text">{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | EEEE'}}<br />{{event.event.time | ignoreTimeZone | date:'h:mm a'}} - {{event.event.endTime | ignoreTimeZone | date:'h:mm a'}}</div>
+					</div>
+					<div class="item">
+						<div class="item-text" ng-bind-html="event.event.location"></div>
+					</div>
+					<div class="item">
+						<div class="item-text text-details" ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></div>
+					</div>
+					<div layout="row" layout-sm="column" class="blocks socials" ng-if="public">
+						<div>
+							<div class="item-label">Share this event:</div>
+							<ul class="social share">
+								<li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
+								<li><a ng-href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
+								<li><a ng-href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
+							</ul>
+						</div>
+						<div>
+							<div ng-if="event.event.facebookPageUrl || event.event.twitterPageUrl || event.event.instagrammPageUrl">
+								<div class="item-label">Event on Social:</div>
+								<ul class="social">
+									<li ng-if="event.event.facebookPageUrl"><a ng-href="{{event.event.facebookPageUrl}}" target="_blank"><img src="assets/images/icons/facebook.png" alt="facebook" /></a></li>
+									<li ng-if="event.event.twitterPageUrl"><a ng-href="{{event.event.twitterPageUrl}}" target="_blank"><img src="assets/images/icons/twitter.png" alt="twitter" /></a></li>
+									<li ng-if="event.event.instagrammPageUrl"><a ng-href="{{event.event.instagrammPageUrl}}" target="_blank"><img src="assets/images/icons/instagram.png" alt="instagram" /></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div layout="column">
+					<form name="rsvpLandingForm">
+						<div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
+							<label>Name</label>
+							<input type="text" name="name" ng-model="rsvp.name" required />
+						</div>
+						<div class="form-item">
+							<label>Affiliation</label>
+							<input type="text" name="name" ng-model="rsvp.affiliation" required />
+						</div>
+						<div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+							<label>Email</label>
+							<input type="email" name="email" ng-model="rsvp.email" required />
+						</div>
+						<div class="form-item" ng-if="event.company.id != 802">
+							<label>Plus</label>
+							<!-- ng-if="true" here is a workaround for dynamic max attribute not being set -->
+							<input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}">
+						</div>
+						<div class="actions" ng-if="!success && !waiting">
+							<a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
+						</div>
+						<md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
+						<h4 ng-if="success" class="success">{{message}}</h4>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="footer" flex>
+			<p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
+		</div>
+	</section>
 
-  <section class="small-screen" hide-gt-md>
-    <div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <h4 ng-if="public && !event.event.isRsvpExpired"></h4>
-      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
-      <h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
-      <h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
-      <div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="280"/></div>
-      <div class="title">
-        <h4 class="event-label">Event:</h4>
-        <h3>{{event.event.title}}</h3>
-      </div>
-    </div>
-    <div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
-      <div class="description-item">
-        <h5>Date + Time:</h5>
-        <span>{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</span>
-        <div/>
-        <div class="description-item">
-          <h5>Location:</h5>
-          <span ng-bind-html="event.event.location"></span>
-          <div/>
-          <div class="description-item">
-            <h5>Details:</h5>
-            <span ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></span>
-            <div/>
-            <div class="description-item">
-              <h5>RSVP:</h5>
-              <form name="rsvpLandingForm">
-                <h4 ng-if="success" class="success">{{message}}</h4>
-                <div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
-                  <label>Name</label><input type="text" name="name" ng-model="rsvp.name" required/>
-                </div>
-                <div class="form-item">
-                  <label>Affiliation</label>
-                  <input type="text" name="affiliation" ng-model="rsvp.affiliation" required/>
-                </div>
-                <div class="form-item" ng-if="public && !event.event.isRsvpExpired">
-                  <label>Email</label><input type="email" name="email" ng-model="rsvp.email" required/>
-                </div>
-                <div class="form-item" ng-if="event.company.id != 802">
-                  <label>Plus</label><input type="number" name="plus" ng-model="rsvp.plus" min="0"/>
-                </div>
-                <div class="actions" ng-if="!success && !waiting">
-                  <a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
-                </div>
-                <md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
-              </form>
-              <div/>
-              <div class="description-item" ng-if="public">
-                <h5>Share this event:</h5>
-                <ul class="social share">
-                  <li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
-                  <li><a ng-href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
-                  <li><a ng-href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
-                </ul>
-                <div/>
-              </div>
-              <div class="footer" flex>
-                <p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
-              </div>
-  </section>
+	<section class="small-screen" hide-gt-md>
+		<div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
+			<h4 ng-if="public && !event.event.isRsvpExpired"></h4>
+			<h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && !event.guest.firstName)">Dear guest, you are cordially invited to this event.</h4>
+			<h4 ng-if="event.company.id != 802 && (!public && !event.event.isRsvpExpired && event.guest.firstName)">Dear {{(event.guest.firstName ? event.guest.firstName : '') + (event.guest.lastName ? (' ' + event.guest.lastName) : '')}}, you are cordially invited to this event.</h4>
+			<h4 ng-if="!public && !event.event.isRsvpExpired"></h4>
+			<div class="event-image"><img class="header-image" src="{{event.event.invitePicture}}" height="280" /></div>
+			<div class="title">
+				<h4 class="event-label">Event:</h4>
+				<h3>{{event.event.title}}</h3>
+			</div>
+		</div>
+		<div class="content" ng-show="!loading" layout="column" layout-align="start center" flex>
+			<div class="description-item">
+				<h5>Date + Time:</h5>
+				<span>{{event.event.time | ignoreTimeZone | date:'MMMM d, yyyy h:mm a'}}</span>
+			</div>
+			<div class="description-item">
+				<h5>Location:</h5>
+				<span ng-bind-html="event.event.location"></span>
+			</div>
+			<div class="description-item">
+				<h5>Details:</h5>
+				<span ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></span>
+			</div>
+			<div class="description-item">
+				<h5>RSVP:</h5>
+				<form name="rsvpLandingForm">
+					<h4 ng-if="success" class="success">{{message}}</h4>
+					<div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
+						<label>Name</label><input type="text" name="name" ng-model="rsvp.name" required />
+					</div>
+					<div class="form-item">
+						<label>Affiliation</label>
+						<input type="text" name="affiliation" ng-model="rsvp.affiliation" required />
+					</div>
+					<div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+						<label>Email</label><input type="email" name="email" ng-model="rsvp.email" required />
+					</div>
+					<div class="form-item" ng-if="event.company.id != 802">
+						<label>Plus</label><input type="number" name="plus" ng-model="rsvp.plus" min="0" />
+					</div>
+					<div class="actions" ng-if="!success && !waiting">
+						<a class="md-button raised-btn" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</a>
+					</div>
+					<md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
+				</form>
+			</div>
+			<div class="description-item" ng-if="public">
+				<h5>Share this event:</h5>
+				<ul class="social share">
+					<li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/ifacebook.png" alt="facebook" /></a></li>
+					<li><a ng-href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/itwitter.png" alt="twitter" /></a></li>
+					<li><a ng-href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer" flex>
+			<p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
+		</div>
+	</section>
 </div>
