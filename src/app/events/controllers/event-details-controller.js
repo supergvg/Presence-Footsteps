@@ -214,6 +214,11 @@ angular.module('gliist')
           if (!subscriptionsService.verifyFeature('Guests', $scope.getTotalGuests(scope.selected), ev, $scope.event.id)) {
             return;
           }
+
+          if (!scope.selected.length) {
+            return dialogService.error('Please select a guest list to link or import');
+          }
+
           eventsService
             .linkGuestList(scope.selected, $scope.event.id, instanceType)
             .then(
