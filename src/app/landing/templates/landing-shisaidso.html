@@ -1,0 +1,193 @@
+<div layout="column" layout-align="center stretch" class="ssso">
+
+	<!-- Preloader -->
+	<div class="content" ng-show="loading" layout="row" layout-align="center center" flex>
+		<h4>Loading ...</h4>
+		<md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+	</div>
+
+	<!-- Top Logo -->
+	<div class="header" flex layout="row" layout-align="center center">
+		<img ng-src="{{getCompanyLogo()}}" />
+	</div>
+		
+	<!-- Section for big size screens (desktop) -->
+	<section class="large-screen" hide show-gt-md>
+		<div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex style="width: 100%">
+			
+			<div class="title">				
+				{{event.event.title}}
+				<div class="item-text">
+					{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | '}}
+					{{event.event.time | ignoreTimeZone | date:'h:mm a'}} - {{event.event.endTime | ignoreTimeZone | date:'h:mm a'}}
+				</div>
+				<div class="description-item">				
+					<span ng-bind-html="event.event.location"></span>
+				</div>
+				<div class="divider"></div>
+				<div class="item">
+					<div class="item-text text-details" ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></div>
+				</div>
+			</div>
+			
+			<form name="rsvpLandingForm">
+				<div layout="row">
+					<div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing" flex="50" style="padding-right: 20px;">
+						<label>First Name</label>
+						<input type="text" name="name" ng-model="rsvp.name" required />
+					</div>
+					<div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing" flex="50" style="padding-left: 20px;">
+						<label>Last Name</label>
+						<input type="text" name="name" ng-model="rsvp.name" required />
+					</div>
+				</div>
+				
+				<div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+					<label>Email Address</label>
+					<input type="email" name="email" ng-model="rsvp.email" required />
+				</div>
+				
+				<div layout="row">
+					<div class="form-item" flex="50" style="padding-right: 20px;">
+						<label>Affiliation</label>
+						<input type="text" name="name" ng-model="rsvp.affiliation" required />
+					</div>
+					<div class="form-item" flex="50" style="padding-left: 20px;">
+						<label>Additional Guests</label>
+						<input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}">
+					</div>
+				</div>				
+				
+				<div layout="row" layout-algn="start start">
+					<div class="form-item" flex="50" style="padding-right: 20px;">
+						<label>Donate to shesaid.so (Suggested: <b>$5.00</b>)</label>
+						<input type="text" name="name" ng-model="rsvp.affiliation" required />
+					</div>
+					<div class="donate-button" flex="50">
+						<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif">
+						<!-- TODO: PayPal donation click
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+							<input type="hidden" name="cmd" value="_s-xclick">
+							<input type="hidden" name="hosted_button_id" value="ENTER_CLIENT_DONATE_CODE">
+							<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+							<img alt="" border="0" src="https://www.paypalobjects.com/en_EN/i/scr/pixel.gif" width="1" height="1">
+						</form>
+						-->
+					</div>
+				</div>
+
+				<div class="submit-rsvp" flex layout="row" layout-align="center center">
+					<button type="button" class="btn btn-primary btn-lg" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</button>
+				</div>
+				
+				<div class="social-panel" ng-if="public">
+					<ul>
+						<li><a ng-href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/social-logos_twitter-white.png" alt="twitter" /></a></li>
+						<li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/social-logos_facebook-white.png" alt="facebook" /></a></li>						
+						<li><a><img src="assets/images/icons/social-logos_soundcloud-white.png" alt="soundcloud" /></a></li>
+						<li><a><img src="assets/images/icons/social-logos_M.png" alt="soundcloud" /></a></li>
+<!--						<li><a ng-href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>-->
+					</ul>
+				</div>
+
+				<md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
+				<h4 ng-if="success" class="success">{{message}}</h4>
+			</form>
+			
+			<div class="hashtag">#shesaidso</div>
+			
+			<div class="footer" flex>
+				<p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
+			</div>
+			
+			<div class="invite-picture">
+				<img src="{{event.event.invitePicture}}" alt="" />
+			</div>
+		</div>
+	</section>
+
+	<!-- Section for small size screens (mobile phones) -->
+	<section class="small-screen" hide-gt-md>
+		<div class="content-header" ng-show="!loading" layout="column" layout-align="start center" flex>
+
+			<div class="title">				
+				{{event.event.title}}
+				<div class="item-text">
+					{{event.event.time | ignoreTimeZone | date:'MMM d, yyyy | '}}
+					{{event.event.time | ignoreTimeZone | date:'h:mm a'}} - {{event.event.endTime | ignoreTimeZone | date:'h:mm a'}}
+				</div>
+				<div class="description-item">				
+					<span ng-bind-html="event.event.location"></span>
+				</div>
+				<div class="divider"></div>
+				<div class="item">
+					<div class="item-text text-details" ng-bind-html="event.event.additionalDetails | linky:'_blank' | nl2br"></div>
+				</div>
+			</div>
+			
+			<form name="rsvpLandingForm">
+				<div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
+					<label>First Name</label>
+					<input type="text" name="name" ng-model="rsvp.name" required />
+				</div>
+				<div class="form-item" ng-if="(public && !event.event.isRsvpExpired) || nameIsMissing">
+					<label>Last Name</label>
+					<input type="text" name="name" ng-model="rsvp.name" required />
+				</div>
+				<div class="form-item" ng-if="public && !event.event.isRsvpExpired">
+					<label>Email Address</label>
+					<input type="email" name="email" ng-model="rsvp.email" required />
+				</div>
+				<div class="form-item">
+					<label>Affiliation</label>
+					<input type="text" name="name" ng-model="rsvp.affiliation" required />
+				</div>
+				<div class="form-item">
+					<label>Additional Guests</label>
+					<input type="number" name="plus" ng-model="rsvp.plus" min="0" max="{{event.event.additionalGuests}}">
+				</div>				
+				<div class="form-item">
+					<label>Donate to shesaid.so (Suggested: <b>$5.00</b>)</label>
+					<input type="text" name="name" ng-model="rsvp.affiliation" required />
+				</div>
+				<div class="donate-button" flex="50">
+					<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif">
+					<!-- TODO: PayPal donation click
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="ENTER_CLIENT_DONATE_CODE">
+						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+						<img alt="" border="0" src="https://www.paypalobjects.com/en_EN/i/scr/pixel.gif" width="1" height="1">
+					</form>
+					-->
+				</div>
+				<div class="submit-rsvp" flex layout="row" layout-align="center center">
+					<button type="button" class="btn btn-primary btn-lg" ng-click="onSubmitClicked(rsvpLandingForm)" ng-disabled="waiting">RSVP</button>
+				</div>				
+				<div class="social-panel" ng-if="public">
+					<ul>
+						<li><a ng-href="https://twitter.com/share?url={{getPageURL() | encodeURIComponent}}&text={{event.company.name+' is hosting '+event.event.title+' ! RSVP here' | encodeURIComponent}}&hashtags={{event.company.name | spaceless}},{{event.event.title | spaceless}}" target="_blank"><img src="assets/images/icons/social-logos_twitter-white.png" alt="twitter" /></a></li>
+						<li><a ng-href="https://www.facebook.com/sharer/sharer.php?u={{getPageURL() | encodeURIComponent}}" target="_blank"><img src="assets/images/icons/social-logos_facebook-white.png" alt="facebook" /></a></li>
+						<li><a><img src="assets/images/icons/social-logos_soundcloud-white.png" alt="soundcloud" /></a></li>
+						<li><a><img src="assets/images/icons/social-logos_M.png" alt="soundcloud" /></a></li>
+<!--					<li><a ng-href="mailto:?subject={{event.event.title}}&body={{event.company.name}} is hosting {{event.event.title}}! RSVP here {{event.event.rsvpUrl}}"><img src="assets/images/icons/email.png" alt="email" /></a></li>-->
+
+					</ul>
+				</div>
+				<md-progress-circular class="md-hue-2" md-mode="indeterminate" ng-show="waiting"></md-progress-circular>
+				<h4 ng-if="success" class="success">{{message}}</h4>
+			</form>
+			
+			<div class="hashtag">#shesaidso</div>
+			
+			<div class="footer" flex>
+				<p>Powered by <a href="http://gjests.com" target="_blank">gjests</a></p>
+			</div>
+			
+			<div class="invite-picture">
+				<img src="{{event.event.invitePicture}}" alt="" />
+			</div>
+		</div>		
+	</section>
+	
+</div>

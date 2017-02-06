@@ -36,6 +36,12 @@ angular.module('gliist', [
                 .trackPages(true)
                 .setPageEvent('$stateChangeSuccess');
 
+			// landing pages hashmap
+			var templateHashMap = {
+				'popsugar': '-custom',
+				'xxx': '-shisaidso' // TODO: fix the property name
+			};
+
             var customPrimary = {
                 '50': '#80eeff',
                 '100': '#66ebff',
@@ -177,8 +183,15 @@ angular.module('gliist', [
                     controller: 'WelcomeController'
                 }).state('landing_public', {
                     url: '/rsvp/:companyName/:eventName',
-                    templateUrl: function ($stateParams){
-                        return 'app/landing/templates/landing'+($stateParams.companyName.toLowerCase() === 'popsugar' ? '-custom' : '')+'.html';
+                    templateUrl: function ($stateParams) {
+						var templateName = 'app/landing/templates/landing';
+						var reqName = $stateParams.companyName.toLowerCase();
+						if ( $stateParams.companyName && templateHashMap[reqName] )
+							templateName += templateHashMap[reqName];
+						
+						templateName += '.html';
+
+						return templateName;
                     },
                     controller: 'LandingCtrl',
                     permissions: ['allowAnonymous']

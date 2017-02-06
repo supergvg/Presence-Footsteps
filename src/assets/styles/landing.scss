@@ -352,6 +352,207 @@
 			}
 		}
 	}
+	
+	/* For SHESAIDSO layout */
+	.ssso {
+		$big-screen-width: 1035px;
+		$small-screen-width: 652px;
+		$cyan: #7dccc2;
+		$main-background-color: #2f2f2f;
+		$box-background-color: #373737;
+		$big-font-size: 30px;
+		$middle-font-size: 24px;
+		
+		background-color: $main-background-color;
+		
+		.header {
+			background: transparent;
+			height: 240px;
+			margin-top: 100px;			
+			
+			img {
+				width: 300px;
+				height: 240px;
+			}
+		}
+		
+		.title {
+			margin-top: 100px;
+			border-radius: 4px;
+			padding-top: 35px;
+			padding-bottom: 35px;			
+			font-size: $big-font-size;
+			color: #ffffff;
+			background-color: $box-background-color;			
+			
+			.item-text, .description-item {
+				font-size: $middle-font-size;				
+			}			
+			
+			/*
+			.description-item {
+				float: left;
+				span {
+					display: inline;
+				}
+			}
+			*/
+			
+			.divider {
+				position: relative;
+				border-bottom: 1px solid $cyan;
+				margin-bottom: 40px;
+				margin-top: 40px; 
+				margin-left: 40px;
+				margin-right: 40px;
+			}
+		}
+		
+		form {
+			margin-top: 100px;
+			
+			.form-item {
+				margin-bottom: 60px;
+				text-align: left;
+
+				input {
+					width: 100%;
+					height: 85px;					
+					background: $box-background-color;
+					border: 1px solid #4a5f5c;
+					border-radius: 4px;
+					padding-left: 10px;
+					line-height: 1;
+					font-size: $big-font-size;
+					font-weight: normal;
+					color: $cyan;
+					&:hover {
+						border: 1px solid $cyan;
+					}
+				}
+
+				label {
+					display: block;
+					margin-left: 0px;
+					text-align: left;
+					color: $cyan;
+					font-weight: normal;
+					font-size: $middle-font-size;
+				}
+				label b {
+					color: $cyan;
+				}
+			}
+
+			.submit-rsvp {
+				button {
+					background: $cyan;
+					border: hidden;
+					color: #474747;
+					width: 354px;
+					height: 87px;					
+					font-size: $big-font-size;
+					font-weight: bold;
+				}
+			}
+		}
+		
+		.hashtag {
+			color: $cyan;
+			font-weight: bold;
+			font-size: $big-font-size;
+			margin-top: 50px;
+		}
+		
+		.social-panel {
+			margin-top: 60px;
+			ul {
+				margin: 0px;
+				padding: 0px;
+			}
+			ul li {
+				padding-left: 30px;
+				display: inline;
+			}
+		}
+		
+		.large-screen {
+			width: 100%;
+			padding-left: 10px;
+			padding-right: 10px;
+			
+			.title {
+				width: 100%;
+				max-width: $big-screen-width;
+			}			
+			form {
+				width: 100%;
+				max-width: $big-screen-width;
+				
+				.donate-button {
+					margin-top: 40px;
+					margin-left: 20px;
+					padding-left: 0px;
+					text-align: left;
+				}
+			}
+			.invite-picture {
+				width: 100%;
+				max-width: $big-screen-width;
+				margin-top: 50px;
+				margin-bottom: 70px;
+				img {
+					width: inherit;
+				}
+			}
+			.footer {
+				background-color: transparent;
+				position: relative;
+				height: auto;
+			}
+		}
+		
+		.small-screen {
+			width: 100%;			
+			padding-left: 10px;
+			padding-right: 10px;
+			
+			.content-header {
+				background: $main-background-color;
+			}
+			.title {
+				width: 100%;
+				max-width: $small-screen-width;
+			}
+			form {
+				width: 100%;
+				max-width: $small-screen-width;
+				
+				.donate-button {
+					margin-top: -40px;
+					margin-left: 0px;
+					text-align: left;
+				}
+			}
+			.submit-rsvp {
+				margin-top: 60px;
+			}
+			.invite-picture {
+				width: 100%;
+				max-width: $small-screen-width;
+				margin-top: 50px;
+				margin-bottom: 70px;
+				img {
+					width: inherit;
+				}
+			}
+			.footer {
+				background-color: transparent;
+				position: relative;
+				height: auto;
+			}
+		}
+	}
 
 	.small-screen {
 		.content-header {
