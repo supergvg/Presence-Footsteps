@@ -362,6 +362,7 @@
 		$box-background-color: #373737;
 		$big-font-size: 30px;
 		$middle-font-size: 24px;
+		$section-padding: 20px;
 		
 		background-color: $main-background-color;
 		
@@ -380,7 +381,9 @@
 			margin-top: 100px;
 			border-radius: 4px;
 			padding-top: 35px;
-			padding-bottom: 35px;			
+			padding-bottom: 35px;
+			padding-left: 10px;
+			padding-right: 10px;
 			font-size: $big-font-size;
 			color: #ffffff;
 			background-color: $box-background-color;			
@@ -412,12 +415,12 @@
 			margin-top: 100px;
 			
 			.form-item {
-				margin-bottom: 60px;
+				margin-bottom: 40px;//60px;
 				text-align: left;
 
 				input {
 					width: 100%;
-					height: 85px;					
+					height: 55px;//85px;					
 					background: $box-background-color;
 					border: 1px solid #4a5f5c;
 					border-radius: 4px;
@@ -444,7 +447,14 @@
 				}
 			}
 
+			.donate-button {
+				img {
+					width: 220px;
+				}
+			}
+			
 			.submit-rsvp {
+				margin-top: 80px;
 				button {
 					background: $cyan;
 					border: hidden;
@@ -471,51 +481,51 @@
 				padding: 0px;
 			}
 			ul li {
-				padding-left: 30px;
+				padding-left: 15px;
+				padding-right: 15px;
 				display: inline;
+			}
+		}
+		
+		.invite-picture {
+			width: 100%;
+			margin-top: 0px;
+			margin-bottom: 40px;
+			img {
+				width: inherit;
 			}
 		}
 		
 		.large-screen {
 			width: 100%;
-			padding-left: 10px;
-			padding-right: 10px;
-			
+			padding-left: $section-padding;
+			padding-right: $section-padding;			
 			.title {
 				width: 100%;
 				max-width: $big-screen-width;
 			}			
 			form {
 				width: 100%;
-				max-width: $big-screen-width;
-				
-				.donate-button {
-					margin-top: 40px;
-					margin-left: 20px;
-					padding-left: 0px;
-					text-align: left;
-				}
-			}
-			.invite-picture {
-				width: 100%;
-				max-width: $big-screen-width;
-				margin-top: 50px;
-				margin-bottom: 70px;
-				img {
-					width: inherit;
-				}
+				max-width: $big-screen-width;				
 			}
 			.footer {
 				background-color: transparent;
 				position: relative;
 				height: auto;
+				font-size: $middle-font-size;				
+				p {
+					color: $cyan;
+				}
 			}
+			.invite-picture {
+				max-width: $big-screen-width;
+			}			
 		}
 		
 		.small-screen {
 			width: 100%;			
-			padding-left: 10px;
-			padding-right: 10px;
+			padding-left: $section-padding;
+			padding-right: $section-padding;
 			
 			.content-header {
 				background: $main-background-color;
@@ -526,33 +536,26 @@
 			}
 			form {
 				width: 100%;
-				max-width: $small-screen-width;
-				
-				.donate-button {
-					margin-top: -40px;
-					margin-left: 0px;
-					text-align: left;
-				}
+				max-width: $small-screen-width;				
 			}
 			.submit-rsvp {
 				margin-top: 60px;
-			}
-			.invite-picture {
-				width: 100%;
-				max-width: $small-screen-width;
-				margin-top: 50px;
-				margin-bottom: 70px;
-				img {
-					width: inherit;
-				}
 			}
 			.footer {
 				background-color: transparent;
 				position: relative;
 				height: auto;
+				font-size: $middle-font-size;				
+				p {
+					color: $cyan;
+				}
 			}
+			.invite-picture {
+				max-width: $small-screen-width;
+			}			
 		}
 	}
+	/* end of shesaidso layout */
 
 	.small-screen {
 		.content-header {

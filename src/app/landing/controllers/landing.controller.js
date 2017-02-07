@@ -116,14 +116,19 @@ angular.module('gliist')
         }
 
         if (!$scope.waiting) {
-          $scope.waiting = true;
+		  // check for last name and concatenate it with name (if present)
+		  var name = $scope.rsvp.name;
+		  if ($scope.rsvp.lastname)
+			  name += (' ' + $scope.rsvp.lastname);
+          
+			$scope.waiting = true;
           $scope.success = false;
           if ($scope.public) {
             eventsService.confirmRSVPPublicEvent({
               eventId: $scope.event.event.id,
               affiliation: $scope.rsvp.affiliation,
               email: $scope.rsvp.email,
-              name: $scope.rsvp.name,
+              name: /*$scope.rsvp.*/name,
               additionalGuests: $scope.rsvp.plus
             }).then(
               function() {
@@ -142,7 +147,7 @@ angular.module('gliist')
               guestId: $scope.event.guest.id,
               affiliation: $scope.rsvp.affiliation,
               additionalGuests: $scope.rsvp.plus,
-              guestName: $scope.rsvp.name
+              guestName: /*$scope.rsvp.*/name
             }).then(
               function() {
                 $scope.message = 'Thank you! You have been added to the event guest list!';
